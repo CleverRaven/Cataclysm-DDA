@@ -6011,10 +6011,16 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 
     if( m.has_furn( examp ) ) {
         if( !u.cant_do_mounted() ) {
+            if( !warn_player_maybe_anger_local_faction( false, true ) ) {
+                return; // player declined to mess with faction's stuff
+            }
             xfurn_t.examine( u, examp );
         }
     } else {
         if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
+            if( !warn_player_maybe_anger_local_faction( false, true ) ) {
+                return; // player declined to mess with faction's stuff
+            }
             xter_t.examine( u, examp );
         }
     }
@@ -6067,6 +6073,41 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
                 pickup( examp );
             }
         }
+    }
+}
+
+bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
+        bool asking_for_public_goods )
+{
+    Character &player_character = get_player_character();
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp(
+                                        player_character.global_omt_location().xy() );
+    if( !bcp ) {
+        return true; // Nobody to piss off
+    }
+    basecamp *actual_camp = *bcp;
+    if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
+        return true; // You're allowed to do this anyway
+    }
+
+    // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
+    // TODO: Make this magic number into a constant
+    if( actual_camp->get_owner()->likes_u < -10 ) {
+        return true;
+    }
+
+    // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
+    if( !query_yn(
+            _( "You're in the territory of %s, they probably won't appreciate your actions.  Continue anyway?" ),
+            actual_camp->get_owner()->name ) ) {
+        return false;
+    } else {
+        faction *owner_fac_pointer = g->faction_manager_ptr->get( actual_camp->get_owner() );
+        // really_bad_offense loses 20 points of fac rep, otherwise 5
+        owner_fac_pointer->likes_u -= really_bad_offense ? 20 : 5;
+        owner_fac_pointer->trusts_u -= really_bad_offense ? 20 : 5;
+        owner_fac_pointer->respects_u -= really_bad_offense ? 20 : 5;
+        return true;
     }
 }
 

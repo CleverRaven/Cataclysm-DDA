@@ -2213,7 +2213,7 @@ Run EOCs on items in your or NPC's inventory
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
-| "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items;<br/>`calories` - minimum amount of kcal of an item | 
+| "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; see [search_data](#search_data) for syntax | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
 | "true_eocs" / "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
 
@@ -2247,7 +2247,7 @@ Pick a wooden item with `DURABLE_MELEE` and `ALWAYS_TWOHAND` flags, and run `EOC
     {
       "u_run_inv_eocs": "manual",
       "search_data": [ { "material": "wood", "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND" ] } ],
-      "true_eocs": [ "EOC_DO_SOMETHING_WITH_ITEM" ]
+      "true_eocs": [ "EOC_DO_SOMETHING_WITH_ITEM" ],
       "false_eocs": [ { "id": "EOC_NO_SUCH_ITEM", "effect": [ { "u_message": "You don't have an item i need" } ] } ]
     }
   ]
@@ -2277,7 +2277,7 @@ Search items around you on the map, and run EoC on them
 | "loc" | optional | location variable | location, where items would be scanned; lack of it would scan only tile the talker stands on | 
 | "min_radius", "max_radius" | optional | int or [variable object](#variable-object) | radius around the location/talker that would be searched | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu that would be shown, if `manual` or `manual_mult` values are used | 
-| "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; see [search_data](#search_data) for syntax | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc | 
 
 ##### Valid talkers:
@@ -4455,3 +4455,71 @@ Convert the beta talker (which must be an item) into a different item, optionall
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- |
 | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+
+## Mics
+
+### search_data
+search_data is an array, that allow to filter specific items from the list. At this moment it is used for `u_run_inv_eocs` (picks items from your inventory) and `u_map_run_item_eocs` (picks items from around the character)
+
+| Syntax | Value  | Info |
+| --- | --- | --- |
+| "id" | string, [variable object](#variable-object) or array of strings or variable objects | if used, filter the list of items by item id |
+| "id_blacklist" | string, [variable object](#variable-object) or array of strings or variable objects | if used, excludes items from the list by their id |
+| "category" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their category |
+| "flags" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by flags they have |
+| "excluded_flags" | string, [variable object](#variable-object) or array of strings or variable objects | excludes items from the list by flags they have |
+| "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
+| "worn_only" | boolean | return only items you you wear (clothes) |
+| "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
+| "held_only" | boolean | return both items you wear and item you hold in your hands |
+| "condition" | condition object | allows to use same conditions as EoC. Alpha talker in this case is whoever runs the effect, and beta is the item |
+
+Examples:
+
+```c++
+  {
+    "type": "effect_on_condition",
+    "id": "INV_EOCS_SHOWCASE",
+    "effect": [
+      { "set_string_var": "knife_large", "target_var": { "context_val": "val" } },
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "search_data": [
+          { "id": "knife_large" },
+          { "id": { "context_val": "val" } },
+          { "id": [ "1l_aluminum", { "context_val": "val" } ] },
+          { "category": "weapons" },
+          { "category": { "context_val": "val" } },
+          { "category": [ "tools", { "context_val": "val" } ] },
+          { "material": "steel" },
+          { "material": { "context_val": "val" } },
+          { "material": [ "aluminum", { "context_val": "val" } ] },
+          { "flags": "SHEATH_KNIFE" },
+          { "flags": { "context_val": "val" } },
+          { "flags": [ "WATCH", { "context_val": "val" } ] },
+          { "excluded_flags": "SHEATH_KNIFE" },
+          { "excluded_flags": { "context_val": "val" } },
+          { "excluded_flags": [ "WATCH", { "context_val": "val" } ] },
+          { "worn_only": true },
+          { "wielded_only": true },
+          { "held_only": true },
+          { "condition": { "math": [ "rand(1)" ] } }, // since 0 for conditions is evaluated as "false", this would randomly discard ~half of items from picked
+          { "condition": { "math": [ "n_calories() >= 200" ] } }, // can check beta talker for it's specific properties via math
+          { "condition": { "and": [ { "math": [ "n_calories() >= 200" ] }, { "math": [ "n_calories() <= 500" ] } ] } }, // and even as range!
+          { "condition": { "math": [ "n_melee_damage('ALL') > 20" ] } }, // and more!
+          { "condition": { "compare_string": [ "yes", { "u_val": "general_examples_VIP" } ] } }
+        ],
+        "true_eocs": [ { "id": "EOC_WHATEVER", "effect": { "u_message": "alpha: <u_name>, beta: <npc_name>" } } ]
+      }
+    ]
+  }
+  ```
+
+Combination of values work as `and`, no matter how they are arranged. This two notation work exactly the same, and will return item you wield if it has `weapon` type:
+```json
+"search_data": [ { "category": "weapons" }, { "wielded_only": true } ]
+```
+```json
+"search_data": [ { "category": "weapons", "wielded_only": true } ]
+```

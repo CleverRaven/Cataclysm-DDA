@@ -178,65 +178,211 @@ struct sub_effect_parser {
 };
 
 struct item_search_data {
-    itype_id id;
-    item_category_id category;
-    material_id material;
-    int calories = 0;
-    std::vector<flag_id> flags;
-    std::vector<flag_id> excluded_flags;
+
+    std::vector<str_or_var> id;
+    std::vector<str_or_var> id_blacklist;
+    std::vector<str_or_var> category;
+    std::vector<str_or_var> material;
+    std::vector<str_or_var> flags;
+    std::vector<str_or_var> excluded_flags;
     bool worn_only;
     bool wielded_only;
+    bool held_only;
+
+    std::function<bool( dialogue & )> condition;
+    bool has_condition = false;
 
     explicit item_search_data( const JsonObject &jo ) {
-        id = itype_id( jo.get_string( "id", "" ) );
-        category = item_category_id( jo.get_string( "category", "" ) );
-        material = material_id( jo.get_string( "material", "" ) );
-        if( jo.has_int( "calories" ) ) {
-            calories = jo.get_int( "calories" );
+
+        if( jo.has_array( "id" ) ) {
+            for( JsonValue jv : jo.get_array( "id" ) ) {
+                id.emplace_back( get_str_or_var( jv, "id" ) );
+            }
         }
-        for( std::string flag : jo.get_string_array( "flags" ) ) {
-            flags.emplace_back( flag );
+        if( jo.has_object( "id" ) || jo.has_string( "id" ) ) {
+            id.emplace_back( get_str_or_var( jo.get_member( "id" ), "id", false, "" ) );
         }
-        for( std::string flag : jo.get_string_array( "excluded_flags" ) ) {
-            excluded_flags.emplace_back( flag );
+
+        if( jo.has_array( "id_blacklist" ) ) {
+            for( JsonValue jv : jo.get_array( "id_blacklist" ) ) {
+                id_blacklist.emplace_back( get_str_or_var( jv, "id_blacklist" ) );
+            }
         }
+        if( jo.has_object( "id_blacklist" ) || jo.has_string( "id_blacklist" ) ) {
+            id_blacklist.emplace_back( get_str_or_var( jo.get_member( "id_blacklist" ), "id_blacklist", false,
+                                       "" ) );
+        }
+
+        if( jo.has_array( "category" ) ) {
+            for( JsonValue jv : jo.get_array( "category" ) ) {
+                category.emplace_back( get_str_or_var( jv, "category" ) );
+            }
+        }
+        if( jo.has_object( "category" ) || jo.has_string( "category" ) ) {
+            category.emplace_back( get_str_or_var( jo.get_member( "category" ), "category", false, "" ) );
+        }
+
+        if( jo.has_array( "material" ) ) {
+            for( JsonValue jv : jo.get_array( "material" ) ) {
+                material.emplace_back( get_str_or_var( jv, "material" ) );
+            }
+        }
+        if( jo.has_object( "material" ) || jo.has_string( "material" ) ) {
+            material.emplace_back( get_str_or_var( jo.get_member( "material" ), "material", false, "" ) );
+        }
+
+        if( jo.has_array( "flags" ) ) {
+            for( JsonValue jv : jo.get_array( "flags" ) ) {
+                flags.emplace_back( get_str_or_var( jv, "flags" ) );
+            }
+        }
+        if( jo.has_object( "flags" ) || jo.has_string( "flags" ) ) {
+            flags.emplace_back( get_str_or_var( jo.get_member( "flags" ), "flags", false, "" ) );
+        }
+
+        if( jo.has_array( "excluded_flags" ) ) {
+            for( JsonValue jv : jo.get_array( "excluded_flags" ) ) {
+                excluded_flags.emplace_back( get_str_or_var( jv, "excluded_flags" ) );
+            }
+        }
+        if( jo.has_object( "excluded_flags" ) || jo.has_string( "excluded_flags" ) ) {
+            excluded_flags.emplace_back( get_str_or_var( jo.get_member( "excluded_flags" ), "excluded_flags",
+                                         false, "" ) );
+        }
+
+        if( jo.has_member( "condition" ) ) {
+            read_condition( jo, "condition", condition, false );
+            has_condition = true;
+        }
+
         worn_only = jo.get_bool( "worn_only", false );
         wielded_only = jo.get_bool( "wielded_only", false );
+        held_only = jo.get_bool( "held_only", false );
     }
 
-    bool check( const Character *guy, const item_location &loc ) {
-        if( !id.is_empty() && id != loc->typeId() ) {
-            return false;
-        }
-        if( !category.is_empty() && category != loc->get_category_shallow().id ) {
-            return false;
-        }
-        if( !material.is_empty() && loc->made_of( material ) == 0 ) {
-            return false;
-        }
-        if( calories > 0 ) {
-            // This is very stupid but we need a dummy to calculate nutrients
-            npc dummy;
-            if( dummy.compute_effective_nutrients( *loc.get_item() ).kcal() < calories ) {
+    bool check( const Character *guy, const item_location &loc, const dialogue &d ) {
+
+        bool match;
+
+        if( !id.empty() ) {
+            std::vector<itype_id> id_evaluated;
+            id_evaluated.reserve( id.size() );
+            for( const str_or_var &id_eval : id ) {
+                id_evaluated.emplace_back( id_eval.evaluate( d ) );
+            }
+            match = false;
+            for( itype_id id : id_evaluated ) {
+                if( id == loc->typeId() ) {
+                    match = true;
+                }
+            }
+            if( !id_evaluated.empty() && !match ) {
                 return false;
             }
         }
-        for( flag_id flag : flags ) {
-            if( !loc->has_flag( flag ) ) {
+
+        if( !id_blacklist.empty() ) {
+            std::vector<itype_id> id_blacklist_evaluated;
+            id_blacklist_evaluated.reserve( id_blacklist.size() );
+            for( const str_or_var &id_blacklist_eval : id_blacklist ) {
+                id_blacklist_evaluated.emplace_back( id_blacklist_eval.evaluate( d ) );
+            }
+            match = false;
+            for( itype_id id : id_blacklist_evaluated ) {
+                if( id == loc->typeId() ) {
+                    match = true;
+                }
+            }
+            if( !id_blacklist_evaluated.empty() && match ) {
                 return false;
             }
         }
-        for( flag_id flag : excluded_flags ) {
-            if( loc->has_flag( flag ) ) {
+
+        if( !category.empty() ) {
+            std::vector<item_category_id> category_evaluated;
+            category_evaluated.reserve( category.size() );
+            for( const str_or_var &category_eval : category ) {
+                category_evaluated.emplace_back( category_eval.evaluate( d ) );
+            }
+            match = false;
+            for( item_category_id category : category_evaluated ) {
+                if( category == loc->get_category_shallow().id ) {
+                    match = true;
+                }
+            }
+            if( !category_evaluated.empty() && !match ) {
                 return false;
             }
         }
+
+        if( !material.empty() ) {
+            std::vector<material_id> material_evaluated;
+            material_evaluated.reserve( material.size() );
+            for( const str_or_var &material_eval : material ) {
+                material_evaluated.emplace_back( material_eval.evaluate( d ) );
+            }
+            match = false;
+            for( material_id id : material_evaluated ) {
+                if( loc->made_of( id ) > 0 ) {
+                    match = true;
+                }
+            }
+            if( !material_evaluated.empty() && !match ) {
+                return false;
+            }
+        }
+
+        if( !flags.empty() ) {
+            std::vector<flag_id> flags_evaluated;
+            flags_evaluated.reserve( flags.size() );
+            for( const str_or_var &flags_eval : flags ) {
+                flags_evaluated.emplace_back( flags_eval.evaluate( d ) );
+            }
+            match = false;
+            for( flag_id flag : flags_evaluated ) {
+                if( loc->has_flag( flag ) ) {
+                    match = true;
+                }
+            }
+            if( !flags_evaluated.empty() && !match ) {
+                return false;
+            }
+        }
+
+        if( !excluded_flags.empty() ) {
+            std::vector<flag_id> excluded_flags_evaluated;
+            excluded_flags_evaluated.reserve( excluded_flags.size() );
+            for( const str_or_var &excluded_flags_eval : excluded_flags ) {
+                excluded_flags_evaluated.emplace_back( excluded_flags_eval.evaluate( d ) );
+            }
+            match = false;
+            for( flag_id flag : excluded_flags_evaluated ) {
+                if( loc->has_flag( flag ) ) {
+                    match = true;
+                }
+            }
+            if( !excluded_flags_evaluated.empty() && match ) {
+                return false;
+            }
+        }
+
         if( worn_only && !guy->is_worn( *loc ) ) {
             return false;
         }
         if( wielded_only && !guy->is_wielding( *loc ) ) {
             return false;
         }
+        if( held_only && !( guy->is_worn( *loc ) || guy->is_wielding( *loc ) ) ) {
+            return false;
+        }
+
+        if( has_condition ) {
+            dialogue dial( d.actor( false )->clone(), get_talker_for( loc ) );
+            if( !condition( dial ) ) {
+                return false;
+            }
+        }
+
         return true;
     }
 };
@@ -3021,7 +3167,7 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
         // Check if item matches any search_data.
         bool true_tgt = data.empty();
         for( item_search_data datum : data ) {
-            if( datum.check( guy, loc ) ) {
+            if( datum.check( guy, loc, d ) ) {
                 true_tgt = true;
                 break;
             }

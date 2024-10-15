@@ -4664,6 +4664,9 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint & )
         }
         return std::nullopt;
     }
+    if( p->is_avatar() && !g->warn_player_maybe_anger_local_faction( true ) ) {
+        return std::nullopt; // player declined to anger locals
+    }
     int moves = chop_moves( p, it );
     const std::vector<Character *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {

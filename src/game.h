@@ -932,6 +932,14 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
+        /* Returns true if there's nobody to anger, player is already allowed to do this, or player answered yes to warning query
+        * This function also handles changing the faction opinion if player proceeds despite warning
+        * Returns false only if player declined query
+        * Second boolean asking_for_public_goods should be used for cases where the action isn't necessarily detrimental
+        * to the faction, like merely using the examine_action of furniture.
+        */
+        bool warn_player_maybe_anger_local_faction( bool really_bad_offense = false,
+                bool asking_for_public_goods = false );
         int grabbed_furn_move_time( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
 
