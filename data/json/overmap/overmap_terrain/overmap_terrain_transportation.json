@@ -34,7 +34,7 @@
     "name": "road",
     "sym": "┼",
     "color": "dark_gray",
-    "see_cost": 2,
+    "see_cost": "none",
     "travel_cost_type": "road",
     "extras": "city_center",
     "flags": [ "NO_ROTATE", "ROAD" ]
