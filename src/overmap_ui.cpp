@@ -1775,30 +1775,39 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 
 static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
-                                       const bool driving )
+                                       const tripoint_abs_omt dest, const bool driving )
 {
-    std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
-    bool same_path_selected = path == player_character.omt_path;
+    std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
+    bool dest_is_curs = curs == dest;
+    bool path_changed = false;
+    if( path.front() == player_character.omt_path.front() && path != player_character.omt_path ) {
+        // the player is trying to go to their existing destination but the path has changed
+        path_changed = true;
+        player_character.omt_path.swap( path );
+        ui_manager::redraw();
+    }
     std::string confirm_msg;
     if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
         confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
     } else if( !driving && player_character.in_vehicle ) {
         confirm_msg = _( "You are in a vehicle but not driving.  Are you sure you want to walk?" );
     } else if( driving ) {
-        if( same_path_selected ) {
+        if( dest_is_curs ) {
             confirm_msg = _( "Drive to this point?" );
         } else {
             confirm_msg = _( "Drive to your destination?" );
         }
     } else {
-        if( same_path_selected ) {
+        if( dest_is_curs ) {
             confirm_msg = _( "Travel to this point?" );
         } else {
             confirm_msg = _( "Travel to your destination?" );
         }
     }
     if( query_yn( confirm_msg ) ) {
-        player_character.omt_path = path;
+        if( !path_changed ) {
+            player_character.omt_path.swap( path );
+        }
         if( driving ) {
             player_character.assign_activity( autodrive_activity_actor() );
         } else {
@@ -1806,6 +1815,9 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
             player_character.assign_activity( ACT_TRAVELLING );
         }
         return true;
+    }
+    if( path_changed ) {
+        player_character.omt_path.swap( path );
     }
     return false;
 }
@@ -2030,7 +2042,8 @@ static tripoint_abs_omt display()
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {
                 const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-                if( try_travel_to_destination( player_character, player_character.omt_path.front(), driving ) ) {
+                if( try_travel_to_destination( player_character, curs, player_character.omt_path.front(),
+                                               driving ) ) {
                     action = "QUIT";
                     if( uistate.overmap_fast_travel ) {
                         keep_overmap_ui = true;
@@ -2055,7 +2068,7 @@ static tripoint_abs_omt display()
                 player_character.omt_path.swap( path );
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
-                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                if( try_travel_to_destination( player_character, curs, curs, driving ) ) {
                     action = "QUIT";
                     if( uistate.overmap_fast_travel ) {
                         keep_overmap_ui = true;
