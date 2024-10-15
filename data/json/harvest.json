@@ -1840,6 +1840,24 @@
     ]
   },
   {
+    "id": "zombie_nomex",
+    "//": "zombies with Nomex infused into their skin",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "nomex", "type": "skin", "mass_ratio": 0.02, "flags": [ "FILTHY" ] },
+      { "drop": "sheet_nomex", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
+    ]
+  },
+  {
     "id": "zombie_amalgamation",
     "//": "No internal organs or bones, filled with pure hatred",
     "type": "harvest",
