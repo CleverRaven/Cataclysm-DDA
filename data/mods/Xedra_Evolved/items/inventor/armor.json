@@ -52,16 +52,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [
-      "MORPHIC",
-      "WATERPROOF",
-      "STURDY",
-      "PADDED",
-      "TRADER_AVOID",
-      "PSYSHIELD_PARTIAL",
-      "MUNDANE",
-      "INVENTOR_CRAFTED"
-    ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "helmet_inventor_on",
@@ -348,16 +339,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [
-      "MORPHIC",
-      "WATERPROOF",
-      "STURDY",
-      "SOFT",
-      "TRADER_AVOID",
-      "BELTED",
-      "MUNDANE",
-      "INVENTOR_CRAFTED"
-    ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "aura_force_on",

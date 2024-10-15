@@ -328,9 +328,7 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [
-          { "uses_energy": true }
-        ],
+        "search_data": [ { "uses_energy": true } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",

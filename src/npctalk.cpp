@@ -369,7 +369,7 @@ struct item_search_data {
             }
         }
 
-        if (!uses_energy.empty() && loc->uses_energy() != uses_energy.front()) {
+        if( !uses_energy.empty() && loc->uses_energy() != uses_energy.front() ) {
             return false;
         }
 

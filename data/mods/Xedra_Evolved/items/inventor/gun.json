@@ -256,15 +256,7 @@
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [
-      "TRADER_AVOID",
-      "PADDED",
-      "BELTED",
-      "OVERSIZE",
-      "WATER_FRIENDLY",
-      "MUNDANE",
-      "INVENTOR_CRAFTED"
-    ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bio_warhead",
@@ -379,15 +371,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "INVENTOR_CRAFTED"
-    ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
