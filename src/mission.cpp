@@ -62,10 +62,9 @@ mission mission_type::create( const character_id &npc_id ) const
 
     struct dialogue d( get_talker_for( get_player_character() ),
                        get_talker_for( g->find_npc( npc_id ) ) );
-    time_duration deadline_low_as_var = deadline_low.evaluate( d );
-    time_duration deadline_high_as_var = deadline_high.evaluate( d );
-    if( deadline_low_as_var != 0_turns || deadline_high_as_var != 0_turns ) {
-        ret.deadline = calendar::turn + rng( deadline_low_as_var, deadline_high_as_var );
+    time_duration deadline_as_var = deadline.evaluate( d );
+    if( deadline_as_var != 0_turns ) {
+        ret.deadline = calendar::turn + deadline_as_var;
     } else {
         ret.deadline = calendar::turn_zero;
     }
@@ -323,10 +322,9 @@ void mission::assign( avatar &u )
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
         dialogue d( get_talker_for( u ), get_talker_for( g->find_npc( npc_id ) ) );
-        time_duration deadline_low = type->deadline_low.evaluate( d );
-        time_duration deadline_high = type->deadline_high.evaluate( d );
-        if( deadline_low != 0_turns || deadline_high != 0_turns ) {
-            deadline = calendar::turn + rng( deadline_low, deadline_high );
+        time_duration deadline_as_var = type->deadline.evaluate( d );
+        if( deadline_as_var != 0_turns ) {
+            deadline = calendar::turn + deadline_as_var;
         } else {
             deadline = calendar::turn_zero;
         }

@@ -192,9 +192,9 @@ struct mission_type {
         int difficulty = 0;
         // Value; determines rewards and such
         int value = 0;
-        // Low and high deadlines
-        duration_or_var deadline_low;
-        duration_or_var deadline_high;
+        // When this mission will auto-fail, if ever. Can be pair of values or just one
+        // If loaded as a pair, automatically calls rng(min, max) when evaluated, standard stuff
+        duration_or_var deadline;
         // If true, the NPC will press this mission!
         bool urgent = false;
         // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.

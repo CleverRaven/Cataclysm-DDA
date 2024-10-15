@@ -40,8 +40,7 @@
     "value": 150000,
     "urgent": true,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "deadline_low": 30,
-    "deadline_high": 48,
+    "deadline": [ "30 days", "48 days" ],
     "dialogue": {
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
@@ -74,8 +73,7 @@
     "urgent": true,
     "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "deadline_low": 24,
-    "deadline_high": 48,
+    "deadline": [ "24 days", "48 days" ],
     "dialogue": {
       "describe": "This infection is bad, <very> bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
@@ -969,8 +967,7 @@
     "description": "You have some time left until you can transfer control to your companions, provided you have <color_yellow>established a Basecamp</color> and <color_yellow>have at least 1 NPC companion</color>.",
     "difficulty": 0,
     "value": 0,
-    "deadline_low": { "math": [ "time_between_succession" ] },
-    "deadline_high": { "math": [ "time_between_succession" ] },
+    "deadline": { "math": [ "time_between_succession" ] },
     "invisible_on_complete": true,
     "start": {
       "effect": [
