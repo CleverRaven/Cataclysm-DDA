@@ -478,7 +478,7 @@
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
-        "armor": [
+    "armor": [
       {
         "material": [
           { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
