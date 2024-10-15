@@ -188,14 +188,40 @@
           "chunks": [ "24x24_highway_ramp_up_north" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
+          "neighbors": {
+            "north": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
         },
         {
           "else_chunks": [ "24x24_highway_bridge_supports_south" ],
           "chunks": [ "24x24_highway_ramp_up_south" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
+          "neighbors": {
+            "south": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -220,14 +246,40 @@
           "chunks": [ "24x24_highway_ramp_up_north" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
+          "neighbors": {
+            "north": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
         },
         {
           "else_chunks": [ "24x24_highway_bridge_supports_south" ],
           "chunks": [ "24x24_highway_ramp_up_south" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
+          "neighbors": {
+            "south": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -311,7 +363,10 @@
     "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "set": [ { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 0, "x2": 23, "y2": 2 }, { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 21, "x2": 23, "y2": 23 }  ],
+      "set": [
+        { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 0, "x2": 23, "y2": 2 },
+        { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 21, "x2": 23, "y2": 23 }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
