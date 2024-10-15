@@ -272,14 +272,14 @@
       "practice_telekinetic_momentum",
       "practice_telekinetic_slowfall"
     ],
-    "proficiencies": [ 
-    "prof_concentration_basic" ,
-    "prof_gunsmithing_basic",
-    "prof_spotting",
-    "prof_gun_cleaning",
-    "prof_knives_familiar",
-    "prof_auto_rifles_familiar",
-    "prof_auto_pistols_familiar"
+    "proficiencies": [
+      "prof_concentration_basic",
+      "prof_gunsmithing_basic",
+      "prof_spotting",
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar"
     ],
     "items": {
       "both": {
