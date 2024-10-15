@@ -4436,7 +4436,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "flags" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by flags they have |
 | "excluded_flags" | string, [variable object](#variable-object) or array of strings or variable objects | excludes items from the list by flags they have |
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
-| "uses_energy" | boolean | filter the list of items by whether or not they use energy |
+| "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
 | "worn_only" | boolean | return only items you you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
