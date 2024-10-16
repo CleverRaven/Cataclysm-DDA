@@ -17,10 +17,9 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_highway_road",
-    "//": "TODO: Add it's own travel_cost_type",
     "copy-from": "generic_highway",
     "color": "light_gray",
-    "travel_cost_type": "road"
+    "travel_cost_type": "highway"
   },
   {
     "type": "overmap_terrain",
