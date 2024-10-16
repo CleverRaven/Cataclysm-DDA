@@ -157,7 +157,7 @@
   {
     "type": "overmap_terrain",
     "copy-from": "generic_air",
-    "id": [ "special_air", "lab_subway_vent_shaft_roof", "hw_clover_leaf_bridge_railings" ],
+    "id": [ "special_air", "lab_subway_vent_shaft_roof", "hw_railings" ],
     "flags": [ "NO_ROTATE" ]
   },
   {
