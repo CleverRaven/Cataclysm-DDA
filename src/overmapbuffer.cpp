@@ -1572,12 +1572,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         }
     }
 
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( oter->get_type_id().obj().src,
-    []( const std::pair<oter_type_str_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    format_string += "\n" + string_format( _( "Origin: %s" ), mod_src );
+    format_string += "\n" + get_origin( oter->get_type_id()->src );
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }

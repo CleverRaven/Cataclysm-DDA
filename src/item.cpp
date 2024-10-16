@@ -2400,10 +2400,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                        bool /* debug */ ) const
 {
     if( parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
-        info.emplace_back( "BASE", string_format( _( "Origin: %s" ), enumerate_as_string( type->src,
-        []( const std::pair<itype_id, mod_id> &source ) {
-            return string_format( "'%s'", source.second->name() );
-        }, enumeration_conjunction::arrow ) ) );
+        info.emplace_back( "BASE", get_origin( type->src ) );
         insert_separation_line( info );
     }
 
