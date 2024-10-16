@@ -1333,5 +1333,32 @@
     "max_duration": 1440000,
     "duration_increment": 96000,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_goodberry",
+    "type": "SPELL",
+    "name": "Goodberry",
+    "description": "Enchant a set of berries, transforming them into magical fruit that will provide a hearty meal's worth of nutrition and a small amount of healing when eaten.  The goodberries will rot away within 24 hours if not eaten.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_GOODBERRY",
+    "shape": "blast",
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "VERBAL" ],
+    "components": "spell_components_goodberry",
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 3,
+    "base_casting_time": 30000,
+    "base_energy_cost": 350,
+    "max_level": 15,
+    "min_duration": 8640000,
+    "max_duration": 8640000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "EoC to summon because summoned comestibles don't have timers",
+    "id": "EOC_DRUID_GOODBERRY",
+    "effect": [ { "u_spawn_item": "item_druid_goodberry", "count": 1, "suppress_message": true } ]
   }
 ]
