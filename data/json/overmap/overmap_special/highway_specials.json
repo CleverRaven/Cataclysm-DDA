@@ -1,17 +1,5 @@
 [
   {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [
-      "highway_reserved",
-      "highway_reserved_water",
-      "highway_symbolic_road",
-      "highway_symbolic_ramp_up",
-      "highway_symbolic_ramp_down"
-    ],
-    "object": { "fallback_predecessor_mapgen": "open_air" }
-  },
-  {
     "type": "overmap_special",
     "id": "highway_segment_flat",
     "//": "Placed by C++",
