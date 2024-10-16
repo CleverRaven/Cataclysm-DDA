@@ -662,6 +662,20 @@ void monster::refill_udders()
     }
 }
 
+void monster::recheck_fed_status()
+{
+    remove_effect( effect_critter_underfed );
+    remove_effect( effect_critter_well_fed );
+    if( !has_flag( mon_flag_EATS ) ) {
+        return;
+    }
+    if( has_fully_eaten() ) {
+        add_effect( effect_critter_well_fed, 24_hours );
+    } else if( get_amount_eaten() == 0 ) {
+        add_effect( effect_critter_underfed, 24_hours );
+    }
+}
+
 void monster::set_amount_eaten( int new_amount )
 {
     amount_eaten = new_amount;
@@ -695,8 +709,7 @@ void monster::reset_digestion()
     if( calendar::turn - stomach_timer > 3_days ) {
         //If the player hasn't been around, assume critters have been operating at a subsistence level.
         //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
-        remove_effect( effect_critter_underfed );
-        remove_effect( effect_critter_well_fed );
+        recheck_fed_status();
         set_amount_eaten( 0 );
         stomach_timer = calendar::turn;
     }
@@ -705,11 +718,7 @@ void monster::reset_digestion()
 void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
-        if( has_fully_eaten() && !has_effect( effect_critter_underfed ) ) {
-            add_effect( effect_critter_well_fed, 24_hours );
-        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
-            add_effect( effect_critter_underfed, 24_hours );
-        }
+        recheck_fed_status();
         set_amount_eaten( 0 );
         stomach_timer = calendar::turn;
     }

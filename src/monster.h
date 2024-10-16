@@ -543,6 +543,7 @@ class monster : public Creature
     private:
         int stomach_size = 0;
         int amount_eaten = 0;
+        void recheck_fed_status();
     public:
         void set_amount_eaten( int new_amount );
         void mod_amount_eaten( int amount_to_add );
