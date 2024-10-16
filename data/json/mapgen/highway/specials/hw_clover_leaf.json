@@ -512,7 +512,12 @@
     "object": {
       "fill_ter": "t_open_air",
       "place_nested": [
-        { "chunks": [ "24x24_railings_full" ], "x": 0, "y": 0, "neighbors": { "north": [ "hw_clover_leaf_bridge_0_1", "hw_trumpet_bridge" ] } },
+        {
+          "chunks": [ "24x24_railings_full" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "hw_clover_leaf_bridge_0_1", "hw_trumpet_bridge" ] }
+        },
         {
           "chunks": [ "24x24_railings_short" ],
           "x": 18,

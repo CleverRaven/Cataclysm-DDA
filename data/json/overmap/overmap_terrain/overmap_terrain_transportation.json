@@ -554,7 +554,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_symbolic_road",
+    "id": "hw_symbolic_road",
     "copy-from": "generic_open_land",
     "name": "road",
     "sym": "│",
@@ -563,21 +563,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_symbolic_ramp_up",
+    "id": "hw_symbolic_ramp_up",
     "copy-from": "generic_highway_road",
     "sym": "^",
     "extend": { "flags": [ "KNOWN_UP", "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_symbolic_ramp_down",
+    "id": "hw_symbolic_ramp_down",
     "copy-from": "generic_highway_road",
     "sym": "v",
     "extend": { "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_road_bridge",
+    "id": "hw_road_bridge",
     "copy-from": "generic_open_land",
     "name": "road bridge",
     "travel_cost_type": "road",
@@ -594,7 +594,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_bridge_supports",
+    "id": "hw_bridge_supports",
     "copy-from": "generic_highway",
     "color": "blue",
     "travel_cost_type": "water",
@@ -602,7 +602,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_underpass",
+    "id": "hw_underpass",
     "copy-from": "generic_highway",
     "color": "dark_gray",
     "extend": { "flags": [ "SIDEWALK", "REQUIRES_PREDECESSOR" ] }
@@ -616,13 +616,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_road",
+    "id": "hw_road",
     "copy-from": "generic_highway_road",
     "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_crossroad",
+    "id": "hw_crossroad",
     "copy-from": "generic_highway_road",
     "sym": "┘",
     "extend": { "flags": [ "HIGHWAY_SPECIAL" ] }
@@ -630,10 +630,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "hw_diamond_interchange_0_-4",
-      "hw_diamond_interchange_1_-4",
-      "hw_diamond_interchange_0_-3",
-      "hw_diamond_interchange_1_-3",
       "hw_diamond_interchange_-1_-2",
       "hw_diamond_interchange_0_-2",
       "hw_diamond_interchange_1_-2",
@@ -714,7 +710,10 @@
       "hw_trumpet_bridge_0_0",
       "hw_trumpet_bridge_1_0",
       "hw_trumpet_bridge_0_1",
-      "hw_trumpet_bridge_1_1"
+      "hw_trumpet_bridge_1_1",
+      "hw_three_lane",
+      "hw_three_lane_merge_e",
+      "hw_three_lane_merge_w"
     ],
     "copy-from": "generic_highway_road",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR" ] }

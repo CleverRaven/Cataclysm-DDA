@@ -163,14 +163,14 @@
   {
     "type": "overmap_terrain",
     "copy-from": "generic_air",
-    "id": "highway_reserved",
+    "id": "hw_reserved",
     "//": "Has rotation so cities can judge whether it's running perpendicular/parallel",
     "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "highway_reserved_water",
-    "copy-from": "highway_reserved",
+    "id": "hw_reserved_water",
+    "copy-from": "hw_reserved",
     "extend": { "flags": [ "RIVER" ] }
   },
   {

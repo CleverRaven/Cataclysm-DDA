@@ -98,7 +98,7 @@
   {
     "type": "overmap_location",
     "id": "highway",
-    "terrains": [ "highway_reserved" ]
+    "terrains": [ "hw_reserved" ]
   },
   {
     "type": "overmap_location",

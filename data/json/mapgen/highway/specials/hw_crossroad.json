@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": "highway_crossroad",
+    "om_terrain": "hw_crossroad",
     "type": "mapgen",
     "method": "json",
     "object": {

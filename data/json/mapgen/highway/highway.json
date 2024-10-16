@@ -2,17 +2,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      "highway_reserved",
-      "highway_reserved_water",
-      "highway_symbolic_road",
-      "highway_symbolic_ramp_up",
-      "highway_symbolic_ramp_down"
-    ],
+    "om_terrain": [ "hw_reserved", "hw_reserved_water", "hw_symbolic_road", "hw_symbolic_ramp_up", "hw_symbolic_ramp_down" ],
     "object": { "fallback_predecessor_mapgen": "open_air" }
   },
   {
-    "om_terrain": "highway_road",
+    "om_terrain": "hw_road",
     "type": "mapgen",
     "method": "json",
     "object": {
@@ -134,20 +128,20 @@
           "chunks": [ "24x24_highway_ramp_down_north" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north": [ "highway_reserved", "highway_road_bridge" ] }
+          "neighbors": { "north": [ "hw_reserved", "hw_road_bridge" ] }
         },
         {
           "chunks": [ "24x24_highway_ramp_down_south" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": [ "highway_reserved", "highway_road_bridge" ] }
+          "neighbors": { "south": [ "hw_reserved", "hw_road_bridge" ] }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
-    "om_terrain": "highway_road_bridge",
+    "om_terrain": "hw_road_bridge",
     "type": "mapgen",
     "method": "json",
     "object": {
@@ -183,29 +177,35 @@
     }
   },
   {
-    "om_terrain": "highway_bridge_supports",
+    "om_terrain": "hw_bridge_supports",
     "type": "mapgen",
     "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "river_center",
       "place_nested": [
         { "chunks": [ "24x24_highway_bridge_supports" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_highway_ramp_up_north" ], "x": 0, "y": 0, "neighbors": { "north": "highway_road" } },
-        { "chunks": [ "24x24_highway_ramp_up_south" ], "x": 0, "y": 0, "neighbors": { "south": "highway_road" } }
+        { "chunks": [ "24x24_highway_ramp_up_north" ], "x": 0, "y": 0, "neighbors": { "north": "hw_road" } },
+        { "chunks": [ "24x24_highway_ramp_up_south" ], "x": 0, "y": 0, "neighbors": { "south": "hw_road" } }
       ]
     }
   },
   {
-    "om_terrain": "highway_underpass",
+    "om_terrain": "hw_underpass",
     "type": "mapgen",
     "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "place_nested": [
         { "chunks": [ "24x24_highway_bridge_supports" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_highway_ramp_up_north" ], "x": 0, "y": 0, "neighbors": { "north": "highway_road" } },
-        { "chunks": [ "24x24_highway_ramp_up_south" ], "x": 0, "y": 0, "neighbors": { "south": "highway_road" } },
-        { "else_chunks": [ "24x24_highway_underpass" ], "chunks": [ "24x24_highway_underpass_road" ], "x": 0, "y": 0, "predecessors": [ "road" ] }
+        { "chunks": [ "24x24_highway_ramp_up_north" ], "x": 0, "y": 0, "neighbors": { "north": "hw_road" } },
+        { "chunks": [ "24x24_highway_ramp_up_south" ], "x": 0, "y": 0, "neighbors": { "south": "hw_road" } },
+        {
+          "else_chunks": [ "24x24_highway_underpass" ],
+          "chunks": [ "24x24_highway_underpass_road" ],
+          "x": 0,
+          "y": 0,
+          "predecessors": [ "road" ]
+        }
       ]
     }
   },
@@ -455,6 +455,76 @@
         "    ''''''''''''''''''' "
       ],
       "palettes": [ "highway_palette" ]
+    }
+  },
+  {
+    "om_terrain": "hw_three_lane",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "rows": [
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|"
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": [ [ "hw_three_lane_merge_w", "hw_three_lane_merge_e" ] ],
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "rows": [
+        "ggggggg................||.......*.......*ggggggg",
+        "gggggg.................||.......*.......*.gggggg",
+        "ggggg..*.......*.......||..................ggggg",
+        "ggggg..*.......*.......||..................ggggg",
+        "gggg...................||.......*.......*...gggg",
+        "gggg...................||.......*.......*...gggg",
+        "ggg....*.......*.......||....................ggg",
+        "ggg....*.......*.......||....................ggg",
+        "ggg....................||.......*.......*....ggg",
+        "gg.....................||.......*.......*.....gg",
+        "gg.....*.......*.......||.....................gg",
+        "gg.....*.......*.......||.....................gg",
+        "g......................||.......*.......*......g",
+        "g......................||.......*.......*......g",
+        "g......*.......*.......||......................g",
+        "g......*.......*.......||......................g",
+        ".......................||.......*.......*.......",
+        ".......................||.......*.......*.......",
+        ".......*.......*.......||.......................",
+        ".......*.......*.......||.......................",
+        ".......................||.......*.......*.......",
+        ".......................||.......*.......*.......",
+        ".......*.......*.......||.......................",
+        ".......*.......*.......||......................."
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
