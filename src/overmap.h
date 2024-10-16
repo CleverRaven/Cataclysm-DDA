@@ -445,6 +445,7 @@ class overmap
                                    const std::string &bridgehead_ramp );
 
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
+        const city &get_invalid_city() const;
 
         void signal_hordes( const tripoint_rel_sm &p, int sig_power );
         void process_mongroups();

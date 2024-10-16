@@ -68,24 +68,6 @@ static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-static const oter_str_id oter_highway_bridge_supports_north( "highway_bridge_supports_north" );
-static const oter_str_id oter_highway_bridge_supports_east( "highway_bridge_supports_east" );
-static const oter_str_id oter_highway_ns_w( "highway_ns_w" );
-static const oter_str_id oter_highway_ns_e( "highway_ns_e" );
-static const oter_str_id oter_highway_ew_n( "highway_ew_n" );
-static const oter_str_id oter_highway_ew_s( "highway_ew_s" );
-static const oter_str_id oter_highway_nsew_nw( "highway_nsew_nw" );
-static const oter_str_id oter_highway_nsew_ne( "highway_nsew_ne" );
-static const oter_str_id oter_highway_nsew_sw( "highway_nsew_sw" );
-static const oter_str_id oter_highway_nsew_se( "highway_nsew_se" );
-static const oter_str_id oter_highway_ns_w_ground( "highway_ns_w_ground" );
-static const oter_str_id oter_highway_ns_e_ground( "highway_ns_e_ground" );
-static const oter_str_id oter_highway_ew_n_ground( "highway_ew_n_ground" );
-static const oter_str_id oter_highway_ew_s_ground( "highway_ew_s_ground" );
-static const oter_str_id oter_highway_nsew_nw_ground( "highway_nsew_nw_ground" );
-static const oter_str_id oter_highway_nsew_ne_ground( "highway_nsew_ne_ground" );
-static const oter_str_id oter_highway_nsew_sw_ground( "highway_nsew_sw_ground" );
-static const oter_str_id oter_highway_nsew_se_ground( "highway_nsew_se_ground" );
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
@@ -4131,6 +4113,12 @@ const city &overmap::get_nearest_city( const tripoint_om_omt &p ) const
     return invalid_city;
 }
 
+const city &overmap::get_invalid_city() const
+{
+    static city invalid_city;
+    return invalid_city;
+}
+
 tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_type> &target,
         std::optional<city> target_city ) const
 {
@@ -4776,6 +4764,7 @@ void overmap::place_highways()
     bool ocean_next_east = false;
     bool ocean_next_south = false;
     bool ocean_next_west = false;
+    const city &invalid_city = get_invalid_city();
     if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
         // Not ideal as oceans can start later than these settings but it's at least reliably stopping before them
         const int ocean_start_north = settings->overmap_ocean.ocean_start_north == 0 ? INT_MAX :
@@ -4842,16 +4831,10 @@ void overmap::place_highways()
         return ret;
     };
 
-    // Places two maps next to each other (Mainly here in case I decide to increase the size to 3 or 4 OMTs wide)
-    auto ter_set_duo = [&]( tripoint_om_omt point, tripoint offset, oter_str_id map_first,
-    oter_str_id map_second ) {
-        ter_set( point, map_first.id() );
-        ter_set( point + offset, map_second.id() );
-    };
-
     const std::pair<int, int> offset = calc_offset_from_seed( highway_frequency_x, highway_frequency_y,
                                        g->get_seed() );
-
+    const overmap_special_id segment_ground( "highway_segment_ground" );
+    const overmap_special_id segment_bridge( "highway_segment_bridge" );
     // TODO: Refactor the x and y into a single function by passing the maps as a vector?
     // Place a highway if we're at the right distance from the last or if there's ocean next
     if( highway_frequency_x > 0 && ( ( this_om_x + offset.second ) % highway_frequency_x == 0 ||
@@ -4864,22 +4847,22 @@ void overmap::place_highways()
         const int j_max = ocean_next_south ? floor( OMAPY / 2.0 ) + 1 : OMAPY;
         for( int j = j_min; j < j_max; j++ ) {
             const tripoint_om_omt west_point( i, j, 0 );
-            ter_set_duo( west_point + tripoint_above, tripoint_east, oter_highway_ns_w, oter_highway_ns_e );
             // TODO: Add ravine handling? (no supports and bridge nest on top)
             const bool over_water =  is_water_body_or( west_point, tripoint_east );
             // If over water place a seperate omt so we can distinguish between it and _ground in special_locations and on the map as well as give it more fitting flags
-            if( over_water ) {
-                ter_set_duo( west_point, tripoint_east, oter_highway_bridge_supports_north,
-                             oter_highway_bridge_supports_north );
+            if( !over_water ) {
+                place_special_forced( segment_ground, west_point, om_direction::type::none );
+                // Potentially marginally faster but cheatier way:
+                //const overmap_special ns = *ns_segment;
+                //ns.place( *this, west_point, om_direction::type::north, invalid_city, false );
+            } else {
+                place_special_forced( segment_bridge, west_point, om_direction::type::north );
                 tripoint_om_omt water_point = west_point + tripoint_below;
                 // Add more pillars going down to the bottom
                 while( is_water_body_or( water_point, tripoint_east ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                    ter_set_duo( water_point, tripoint_east, oter_highway_bridge_supports_north,
-                                 oter_highway_bridge_supports_north );
+                    place_special_forced( segment_bridge, water_point, om_direction::type::north );
                     water_point += tripoint_below;
                 }
-            } else {
-                ter_set_duo( west_point, tripoint_east, oter_highway_ns_w_ground, oter_highway_ns_e_ground );
             }
         }
         placed_vertical = true;
@@ -4893,18 +4876,16 @@ void overmap::place_highways()
         for( int i = i_min; i < i_max; i++ ) {
             const tripoint_om_omt north_point( i, j, 0 );
             const bool over_water =  is_water_body_or( north_point, tripoint_south );
-            ter_set_duo( north_point + tripoint_above, tripoint_south, oter_highway_ew_n, oter_highway_ew_s );
-            if( over_water ) {
-                ter_set_duo( north_point, tripoint_south, oter_highway_bridge_supports_east,
-                             oter_highway_bridge_supports_east );
+            if( !over_water ) {
+                place_special_forced( segment_ground, north_point, om_direction::type::east );
+            } else {
+                place_special_forced( segment_bridge, north_point, om_direction::type::east );
                 tripoint_om_omt water_point = north_point + tripoint_below;
+                // Add more pillars going down to the bottom
                 while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                    ter_set_duo( water_point, tripoint_south, oter_highway_bridge_supports_east,
-                                 oter_highway_bridge_supports_east );
+                    place_special_forced( segment_bridge, water_point, om_direction::type::east );
                     water_point += tripoint_below;
                 }
-            } else {
-                ter_set_duo( north_point, tripoint_south, oter_highway_ew_n_ground, oter_highway_ew_s_ground );
             }
         }
         placed_horizontal = true;
@@ -4936,8 +4917,7 @@ void overmap::place_highways()
             // std::array<custon struct with map ids etc> parameters
             // place_bend( parameters[direction] )
         }
-        const city &nearest_city = get_nearest_city( nw_corner );
-        if( place_special( *special, nw_corner, dir, nearest_city, false,
+        if( place_special( *special, nw_corner, dir, invalid_city, false,
                            false ).size() == 0 ) {
             debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
         }
