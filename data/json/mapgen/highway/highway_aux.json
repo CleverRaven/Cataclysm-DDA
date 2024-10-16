@@ -1,6 +1,20 @@
 [
   {
     "type": "overmap_special",
+    "id": "highway_tmp",
+    "//": "Placed by C++",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_ground_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_ground_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_road_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_road_south" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "highway_segment_ground",
     "//": "Placed by C++",
     "overmaps": [
