@@ -1,4 +1,37 @@
-[{
+[
+  {
+    "type": "overmap_terrain",
+    "id": "highway_symbolic_road",
+    "copy-from": "generic_open_land",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray",
+    "flags": [ "ROAD", "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "highway_symbolic_ramp_up",
+    "copy-from": "generic_highway_road",
+    "sym": "v",
+    "extend": { "flags": [ "KNOWN_UP", "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "highway_symbolic_ramp_down",
+    "copy-from": "generic_highway_road",
+    "sym": "^",
+    "extend": { "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "highway_road_bridge",
+    "copy-from": "generic_open_land",
+    "name": "road bridge",
+    "travel_cost_type": "road",
+    "sym": "─",
+    "flags": [ "ROAD" ]
+  },
+  {
     "type": "overmap_terrain",
     "abstract": "generic_highway",
     "copy-from": "generic_open_land",
@@ -24,30 +57,14 @@
   {
     "type": "overmap_terrain",
     "id": "highway_road",
-    "copy-from": "generic_highway_road"
+    "copy-from": "generic_highway_road",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "highway_crossroad",
     "copy-from": "generic_highway_road",
-    "sym": "┘"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_highway_ground",
-    "copy-from": "generic_highway",
-    "color": "dark_gray",
-    "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "highway_ground",
-    "copy-from": "generic_highway_ground"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "highway_crossroad_ground",
-    "copy-from": "generic_highway_ground",
-    "sym": "┘"
+    "sym": "┘",
+    "extend": { "flags": [ "HIGHWAY_SPECIAL" ] }
   }
 ]

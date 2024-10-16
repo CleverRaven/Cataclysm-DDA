@@ -97,18 +97,8 @@
   },
   {
     "type": "overmap_location",
-    "id": "highway_ground",
-    "terrains": [ "highway_ground" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "highway_road",
-    "terrains": [ "highway_road" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "highway_bridge",
-    "terrains": [ "highway_bridge_supports" ]
+    "id": "highway",
+    "terrains": [ "highway_reserved" ]
   },
   {
     "type": "overmap_location",

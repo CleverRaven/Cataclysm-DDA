@@ -15,7 +15,7 @@
     "id": "road",
     "copy-from": "road_abstract",
     "extras": "road",
-    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR", "ROAD" ]
   },
   {
     "type": "overmap_terrain",
@@ -25,7 +25,19 @@
     "sym": "┼",
     "color": "yellow",
     "extras": "road_nesw_manhole",
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "ROAD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_center",
+    "copy-from": "generic_transportation",
+    "name": "road",
+    "sym": "┼",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "travel_cost_type": "road",
+    "extras": "city_center",
+    "flags": [ "NO_ROTATE", "ROAD" ]
   },
   {
     "type": "overmap_terrain",

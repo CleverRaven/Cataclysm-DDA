@@ -157,8 +157,26 @@
   {
     "type": "overmap_terrain",
     "copy-from": "generic_air",
-    "id": [ "lab_subway_vent_shaft_roof", "special_air" ],
+    "id": [ "special_air", "lab_subway_vent_shaft_roof" ],
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "copy-from": "generic_air",
+    "id": "highway_reserved",
+    "//": "Has rotation so cities can judge whether it's running perpendicular/parallel",
+    "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "highway_reserved_water",
+    "copy-from": "highway_reserved",
+    "extend": { "flags": [ "RIVER" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_road",
+    "copy-from": "road_abstract"
   },
   {
     "type": "overmap_terrain",

@@ -1,13 +1,17 @@
 [
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "highway_reserved", "highway_reserved_water", "highway_symbolic_road", "highway_symbolic_ramp_up", "highway_symbolic_ramp_down" ],
+    "object": { "fallback_predecessor_mapgen": "open_air" }
+  },
+  {
     "type": "overmap_special",
-    "id": "highway_tmp",
+    "id": "highway_segment_flat",
     "//": "Placed by C++",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "highway_ground_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "highway_ground_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "highway_road_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "highway_road_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "highway_road_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_road_south" }
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
@@ -15,13 +19,13 @@
   },
   {
     "type": "overmap_special",
-    "id": "highway_segment_ground",
+    "id": "highway_segment_road_bridge",
     "//": "Placed by C++",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "highway_ground_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "highway_ground_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "highway_road_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "highway_road_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "highway_road_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_road_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_road_bridge_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_road_bridge_south" }
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
@@ -55,23 +59,33 @@
   },
   {
     "type": "overmap_special",
+    "id": "highway_segment_overpass",
+    "//": "Placed by C++",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_bridge_supports_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_bridge_supports_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_road_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_road_south" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "4-way highway crossroad",
     "//": "Placed by C++, can add more or replace in region settings without needing to compile",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "highway_crossroad_ground_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "highway_crossroad_ground_west" },
-      { "point": [ 1, 0, 0 ], "overmap": "highway_crossroad_ground_east" },
-      { "point": [ 1, 1, 0 ], "overmap": "highway_crossroad_ground_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "highway_crossroad_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "highway_crossroad_west" },
-      { "point": [ 1, 0, 1 ], "overmap": "highway_crossroad_east" },
-      { "point": [ 1, 1, 1 ], "overmap": "highway_crossroad_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "highway_crossroad_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "highway_crossroad_west" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_crossroad_east" },
+      { "point": [ 1, 1, 0 ], "overmap": "highway_crossroad_south" },
       { "point": [ 0, -1, 0 ] },
       { "point": [ 0, 2, 0 ] },
       { "point": [ 2, 0, 0 ] },
       { "point": [ -1, 0, 0 ] }
     ],
-    "locations": [ "highway_ground", "highway_road", "highway_bridge" ],
+    "locations": [ "highway" ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
   },
@@ -79,8 +93,8 @@
     "type": "overmap_special",
     "id": "Highway on/off ramp test",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "road_ns", "locations": [ "highway_ground" ] },
-      { "point": [ 0, 1, 0 ], "overmap": "road_ns", "locations": [ "highway_ground" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "road_ns", "locations": [ "highway" ] },
+      { "point": [ 0, 1, 0 ], "overmap": "road_ns", "locations": [ "highway" ] },
       { "point": [ 0, -1, 0 ], "overmap": "road_nesw" },
       { "point": [ 0, 2, 0 ], "overmap": "road_nesw" },
       { "point": [ -1, -1, 0 ], "overmap": "road_ew" },
