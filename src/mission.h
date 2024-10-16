@@ -180,7 +180,6 @@ struct mission_type {
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
         std::vector<std::pair<mission_type_id, mod_id>> src;
-        bool was_loaded = false;
     private:
         // The untranslated name of the mission
         translation name = to_translation( "Bugged mission type" );
@@ -199,6 +198,8 @@ struct mission_type {
         bool urgent = false;
         // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.
         bool has_generic_rewards = true;
+
+        bool was_loaded = false;
 
         // A limited subset of the talk_effects on the mission
         talk_effect_fun_t::likely_rewards_t likely_rewards;
