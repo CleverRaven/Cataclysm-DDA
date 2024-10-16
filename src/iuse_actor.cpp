@@ -1095,15 +1095,24 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
                                                 _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
 
-    if( pnt.z() > 1 ) {
+    map &here = get_map();
+
+    tripoint_bub_ms where = pnt;
+    tripoint_bub_ms below = pnt + tripoint_below;
+    while( here.valid_move( where, below, false, true ) ) {
+        where += tripoint_below;
+        below += tripoint_below;
+    }
+
+    const int height = pnt.z() - where.z();
+    if( height > 1 && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pnt ) ) {
         if( !query_yn(
                 _( "Deploying %s there will make it fall down %i stories.  Do you still want to deploy it?" ),
-                it.tname(), pnt.z() ) ) {
+                it.tname(), height ) ) {
             return ret_val<tripoint>::make_failure( pos );
         }
     }
 
-    map &here = get_map();
     optional_vpart_position veh_there = here.veh_at( pnt );
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
