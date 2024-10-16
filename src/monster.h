@@ -540,8 +540,16 @@ class monster : public Creature
         int friendly = 0;
         int anger = 0;
         int morale = 0;
+    private:
         int stomach_size = 0;
         int amount_eaten = 0;
+    public:
+        void set_amount_eaten( int new_amount );
+        void mod_amount_eaten( int amount_to_add );
+        int get_amount_eaten() const;
+        // Truncates to integer for ease of use
+        int get_stomach_fullness_percent() const;
+        bool has_fully_eaten() const;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission

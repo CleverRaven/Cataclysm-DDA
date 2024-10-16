@@ -560,7 +560,7 @@ void monster::try_reproduce()
         return;
     }
 
-    if( !baby_timer && amount_eaten >= stomach_size ) {
+    if( !baby_timer && has_fully_eaten() ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
         // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -662,6 +662,34 @@ void monster::refill_udders()
     }
 }
 
+void monster::set_amount_eaten( int new_amount )
+{
+    amount_eaten = new_amount;
+}
+
+void monster::mod_amount_eaten( int amount_to_add )
+{
+    amount_eaten += amount_to_add;
+}
+
+int monster::get_amount_eaten() const
+{
+    return amount_eaten;
+}
+
+int monster::get_stomach_fullness_percent() const
+{
+    if( stomach_size == 0 ) {
+        return 100; // no div-by-zero
+    }
+    return get_amount_eaten() / stomach_size;
+}
+
+bool monster::has_fully_eaten() const
+{
+    return amount_eaten >= stomach_size;
+}
+
 void monster::reset_digestion()
 {
     if( calendar::turn - stomach_timer > 3_days ) {
@@ -669,7 +697,7 @@ void monster::reset_digestion()
         //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
         remove_effect( effect_critter_underfed );
         remove_effect( effect_critter_well_fed );
-        amount_eaten = 0;
+        set_amount_eaten( 0 );
         stomach_timer = calendar::turn;
     }
 }
@@ -677,12 +705,12 @@ void monster::reset_digestion()
 void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
-        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
+        if( has_fully_eaten() && !has_effect( effect_critter_underfed ) ) {
             add_effect( effect_critter_well_fed, 24_hours );
         } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
             add_effect( effect_critter_underfed, 24_hours );
         }
-        amount_eaten = 0;
+        set_amount_eaten( 0 );
         stomach_timer = calendar::turn;
     }
 }
@@ -3397,11 +3425,11 @@ void monster::process_effects()
         try_reproduce();
         try_biosignature();
 
-        if( amount_eaten > 0 ) {
+        if( get_amount_eaten() > 0 ) {
             if( has_flag( mon_flag_EATS ) ) {
                 digest_food();
             } else {
-                amount_eaten = 0;
+                set_amount_eaten( 0 );
             }
         }
 
@@ -3947,11 +3975,11 @@ void monster::on_load()
     reset_digestion();
 
     //Clean up runaway values for monsters which eat but don't digest yet.
-    if( amount_eaten > 0 ) {
+    if( get_amount_eaten() > 0 ) {
         if( has_flag( mon_flag_EATS ) ) {
             digest_food();
         } else {
-            amount_eaten = 0;
+            set_amount_eaten( 0 );
         }
     }
 
