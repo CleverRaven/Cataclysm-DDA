@@ -271,7 +271,7 @@
                   "math": [
                     "n_afs_electrokin_charging_value_counter",
                     "+=",
-                    "( (u_spell_level('afs_electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) / u_electrokin_personal_battery_count"
+                    "( (u_spell_level('afs_electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) / u_afs_electrokin_personal_battery_count"
                   ]
                 }
               }
