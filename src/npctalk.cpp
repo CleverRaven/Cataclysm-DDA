@@ -369,7 +369,7 @@ struct item_search_data {
             }
         }
 
-        if( !uses_energy.has_value() && loc->uses_energy() != uses_energy.value() ) {
+        if( uses_energy.has_value() && loc->uses_energy() != uses_energy.value() ) {
             return false;
         }
 
