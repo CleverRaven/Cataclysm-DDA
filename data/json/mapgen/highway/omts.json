@@ -12,14 +12,14 @@
     "type": "overmap_terrain",
     "id": "highway_symbolic_ramp_up",
     "copy-from": "generic_highway_road",
-    "sym": "v",
+    "sym": "^",
     "extend": { "flags": [ "KNOWN_UP", "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "highway_symbolic_ramp_down",
     "copy-from": "generic_highway_road",
-    "sym": "^",
+    "sym": "v",
     "extend": { "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ] }
   },
   {
