@@ -2,17 +2,20 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "highway_reserved", "highway_reserved_water", "highway_symbolic_road", "highway_symbolic_ramp_up", "highway_symbolic_ramp_down" ],
+    "om_terrain": [
+      "highway_reserved",
+      "highway_reserved_water",
+      "highway_symbolic_road",
+      "highway_symbolic_ramp_up",
+      "highway_symbolic_ramp_down"
+    ],
     "object": { "fallback_predecessor_mapgen": "open_air" }
   },
   {
     "type": "overmap_special",
     "id": "highway_segment_flat",
     "//": "Placed by C++",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "highway_road_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "highway_road_south" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "highway_road_north" }, { "point": [ 1, 0, 0 ], "overmap": "highway_road_south" } ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
@@ -109,40 +112,5 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
-  },
-  {
-    "om_terrain": "highway_bridge_supports",
-    "type": "mapgen",
-    "method": "json",
-    "object": {
-      "fallback_predecessor_mapgen": "river_center",
-      "rows": [
-        "         ###############",
-        "          ##############",
-        "           #############",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "           #############",
-        "          ##############",
-        "         ###############"
-      ],
-      "palettes": [ "bridge_ground_palette" ]
-    }
   }
 ]
