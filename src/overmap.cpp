@@ -4933,6 +4933,7 @@ void overmap::place_highways()
             debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
         }
     }
+    /*
     // Add up to one road connection (on off ramps etc) or service station per compass direction of the centre
     for( int i = 0; i < 4; i++ ) {
         bool vary_y = i % 2 == 0;
@@ -4953,9 +4954,9 @@ void overmap::place_highways()
         special = settings->overmap_highway.road_connections.pick();
         if( can_place_special( *special, point_to_try, dir, false ) ) {
             place_special( *special, point_to_try, dir, invalid_city, false, false );
-            debugmsg( "Placed chosen road connection %s", special.c_str() );
         }
     }
+    */
 }
 
 void overmap::finalize_highways()
