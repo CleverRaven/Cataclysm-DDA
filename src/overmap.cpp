@@ -4818,7 +4818,8 @@ void overmap::place_highways()
     // Id of OMT to use until finalize_highways()
     const oter_type_str_id &reserved_terrain_id = settings->overmap_highway.reserved_terrain_id;
     // Id of OMT to use until finalize_highways() over water
-    const oter_type_str_id &reserved_terrain_water_id = settings->overmap_highway.reserved_terrain_water_id;
+    const oter_type_str_id &reserved_terrain_water_id =
+        settings->overmap_highway.reserved_terrain_water_id;
     if( frequency_x == 0 && frequency_y == 0 ) {
         debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
         return;
@@ -4873,7 +4874,8 @@ void overmap::place_highways()
         const int j_max = placed_highways[2] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
         for( int j = j_min; j < j_max; j++ ) {
             const tripoint_om_omt west_point( i, j, 0 );
-            const oter_type_str_id z0_terrain_to_place = is_water_body_or( west_point, tripoint_east ) ? reserved_terrain_water_id : reserved_terrain_id;
+            const oter_type_str_id z0_terrain_to_place = is_water_body_or( west_point,
+                    tripoint_east ) ? reserved_terrain_water_id : reserved_terrain_id;
             for( int i_segment = i; i_segment < i + segment_width; i_segment++ ) {
                 tripoint_om_omt point( i_segment, j, 0 );
                 ter_set( point, z0_terrain_to_place.obj().get_rotated( om_direction::type::north ) );
@@ -4892,7 +4894,8 @@ void overmap::place_highways()
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
         for( int i = i_min; i < i_max; i++ ) {
             const tripoint_om_omt north_point( i, j, 0 );
-            const oter_type_str_id z0_terrain_to_place = is_water_body_or( north_point, tripoint_south ) ? reserved_terrain_water_id : reserved_terrain_id;
+            const oter_type_str_id z0_terrain_to_place = is_water_body_or( north_point,
+                    tripoint_south ) ? reserved_terrain_water_id : reserved_terrain_id;
             for( int j_segment = j; j_segment < j + segment_width; j_segment++ ) {
                 tripoint_om_omt point( i, j_segment, 0 );
                 ter_set( point, z0_terrain_to_place.obj().get_rotated( om_direction::type::east ) );
@@ -4997,16 +5000,17 @@ void overmap::finalize_highways()
         return ret;
     };
 
-    auto place_symbolic = [&]( tripoint_om_omt point, tripoint offset, const oter_type_str_id & symbolic_omt,
-                                        const om_direction::type dir ) {
+    auto place_symbolic = [&]( tripoint_om_omt point, tripoint offset,
+                               const oter_type_str_id & symbolic_omt,
+    const om_direction::type dir ) {
         for( int j_width = 0; j_width < segment_width; j_width++ ) {
             ter_set( point, symbolic_omt.obj().get_rotated( dir ) );
             point += offset;
         }
     };
-    
+
     auto determine_what_to_place = [&]( tripoint_om_omt point, tripoint offset ) {
-        std::pair<int,int> ret;
+        std::pair<int, int> ret;
         if( is_highway_special( ter( point ) ) ) {
             ret = { 0, 0 };
         } else if( is_water_body_or( point, offset ) ) {
@@ -5053,10 +5057,12 @@ void overmap::finalize_highways()
                 // If there's a small gap between two identical raised sections, join them instead of placing a ramp
                 if( what_to_place[i].first == 1 ) {
                     int last_up = what_to_place[i - 1].first;
-                    if( static_cast<unsigned int>(i+1) < what_to_place.size() && what_to_place[i + 1].first == last_up ) {
+                    if( static_cast<unsigned int>( i + 1 ) < what_to_place.size() &&
+                        what_to_place[i + 1].first == last_up ) {
                         what_to_place[i].first = last_up;
                         last_z0 = false;
-                    } else if( static_cast<unsigned int>(i+2) < what_to_place.size() && what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
+                    } else if( static_cast<unsigned int>( i + 2 ) < what_to_place.size() &&
+                               what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
                         what_to_place[i].first = last_up;
                         what_to_place[i + 1].first = last_up;
                         last_z0 = false;
@@ -5071,7 +5077,7 @@ void overmap::finalize_highways()
         // Replace singular city segments with road bridges
         for( int i = 1; static_cast<unsigned int>( i ) < what_to_place.size() - 1; i++ ) {
             if( what_to_place[i].first == 4 ) {
-                if( what_to_place[i-1].first != 4 && what_to_place[i+1].first != 4 ) {
+                if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
                     what_to_place[i].first = 2;
                     what_to_place[i].second = 0;
                 }
@@ -5090,7 +5096,7 @@ void overmap::finalize_highways()
                         water_point += tripoint_below;
                     }
                 }
-                switch (what_to_place[i].second) {
+                switch( what_to_place[i].second ) {
                     case 0:
                         break;
                     case 1: // Up ramp
@@ -5138,10 +5144,12 @@ void overmap::finalize_highways()
                 // If there's a small gap between two identical raised sections, join them instead of placing a ramp
                 if( what_to_place[i].first == 1 ) {
                     int last_up = what_to_place[i - 1].first;
-                    if( static_cast<unsigned int>(i+1) < what_to_place.size() && what_to_place[i + 1].first == last_up ) {
+                    if( static_cast<unsigned int>( i + 1 ) < what_to_place.size() &&
+                        what_to_place[i + 1].first == last_up ) {
                         what_to_place[i].first = last_up;
                         last_z0 = false;
-                    } else if( static_cast<unsigned int>(i+2) < what_to_place.size() && what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
+                    } else if( static_cast<unsigned int>( i + 2 ) < what_to_place.size() &&
+                               what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
                         what_to_place[i].first = last_up;
                         what_to_place[i + 1].first = last_up;
                         last_z0 = false;
@@ -5156,7 +5164,7 @@ void overmap::finalize_highways()
         // Replace singular city segments with road bridges
         for( int i = 1; static_cast<unsigned int>( i ) < what_to_place.size() - 1; i++ ) {
             if( what_to_place[i].first == 4 ) {
-                if( what_to_place[i-1].first != 4 && what_to_place[i+1].first != 4 ) {
+                if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
                     what_to_place[i].first = 2;
                     what_to_place[i].second = 0;
                 }
@@ -5175,7 +5183,7 @@ void overmap::finalize_highways()
                         water_point += tripoint_below;
                     }
                 }
-                switch (what_to_place[j].second) {
+                switch( what_to_place[j].second ) {
                     case 0:
                         break;
                     case 1: // Up ramp
