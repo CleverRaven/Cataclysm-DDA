@@ -30,7 +30,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": "has_beta",
-    "effect": [ 
+    "effect": [
       {
         "run_eocs": [
           {
