@@ -3422,29 +3422,8 @@ void monster::process_effects()
         }
     }
 
-    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
-        heal( 1 );
-    }
-
-    //We already check these timers on_load, but adding a random chance for them to go off here
-    //will make it so that the player needn't leave the area and return for critters to poop,
-    //become hungry, evolve, have babies, or refill udders.
-    if( one_in( 30000 ) ) {
-        try_upgrade( false );
-        try_reproduce();
-        try_biosignature();
-
-        if( get_amount_eaten() > 0 ) {
-            if( has_flag( mon_flag_EATS ) ) {
-                digest_food();
-            } else {
-                set_amount_eaten( 0 );
-            }
-        }
-
-        if( has_flag( mon_flag_MILKABLE ) ) {
-            refill_udders();
-        }
+    if( calendar::once_every( 24_hours ) ) {
+        digest_food();
     }
 
     //Monster will regen morale and aggression if it is at/above max HP
