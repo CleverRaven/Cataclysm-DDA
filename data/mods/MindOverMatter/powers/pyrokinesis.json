@@ -596,7 +596,7 @@
     "damage_type": "heat",
     "min_damage": {
       "math": [
-        "( (u_spell_level('pyrokinetic_blast') * 2.5n) + 37) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_blast') * 2.5) + 37) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
