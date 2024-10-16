@@ -13,7 +13,7 @@
       "<": "t_ramp_up_high",
       ">": "t_ramp_down_low",
       "‾": "t_ramp_down_high",
-      "#": "t_concrete_wall"
+      "#": "t_strconc_wall"
     }
   }
 ]
