@@ -25,7 +25,6 @@
 #include "color.h"
 #include "construction.h"
 #include "construction_group.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
@@ -556,7 +555,8 @@ void iexamine::gaspump( Character &you, const tripoint_bub_ms &examp )
                 }
 
             } else {
-                liquid_handler::handle_liquid_from_ground( item_it, examp.raw(), 1 );
+                item_location loc( map_cursor( examp ), &*item_it );
+                liquid_handler::handle_liquid( loc, nullptr, 1 );
             }
             return;
         }
@@ -662,7 +662,7 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
 void iexamine::translocator( Character &, const tripoint_bub_ms &examp )
 {
     /// @todo fix point types
-    const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getglobal( examp ).raw() ) );
+    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().getglobal( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
     if( !activated ) {
@@ -1237,8 +1237,9 @@ int _choose_elevator_destz( tripoint_bub_ms const &examp, tripoint_abs_omt const
     choice.title = _( "Select destination floor" );
     for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
         tripoint_abs_omt const that_omt( this_omt.xy(), z );
-        tripoint const zp =
-            _rotate_point_sm( { examp.xy().raw(), z}, _get_rot_delta( this_omt, that_omt ), sm_orig.raw() );
+        tripoint_bub_ms const zp =
+            tripoint_bub_ms( _rotate_point_sm( { examp.xy().raw(), z}, _get_rot_delta( this_omt, that_omt ),
+                                               sm_orig.raw() ) );
 
         if( here.ter( zp )->has_examine( iexamine::elevator ) ) {
             std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name(
@@ -1364,8 +1365,9 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint const p = _rotate_point_sm( { v->global_pos3().xy(), movez }, erot, sm_orig.raw() );
-        here.displace_vehicle( *v, p - v->global_pos3() );
+        tripoint_bub_ms const p = tripoint_bub_ms( _rotate_point_sm( { v->global_pos3().xy(), movez }, erot,
+                                  sm_orig.raw() ) );
+        here.displace_vehicle( *v, p - v->pos_bub() );
         v->turn( erot * 90_degrees );
         v->face = tileray( v->turn_dir );
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
@@ -1983,7 +1985,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
     g->validate_camps();
     map &here = get_map();
     // TODO: fix point types
-    point_abs_omt omt( ms_to_omt_copy( here.getglobal( { examp.xy(), here.get_abs_sub().z() } ).xy().raw() ) );
+    point_abs_omt omt( coords::project_to<coords::omt>( here.getglobal( examp ) ).xy() );
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
@@ -2049,9 +2051,9 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint_bub_ms &examp )
 
             // Send in a few wyrms to start things off.
             get_event_bus().send<event_type::awakes_dark_wyrms>();
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_orifice ) {
-                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                    g->place_critter_around( mon_dark_wyrm, p.raw(), 1 );
                 }
             }
 
@@ -2136,10 +2138,10 @@ void iexamine::fswitch( Character &you, const tripoint_bub_ms &examp )
     }
     ter_id terid = here.ter( examp );
     you.mod_moves( -to_moves<int>( 1_seconds ) );
-    tripoint tmp;
-    tmp.z = examp.z();
-    for( tmp.y = examp.y(); tmp.y <= examp.y() + 5; tmp.y++ ) {
-        for( tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++ ) {
+    tripoint_bub_ms tmp;
+    tmp.z() = examp.z();
+    for( tmp.y() = examp.y(); tmp.y() <= examp.y() + 5; tmp.y()++ ) {
+        for( tmp.x() = 0; tmp.x() < MAPSIZE_X; tmp.x()++ ) {
             const ter_id &nearby_ter = here.ter( tmp );
             if( terid == ter_t_switch_rg ) {
                 if( nearby_ter == ter_t_rock_red ) {
@@ -2172,7 +2174,7 @@ void iexamine::fswitch( Character &you, const tripoint_bub_ms &examp )
                     here.ter_set( tmp, ter_t_rock_red );
                 }
             } else if( terid == ter_t_switch_even ) {
-                if( ( tmp.y - examp.y() ) % 2 == 1 ) {
+                if( ( tmp.y() - examp.y() ) % 2 == 1 ) {
                     if( nearby_ter == ter_t_rock_red ) {
                         here.ter_set( tmp, ter_t_floor_red );
                     } else if( nearby_ter == ter_t_floor_red ) {
@@ -3642,7 +3644,8 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
                 break;
             }
             case REMOVE_BREW: {
-                liquid_handler::handle_liquid_from_ground( here.i_at( examp ).begin(), examp.raw() );
+                item_location loc( map_cursor( examp ), &*here.i_at( examp ).begin() );
+                liquid_handler::handle_liquid( loc );
                 return;
             }
             case START_FERMENT: {
@@ -3765,7 +3768,8 @@ void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp.raw() ) ) {
+    item_location loc( map_cursor( examp ), &*items_here.begin() );
+    if( liquid_handler::handle_liquid( loc ) ) {
         fvat_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -3869,7 +3873,8 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
                 break;
             }
             case REMOVE_COMPOST: {
-                liquid_handler::handle_liquid_from_ground( here.i_at( examp ).begin(), examp.raw() );
+                item_location loc( map_cursor( examp ), &*here.i_at( examp ).begin() );
+                liquid_handler::handle_liquid( loc );
                 return;
             }
             case START_FERMENT: {
@@ -4046,7 +4051,8 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
     }
 
     const std::string compost_name = compost_i.tname();
-    if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp.raw() ) ) {
+    item_location loc( map_cursor( examp ), &*items_here.begin() );
+    if( liquid_handler::handle_liquid( loc ) ) {
         compost_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the tank." ), compost_name );
     }
@@ -4207,13 +4213,14 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
         selectmenu.query();
 
         switch( selectmenu.ret ) {
-            case DISPENSE:
-                if( liquid_handler::handle_liquid_from_ground( items.begin(), examp.raw() ) ) {
+            case DISPENSE: {
+                item_location loc( map_cursor( examp ), &*items.begin() );
+                if( liquid_handler::handle_liquid( loc ) ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                 }
                 return;
-
+            }
             case HAVE_A_DRINK:
                 if( !you.can_consume_as_is( drink ) ) {
                     return; // They didn't actually drink
@@ -4498,7 +4505,8 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint_bub_ms &examp )
         }
 
         case HARVEST_SAP: {
-            liquid_handler::handle_liquid_from_container( *container, PICKUP_RANGE );
+            item_location loc( map_cursor( examp ), container );
+            liquid_handler::handle_all_liquids_from_container( loc, PICKUP_RANGE );
             return;
         }
 
@@ -4713,9 +4721,10 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )
 {
     map_stack items = get_map().i_at( examp );
-    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( phase_id::LIQUID ) ) {
-            liquid_handler::handle_liquid_from_ground( item_it, examp.raw() );
+    for( item &it : items ) {
+        if( it.made_of( phase_id::LIQUID ) ) {
+            item_location loc( map_cursor( examp ), &it );
+            liquid_handler::handle_liquid( loc );
             break;
         }
     }
@@ -5437,28 +5446,28 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
     };
 
     map &here = get_map();
-    tripoint jump_target( you.posx() + 2 * sgn( examp.x() - you.posx() ),
-                          you.posy() + 2 * sgn( examp.y() - you.posy() ),
-                          you.posz() );
+    tripoint_bub_ms jump_target( you.posx() + 2 * sgn( examp.x() - you.posx() ),
+                                 you.posy() + 2 * sgn( examp.y() - you.posy() ),
+                                 you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
-    point jd( examp.xy().raw() + point( -you.posx(), -you.posy() ) );
+    point_rel_ms jd( examp.xy() - you.pos_bub().xy() );
     int jump_direction = 0;
 
-    if( jd.y > 0 && jd.x == 0 ) {
+    if( jd.y() > 0 && jd.x() == 0 ) {
         jump_direction = 0; //south
-    } else if( jd.y > 0 && jd.x < 0 ) {
+    } else if( jd.y() > 0 && jd.x() < 0 ) {
         jump_direction = 1; //southwest
-    } else if( jd.y == 0 && jd.x < 0 ) {
+    } else if( jd.y() == 0 && jd.x() < 0 ) {
         jump_direction = 2; //west
-    } else if( jd.y < 0 && jd.x < 0 ) {
+    } else if( jd.y() < 0 && jd.x() < 0 ) {
         jump_direction = 3; //northwest
-    } else if( jd.y < 0 && jd.x == 0 ) {
+    } else if( jd.y() < 0 && jd.x() == 0 ) {
         jump_direction = 4; //north
-    } else if( jd.y < 0 && jd.x > 0 ) {
+    } else if( jd.y() < 0 && jd.x() > 0 ) {
         jump_direction = 5; //northeast
-    } else if( jd.y == 0 && jd.x > 0 ) {
+    } else if( jd.y() == 0 && jd.x() > 0 ) {
         jump_direction = 6; //east
-    } else if( jd.y > 0 && jd.x > 0 ) {
+    } else if( jd.y() > 0 && jd.x() > 0 ) {
         jump_direction = 7; //southeast
     }
 
@@ -5502,7 +5511,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
-            } else if( !here.valid_move( examp.raw(), jump_target, false, true ) ) {
+            } else if( !here.valid_move( examp, jump_target, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
             } else if( creatures.creature_at( jump_target ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
@@ -5512,7 +5521,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
                 you.set_activity_level( BRISK_EXERCISE );
-                g->place_player( jump_target );
+                g->place_player( jump_target.raw() );
             }
             break;
         }

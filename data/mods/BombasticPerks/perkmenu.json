@@ -1314,6 +1314,11 @@
         "text": "Metamagic Perks",
         "topic": "TALK_PERK_MENU_METAMAGIC"
       },
+      {
+        "condition": { "mod_is_loaded": "mindovermatter" },
+        "text": "Psionic Perks",
+        "topic": "TALK_PERK_MENU_PSIONICS"
+      },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]

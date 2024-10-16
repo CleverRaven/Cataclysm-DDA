@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "cata_inline.h"
-#include "coordinate_conversions.h"
 #include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -761,9 +760,11 @@ using coords::project_bounds;
 point_rel_ms rebase_rel( point_sm_ms );
 point_rel_ms rebase_rel( point_omt_ms p );
 point_rel_ms rebase_rel( point_bub_ms p );
+point_rel_sm rebase_rel( point_bub_sm p );
 point_sm_ms rebase_sm( point_rel_ms p );
 point_omt_ms rebase_omt( point_rel_ms p );
 point_bub_ms rebase_bub( point_rel_ms p );
+point_bub_sm rebase_bub( point_rel_sm p );
 
 tripoint_rel_ms rebase_rel( tripoint_sm_ms p );
 tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
@@ -1017,10 +1018,7 @@ struct real_coords {
     void fromabs( const point &abs );
 
     // specifically for the subjective position returned by overmap::draw
-    void fromomap( const point &rel_om, const point &rel_om_pos ) {
-        const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
-        fromabs( omt_to_ms_copy( a ) );
-    }
+    void fromomap( const point &rel_om, const point &rel_om_pos );
 
     point_abs_omt abs_omt() const {
         return project_to<coords::omt>( point_abs_sm( abs_sub ) );

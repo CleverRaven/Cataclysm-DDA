@@ -194,6 +194,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_height() const override;
         int get_bmi_permil() const override;
         int get_weight() const override;
+        int get_volume() const override;
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
@@ -278,6 +279,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;
+        void mod_stored_kcal( int value, bool ignore_weariness ) override;
         void set_thirst( int value ) override;
 
         // speaking

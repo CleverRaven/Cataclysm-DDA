@@ -16,7 +16,6 @@
 #include "cata_imgui.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -2291,6 +2290,14 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     // Ensure we can try to get at what hit us.
     reset_pathfinding_cd();
     hp -= dam;
+
+    cata::event e = cata::event::make<event_type::monster_takes_damage>( dam, hp < 1 );
+    if( source ) {
+        get_event_bus().send_with_talker( this, source, e );
+    } else {
+        get_event_bus().send( e );
+    }
+
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
@@ -2456,11 +2463,11 @@ bool monster::move_effects( bool )
         // Pretty hacky, but monsters have no stats
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
+        const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( pos_bub(), 1, 0 );
         for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
             // Is our grabber around?
             monster *grabber = nullptr;
-            for( const tripoint loc : surrounding ) {
+            for( const tripoint_bub_ms loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
@@ -2786,7 +2793,7 @@ void monster::process_turn()
     // Persist grabs as long as there's an adjacent target.
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         bool remove = true;
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             const Creature *const you = creatures.creature_at<Creature>( dest );
             if( you && you->has_effect_with_flag( json_flag_GRAB ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Grabbed creature %s found, persisting grab.",
@@ -2896,14 +2903,14 @@ void monster::die( Creature *nkiller )
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         // Need to filter out which limb we were grabbing before death
-        for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint_bub_ms &player_pos : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             Creature *you = creatures.creature_at( player_pos );
             if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
                 continue;
             }
             // ...but if there are no grabbers around we can just skip to the end
             bool grabbed = false;
-            for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
+            for( const tripoint_bub_ms &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = creatures.creature_at<monster>( mon_pos );
                 // No persisting our grabs from beyond the grave, but we also don't get to remove the effect early
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon != this ) {
@@ -2934,11 +2941,11 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( mon_flag_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const tripoint abssub = ms_to_sm_copy( here.getglobal( pos_bub() ).raw() );
+        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.getglobal( pos_bub() ) );
         // Do it for overmap above/below too
-        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+        for( const tripoint_abs_sm &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
             // TODO: fix point types
-            for( mongroup *&mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
+            for( mongroup *&mgp : overmap_buffer.groups_at( p ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }
@@ -3429,7 +3436,7 @@ void monster::process_effects()
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 2 ) ) {
             const monster *const mon = creatures.creature_at<monster>( p );
             const Character *const guy = creatures.creature_at<Character>( p );
             if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&

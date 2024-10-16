@@ -714,6 +714,10 @@ void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
 }
+void talker_character::mod_stored_kcal( int value, bool ignore_weariness )
+{
+    me_chr->mod_stored_kcal( value, ignore_weariness );
+}
 void talker_character::set_thirst( int value )
 {
     me_chr->set_thirst( value );
@@ -1003,6 +1007,11 @@ int talker_character_const::get_bmi_permil() const
 int talker_character_const::get_weight() const
 {
     return units::to_milligram( me_chr_const->get_weight() );
+}
+
+int talker_character_const::get_volume() const
+{
+    return units::to_milliliter( me_chr_const->get_total_volume() );
 }
 
 void talker_character::set_height( int amount )

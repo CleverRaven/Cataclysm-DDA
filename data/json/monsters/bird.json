@@ -117,7 +117,7 @@
   {
     "abstract": "mon_generic_chick_tiny",
     "type": "MONSTER",
-    "name": { "str": "grey chick" },
+    "name": { "str": "gray chick" },
     "description": "A tiny dull-colored chick, it could be from a number of different species.",
     "copy-from": "mon_generic_chick",
     "looks_like": "mon_generic_chick_tiny",
@@ -736,5 +736,30 @@
     "copy-from": "mon_generic_chick_water",
     "upgrades": { "age_grow": 60, "into": "mon_grebe" },
     "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
+  },
+  {
+    "id": "mon_guinea_fowl",
+    "type": "MONSTER",
+    "name": { "str_sp": "domestic guineafowl" },
+    "description": "A domestic bird that originated from Africa.  Easily recognizable for the strange helmet on its head and its white-gray plumage.",
+    "copy-from": "mon_bird_flightless_base",
+    "volume": "1735 ml",
+    "weight": "1300 g",
+    "hp": 3,
+    "reproduction": { "baby_type": { "baby_egg": "egg_guinea_fowl" }, "baby_count": 5, "baby_timer": 14 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "//": "Seasons taken from other domesticated birds that aren't chickens, egg count based on the fact that most sources claim domestic guineafowl lay ~100 eggs over 9 months (270 days) - this here reaches us 100 eggs over 280 days, so slightly below the estimate.",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
+  },
+  {
+    "id": "mon_guinea_fowl_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_chicken_chick",
+    "upgrades": { "age_grow": 28, "into": "mon_guinea_fowl" },
+    "//": "16 weeks to develop adult plumage and reach maturity."
   }
 ]

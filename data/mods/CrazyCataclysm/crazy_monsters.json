@@ -195,7 +195,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "special_attacks": [ [ "JACKSON", 0 ] ],
     "death_drops": "jackson_drops",
     "death_function": { "message": "The music stops!", "effect": { "id": "death_jackson", "hit_self": true }, "corpse_type": "NO_CORPSE" },

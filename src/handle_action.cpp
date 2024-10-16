@@ -772,6 +772,9 @@ static void grab()
             add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
+        if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+            return; // player declined to mess with faction's stuff
+        }
         you.grab( object_type::FURNITURE, grabp - you.pos_bub() );
         if( !here.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), here.furnname( grabp ) );
@@ -792,7 +795,8 @@ static void haul()
     bool hauling = player_character.is_hauling();
     bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
-    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
+    std::vector<item_location> haulable_items = get_map().get_haulable_items(
+                player_character.pos_bub() );
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
@@ -927,6 +931,10 @@ static void smash()
         return;
     }
     tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
+
+    if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+        return; // player declined to smash faction's stuff
+    }
 
     bool smash_floor = false;
     if( smashp.z() != player_character.posz() ) {
@@ -1355,6 +1363,10 @@ static void sleep()
         g->quicksave();
     } else if( as_m.ret == 2 || as_m.ret < 0 ) {
         return;
+    }
+
+    if( !g->warn_player_maybe_anger_local_faction( false, true ) ) {
+        return; // player declined to annoy locals by illegally sleeping in their territory
     }
 
     time_duration try_sleep_dur = 24_hours;
@@ -2063,6 +2075,7 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x;
             player_character.view_offset.y() = g->driving_view_offset.y;
+            player_character.view_offset.z() = 0;
             break;
 
         case ACTION_SHIFT_N:
@@ -2654,6 +2667,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
             } else {
+                if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+                    break; // player declined to mess with faction's stuff
+                }
                 construction_menu( false );
             }
             break;

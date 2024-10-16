@@ -1117,16 +1117,15 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( global_part_pos3( scoop ), rng( 20, 35 ), sounds::sound_t::combat,
+        sounds::sound( bub_part_pos( scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
-        std::vector<tripoint> parts_points;
-        for( const tripoint &current :
-             here.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
+        std::vector<tripoint_bub_ms> parts_points;
+        for( const tripoint_bub_ms &current :
+             here.points_in_radius( bub_part_pos( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
-        for( const tripoint &position : parts_points ) {
-            // TODO: fix point types
-            here.mop_spills( tripoint_bub_ms( position ) );
+        for( const tripoint_bub_ms &position : parts_points ) {
+            here.mop_spills( position );
             if( !here.has_items( position ) ) {
                 continue;
             }

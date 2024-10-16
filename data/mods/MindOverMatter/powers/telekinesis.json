@@ -532,7 +532,6 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "extra_effects": [ { "id": "tele_mindhammer_bash", "hit_self": false, "max_level": 20 } ],
     "damage_type": "psi_telekinetic_damage",
     "effect": "attack",
     "shape": "blast",
@@ -546,6 +545,8 @@
         "( (u_spell_level('telekinetic_hammer') * 3.5) + 55) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "min_bash_scaling": 1,
+    "max_bash_scaling": 1,
     "min_range": {
       "math": [
         "min( (( (u_spell_level('telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
@@ -564,36 +565,6 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
-    "id": "tele_mindhammer_bash",
-    "type": "SPELL",
-    "name": "Mindhammer Ground damage",
-    "description": "Damages ground when you use Mindhammer.  If you have this you debugged it in.",
-    "teachable": false,
-    "valid_targets": [ "ground" ],
-    "spell_class": "TELEKINETIC",
-    "flags": [ "PSIONIC", "RANDOM_DAMAGE", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "effect": "bash",
-    "shape": "blast",
-    "damage_type": "bash",
-    "min_damage": {
-      "math": [
-        "( (u_spell_level('telekinetic_hammer') * 1.5) + 25) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('telekinetic_hammer') * 3) + 55) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
-      ]
-    },
-    "max_range": 70,
-    "ignored_monster_species": [ "PSI_NULL" ]
-  },
-  {
     "id": "telekinetic_vehicle_lift",
     "type": "SPELL",
     "name": "[Ψ]Lift Vehicle (C)",
@@ -603,7 +574,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -676,7 +647,7 @@
     "description": "A burst of telekinetic force shatters the terrain at the target location, as well as anything caught inside.",
     "message": "You indiscriminately blast your targets!",
     "teachable": false,
-    "valid_targets": [ "ally", "hostile", "ground" ],
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [
@@ -693,8 +664,8 @@
     ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "bash",
-    "extra_effects": [ { "id": "tele_explosion_damage", "hit_self": false, "max_level": 20 } ],
+    "effect": "attack",
+    "damage_type": "psi_telekinetic_damage",
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -706,6 +677,8 @@
         "( (u_spell_level('telekinetic_explosion') * 7.5) + 99) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "min_bash_scaling": 1,
+    "max_bash_scaling": 1,
     "min_range": {
       "math": [
         "min( (( (u_spell_level('telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"
@@ -727,42 +700,6 @@
     "casting_time_increment": -7.5,
     "sound_type": "combat",
     "sound_description": "a loud crash!",
-    "ignored_monster_species": [ "PSI_NULL" ]
-  },
-  {
-    "id": "tele_explosion_damage",
-    "type": "SPELL",
-    "name": "Wrecking Ball Enemy damage",
-    "description": "Damages enemies when you use Wrecking Ball on the ground.  If you have this you debugged it in.",
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
-    "teachable": false,
-    "spell_class": "TELEKINETIC",
-    "flags": [ "PSIONIC", "LOUD", "RANDOM_DAMAGE", "IGNORE_WALLS" ],
-    "effect": "attack",
-    "shape": "blast",
-    "damage_type": "psi_telekinetic_damage",
-    "min_damage": {
-      "math": [
-        "( (u_spell_level('telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('telekinetic_explosion') * 7.5) + 99) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"
-      ]
-    },
-    "max_range": 60,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
-      ]
-    },
-    "max_aoe": 30,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {

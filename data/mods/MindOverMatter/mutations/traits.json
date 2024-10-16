@@ -176,6 +176,16 @@
   },
   {
     "type": "mutation",
+    "id": "MOM_PSYCHIC_VAMPIRE",
+    "name": { "str": "Psychic Vampire" },
+    "points": 1,
+    "description": "You can drain a bit of vital energy from from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
+    "valid": false,
+    "starting_trait": true,
+    "prereqs": [ "ALWAYS_GAIN_PSIONICS" ]
+  },
+  {
+    "type": "mutation",
     "id": "VERDANT_HAND_PROTOCOLS",
     "name": { "str": "VERDANT HAND Combat Protocols" },
     "points": 2,

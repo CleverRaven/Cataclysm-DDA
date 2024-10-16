@@ -116,7 +116,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_leather",
     "special_attacks": [ [ "SMASH", 28 ] ],
     "death_drops": "xl_uplift_death_drop",
     "flags": [
