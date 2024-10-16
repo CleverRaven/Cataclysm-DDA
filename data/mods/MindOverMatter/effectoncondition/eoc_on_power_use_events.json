@@ -34,7 +34,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_PSI_NO_COMBAT_POWER_MONSTER_DAMAGE_CHECK_2",
+            "id": "EOC_PSI_NO_COMBAT_POWER_CHARACTER_DAMAGE_CHECK_2",
             "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
             "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
           }
