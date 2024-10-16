@@ -8,7 +8,7 @@
       ".": "t_pavement",
       "*": "t_pavement_y",
       "|": "t_guardrail",
-      "g": [ [ "t_region_groundcover_urban", 2 ], [ "t_region_grass", 1 ], [ "t_null", 1 ] ],
+      "g": [ [ "t_region_groundcover_urban", 2 ], [ "t_region_grass", 1 ], [ "t_region_groundcover", 1 ] ],
       "_": "t_ramp_up_low",
       "<": "t_ramp_up_high",
       ">": "t_ramp_down_low",
