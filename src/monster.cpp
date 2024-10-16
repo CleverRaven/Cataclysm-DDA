@@ -598,7 +598,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
+        if( !has_eaten_enough() ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -634,6 +634,9 @@ void monster::refill_udders()
         debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
+    if( !has_eaten_enough() ) {
+        return;
+    }
     if( ammo.empty() ) {
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
@@ -653,12 +656,10 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) {
-        if( calendar::turn - udder_timer > 1_days ) {
-            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
-            ammo.begin()->second = type->starting_ammo.begin()->second;
-            udder_timer = calendar::turn;
-        }
+    if( calendar::turn - udder_timer > 1_days ) {
+        // You milk once a day.
+        ammo.begin()->second = type->starting_ammo.begin()->second;
+        udder_timer = calendar::turn;
     }
 }
 
@@ -699,6 +700,13 @@ int monster::get_stomach_fullness_percent() const
     return get_amount_eaten() / stomach_size;
 }
 
+bool monster::has_eaten_enough() const
+{
+    return !has_effect( effect_critter_underfed ) &&
+           ( has_effect( effect_critter_well_fed ) || has_fully_eaten() );
+}
+
+
 bool monster::has_fully_eaten() const
 {
     return amount_eaten >= stomach_size;
@@ -736,7 +744,7 @@ void monster::try_biosignature()
     if( !type->biosig_timer ) {
         return;
     }
-    if( has_effect( effect_critter_underfed ) ) {
+    if( !has_eaten_enough() ) {
         return;
     }
 
@@ -3422,10 +3430,6 @@ void monster::process_effects()
         }
     }
 
-    if( calendar::once_every( 24_hours ) ) {
-        digest_food();
-    }
-
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3961,15 +3965,6 @@ void monster::on_load()
     try_reproduce();
     try_biosignature();
     reset_digestion();
-
-    //Clean up runaway values for monsters which eat but don't digest yet.
-    if( get_amount_eaten() > 0 ) {
-        if( has_flag( mon_flag_EATS ) ) {
-            digest_food();
-        } else {
-            set_amount_eaten( 0 );
-        }
-    }
 
     if( has_flag( mon_flag_MILKABLE ) ) {
         refill_udders();

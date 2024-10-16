@@ -550,6 +550,10 @@ class monster : public Creature
         int get_amount_eaten() const;
         // Truncates to integer for ease of use
         int get_stomach_fullness_percent() const;
+        // Whether the monster has eaten enough to reproduce/make milk/get by normally
+        bool has_eaten_enough() const;
+        // Whether their stomach is completely full or more
+        // TODO: Find out why can we even exceed stomach size??
         bool has_fully_eaten() const;
         // Our faction (species, for most monsters)
         mfaction_id faction;
