@@ -29,6 +29,18 @@
   },
   {
     "type": "overmap_special",
+    "id": "highway_segment_bridge_supports",
+    "//": "Placed by C++ in lakes under highway_segment_bridge",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_bridge_supports_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_bridge_supports_south" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "4-way highway crossroad",
     "//": "Placed by C++, can add more or replace in region settings without needing to compile",
     "overmaps": [
