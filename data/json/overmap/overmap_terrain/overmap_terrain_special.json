@@ -49,6 +49,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_field_highway",
+    "copy-from": "special_field",
+    "extend": { "flags": [ "HIGHWAY" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "special_forest", "special_forest_isherwood" ],
     "copy-from": "generic_forest",
     "name": "forest",
