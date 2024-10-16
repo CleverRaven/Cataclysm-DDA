@@ -1095,6 +1095,14 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
                                                 _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
 
+    if( pnt.z() > 1 ) {
+        if( !query_yn(
+                _( "Deploying %s there will make it fall down %i stories.  Do you still want to deploy it?" ),
+                it.tname(), pnt.z() ) ) {
+            return ret_val<tripoint>::make_failure( pos );
+        }
+    }
+
     map &here = get_map();
     optional_vpart_position veh_there = here.veh_at( pnt );
     if( veh_there.has_value() ) {
