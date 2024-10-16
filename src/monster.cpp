@@ -712,17 +712,6 @@ bool monster::has_fully_eaten() const
     return amount_eaten >= stomach_size;
 }
 
-void monster::reset_digestion()
-{
-    if( calendar::turn - stomach_timer > 3_days ) {
-        //If the player hasn't been around, assume critters have been operating at a subsistence level.
-        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
-        recheck_fed_status();
-        set_amount_eaten( 0 );
-        stomach_timer = calendar::turn;
-    }
-}
-
 void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
@@ -3964,7 +3953,6 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
-    reset_digestion();
 
     if( has_flag( mon_flag_MILKABLE ) ) {
         refill_udders();
