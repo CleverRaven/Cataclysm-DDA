@@ -4,6 +4,7 @@
     "id": "highway_palette",
     "terrain": {
       "'": "t_open_air",
+      ";": "t_sidewalk",
       ".": "t_pavement",
       "*": "t_pavement_y",
       "|": "t_guardrail",

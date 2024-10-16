@@ -559,7 +559,7 @@
     "name": "road",
     "sym": "│",
     "color": "dark_gray",
-    "flags": [ "ROAD", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "ROAD", "REQUIRES_PREDECESSOR", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -599,6 +599,13 @@
     "color": "blue",
     "travel_cost_type": "water",
     "extend": { "flags": [ "RIVER", "LAKE", "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "highway_underpass",
+    "copy-from": "generic_highway",
+    "color": "dark_gray",
+    "extend": { "flags": [ "SIDEWALK", "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",

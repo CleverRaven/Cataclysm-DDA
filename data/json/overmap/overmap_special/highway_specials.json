@@ -53,8 +53,8 @@
     "id": "highway_segment_overpass",
     "//": "Placed by C++",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "highway_bridge_supports_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "highway_bridge_supports_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "highway_underpass_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_underpass_south" },
       { "point": [ 0, 0, 1 ], "overmap": "highway_road_north" },
       { "point": [ 1, 0, 1 ], "overmap": "highway_road_south" }
     ],
