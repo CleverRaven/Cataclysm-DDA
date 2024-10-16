@@ -2737,6 +2737,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Construct full line
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
+    // cache response conditionals
+    std::vector<bool> response_condition_exists;
+    std::vector<bool> response_condition_eval;
+    for( talk_response &response : responses ) {
+        response_condition_exists.emplace_back( response.condition );
+        response_condition_eval.emplace_back( response.condition ? response.condition( *this ) : false );
+    }
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
         challenge = string_format( _( "\"%s\"" ), challenge );
@@ -2842,8 +2849,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             } else if( action == "CONFIRM" ) {
                 response_ind = d_win.sel_response;
                 //response condition must be reverified since non-selectable responses can be displayed
-                talk_response &check_valid = responses[response_ind];
-                if( check_valid.condition && ( !check_valid.condition( *this ) && !debug_mode ) ) {
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
                     action = "NONE";
                 }
             } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
@@ -2862,10 +2869,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                     generate_response_lines();
                 }
             } else if( action == "ANY_INPUT" ) {
-                // Check real hotkeys
+                // Check real hotkeys; equivalent functionally to CONFIRM
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
                                                   response_hotkeys.end(), evt );
                 response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
+                    action = "NONE";
+                }
             } else if( action == "QUIT" ) {
                 response_ind = get_best_quit_response();
             }
