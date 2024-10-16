@@ -10874,15 +10874,12 @@ bool item::uses_energy() const
 
 units::energy item::energy_remaining( const Character *carrier ) const
 {
-    if( !uses_energy() ) {
-        return 0_kJ;
-    }
-    units::energy ret = 0_kJ;
+    return energy_remaining( carrier, false );
+}
 
-    // Future energy based batteries
-    if( is_vehicle_battery() ) {
-        ret += energy;
-    }
+units::energy item::energy_remaining( const Character *carrier, bool ignoreExternalSources ) const
+{
+    units::energy ret = 0_kJ;
 
     // Magazine in the item
     const item *mag = magazine_current();
@@ -10890,15 +10887,23 @@ units::energy item::energy_remaining( const Character *carrier ) const
         ret += mag->energy_remaining( carrier );
     }
 
-    // Power from bionic
-    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-        ret += carrier->get_power_level();
-    }
+    if( !ignoreExternalSources ) {
 
-    // Extra power from UPS
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        ret += carrier->available_ups();
-    }
+        // Future energy based batteries
+        if( is_vehicle_battery() ) {
+            ret += energy;
+        }
+
+        // Power from bionic
+        if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+            ret += carrier->get_power_level();
+        }
+
+        // Extra power from UPS
+        if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+            ret += carrier->available_ups();
+        }
+    };
 
     // Battery(ammo) contained within
     if( is_magazine() ) {
