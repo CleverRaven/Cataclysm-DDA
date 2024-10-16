@@ -468,13 +468,22 @@ class overmap
         void place_forests();
         void place_lakes();
         void place_oceans();
+
         void place_rivers( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west );
+        void polish_river();
+        void good_river( const tripoint_om_omt &p );
+
         void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
 
         void place_highways();
+        // Whether highway halfs starting at north were placed or not
+        std::bitset placed_highways( 4 );
+        // Replace reserved omts with the appopriate maps now that cities have been placed
+        void finalize_highways();
+
         void place_roads( const overmap *north, const overmap *east, const overmap *south,
                           const overmap *west );
 
@@ -535,9 +544,6 @@ class overmap
                                          const tripoint_om_omt &location ) const;
         std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
         void chip_rock( const tripoint_om_omt &p );
-
-        void polish_river();
-        void good_river( const tripoint_om_omt &p );
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint_om_omt &p, bool must_be_unexplored ) const;
