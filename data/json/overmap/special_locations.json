@@ -102,6 +102,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "highway_water",
+    "terrains": [ "hw_reserved_water" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "forest_trail",
     "terrains": [ "forest_trail" ]
   },

@@ -64,17 +64,80 @@
   },
   {
     "type": "overmap_special",
-    "id": "Highway Crossroad",
+    "id": "Highway Fallback Crossroad",
     "//": "Placed by C++, can add more or replace in region settings without needing to compile",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_crossroad_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "hw_crossroad_west" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_crossroad_east" },
-      { "point": [ 1, 1, 0 ], "overmap": "hw_crossroad_south" }
+      { "point": [ 0, -1, 0 ] },
+      { "point": [ 1, -1, 0 ] },
+      { "point": [ -1, 0, 0 ] },
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_crossroad_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_crossroad_east" },
+      { "point": [ 2, 0, 0 ] },
+      { "point": [ -1, 1, 0 ] },
+      { "point": [ 0, 1, 0 ], "overmap": "hw_fb_crossroad_west" },
+      { "point": [ 1, 1, 0 ], "overmap": "hw_fb_crossroad_south" },
+      { "point": [ 2, 1, 0 ] },
+      { "point": [ 0, 2, 0 ] },
+      { "point": [ 1, 2, 0 ] }
     ],
-    "locations": [ "highway" ],
+    "locations": [ "highway", "highway_water" ],
     "occurrences": [ 0, 0 ],
-    "rotate": false,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway Fallback Tee",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ -1, 0, 0 ] },
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_tee_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_tee_east" },
+      { "point": [ 2, 0, 0 ] },
+      { "point": [ -1, 1, 0 ] },
+      { "point": [ 0, 1, 0 ], "overmap": "hw_fb_crossroad_west" },
+      { "point": [ 1, 1, 0 ], "overmap": "hw_fb_crossroad_south" },
+      { "point": [ 2, 1, 0 ] },
+      { "point": [ 0, 2, 0 ] },
+      { "point": [ 1, 2, 0 ] }
+    ],
+    "locations": [ "highway", "highway_water" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway Fallback Bend",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_bend_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_bend_1_0_north" },
+      { "point": [ 2, 0, 0 ] },
+      { "point": [ 0, 1, 0 ], "overmap": "hw_fb_bend_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "hw_fb_bend_1_1_north" },
+      { "point": [ 2, 1, 0 ] },
+      { "point": [ 0, 2, 0 ] },
+      { "point": [ 1, 2, 0 ] }
+    ],
+    "locations": [ "highway", "highway_water" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway Fallback Supports",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_supports_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_supports_east" },
+      { "point": [ 2, 0, 0 ] },
+      { "point": [ 0, 1, 0 ], "overmap": "hw_fb_supports_west" },
+      { "point": [ 1, 1, 0 ], "overmap": "hw_fb_supports_south" },
+      { "point": [ 2, 1, 0 ] },
+      { "point": [ 0, 2, 0 ] },
+      { "point": [ 1, 2, 0 ] }
+    ],
+    "locations": [ "highway", "highway_water" ],
+    "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -137,7 +200,7 @@
       { "point": [ 4, 0, 0 ], "overmap": "hw_clover_leaf_4_0" },
       { "point": [ 5, 0, 0 ], "overmap": "hw_clover_leaf_5_0" },
       { "point": [ 6, 0, 0 ], "overmap": "hw_clover_leaf_6_0" },
-      { "point": [ 7, 0, 0 ], "overmap": "hw_road_west" },
+      { "point": [ 7, 0, 0 ], "overmap": "hw_road_east" },
       { "point": [ -6, 1, 0 ], "overmap": "hw_road_west" },
       { "point": [ -5, 1, 0 ], "overmap": "hw_clover_leaf_-5_1" },
       { "point": [ -4, 1, 0 ], "overmap": "hw_clover_leaf_-4_1" },
@@ -216,13 +279,6 @@
     "rotate": false,
     "flags": [ "CLASSIC" ]
   },
-  {
-    "type": "overmap_special",
-    "id": "Highway Tee",
-    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_crossroad_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "hw_crossroad_west" },
   {
     "type": "overmap_special",
     "id": "Highway Trumpet Interchange",

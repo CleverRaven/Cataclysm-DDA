@@ -188,14 +188,14 @@
           "chunks": [ "24x24_highway_ramp_up_north" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north": [ "hw_road", "hw_crossroad", "hw_three_lane_merge" ] }
+          "neighbors": { "north": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
         },
         {
           "else_chunks": [ "24x24_highway_bridge_supports_south" ],
           "chunks": [ "24x24_highway_ramp_up_south" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": [ "hw_road", "hw_crossroad", "hw_three_lane_merge" ] }
+          "neighbors": { "south": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -220,14 +220,14 @@
           "chunks": [ "24x24_highway_ramp_up_north" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north": [ "hw_road", "hw_crossroad", "hw_three_lane_merge" ] }
+          "neighbors": { "north": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
         },
         {
           "else_chunks": [ "24x24_highway_bridge_supports_south" ],
           "chunks": [ "24x24_highway_ramp_up_south" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": [ "hw_road", "hw_crossroad", "hw_three_lane_merge" ] }
+          "neighbors": { "south": [ "hw_road", "hw_fb_crossroad", "hw_fb_tee", "hw_fb_bend", "hw_three_lane_merge", "hw_bend", "hw_trumpet", "hw_diamond_interchange", "hw_rest_area_parking", "hw_clover_leaf" ] }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]

@@ -594,7 +594,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hw_bridge_supports",
+    "id": [ "hw_bridge_supports", "hw_fb_supports" ],
     "copy-from": "generic_highway",
     "color": "blue",
     "travel_cost_type": "water",
@@ -622,10 +622,38 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hw_crossroad",
+    "id": "hw_fb_crossroad",
     "copy-from": "generic_highway_road",
-    "sym": "┘",
-    "extend": { "flags": [ "HIGHWAY_SPECIAL" ] }
+    "sym": "┼",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY_SPECIAL" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hw_fb_tee",
+    "copy-from": "generic_highway_road",
+    "sym": "┬",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY_SPECIAL" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hw_fb_bend_0_0", "hw_fb_bend_1_1" ],
+    "copy-from": "generic_highway_road",
+    "sym": "┌",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY_SPECIAL" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hw_fb_bend_1_0",
+    "copy-from": "generic_highway_road",
+    "sym": "─",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY_SPECIAL" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hw_fb_bend_0_1",
+    "copy-from": "generic_highway_road",
+    "sym": "│",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR", "HIGHWAY_SPECIAL" ] }
   },
   {
     "type": "overmap_terrain",
