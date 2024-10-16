@@ -72,6 +72,10 @@ void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
     int partnum = -1;
     if( base ) {
         item copied = *base;
+        if( vpinfo.base_item != copied.typeId() ) {
+            // transform the deploying item into what it *should* be before storing it
+            copied.convert( vpinfo.base_item );
+        }
         partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
     } else {
         partnum = veh->install_part( point_zero, vpart );
