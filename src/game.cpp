@@ -6011,10 +6011,16 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 
     if( m.has_furn( examp ) ) {
         if( !u.cant_do_mounted() ) {
+            if( !warn_player_maybe_anger_local_faction( false, true ) ) {
+                return; // player declined to mess with faction's stuff
+            }
             xfurn_t.examine( u, examp );
         }
     } else {
         if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
+            if( !warn_player_maybe_anger_local_faction( false, true ) ) {
+                return; // player declined to mess with faction's stuff
+            }
             xter_t.examine( u, examp );
         }
     }
@@ -6067,6 +6073,41 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
                 pickup( examp );
             }
         }
+    }
+}
+
+bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
+        bool asking_for_public_goods )
+{
+    Character &player_character = get_player_character();
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp(
+                                        player_character.global_omt_location().xy() );
+    if( !bcp ) {
+        return true; // Nobody to piss off
+    }
+    basecamp *actual_camp = *bcp;
+    if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
+        return true; // You're allowed to do this anyway
+    }
+
+    // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
+    // TODO: Make this magic number into a constant
+    if( actual_camp->get_owner()->likes_u < -10 ) {
+        return true;
+    }
+
+    // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
+    if( !query_yn(
+            _( "You're in the territory of %s, they probably won't appreciate your actions.  Continue anyway?" ),
+            actual_camp->get_owner()->name ) ) {
+        return false;
+    } else {
+        faction *owner_fac_pointer = g->faction_manager_ptr->get( actual_camp->get_owner() );
+        // really_bad_offense loses 20 points of fac rep, otherwise 5
+        owner_fac_pointer->likes_u -= really_bad_offense ? 20 : 5;
+        owner_fac_pointer->trusts_u -= really_bad_offense ? 20 : 5;
+        owner_fac_pointer->respects_u -= really_bad_offense ? 20 : 5;
+        return true;
     }
 }
 
@@ -10271,22 +10312,26 @@ bool game::disable_robot( const tripoint_bub_ms &p )
 
 bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 {
-    return !get_dangerous_tile( dest_loc ).empty();
+    return !get_dangerous_tile( dest_loc, 1 ).empty();
 }
 
-bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
+bool game::prompt_dangerous_tile( const tripoint &dest_loc,
+                                  std::vector<std::string> *harmful_stuff ) const
 {
     if( u.has_effect( effect_stunned ) || u.has_effect( effect_psi_stunned ) ) {
         return true;
     }
 
-    std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+    if( harmful_stuff == nullptr ) {
+        auto dangerous_tile = get_dangerous_tile( dest_loc );
+        harmful_stuff = &dangerous_tile;
+    }
 
-    if( !harmful_stuff.empty() &&
-        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
+    if( !harmful_stuff->empty() &&
+        !query_yn( _( "Really step into %s?" ), enumerate_as_string( *harmful_stuff ) ) ) {
         return false;
     }
-    if( !harmful_stuff.empty() && u.is_mounted() && m.tr_at( dest_loc ) == tr_ledge ) {
+    if( !harmful_stuff->empty() && u.is_mounted() && m.tr_at( dest_loc ) == tr_ledge ) {
         add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
                  u.mounted_creature->get_name() );
         return false;
@@ -10294,7 +10339,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     return true;
 }
 
-std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
+std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc,
+        const size_t max ) const
 {
     if( u.is_blind() ) {
         return {}; // blinded players don't see dangerous tiles
@@ -10352,16 +10398,25 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         }
 
         harmful_stuff.push_back( e.second.name() );
+        if( harmful_stuff.size() == max ) {
+            return harmful_stuff;
+        }
     }
 
     const trap &tr = m.tr_at( dest_loc );
     // HACK: Hack for now, later ledge should stop being a trap
     if( tr == tr_ledge ) {
         if( !veh_dest && !u.has_effect_with_flag( json_flag_LEVITATION ) ) {
-            harmful_stuff.emplace_back( tr.name() );
+            harmful_stuff.push_back( tr.name() );
+            if( harmful_stuff.size() == max ) {
+                return harmful_stuff;
+            }
         }
     } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
-        harmful_stuff.emplace_back( tr.name() );
+        harmful_stuff.push_back( tr.name() );
+        if( harmful_stuff.size() == max ) {
+            return harmful_stuff;
+        }
     }
 
     static const std::set< bodypart_str_id > sharp_bps = {
@@ -10390,7 +10445,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                !( u.is_mounted() &&
                   u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
-        harmful_stuff.emplace_back( m.name( dest_loc ) );
+        harmful_stuff.push_back( m.name( dest_loc ) );
     }
 
     return harmful_stuff;
@@ -10521,22 +10576,22 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
-        std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+    std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+    if( !shifting_furniture && !pushing && !harmful_stuff.empty() ) {
         if( harmful_stuff.size() == 1 && harmful_stuff[0] == "ledge" ) {
             iexamine::ledge( u, tripoint_bub_ms( dest_loc ) );
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
-                   !prompt_dangerous_tile( dest_loc ) ) {
+                   !prompt_dangerous_tile( dest_loc, &harmful_stuff ) ) {
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
-                   ( !u.is_running() || !prompt_dangerous_tile( dest_loc ) ) ) {
+                   ( !u.is_running() || !prompt_dangerous_tile( dest_loc, &harmful_stuff ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
-                   ( !u.is_crouching() || !prompt_dangerous_tile( dest_loc ) ) ) {
+                   ( !u.is_crouching() || !prompt_dangerous_tile( dest_loc, &harmful_stuff ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
@@ -13303,8 +13358,8 @@ void game::shift_destination_preview( const point &delta )
     }
 }
 
-int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
-                            bool show_chance_messages )
+float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
+                              bool show_chance_messages )
 {
     if( aid_id.is_null() ) {
         // The NULL climbing aid ID may be passed as a default argument.
@@ -13313,7 +13368,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     const climbing_aid &aid = aid_id.obj();
 
-    int slip = 100;
+    float slip = 100.0f;
 
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
@@ -13340,7 +13395,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
         }
     }
 
-    add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %.0f%%", slip );
 
     // Climbing is difficult with wet hands and feet.
     float wet_penalty = 1.0f;
@@ -13379,24 +13434,24 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     // Apply wetness penalty
     slip *= wet_penalty;
 
-    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %.0f%%", slip );
 
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
     slip /= std::max( 1, u.dex_cur + u.str_cur );
 
-    add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %.0f%%", slip );
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
     slip /= u.get_modifier( character_modifier_slip_prevent_mod );
-    add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %.0f%%", slip );
 
     // Being weighed down makes it easier for you to slip.
     double weight_ratio = static_cast<double>( units::to_gram( u.weight_carried() ) ) / units::to_gram(
                               u.weight_capacity() );
     slip += roll_remainder( 8.0 * weight_ratio );
-    add_msg_debug( debugmode::DF_GAME, "Weight ratio %.2f, slip chance %d%%", weight_ratio,
+    add_msg_debug( debugmode::DF_GAME, "Weight ratio %.2f, slip chance %.0f%%", weight_ratio,
                    slip );
 
     // Decreasing stamina makes you slip up more often
@@ -13416,7 +13471,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
             }
         }
     }
-    add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, slip chance %d%%",
+    add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, slip chance %.0f%%",
                    stamina_ratio, slip );
 
     if( show_chance_messages ) {
@@ -13440,7 +13495,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
         }
     }
 
-    add_msg_debug( debugmode::DF_GAME, "After affordance modifier, final slip chance %d%%",
+    add_msg_debug( debugmode::DF_GAME, "After affordance modifier, final slip chance %.0f%%",
                    slip );
 
     return slip;
@@ -13449,7 +13504,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 bool game::slip_down( climb_maneuver maneuver, climbing_aid_id aid_id,
                       bool show_chance_messages )
 {
-    int slip = slip_down_chance( maneuver, aid_id, show_chance_messages );
+    float slip = slip_down_chance( maneuver, aid_id, show_chance_messages );
 
     if( x_in_y( slip, 100 ) ) {
         add_msg( m_bad, _( "You slip while climbing and fall down." ) );
@@ -13617,7 +13672,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     //   Climb down the rope?
 
     // Calculate chance of slipping.  Prints possible causes to log.
-    int slip_chance = slip_down_chance( climb_maneuver::down, aid_id, true );
+    float slip_chance = slip_down_chance( climb_maneuver::down, aid_id, true );
 
     // Roughly estimate damage if we should fall.
     int damage_estimate = 10 * fall.height;

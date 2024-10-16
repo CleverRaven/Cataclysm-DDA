@@ -760,8 +760,9 @@ void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
         }
         const mongroup_id selected_group( possible_groups[selected] );
         new_group.type = selected_group;
-        int new_value = 0;
+        int new_value = new_group.population; // default value if query declined
         query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        new_group.population = new_value;
         overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
         there.debug_force_add_group( new_group );
         return; // Don't go to adding individual monsters, they'll override the values we just set
