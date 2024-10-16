@@ -26,19 +26,39 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
+    "id": "EOC_PSI_NO_COMBAT_POWER_CHARACTER_DAMAGE_CHECK",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
-    "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-    "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+    "condition": "has_beta",
+    "effect": [ 
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_NO_COMBAT_POWER_MONSTER_DAMAGE_CHECK_2",
+            "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
+            "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_NO_COMBAT_POWER_MONSTER_DAMAGE_CHECK",
     "eoc_type": "EVENT",
     "required_event": "monster_takes_damage",
-    "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-    "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+    "condition": "has_beta",
+    "effect": [ 
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_NO_COMBAT_POWER_MONSTER_DAMAGE_CHECK_2",
+            "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
+            "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
