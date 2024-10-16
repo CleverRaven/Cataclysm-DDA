@@ -1,11 +1,32 @@
 [
   {
     "om_terrain": [
-      [ "null", "null", "onofframps_0_-4", "onofframps_1_-4", "null", "null" ],
-      [ "null", "null", "onofframps_0_-3", "onofframps_1_-3", "null", "null" ],
-      [ "null", "onofframps_-1_-2", "onofframps_0_-2", "onofframps_1_-2", "onofframps_2_-2", "null" ],
-      [ "onofframps_-2_-1", "onofframps_-1_-1", "null", "null", "onofframps_2_-1", "onofframps_3_-1" ],
-      [ "onofframps_-2_0", "onofframps_-1_0", "null", "null", "onofframps_2_0", "onofframps_3_0" ]
+      [ "null", "null", "hw_diamond_interchange_0_-4", "hw_diamond_interchange_1_-4", "null", "null" ],
+      [ "null", "null", "hw_diamond_interchange_0_-3", "hw_diamond_interchange_1_-3", "null", "null" ],
+      [
+        "null",
+        "hw_diamond_interchange_-1_-2",
+        "hw_diamond_interchange_0_-2",
+        "hw_diamond_interchange_1_-2",
+        "hw_diamond_interchange_2_-2",
+        "null"
+      ],
+      [
+        "hw_diamond_interchange_-2_-1",
+        "hw_diamond_interchange_-1_-1",
+        "null",
+        "null",
+        "hw_diamond_interchange_2_-1",
+        "hw_diamond_interchange_3_-1"
+      ],
+      [
+        "hw_diamond_interchange_-2_0",
+        "hw_diamond_interchange_-1_0",
+        "null",
+        "null",
+        "hw_diamond_interchange_2_0",
+        "hw_diamond_interchange_3_0"
+      ]
     ],
     "type": "mapgen",
     "method": "json",
