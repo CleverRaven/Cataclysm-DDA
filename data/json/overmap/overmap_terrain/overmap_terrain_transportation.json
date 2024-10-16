@@ -626,5 +626,28 @@
     "copy-from": "generic_highway_road",
     "sym": "┘",
     "extend": { "flags": [ "HIGHWAY_SPECIAL" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "onofframps_0_-4",
+      "onofframps_1_-4",
+      "onofframps_0_-3",
+      "onofframps_1_-3",
+      "onofframps_-1_-2",
+      "onofframps_0_-2",
+      "onofframps_1_-2",
+      "onofframps_2_-2",
+      "onofframps_-2_-1",
+      "onofframps_-1_-1",
+      "onofframps_2_-1",
+      "onofframps_3_-1",
+      "onofframps_-2_0",
+      "onofframps_-1_0",
+      "onofframps_2_0",
+      "onofframps_3_0"
+    ],
+    "copy-from": "generic_highway_road",
+    "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR" ] }
   }
 ]
