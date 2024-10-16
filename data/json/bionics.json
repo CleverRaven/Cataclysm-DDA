@@ -56,7 +56,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Arms Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Arms" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
@@ -170,7 +170,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Head Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "protec": [
@@ -287,7 +287,7 @@
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Legs Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Legs" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
@@ -386,7 +386,7 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Torso Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
