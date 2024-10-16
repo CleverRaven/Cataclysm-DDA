@@ -211,7 +211,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 3 minutes and 30 seconds to 10 minutes and 40 seconds, plus 8 seconds to 25 seconds per level<br />
 *Stamina Cost*: 4500, minus 135 per level to a minimum of 2250<br />
 *Channeling Time*: 200 moves, minus 6 moves per level to a minimum of 125<br />
-*Effects*: Increase the psion's range with ranged weapons by 1 square per 2 power levels and reduces weapon dispersion by 2.5% per power level.<br />
+*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 
 ## Clairyovance
@@ -1200,7 +1200,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 4 seconds to 30 seconds, plus 0.5 seconds to 1.5 seconds per power level<br />
 *Stamina Cost*: 2000, minus 65 per level to a minimum of 950<br />
 *Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
-*Effects*: Cause decay in the target's tissues causing 1 point of biological damage per second for the power's duration. As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
+*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 5% chance per second to cause 1 biological damage, +1% chance per power level to a maximum of a 33% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
 *Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
 
 ## Detoxification
@@ -1299,5 +1299,5 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 1 hour 6 minutes and 2 minutes and 18 seconds to 3 hours and 26 minutes, plus 16 minutes and 2 seconds to 46 minutes and 59 seconds per power level<br />
 *Stamina Cost*: 9000, minus 125 per level to a minimum of 6000<br />
 *Channeling Time*: 30 seconds<br />
-*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 5 hit points will be healed to 5 hit points, their gain the effects of Damage Balancing, and a much faster Anabolic Rejuvenation is placed on them, ticking once every 2 seconds for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 5x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
+*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 10 hit points will be healed to 10 hit points, their attributes and speed will have no penalties based on pain (penalties increase by 10% every 30 seconds until they reach the normal level) and a much faster Anabolic Rejuvenation is placed on them, ticking once every second for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 5x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
 *Prerequisites*: Anabolic Rejuvenation 6 *or* Banish Illness 8 *and* Revitalizing Meditation 6<br />

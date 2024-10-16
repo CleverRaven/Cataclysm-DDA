@@ -735,6 +735,7 @@
       { "item": "mring_protection_6", "prob": 10 },
       { "item": "storage_ring_greater", "prob": 10 },
       { "item": "mring_fire_protection", "prob": 10 },
+      { "item": "mring_sustenance", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -888,7 +889,11 @@
     "type": "item_group",
     "//": "greater enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_blinding_strike", "prob": 10 },
+      { "item": "mbracer_defense_greater", "prob": 10 },
+      { "item": "mbracer_lightning_greater", "prob": 10 }
+    ]
   },
   {
     "id": "enchanted_bracelets",

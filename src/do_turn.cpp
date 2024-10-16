@@ -278,7 +278,7 @@ void monmove()
                            critter.name(),
                            critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos_bub() ) );
             bool okay = false;
-            for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
+            for( const tripoint_bub_ms &dest : m.points_in_radius( critter.pos_bub(), 3 ) ) {
                 if( critter.can_move_to( dest ) && g->is_empty( dest ) ) {
                     critter.setpos( dest );
                     okay = true;

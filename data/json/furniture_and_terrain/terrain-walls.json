@@ -1937,7 +1937,7 @@
     "id": "t_concrete_wall_rope",
     "name": "concrete wall with ropes",
     "looks_like": "t_rock",
-    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.  Used to train parkour.",
+    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 10,

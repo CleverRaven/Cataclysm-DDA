@@ -446,8 +446,8 @@ void avatar::power_mutations()
                             }
                         } else {
                             popup( _( "You cannot activate %1$s!  To read a description of "
-                                      "%1$s, press '!', then '%2$c'." ),
-                                   mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                      "%1$s, press '%2$s', then '%3$c'." ),
+                                   mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ), my_mutations[mut_id].key );
                         }
                         break;
                     }
@@ -619,8 +619,8 @@ void avatar::power_mutations()
                                 }
                             } else {
                                 popup( _( "You cannot activate %1$s!  To read a description of "
-                                          "%1$s, press '!', then '%2$c'." ),
-                                       mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                          "%1$s, press '%2$s'." ),
+                                       mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
                             }
                             break;
                         }

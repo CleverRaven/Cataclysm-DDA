@@ -1498,8 +1498,8 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
-        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getglobal(
-                                               get_player_character().pos_bub() ).raw() ) );
+        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+                                               get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -3624,7 +3624,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
-    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+    if( mod.loudness_multiplier != 1.0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
@@ -5615,16 +5615,18 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES ) ) {
             for( const damage_info_order &dio : damage_info_order::get_all(
                      damage_info_order::info_type::MELEE ) ) {
-                // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
-                // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                info.emplace_back( "BASE", string_format( "%s: ",
-                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ),
-                                   "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
-                //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
-                //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
-                info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
-                                   dio.dmg_type->name.translated() ),
-                                   "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+                if( non_crit.type_damage( dio.dmg_type ) > 0 || crit.type_damage( dio.dmg_type ) > 0 ) {
+                    // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+                    // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+                    info.emplace_back( "BASE", string_format( "%s: ",
+                                       uppercase_first_letter( dio.dmg_type->name.translated() ) ),
+                                       "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
+                    //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
+                    //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
+                    info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
+                                       dio.dmg_type->name.translated() ),
+                                       "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+                }
             }
         }
         // Moves
@@ -10856,8 +10858,25 @@ int item::ammo_remaining( const bool include_linked ) const
     return ammo_remaining( nullptr, include_linked );
 }
 
+bool item::uses_energy() const
+{
+    if( is_vehicle_battery() ) {
+        return true;
+    }
+    const item *mag = magazine_current();
+    if( mag && mag->uses_energy() ) {
+        return true;
+    }
+    return has_flag( flag_USES_BIONIC_POWER ) ||
+           has_flag( flag_USE_UPS ) ||
+           ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
+}
+
 units::energy item::energy_remaining( const Character *carrier ) const
 {
+    if( !uses_energy() ) {
+        return 0_kJ;
+    }
     units::energy ret = 0_kJ;
 
     // Future energy based batteries
@@ -14101,8 +14120,9 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     }
 
     // if insufficient available charges shutdown the tool
-    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-        energy_remaining( carrier ) < energy_per_second() ) {
+    if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
+        ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
+          ( !uses_energy() && ammo_remaining( carrier, true ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -14356,7 +14376,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
                                      watertight_container ) ) {
             if( is_comestible() ) {
-                here.rotten_item_spawn( *this, pos );
+                here.rotten_item_spawn( *this, tripoint_bub_ms( pos ) );
             }
             if( is_corpse() ) {
                 here.handle_decayed_corpse( *this, here.getglobal( pos ) );

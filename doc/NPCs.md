@@ -272,47 +272,47 @@ For further information on snippets, see [New Contributor Guide: Dialogue](https
 
 Field | Default messages/snippets | Used for...
 ---|---|---
-`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
-`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags.json
-`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags.json
-`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags.json
-`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags.json
+`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags_follower.json
+`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags_follower.json
+`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags_follower.json
+`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags_follower.json
+`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags_line.json
 `<close_distance>` | `<close_distance>` | see data/json/npcs/talk_tags.json
-`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags.json
+`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags_line.json
 `<danger_close_distance>` | `<danger_close_distance>` | see data/json/npcs/talk_tags.json
-`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags.json
+`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags_line.json
 `<far_distance>` | `<far_distance>` | see data/json/npcs/talk_tags.json
-`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags.json
-`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags.json
-`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags.json
-`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags.json
-`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags.json
-`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags.json
-`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags.json
-`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags.json
-`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags.json
-`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags.json
-`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags.json
-`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags.json
-`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags.json
-`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags.json
-`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags.json
-`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags.json
+`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags_line.json
+`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags_line.json
+`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags_line.json
+`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags_line.json
+`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags_line.json
+`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags_line.json
+`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags_follower.json
+`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags_follower.json
+`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags_line.json
+`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags_line.json
+`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags_follower.json
+`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags_line.json
+`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags_line.json
+`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags_line.json
+`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags_line.json
+`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags_line.json
 `<medium_distance>` | `<medium_distance>` | see data/json/npcs/talk_tags.json
-`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags.json
-`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags.json
-`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags.json
-`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags.json
-`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags.json
-`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags.json
-`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags.json
-`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags.json
-`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags.json
-`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags.json
-`<wait>` | `<wait>` | see data/json/npcs/talk_tags.json
-`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags.json
-`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags.json
-`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags.json
+`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags_line.json
+`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags_line.json
+`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags_line.json
+`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags_follower.json
+`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags_follower.json
+`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags_follower.json
+`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags_line.json
+`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags_line.json
+`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags_line.json
+`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags_follower.json
+`<wait>` | `<wait>` | see data/json/npcs/talk_tags_follower.json
+`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags_follower.json
+`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags_follower.json
+`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags_line.json
 `snip_bleeding` | `My %s is bleeding!` | The NPC is bleeding from their %s.
 `snip_bleeding_badly` | `My %s is bleeding badly!` | The NPC is bleeding badly from their %s.
 `snip_wound_bite` | `The bite wound on my %s looks bad.` | The NPC's %s was badly bitten.
@@ -1393,6 +1393,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear()", "<", "2" ] }`|
 | npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust()", "=", "2" ] }`|
 | npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value()", "+=", "2" ] }`|
+| weight()    |  ✅   |  ❌   | u, n  | Return creature or item weight, in miligrams. <br/><br/>Example:<br/> `{ "math": [ "u_weight()", "<", "1000000" ] }`|
+| volume()    |  ✅   |  ❌   | u, n  | Return creature or item volume, in mililiters. <br/><br/>Example:<br/> `{ "math": [ "u_volume()", "<", "1000" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | vision_range()    |  ✅   |   ❌  | u, n  | Return the character's or monsters visual range, adjusted by their mutations, effects, and other issues.<br/><br/>Example:<br/> `"{ "math": [ "n_vision_range()", "<", "30"] }`|
@@ -1400,7 +1402,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level()", "<", "1" ] }`|
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
-| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
+| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily()", ">", "1000" ] }`<br/> `{ "math": [ "foo", "=", "get_calories_daily('type':'gained', 'day':'1')" ] }`|
 
 #### List of Character and item aspects

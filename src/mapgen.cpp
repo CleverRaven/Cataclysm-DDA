@@ -25,7 +25,6 @@
 #include "common_types.h"
 #include "computer.h"
 #include "condition.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -302,10 +301,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         // Not sure if we actually have to check all submaps.
-        const bool any_missing = !generated.at( get_nonant( { point_rel_sm_zero, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_south_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_south, p_sm.z() } ) );
+        const bool any_missing = !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_zero, p_sm.z() } ) )
+                                 ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_south_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_south, p_sm.z() } ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
@@ -3056,7 +3056,7 @@ class jmapgen_furniture : public jmapgen_piece
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            if( !dat.m.furn_set( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id ) ) {
+            if( !dat.m.furn_set( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id ) ) {
                 debugmsg( "Problem setting furniture in %s", context );
             }
         }
@@ -3627,15 +3627,15 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
 
-            const tripoint start( x.val, y.val, dat.zlevel() + z.get() );
-            const tripoint end( x.valmax, y.valmax, dat.zlevel() + z.get() );
-            const tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
-            for( const tripoint &p : range ) {
+            const tripoint_bub_ms start( int( x.val ), int( y.val ), dat.zlevel() + z.get() );
+            const tripoint_bub_ms end( int( x.valmax ), int( y.valmax ), dat.zlevel() + z.get() );
+            const tripoint_range<tripoint_bub_ms> range = tripoint_range<tripoint_bub_ms>( start, end );
+            for( const tripoint_bub_ms &p : range ) {
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
                     const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
                                                 vp->vehicle().type );
                     if( rit != vehicles_to_remove.end() ) {
-                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
+                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
                         dat.m.destroy_vehicle( &vp->vehicle() );
                     }
                 }
@@ -5156,30 +5156,33 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mtrap_set( &m, tripoint_bub_ms( i.x, i.y, z_level ), trap_id( val.get() ),
+                    mtrap_set( &m, tripoint_bub_ms( i.x(), i.y(), z_level ), trap_id( val.get() ),
                                dat.has_flag( jmapgen_flags::avoid_creatures ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mremove_trap( &m, tripoint_bub_ms( i.x, i.y, z_level ), trap_id( val.get() ).id() );
+                    mremove_trap( &m, tripoint_bub_ms( i.x(), i.y(), z_level ), trap_id( val.get() ).id() );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
                     Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
-                                                tripoint_bub_ms( i.x, i.y,
+                                                tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
                         tmp_critter->die( nullptr );
@@ -5188,26 +5191,29 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_LINE_ITEM_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    m.i_clear( tripoint_bub_ms( i.x, i.y, z_level ) );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
+                    m.i_clear( tripoint_bub_ms( i.x(), i.y(), z_level ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_FIELD_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    mremove_fields( &m, tripoint_bub_ms( i.x, i.y, z_level ) );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
+                    mremove_fields( &m, tripoint_bub_ms( i.x(), i.y(), z_level ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_RADIATION: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    m.set_radiation( tripoint_bub_ms( i.x, i.y, z_level ), static_cast<int>( val.get() ) );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
+                    m.set_radiation( tripoint_bub_ms( i.x(), i.y(), z_level ), static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -5331,8 +5337,8 @@ ret_val<void> jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
     const auto y2_get = [this, &offset]() {
         return get( y2, offset.y() );
     };
-    const tripoint_rel_ms start = tripoint_rel_ms( x_get(), y_get(), dat.zlevel() + z_get() );
-    tripoint_rel_ms end = start;
+    const tripoint_bub_ms start = tripoint_bub_ms( x_get(), y_get(), dat.zlevel() + z_get() );
+    tripoint_bub_ms end = start;
     switch( op ) {
         case JMAPGEN_SETMAP_TER:
         case JMAPGEN_SETMAP_FURN:
@@ -5356,7 +5362,7 @@ ret_val<void> jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
         default:
             return ret_val<void>::make_success();
     }
-    for( const tripoint &p : dat.m.points_in_rectangle( start.raw(), end.raw() ) ) {
+    for( const tripoint_bub_ms &p : dat.m.points_in_rectangle( start, end ) ) {
         if( dat.m.veh_at( p ) ) {
             return ret_val<void>::make_failure( dat.m.veh_at( p ).value().vehicle().disp_name() );
         }
@@ -5758,14 +5764,13 @@ void map::draw_lab( mapgendata &dat )
 
             const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
                 if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
-                    const auto predicate = [this]( const tripoint & p ) {
+                    const auto predicate = [this]( const tripoint_bub_ms & p ) {
                         return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                                tr_at( p ).is_null();
                     };
-                    // Can't the tripoint_bub_ms because 'random_point' below only supports the untyped version.
-                    const tripoint_range<tripoint> range =
-                        points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
-                                             tripoint{ SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
+                    const tripoint_range<tripoint_bub_ms> range =
+                        points_in_rectangle( tripoint_bub_ms{ 0, 0, abs_sub.z() },
+                                             tripoint_bub_ms{ SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
 
                     if( const auto p = random_point( range, predicate ) ) {
                         ter_set( *p, t_stair_type );
@@ -6213,12 +6218,11 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
-                    // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
-                    tripoint_range<tripoint> options =
-                    points_in_rectangle( tripoint{ 6, 6, abs_sub.z() },
+                    tripoint_range<tripoint_bub_ms> options =
+                    points_in_rectangle( tripoint_bub_ms{ 6, 6, abs_sub.z() },
                     { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z() } );
-                    std::optional<tripoint> center = random_point(
-                    options, [&]( const tripoint & p ) {
+                    std::optional<tripoint_bub_ms> center = random_point(
+                    options, [&]( const tripoint_bub_ms & p ) {
                         return tr_at( p ).is_null();
                     } );
                     if( !center ) {
@@ -6240,7 +6244,7 @@ void map::draw_lab( mapgendata &dat )
                         }
                         make_rubble( {p, abs_sub.z() } );
                         ter_set( p, ter_t_thconc_floor );
-                    }, center->xy(), 4 );
+                    }, center->xy().raw(), 4 );
                     furn_set( center->xy(), furn_str_id::NULL_ID() );
                     if( !is_open_air( *center ) ) {
                         trap_set( *center, tr_portal );
@@ -6586,12 +6590,11 @@ void map::draw_lab( mapgendata &dat )
         const auto maybe_insert_stairs = [this]( const oter_id & terrain,
         const ter_str_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
-                const auto predicate = [this]( const tripoint & p ) {
+                const auto predicate = [this]( const tripoint_bub_ms & p ) {
                     return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                            tr_at( p ).is_null();
                 };
-                // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
-                const tripoint_range<tripoint> range = points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
+                const tripoint_range<tripoint_bub_ms> range = points_in_rectangle( tripoint_bub_ms{ 0, 0, abs_sub.z() },
                 { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
                 if( const auto p = random_point( range, predicate ) ) {
                     ter_set( *p, t_stair_type );
@@ -6767,7 +6770,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
     if( lootable &&
         !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
         bash( p.raw(), 9999 );
-        for( const tripoint &loc : points_in_radius( p.raw(), 1 ) ) {
+        for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {
                 spawn_item( loc, "glass_shard", rng( 1, 25 ) );
             }
@@ -6795,8 +6798,9 @@ character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template
 
 void map::apply_faction_ownership( const point &p1, const point &p2, const faction_id &id )
 {
-    for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z() ), tripoint( p2,
-            abs_sub.z() ) ) ) {
+    for( const tripoint_bub_ms &p : points_in_rectangle( tripoint_bub_ms( p1.x, p1.y, abs_sub.z() ),
+            tripoint_bub_ms( p2.x, p2.y,
+                             abs_sub.z() ) ) ) {
         map_stack items = i_at( point_bub_ms( p.xy() ) );
         for( item &elem : items ) {
             elem.set_owner( id );
@@ -6979,9 +6983,12 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     }
 
     std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( type );
-    tripoint_bub_ms p_ms = p;
-    veh->sm_pos = ms_to_sm_remain( p_ms.raw() );
-    veh->pos = p_ms.xy().raw();
+    tripoint_bub_ms p_ms( p );
+    tripoint_bub_sm quotient;
+    point_sm_ms remainder;
+    std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
+    veh->sm_pos = quotient.raw();
+    veh->pos = remainder.raw();
     veh->init_state( *this, veh_fuel, veh_status );
     veh->place_spawn_items();
     veh->face.init( dir );
@@ -7039,7 +7046,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint p = veh_to_add->global_part_pos3( *part );
+        const tripoint_bub_ms p = veh_to_add->bub_part_pos( *part );
 
         if( veh_to_add->part( *part ).is_fake ) {
             continue;
@@ -7247,10 +7254,10 @@ void map::rotate( int turns )
     for( int z_level = bottom_level; z_level <= top_level; z_level++ ) {
         clear_vehicle_list( z_level );
 
-        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( { point_rel_sm_east, z_level } );
-        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
+        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_east, z_level } );
+        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point_zero.x,
                       point_zero.y );
@@ -7341,11 +7348,11 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
 
     for( int z_level = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
          z_level <= ( zlevels ? OVERMAP_HEIGHT : abs_sub.z() ); z_level++ ) {
-        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( {point_rel_sm_east, z_level
-                                         } );
-        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
+        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_rel_sm{point_rel_sm_east, z_level
+                                                        } );
+        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", point_zero.x,
                       point_zero.y, z_level );
@@ -7366,7 +7373,7 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
                 point_rel_sm p( i, j );
-                submap *sm = get_submap_at_grid( { p, z_level } );
+                submap *sm = get_submap_at_grid( tripoint_rel_sm{ p, z_level } );
                 if( sm == nullptr ) {
                     debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", p.x(), p.y(),
                               z_level );
@@ -8246,7 +8253,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         rotation_guard rot( md );
 
         if( update_function->second.funcs()[0]->update_map( fake_md ).success() ) {
-            for( const tripoint &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
+            for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
                 if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( pos ) ) {
                     if( apply ) {
                         update_tmap.add_field( pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
@@ -8285,7 +8292,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     if( update_function->second.funcs()[0]->update_map( fake_md ).success() ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
-            for( const tripoint &pos : tmp_map.points_on_zlevel( z ) ) {
+            for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( z ) ) {
                 ter_id ter_at_pos = tmp_map.ter( pos );
                 if( ter_at_pos != base_ter ) {
                     terrains[ter_at_pos] += 1;

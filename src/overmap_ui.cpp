@@ -1674,6 +1674,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
     tripoint_abs_omt horde_destination = tripoint_abs_omt_zero;
     switch( smenu.ret ) {
         case 0:
+            new_value = chosen_group.interest;
             query_int( new_value, _( "Set interest to what value?  Currently %d" ), chosen_group.interest );
             chosen_group.set_interest( new_value );
             break;
@@ -1686,6 +1687,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             chosen_group.target = project_to<coords::sm>( horde_destination ).xy();
             break;
         case 2:
+            new_value = chosen_group.population;
             query_int( new_value, _( "Set population to what value?  Currently %d" ), chosen_group.population );
             chosen_group.population = new_value;
             break;
@@ -1693,6 +1695,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             debug_menu::wishmonstergroup_mon_selection( chosen_group );
             break;
         case 4:
+            new_value = static_cast<int>( chosen_group.behaviour );
             // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
             popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
                    static_cast<int>( chosen_group.behaviour ) );
@@ -1960,10 +1963,10 @@ static tripoint_abs_omt display()
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint pos_rel = get_map().getlocal( pos );
+            tripoint_bub_ms pos_rel = get_map().bub_from_abs( pos );
             uistate.open_menu = [pos_rel]() {
-                tripoint pos_cpy = pos_rel;
-                g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
+                tripoint_bub_ms pos_cpy = pos_rel;
+                g->look_around( true, pos_cpy.raw(), pos_rel.raw(), false, false, false, false, pos_rel.raw() );
             };
             action = "QUIT";
         } else if( action == "CENTER" ) {
