@@ -310,7 +310,7 @@
       "four_way_intersections": { "Highway crossroad": 1 },
       "three_way_intersections": { "Highway tee": 1 },
       "bends": { "Highway bend": 1 },
-      "road_connections": { "Highway on/off ramps": 1 },
+      "road_connections": { "Diamond interchange": 1 },
       "segment_flat_special": "highway_segment_flat",
       "segment_road_bridge_special": "highway_segment_road_bridge",
       "segment_bridge_special": "highway_segment_bridge",
