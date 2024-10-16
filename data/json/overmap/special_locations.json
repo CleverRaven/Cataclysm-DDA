@@ -97,18 +97,18 @@
   },
   {
     "type": "overmap_location",
-    "id": "highway",
-    "terrains": [ "highway_ns_w_ground", "highway_ns_e_ground", "highway_ew_n_ground", "highway_ew_s_ground" ]
+    "id": "highway_ground",
+    "terrains": [ "highway_ground" ]
   },
   {
     "type": "overmap_location",
     "id": "highway_road",
-    "terrains": [ "highway_ns_w", "highway_ns_e", "highway_ew_n", "highway_ew_s" ]
+    "terrains": [ "highway_road" ]
   },
   {
     "type": "overmap_location",
     "id": "highway_bridge",
-    "terrains": [ "highway_bridge_supports", "highway_bridge_supports_w", "highway_bridge_supports_e" ]
+    "terrains": [ "highway_bridge_supports" ]
   },
   {
     "type": "overmap_location",
