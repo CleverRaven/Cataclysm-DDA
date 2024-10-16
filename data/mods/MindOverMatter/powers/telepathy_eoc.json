@@ -24,7 +24,7 @@
         "math": [
           "u_telepath_mesmerism_duration",
           "=",
-          "rng((( (u_telepathy_mesmer_power_level * 2) + 8) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling),(( (u_telepathy_mesmer_power_level * 5) + 20) * u_telepathy_mesmer_power_level * u_nether_attunement_telepathy_scaling))"
+          "rng((( (u_telepathy_mesmer_power_level * 2) + 8) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling),(( (u_telepathy_mesmer_power_level * 5) + 20) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling))"
         ]
       },
       {
