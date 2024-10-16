@@ -4896,14 +4896,16 @@ void overmap::place_highways()
         return;
     }
     overmap_special_id special;
+    overmap_special_id fallback_special;
     om_direction::type dir = om_direction::type::north;
     // Add intersection
-    // TODO: Add handling for intersections over water
-    // TODO: Add multiple attempts once I'm happy all the specials spawn correctly?
     if( ( placed_highways[0] || placed_highways[2] ) && ( placed_highways[1] || placed_highways[3] ) ) {
         if( placed_highways.all() ) {
+            fallback_special = settings->overmap_highway.fallback_four_way_intersection;
+            // TODO: Make a copy of the weighted_int_list and then pick() + remove( ) until either can_place_special or no specials left?
             special = settings->overmap_highway.four_way_intersections.pick();
         } else if( placed_highways.count() == 3 ) {
+            fallback_special = settings->overmap_highway.fallback_three_way_intersection;
             special = settings->overmap_highway.three_way_intersections.pick();
             for( int i = 0; i < placed_highways_size; i++ ) {
                 if( !placed_highways[i] ) {
@@ -4912,6 +4914,7 @@ void overmap::place_highways()
                 }
             }
         } else {
+            fallback_special = settings->overmap_highway.fallback_bend;
             special = settings->overmap_highway.bends.pick();
             for( int i = 0; i < placed_highways_size; i++ ) {
                 int j = i + 1 < placed_highways_size ? i + 1 : 0;
@@ -4923,26 +4926,39 @@ void overmap::place_highways()
         }
         const int x = floor( OMAPX / 2.0 );
         const int y = floor( OMAPY / 2.0 );
-        tripoint_om_omt center( x, y, 0 );
+        const tripoint_om_omt nw_center( x, y, 0 );
+        tripoint_om_omt zero_point = nw_center;
+        // TODO: Add a const private array of center points in game_constants.h to handle non even OMAPX/OMAPY and reduce floor( OMAPX / 2.0 ) and displacement needed and allow the disgusting water check to just iterate the array?
         switch (dir){
             case om_direction::type::east:
-                center = center + displace( om_direction::type::east );
+                zero_point = zero_point + tripoint_east;
                 break;
             case om_direction::type::south:
-                center = center + displace( om_direction::type::east ) + displace( om_direction::type::south );
+                zero_point = zero_point + tripoint_east + tripoint_south;
                 break;
             case om_direction::type::west:
-                center = center + displace( om_direction::type::south );
+                zero_point = zero_point + tripoint_south;
                 break;
             case om_direction::type::north:
             default:
                 break;
         }
-        if( can_place_special( *special, center, dir, false ) ) {
-            place_special( *special, center, dir, invalid_city, false,
+        if( can_place_special( *special, zero_point, dir, false ) ) {
+            place_special( *special, zero_point, dir, invalid_city, false,
                            false );
         } else {
-            debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
+            if( is_water_body( ter( nw_center ) ) || is_water_body( ter( nw_center + tripoint_east ) ) || is_water_body( ter( nw_center + tripoint_east + tripoint_south ) ) || is_water_body( ter( nw_center + tripoint_south ) ) ){
+                special = settings->overmap_highway.fallback_intersection_supports;
+                if( can_place_special( *special, zero_point, dir, false ) ) {
+                    place_special( *special, zero_point, dir, invalid_city, false, false );
+                }
+                zero_point = zero_point + tripoint_above;
+            }
+            if( can_place_special( *fallback_special, zero_point, dir, false ) ) {
+                place_special( *fallback_special, zero_point, dir, invalid_city, false, false );
+            } else {
+                debugmsg( "Failed to place fallback highway intersection" );
+            }
         }
     }
     /*

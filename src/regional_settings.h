@@ -259,6 +259,10 @@ struct overmap_highway_settings {
     overmap_special_id segment_bridge;
     overmap_special_id segment_bridge_supports;
     overmap_special_id segment_overpass;
+    overmap_special_id fallback_bend;
+    overmap_special_id fallback_three_way_intersection;
+    overmap_special_id fallback_four_way_intersection;
+    overmap_special_id fallback_intersection_supports;
     building_bin four_way_intersections;
     building_bin three_way_intersections;
     building_bin bends;

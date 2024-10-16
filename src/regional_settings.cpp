@@ -474,6 +474,14 @@ static void load_overmap_highway_settings( const JsonObject &jo,
                 overmap_highway_settings.segment_bridge_supports, !overlay );
         read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_overpass_special",
                 overmap_highway_settings.segment_overpass, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "fallback_bend_special",
+                overmap_highway_settings.fallback_bend, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "fallback_three_way_intersection_special",
+                overmap_highway_settings.fallback_three_way_intersection, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "fallback_four_way_intersection_special",
+                overmap_highway_settings.fallback_four_way_intersection, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "fallback_intersection_supports_special",
+                overmap_highway_settings.fallback_intersection_supports, !overlay );
         const auto load_highway_special_types = [&jo, &overmap_highway_settings_jo,
              strict]( const std::string & type, building_bin & dest ) {
             if( !overmap_highway_settings_jo.has_object( type ) && strict ) {
