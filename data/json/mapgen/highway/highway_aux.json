@@ -1,0 +1,162 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "highway_ew",
+    "//": "Placed by C++",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_ew_n_ground" },
+      { "point": [ 0, 1, 0 ], "overmap": "highway_ew_s_ground" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_ew_n" },
+      { "point": [ 0, 1, 1 ], "overmap": "highway_ew_s" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "rotate": false,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "highway_ns",
+    "//": "Placed by C++",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_ns_w_ground" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_ns_e_ground" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_ns_w" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_ns_e" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "highway_ns_bridge",
+    "//": "Placed by C++",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_bridge_supports_w_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_bridge_supports_w_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_ns_w" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_ns_e" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "rotate": false,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "4-way highway crossroad",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_nsew_nw_ground" },
+      { "point": [ 0, 1, 0 ], "overmap": "highway_nsew_sw_ground" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_nsew_ne_ground" },
+      { "point": [ 1, 1, 0 ], "overmap": "highway_nsew_se_ground" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_nsew_nw" },
+      { "point": [ 0, 1, 1 ], "overmap": "highway_nsew_sw" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_nsew_ne" },
+      { "point": [ 1, 1, 1 ], "overmap": "highway_nsew_se" },
+      { "point": [ 0, -1, 0 ] },
+      { "point": [ 0, 2, 0 ] },
+      { "point": [ 2, 0, 0 ] },
+      { "point": [ -1, 0, 0 ] }
+    ],
+    "locations": [ "highway", "highway_road", "highway_bridge" ],
+    "occurrences": [ 0, 0 ],
+    "rotate": false,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway on/off ramp test",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "road_ns", "locations": [ "highway" ] },
+      { "point": [ 0, 1, 0 ], "overmap": "road_ns", "locations": [ "highway" ] },
+      { "point": [ 0, -1, 0 ], "overmap": "road_nesw" },
+      { "point": [ 0, 2, 0 ], "overmap": "road_nesw" },
+      { "point": [ -1, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ -1, 2, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, 2, 0 ], "overmap": "road_ew" }
+    ],
+    "connections": [
+      { "point": [ 0, -2, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 0, 3, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 2, 0 ] }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "om_terrain": "highway_bridge_supports",
+    "//": "TODO: Replace with a better map",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "river_center",
+      "rows": [
+        "         ######         ",
+        "          ####          ",
+        "           ##           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ##           ",
+        "          ####          ",
+        "         ######         "
+      ],
+      "palettes": [ "bridge_ground_palette" ]
+    }
+  },
+  {
+    "om_terrain": [ [ "highway_bridge_supports_w", "highway_bridge_supports_e" ] ],
+    "//": "TODO: Replace with a better map",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "river_center",
+      "rows": [
+        "         ##############################         ",
+        "          ############################          ",
+        "           ##########################           ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "           ##########################           ",
+        "          ############################          ",
+        "         ##############################         "
+      ],
+      "palettes": [ "bridge_ground_palette" ]
+    }
+  }
+]

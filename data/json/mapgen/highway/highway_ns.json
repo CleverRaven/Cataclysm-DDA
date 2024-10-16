@@ -1,0 +1,155 @@
+[
+  {
+    "om_terrain": [ [ "highway_ns_w_ground", "highway_ns_e_ground" ] ],
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   ",
+        "   _<######################################<_   "
+      ],
+      "palettes": [ "highway_palette" ],
+      "place_nested": [
+        { "chunks": [ "tunnel_west" ], "x": 0, "y": 0, "neighbors": { "east": "road", "west": "road" } },
+        { "chunks": [ "tunnel_east" ], "x": 24, "y": 0, "neighbors": { "east": "road", "west": "road" } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": [ [ "highway_ns_w", "highway_ns_e" ] ],
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg...............||...............gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    ",
+        "    >‾gg.......*.......||.......*.......gg‾>    "
+      ],
+      "palettes": [ "highway_palette" ],
+      "place_nested": [
+        { "chunks": [ "tunnel_roof_west" ], "x": 0, "y": 0, "neighbors": { "below": "road" } },
+        { "chunks": [ "tunnel_roof_east" ], "x": 24, "y": 0, "neighbors": { "below": "road" } },
+        { "chunks": [ "bridge_west" ], "x": 0, "y": 0, "neighbors": { "below": "highway_bridge_supports" } },
+        { "chunks": [ "bridge_east" ], "x": 24, "y": 0, "neighbors": { "below": "highway_bridge_supports" } }
+      ]
+    }
+  },
+  {
+    "nested_mapgen_id": "tunnel_west",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "square": "terrain", "id": "t_region_groundcover", "x": 0, "y": 3, "x2": 23, "y2": 20 },
+        { "square": "terrain", "id": "t_sidewalk", "x": 5, "y": 3, "x2": 23, "y2": 20 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "tunnel_east",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "square": "terrain", "id": "t_region_groundcover", "x": 0, "y": 3, "x2": 23, "y2": 20 },
+        { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 3, "x2": 18, "y2": 20 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "tunnel_roof_west",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_open_air", "x": 4, "y": 0, "x2": 5, "y2": 23 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "tunnel_roof_east",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_open_air", "x": 18, "y": 0, "x2": 19, "y2": 23 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "bridge_west",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "square": "terrain", "id": "t_open_air", "x": 4, "y": 0, "x2": 5, "y2": 23 },
+        { "square": "terrain", "id": "t_guardrail", "x": 6, "y": 0, "x2": 7, "y2": 23 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "bridge_east",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "square": "terrain", "id": "t_open_air", "x": 18, "y": 0, "x2": 19, "y2": 23 },
+        { "square": "terrain", "id": "t_guardrail", "x": 16, "y": 0, "x2": 17, "y2": 23 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

@@ -1,0 +1,105 @@
+[{
+    "type": "overmap_terrain",
+    "abstract": "highway",
+    "copy-from": "generic_open_land",
+    "name": "highway",
+    "flags": [ "HIGHWAY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_bridge_supports", "highway_bridge_supports_w", "highway_bridge_supports_e" ],
+    "copy-from": "highway",
+    "color": "blue",
+    "sym": "│",
+    "travel_cost_type": "water",
+    "extend": { "flags": [ "RIVER", "LAKE", "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "highway_road",
+    "//": "TODO: Add it's own travel_cost_type",
+    "copy-from": "highway",
+    "color": "light_gray",
+    "travel_cost_type": "road",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_ns_w", "highway_ns_e" ],
+    "copy-from": "highway_road",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_ew_n", "highway_ew_s" ],
+    "copy-from": "highway_road",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_nw" ],
+    "copy-from": "highway_road",
+    "sym": "┘"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_ne" ],
+    "copy-from": "highway_road",
+    "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_sw" ],
+    "copy-from": "highway_road",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_se" ],
+    "copy-from": "highway_road",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "highway_ground",
+    "copy-from": "highway",
+    "color": "dark_gray",
+    "extend": { "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_ns_w_ground", "highway_ns_e_ground" ],
+    "copy-from": "highway_ground",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_ew_n_ground", "highway_ew_s_ground" ],
+    "copy-from": "highway_ground",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_nw_ground" ],
+    "copy-from": "highway_ground",
+    "sym": "┘"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_ne_ground" ],
+    "copy-from": "highway_ground",
+    "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_sw_ground" ],
+    "copy-from": "highway_ground",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "highway_nsew_se_ground" ],
+    "copy-from": "highway_ground",
+    "sym": "┌"
+  }
+]

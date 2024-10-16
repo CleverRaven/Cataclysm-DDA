@@ -1,0 +1,17 @@
+[
+  {
+    "type": "palette",
+    "id": "highway_palette",
+    "terrain": {
+      ".": "t_pavement",
+      "*": "t_pavement_y",
+      "|": "t_guardrail",
+      "g": "t_region_grass",
+      "_": "t_earth_ramp_up_low",
+      "<": "t_earth_ramp_up_high",
+      ">": "t_earth_ramp_down_low",
+      "‾": "t_earth_ramp_down_high",
+      "#": "t_soil"
+    }
+  }
+]
