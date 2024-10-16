@@ -302,8 +302,12 @@
       "sandy_beach_width": 6
     },
     "overmap_highway_settings": {
-      "highway_frequency_x": 1,
-      "highway_frequency_y": 1,
+      "frequency_x": 1,
+      "frequency_y": 1,
+      "width_of_segments": 2,
+      "segment_ground": "highway_segment_ground",
+      "segment_bridge": "highway_segment_bridge",
+      "segment_bridge_supports": "highway_segment_bridge_supports",
       "four_way_intersections": { "4-way highway crossroad": 1 },
       "three_way_intersections": { "4-way highway crossroad": 1 },
       "bends": { "4-way highway crossroad": 1 },

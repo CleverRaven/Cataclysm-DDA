@@ -246,8 +246,12 @@ struct overmap_connection_settings {
 };
 
 struct overmap_highway_settings {
-    int highway_frequency_x = 5;
-    int highway_frequency_y = 5;
+    int frequency_x = 5;
+    int frequency_y = 5;
+    int width_of_segments = 2;
+    overmap_special_id segment_ground;
+    overmap_special_id segment_bridge;
+    overmap_special_id segment_bridge_supports;
     building_bin four_way_intersections;
     building_bin three_way_intersections;
     building_bin bends;
