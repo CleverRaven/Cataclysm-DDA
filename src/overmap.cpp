@@ -3658,6 +3658,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_RAVINES" ) ) {
         place_ravines();
     }
+    polish_river();
     if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
         place_highways();
     }
@@ -4790,11 +4791,19 @@ void overmap::place_highways()
             return; // This should never happen but would break everything
         }
     }
-    // Distance in overmaps between vertical highways ( whole overmap gap of highway_frequency_x - 1 )
-    const int highway_frequency_x = settings->overmap_highway.highway_frequency_x;
-    // Distance in overmaps between horizontal highways ( whole overmap gap of highway_frequency_x - 1 )
-    const int highway_frequency_y = settings->overmap_highway.highway_frequency_y;
-    if( highway_frequency_x == 0 && highway_frequency_y == 0 ) {
+    // Distance in overmaps between vertical highways ( whole overmap gap of frequency_x - 1 )
+    const int &frequency_x = settings->overmap_highway.frequency_x;
+    // Distance in overmaps between horizontal highways ( whole overmap gap of frequency_x - 1 )
+    const int &frequency_y = settings->overmap_highway.frequency_y;
+    // Width of segments
+    const int &segment_width = settings->overmap_highway.width_of_segments;
+    // Segment used over land
+    const overmap_special_id &segment_ground = settings->overmap_highway.segment_ground;
+    // Segment used over water
+    const overmap_special_id &segment_bridge = settings->overmap_highway.segment_bridge;
+    // Segment used under segment_bridge in water
+    const overmap_special_id &segment_bridge_supports = settings->overmap_highway.segment_bridge_supports;
+    if( frequency_x == 0 && frequency_y == 0 ) {
         debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
         return;
     }
@@ -4804,7 +4813,13 @@ void overmap::place_highways()
     const bool full_vertical = !ocean_next_north && !ocean_next_south;
 
     auto is_water_body_or = [&]( tripoint_om_omt point, tripoint offset ) {
-        return is_water_body( ter( point ) ) || is_water_body( ter( point + offset ) );
+        bool ret = false;
+        tripoint_om_omt point_to_test = point;
+        for( int i = 0; i < segment_width; i++ ) {
+            ret |= is_water_body( ter( point_to_test ) );
+            point_to_test += offset;
+        }
+        return ret;
     };
 
     // TODO: Have this run once instead of every overmap
@@ -4830,19 +4845,16 @@ void overmap::place_highways()
         std::pair<int, int> ret = { 0, 0 };
         return ret;
     };
-
-    const std::pair<int, int> offset = calc_offset_from_seed( highway_frequency_x, highway_frequency_y,
+    const std::pair<int, int> offset = calc_offset_from_seed( frequency_x, frequency_y,
                                        g->get_seed() );
-    const overmap_special_id segment_ground( "highway_segment_ground" );
-    const overmap_special_id segment_bridge( "highway_segment_bridge" );
-    // TODO: Refactor the x and y into a single function by passing the maps as a vector?
+    // TODO: Refactor the x and y into a single function?
     // Place a highway if we're at the right distance from the last or if there's ocean next
-    if( highway_frequency_x > 0 && ( ( this_om_x + offset.second ) % highway_frequency_x == 0 ||
+    if( frequency_x > 0 && ( ( this_om_x + offset.second ) % frequency_x == 0 ||
                                      ocean_next_north ||
                                      ocean_next_south ) ) {
         const int i = floor( OMAPX / 2.0 );
         // Only place half if there's ocean next overmap
-        // TODO: Make shorter so the intersections don't have override for bends
+        // TODO: Make shorter so the intersections don't have to override for bends?
         const int j_min = ocean_next_north ? floor( OMAPY / 2.0 ) : 0;
         const int j_max = ocean_next_south ? floor( OMAPY / 2.0 ) + 1 : OMAPY;
         for( int j = j_min; j < j_max; j++ ) {
@@ -4860,14 +4872,14 @@ void overmap::place_highways()
                 tripoint_om_omt water_point = west_point + tripoint_below;
                 // Add more pillars going down to the bottom
                 while( is_water_body_or( water_point, tripoint_east ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                    place_special_forced( segment_bridge, water_point, om_direction::type::north );
+                    place_special_forced( segment_bridge_supports, water_point, om_direction::type::north );
                     water_point += tripoint_below;
                 }
             }
         }
         placed_vertical = true;
     }
-    if( highway_frequency_y > 0 && ( ( this_om_y + offset.first ) % highway_frequency_y == 0 ||
+    if( frequency_y > 0 && ( ( this_om_y + offset.first ) % frequency_y == 0 ||
                                      ocean_next_east ||
                                      ocean_next_west ) ) {
         const int j = floor( OMAPY / 2.0 );
@@ -4883,7 +4895,7 @@ void overmap::place_highways()
                 tripoint_om_omt water_point = north_point + tripoint_below;
                 // Add more pillars going down to the bottom
                 while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                    place_special_forced( segment_bridge, water_point, om_direction::type::east );
+                    place_special_forced( segment_bridge_supports, water_point, om_direction::type::east );
                     water_point += tripoint_below;
                 }
             }
