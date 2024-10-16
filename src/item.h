@@ -2447,8 +2447,11 @@ class item : public visitable
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
+         * Set second parameter to true to ignore vehicle batteries, UPS and bionic power when checking
          */
+
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
+        units::energy energy_remaining( const Character *carrier, bool ignoreExternalSources ) const;
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
