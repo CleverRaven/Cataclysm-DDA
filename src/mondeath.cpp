@@ -292,7 +292,7 @@ item_location make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    if( z.has_effect( effect_critter_underfed ) ) {
+    if( !z.has_eaten_enough() ) {
         corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
     return get_map().add_item_ret_loc( z.pos_bub(), corpse );

@@ -560,7 +560,7 @@ void monster::try_reproduce()
         return;
     }
 
-    if( !baby_timer && has_fully_eaten() ) {
+    if( !baby_timer && has_eaten_enough() ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
         // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -672,7 +672,7 @@ void monster::recheck_fed_status()
     }
     if( has_fully_eaten() ) {
         add_effect( effect_critter_well_fed, 24_hours );
-    } else if( get_amount_eaten() == 0 ) {
+    } else if( !has_eaten_enough() ) {
         add_effect( effect_critter_underfed, 24_hours );
     }
 }
@@ -680,11 +680,13 @@ void monster::recheck_fed_status()
 void monster::set_amount_eaten( int new_amount )
 {
     amount_eaten = new_amount;
+    recheck_fed_status();
 }
 
 void monster::mod_amount_eaten( int amount_to_add )
 {
     amount_eaten += amount_to_add;
+    recheck_fed_status();
 }
 
 int monster::get_amount_eaten() const

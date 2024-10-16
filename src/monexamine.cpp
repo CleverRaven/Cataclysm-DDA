@@ -44,7 +44,6 @@
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_leashed( "leashed" );
@@ -528,7 +527,7 @@ void milk_source( monster &source_mon )
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
-        if( !source_mon.has_effect( effect_critter_well_fed ) ) {
+        if( !source_mon.has_eaten_enough() ) {
             add_msg( _( "It might not be getting enough to eat." ) );
         }
     }
