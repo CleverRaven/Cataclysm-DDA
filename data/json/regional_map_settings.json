@@ -301,6 +301,14 @@
       "ocean_start_south": 0,
       "sandy_beach_width": 6
     },
+    "overmap_highway_settings": {
+      "highway_frequency_x": 1,
+      "highway_frequency_y": 1,
+      "four_way_intersections": { "4-way highway crossroad": 1 },
+      "three_way_intersections": { "4-way highway crossroad": 1 },
+      "bends": { "4-way highway crossroad": 1 },
+      "road_connections": { "4-way highway crossroad": 1 }
+    },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
