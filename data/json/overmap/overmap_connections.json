@@ -16,6 +16,21 @@
   },
   {
     "type": "overmap_connection",
+    "id": "highway_road_connection",
+    "//": "Roads from highways shouldn't cross themselves",
+    "subtypes": [
+      { "terrain": "road", "locations": [ "road" ], "basic_cost": 0, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "road", "locations": [ "field" ], "basic_cost": 5 },
+      { "terrain": "road", "locations": [ "forest" ], "basic_cost": 20 },
+      { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
+      { "terrain": "road_nesw_manhole", "locations": [  ] },
+      { "terrain": "city_center", "locations": [ "field", "road" ] },
+      { "terrain": "bridge", "locations": [ "water" ], "basic_cost": 120, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "bridgehead_ground", "locations": [ "water" ], "basic_cost": 120, "flags": [ "ORTHOGONAL" ] }
+    ]
+  },
+  {
+    "type": "overmap_connection",
     "id": "sewer_tunnel",
     "subtypes": [ { "terrain": "sewer", "locations": [ "subterranean" ], "flags": [ "ORTHOGONAL" ] } ]
   },
