@@ -631,9 +631,19 @@ bool is_ocean( const oter_id &ter )
     return ter->is_ocean() || ter->is_ocean_shore();
 }
 
+bool is_road( const oter_id &ter )
+{
+    return ter->is_road();
+}
+
 bool is_highway( const oter_id &ter )
 {
     return ter->is_highway();
+}
+
+bool is_highway_special( const oter_id &ter )
+{
+    return ter->is_highway_special();
 }
 
 bool is_ot_match( const std::string &name, const oter_id &oter,
@@ -4209,45 +4219,43 @@ bool overmap::is_in_city( const tripoint_om_omt &p )
 
 void overmap::fill_city_boundaries()
 {
+    // TODO: Making a copy should be unnecessary
+    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_new = city_boundaries;
     std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_to_check;
+    std::vector<std::pair<int, int>> to_change;
 
-    auto check_all_neighbors = [ city_boundaries, city_boundaries_to_check, to_change ]( int x, int y ) {
-        to_change.insert_back( { x, y } );
-        city_boundaries_to_check[x].reset( y );
-        bool ret = false;
-        if( city_boundaries_to_check[x - 1][y] ) {
-            ret |= check_neighbor( x - 1, y );
-        }
-        if( city_boundaries_to_check[x + 1][y] ) {
-            ret |= check_neighbor( x + 1, y );
-        }
-        if( city_boundaries_to_check[x][y - 1] ) {
-            ret |= check_neighbor( x, y - 1 );
-        }
-        if( city_boundaries_to_check[x][y + 1] ) {
-            ret |= check_neighbor( x, y + 1 );
-        }
-        return ret;
+    auto is_overmap_edge = []( int x, int y ) {
+        return x == 0 || y == 0 || x == OMAPX - 1 || y == OMAPY - 1;
     };
 
-    auto check_neighbor = []( int x, int y ) {
-        if( x == 0 || y == 0 || x == OMAPX - 1 || y == OMAPY - 1 ) {
-            return true;
-        }
-        return check_all_neighbors( x, y );
+    auto check_neighbour = [city_boundaries_to_check, is_overmap_edge]( int x, int y, auto & check_all_neighbors_ref ) {
+        return city_boundaries_to_check[x][y] && ( is_overmap_edge( x, y ) || check_all_neighbors_ref( x, y, check_all_neighbors_ref ) );
+    };
+
+    auto check_all_neighbors = [city_boundaries_new, city_boundaries_to_check, to_change, is_overmap_edge, check_neighbour]( int x, int y ) {
+        auto check_all_neighbors_impl = [city_boundaries_new, city_boundaries_to_check, to_change, is_overmap_edge, check_neighbour]( int x, int y, auto & check_all_neighbors_ref ) mutable {
+            to_change.push_back( { x, y } );
+            city_boundaries_to_check[x].reset( y );
+            bool ret = check_neighbour( x - 1, y, check_all_neighbors_ref );
+            ret |= check_neighbour( x + 1, y, check_all_neighbors_ref );
+            ret |= check_neighbour( x, y - 1, check_all_neighbors_ref );
+            ret |= check_neighbour( x, y + 1, check_all_neighbors_ref );
+            return ret;
+        };
+        return check_all_neighbors_impl( x, y, check_all_neighbors_impl );
     };
 
     for( int x = 0; x < OMAPX; x++ ) {
         // Check anywhere that's not in city currently
-        city_boundaries_to_check[x] = !city_boundaries[x];
+        city_boundaries_to_check[x] = ~city_boundaries_new[x];
     }
 
     for( int x = 1; x < OMAPX - 1; x++ ) {
         for( int y = 1; y < OMAPY - 1; y++ ) {
-            std::vector<std::pair<int, int>> to_change;
+            to_change.clear();
             if( city_boundaries_to_check[x][y] && !check_all_neighbors( x, y ) ) {
-                for( const std::pair<int, int> coords : to_change ) {
-                    city_boundaries[coords.first].set( coords.second );
+                for( const std::pair<int, int> &coords : to_change ) {
+                    city_boundaries_new[coords.first].set( coords.second );
                 }
             }
         }
@@ -4261,6 +4269,8 @@ void overmap::fill_city_boundaries()
             }
         }
     }
+
+    city_boundaries = city_boundaries_new;
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
@@ -4791,18 +4801,6 @@ void overmap::place_highways()
         debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
         return;
     }
-    const bool full_horizontal = !ocean_next_east && !ocean_next_west;
-    const bool full_vertical = !ocean_next_north && !ocean_next_south;
-
-    auto is_water_body_or = [&]( tripoint_om_omt point, tripoint offset ) {
-        bool ret = false;
-        tripoint_om_omt point_to_test = point;
-        for( int i = 0; i < segment_width; i++ ) {
-            ret |= is_water_body( ter( point_to_test ) );
-            point_to_test += offset;
-        }
-        return ret;
-    };
 
     // TODO: Have this run once instead of every overmap
     // TODO: Offset within the overmap too?
@@ -4842,7 +4840,7 @@ void overmap::place_highways()
         const int j_min = placed_highways[0] ? 0 : floor( OMAPY / 2.0 );
         const int j_max = placed_highways[2] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
         for( int j = j_min; j < j_max; j++ ) {
-            for( i_segment = i; i_segment < i + width_of_segments; i_segment++ ) {
+            for( int i_segment = i; i_segment < i + segment_width; i_segment++ ) {
                 const tripoint_om_omt point( i_segment, j, 0 );
                 ter_set( point, reserved_terrain_id.id() );
             }
@@ -4857,7 +4855,7 @@ void overmap::place_highways()
         const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
         for( int i = i_min; i < i_max; i++ ) {
-            for( i_segment = i; i_segment < i + width_of_segments; i_segment++ ) {
+            for( int i_segment = i; i_segment < i + segment_width; i_segment++ ) {
                 const tripoint_om_omt point( i_segment, j, 0 );
                 ter_set( point, reserved_terrain_id.id() );
             }
@@ -4912,16 +4910,16 @@ void overmap::place_highways()
 
 void overmap::finalize_highways()
 {
-    // TODO: Add a common load setting function?
     const int &segment_width = settings->overmap_highway.width_of_segments;
+    const int &max_tunnel_distance = settings->overmap_highway.max_tunnel_distance;
     // To indicate not to place anything
-    const overmap_special_id segment_null = "";
+    const overmap_special_id segment_null( "segment_null" );
     // Segment of flat highway
     const overmap_special_id &segment_flat = settings->overmap_highway.segment_flat;
     // Segment of flat highway with a road bridge
-    const overmap_special_id &road_bridge = settings->overmap_highway.road_bridge;
+    const overmap_special_id &segment_road_bridge = settings->overmap_highway.segment_road_bridge;
     // Segment of raised highway for a road tunnel
-    const overmap_special_id &road_tunnel = settings->overmap_highway.road_tunnel;
+    const overmap_special_id &segment_road_tunnel = settings->overmap_highway.segment_road_tunnel;
     // Segment of highway bridge for over rivers and lakes
     const overmap_special_id &segment_bridge = settings->overmap_highway.segment_bridge;
     // Segment used under segment_bridge in water
@@ -4929,6 +4927,16 @@ void overmap::finalize_highways()
         settings->overmap_highway.segment_bridge_supports;
     // Segment of raised highway for a city
     const overmap_special_id &segment_overpass = settings->overmap_highway.segment_overpass;
+
+    auto is_water_body_or = [&]( tripoint_om_omt point, tripoint offset ) {
+        bool ret = false;
+        tripoint_om_omt point_to_test = point;
+        for( int i = 0; i < segment_width; i++ ) {
+            ret |= is_water_body( ter( point_to_test ) );
+            point_to_test += offset;
+        }
+        return ret;
+    };
 
     auto is_in_city_or = [&]( tripoint_om_omt point, tripoint offset ) {
         bool ret = false;
@@ -4940,65 +4948,56 @@ void overmap::finalize_highways()
         return ret;
     };
 
-    auto is_road_or = [&]( tripoint_om_omt point, tripoint offset ) {
-        bool ret = false;
-        tripoint_om_omt point_to_test = point;
-        for( int i = 0; i < segment_width; i++ ) {
-            ret |= is_road( ter( point_to_test ) );
-            point_to_test += offset;
-        }
-        return ret;
-    };
-
     if( placed_highways[1] || placed_highways[3] ) {
         std::vector<overmap_special_id> what_to_place;
-        std::pair<bool,int> ongoing_tunnel = { false, 0 };
+        std::pair<bool, int> ongoing_tunnel;
         int j = floor( OMAPY / 2.0 );
         const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
         // TODO: Remove after testing
         const int i_range = i_max - i_min;
         for( int i = i_min; i < i_max; i++ ) {
-            tripoint_om_omt north_point = ( i, j, 0 );
-            if( is_highway_special( ter( north_point ) ) {
-                while( is_highway_special( ter( north_point ) ) {
-                    what_to_place.insert_back( segment_null );
+            tripoint_om_omt north_point( i, j, 0 );
+            if( is_highway_special( ter( north_point ) ) ) {
+                while( is_highway_special( ter( north_point ) ) ) {
+                    what_to_place.push_back( segment_null );
                     i++;
                     //Bounds check
-                    north_point = ( i, j, 0 );
+                    north_point += tripoint_east;
                 }
-            } else if( is_water_or( north_point, tripoint_south ) ) {
-                while( is_water_or( north_point, tripoint_south ) {
-                    what_to_place.insert_back( segment_bridge );
+            } else if( is_water_body_or( north_point, tripoint_south ) ) {
+                while( is_water_body_or( north_point, tripoint_south ) ) {
+                    what_to_place.push_back( segment_bridge );
                     i++;
                     //Bounds check
-                    north_point = ( i, j, 0 );
+                    north_point += tripoint_east;
                 }
             } else if( is_in_city_or( north_point, tripoint_south ) ) {
-                while( is_in_city_or( north_point, tripoint_south ) {
-                    what_to_place.insert_back( segment_overpass );
+                while( is_in_city_or( north_point, tripoint_south ) ) {
+                    what_to_place.push_back( segment_overpass );
                     i++;
                     //Bounds check
-                    north_point = ( i, j, 0 );
+                    north_point += tripoint_east;
                 }
-            } else if( is_road_or( north_point, tripoint_south ) {
-                bool tunnel = false
-                for( int offset = -max_road_distance_for_tunnel; offset <= max_road_distance_for_tunnel; offset++ ) {
+            } else if( is_road( ter( north_point ) ) ) {
+                bool tunnel = false;
+                for( int offset = -max_tunnel_distance; offset <= max_tunnel_distance; offset++ ) {
                     //Bounds check
-                    north_point = ( i + offset, j, 0 );
+                    north_point = { i + offset, j, 0 };
                     // Maybe not safe enough?
-                    if( !is_in_city_or( north_point, tripoint_south) && is_road_or( north_point, tripoint_south ) {
+                    if( !is_in_city_or( north_point, tripoint_south ) && is_road( ter( north_point ) ) ) {
                         tunnel = true;
                     }
                 }
                 if( tunnel ) {
-                    what_to_place.insert_back( road_tunnel );
+                    what_to_place.push_back( segment_road_tunnel );
                     if( ongoing_tunnel.first ) {
+                        // Extend 1 past in each direction?
                         for( int tunnel_i = ongoing_tunnel.second; tunnel_i < i; tunnel_i++ ) {
-                            if( what_to_place[tunnel_i] == segment_flat ){
-                                what_to_place[tunnel_i] = road_tunnel;
+                            if( what_to_place[tunnel_i] == segment_flat ) {
+                                what_to_place[tunnel_i] = segment_road_tunnel;
                             } else {
-                                debugmsg( "Tunnel bisected by terrain of interest %s", what_to_place[tunnel_i]);
+                                debugmsg( "Tunnel bisected by terrain of interest %s", what_to_place[tunnel_i].c_str() );
                             }
                         }
                     } else {
@@ -5006,20 +5005,31 @@ void overmap::finalize_highways()
                         ongoing_tunnel.second = i;
                     }
                 } else {
-                    what_to_place.insert_back( road_bridge );
+                    what_to_place.push_back( segment_road_bridge );
                 }
             } else {
-                what_to_place.insert_back( segment_flat );
+                what_to_place.push_back( segment_flat );
             }
         }
 
-        if( i_range != what_to_place.size() ) {
-            debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size());
+        if( static_cast<unsigned int>( i_range ) != what_to_place.size() ) {
+            debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
         }
 
-        for( int i = 0; i < what_to_place.size(); i++ ) {
-            const tripoint_om_omt north_point = ( i, j, 0 );
-            place_special_forced( what_to_place[i], north_point, om_direction::type::east );
+        // TODO: Add ramp handling
+
+        for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
+            const tripoint_om_omt north_point( i, j, 0 );
+            if( what_to_place[i] != segment_null ) {
+                place_special_forced( what_to_place[i], north_point, om_direction::type::east );
+                if( what_to_place[i] == segment_bridge ) {
+                    tripoint_om_omt water_point = north_point;
+                    while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
+                        place_special_forced( segment_bridge_supports, water_point, om_direction::type::east );
+                        water_point += tripoint_below;
+                    }
+                }
+            }
         }
     }
 
