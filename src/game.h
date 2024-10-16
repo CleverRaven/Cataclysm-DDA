@@ -963,8 +963,9 @@ class game
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
-        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
+        bool prompt_dangerous_tile( const tripoint &dest_loc,
+                                    std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         // TODO: Get rid of untyped overloads.
         void pickup( const tripoint &p );
@@ -1303,7 +1304,7 @@ class game
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
-        int slip_down_chance(
+        float slip_down_chance(
             climb_maneuver maneuver,
             climbing_aid_id aid = climbing_aid_id::NULL_ID(),
             bool show_chance_messages = true );
