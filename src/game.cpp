@@ -2803,6 +2803,12 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
 bool game::is_game_over()
 {
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
+        Creature *player_killer = u.get_killer();
+        if( player_killer && player_killer->as_character() ) {
+            events().send<event_type::character_kills_character>(
+                player_killer->as_character()->getID(), u.getID(), u.get_name() );
+        }
+        events().send<event_type::character_dies>( u.getID() );
         events().send<event_type::avatar_dies>();
     }
     if( uquit == QUIT_WATCH ) {
