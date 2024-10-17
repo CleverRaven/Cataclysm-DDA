@@ -3324,7 +3324,7 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
         // Penalty for failure chance is 1/success = 1/(1-failure) = 1/(1-(1/dex)) = dex/(dex-1)
-        path_settings->climb_cost = ( 10 - climb / 5 ) * climb / ( climb - 1 );
+        path_settings->climb_cost = ( 10 - climb / 5.0f ) * climb / ( climb - 1 );
     } else {
         // Climbing at this dexterity will always fail
         path_settings->climb_cost = 0;

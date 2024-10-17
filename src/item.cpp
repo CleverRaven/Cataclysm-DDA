@@ -7232,7 +7232,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 static units::length sawn_off_reduction( const itype *type )
 {
     int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-    return ( type->longest_side / 100 ) * barrel_percentage;
+    return type->longest_side * barrel_percentage / 100;
 }
 
 units::length item::length() const
@@ -8042,7 +8042,8 @@ void item::calc_rot( units::temperature temp, const float spoil_modifier,
         temp = std::min( temperatures::fridge, temp );
     }
 
-    rot += factor * time_delta / 1_hours * calc_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    rot += factor * time_delta / 1_seconds * calc_hourly_rotpoints_at_temp( temp ) * 1_turns /
+           ( 1_hours / 1_seconds );
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )

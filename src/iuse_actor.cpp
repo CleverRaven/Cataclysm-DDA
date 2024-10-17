@@ -2826,8 +2826,8 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-                                            std::ceil( fix.base_volume() / 250_ml * cost_scaling ) :
-                                            roll_remainder( fix.base_volume() / 250_ml * cost_scaling ) );
+                                            std::ceil( fix.base_volume() * cost_scaling / 250_ml ) :
+                                            roll_remainder( fix.base_volume() * cost_scaling / 250_ml ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
