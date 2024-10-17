@@ -560,7 +560,7 @@ void monster::try_reproduce()
         return;
     }
 
-    if( !baby_timer && amount_eaten >= stomach_size ) {
+    if( !baby_timer && has_eaten_enough() ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
         // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -598,7 +598,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
+        if( !has_eaten_enough() ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -634,6 +634,9 @@ void monster::refill_udders()
         debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
+    if( !has_eaten_enough() ) {
+        return;
+    }
     if( ammo.empty() ) {
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
@@ -653,36 +656,69 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) {
-        if( calendar::turn - udder_timer > 1_days ) {
-            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
-            ammo.begin()->second = type->starting_ammo.begin()->second;
-            udder_timer = calendar::turn;
-        }
+    if( calendar::turn - udder_timer > 1_days ) {
+        // You milk once a day.
+        ammo.begin()->second = type->starting_ammo.begin()->second;
+        udder_timer = calendar::turn;
     }
 }
 
-void monster::reset_digestion()
+void monster::recheck_fed_status()
 {
-    if( calendar::turn - stomach_timer > 3_days ) {
-        //If the player hasn't been around, assume critters have been operating at a subsistence level.
-        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
-        remove_effect( effect_critter_underfed );
-        remove_effect( effect_critter_well_fed );
-        amount_eaten = 0;
-        stomach_timer = calendar::turn;
+    remove_effect( effect_critter_underfed );
+    remove_effect( effect_critter_well_fed );
+    if( !has_flag( mon_flag_EATS ) ) {
+        return;
     }
+    if( has_fully_eaten() ) {
+        add_effect( effect_critter_well_fed, 24_hours );
+    } else if( !has_eaten_enough() ) {
+        add_effect( effect_critter_underfed, 24_hours );
+    }
+}
+
+void monster::set_amount_eaten( int new_amount )
+{
+    amount_eaten = new_amount;
+    recheck_fed_status();
+}
+
+void monster::mod_amount_eaten( int amount_to_add )
+{
+    amount_eaten += amount_to_add;
+    recheck_fed_status();
+}
+
+int monster::get_amount_eaten() const
+{
+    return amount_eaten;
+}
+
+int monster::get_stomach_fullness_percent() const
+{
+    if( stomach_size == 0 ) {
+        return 100; // no div-by-zero
+    }
+    return get_amount_eaten() / stomach_size;
+}
+
+bool monster::has_eaten_enough() const
+{
+    return !has_effect( effect_critter_underfed ) &&
+           ( has_effect( effect_critter_well_fed ) || has_fully_eaten() );
+}
+
+
+bool monster::has_fully_eaten() const
+{
+    return amount_eaten >= stomach_size;
 }
 
 void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
-        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
-            add_effect( effect_critter_well_fed, 24_hours );
-        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
-            add_effect( effect_critter_underfed, 24_hours );
-        }
-        amount_eaten = 0;
+        recheck_fed_status();
+        set_amount_eaten( 0 );
         stomach_timer = calendar::turn;
     }
 }
@@ -699,7 +735,7 @@ void monster::try_biosignature()
     if( !type->biosig_timer ) {
         return;
     }
-    if( has_effect( effect_critter_underfed ) ) {
+    if( !has_eaten_enough() ) {
         return;
     }
 
@@ -3385,31 +3421,6 @@ void monster::process_effects()
         }
     }
 
-    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
-        heal( 1 );
-    }
-
-    //We already check these timers on_load, but adding a random chance for them to go off here
-    //will make it so that the player needn't leave the area and return for critters to poop,
-    //become hungry, evolve, have babies, or refill udders.
-    if( one_in( 30000 ) ) {
-        try_upgrade( false );
-        try_reproduce();
-        try_biosignature();
-
-        if( amount_eaten > 0 ) {
-            if( has_flag( mon_flag_EATS ) ) {
-                digest_food();
-            } else {
-                amount_eaten = 0;
-            }
-        }
-
-        if( has_flag( mon_flag_MILKABLE ) ) {
-            refill_udders();
-        }
-    }
-
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3944,16 +3955,6 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
-    reset_digestion();
-
-    //Clean up runaway values for monsters which eat but don't digest yet.
-    if( amount_eaten > 0 ) {
-        if( has_flag( mon_flag_EATS ) ) {
-            digest_food();
-        } else {
-            amount_eaten = 0;
-        }
-    }
 
     if( has_flag( mon_flag_MILKABLE ) ) {
         refill_udders();

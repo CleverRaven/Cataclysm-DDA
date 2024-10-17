@@ -69,6 +69,7 @@
     ]
   },
   {
+    "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_well_fed",
     "name": [ "Well Fed" ],
@@ -76,6 +77,7 @@
     "desc": [ { "str": "AI tag for when critter has had enough to eat.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
+    "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_underfed",
     "name": [ "Underfed" ],
