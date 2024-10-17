@@ -271,6 +271,10 @@
 //   Inline sort     :  6.54 s     5.65 s
 //   New rasterizer  :  5.63 s     5.00 s
 
+// NOLINTBEGIN
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 ////
@@ -5083,3 +5087,6 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------------------------------------------------------------------------------
 */
+
+#pragma GCC diagnostic pop
+// NOLINTEND

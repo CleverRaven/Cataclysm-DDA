@@ -70,6 +70,10 @@
 #ifndef STB_INCLUDE_STB_RECT_PACK_H
 #define STB_INCLUDE_STB_RECT_PACK_H
 
+// NOLINTBEGIN
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+
 #define STB_RECT_PACK_VERSION  1
 
 #ifdef STBRP_STATIC
@@ -625,3 +629,6 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------------------------------------------------------------------------------
 */
+
+#pragma GCC diagnostic pop
+// NOLINTEND

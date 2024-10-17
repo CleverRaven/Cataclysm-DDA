@@ -1,15 +1,11 @@
 #include "cata_imgui.h"
 
-#include <stack>
-#include <type_traits>
-
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #undef IMGUI_DEFINE_MATH_OPERATORS
 
 #include "color.h"
-#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -807,4 +803,21 @@ void cataimgui::window::clear_filter()
             filter_impl->text[0] = '\0';
         }
     }
+}
+
+bool cataimgui::RightAlign( const char *str_id )
+{
+    if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
+        ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch );
+
+        ImGui::TableNextColumn();
+        ImGui::TableNextColumn();
+        return true;
+    }
+    return false;
+}
+
+void cataimgui::EndRightAlign()
+{
+    ImGui::EndTable();
 }
