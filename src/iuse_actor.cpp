@@ -241,6 +241,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         return std::nullopt;
     }
 
+    it.set_var( "last_act_by_char_id", p->getID().get_value() );
+
     int result = 0;
 
     if( need_fire ) {
@@ -652,10 +654,19 @@ void explosion_iuse::load( const JsonObject &obj, const std::string & )
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
 }
 
-std::optional<int> explosion_iuse::use( Character *p, item &, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint &pos ) const
 {
     if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( p, pos, explosion );
+        Character *source = p;
+        if( it.has_var( "last_act_by_char_id" ) ) {
+            character_id thrower( it.get_var( "last_act_by_char_id", 0 ) );
+            if( thrower == get_player_character().getID() ) {
+                source = &get_player_character();
+            } else {
+                source = g->find_npc( thrower );
+            }
+        }
+        explosion_handler::explosion( source, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {

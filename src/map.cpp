@@ -4325,7 +4325,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         // Gradually makes hard bashes easier
         int damage = get_map_damage( tripoint_bub_ms( p ) );
         add_msg_debug( debugmode::DF_MAP,
-                       "Bashing difficulty %d, threshold is %d. Strength is %d + %d, added damage %d", smax, smin,
+                       "Bashing difficulty %d, threshold is %d. Strength is %d + %d, added damage %f", smax, smin,
                        params.strength, damage, std::max( ( params.strength - smin ) * params.roll, 0.f ) );
         if( params.strength + damage >= smax ) {
             damage = 0;

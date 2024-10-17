@@ -235,6 +235,15 @@ class avatar : public Character
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
+        /** smash a map feature */
+        struct smash_result {
+            int skill;
+            int resistance;
+            bool did_smash;
+            bool success;
+        };
+        smash_result smash( tripoint_bub_ms &smashp );
+
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
