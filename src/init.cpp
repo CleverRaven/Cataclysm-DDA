@@ -569,7 +569,7 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
                  "Can't load additional data after finalization.  Must be unloaded first." );
 
     std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
-    std::vector<cata_path> files;
+    std::multimap<mod_id, cata_path> files;
 
     if( dir_exist( path.get_unrelative_path() ) ) {
 
@@ -577,25 +577,24 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
         const std::vector<cata_path> interaction_folders = get_directories( path, false );
 
         for( const cata_path &f : interaction_folders ) {
-            bool is_mod_loaded = false;
-            for( mod_id id : loaded_mods ) {
-                if( id.str() == f.get_unrelative_path().filename().string() ) {
-                    is_mod_loaded = true;
-                }
-            }
+            const mod_id associated_mod = mod_id( f.get_unrelative_path().filename().string() );
+            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(),
+                                            associated_mod ) != loaded_mods.end();
+
             if( is_mod_loaded ) {
                 const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
-                files.insert( files.end(), interaction_files.begin(), interaction_files.end() );
+                for( const cata_path &path : interaction_files ) {
+                    files.emplace( associated_mod, path );
+                }
             }
         }
     }
-
     // iterate over each file
-    for( const cata_path &file : files ) {
+    for( const std::pair<const mod_id, cata_path> &file : files ) {
         try {
             // parse it
-            JsonValue jsin = json_loader::from_path( file );
-            load_all_from_json( jsin, src, path, file );
+            JsonValue jsin = json_loader::from_path( file.second );
+            load_all_from_json( jsin, string_format( "%s#%s", src, file.first.str() ), path, file.second );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
