@@ -4865,5 +4865,33 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "devil_horn_headband",
+    "type": "ARMOR",
+    "name": { "str": "pair of devil horns", "str_pl": "pairs of devil horns" },
+    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devillish.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": "^",
+    "color": "red",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "angel_halo_headband",
+    "type": "ARMOR",
+    "name": { "str": "angel halo" },
+    "description": "A plastic headband adorned with a fluffy halo.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic", "faux_fur" ],
+    "symbol": "^",
+    "color": "yellow",
+    "flags": [ "NO_WEAR_EFFECT" ]
   }
 ]
