@@ -18,7 +18,7 @@
     "min_range": 5,
     "max_range": 17,
     "range_increment": 0.5,
-    "flags": [ "EVOCATION_SPELL", "LOUD" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SPLIT_DAMAGE" ]
   },
   {
     "id": "gravitymage_graviton",
@@ -57,7 +57,8 @@
       "NO_PROJECTILE",
       "IGNORE_WALLS",
       "LOUD",
-      "MUST_HAVE_CLASS_TO_LEARN"
+      "MUST_HAVE_CLASS_TO_LEARN",
+      "SPLIT_DAMAGE"
     ],
     "sound_description": "a crack"
   },
@@ -80,7 +81,7 @@
     "min_range": 5,
     "max_range": 17,
     "range_increment": 0.5,
-    "flags": [ "EVOCATION_SPELL", "LOUD" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SPLIT_DAMAGE" ]
   },
   {
     "type": "SPELL",

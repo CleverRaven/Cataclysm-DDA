@@ -10,6 +10,7 @@
     "spell_class": "NONE",
     "effect": "attack",
     "effect_str": "dragon_acidburn",
+    "multiple_projectiles": 3,
     "shape": "cone",
     "affected_body_parts": [ "torso" ],
     "damage_type": "acid",
@@ -112,7 +113,7 @@
     "min_damage": 0,
     "max_damage": 10,
     "damage_increment": 1.0,
-    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE", "SPLIT_DAMAGE" ],
     "min_aoe": 0,
     "max_aoe": 3,
     "aoe_increment": 1.0,
@@ -210,6 +211,7 @@
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
+    "multiple_projectiles": 5,
     "damage_type": "acid",
     "effect_str": "lesser_dragon_acidburn",
     "affected_body_parts": [ "torso" ],
@@ -252,6 +254,6 @@
     "base_casting_time": 200,
     "energy_source": "MANA",
     "base_energy_cost": 200,
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "NO_LEGS", "LOUD" ]
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "NO_LEGS", "LOUD", "SPLIT_DAMAGE" ]
   }
 ]

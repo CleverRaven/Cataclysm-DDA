@@ -13,6 +13,7 @@
     "min_damage": 5,
     "max_damage": 145,
     "damage_increment": 4,
+    "multiple_projectiles": { "math": [ "rng(3, 8)" ] },
     "min_aoe": 1,
     "max_aoe": 3,
     "aoe_increment": 0.1
@@ -22,7 +23,7 @@
     "type": "SPELL",
     "name": "Lava Bomb Heat",
     "description": "This is a sub spell for the Lava Bomb spell.",
-    "flags": [ "EVOCATION_SPELL" ],
+    "flags": [ "EVOCATION_SPELL", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
@@ -70,7 +71,7 @@
     "base_casting_time": 350,
     "base_energy_cost": 400,
     "energy_source": "MANA",
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
     "extra_effects": [
       { "id": "lava_bomb_shrapnel" },
       { "id": "lava_bomb_heat" },
@@ -104,7 +105,7 @@
     "final_energy_cost": 500,
     "energy_increment": 5,
     "energy_source": "MANA",
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "VULCANIST"
   },

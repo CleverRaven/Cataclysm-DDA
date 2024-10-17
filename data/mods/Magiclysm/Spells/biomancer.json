@@ -139,7 +139,7 @@
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
@@ -284,7 +284,7 @@
       { "id": "biomancer_visceral_backlash", "hit_self": true },
       { "id": "eoc_evocation_setup", "hit_self": true }
     ],
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "difficulty": 4,

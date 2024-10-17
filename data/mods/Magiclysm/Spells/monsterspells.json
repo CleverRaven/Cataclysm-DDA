@@ -156,7 +156,7 @@
     "id": "mon_demon_fireball",
     "name": "Demon Fireball",
     "description": "This is a monster only spell.",
-    "flags": [ "IGNITE_FLAMMABLE" ],
+    "flags": [ "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
     "min_damage": 15,
     "max_damage": 15,
@@ -203,7 +203,7 @@
     "range_increment": 0.1,
     "effect": "attack",
     "shape": "line",
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "id": "shambling_aoe",
@@ -213,7 +213,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE", "SPLIT_DAMAGE" ],
     "max_level": 0,
     "min_damage": 15,
     "max_damage": 70,

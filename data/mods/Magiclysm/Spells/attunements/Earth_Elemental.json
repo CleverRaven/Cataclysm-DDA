@@ -10,7 +10,7 @@
     "name": "Quake",
     "description": "Cause a localized earthquake, knocking down enemies and overturning the earth.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "NO_HANDS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "IGNORE_WALLS" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "NO_HANDS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "IGNORE_WALLS", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "effect_str": "downed",

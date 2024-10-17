@@ -556,7 +556,7 @@
     "base_casting_time": 120,
     "final_casting_time": 120,
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "type": "SPELL",

@@ -30,7 +30,7 @@
     "name": "Cold Heart",
     "description": "Harshly drop the temperature inside of your enemies, slowing down their bloodstreams or even shattering organs.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "NO_PROJECTILE", "SILENT" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "NO_PROJECTILE", "SILENT", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "cold",
