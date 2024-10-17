@@ -206,7 +206,9 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "nun_wimple", "prob": 12 }
+      { "item": "nun_wimple", "prob": 12 },
+      { "item": "devil_horn_headband", "prob": 15 },
+      { "item": "angel_halo_headband", "prob": 15 }
     ]
   },
   {
