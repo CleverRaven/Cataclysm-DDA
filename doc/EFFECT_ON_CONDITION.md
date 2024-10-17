@@ -2268,6 +2268,66 @@ Pick all items with `RECHARGE` _or_ `ELECTRONIC` flags, and run `EOC_PRINT_ITEM_
 }
 ```
 
+#### `u_map_run_eocs`, `npc_map_run_eocs`
+Picks all tiles around you, npc or target_var, stores it's coordinates in `store_coordinates_in`, and then checks EoC conditions for each tile picked
+Used if you need to check if specific furniture or terrain is around
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_map_run_eocs", "npc_map_run_eocs" | **mandatory** | string, [variable object](#variable-object) or array | EoC or EoCs that would be run |
+| "store_coordinates_in" | optional | [variable object](#variable-object) | variable, where tested coordinate is stored | 
+| "condition" | optional | condition | condition that would be checked if eoc need to be run or not. Can (and intended to) use variable from `store_coordinates_in`. Default true (run always) | 
+| "target_var" | optional | [variable object](#variable-object) | location variable, around which the game should scan; if omitted, sticks to `u_` or `npc_` position | 
+| "range" | optional | int or [variable object](#variable-object) | how big the search radius should be; default 1 ( 3x3 square with character in the middle ) | 
+| stop_at_first | optional | bool | If true, stops execution after the first `condition` is met; if false, runs EoC on all tiles that met condition. Default false | 
+
+##### Examples
+
+Picks range of 6 tiles around the player, and check is there any terrain with `TREE` flag
+```json
+{
+  "type": "effect_on_condition",
+  "id": "SOME_TEST_EOC",
+  "effect": [
+    {
+      "u_map_run_eocs": [ "SOME_ANOTHER_TEST_EOC" ],
+      "range": 6,
+      "store_coordinates_in": { "context_val": "loc" },
+      "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } }
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "SOME_ANOTHER_TEST_EOC",
+  "effect": [ { "u_message": "tripoint <context_val:loc> contains TREE" } ]
+}
+```
+
+Picks all TREEs in 50 tiles range, and burn it
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "QWERTY",
+    "effect": [
+      {
+        "u_map_run_eocs": [ "QWERTYYUIOP" ],
+        "range": 50,
+        "store_coordinates_in": { "context_val": "loc" },
+        "stop_at_first": false,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "QWERTYYUIOP",
+    "effect": [
+      { "u_set_field": "fd_fire", "radius": 0, "intensity": 10, "target_var": { "context_val": "loc" } }
+    ]
+  }
+```
+
 #### `u_map_run_item_eocs`, `npc_map_run_item_eocs`
 Search items around you on the map, and run EoC on them
 
