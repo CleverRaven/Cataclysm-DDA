@@ -2069,6 +2069,7 @@
     "longest_side": "12 cm",
     "price": "5 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "clay" ],
     "pocket_data": [
       {
         "max_contains_volume": "330 ml",
