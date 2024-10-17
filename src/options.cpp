@@ -3273,7 +3273,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             closetilecontext->reinit();
             closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                             /*precheck=*/false, /*force=*/false,
-                                            /*pump_events=*/true );
+                                            /*pump_events=*/true, /*terrain=*/false );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
@@ -3290,7 +3290,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 }
                 fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                               /*precheck=*/false, /*force=*/false,
-                                              /*pump_events=*/true );
+                                              /*pump_events=*/true, /*terrain=*/false );
                 //game_ui::init_ui is called when zoom is changed
                 g->reset_zoom();
                 g->mark_main_ui_adaptor_resize();
@@ -3305,7 +3305,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             overmap_tilecontext->reinit();
             overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                                /*precheck=*/false, /*force=*/false,
-                                               /*pump_events=*/true );
+                                               /*pump_events=*/true, /*terrain=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();

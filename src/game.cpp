@@ -727,7 +727,7 @@ void game::reload_tileset()
         closetilecontext->reinit();
         closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                         /*precheck=*/false, /*force=*/true,
-                                        /*pump_events=*/true );
+                                        /*pump_events=*/true, /*terrain=*/false );
         closetilecontext->do_tile_loading_report();
 
         tilecontext = closetilecontext;
@@ -741,7 +741,7 @@ void game::reload_tileset()
             }
             fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                           /*precheck=*/false, /*force=*/true,
-                                          /*pump_events=*/true );
+                                          /*pump_events=*/true, /*terrain=*/false );
             fartilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the zoomed out tileset failed: %s" ), err.what() );
@@ -751,7 +751,7 @@ void game::reload_tileset()
         overmap_tilecontext->reinit();
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/true,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
         popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
