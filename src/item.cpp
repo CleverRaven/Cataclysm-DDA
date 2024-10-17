@@ -7662,10 +7662,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     if( !this->is_comestible() ) {
         return false;
     }
-    // We need this function to get all vitamins including from inheritance.
-    // But we don't care about calories, so we can just pass a dummy.
-    npc dummy;
-    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    const nutrients food_item = default_character_compute_effective_nutrients( *this );
     for( auto const& [vit_id, amount] : food_item.vitamins() ) {
         if( vit_id == v ) {
             if( amount > 0 ) {

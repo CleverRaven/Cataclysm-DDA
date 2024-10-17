@@ -215,9 +215,7 @@ struct item_search_data {
             return false;
         }
         if( calories > 0 ) {
-            // This is very stupid but we need a dummy to calculate nutrients
-            npc dummy;
-            if( dummy.compute_effective_nutrients( *loc.get_item() ).kcal() < calories ) {
+            if( default_character_compute_effective_nutrients( *loc.get_item() ).kcal() < calories ) {
                 return false;
             }
         }
