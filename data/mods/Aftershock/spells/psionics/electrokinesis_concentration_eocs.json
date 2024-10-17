@@ -227,14 +227,10 @@
           }
         ]
       },
+      { "math": [ "u_afs_electrokin_personal_battery_count", "=", "0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [
-          { "flags": [ "RECHARGE" ] },
-          { "flags": [ "ELECTRONIC" ] },
-          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-          { "flags": [ "USE_UPS" ] }
-        ],
+        "search_data": [ { "uses_energy": true } ],
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER",
@@ -254,12 +250,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [
-          { "flags": [ "RECHARGE" ] },
-          { "flags": [ "ELECTRONIC" ] },
-          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-          { "flags": [ "USE_UPS" ] }
-        ],
+        "search_data": [ { "uses_energy": true } ],
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_VALUE_ADDED",

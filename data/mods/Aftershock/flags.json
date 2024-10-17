@@ -27,10 +27,5 @@
     "id": "TEEP_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to telepathic damage"
-  },
-  {
-    "id": "ELECTROKINETIC_CHARGEABLE",
-    "type": "json_flag",
-    "info": "This item can be recharged by an electrokinetic"
   }
 ]
