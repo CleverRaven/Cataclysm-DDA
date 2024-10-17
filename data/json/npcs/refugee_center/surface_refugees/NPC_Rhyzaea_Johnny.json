@@ -83,8 +83,8 @@
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Rhyzaea_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Rhyzaea_Situation" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -99,7 +99,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Rhy.", "topic": "TALK_REFUGEE_Rhyzaea_1_firstmeet" },
-      { "text": "Nice to meet you, Rhy.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "Nice to meet you, Rhy.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -114,7 +114,7 @@
     },
     "responses": [
       { "text": "Hi, Rhy.  How's it going?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -123,7 +123,7 @@
     "dynamic_line": "So, what's your story?  We don't see a lot of new people back here.",
     "responses": [
       { "text": "Just a curious traveler.  What's up with you?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -148,8 +148,8 @@
     "responses": [
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -159,8 +159,8 @@
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -170,8 +170,8 @@
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
