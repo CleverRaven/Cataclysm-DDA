@@ -1059,5 +1059,28 @@
     ],
     "damage_reduction": { "all": 50 },
     "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_glassblowers_crucible",
+    "name": { "str": "glassblower's crucible" },
+    "color": "brown",
+    "categories": [ "utility" ],
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
+    "broken_color": "yellow_red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "glassblowers_crucible_tool" } ],
+    "item": "glassblowers_crucible",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "ceramic_shard", "count": [ 21, 42 ] },
+      { "item": "rock", "count": [ 6, 12 ] }
+    ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   }
 ]
