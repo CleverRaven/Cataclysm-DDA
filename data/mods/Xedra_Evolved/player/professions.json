@@ -38,7 +38,7 @@
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 5, "name": "pistol" },
-      { "level": 3 "name": "rifle" },
+      { "level": 3, "name": "rifle" },
       { "level": 3, "name": "shotgun" },
       { "level": 3, "name": "melee" },
       { "level": 2, "name": "unarmed" },
