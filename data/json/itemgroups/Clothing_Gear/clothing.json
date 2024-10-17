@@ -4195,6 +4195,7 @@
       { "item": "felinesuit", "prob": 3 },
       { "item": "dragonsuit", "prob": 1 },
       { "item": "wool_suit", "prob": 40 },
+      { "item": "wool_suit_devil", "prob": 15 },
       { "item": "unitard", "prob": 60 },
       { "item": "zentai", "prob": 5 },
       { "item": "wetsuit", "prob": 2 },
