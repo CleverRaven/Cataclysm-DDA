@@ -1489,6 +1489,10 @@ int vehicle::install_part( const point &dp, const vpart_id &type, item &&base,
 
 int vehicle::install_part( const point &dp, vehicle_part &&vp )
 {
+    if( vp.base.is_null() ) {
+        debugmsg( "Part to be installed is missing base item, did the constructor fail to set_base?" );
+        return -1;
+    }
     const vpart_info &vpi = vp.info();
     const ret_val<void> valid_mount = can_mount( dp, vpi );
     if( !valid_mount.success() ) {
