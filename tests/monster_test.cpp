@@ -14,6 +14,7 @@
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "filesystem.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
@@ -413,4 +414,92 @@ TEST_CASE( "limit_mod_size_bonus", "[monster]" )
 
     test_monster2.mod_size_bonus( 3 );
     CHECK( test_monster2.get_size() == creature_size::huge );
+}
+
+TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
+{
+    clear_map();
+    map &here = get_map();
+    tripoint loc = get_avatar().pos() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
+    test_monster.set_baby_timer( calendar::turn - 1_days );
+    bool test_monster_spawns_eggs = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.try_reproduce();
+        if( here.has_items( loc ) ) {
+            test_monster_spawns_eggs = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_eggs );
+}
+
+TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
+{
+    clear_map();
+    map &here = get_map();
+    tripoint loc = get_avatar().pos() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
+    test_monster.set_baby_timer( calendar::turn - 1_days );
+    bool test_monster_spawns_egg_group = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.try_reproduce();
+        if( here.has_items( loc ) ) {
+            test_monster_spawns_egg_group = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_egg_group );
+}
+
+TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
+{
+    clear_map();
+    creature_tracker &creatures = get_creature_tracker();
+    tripoint loc = get_avatar().pos() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon", loc );
+    test_monster.set_baby_timer( calendar::turn - 1_days );
+    bool test_monster_spawns_babies = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.try_reproduce();
+        if( creatures.get_monsters_list().size() > 1 ) {
+            test_monster_spawns_babies = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_babies );
+}
+
+TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
+{
+    clear_map();
+    creature_tracker &creatures = get_creature_tracker();
+    tripoint loc = get_avatar().pos() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon_group", loc );
+    test_monster.set_baby_timer( calendar::turn - 1_days );
+    bool test_monster_spawns_baby_mongroup = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.try_reproduce();
+        if( creatures.get_monsters_list().size() > 1 ) {
+            test_monster_spawns_baby_mongroup = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_baby_mongroup );
 }
