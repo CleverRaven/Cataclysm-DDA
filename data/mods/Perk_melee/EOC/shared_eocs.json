@@ -71,7 +71,7 @@
       {
         "run_eoc_until": "EOC_PERK_TRY_RETREAT",
         "condition": { "math": [ "u_monsters_nearby('radius': 1)", ">", "0" ] },
-        "iteration": 10
+        "iterations": 10
       }
     ]
   },
