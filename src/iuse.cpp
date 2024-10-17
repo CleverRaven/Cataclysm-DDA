@@ -5369,7 +5369,9 @@ std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint 
     }
 
     if( loc->ammo_remaining() ) {
-        if( !p->unload( loc ) ) {
+        if (loc->has_flag(flag_NO_UNLOAD)) {
+            p->add_msg_if_player( m_info, _("Attaching the mod...") );
+        } else if( !p->unload( loc ) ) {
             p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
             return std::nullopt;
         }
