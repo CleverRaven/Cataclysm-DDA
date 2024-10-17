@@ -4865,5 +4865,66 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "devil_horn_headband",
+    "type": "ARMOR",
+    "name": { "str": "pair of devil horns", "str_pl": "pairs of devil horns" },
+    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devillish.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": "^",
+    "color": "red",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "angel_halo_headband",
+    "type": "ARMOR",
+    "name": { "str": "angel halo" },
+    "description": "A plastic headband adorned with a fluffy halo.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic", "faux_fur" ],
+    "symbol": "^",
+    "color": "yellow",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "devil_tail",
+    "type": "ARMOR",
+    "name": { "str": "devil tail" },
+    "description": "A slick and long red tail that ends in a pointy spade.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": "s",
+    "color": "red",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "angel_wings",
+    "type": "ARMOR",
+    "name": { "str": "pair of angel wings", "str_pl": "pairs of angel wings" },
+    "description": "A rather impressive pair of white wings.  While they may not give you the ability to fly, they make you look angelic.",
+    "weight": "633 g",
+    "volume": "2 L",
+    "longest_side": "106 cm",
+    "price": "39 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "light_gray",
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 15, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]
