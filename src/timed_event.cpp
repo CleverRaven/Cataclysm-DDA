@@ -10,7 +10,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "character.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
@@ -244,7 +243,7 @@ void timed_event::actualize()
             }
             // Check if we should print a message
             if( flood_buf[player_character.posx()][player_character.posy()] != here.ter(
-                    player_character.pos() ) ) {
+                    player_character.pos_bub() ) ) {
                 if( flood_buf[player_character.posx()][player_character.posy()] == ter_t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     get_memorial().add(

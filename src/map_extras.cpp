@@ -20,7 +20,6 @@
 #include "character_id.h"
 #include "city.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -329,37 +328,37 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
-                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
+            if( m.veh_at( tripoint_bub_ms( x,  y, abs_sub.z ) ) &&
+                m.ter( tripoint_bub_ms( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                m.ter_set( tripoint_bub_ms( x, y, abs_sub.z ), ter_t_dirtmound );
             } else {
                 if( x >= c.x - dice( 1, 5 ) && x <= c.x + dice( 1, 5 ) && y >= c.y - dice( 1, 5 ) &&
                     y <= c.y + dice( 1, 5 ) ) {
                     if( one_in( 7 ) &&
-                        m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                        m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
+                        m.ter( tripoint_bub_ms( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                        m.ter_set( tripoint_bub_ms( x, y, abs_sub.z ), ter_t_dirtmound );
                     }
                 }
                 if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
                     y <= c.y + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
-                        m.make_rubble( tripoint( x,  y, abs_sub.z ), furn_f_wreckage, true );
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                            m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
+                        m.make_rubble( tripoint_bub_ms( x,  y, abs_sub.z ), furn_f_wreckage, true );
+                        if( m.ter( tripoint_bub_ms( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint_bub_ms( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
                     } else if( m.is_bashable( tripoint_bub_ms( x, y, abs_sub.z ) ) ) {
-                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                            m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
+                        m.destroy( tripoint_bub_ms( x,  y, abs_sub.z ), true );
+                        if( m.ter( tripoint_bub_ms( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint_bub_ms( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
                     }
 
                 } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
                                          c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), furn_f_wreckage, true );
+                    m.make_rubble( tripoint_bub_ms( x,  y, abs_sub.z ), furn_f_wreckage, true );
                     if( !one_in( 3 ) ) {
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                            m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
+                        if( m.ter( tripoint_bub_ms( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint_bub_ms( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
                     }
                 }
@@ -466,7 +465,7 @@ static void place_trap_if_clear( tinymap &m, const point &target, trap_id trap_t
 
 static bool mx_minefield( map &, const tripoint &abs_sub )
 {
-    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
+    const tripoint_abs_omt abs_omt( coords::project_to<coords::omt>( tripoint_abs_sm( abs_sub ) ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
@@ -1186,7 +1185,7 @@ static bool mx_grove( map &m, const tripoint &abs_sub )
     bool found_tree = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint location( i, j, abs_sub.z );
+            const tripoint_bub_ms location( i, j, abs_sub.z );
             if( m.has_flag_ter( ter_furn_flag::TFLAG_TREE, location ) ) {
                 tree = m.ter( location );
                 found_tree = true;
@@ -1221,7 +1220,7 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     bool found_shrubbery = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint location( i, j, abs_sub.z );
+            const tripoint_bub_ms location( i, j, abs_sub.z );
             if( m.has_flag_ter( ter_furn_flag::TFLAG_SHRUB, location ) ) {
                 shrubbery = m.ter( location );
                 found_shrubbery = true;
@@ -1578,7 +1577,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
 
-    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
+    const tripoint_abs_omt abs_omt( coords::project_to<coords::omt>( tripoint_abs_sm( abs_sub ) ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );

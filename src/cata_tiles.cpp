@@ -3239,7 +3239,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         return false;
     }
 
-    tripoint pbelow = tripoint( p.xy(), p.z - 1 );
+    tripoint_bub_ms pbelow = tripoint_bub_ms( p + tripoint_below );
     nc_color col = c_dark_gray;
 
     const ter_t &curr_ter = here.ter( pbelow ).obj();
@@ -3264,7 +3264,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         col = curr_ter.color();
     }
 
-    draw_square_below( pbelow.xy(), col, sizefactor );
+    draw_square_below( pbelow.xy().raw(), col, sizefactor );
     return true;
 }
 
@@ -5364,7 +5364,7 @@ void cata_tiles::get_tile_values_with_ter(
 
 void cata_tiles::do_tile_loading_report()
 {
-    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << tileset_ptr->get_tileset_id();
 
     if( !g->is_core_data_loaded() ) {
         // There's nothing to do anymore without the core data.

@@ -3083,6 +3083,7 @@ static void display_talk_topic()
     if( npc_count > 0 ) {
         for( npc *n : visible_npcs ) {
             npc_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, n->disp_name() );
+            menu_ind++;
         }
         npc_menu.query();
         if( npc_menu.ret >= 0 && npc_menu.ret < npc_count ) {
@@ -3091,7 +3092,7 @@ static void display_talk_topic()
             std::sort( dialogue_ids.begin(), dialogue_ids.end(), localized_compare );
             uilist talk_topic_menu;
             talk_topic_menu.text = _( "Choose talk topic to display:" );
-            int menu_ind = 0;
+            menu_ind = 0;
             for( auto &elem : dialogue_ids ) {
                 talk_topic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
                 ++menu_ind;
@@ -4070,7 +4071,11 @@ void debug()
             debugmsg( "Test debugmsg" );
             break;
         case debug_menu_index::CRASH_GAME:
-            static_cast<void>( raise( SIGSEGV ) );
+            if( query_yn( _( "Are you sure you want to crash the game?" ) ) ) {
+                if( query_yn( _( "Are you REALLY sure you want to crash the game?" ) ) ) {
+                    static_cast<void>( raise( SIGSEGV ) );
+                };
+            }
             break;
         case debug_menu_index::ACTIVATE_EOC: {
             run_eoc_menu();

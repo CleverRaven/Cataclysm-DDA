@@ -28,7 +28,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -156,7 +155,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     const player_activity &act = player_character.activity;
     map &here = get_map();
     if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
-        if( veh_pointer_or_null( here.veh_at( tripoint( act.values[0], act.values[1],
+        if( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( act.values[0], act.values[1],
                                               player_character.posz() ) ) ) == &veh ) {
             if( act.values[6] >= part ) {
                 player_character.cancel_activity();
@@ -712,15 +711,15 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
     map &here = get_map();
-    point top_left_actual = global_pos3().xy() + coord_translate( front_left );
-    point top_right_actual = global_pos3().xy() + coord_translate( front_right );
-    std::vector<point> front_row = line_to( here.getglobal( tripoint_bub_ms{top_left_actual.x, top_left_actual.y, here.get_abs_sub().z()} ).xy().raw(),
-                                            here.getglobal( tripoint_bub_ms{ top_right_actual.x, top_right_actual.y, here.get_abs_sub().z() } ).xy().raw() );
-    for( const point &elem : front_row ) {
+    point_bub_ms top_left_actual = pos_bub().xy() + coord_translate( front_left );
+    point_bub_ms top_right_actual = pos_bub().xy() + coord_translate( front_right );
+    std::vector<point_abs_ms> front_row = line_to( here.getglobal( tripoint_bub_ms{top_left_actual.x(), top_left_actual.y(), here.get_abs_sub().z()} ).xy(),
+                                          here.getglobal( tripoint_bub_ms{ top_right_actual.x(), top_right_actual.y(), here.get_abs_sub().z()} ).xy() );
+    for( const point_abs_ms &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
-            point point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
-            points_to_check.emplace( point_to_add );
+            point_abs_ms point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
+            points_to_check.emplace( point_to_add.raw() );
         }
     }
     collision_check_points = points_to_check;
@@ -1564,7 +1563,7 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack 
             vehicle *veh_matched = nullptr;
             std::set<tripoint> parts_matched;
             for( const int &rack_part : filtered_rack ) {
-                const tripoint search_pos = global_part_pos3( rack_part ) + offset;
+                const tripoint_bub_ms search_pos = bub_part_pos( rack_part ) + offset;
                 const optional_vpart_position ovp = get_map().veh_at( search_pos );
                 if( !ovp || &ovp->vehicle() == this || ovp->vehicle().is_appliance() ) {
                     continue;
@@ -1574,7 +1573,7 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack 
                     veh_matched = test_veh;
                     parts_matched.clear();
                 }
-                parts_matched.insert( search_pos );
+                parts_matched.insert( search_pos.raw() );
 
                 std::set<tripoint> test_veh_points;
                 for( const vpart_reference &vpr : test_veh->get_all_parts() ) {
@@ -3494,13 +3493,12 @@ tripoint_abs_omt vehicle::global_omt_location() const
 
 tripoint vehicle::global_pos3() const
 {
-    return sm_to_ms_copy( sm_pos ) + pos;
+    return vehicle::pos_bub().raw();
 }
 
 tripoint_bub_ms vehicle::pos_bub() const
 {
-    // TODO: fix point types
-    return tripoint_bub_ms( global_pos3() );
+    return coords::project_to<coords::ms>( tripoint_bub_sm( sm_pos ) ) + pos;
 }
 
 tripoint vehicle::global_part_pos3( const int &index ) const
@@ -6838,29 +6836,29 @@ void vehicle::do_towing_move()
 
         default:
             towed_veh->skidding = true;
-            std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
-                                                    here.bub_from_abs( tower_tow_point ).raw() );
-            tripoint nearby_destination;
+            std::vector<tripoint_bub_ms> lineto = line_to( here.bub_from_abs( towed_tow_point ),
+                                                  here.bub_from_abs( tower_tow_point ) );
+            tripoint_bub_ms nearby_destination;
             if( lineto.size() >= 2 ) {
                 nearby_destination = lineto[1];
             } else {
-                nearby_destination = tower_tow_point.raw();
+                nearby_destination = here.bub_from_abs( tower_tow_point );
             }
-            const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
-                                              nearby_destination.xy() +
-                                              tripoint( 0, 0, towed_veh->global_pos3().z ) );
-            const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                             clamp( destination_delta.y, -1, 1 ),
-                                             clamp( destination_delta.z, -1, 1 ) );
+            const tripoint_rel_ms destination_delta( here.bub_from_abs( tower_tow_point ).xy() -
+                    nearby_destination.xy() +
+                    tripoint_rel_ms( 0, 0, towed_veh->pos_bub().z() ) );
+            const tripoint_rel_ms move_destination( clamp( destination_delta.x(), -1, 1 ),
+                                                    clamp( destination_delta.y(), -1, 1 ),
+                                                    clamp( destination_delta.z(), -1, 1 ) );
             here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-            towed_veh->move = tileray( destination_delta.xy() );
+            towed_veh->move = tileray( destination_delta.xy().raw() );
     }
 }
 
 bool vehicle::is_external_part( const tripoint &part_pt ) const
 {
     map &here = get_map();
-    for( const tripoint &elem : here.points_in_radius( part_pt, 1 ) ) {
+    for( const tripoint_bub_ms &elem : here.points_in_radius( tripoint_bub_ms( part_pt ), 1 ) ) {
         const optional_vpart_position vp = here.veh_at( elem );
         if( !vp ) {
             return true;

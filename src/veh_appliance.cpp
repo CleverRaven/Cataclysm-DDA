@@ -54,7 +54,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
+void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -89,7 +90,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Connect to any neighbouring appliances or wires once
     std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
@@ -102,7 +103,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
+                veh->connect( p.raw(), trip.raw() );
                 connected_vehicles.insert( &veh_target );
             }
         }

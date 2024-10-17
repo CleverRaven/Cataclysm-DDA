@@ -319,6 +319,10 @@ class spell_type
         // max pierce damage
         dbl_or_var max_pierce;
 
+        dbl_or_var min_bash_scaling;
+        dbl_or_var bash_scaling_increment;
+        dbl_or_var max_bash_scaling;
+
         // base energy cost of spell
         dbl_or_var base_energy_cost;
         // increment of energy cost per spell level
@@ -420,6 +424,9 @@ class spell_type
         static const int min_pierce_default;
         static const float pierce_increment_default;
         static const int max_pierce_default;
+        static const float min_bash_scaling_default;
+        static const float max_bash_scaling_default;
+        static const float bash_scaling_increment_default;
         static const int base_energy_cost_default;
         static const float energy_increment_default;
         static const trait_id spell_class_default;
@@ -476,6 +483,8 @@ class spell
 
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
+
+        double bash_scaling( const Creature &caster ) const;
 
         static int exp_for_level( int level );
         // how much exp you need for the spell to gain a level
@@ -554,7 +563,8 @@ class spell
         bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
-        int get_amount_of_projectiles( const Character &guy ) const;
+        // if spell shoots more than one projectile
+        int get_amount_of_projectiles( const Creature &guy ) const;
         // is this spell valid
         bool is_valid() const;
         int bps_affected() const;

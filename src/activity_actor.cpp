@@ -112,6 +112,7 @@
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
@@ -336,8 +337,8 @@ void aim_activity_actor::start( player_activity &act, Character &who )
     item &it = *weapon.get_item();
 
     if( !check_gun_ability_to_shoot( who, it ) ) {
-        aborted = true; // why doesn't interrupt?
-        act.set_to_null();
+        aborted = true;
+        finish( act, who );
     }
 
     // Time spent on aiming is determined on the go by the player
@@ -683,6 +684,50 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
+}
+
+void bash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    avatar *player = who.as_avatar();
+    if( player == nullptr ) {
+        debugmsg( "An NPC (%s) has been assigned ACT_BASH", who.get_name() );
+        who.cancel_activity();
+        return;
+    }
+    while( who.get_moves() > 0 ) {
+        avatar::smash_result res = player->smash( target );
+        if( !res.did_smash ) {
+            add_msg( m_info, _( "Something got in the way of smashing." ) );
+            who.cancel_activity();
+            return;
+        }
+        if( res.success ) {
+            who.cancel_activity();
+            return;
+        }
+        if( res.resistance < 0 || res.skill < res.resistance ) {
+            add_msg( m_info, _( "You're no longer able to make progress smashing here." ) );
+            who.cancel_activity();
+            return;
+        }
+    }
+}
+
+void bash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsin )
+{
+    bash_activity_actor actor( tripoint_bub_ms_zero );
+
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+
+    return actor.clone();
 }
 
 void gunmod_remove_activity_actor::start( player_activity &act, Character & )
@@ -5641,6 +5686,15 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
 
 void outfit_swap_actor::start( player_activity &act, Character &who )
 {
+    if( !who.is_wielding( *outfit_item ) && !who.wield( *outfit_item ) ) {
+        who.add_msg_if_player( m_warning,
+                               _( "You'll need the outfit in your hands before you can change outfits." ) );
+        act.set_to_null();
+        return;
+    }
+    if( !outfit_item ) { // if we wielded it in the last if, it's invalidated and reacquired here
+        outfit_item = who.get_wielded_item();
+    }
     item fake_storage( outfit_item->typeId() );
     for( const item_location &worn_item : who.get_visible_worn_items() ) {
         act.moves_total += who.item_handling_cost( *worn_item ); // Cost of taking it off
@@ -8149,6 +8203,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { ACT_AIM, &aim_activity_actor::deserialize },
     { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
+    { ACT_BASH, &bash_activity_actor::deserialize },
     { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },

@@ -26,7 +26,6 @@
 #include "cata_type_traits.h"
 #include "cata_utility.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coords_fwd.h"
 #include "creature.h"
 #include "enums.h"
@@ -552,15 +551,12 @@ class map
         void clear_spawns();
         void clear_traps();
 
-        const_maptile maptile_at( const tripoint &p ) const;
         const_maptile maptile_at( const tripoint_bub_ms &p ) const;
         // TODO: Get rid of untyped overload
         maptile maptile_at( const tripoint &p );
         maptile maptile_at( const tripoint_bub_ms &p );
     private:
         // Versions of the above that don't do bounds checks
-        // TODO: Get rid of untyped overload.
-        const_maptile maptile_at_internal( const tripoint &p ) const;
         const_maptile maptile_at_internal( const tripoint_bub_ms &p ) const;
         // TODO: Get rid of untyped overload.
         maptile maptile_at_internal( const tripoint &p );
@@ -641,8 +637,6 @@ class map
         // TODO: Get rid of untyped overload.
         bool impassable_ter_furn( const tripoint &p ) const;
         bool impassable_ter_furn( const tripoint_bub_ms &p ) const;
-        // TODO: Get rid of untyped overload.
-        bool passable_ter_furn( const tripoint &p ) const;
         bool passable_ter_furn( const tripoint_bub_ms &p ) const;
 
         /**
@@ -860,8 +854,6 @@ class map
         bool vehproceed( VehicleList &vehicle_list );
 
         // Vehicles
-        // TODO: Get rid of untyped overload.
-        VehicleList get_vehicles( const tripoint &start, const tripoint &end );
         VehicleList get_vehicles( const tripoint_bub_ms &start, const tripoint_bub_ms &end );
         /**
         * Checks if tile is occupied by vehicle and by which part.
@@ -873,27 +865,18 @@ class map
         optional_vpart_position veh_at( const tripoint_abs_ms &p ) const;
         optional_vpart_position veh_at( const tripoint_bub_ms &p ) const;
         vehicle *veh_at_internal( const tripoint_bub_ms &p, int &part_num );
-        // TODO: get rid of untyped overload.
-        const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         const vehicle *veh_at_internal( const tripoint_bub_ms &p, int &part_num ) const;
         // Put player on vehicle at x,y
-        // TODO: get rid of untyped overload
-        void board_vehicle( const tripoint &p, Character *pl );
         void board_vehicle( const tripoint_bub_ms &p, Character *pl );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
         void unboard_vehicle( const vpart_reference &, Character *passenger,
                               bool dead_passenger = false );
         // Remove passenger from vehicle at p.
-        // TODO: Get rid of untyped overload.
-        void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         void unboard_vehicle( const tripoint_bub_ms &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
         // optionally: include a list of parts to displace instead of the entire vehicle
-        // TODO: Get rid of untyped overload.
-        bool displace_vehicle( vehicle &veh, const tripoint &dp, bool adjust_pos = true,
-                               const std::set<int> &parts_to_move = {} );
         bool displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, bool adjust_pos = true,
                                const std::set<int> &parts_to_move = {} );
         // make sure a vehicle that is split across z-levels is properly supported
@@ -918,13 +901,9 @@ class map
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
-        // TODO: Get rid of untyped overload.
-        vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
         vehicle *move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tileray &facing );
 
         // Furniture
-        // TODO: Get rid of untyped overload.
-        void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture );
         void set( const tripoint_bub_ms &p, const ter_id &new_terrain, const furn_id &new_furniture );
         void set( const point_bub_ms &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
             furn_set( p, new_furniture );
@@ -978,7 +957,7 @@ class map
         // TODO: Get rid of untyped overload.
         bool furn_set( const point &p, const furn_id &new_furniture,
                        bool avoid_creatures = false ) { // TODO: Get rid of untyped version.
-            return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
+            return furn_set( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         bool furn_set( const point_bub_ms &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
             return furn_set( tripoint_bub_ms( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
@@ -1057,8 +1036,6 @@ class map
         /**
          * Returns the full harvest list, for spawning.
          */
-        // TODO: Get rid of untyped overload.
-        const harvest_id &get_harvest( const tripoint &p ) const;
         const harvest_id &get_harvest( const tripoint_bub_ms &p ) const;
         /**
          * Returns names of the items that would be dropped.
@@ -1066,8 +1043,6 @@ class map
         // TODO: Get rid of untyped overload.
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         const std::set<std::string> &get_harvest_names( const tripoint_bub_ms &p ) const;
-        // TODO: Get rid of untyped overload.
-        ter_id get_ter_transforms_into( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint_bub_ms &p ) const;
 
         // TODO: fix point types (remove the first overload)
@@ -1075,7 +1050,7 @@ class map
         bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain, bool avoid_creatures = false );
         // TODO: fix point types (remove the first overload)
         bool ter_set( const point &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
-            return ter_set( tripoint( p, abs_sub.z() ), new_terrain, avoid_creatures );
+            return ter_set( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_terrain, avoid_creatures );
         }
         bool ter_set( const point_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
             return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain, avoid_creatures );
@@ -1085,7 +1060,7 @@ class map
         std::string tername( const tripoint &p ) const;
         std::string tername( const tripoint_bub_ms &p ) const;
         std::string tername( const point &p ) const {
-            return tername( tripoint( p, abs_sub.z() ) );
+            return tername( tripoint_bub_ms( p.x, p.y, abs_sub.z() ) );
         }
         // TODO: Get rid of untyped overload.
         std::string tername( const point_bub_ms &p ) const {
@@ -1146,15 +1121,11 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        // TODO: get rid of untyped overload.
-        void examine( Character &you, const tripoint &pos ) const;
         void examine( Character &you, const tripoint_bub_ms &pos ) const;
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
          */
-        // TODO: Get rid of untyped overload.
-        bool is_harvestable( const tripoint &pos ) const;
         bool is_harvestable( const tripoint_bub_ms &pos ) const;
 
         // Flags
@@ -2727,7 +2698,7 @@ class tinymap : private map
         }
         // TODO: Get rid of untyped overload.
         bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
-            return map::ter_set( p, new_terrain, avoid_creatures );
+            return map::ter_set( tripoint_bub_ms( p ), new_terrain, avoid_creatures );
         }
         bool ter_set( const tripoint_omt_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
             return map::ter_set( rebase_bub( p ), new_terrain, avoid_creatures );
@@ -2755,7 +2726,7 @@ class tinymap : private map
         }
         // TODO: Get rid of untyped overload.
         bool has_furn( const tripoint &p ) const {
-            return map::has_furn( p );
+            return map::has_furn( tripoint_bub_ms( p ) );
         }
         bool has_furn( const tripoint_omt_ms &p ) const {
             return map::has_furn( rebase_bub( p ) );

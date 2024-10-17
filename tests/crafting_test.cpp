@@ -439,7 +439,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     clear_avatar();
     clear_map();
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
     player_character.toggle_trait( trait_DEBUG_CNF );
     player_character.setpos( test_origin );
@@ -449,7 +449,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
         grant_profs_to_character( player_character, r );
     }
 
-    const tripoint battery_pos = test_origin + tripoint_north;
+    const tripoint_bub_ms battery_pos = test_origin + tripoint_north;
     std::optional<item> battery_item( "test_storage_battery" );
     place_appliance( battery_pos, vpart_ap_test_storage_battery, battery_item );
 

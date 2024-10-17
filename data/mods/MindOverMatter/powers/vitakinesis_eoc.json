@@ -219,9 +219,32 @@
     "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
     "effect": [
       { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": "510 minutes" },
-      { "u_add_effect": "effect_vitakin_wakeful_resting", "duration": "510 minutes" }
+      { "u_add_effect": "effect_vitakin_wakeful_resting", "duration": "510 minutes" },
+      {
+        "queue_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
+        "time_in_future": [
+          { "math": [ "1800 - (u_spell_level('vita_sleeping_trance') * 25 )" ] },
+          { "math": [ "3600 - (u_spell_level('vita_sleeping_trance') * 50)" ] }
+        ]
+      }
     ],
     "false_effect": [ { "u_message": "You're feeling refreshed and have no need to meditate.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP_EXPERIENCE",
+    "condition": { "u_has_effect": "effect_vitakin_wakeful_resting" },
+    "effect": [
+      { "if": { "math": [ "u_val('focus')", ">=", "25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
+        "time_in_future": [
+          { "math": [ "1800 - (u_spell_level('vita_sleeping_trance') * 25 )" ] },
+          { "math": [ "3600 - (u_spell_level('vita_sleeping_trance') * 50)" ] }
+        ]
+      }
+    ]
   },
   {
     "id": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE",
@@ -289,6 +312,13 @@
           { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
           { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
         ]
+      },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
+        "time_in_future": [
+          { "math": [ "900 - (u_spell_level('vita_healing_trance') * 12 )" ] },
+          { "math": [ "1800 - (u_spell_level('vita_healing_trance') * 25)" ] }
+        ]
       }
     ]
   },
@@ -297,7 +327,8 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "run_eocs": [ "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
         "time_in_future": [
@@ -318,6 +349,22 @@
         "time_in_future": [
           { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
           { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
+    "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
+    "effect": [
+      { "if": { "math": [ "u_val('focus')", ">=", "25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
+        "time_in_future": [
+          { "math": [ "900 - (u_spell_level('vita_healing_trance') * 12 )" ] },
+          { "math": [ "1800 - (u_spell_level('vita_healing_trance') * 25)" ] }
         ]
       }
     ]
@@ -1006,7 +1053,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
-      { "math": [ "u_calories()", "-=", "rng( 150,650 )" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "-=", "rng( 150,650 )" ] },
       { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
       { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
       { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,80 )" ] },
@@ -1025,29 +1072,68 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH_DAMAGE_TRACKER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_vita_return_from_death" },
+    "effect": [
+      {
+        "if": { "math": [ "u_hp('torso')", ">", "0" ] },
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_torso", "=", "u_hp('torso')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('head')", ">", "0" ] },
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_head", "=", "u_hp('head')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('arm_l')", ">", "0" ] },
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_l", "=", "u_hp('arm_l')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('arm_r')", ">", "0" ] },
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_r", "=", "u_hp('arm_r')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('leg_l')", ">", "0" ] },
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_l", "=", "u_hp('leg_l')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('leg_r')", ">", "0" ] },
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_r", "=", "u_hp('leg_r')" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH_START",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
-      { "math": [ "u_calories()", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
-      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 5)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 5)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 5)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 5)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 5)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 5)" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
+      { "math": [ "u_hp('ALL_MINOR')", "=", "999" ] },
+      { "math": [ "u_hp('torso')", "=", "max( u_vitakinesis_return_from_death_hp_torso, 10)" ] },
+      { "math": [ "u_hp('head')", "=", "max( u_vitakinesis_return_from_death_hp_head, 10)" ] },
+      { "math": [ "u_hp('arm_l')", "=", "max( u_vitakinesis_return_from_death_hp_arm_l, 10)" ] },
+      { "math": [ "u_hp('arm_r')", "=", "max( u_vitakinesis_return_from_death_hp_arm_r, 10)" ] },
+      { "math": [ "u_hp('leg_l')", "=", "max( u_vitakinesis_return_from_death_hp_leg_l, 10)" ] },
+      { "math": [ "u_hp('leg_r')", "=", "max( u_vitakinesis_return_from_death_hp_leg_r, 10)" ] },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
       { "math": [ "u_vitamin('blood')", "=", "0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "onfire" },
       { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "downed" },
       { "u_lose_effect": "stunned" },
       { "u_lose_effect": "venom_blind" },
       { "u_lose_effect": "sap" },
+      { "u_lose_effect": "staggered_character" },
       { "u_lose_effect": "nausea" },
       { "u_lose_effect": "bleed" },
+      { "u_lose_effect": "blind" },
+      { "u_lose_effect": "deaf" },
       { "u_lose_effect": "effect_vita_return_from_death" },
-      { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" }
+      { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" },
+      { "u_add_effect": "effect_vita_super_heal_pain_allayed", "duration": "300 seconds" }
     ]
   }
 ]

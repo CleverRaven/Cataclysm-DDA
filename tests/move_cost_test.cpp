@@ -101,13 +101,13 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
         WHEN( "on pavement and running" ) {
             ava.set_movement_mode( move_mode_run );
-            here.ter_set( ava.pos(), ter_t_pavement );
+            here.ter_set( ava.pos_bub(), ter_t_pavement );
             THEN( "much faster than sneakers" ) {
                 CHECK( ava.run_cost( 100 ) == 27 );
             }
         }
         WHEN( "on grass" ) {
-            here.ter_set( ava.pos(), ter_t_grass );
+            here.ter_set( ava.pos_bub(), ter_t_grass );
             THEN( "much slower than sneakers" ) {
                 CHECK( ava.run_cost( 100 ) == 167 );
             }
@@ -121,13 +121,13 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
         WHEN( "on pavement and running" ) {
             ava.set_movement_mode( move_mode_run );
-            here.ter_set( ava.pos(), ter_t_pavement );
+            here.ter_set( ava.pos_bub(), ter_t_pavement );
             THEN( "faster than sneakers" ) {
                 CHECK( ava.run_cost( 100 ) == 39 );
             }
         }
         WHEN( "on grass" ) {
-            here.ter_set( ava.pos(), ter_t_grass );
+            here.ter_set( ava.pos_bub(), ter_t_grass );
             THEN( "slower than sneakers" ) {
                 CHECK( ava.run_cost( 100 ) == 145 );
             }
@@ -141,13 +141,13 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.0 ) );
         WHEN( "on pavement and running" ) {
             ava.set_movement_mode( move_mode_run );
-            here.ter_set( ava.pos(), ter_t_pavement );
+            here.ter_set( ava.pos_bub(), ter_t_pavement );
             THEN( "slightly faster than sneakers" ) {
                 CHECK( ava.run_cost( 100 ) == 42 );
             }
         }
         WHEN( "on grass" ) {
-            here.ter_set( ava.pos(), ter_t_grass );
+            here.ter_set( ava.pos_bub(), ter_t_grass );
             THEN( "slightly slower than sneakers" ) {
                 CHECK( ava.run_cost( 100 ) == 110 );
             }
