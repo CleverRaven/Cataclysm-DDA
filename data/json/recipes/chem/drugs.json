@@ -57,6 +57,32 @@
   },
   {
     "type": "recipe",
+    "result": "meth",
+    "id_suffix": "from_phosporous_iodine",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "6 h",
+    "book_learn": [ [ "recipe_labchem", 6 ] ],
+    "batch_time_factors": [ 30, 5 ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 } ],
+    "components": [
+      [ [ "dayquil", 25 ], [ "nyquil", 25 ] ],
+      [ [ "iodine_crystal", 7 ] ],
+      [ [ "red_phosphorous", 2 ], [ "red_phosphorous_small", 200 ] ],
+      [ [ "chem_acetone", 1 ] ],
+      [ [ "chem_methanol", 2 ] ],
+      [ [ "lye_powder", 5 ], [ "chem_potassium_hydroxide", 25 ], [ "lye", 1 ], [ "lye_potassium", 1 ] ]
+    ],
+    "charges": 6
+  },
+  {
+    "type": "recipe",
     "result": "pure_meth",
     "id_suffix": "from_phosporous_iodine",
     "activity_level": "NO_EXERCISE",
