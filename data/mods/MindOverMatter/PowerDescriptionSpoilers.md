@@ -934,6 +934,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damage and most telepathy-related effects while this power is active.<br />
 *Prerequisites*: Concentration Trance 5<br />
 
+## Mesmerize (C)
+*Difficulty*: 3<br />
+*Target*: One target within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 8 minutes to 20 seconds, plus 2 to 5 seconds per power level<br />
+*Stamina Cost*: 3500, minus 75 per level to a minimum of 750<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 35<br />
+*Effects*: Send your target into a trance, making them stand in place or wander aimlessly for the power's duration. The chance to be mesmerized depends on the target: animals and similar beings are always mesmerized, against feral humans there is a 90% chance of success, against sapient humans the chance depends on their intelligence and perception, and against alien beings there is a 50% chance of success. If the target takes any damage, it will snap them out of the mesmerize effect.<br />
+*Prerequisites*: Sense Minds 6<br />
+
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
 *Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
