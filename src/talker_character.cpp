@@ -130,6 +130,12 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam ) const
+{
+    return source->deal_damage( source, bp, dam );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;
