@@ -7237,7 +7237,7 @@ void map::rotate( int turns )
         // Translate bubble -> global -> current map.
         const point_bub_ms old( bub_from_abs( get_map().getglobal( np.pos_bub() ).xy() ) );
 
-        const point_bub_ms new_pos( old.raw().rotate( turns, {SEEX * 2, SEEY * 2} ) );
+        const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
         np.spawn_at_precise( getglobal( tripoint_bub_ms( new_pos, sq.z() ) ) );
     }
 
@@ -7326,7 +7326,7 @@ void map::rotate( int turns )
             if( queued_point_sm.y() % 2 != 0 ) {
                 old.y() += SEEY;
             }
-            const point_bub_ms new_pos( old.raw().rotate( turns, {SEEX * 2, SEEY * 2} ) );
+            const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
             queued_points[queued_point.first] = getglobal( tripoint_bub_ms( new_pos,
                                                 queued_point.second.z() ) );
         }
