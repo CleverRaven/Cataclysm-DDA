@@ -214,7 +214,7 @@ class coord_point_ob : public
             return coord_point_ob( this->raw().abs() );
         }
 
-        constexpr auto rotate( int turns, const point &dim = { 1, 1 } ) const {
+        constexpr auto rotate( int turns, const point &dim = point_south_east ) const {
             return coord_point_ob( this->raw().rotate( turns, dim ) );
         }
 
