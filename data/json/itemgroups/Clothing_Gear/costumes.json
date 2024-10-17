@@ -339,6 +339,7 @@
       { "item": "dragonsuit", "prob": 10 },
       { "item": "felinesuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
+      { "item": "wool_suit_devil", "prob": 15 },
       { "item": "dinosuit", "prob": 10 },
       { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
