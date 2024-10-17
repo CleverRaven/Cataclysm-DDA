@@ -904,7 +904,6 @@
     "volume": "3 L",
     "price": "80 USD",
     "price_postapoc": "3 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "touring_suit",
