@@ -48,7 +48,7 @@
       { "level": 3, "name": "swimming" },
       { "level": 5, "name": "deduction" }
     ],
-    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar", "prof_gunsmithing_basic", "prof_gun_cleaning",  ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar", "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "entries": [
