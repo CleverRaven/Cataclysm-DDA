@@ -1,0 +1,713 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "microlab_portal_security1",
+        "microlab_portal_security2",
+        "microlab_portal_security_hallway1",
+        "microlab_portal_security3",
+        "microlab_portal_security4"
+      ],
+      [
+        "microlab_portal_security5",
+        "microlab_portal_security6",
+        "microlab_portal_security_hallway2",
+        "microlab_portal_security7",
+        "microlab_portal_security8"
+      ]
+    ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                         ......................................                                         ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        "
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": {
+        "G": "t_card_science",
+        "W": "t_gates_mech_control_lab",
+        "z": "t_strconc_floor",
+        "_": "t_carpet_concrete_red",
+        "1": "t_nether_glass_floor",
+        "8": "t_nether_glass_wall",
+        "$": "t_metal_ventilation_shutter"
+      },
+      "furniture": {
+        "A": "f_counter",
+        "M": "f_server",
+        ":": "f_xedra_antenna",
+        "Ñ": "f_locker",
+        "H": "f_table",
+        "D": "f_desk",
+        "Ó": "f_utility_shelf",
+        "7": "f_machinery_light",
+        "&": "f_machinery_electronic",
+        "ä": "f_impaled_officer",
+        "ü": "f_impaled_soldier"
+      },
+      "items": {
+        ",": { "item": "mercenary_battle_traces", "chance": 40 },
+        "_": { "item": "mercenary_battle_traces", "chance": 40 },
+        "A": { "item": "altered_object_i", "chance": 100 },
+        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
+      },
+      "computers": {
+        "9": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "microlab_portal_security1",
+        "microlab_portal_security2",
+        "microlab_portal_security_hallway1",
+        "microlab_portal_security3",
+        "microlab_portal_security4"
+      ],
+      [
+        "microlab_portal_security5",
+        "microlab_portal_security6",
+        "microlab_portal_security_hallway2",
+        "microlab_portal_security7",
+        "microlab_portal_security8"
+      ]
+    ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                        ........................................                                        ",
+        "                                        .//////////////////////////////////////.                                        ",
+        "                                        ./____________________________________/.                                        ",
+        "                                        ./   r___rrr___r  r__rrrr___rrr___rrr_/.                                        ",
+        "                                        ./   r___r r___r  r__r  r___r r___r r_/.                                        ",
+        "                                        ./   r___r r___r  r__r  r___r r___r r_/.                                        ",
+        "                                        ./   r___r r___r  r__r  r___r r___r r_/.                                        ",
+        "                                        ./   r___r r___r  r__r  r___r r___r r_/rrr                                      ",
+        "                                        ./   r___r r___r  r__r  r___r r___r r_..>r                                      ",
+        "                                        ./   /rrr/ /rrr/  r__r  /rrr/ /rrr/ rr/rrr                                      ",
+        "                                        ./                r__r                /.                                        ",
+        "                                        ./                r__r                /.                                        ",
+        "                                        ./                r__r                /.                                        ",
+        "                                        ./   /rrr/ /rrr/  r__r  /rrr/ /rrr/   /.                                        ",
+        "                                        ./   r___r r___r  r__rrrr___r r___r   /.                                        ",
+        "                                        ./   r___rrr___rrrr__r_>r___rrr___r   /.                                        ",
+        "                                        ./   r____________________________r   /.                                        ",
+        "                                        ./   r___rrr___rrrr___rrr___rrr___r   /.                                        ",
+        "                                        ./   r___r r___r  rrrr  r___r r___r   /.                                        ",
+        "                                        ./   r___r r___r        r___r r___r   /.                                        ",
+        "                                        ./   /rrr/ /rrr/        /___/ /___/   /.                                        ",
+        "                                        ./                                    /.                                        ",
+        "                                        ./                                    /.                                        ",
+        "                                        .//////////////////////////////////////.                                        ",
+        "                                        ........................................                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        "
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": {
+        "G": "t_card_science",
+        "W": "t_gates_mech_control_lab",
+        "z": "t_strconc_floor",
+        "_": "t_carpet_concrete_red",
+        "1": "t_nether_glass_floor",
+        "8": "t_nether_glass_wall",
+        "$": "t_metal_ventilation_shutter"
+      },
+      "furniture": {
+        "A": "f_counter",
+        "M": "f_server",
+        ":": "f_xedra_antenna",
+        "Ñ": "f_locker",
+        "H": "f_table",
+        "D": "f_desk",
+        "Ó": "f_utility_shelf",
+        "7": "f_machinery_light",
+        "&": "f_machinery_electronic",
+        "ä": "f_impaled_officer",
+        "ü": "f_impaled_soldier"
+      },
+      "items": {
+        ",": { "item": "mercenary_battle_traces", "chance": 40 },
+        "_": { "item": "mercenary_battle_traces", "chance": 40 },
+        "A": { "item": "altered_object_i", "chance": 100 },
+        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
+      },
+      "computers": {
+        "9": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "id": "mercenary_battle_traces",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "shot_hull", "prob": 30 }, { "item": "223_casing", "prob": 70, "count": [ 3, 5 ] } ],
+        "prob": 100
+      },
+      { "item": "xedra40", "prob": 1 },
+      { "item": "xedra10", "prob": 1 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "microlab_portal_security1",
+        "microlab_portal_security2",
+        "microlab_portal_security_hallway1",
+        "microlab_portal_security3",
+        "microlab_portal_security4"
+      ],
+      [
+        "microlab_portal_security5",
+        "microlab_portal_security6",
+        "microlab_portal_security_hallway2",
+        "microlab_portal_security7",
+        "microlab_portal_security8"
+      ]
+    ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                        ||||||||||||||||||||||||||||||||||||||||                                        ",
+        "                                        |                                      |                                        ",
+        "                                        | /  /   / /   /        /___/ /___/  / |                                        ",
+        "                                        |                       ____   ____    |                                        ",
+        "                                        |                       ____   ____    |             rrrrrrrrrrrrrrrr           ",
+        "                                        |                 rrrr  _____ _____    |             r..............r           ",
+        "                                        |                 r__r  _____ _____    |r>r          r..............r           ",
+        "                                     ...|rr               r__r  ____   ____    |..rrrrrrrrrrrr..............r           ",
+        "                                     ...|_r               r__r  ____   ____    |<.___________.......&&......r           ",
+        "                                     ...|_r  /   / /   /  r__r  /___/ /___/  / |..rrrrrrrrrrr.......&&......r           ",
+        "                                     ...|Xr               r__rrrr   rrr   rrrrr|rrr          r..............r           ",
+        "                                        |_r  r            r____________________|             r..............r           ",
+        "                                        |_r               r__rrrr   rrr   rrrr_|             r..............r           ",
+        "                                        |_r  /   / /   /  r__r  /___/ /___/  /_|             rrrrrrrrrrrrrrrr           ",
+        "                                        |_r               r__r  ____   ____  r_|                                        ",
+        "                                        |_r               r__r <____   ____  r_|                                        ",
+        "                                        |_r               r___  _____ _____  r_|                                        ",
+        "                                        |_r               r___  _____ _____  r_|                                        ",
+        "                                        |_r               r__r  ____   ____  r_|                                        ",
+        "                                        |_r               r__r  ____   ____  r_|                                        ",
+        "                                        |_r  /   / /   /  r__r  /___/ /___/  /_|                                        ",
+        "                                        |_r               r__r               r_|                                        ",
+        "                                        |_rrrrrrrrrrrrrrrrr__rrrrrrrrrrrrrrrrr_|                                        ",
+        "                                        |______________________________________|                                        ",
+        "                                        ||||||||||||||||||||||||||||||||||||||||                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        "
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": {
+        "G": "t_card_science",
+        "W": "t_gates_mech_control_lab",
+        "z": "t_strconc_floor",
+        "_": "t_carpet_concrete_red",
+        "1": "t_nether_glass_floor",
+        "8": "t_nether_glass_wall",
+        "$": "t_metal_ventilation_shutter"
+      },
+      "furniture": {
+        "A": "f_counter",
+        "M": "f_server",
+        ":": "f_xedra_antenna",
+        "Ñ": "f_locker",
+        "H": "f_table",
+        "D": "f_desk",
+        "Ó": "f_utility_shelf",
+        "7": "f_machinery_light",
+        "&": "f_machinery_electronic",
+        "ä": "f_impaled_officer",
+        "ü": "f_impaled_soldier"
+      },
+      "items": {
+        ",": { "item": "mercenary_battle_traces", "chance": 40 },
+        "_": { "item": "mercenary_battle_traces", "chance": 40 },
+        "A": { "item": "altered_object_i", "chance": 100 },
+        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
+      },
+      "computers": {
+        "9": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "microlab_portal_security1",
+        "microlab_portal_security2",
+        "microlab_portal_security_hallway1",
+        "microlab_portal_security3",
+        "microlab_portal_security4"
+      ],
+      [
+        "microlab_portal_security5",
+        "microlab_portal_security6",
+        "microlab_portal_security_hallway2",
+        "microlab_portal_security7",
+        "microlab_portal_security8"
+      ]
+    ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                .........................                                ...........    ",
+        "                                                ..||.................||..                                ...........    ",
+        "                         .      .       ..........||.................||..         .          .           ...........    ",
+        "                       .............................................................................................    ",
+        "                       .............................................................................................    ",
+        "                       .................FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF....................................    ",
+        "                       ...|||||||||... .F......................................F....................................    ",
+        "                        ................F......................................F....................................    ",
+        "                        ................F......................................F....................................    ",
+        "                       .................||||||||||||||||||||||||||||||||||||||||....................................    ",
+        "                       .................|______________________________________|.                                       ",
+        "                       .................|rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr|.                                       ",
+        "                       .................|                                      |.           ..................          ",
+        "                       .................|                                      |.           .||||||||||||||||.          ",
+        "                         ...............|                                      |.           .|              |.          ",
+        "                         ...............|                                      ||X|         .|              |.          ",
+        "                        ..||||||||||.||||rr                                  rr||||..........|rr            |.          ",
+        "                         ............$  $_r                                  r_$  $         .$xr            |.          ",
+        "                         ............$  $_r                                  r_$  $         .$xr            |.          ",
+        "                         ............||||Xr                                  r_||||..........|rr            |.          ",
+        "                        ................|_r                                  r_|.           .|              |.          ",
+        "                         ...............|_r                                  r_|.           .|              |.          ",
+        "                         ...............|_r                                  r_|.           .||||||||||||||||.          ",
+        "                         ...............|_r                                  r_|.           ..................          ",
+        "                        ..||||||||||....|_r                                  r_|.                                       ",
+        "                         ...............|_r                                  r_|.                                       ",
+        "                                       .|_r                                  r_|.                                       ",
+        "                                       .|_r                                  r_|.                                       ",
+        "                                       .|_r                                  r_|.                                       ",
+        "                                       .|_r                                  r_|.                                       ",
+        "                                       .|_r                                  r_|.                                       ",
+        "                                       .|_rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr_|.                                       ",
+        "                                       .|______________________________________|.                                       ",
+        "                                       .||||||||||||||||||||||||||||||||||||||||.                                       ",
+        "                                       ..........................................                                       ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        "
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": {
+        "G": "t_card_science",
+        "W": "t_gates_mech_control_lab",
+        "z": "t_strconc_floor",
+        "_": "t_carpet_concrete_red",
+        "1": "t_nether_glass_floor",
+        "8": "t_nether_glass_wall",
+        "$": "t_metal_ventilation_shutter"
+      },
+      "furniture": {
+        "A": "f_counter",
+        "M": "f_server",
+        ":": "f_xedra_antenna",
+        "Ñ": "f_locker",
+        "H": "f_table",
+        "D": "f_desk",
+        "Ó": "f_utility_shelf",
+        "7": "f_machinery_light",
+        "&": "f_machinery_electronic",
+        "ä": "f_impaled_officer",
+        "ü": "f_impaled_soldier"
+      },
+      "items": {
+        ",": { "item": "mercenary_battle_traces", "chance": 40 },
+        "_": { "item": "mercenary_battle_traces", "chance": 40 },
+        "A": { "item": "altered_object_i", "chance": 100 },
+        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
+      },
+      "computers": {
+        "9": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "id": "mercenary_battle_traces",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "shot_hull", "prob": 30 }, { "item": "223_casing", "prob": 70, "count": [ 3, 5 ] } ],
+        "prob": 100
+      },
+      { "item": "xedra40", "prob": 1 },
+      { "item": "xedra10", "prob": 1 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "microlab_portal_security1",
+        "microlab_portal_security2",
+        "microlab_portal_security_hallway1",
+        "microlab_portal_security3",
+        "microlab_portal_security4"
+      ],
+      [
+        "microlab_portal_security5",
+        "microlab_portal_security6",
+        "microlab_portal_security_hallway2",
+        "microlab_portal_security7",
+        "microlab_portal_security8"
+      ]
+    ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "  ____________________  ____________________  ____________________  ____________________  ____________________     .....",
+        "  ____________________  ____________________  ____________________  ____________________  ____________________     .....",
+        "  ____________________  ____________________  ____________________  ____________________  ____________________  ........",
+        "  ____________________  ____________________  ____________________  ____________________  ____________________  ........",
+        "  ____________________  ____________________  ____________________  ____________________  ____________________  ........",
+        "..                                                                                                              ........",
+        "...|....|....|         |....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|.",
+        "..|FFFFFFFFFFF         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF|",
+        "...F.........           ........................ .....................................................................F.",
+        "...F.........|         |........................|||||||||||||||||||||||||................................|||||||||||. F.",
+        "...F.........                                   |Eeee|            |3eeE|| ...............................|         |. F.",
+        "..|F.                    |      |       |||||||||eeee|            |eeee||         |          |           |         |. F|",
+        "...F.                  ..||====|||=====||       |||íí|            |íí|||||=======|||========|||=========||         |. F.",
+        "...F.                  ..|      |       |         |                  |  |         |          |           |         |. F.",
+        "...F.                  ..|      |       |         |                  |  |         |          |           |         |. F.",
+        "..|F.                  ||||====|||=====||||||||||||               ||||||||       |||         ||         ||         |. F|",
+        "...F.                   =               2                                                                          |. F.",
+        "...F.                   ]               2                                                                          |. F.",
+        "...F.         |        ||||            |||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||. F.",
+        "..|F.                  ..=             ||ºººººººººººººººººººººººººººººººººººººº||   2                           ..... F|",
+        "...F.                  ..=             ||ºººººººººººººººººººººººººººººººººººººº||||||                           ..... F.",
+        "...F.                  ..=             ||ºººººººººººººººººººººººººººººººººººººº||FFFFFFFFFGG||||||||||||||||||GGFFFFF F.",
+        "...F.                  .||             ||ºººººººººººººººººººººººººººººººººººººº||.........  ||||||||||||||||||  ......F.",
+        "..|F.                  ..=             ||ºººººººººººººººººººººººººººººººººººººº||.........  ||              ||  ..... F|",
+        "...F. ...................=             ||ºººººººººººººººººººººººººººººººººººººº||<|.......  ||              ||  ..... F.",
+        "...F  ..................||           ||||ºººººººººººººººººººººººººººººººººººººº||||  -   - ||||  ººººººººº  ||  MMMM  F.",
+        "...F. ...................=           |ºº$ººººººººººººººººººººººººººººººººººººrr$ºº|         ||>  ººººººººº  ||  ||||| F.",
+        "..|F. ...................=           |ºº$rrººººººººººººººººººººººººººººººººººr_$ºº|         ||>  ººººººººº  ||     |6 F|",
+        "...F. ...................=           ||||<rººººººººººººººººººººººººººººººººººr_||||  -   - ||||  ººººººººº  ||     2  F.",
+        "...F. ..................||             ||_rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr_||           ||              ||  (((|  F.",
+        "...F. .................. =             ||______________________________________||           ||              ||    ^|  F.",
+        "..|F. ...................=             ||rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr||.........  ||||||||||||||||||  ..... F|",
+        "...F. ...................=             ||ºººººººººººººººººººººººººººººººººººººº||.........  ||||||||||||||||||  ..... F.",
+        "...F. ..................|||           |||ºººººººººººººººººººººººººººººººººººººº||.........                      ..... F.",
+        "...F. ....................|||||||||||||||ºººººººººººººººººÑÑÑÑººººººººººººººººº||FFFFFFFFFGGFFFFFFFFFFFFFFFFFFGGFFFFF F.",
+        "..|F. .................................||ººººººººººººººººÑÑÑÑÑÑºººººººººººººººº||....F                              F F|",
+        "...F. .................................||ºººººººººººººººººººººººººººººººººººººº||....F  WWWWWWWWWWWWWWWWWWWWWWWWWW  F F.",
+        "...F. .................................||ºººººººººººººººººººººººººººººººººººººº||....F  WWWWWWWWWWWWWWWWWWWWWWWWWW  F F.",
+        "...F. .................................||ºººººººººººººººººººººººººººººººººººººº||....F  WWWWWWWWWWWWWWWWWWWWWWWWWW  F F.",
+        "..|F. .................................||ºººººººººººººººººººººººººººººººººººººº||....F  WWWWWWWWWWWWWWWWWWWWWWWWWW  F F|",
+        "...F. .................................|||ºººººººººººººººººººººººººººººººººººº|||....F  WWWWWWWWWWWWWWWWWWWWWWWWWW  F F.",
+        "...F. .................................|||ºººººººººººººººººººººººººººººººººººº|||....F  WWWWWWWWWWWWWWWWWWWWWWWWWW  F F.",
+        "...F. .................................||||||||||||||||||||||||||||||||||||||||||....F                              F F.",
+        "..|F. .................................||||||||||||||||||||||||||||||||||||||||||FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF F|",
+        "...F.                                                                                                                 F.",
+        "...F..................................................................................................................F.",
+        "..|FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF|",
+        "...|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|....|."
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": {
+        "G": "t_card_science",
+        "W": "t_gates_mech_control_lab",
+        "z": "t_strconc_floor",
+        "_": "t_carpet_concrete_red",
+        "1": "t_nether_glass_floor",
+        "8": "t_nether_glass_wall",
+        "$": "t_metal_ventilation_shutter"
+      },
+      "furniture": {
+        "A": "f_counter",
+        "M": "f_server",
+        ":": "f_xedra_antenna",
+        "Ñ": "f_locker",
+        "H": "f_table",
+        "D": "f_desk",
+        "Ó": "f_utility_shelf",
+        "7": "f_machinery_light",
+        "&": "f_machinery_electronic",
+        "ä": "f_impaled_officer",
+        "ü": "f_impaled_soldier"
+      },
+      "items": {
+        ",": { "item": "mercenary_battle_traces", "chance": 40 },
+        "_": { "item": "mercenary_battle_traces", "chance": 40 },
+        "A": { "item": "altered_object_i", "chance": 100 },
+        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
+      },
+      "computers": {
+        "9": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "id": "mercenary_battle_traces",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "shot_hull", "prob": 30 }, { "item": "223_casing", "prob": 70, "count": [ 3, 5 ] } ],
+        "prob": 100
+      },
+      { "item": "xedra40", "prob": 1 },
+      { "item": "xedra10", "prob": 1 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "microlab_portal_security1",
+        "microlab_portal_security2",
+        "microlab_portal_security_hallway1",
+        "microlab_portal_security3",
+        "microlab_portal_security4"
+      ],
+      [
+        "microlab_portal_security5",
+        "microlab_portal_security6",
+        "microlab_portal_security_hallway2",
+        "microlab_portal_security7",
+        "microlab_portal_security8"
+      ]
+    ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "########################################################################################################################",
+        "########################################################################################################################",
+        "########################################################################################################################",
+        "########################################################################################################################",
+        "########################################################################################################################",
+        "########################################################################################################################",
+        "###||||Ë|||||||||||||||||||||||||||||||||||||||||||||||||||||###########################################################",
+        "###|    5 T                                                 |###########################################################",
+        "###| ||||||||||||||||| |||||||||||||||||||||||||||||||||||| |###########################################################",
+        "###|   ||############| |########################||||||###||2||||||||||||################################################",
+        "###|  >||##########|||2|########################|Eeee|###|    |###|Eeee|################################################",
+        "###| ||||##########|   |########################|eeee|###|    |###|eeee|################################################",
+        "###| |#############|   |#######################|||22||||||((((||||55|||||###############################################",
+        "###| ||||||######|||   |#####################|||                        |||2||||||||||||||||||||||||||||||||||||||||||||",
+        "###| |eeeE||||||||é|(((|||||||||||||||||||||||                            |||                         r|               |",
+        "###| |eeee2 T    5                           2                            2     dh|         r|                         |",
+        "###| |eeee2 T    5                           2                            2     d |         r|                         |",
+        "###| |eeee||||||||||||||||  |||||||||||||||||||  |||||((((((((((((|||||  ||||                                          |",
+        "###| ||||||####|2##|     |  ||          ||||ºº|55|ºººººººººººººººººººº|55|ºº||||||||||||||||||2((((((((((||  ||2(((|||||",
+        "###| |#########|###|     |  ||||||||||| ||ººººr  rººººººººººººººººººººr  rºººº||  |    |     |            |  |   yyyyyy|",
+        "###| |#########|###|     |  |    6|     ||ººººr  rººººººººººººººººººººr  rºººº||  |yyyy|yyyyy|6   hHHh    |  |M My -=- |",
+        "###| |#########|###|     | c|c   6|     |ºººººr  rººººººººººººººººººººr  rººººº|  | yy | y y |6   hHHh    |  |M My =M= |",
+        "###| |#########|###|     |  ||   6|  ||||ºººººr  rººººººººººººººººººººr  rººººº|||||||||||||||6   hHHh   B|  |M My -=- |",
+        "###| |||||||||||||||     |  ||c   |22|6h|ºººººr  rººººººººººººººººººººr  rººººº|#####|       |               |M My     |",
+        "###| |||||||||||||||     |  ||c  c|  | c|ºººººr  rººººººººººººººººººººr  rººººº|#####|       |  ||||||||||||||||||||||||",
+        "###|         T |  5      |  |||||||  ||||ºººººr  rººººººººººººººººººººr  rººººº||||##|       ||2|WWWWWWWWWWW|###########",
+        "| #|||||||||||||||||||22||  |        |  $ºººººr  rººººººººººººººººººººr  rººººº$  |##|       |< |WWWWWWWWW|W|###########",
+        "| #| hth       |VVN|6   ^|  |        |  $ºººººr  rººººººººººººººººººººr  rººººº$  |##|||||||||< |WWWWWWWWW|W|###########",
+        "| #|     ^     |   |dh  ^|  |||||||||||||ºººººr  rººººººººººººººººººººr  rººººº||||#########||| |WWWWWWWWW|W|###########",
+        "|$|| hth ^     |th |d   ||  |OO         |ºººººr  rººººººººººººººººººººr  rººººº|######||||||||||||||WW|||||W|###########",
+        "| O|     ^     |th ||    |  |N   RRRRRRR|ºººººr  rººººººººººººººººººººr  rººººº|######|WWWWWWWWWWWWWWW|###|W|###########",
+        "| O| hth       |th |d    2  |||         |ºººººr  rººººººººººººººººººººr  rººººº|######|W|||||||||||||||###|W|###########",
+        "###############|==||dh  ^|  |th  RRRRRRR|ºººººr  rººººººººººººººººººººr  rººººº|######|WWWWWWWWWWWWWWW|###|W|###########",
+        "###############|? ^|6   ^|  |tt         |_____r  r________....________r  r_____|######||||||||||||||WW|###|W|||||||||||#",
+        "###############|   |||2|||  |((| RRRRRRR|ºººººr  rººººººººÑ..Ñººººººººr  rººººº|######|WWWWWWWWWWWWWWW|###|WWWWWWWWWWW|#",
+        "###############|   5        2  2        |ºººººr  rºººººººÑÑÑÑÑÑºººººººr  rººººº|######|W|||||||||||||||||||||||||||||W|#",
+        "###############|   5        2  2        |_____r  r_________ÑÑ_________r  r_____|######|W|WWWWWWWWWWWWWWWWWWWWWWWWWWW|W|#",
+        "###############|||||((2|||  |((| RRRRRR6|ºººººr  rººººººººººººººººººººr  rººººº|######|W|WWWWWWWWWWWWWWWWWWWWWWWWWWW|W|#",
+        "###############|  D|     |  |O          |ºººººr  rººººººººººººººººººººr  rººººº|######|W|WWWWWWWWWWWWWWWWWWWWWWWWWWW|W|#",
+        "###############| @@|     |  |O   RRRRRRR|ºººººr  rººººººººººººººººººººr  rººººº|######|W|WWWWWWWWWWWWWWWWWWWWWWWWWWW|W|#",
+        "###############|  D|     |  |O          ||ººººr  rººººººººrrrrººººººººr  rºººº||######|W|WWWWWWWWWWWWWWWWWWWWWWWWWWW|W|#",
+        "###############| @@|     |  |O   RR6RRRR||ººººr  rºººººººr    rºººººººr  rºººº||######|WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW|#",
+        "###############|||||||||||||||||||||||||||||rrr  rrrrrrrrr    rrrrrrrrr  rrr||||######|||WWWWWWWWWWWWWWWWWWWWWWWWWWW|||#",
+        "###########################################|||                            |||###########|||||||||||||||||||||||||||||###",
+        "#############################################|||||         66         |||||#############################################",
+        "################################################1||||||||||||||||||||||#################################################",
+        "########################################################################################################################",
+        "########################################################################################################################"
+      ],
+      "palettes": [ "microlab_generic" ],
+      "terrain": {
+        "G": "t_card_science",
+        "W": "t_gates_mech_control_lab",
+        "z": "t_strconc_floor",
+        "_": "t_carpet_concrete_red",
+        "1": "t_nether_glass_floor",
+        "8": "t_nether_glass_wall",
+        "$": "t_metal_ventilation_shutter"
+      },
+      "furniture": {
+        "A": "f_counter",
+        "M": "f_server",
+        ":": "f_xedra_antenna",
+        "Ñ": "f_locker",
+        "H": "f_table",
+        "D": "f_desk",
+        "Ó": "f_utility_shelf",
+        "7": "f_machinery_light",
+        "&": "f_machinery_electronic",
+        "ä": "f_impaled_officer",
+        "ü": "f_impaled_soldier"
+      },
+      "items": {
+        ",": { "item": "mercenary_battle_traces", "chance": 40 },
+        "_": { "item": "mercenary_battle_traces", "chance": 40 },
+        "A": { "item": "altered_object_i", "chance": 100 },
+        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
+      },
+      "computers": {
+        "9": {
+          "name": "Unstable Matter Isolation Chamber",
+          "security": 0,
+          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  }
+]
