@@ -95,8 +95,8 @@
     },
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Zachary_Background" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -104,8 +104,8 @@
     "type": "talk_topic",
     "dynamic_line": "Who I was is gone, dead… died when I put down the monsters wearing the face of my friends.  Ever since then, I've felt nothing but disgust for myself.  Let's not <swear> reminisce.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -113,8 +113,8 @@
     "type": "talk_topic",
     "dynamic_line": "They are nice people, lettin' us stay here 'n all.  I got friends here, and while we may not be members we belong here.  We'll fight together if they ever try to kick us out.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -122,8 +122,8 @@
     "type": "talk_topic",
     "dynamic_line": "It ain't so bad.  I got shelter, heat, and people to defend me if any <zombie> shuffles its way in here.  If I want to eat then I'll be doin' construction work all day.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -131,8 +131,8 @@
     "type": "talk_topic",
     "dynamic_line": "Food is just the thing a starving man needs.  Thanks for the help, <name_g>.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -143,7 +143,7 @@
       "relevant_genders": [ "u" ]
     },
     "responses": [
-      { "text": "Sorry to hear that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sorry to hear that.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "No rest for the weary…", "topic": "TALK_DONE" }
     ]
   },
@@ -181,7 +181,7 @@
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       {
-        "text": "Let's hit the road.",
+        "text": "<lets_go>",
         "condition": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] },
         "effect": "follow",
         "topic": "TALK_DONE"
