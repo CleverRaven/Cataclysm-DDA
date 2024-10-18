@@ -428,7 +428,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_mosquito",
-    "name": { "str": "mosquito  egg" },
+    "name": { "str": "mosquito egg" },
     "description": "The egg of a mosquito.",
     "copy-from": "egg_insect",
     "rot_spawn": { "monster": "mon_mosquito_larva", "chance": 50 }
