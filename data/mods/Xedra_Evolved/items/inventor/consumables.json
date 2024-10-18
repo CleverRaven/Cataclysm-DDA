@@ -28,7 +28,7 @@
     "material": [ "wheat", "flesh", "tomato", "veggy", "egg", "dairy", "junk", "fruit", "gold", "silver" ],
     "color": "yellow",
     "weight": "950 g",
-    "weight": "220 ml",
+    "volume": "220 ml",
     "vitamins": [
       [ "vitC", 30 ],
       [ "calcium", 20 ],
