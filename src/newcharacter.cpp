@@ -1257,7 +1257,7 @@ static std::string assemble_stat_details( avatar &u, const unsigned char sel )
         case 1: {
             description_str =
                 colorize(
-                    string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
+                    string_format( _( "Melee to-hit bonus: %.2f" ), u.get_melee_hit_base() )
                     + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
                                      u.throw_dispersion_per_dodge( false ) ),
                     COL_STAT_BONUS );
