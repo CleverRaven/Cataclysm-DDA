@@ -1743,15 +1743,16 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
     return [target]( dialogue const & d ) {
         tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
                                           target.evaluate( d ) ) ) );
+
+        // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
         point_abs_om overmap_pos;
         tripoint_om_omt potential_city_tile;
         std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( target_pos );
-        // TODO: Remove this in favour of a seperate condition for location z-level
-        if( potential_city_tile.z < -1 ) {
+        if( potential_city_tile.z() < -1 ) {
             return false;
         }
-        overmap &target_overmap = overmap_buffer.get( overmap_pos );
-        return target_overmap.is_in_city( potential_city_tile );
+
+        return overmap_buffer.is_in_city( target_pos );
     };
 }
 
