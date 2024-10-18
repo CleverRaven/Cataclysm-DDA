@@ -922,6 +922,14 @@ overmap_path_params overmap_path_params::for_aircraft()
     return ret;
 }
 
+// TODO: Replace with a proper way to generate overmap_path_params for JSON overmap_connection s or some other way to find the path length along an overmap_connection's terrain
+overmap_path_params overmap_path_params::tmp_road_connection_params()
+{
+    overmap_path_params ret;
+    ret.set_cost( oter_travel_cost_type::road, 1 );
+    return ret;
+}
+
 static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path_params &params )
 {
     if( params.only_known_by_player &&
