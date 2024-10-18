@@ -2530,8 +2530,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
-                if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
-                    display_spell_info( menu->hovered );
+                if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < known_spells.size() ) {
+                    display_spell_info( menu->previewing );
                 }
             }
             ImGui::EndChild();

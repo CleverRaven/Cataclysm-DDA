@@ -150,7 +150,7 @@ void uilist_impl::draw_controls()
                         }
                         if( ImGui::Selectable( "##s", is_selected, flags ) ) {
                             parent.fselected = i;
-                            parent.selected = parent.hovered = parent.fentries[ parent.fselected ];
+                            parent.selected = parent.previewing = parent.fentries[ parent.fselected ];
                             // We are going to return now that the user clicked on something, so scrolling seems
                             // unnecessary. However, the debug spawn item function reuses the same menu to let the
                             // user spawn multiple items and it’s weird if the correct item isn’t scrolled into view
@@ -163,7 +163,7 @@ void uilist_impl::draw_controls()
                                            ImGui::GetCurrentContext()->HoveredIdPreviousFrame;
                         if( is_hovered && mouse_moved ) {
                             // this row is hovered and the hover state just changed, show context for it
-                            parent.hovered = parent.fentries[ i ];
+                            parent.previewing = parent.fentries[ i ];
                         }
 
                         // Force the spacing to be set to the padding value.
@@ -212,7 +212,7 @@ void uilist_impl::draw_controls()
         if( !parent.footer_text.empty() ) {
             description = parent.footer_text;
         } else {
-            description = parent.entries[parent.hovered].desc;
+            description = parent.entries[parent.previewing].desc;
         }
         cataimgui::draw_colored_text( description );
     }
@@ -464,7 +464,7 @@ void uilist::init()
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    hovered = 0;           // current mouse highlight, for entries[index]
+    previewing = 0;           // current mouse highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     desc_enabled = false;  // don't show option description by default
@@ -606,12 +606,12 @@ void uilist::filterlist()
         if( fentries.empty() ) {
             selected = -1;
         } else {
-            hovered = selected = fentries [ 0 ];
+            previewing = selected = fentries [ 0 ];
         }
     } else if( fselected < static_cast<int>( fentries.size() ) ) {
-        hovered = selected = fentries[fselected];
+        previewing = selected = fentries[fselected];
     } else {
-        hovered = fselected = selected = -1;
+        previewing = fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
     if( static_cast<int>( fentries.size() ) <= vmax ) {
@@ -862,7 +862,7 @@ bool uilist::scrollby( const int scrollby )
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
-        selected = hovered = fentries [ fselected ];
+        selected = previewing = fentries [ fselected ];
         if( callback != nullptr ) {
             callback->select( this );
         }
@@ -1112,7 +1112,7 @@ void uilist::settext( const std::string &str )
 
 void uilist::set_selected( int index )
 {
-    selected = hovered = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    selected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
@@ -1180,7 +1180,7 @@ void uimenu::finalize_addentries()
 
 void uimenu::set_selected( int index )
 {
-    menu.selected = menu.hovered = index;
+    menu.selected = menu.previewing = index;
 }
 
 void uimenu::set_title( const std::string &title )
