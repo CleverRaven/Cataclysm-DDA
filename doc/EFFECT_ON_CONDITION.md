@@ -3804,6 +3804,30 @@ You cast a `this_spell_can_target_only_robots` spell; if it success, `EOC_ROBOT_
 }
 ```
 
+#### `u_get_random_bodypart`, `npc_get_random_bodypart`
+
+Stores a random body part of alpha or beta talker in a variable as string
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_get_random_bodypart" / "npc_get_random_bodypart" | **mandatory** | string or [variable object](##variable-object), | Type of body part that would be returned. Possible values are `ANY`, `arm`, `foot`, `hand`, `head`, `leg`, `mouth`, `other`, `sensor`, `tail`, `torso`, `wing`. If `ANY` is used, returns random body part character has, otherwise returns random body part of this type. |
+| "target_var" | **mandatory** | [variable object](##variable-object) | variable, where string with bodypart is stored | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You pick random eyes body part, apply fungus on it, and subtract 20 HP from it
+```json
+{ "u_get_random_bodypart": "arm", "target_var": { "context_val": "bodypart" } }
+{ "u_add_effect": "fungus", "intensity": 1, "target_part": { "context_val": "bodypart" } }
+{ "math": [ "hp(_bodypart)", "-=", "20"] }
+```
+
 
 #### `u_assign_activity`, `npc_assign_activity`
 

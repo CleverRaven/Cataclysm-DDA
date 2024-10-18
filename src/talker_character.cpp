@@ -1326,3 +1326,13 @@ int talker_character_const::climate_control_str_chill() const
 {
     return me_chr_const->climate_control_strength().second;
 }
+
+bodypart_id talker::get_random_body_part_of_type( body_part_type::type ) const
+{
+    return bodypart_id();
+}
+
+bodypart_id talker::get_random_body_part( bool ) const
+{
+    return bodypart_id();
+}

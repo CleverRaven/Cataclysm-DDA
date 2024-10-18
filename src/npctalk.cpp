@@ -6955,6 +6955,29 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     };
 }
 
+talk_effect_fun_t::func f_get_random_bodypart( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var type = get_str_or_var( jo.get_member( member ), member );
+    std::optional<var_info> target_var = read_var_info( jo.get_object( "target_var" ) );
+    return [is_npc, type, target_var]( dialogue & d ) {
+        Character *guy = d.actor( is_npc )->get_character();
+
+        if( guy ) {
+            if( type.evaluate( d ) == "ANY" ) {
+                std::string bp = guy->get_random_body_part().id().str();
+                write_var_value( target_var.value().type, target_var.value().name, &d, bp );
+                return;
+            } else {
+                std::string bp = guy->get_random_body_part_of_type( io::string_to_enum<body_part_type::type>
+                                 ( type.evaluate( d ) ) ).id().str();
+                write_var_value( target_var.value().type, target_var.value().name, &d, bp );
+                return;
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -7105,6 +7128,7 @@ parsers = {
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun::f_mutate },
     { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun::f_mutate_category },
     { "u_mutate_towards", "npc_mutate_towards", jarg::member, &talk_effect_fun::f_mutate_towards},
+    { "u_get_random_bodypart", "npc_get_random_bodypart", jarg::member, &talk_effect_fun::f_get_random_bodypart},
     { "u_set_trait_purifiability", "npc_set_trait_purifiability", jarg::member, &talk_effect_fun::f_set_trait_purifiability},
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun::f_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun::f_forget_martial_art },
