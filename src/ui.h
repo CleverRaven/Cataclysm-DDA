@@ -486,7 +486,8 @@ class uilist // NOLINT(cata-xy)
         bool need_to_scroll = false;
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
-        int current_category = 0;
+        size_t current_category = 0;
+        size_t switch_to_category = 0;
 
     public:
         // Results
