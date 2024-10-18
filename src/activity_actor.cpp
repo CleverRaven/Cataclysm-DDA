@@ -1356,8 +1356,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         }
 
         moves_before_quality = to_moves<int>( furn_type->hacksaw->duration() );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->hacksaw->valid() ) {
             if( !testing ) {
                 debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
@@ -1486,8 +1485,7 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->hacksaw );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->hacksaw->valid() ) {
             if( !testing ) {
                 debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
@@ -2621,8 +2619,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
         }
 
         act.moves_total = to_moves<int>( furn_type->boltcut->duration() );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->boltcut->valid() ) {
             if( !testing ) {
                 debugmsg( "%s boltcut is invalid", ter_type.id().str() );
@@ -2684,8 +2681,7 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->boltcut );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->boltcut->valid() ) {
             if( !testing ) {
                 debugmsg( "%s boltcut is invalid", ter_type.id().str() );
@@ -5408,8 +5404,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         }
 
         act.moves_total = to_moves<int>( furn_type->oxytorch->duration() );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->oxytorch->valid() ) {
             if( !testing ) {
                 debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
@@ -5475,8 +5470,7 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->oxytorch );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->oxytorch->valid() ) {
             if( !testing ) {
                 debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
@@ -5866,8 +5860,7 @@ void prying_activity_actor::start( player_activity &act, Character &who )
         prying_nails = furn_type->prying->prying_data().prying_nails;
         act.moves_total = to_moves<int>(
                               prying_time( *furn_type->prying, tool, who ) );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", ter_type.id().str() );
@@ -5988,8 +5981,7 @@ void prying_activity_actor::handle_prying( Character &who )
         }
 
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", ter_type.id().str() );
@@ -6073,8 +6065,7 @@ void prying_activity_actor::handle_prying_nails( Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->prying );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", ter_type.id().str() );
@@ -6429,11 +6420,12 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int log_quan;
     int stick_quan;
     int splint_quan;
-    if( here.ter( pos ) == ter_t_trunk ) {
+    const ter_id &t = here.ter( pos );
+    if( t == ter_t_trunk ) {
         log_quan = rng( 2, 3 );
         stick_quan = rng( 0, 3 );
         splint_quan = 0;
-    } else if( here.ter( pos ) == ter_t_stump ) {
+    } else if( t == ter_t_stump ) {
         log_quan = rng( 0, 2 );
         stick_quan = 0;
         splint_quan = rng( 5, 15 );
