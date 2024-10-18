@@ -1390,7 +1390,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.member( "id", "/TO_BE_REPLACED/" );
     json.member( "type", "vehicle" );
     json.member( "name", "/TO_BE_REPLACED/" );
-    std::map<point, std::list<const vehicle_part *>> vp_map;
+    std::map<point_rel_ms, std::list<const vehicle_part *>> vp_map;
     int mount_min_y = 123;
     int mount_max_y = -123;
     // Form a map of existing real parts
@@ -1398,12 +1398,12 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     // The parts are already in installation order
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const vehicle_part &p = vpr.part();
-        mount_max_y = mount_max_y < p.mount.y ? p.mount.y : mount_max_y;
-        mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
+        mount_max_y = mount_max_y < p.mount.y() ? p.mount.y() : mount_max_y;
+        mount_min_y = mount_min_y > p.mount.y() ? p.mount.y() : mount_min_y;
         vp_map[p.mount].push_back( &p );
     }
-    int mount_min_x = vp_map.begin()->first.x;
-    int mount_max_x = vp_map.rbegin()->first.x;
+    int mount_min_x = vp_map.begin()->first.x();
+    int mount_max_x = vp_map.rbegin()->first.x();
 
     // print the vehicle's blueprint.
     json.member( "blueprint" );
@@ -1438,8 +1438,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     };
     for( auto &vp_pos : vp_map ) {
         json.start_object();
-        json.member( "x", vp_pos.first.x );
-        json.member( "y", vp_pos.first.y );
+        json.member( "x", vp_pos.first.x() );
+        json.member( "y", vp_pos.first.y() );
 
         json.member( "parts" );
         json.start_array();

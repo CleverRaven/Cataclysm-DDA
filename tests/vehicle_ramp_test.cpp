@@ -269,12 +269,12 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     for( const tripoint &pos : veh.get_points() ) {
         for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
             all_parts.push_back( prt );
-            if( drop_pos && prt->mount.x < 0 ) {
-                prt->precalc[0].z = -1;
-                prt->precalc[1].z = -1;
-            } else if( !drop_pos && prt->mount.x > 1 ) {
-                prt->precalc[0].z = 1;
-                prt->precalc[1].z = 1;
+            if( drop_pos && prt->mount.x() < 0 ) {
+                prt->precalc[0].z() = -1;
+                prt->precalc[1].z() = -1;
+            } else if( !drop_pos && prt->mount.x() > 1 ) {
+                prt->precalc[0].z() = 1;
+                prt->precalc[1].z() = 1;
             }
         }
     }
