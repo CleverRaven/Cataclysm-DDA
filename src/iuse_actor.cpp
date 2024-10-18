@@ -2243,13 +2243,13 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
 
     if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
-        if( p->is_avatar() && desc != "music" ) {
-            add_msg( m_info, desc );
+        if( desc != "music" ) {
+            p->add_msg_if_player( m_info, desc );
         }
-        p->add_effect( effect_music, 1_turns );
-        const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( morale_music, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
+
+    // We already played the sounds, just handle applying effects now
+    iuse::play_music( p, p->pos(), volume, morale_effect, /*play_sounds=*/false );
 
     return 0;
 }
