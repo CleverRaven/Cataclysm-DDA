@@ -2944,7 +2944,7 @@ spell &known_magic::select_spell( Character &guy )
         -1.0,
             -1.0,
             std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
-            clamp( static_cast<int>( known_spells_sorted.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
+            clamp( static_cast<int>( known_spells_sorted.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeight(),
         };
 
     spell_menu.title = _( "Choose a Spell" );

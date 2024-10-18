@@ -71,6 +71,29 @@ void uilist_impl::draw_controls()
         ImGui::Separator();
     }
 
+    if( !parent.categories.empty() ) {
+        if( ImGui::BeginTabBar( "##categories",
+                                ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton ) ) {
+            for( size_t i = 0; i < parent.categories.size(); i++ ) {
+                auto cat = parent.categories[ i ];
+                bool selected = i == parent.switch_to_category;
+                ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
+                if( selected ) {
+                    flags = ImGuiTabItemFlags_SetSelected;
+                    parent.switch_to_category = -1;
+                }
+                if( ImGui::BeginTabItem( cat.second.c_str(), nullptr, flags ) ) {
+                    if( parent.current_category != i ) {
+                        parent.current_category = i;
+                        parent.filterlist();
+                    }
+                    ImGui::EndTabItem();
+                }
+            }
+            ImGui::EndTabBar();
+        }
+    }
+
     // An invisible table with three columns. Used to create a sidebar effect.
     // Ideally we would use a layout engine for this, but ImGui does not natively support any.
     // TODO: Investigate using Stack Layout (https://github.com/thedmd/imgui/tree/feature/layout-external)
@@ -471,7 +494,7 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
 
     categories.clear();
-    current_category = 0;
+    switch_to_category = current_category = 0;
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -583,12 +606,12 @@ void uilist::filterlist()
         if( fentries.empty() ) {
             selected = -1;
         } else {
-            selected = fentries [ 0 ];
+            hovered = selected = fentries [ 0 ];
         }
     } else if( fselected < static_cast<int>( fentries.size() ) ) {
-        selected = fentries[fselected];
+        hovered = selected = fentries[fselected];
     } else {
-        fselected = selected = -1;
+        hovered = fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
     if( static_cast<int>( fentries.size() ) <= vmax ) {
@@ -681,6 +704,11 @@ void uilist::calc_data()
         text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
+    ImVec2 tabs_size = {};
+    if( !categories.empty() ) {
+        tabs_size.y = ImGui::GetTextLineHeightWithSpacing() + ( 2.0 * s.FramePadding.y );
+    }
+
     ImVec2 desc_size = {};
     if( desc_enabled ) {
         desc_size = calc_size( footer_text );
@@ -695,30 +723,36 @@ void uilist::calc_data()
         float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
         desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
-    float additional_height = title_size.y + text_size.y + desc_size.y + 2.0 *
+    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y + 2.0 *
                               ( s.FramePadding.y + s.WindowBorderSize );
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
-        ImGui::GetMainViewport()->Size.y ) {
-        vmax = floorf( ( ImGui::GetMainViewport()->Size.y - additional_height ) /
+        0.9 * ImGui::GetMainViewport()->Size.y ) {
+        vmax = floorf( ( 0.9 * ImGui::GetMainViewport()->Size.y - additional_height +
+                         ( s.FramePadding.y * 2.0 ) ) /
                        ImGui::GetTextLineHeightWithSpacing() );
     }
 
     float padding = 2.0f * s.CellPadding.x;
-    calculated_hotkey_width = ImGui::CalcTextSize( "X" ).x;
+    calculated_hotkey_width = ImGui::CalcTextSize( "M" ).x;
     calculated_label_width = 0.0;
     calculated_secondary_width = 0.0;
-    for( int fentry : fentries ) {
-        calculated_label_width = std::max( calculated_label_width, calc_size( entries[fentry].txt ).x );
+    for( const uilist_entry &entry : entries ) {
+        calculated_label_width = std::max( calculated_label_width, calc_size( entry.txt ).x );
         calculated_secondary_width = std::max( calculated_secondary_width,
-                                               calc_size( entries[fentry].ctxt ).x );
+                                               calc_size( entry.ctxt ).x );
     }
     calculated_menu_size = { 0.0, 0.0 };
     calculated_menu_size.x += calculated_hotkey_width + padding;
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
-    calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y - additional_height,
-                                       vmax * ImGui::GetTextLineHeightWithSpacing() ) + ( s.FramePadding.y * 2.0 );
+    float max_avail_height = ImGui::GetMainViewport()->Size.y;
+    if( desired_bounds.has_value() ) {
+        max_avail_height = desired_bounds.value().h;
+    }
+    calculated_menu_size.y = std::min( max_avail_height - additional_height +
+                                       ( s.FramePadding.y * 2.0 ),
+                                       vmax * ImGui::GetTextLineHeightWithSpacing() + ( s.FramePadding.y * 2.0 ) );
 
     extra_space_left = 0.0;
     extra_space_right = 0.0;
@@ -955,13 +989,13 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
-            current_category += ret_act == "UILIST.LEFT" ? -1 : 1;
-            if( current_category < 0 ) {
-                current_category = categories.size() - 1;
-            } else if( current_category >= static_cast<int>( categories.size() ) ) {
-                current_category = 0;
+            int tmp = current_category + ( ret_act == "UILIST.LEFT" ? -1 : 1 );
+            if( tmp < 0 ) {
+                tmp = categories.size() - 1;
+            } else if( tmp >= static_cast<int>( categories.size() ) ) {
+                tmp = 0;
             }
-            filterlist();
+            switch_to_category = static_cast<size_t>( tmp );
         } else if( iter != keymap.end() ) {
             if( allow_unfiltered_hotkeys ) {
                 const bool enabled = entries[iter->second].enabled;
