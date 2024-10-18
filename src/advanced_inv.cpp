@@ -1329,8 +1329,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
     // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
     if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) &&
         changeSquare != AIM_CONTAINER && changeSquare != AIM_PARENT ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
-            spane.get_area() != changeSquare ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( spane.get_area() == AIM_CONTAINER ) {
                 spane.container = item_location::nowhere;
@@ -1338,14 +1337,17 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                 // Update dpane to show items removed from the spane.
                 dpane.recalc = true;
             }
-            if( dpane.get_area() == changeSquare ) {
-                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
-                spane.recalc = true;
-            } else if( spane.get_area() == dpane.get_area() ) {
+            if( spane.get_area() == dpane.get_area() ) {
                 // swap the `in_vehicle` element of each pane if "one in, one out"
                 spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
                 dpane.set_area( squares[dpane.get_area()], !dpane.in_vehicle() );
                 recalc = true;
+            } else if( dpane.get_area() == changeSquare ) {
+                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
+                spane.recalc = true;
+            } else {
+                spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+                spane.recalc = true;
             }
         } else {
             swap_panes();
