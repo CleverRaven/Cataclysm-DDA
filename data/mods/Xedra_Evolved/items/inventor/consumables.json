@@ -13,6 +13,34 @@
     "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true }
   },
   {
+    "id": "cosmic_dagwood",
+    "name": { "str": "cosmic dagwood" },
+    "description": "The greatest sandwich that will ever be made, in this universe and the next.  ",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "price": "29 USD",
+    "//": "ever order one of those overpriced sandwiches at a restaurant?",
+    "fun": 36,
+    "quench": 24,
+    "calories": 900,
+    "material": [ "wheat", "flesh", "tomato", "veggy", "egg", "dairy", "junk", "fruit", "gold", "silver" ],
+    "color": "yellow",
+    "weight": "950 g",
+    "weight": "220 ml",
+    "vitamins": [
+      [ "vitC", 30 ],
+      [ "calcium", 20 ],
+      [ "iron", 38 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
+  },
+  {
     "id": "inventor_warp_grenade",
     "type": "TOOL",
     "category": "weapons",
