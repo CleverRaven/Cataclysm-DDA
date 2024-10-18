@@ -277,6 +277,10 @@
 #ifndef INCLUDE_STB_TEXTEDIT_H
 #define INCLUDE_STB_TEXTEDIT_H
 
+// NOLINTBEGIN
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+
 ////////////////////////////////////////////////////////////////////////
 //
 //     STB_TexteditState
@@ -1435,3 +1439,6 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------------------------------------------------------------------------------
 */
+
+#pragma GCC diagnostic pop
+// NOLINTEND

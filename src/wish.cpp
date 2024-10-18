@@ -880,6 +880,11 @@ class wish_item_callback: public uilist_callback
         const std::vector<const itype_variant_data *> &itype_variants;
         std::string &last_snippet_id;
 
+        int entnum = -1;
+        std::string header;
+        std::vector<iteminfo> info;
+        item tmp;
+
         explicit wish_item_callback( const std::vector<const itype *> &ids,
                                      const std::vector<const itype_variant_data *> &variants, std::string &snippet_ids ) :
             incontainer( false ), spawn_everything( false ),
@@ -990,17 +995,15 @@ class wish_item_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
-            ImVec2 info_size = ImGui::GetContentRegionAvail();
-            info_size.x = desired_extra_space_right( );
-            ImGui::TableSetColumnIndex( 2 );
-            if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->hovered;
+            if( info.empty() || entnum != menu->hovered ) {
+                entnum = menu->hovered;
                 if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                    item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
+                    tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
 
                     const itype_variant_data *variant = itype_variants[entnum];
                     if( variant != nullptr && tmp.has_itype_variant( false ) ) {
@@ -1024,33 +1027,34 @@ class wish_item_callback: public uilist_callback
                         }
                     }
 
-                    const std::string header = string_format( "#%d: %s%s%s", entnum,
-                                               standard_itype_ids[entnum]->get_id().c_str(),
-                                               incontainer ? _( " (contained)" ) : "",
-                                               flags.empty() ? "" : _( " (flagged)" ) );
-                    ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
-                                                header.c_str() ).x ) * 0.5 );
-                    ImGui::TextColored( c_cyan, "%s", header.c_str() );
-
-                    display_item_info( tmp.get_info( true ), {} );
+                    header = string_format( "#%d: %s%s%s", entnum,
+                                            standard_itype_ids[entnum]->get_id().c_str(),
+                                            incontainer ? _( " (contained)" ) : "",
+                                            flags.empty() ? "" : _( " (flagged)" ) );
+                    info = tmp.get_info( true );
                 }
+            }
 
-                float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
-                if( ImGui::GetCursorPosY() < y ) {
-                    ImGui::SetCursorPosY( y );
-                }
-                ImGui::TextColored( c_green, "%s", msg.c_str() );
-                msg.erase();
-                input_context ctxt( menu->input_category, keyboard_mode::keycode );
-                ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                             ctxt.get_desc( "FILTER" ).c_str(),
-                             ctxt.get_desc( "CONTAINER" ).c_str(),
-                             ctxt.get_desc( "FLAG" ).c_str(),
-                             ctxt.get_desc( "EVERYTHING" ).c_str(),
-                             ctxt.get_desc( "SNIPPET" ).c_str(),
-                             ctxt.get_desc( "QUIT" ).c_str() );
+            ImGui::TableSetColumnIndex( 2 );
+            ImVec2 info_size = ImGui::GetContentRegionAvail();
+            info_size.y -= ( 3.0 * ImGui::GetTextLineHeightWithSpacing() ) - ImGui::GetFrameHeightWithSpacing();
+
+            if( ImGui::BeginChild( "wish item", info_size ) ) {
+                ImGui::SetCursorPosX( ( info_size.x - ImGui::CalcTextSize( header.c_str() ).x ) * 0.5 );
+                ImGui::TextColored( c_cyan, "%s", header.c_str() );
+                display_item_info( info, {} );
             }
             ImGui::EndChild();
+
+            ImGui::TextColored( c_green, "%s", msg.c_str() );
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
+            ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
+                         ctxt.get_desc( "FILTER" ).c_str(),
+                         ctxt.get_desc( "CONTAINER" ).c_str(),
+                         ctxt.get_desc( "FLAG" ).c_str(),
+                         ctxt.get_desc( "EVERYTHING" ).c_str(),
+                         ctxt.get_desc( "SNIPPET" ).c_str(),
+                         ctxt.get_desc( "QUIT" ).c_str() );
         }
 };
 
@@ -1105,7 +1109,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "SCROLL_DESC_UP", translation() },
         { "SCROLL_DESC_DOWN", translation() },
     };
-    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+    wmenu.desired_bounds = { -0.9, -0.9, 0.9, 0.9 };
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( itypes, ivariants, snipped_id_str );
     wmenu.callback = &cb;
