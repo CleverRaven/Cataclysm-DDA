@@ -3002,7 +3002,7 @@ class jmapgen_furniture : public jmapgen_piece_with_has_vehicle_collision
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
-            furn_id chosen_id = id.get( dat );
+            const furn_id &chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
@@ -3042,13 +3042,13 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
-            ter_id chosen_id = id.get( dat );
+            const ter_id &chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
             tripoint_bub_ms p( x.get(), y.get(), dat.zlevel() + z.get() );
 
-            ter_id terrain_here = dat.m.ter( p );
+            const ter_id &terrain_here = dat.m.ter( p );
             const ter_t &chosen_ter = *chosen_id;
             const bool is_wall = chosen_ter.has_flag( ter_furn_flag::TFLAG_WALL );
             const bool place_item = chosen_ter.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM );
@@ -3235,7 +3235,7 @@ class jmapgen_make_rubble : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            furn_id chosen_rubble_type = rubble_type.get( dat );
+            const furn_id &chosen_rubble_type = rubble_type.get( dat );
             ter_id chosen_floor_type = floor_type.get( dat );
             if( chosen_rubble_type.id().is_null() ) {
                 return;
@@ -3456,7 +3456,7 @@ class jmapgen_sealed_item : public jmapgen_piece_with_has_vehicle_collision
             if( item_group_spawner ) {
                 item_group_spawner->apply( dat, x, y, z,  context );
             }
-            furn_id chosen_furn = furniture.get( dat );
+            const furn_id &chosen_furn = furniture.get( dat );
             dat.m.furn_set( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_furn );
         }
 };
@@ -6067,7 +6067,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
+                    const ter_id &fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -6095,7 +6095,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
+                    const ter_id &fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             const ter_id &maybe_flood_ter = ter( p );
@@ -8208,12 +8208,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     if( update_function->second.funcs()[0]->update_map( fake_md ).success() ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
             for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( z ) ) {
-                ter_id ter_at_pos = tmp_map.ter( pos );
+                const ter_id &ter_at_pos = tmp_map.ter( pos );
                 if( ter_at_pos != base_ter ) {
                     terrains[ter_at_pos] += 1;
                 }
                 if( tmp_map.has_furn( pos ) ) {
-                    furn_id furn_at_pos = tmp_map.furn( pos );
+                    const furn_id &furn_at_pos = tmp_map.furn( pos );
                     furnitures[furn_at_pos] += 1;
                 }
             }

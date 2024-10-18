@@ -272,7 +272,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
         m.spawn_item( loc, itype_withered );
     }
     // terrain specific conversions
-    const ter_id tid = m.ter( loc );
+    const ter_id &tid = m.ter( loc );
     static const std::map<ter_id, ter_str_id> dies_into {{
             {ter_t_grass, ter_t_grass_dead},
             {ter_t_grass_long, ter_t_grass_dead},
@@ -1342,7 +1342,7 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
     const furn_t &fid = m.furn( loc ).obj();
-    const ter_id tid = m.ter( loc );
+    const ter_id &tid = m.ter( loc );
     const ter_t &tr = tid.obj();
 
     VehicleList vehs = m.get_vehicles();

@@ -5258,7 +5258,7 @@ bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
-        const furn_id fid = here.furn( dest );
+        const furn_id &fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {
                 return false;

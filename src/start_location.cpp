@@ -183,7 +183,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
     std::vector<tripoint> boardables;
     for( const tripoint &p : range ) {
         bool must_board_around = false;
-        const ter_id t = m.ter( p );
+        const ter_id &t = m.ter( p );
         if( t == ter_t_window_domestic || t == ter_t_window || t == ter_t_window_no_curtains ) {
             // Windows are always to the outside and must be boarded
             must_board_around = true;

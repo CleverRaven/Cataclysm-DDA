@@ -265,7 +265,7 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_PICKUP );
     }
 
-    const auto &tr = here.tr_at( player_character.pos_bub() );
+    const trap &tr = here.tr_at( player_character.pos_bub() );
     if( tr == tr_tutorial_1 ) {
         add_message( tut_lesson::LESSON_LOOK );
     } else if( tr == tr_tutorial_2 ) {

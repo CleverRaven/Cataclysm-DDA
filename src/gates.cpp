@@ -132,7 +132,7 @@ void gate_data::check() const
 
 bool gate_data::is_suitable_wall( const tripoint_bub_ms &pos ) const
 {
-    const ter_id wid = get_map().ter( pos );
+    const ter_id &wid = get_map().ter( pos );
     if( walls.empty() ) {
         return wid->has_flag( "WALL" );
     }
@@ -218,7 +218,7 @@ void gates::open_gate( const tripoint_bub_ms &pos )
             if( !close ) { // Opening the gate...
                 tripoint_bub_ms cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = here.ter( cur_pos );
+                    const ter_id &ter = here.ter( cur_pos );
 
                     if( ter == gate.door.id() ) {
                         here.ter_set( cur_pos, gate.floor.id() );

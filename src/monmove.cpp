@@ -197,7 +197,7 @@ bool monster::know_danger_at( const tripoint &p ) const
     // before hitting simple or complex but this is more explicit
     if( avoid_fire || avoid_fall || avoid_simple ||
         avoid_traps || avoid_dangerous_fields || avoid_sharp ) {
-        const ter_id target = here.ter( p );
+        const ter_id &target = here.ter( p );
         if( !here.has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
             if( avoid_fire && target == ter_t_lava ) {

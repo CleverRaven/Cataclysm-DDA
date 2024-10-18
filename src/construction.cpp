@@ -1161,8 +1161,8 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
-    const furn_id f = here.furn( p );
-    const ter_id t = here.ter( p );
+    const furn_id &f = here.furn( p );
+    const ter_id &t = here.ter( p );
     if( con.pre_specials.size() > 1 ) { // pre-functions
         for( const auto &special : con.pre_specials ) {
             if( !special( p ) ) {

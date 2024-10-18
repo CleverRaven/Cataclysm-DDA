@@ -1022,7 +1022,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint_bub
     ter_id teralt = undefined_ter_id;
     int alta = -1;
     int altb = -1;
-    const ter_id sel_ter = t.id.id();
+    const ter_id &sel_ter = t.id.id();
     if( editshape == editmap_rect ) {
         if( t.symbol() == LINE_XOXO || t.symbol() == '|' ) {
             isvert = true;
@@ -1059,7 +1059,7 @@ template<>
 void apply<furn_t>( const furn_t &t, const shapetype, const tripoint_bub_ms &,
                     const tripoint_bub_ms &, const std::vector<tripoint_bub_ms> &target_list )
 {
-    const furn_id sel_frn = t.id.id();
+    const furn_id &sel_frn = t.id.id();
     map &here = get_map();
     for( const tripoint_bub_ms &elem : target_list ) {
         here.furn_set( elem, sel_frn );

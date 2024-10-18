@@ -4990,7 +4990,7 @@ void cata_tiles::get_terrain_orientation( const tripoint_bub_ms &p, int &rota, i
     };
 
     // get terrain at x,y
-    const ter_id tid = ter( p, invisible[0] );
+    const ter_id &tid = ter( p, invisible[0] );
     if( tid == ter_str_id::NULL_ID() ) {
         subtile = 0;
         rota = 0;
