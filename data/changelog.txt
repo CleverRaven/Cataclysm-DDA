@@ -152,6 +152,7 @@ Grazing animals actually eat grass, and it regrows every season
 New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
+EOCs modifying calories track spent calories
 
 
 ## Content:
@@ -333,6 +334,8 @@ Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
+Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
+fungalize stages for zombies
 
 
 ## Interface:
@@ -429,6 +432,8 @@ Custom loading screen the game deserves
 wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
+Only list non-zero damage types on melee weapons
+Misc. improvements to NPC goto-location options
 
 
 ## Mods:
@@ -679,6 +684,11 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [DinoMod] Astrodon 
 [MoM] Add Alien Meadow mutable map special
 [Magiclysm] Fantasy species zombies
+[Magiclysm/Xedra Evolved] Magiclysm/xe updates for #76890
+[MoM/XE Interaction] Ierde and powerful vampires are immune to telepathy
+[MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
+[Bombastic Perks/MoM] Add MoM-specific perks
+[Xedra Evolved] Dreamsmithing procgen expansion (enchants)
 
 
 ## Balance:
@@ -777,6 +787,7 @@ Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
+Make lab access shafts normally visible once spotted
 
 
 ## Bugfixes:
@@ -1025,6 +1036,22 @@ NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
+Fix consume activity creation from liquid handler
+Cabin in Safe Place scenario is now actually safe
+Remove tainted/human leather recipe
+Rotten blood can't be analyzed on centrifuge
+[MoM] NPCs can awaken in portal storms
+Fixing display of loudness multiplier of gunmods
+Spend time when taking off items via 'T' in item examine menu
+Start of cataclysm day and start of game day now respect season length
+Fixes #76414, Can't activate item - character instead tries to eat it.
+Forbid modding integrated tools
+No longer able to wear already worn items
+Faulty guns don't lock your view
+Don't apply additional move cost for moving barefoot in deep water
+Fixed a crash when using the 'set of clothes' item
+Fix Britishisms in the JSON files.
+Fix non-battery charge consumption of active items
 
 
 ## Performance:
@@ -1134,6 +1161,7 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
+Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
 
 
 ## Build:
