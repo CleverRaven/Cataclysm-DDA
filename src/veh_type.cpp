@@ -953,8 +953,8 @@ void vpart_info::check() const
         }
     }
     if( !!transform_terrain_info && !( transform_terrain_info->post_terrain ||
-                                     transform_terrain_info->post_furniture ||
-                                     transform_terrain_info->post_field ) ) {
+                                       transform_terrain_info->post_furniture ||
+                                       transform_terrain_info->post_field ) ) {
         debugmsg( "transform_terrain_info must contain at least one of post_terrain, post_furniture and post_field for vehicle part %s",
                   id.c_str() );
     }
