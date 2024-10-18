@@ -1682,6 +1682,15 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
     return true;
 }
 
+bool overmapbuffer::is_in_city( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_pos;
+    tripoint_om_omt potential_city_tile;
+    std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( p );
+    overmap &target_overmap = get( overmap_pos );
+    return target_overmap.is_in_city( potential_city_tile );
+}
+
 std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
             const overmap_special &special, const tripoint_abs_omt &origin, om_direction::type dir,
             const bool must_be_unexplored, const bool force )
