@@ -1534,7 +1534,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
-        return ter_name;
+        return ter_name + "\n" + get_origin( oter->get_type_id()->src );
     }
 
     const struct city &closest_city = *closest_cref.city;
