@@ -1565,7 +1565,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
-      [ [ "metal_tank_little", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
@@ -1582,12 +1582,11 @@
     "autolearn": true,
     "components": [
       [
-        [ "splinter", 40 ],
-        [ "2x4", 6 ],
-        [ "stick", 8 ],
-        [ "bone_any", 40, "LIST" ],
-        [ "skewer_bone", 1000 ],
-        [ "pine_bough", 20 ],
+        [ "splinter", 200 ],
+        [ "2x4", 12 ],
+        [ "stick", 20 ],
+        [ "bone_any", 156, "LIST" ],
+        [ "skewer_bone", 2000 ],
         [ "log", 1 ]
       ],
       [ [ "char_kiln", 1 ] ]
