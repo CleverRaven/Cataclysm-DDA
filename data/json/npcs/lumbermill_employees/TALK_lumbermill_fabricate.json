@@ -9,7 +9,7 @@
       "no": "Sure, we offer various specialty cuts direct to our customers in batches of 10.  Anything larger than these planks is gonna take us a while to refresh, though.  A couple hours, maybe longer if we have to source more wood.  So, what would you like?"
     },
     "responses": [
-      { "text": "Nevermind.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
       {
         "text": "[10$]  I'll buy some sticks.",
         "effect": [ { "u_buy_item": "stick", "cost": 1000, "count": 10 } ],

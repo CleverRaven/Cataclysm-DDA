@@ -1288,6 +1288,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zeolambia",
+    "name": { "str": "eolambia zombie" },
+    "copy-from": "mon_ziguanodon",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "hp": 260,
+    "description": "A bulky, beaked dinosaur, dead but walking, eyes vacant and swollen.",
+    "burn_into": "mon_zeolambia_scorched",
+    "fungalize_into": "mon_zeolambia_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zeolambia_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zadrosaurus",
     "name": { "str": "hadrosaurus zombie" },
     "copy-from": "mon_ziguanodon",

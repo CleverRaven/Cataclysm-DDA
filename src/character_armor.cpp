@@ -276,10 +276,14 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
     // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
     if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
-                pos(), nullptr ) ) {
+        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
         armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
+                           armor.tname() );
+    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
+        armor.energy_consume( units::from_kilojoule( du.amount ),
+                              pos(), nullptr );
     }
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
@@ -305,10 +309,14 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
     // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
     if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
-                pos(), nullptr ) ) {
+        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
         armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
+                           armor.tname() );
+    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
+        armor.energy_consume( units::from_kilojoule( du.amount ),
+                              pos(), nullptr );
     }
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually

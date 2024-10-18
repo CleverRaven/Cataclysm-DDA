@@ -55,7 +55,7 @@ class talker
         virtual item_location *get_item() {
             return nullptr;
         }
-        virtual item_location *get_item() const {
+        virtual item_location const *get_item() const {
             return nullptr;
         }
         virtual monster *get_monster() {
@@ -590,6 +590,10 @@ class talker
         virtual int attack_speed() const {
             return 0;
         }
+        virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
+                const damage_instance & ) const {
+            return dealt_damage_instance();
+        };
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }

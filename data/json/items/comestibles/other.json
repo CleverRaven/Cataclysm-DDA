@@ -1558,7 +1558,7 @@
     "material": [ "flesh" ],
     "calories": 15,
     "spoils_in": "15 days",
-    "rot_spawn": { "group": "GROUP_MUTATION_SNAIL" },
+    "rot_spawn": { "monster": "mon_snail_forest", "chance": 5 },
     "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
     "price": "0 cent",
     "price_postapoc": "0 cent",

@@ -319,11 +319,11 @@ bool mattack::eat_crop( monster *z )
             target = p;
         }
         if( target ) {
-            if( z->amount_eaten <= z->stomach_size ) {
+            if( !z->has_fully_eaten() ) {
                 add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.furnname( p ) );
                 here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
                 here.i_clear( *target );
-                z->amount_eaten += 350;
+                z->mod_amount_eaten( 350 );
                 return true;
             }
         }
@@ -337,18 +337,18 @@ bool mattack::eat_crop( monster *z )
                 !item.has_flag( flag_CATTLE ) ) {
                 continue;
             }
-            if( z->amount_eaten <= z->stomach_size ) {
+            if( !z->has_fully_eaten() ) {
                 //Check for stomach size 0 so as to not break creatures which haven't
                 //been given a stomach size yet.
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     int kcal = default_character_compute_effective_nutrients( item ).kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
                     int kcal = default_character_compute_effective_nutrients( item ).kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -492,16 +492,16 @@ bool mattack::eat_food( monster *z )
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_type.baby_egg != item.type->get_id() && ( z->amount_eaten <= z->stomach_size ) ) {
+            if( z->type->baby_type.baby_egg != item.type->get_id() && ( !z->has_fully_eaten() ) ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     int kcal = default_character_compute_effective_nutrients( item ).kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
                     int kcal = default_character_compute_effective_nutrients( item ).kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -524,14 +524,14 @@ bool mattack::eat_carrion( monster *z )
         for( item &item : items ) {
             //TODO: Completely eaten corpses should leave bones and other inedibles.
             if( item.has_flag( flag_CORPSE ) && item.damage() < item.max_damage() &&
-                z->amount_eaten < z->stomach_size &&
+                !z->has_fully_eaten() &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
                 item.mod_damage( 700 );
                 if( item.damage() >= item.max_damage() && item.can_revive() ) {
                     item.set_flag( flag_PULPED );
                 }
-                z->amount_eaten += 100;
+                z->mod_amount_eaten( 100 );
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
                 return true;
             }
@@ -551,24 +551,24 @@ bool mattack::graze( monster *z )
         }
         if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
             !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
-            ( z->amount_eaten <= z->stomach_size ) ) {
+            ( !z->has_fully_eaten() ) ) {
             here.furn_set( p, furn_str_id::NULL_ID() );
-            z->amount_eaten += 50;
+            z->mod_amount_eaten( 50 );
             //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
             return true;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) &&
             !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
-            ( z->amount_eaten <= z->stomach_size ) ) {
+            ( !z->has_fully_eaten() ) ) {
             add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.tername( p ) );
             here.ter_set( p, ter_t_dirt );
-            z->amount_eaten += 174;
+            z->mod_amount_eaten( 174 );
             //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
             return true;
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && z->amount_eaten < z->stomach_size ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && !z->has_fully_eaten() ) {
             here.ter_set( p, here.get_ter_transforms_into( p ) );
-            z->amount_eaten += 70;
+            z->mod_amount_eaten( 70 );
             //Calorie amount is based on the "grass" dummy item, as with the grazer mutation.
             return true;
         }
@@ -585,12 +585,12 @@ bool mattack::browse( monster *z )
         if( z->friendly && rl_dist( get_player_character().pos_bub(), p ) <= 2 ) {
             continue;
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && ( z->amount_eaten <= z->stomach_size ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && ( !z->has_fully_eaten() ) ) {
             const harvest_id harvest = here.get_harvest( p );
             if( !harvest.is_null() || !harvest->empty() ) {
                 add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
                 here.ter_set( p, here.get_ter_transforms_into( p ) );
-                z->amount_eaten += 174;
+                z->mod_amount_eaten( 174 );
                 //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
                 return true;
             }
