@@ -248,7 +248,7 @@ Checks you are **not** close to refugee center (at least 4 overmap tiles afar)
 Checks you don't have any traits from the list
 ```json
 "condition": {
-  "or": [
+  "and": [
     { "not": { "u_has_trait": "HUMAN_ARMS" } },
     { "not": { "u_has_trait": "HUMAN_SKIN" } },
     { "not": { "u_has_trait": "HUMAN_EYES" } },
