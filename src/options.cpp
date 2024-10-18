@@ -2826,13 +2826,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "RAD_MUTATION", "world_default", to_translation( "Mutations by radiation" ),
-         to_translation( "If true, radiation causes the player to mutate." ),
-         true
-       );
-
-    add_empty_line();
-
     add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
          to_translation( "Allowed point pools for character generation." ),
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
