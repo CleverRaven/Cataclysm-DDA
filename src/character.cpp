@@ -8087,6 +8087,39 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     enchantment_cache->cast_hit_me( *this, source );
 }
 
+void Character::vocalize_pain_on_take_dmg()
+{
+    const int perceived_pain = get_perceived_pain();
+    if( perceived_pain <= 0 ) {
+        return;
+    }
+    const int loudest_scream_possible = get_shout_volume();
+    // tracks pain on a scale similar to display::pain_text_color, but not exactly
+    const double pain_scale = perceived_pain / 10.0;
+    if( pain_scale > 7 ) { // severe pain
+        if( is_npc() ) {
+            add_msg_if_player_sees( pos_bub(), _( "%s babbles incoherently." ), get_name() );
+        }
+        add_msg_if_player( "Who's that screaming?  Shut up, you're trying not to die here.  Shut up.  Shut up.  Shut up.  Shut up.  Shut up.  Shut up." );
+        sounds::sound( pos_bub(), loudest_scream_possible, sounds::sound_t::combat,
+                       _( "unintelligible pained screeching!" ), false, "pain_shout", "max" );
+    } else if( pain_scale > 5 ) { // unmanageable pain
+        if( is_npc() ) {
+            add_msg_if_player_sees( pos_bub(), _( "%s is yelling in pain." ), get_name() );
+        }
+        add_msg_if_player( "That <swear> hurts!  You can't keep your voice in." );
+        sounds::sound( pos_bub(), loudest_scream_possible / 2, sounds::sound_t::combat,
+                       _( "someone howling in pain!" ), false, "pain_shout", "moderate" );
+    } else if( pain_scale > 3 ) { // distracting pain
+        if( is_npc() ) {
+            add_msg_if_player_sees( pos_bub(), _( "%s audibly exhales in pain." ), get_name() );
+        }
+        add_msg_if_player( "That <swear> hurts!  You can't keep your voice in." );
+        sounds::sound( pos_bub(), loudest_scream_possible / 3, sounds::sound_t::combat,
+                       _( "a pained gasp!" ), false, "pain_shout", "min" );
+    }
+}
+
 /*
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
@@ -8149,6 +8182,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         if( remove_med > 0 && has_effect( effect_disinfected, part_to_damage.id() ) ) {
             reduce_healing_effect( effect_disinfected, remove_med, part_to_damage );
         }
+    }
+
+    if( dam > 0 ) {
+        vocalize_pain_on_take_dmg();
     }
 }
 
