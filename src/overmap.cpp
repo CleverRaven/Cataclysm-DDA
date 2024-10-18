@@ -4189,7 +4189,7 @@ bool overmap::is_in_city( const tripoint_om_omt &p ) const
         return city_tiles.find( p.xy() ) != city_tiles.end();
     } else {
         // Legacy handling
-        return distance_to_city( p, 1 ) == 0;
+        return distance_to_city( p ) == 0;
     }
 
 }
@@ -4198,10 +4198,10 @@ std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
         const int max_dist_to_check ) const
 {
     if( !city_tiles.empty() ) {
-        for( int i = 0; i < max_dist_to_check; i++ ) {
-            for( const tripoint_om_omt &tile : closest_points_first( p, i, i + 1 ) ) {
+        for( int i = 0; i <= max_dist_to_check; i++ ) {
+            for( const tripoint_om_omt &tile : closest_points_first( p, i, i ) ) {
                 if( is_in_city( tile ) ) {
-                    return i + 1;
+                    return i;
                 }
             }
         }
