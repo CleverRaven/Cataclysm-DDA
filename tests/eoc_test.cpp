@@ -1195,7 +1195,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( npc_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_melee_attacks_character" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.name );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.get_name() );
 
     // character_melee_attacks_monster
     clear_map();
@@ -1228,7 +1228,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.name );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.get_name() );
 
     // character_ranged_attacks_monster
     clear_map();
