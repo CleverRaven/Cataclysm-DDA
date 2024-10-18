@@ -1,0 +1,74 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_salamander_bomb",
+    "name": "sigil of detonation",
+    "color": "red",
+    "symbol": "#",
+    "always_invisible": false,
+    "memorial_male": { "ctxt": "memorial_male", "str": "Detonated by elemental magicks." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Detonated by elemental magicks." },
+    "visibility": 2,
+    "avoidance": 14,
+    "difficulty": 10,
+    "trap_radius": 0,
+    "action": "spell",
+    "flags": [ "UNDODGEABLE" ],
+    "spell_data": { "id": "salamander_explosion_trap_spell_activated" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_species_snare",
+    "name": "species snare trap",
+    "color": "red",
+    "symbol": "~",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_nether_snare",
+    "name": "pentagram snare trap",
+    "color": "red",
+    "symbol": "X",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_robot_snare",
+    "name": "QR snare trap",
+    "color": "red",
+    "symbol": "e",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_cyborg_snare",
+    "name": "ARG snare trap",
+    "color": "red",
+    "symbol": "<",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_fae_snare",
+    "name": "changeling snare trap",
+    "color": "red",
+    "symbol": "$",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  }
+]

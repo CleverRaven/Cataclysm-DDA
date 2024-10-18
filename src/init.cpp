@@ -37,6 +37,7 @@
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "emit.h"
+#include "end_screen.h"
 #include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
@@ -254,6 +255,7 @@ void DynamicDataLoader::initialize()
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
+    add( "field_type_migration", &field_type_migrations::load );
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
@@ -297,11 +299,12 @@ void DynamicDataLoader::initialize()
     add( "scent_type", &scent_type::load_scent_type );
     add( "disease_type", &disease_type::load_disease_type );
     add( "ascii_art", &ascii_art::load_ascii_art );
+    add( "end_screen", &end_screen::load_end_screen );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
-    add( "snippet", []( const JsonObject & jo ) {
-        SNIPPET.load_snippet( jo );
+    add( "snippet", []( const JsonObject & jo, const std::string & src ) {
+        SNIPPET.load_snippet( jo, src );
     } );
     add( "item_group", []( const JsonObject & jo ) {
         item_controller->load_item_group( jo );
@@ -410,7 +413,9 @@ void DynamicDataLoader::initialize()
     add( "attack_vector", &attack_vector::load_attack_vectors );
     add( "effect_type", &load_effect_type );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
+    add( "camp_migration", &overmap::load_oter_id_camp_migration );
     add( "overmap_terrain", &overmap_terrains::load );
+    add( "oter_vision", &oter_vision::load_oter_vision );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
     add( "construction", &load_construction );
@@ -494,8 +499,7 @@ void DynamicDataLoader::initialize()
 #endif
 }
 
-void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src,
-        loading_ui &ui )
+void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src )
 {
     cata_assert( !finalized &&
                  "Can't load additional data after finalization.  Must be unloaded first." );
@@ -518,7 +522,79 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
         try {
             // parse it
             JsonValue jsin = json_loader::from_path( file );
-            load_all_from_json( jsin, src, ui, path, file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+    // We assume that each folder is consistent in itself,
+    // and all the previously loaded folders.
+    // E.g. the core might provide a vpart "frame-x"
+    // the first loaded mode might provide a vehicle that uses that frame
+    // But not the other way round.
+
+    std::vector<cata_path> files;
+    // if give path is a directory
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
+                "mod_interactions", path, true, false );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+        // if given path is an individual file
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
+    }
+
+    // iterate over each file
+    for( const cata_path &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
+        const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+
+    std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
+    std::multimap<mod_id, cata_path> files;
+
+    if( dir_exist( path.get_unrelative_path() ) ) {
+
+        // obtain folders within mod_interactions to see if they match loaded mod ids
+        const std::vector<cata_path> interaction_folders = get_directories( path, false );
+
+        for( const cata_path &f : interaction_folders ) {
+            const mod_id associated_mod = mod_id( f.get_unrelative_path().filename().string() );
+            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(),
+                                            associated_mod ) != loaded_mods.end();
+
+            if( is_mod_loaded ) {
+                const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
+                for( const cata_path &path : interaction_files ) {
+                    files.emplace( associated_mod, path );
+                }
+            }
+        }
+    }
+    // iterate over each file
+    for( const std::pair<const mod_id, cata_path> &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file.second );
+            load_all_from_json( jsin, string_format( "%s#%s", src, file.first.str() ), path, file.second );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
@@ -526,7 +602,6 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
 }
 
 void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
-        loading_ui &,
         const cata_path &base_path, const cata_path &full_path )
 {
     if( jsin.test_object() ) {
@@ -581,6 +656,7 @@ void DynamicDataLoader::unload_data()
     faction_template::reset();
     faults::reset();
     field_types::reset();
+    field_type_migrations::reset();
     gates::reset();
     harvest_drop_type::reset();
     harvest_list::reset();
@@ -608,11 +684,13 @@ void DynamicDataLoader::unload_data()
     overmap_connections::reset();
     overmap_land_use_codes::reset();
     overmap_locations::reset();
+    oter_vision::reset();
     city::reset();
     overmap_specials::reset();
     overmap_special_migration::reset();
     overmap_terrains::reset();
     overmap::reset_oter_id_migrations();
+    overmap::reset_oter_id_camp_migrations();
     profession::reset();
     profession_blacklist::reset();
     proficiency::reset();
@@ -666,15 +744,15 @@ void DynamicDataLoader::unload_data()
     zone_type::reset();
 }
 
-void DynamicDataLoader::finalize_loaded_data()
-{
-    // Create a dummy that will not display anything
-    // TODO: Make it print to stdout?
-    loading_ui ui( false );
-    finalize_loaded_data( ui );
-}
+// void DynamicDataLoader::finalize_loaded_data()
+// {
+//     // Create a dummy that will not display anything
+//     // TODO: Make it print to stdout?
+//     background_pane bg;
+//     finalize_loaded_data( );
+// }
 
-void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
+void DynamicDataLoader::finalize_loaded_data()
 {
     cata_assert( !finalized && "Can't finalize the data twice." );
     cata_assert( !stream_cache && "Expected stream cache to be null before finalization" );
@@ -683,8 +761,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         stream_cache.reset();
     } );
     stream_cache = std::make_unique<cached_streams>();
-
-    ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
@@ -724,7 +800,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
             { _( "Math functions" ), &jmath_func::finalize },
-            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
@@ -760,29 +835,23 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
+            { _( "Math expressions" ), &finalize_conditions },
         }
     };
 
     for( const named_entry &e : entries ) {
-        ui.add_entry( e.first );
-    }
-
-    ui.show();
-    for( const named_entry &e : entries ) {
+        loading_ui::show( _( "Finalizing" ), e.first );
         e.second();
-        ui.proceed();
     }
 
     if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
-        check_consistency( ui );
+        check_consistency();
     }
     finalized = true;
 }
 
-void DynamicDataLoader::check_consistency( loading_ui &ui )
+void DynamicDataLoader::check_consistency()
 {
-    ui.new_context( _( "Verifying" ) );
-
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
@@ -795,9 +864,10 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
-            { _( "Weapon Categories" ), &weapon_category::verify_weapon_categories },
+            { _( "Weapon categories" ), &weapon_category::verify_weapon_categories },
             { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
+            { _( "Field type migrations" ), &field_type_migrations::check },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Effect types" ), &effect_type::check_consistency },
@@ -823,6 +893,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
+            { _( "Furniture and terrain migrations" ), &ter_furn_migrations::check },
             { _( "Constructions" ), &check_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
@@ -832,10 +903,10 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
-            { _( "Terrain/Furniture migrations" ), &ter_furn_migrations::check },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
+            { _( "Overmap terrain vision" ), &oter_vision::check_oter_vision },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
@@ -873,12 +944,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     };
 
     for( const named_entry &e : entries ) {
-        ui.add_entry( e.first );
-    }
-
-    ui.show();
-    for( const named_entry &e : entries ) {
+        loading_ui::show( _( "Verifying" ), e.first );
         e.second();
-        ui.proceed();
     }
 }

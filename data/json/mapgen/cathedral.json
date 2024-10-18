@@ -57,7 +57,7 @@
         "                                  |||           "
       ],
       "palettes": [ "cathedral" ],
-      "terrain": { ",": "t_linoleum_gray", " ": "t_soil", "n": "t_rock_floor", "@": "t_rock_floor", "_": "t_rock_floor" },
+      "terrain": { ",": "t_linoleum_gray", " ": "t_soil", "n": "t_thconc_floor", "@": "t_thconc_floor", "_": "t_thconc_floor" },
       "place_item": [ { "item": "small_relic", "x": 21, "y": 36 } ],
       "place_monsters": [
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 },
@@ -209,7 +209,7 @@
         "                                                "
       ],
       "palettes": [ "cathedral" ],
-      "terrain": { "_": "t_rock_floor_no_roof", " ": "t_open_air", "*": "t_open_air_rooved" },
+      "terrain": { "_": "t_concrete", " ": "t_open_air", "*": "t_open_air_rooved" },
       "place_monsters": [
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 6, 23 ], "y": [ 6, 12 ], "density": 0.1 },
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 24, 41 ], "y": [ 6, 12 ], "density": 0.1 }
@@ -284,7 +284,7 @@
         "                                                "
       ],
       "palettes": [ "cathedral" ],
-      "terrain": { "_": "t_rock_floor_no_roof", " ": "t_open_air", "*": "t_glass_roof" },
+      "terrain": { "_": "t_concrete", " ": "t_open_air", "*": "t_glass_roof" },
       "place_nested": [
         {
           "chunks": [
@@ -442,7 +442,7 @@
           "y": [ 6, 8 ]
         }
       ],
-      "terrain": { " ": "t_open_air", "_": "t_rock_floor_no_roof" }
+      "terrain": { " ": "t_open_air", "_": "t_concrete" }
     }
   }
 ]

@@ -56,6 +56,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__masonrysaw",
@@ -132,6 +133,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Turn off",
+        "ammo_scale": 0,
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__electric_masonrysaw",

@@ -88,7 +88,7 @@
     "monsters": [
       { "monster": "mon_zombie_scorched", "weight": 985 },
       { "monster": "mon_zombie_child_scorched", "weight": 10 },
-      { "monster": "mon_zombie_fiend", "weight": 5, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_scorched_brute", "weight": 5, "cost_multiplier": 5 }
     ]
   },
   {

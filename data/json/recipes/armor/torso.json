@@ -156,7 +156,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "12 h",
-    "book_learn": [ [ "textbook_armschina", 2 ] ],
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
     "reversible": true,
     "using": [ [ "tailoring_cotton_small", 4 ], [ "tailoring_leather_patchwork", 8 ] ],
     "components": [ [ [ "cordage_superior", 4, "LIST" ] ] ],
@@ -291,7 +291,7 @@
     "//1": "Average ichcahuipilli was around 1 inch (~2.5 cm) thick. As cotton padding constituted the majority of its protective qualities, I'll consider the quilted part 0.5 cm thick.",
     "//2": "This leaves us with 20 layers of cotton sheets, taking the thickness of a cotton sheet as 0.25 mm.",
     "//3": "Average length of a human male is around 170 cm. Average weight of a human (in North America) is 80 kg. BSA calculation and rule of the nines gives us about 0,68 m^2 or 7,3 sq feet.",
-    "//3.5": "I'll round that down to 7 for ease, as well as compensating for average woman being shorter and thinner and americans being exceptionally fat.",
+    "//3.5": "I'll round that down to 7 for ease, as well as compensating for average woman being shorter and thinner and Americans being exceptionally fat.",
     "//4": "Our cotton sheets are 1x2 feet. 20 layers x 7 sq ft / 2 sq ft of the sheets = 70 sheets. I know the outer layer of quilting would require more sheets because of the padding inbetween but I won't bother doing the maths for it",
     "//5": "Cotton padding inbetween would make 0.065 ft (2 cm of cotton) x 7 sq ft of torso = 0,455 cube ft which is about 12,88 liters of cotton. Once again this calculation is off but again, I can't do the maths.",
     "//5.5": "That's about… a lot of cotton, 1288 patches or 429 balls or 257 sheets to be precise. Byproducts I made up.",
@@ -439,7 +439,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 3 ] ],
-    "components": [ [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "lc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -448,7 +448,7 @@
     "copy-from": "bra",
     "time": "3 h",
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 5 ] ],
-    "components": [ [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "xs_bra",
@@ -787,7 +787,7 @@
     "difficulty": 3,
     "time": "8 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "using": [ [ "tailoring_canvas_patchwork", 36 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -816,7 +816,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "10 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "using": [ [ "sewing_standard", 60 ], [ "fabric_fur_pelt", 7 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -882,7 +882,7 @@
     "difficulty": 6,
     "time": "9 h",
     "autolearn": true,
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "50 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_patchwork", 9 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1031,7 +1031,7 @@
     "difficulty": 5,
     "time": "10 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "using": [ [ "sewing_standard", 160 ], [ "fabric_felt", 33 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -1044,7 +1044,7 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "3 h",
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "book_learn": [ [ "tailor_japanese", 5 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 24 ] ]
   },
@@ -1103,7 +1103,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 36 ] ]
   },
@@ -1382,7 +1382,7 @@
     "difficulty": 2,
     "time": "1 h 45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "using": [ [ "tailoring_cotton_patchwork", 16 ] ]
   },
   {
@@ -1395,7 +1395,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
@@ -1760,7 +1760,7 @@
     "difficulty": 5,
     "time": "9 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "using": [ [ "tailoring_felt_patchwork", 36 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -1788,7 +1788,7 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "35 m" },
     "autolearn": true,
     "using": [ [ "tailoring_felt_patchwork", 18 ] ]
   },
@@ -1817,7 +1817,7 @@
     "difficulty": 3,
     "time": "6 h 48 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_canvas_patchwork", 32 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -1849,7 +1849,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "8 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1921,7 +1921,7 @@
     "difficulty": 6,
     "time": "7 h 39 m",
     "autolearn": true,
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "45 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2026,7 +2026,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -2074,7 +2074,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "7 h 45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -2130,7 +2130,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "45 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2217,7 +2217,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
@@ -2279,7 +2279,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h 30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
@@ -2287,6 +2287,7 @@
     "copy-from": "maid_dress",
     "result": "maid_dress_xl",
     "type": "recipe",
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_cotton", 12 ] ]
   },
   {
@@ -2304,7 +2305,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h",
-    "reversible": true,
+    "reversible": { "time": "7 m" },
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 6 ] ]
   },
@@ -2312,6 +2313,7 @@
     "copy-from": "maid_dress_short",
     "type": "recipe",
     "result": "maid_dress_short_xl",
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
   {
@@ -2357,7 +2359,7 @@
     "difficulty": 2,
     "time": "5 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 14 ] ]
   },
@@ -2411,7 +2413,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "using": [ [ "tailoring_canvas_patchwork", 30 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
@@ -2425,7 +2427,7 @@
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
     "time": "8 h 20 m",
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "autolearn": true,
     "using": [ [ "tailoring_fur_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2464,7 +2466,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "50 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2735,7 +2737,7 @@
     "difficulty": 5,
     "time": "3 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_felt_patchwork", 20 ] ]
   },
   {

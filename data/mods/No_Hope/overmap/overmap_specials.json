@@ -12,7 +12,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 15, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -26,7 +26,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "//": "Military base is grossly unbalanced gameplay-wise, so until it gets some work done on this matter, I'm removing it from the game",
@@ -396,6 +396,6 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "OVERMAP_UNIQUE" ]
   }
 ]

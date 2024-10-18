@@ -309,6 +309,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_metal_roof_red",
+    "name": "red metal roof",
+    "description": "A sturdy section of metallic rooftop, painted red for visibility and weather resistance.",
+    "symbol": ".",
+    "looks_like": "t_metal_roof",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
+  },
+  {
+    "type": "terrain",
     "id": "t_log_sod_roof",
     "name": "sod roof",
     "description": "A section of rooftop made out of sod.",

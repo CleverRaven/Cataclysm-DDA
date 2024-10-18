@@ -28,7 +28,6 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -171,14 +170,14 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             avatar &player_character = get_avatar();
             for( std::pair<const int, mission> &e : world_missions ) {
                 mission &i = e.second;
-                if( i.type->monster_kill_goal == 1 ) {
-                    if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                    if( i.type->monster_kill_goal == 1 ) {
                         i.step_complete( 1 );
-                        return;
+                    } else {
+                        // Recurring nemesis!!
+                        mission_start::kill_nemesis( &i );
                     }
-                } else {
-                    // Recurring nemesis!!
-                    mission_start::kill_nemesis( &i );
+                    return;
                 }
             }
         }
@@ -335,6 +334,8 @@ void mission::fail()
     if( player_character.getID() == player_id ) {
         player_character.on_mission_finished( *this );
     }
+    // Tracks completion/failure
+    deadline = calendar::turn;
 
     type->fail( this );
 }
@@ -461,6 +462,9 @@ void mission::wrap_up()
             break;
     }
 
+    // Tracks completion/failure
+    deadline = calendar::turn;
+
     type->end( this );
 }
 
@@ -539,7 +543,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     }
                 }
             };
-            for( const tripoint &p : here.points_in_radius( player_character.pos(), 5 ) ) {
+            for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 5 ) ) {
                 if( player_character.sees( p ) ) {
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
@@ -878,7 +882,7 @@ mission::mission()
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
-    recruit_class = NC_NONE;
+    recruit_class = npc_class_id::NULL_ID();
     target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;

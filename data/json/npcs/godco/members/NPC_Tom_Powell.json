@@ -9,35 +9,65 @@
       "TALK_GODCO_Tom_Help"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story" },
-      { "text": "Let's talk about your goals.", "topic": "TALK_GODCO_Tom_Goal" }
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Tom_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "Let's talk about your goals.",
+        "topic": "TALK_GODCO_Tom_Goal",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      }
     ]
   },
   {
     "type": "talk_topic",
     "id": [ "TALK_GODCO_Tom_Story", "TALK_GODCO_Tom_Background", "TALK_GODCO_Tom_Family", "TALK_GODCO_Tom_Community" ],
     "responses": [
-      { "text": "Tell me about yourself.", "topic": "TALK_GODCO_Tom_Background" },
-      { "text": "Tell me about your family.", "topic": "TALK_GODCO_Tom_Family" },
-      { "text": "Tell me about the community.", "topic": "TALK_GODCO_Tom_Community" },
-      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story" },
-      { "text": "Let's talk about your goals.", "topic": "TALK_GODCO_Tom_Goal" }
+      {
+        "text": "Tell me about yourself.",
+        "topic": "TALK_GODCO_Tom_Background",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "Tell me about your family.",
+        "topic": "TALK_GODCO_Tom_Family",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "Tell me about the community.",
+        "topic": "TALK_GODCO_Tom_Community",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Tom_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "Let's talk about your goals.",
+        "topic": "TALK_GODCO_Tom_Goal",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_tom",
-        "value": "yes",
-        "yes": "Hey, it's you again <u_name>!  Any news from the outside world?",
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "It's you again <u_name>, you have some nerve coming around after what you've done.",
         "no": {
-          "gendered_line": "Ah, another survivor!  I hope you come in peace.  I'm Tom, nice to meet you.",
-          "relevant_genders": [ "u" ]
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ],
+          "yes": "Hey, it's you again <u_name>!  Any news from the outside world?",
+          "no": {
+            "gendered_line": "Ah, another survivor!  I hope you come in peace.  I'm Tom, nice to meet you.",
+            "relevant_genders": [ "u" ]
+          }
         }
       }
     },
@@ -46,8 +76,8 @@
         "text": "Nice to meet you, Tom.",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_tom", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_tom", "value": "yes" },
@@ -57,20 +87,47 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_tom", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Tom_2"
       },
       {
+        "text": "Hi Tom, got a minute?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
+        "topic": "TALK_GODCO_Tom_Angry"
+      },
+      {
         "text": "Hey, Tom.  I can't stay to talk.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright, alright, I'll leave you be.",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_DONE"
       }
     ]
@@ -82,12 +139,12 @@
     "responses": [
       {
         "text": "I'm just a curious traveler.  What about you, how are you doing?",
-        "condition": { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
         "topic": "TALK_GODCO_Tom_Firstmeet2"
       },
       {
         "text": "I'm seeking asylum here.  What about you, how are you doing?",
-        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
         "topic": "TALK_GODCO_Tom_Firstmeet2"
       },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -225,5 +282,11 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Angry",
+    "dynamic_line": "No, I'm all out of them.  Now, I've got better things to do, goodbye.",
+    "responses": [ { "text": "Okay Tom, go ahead and be that way.", "topic": "TALK_DONE" } ]
   }
 ]

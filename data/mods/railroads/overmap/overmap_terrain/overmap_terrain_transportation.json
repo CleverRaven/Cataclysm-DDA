@@ -5,7 +5,7 @@
     "name": "railroad",
     "copy-from": "generic_transportation",
     "color": "light_green",
-    "see_cost": 2,
+    "see_cost": "none",
     "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },
   {
@@ -15,7 +15,7 @@
     "name": "railroad bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -51,7 +51,7 @@
     "name": "railroad level crossing",
     "sym": "┼",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "road"
   },
   {

@@ -152,5 +152,39 @@
     "max_aoe": 6,
     "aoe_increment": 0.1,
     "damage_type": "heat"
+  },
+  {
+    "id": "call_daffodil",
+    "type": "SPELL",
+    "name": "Call Daffodil",
+    "description": "A few daffodil warriors appear near you.  They will fight for you, but they will fade away after a day.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CALL_DAFFODIL",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ]
+  },
+  {
+    "id": "call_daffodil_real",
+    "type": "SPELL",
+    "name": "Call Daffodil",
+    "description": "Hidden spell that spawns the daffodil",
+    "valid_targets": [ "ground" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "max_level": 1,
+    "difficulty": 0,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "spell_class": "NONE",
+    "effect": "summon",
+    "effect_str": "mon_fetch_daffodil_warrior",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ],
+    "min_duration": { "math": [ "spell_time(time(' 24 h'))" ] },
+    "max_duration": { "math": [ "spell_time(time(' 24 h'))" ] }
   }
 ]

@@ -33,7 +33,7 @@ struct itype;
 struct tripoint;
 
 // size of connect groups bitset; increase if needed
-const int NUM_TERCONN = 32;
+const int NUM_TERCONN = 256;
 connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
@@ -134,6 +134,7 @@ struct plant_data {
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
+ * TRANSLUCENT - Must be paired with TRANSPARENT. Allows light to pass through, but blocks vision.
  * FLAT - Player can build and move furniture on
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
@@ -201,6 +202,7 @@ struct plant_data {
  */
 enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
+    TFLAG_TRANSLUCENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
@@ -317,7 +319,6 @@ enum class ter_furn_flag : int {
     TFLAG_MURKY,
     TFLAG_AMMOTYPE_RELOAD,
     TFLAG_TRANSPARENT_FLOOR,
-    TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
@@ -325,6 +326,7 @@ enum class ter_furn_flag : int {
     TFLAG_SINGLE_SUPPORT,
     TFLAG_CLIMB_ADJACENT,
     TFLAG_FLOATS_IN_AIR,
+    TFLAG_HARVEST_REQ_CUT1,
 
     NUM_TFLAG_FLAGS
 };
@@ -490,11 +492,11 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        bool can_examine( const tripoint &examp ) const;
+        bool can_examine( const tripoint_bub_ms &examp ) const;
         bool has_examine( iexamine_examine_function func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_functions func );
-        void examine( Character &, const tripoint & ) const;
+        void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
@@ -507,6 +509,10 @@ struct map_data_common_t {
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = DEFAULT_TILE_VOLUME;
+
+        std::string liquid_source_item_id; // id of a liquid this tile provides
+        double liquid_source_min_temp = 4; // in centigrades, cold water as default value
+        std::pair<int, int> liquid_source_count = { 0, 0 }; // charges of liquid, if it's finite source
 
         translation description;
 
@@ -577,7 +583,7 @@ struct map_data_common_t {
          */
         const std::set<std::string> &get_harvest_names() const;
 
-        std::string extended_description() const;
+        virtual std::vector<std::string> extended_description() const;
 
         bool was_loaded = false;
 
@@ -625,6 +631,8 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+
+    std::vector<std::string> extended_description() const override;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -679,6 +687,8 @@ struct furn_t : map_data_common_t {
 
     bool is_movable() const;
 
+    std::vector<std::string> extended_description() const override;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
@@ -692,7 +702,20 @@ void verify_terrain();
 class ter_furn_migrations
 {
     public:
-        /** Handler for loading "ter_furn_migrations" type of json object */
+        /** Handler for loading "ter_furn_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
+class field_type_migrations
+{
+    public:
+        /** Handler for loading "field_type_migration" type of json object */
         static void load( const JsonObject &jo );
 
         /** Clears migration list */

@@ -211,6 +211,6 @@
     "city_distance": [ 150, 1000 ],
     "locations": [ "ocean_surface" ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "MAN_MADE", "OCEAN", "UNIQUE" ]
+    "flags": [ "MAN_MADE", "OCEAN", "OVERMAP_UNIQUE" ]
   }
 ]

@@ -2186,7 +2186,7 @@
             "p320mag_17rd_9x19mm",
             "p38mag",
             "j22mag",
-            "cz75mag_16rd",
+            "cz75mag_12rd",
             "cz75mag_20rd",
             "cz75mag_26rd",
             "wp22mag",
@@ -2499,8 +2499,8 @@
         { "id": "knife_butter", "fg": 1513, "rotates": false },
         {
           "id": [
-            "knife_steak",
-            "knife_butcher",
+            "knife_small_var_knife_steak",
+            "knife_huge_var_knife_butcher",
             "knife_combat",
             "diveknife",
             "makeshift_knife",
@@ -2516,8 +2516,7 @@
             "kris_fake",
             "knife_folding"
           ],
-          "fg": 646,
-          "rotates": false
+          "fg": 646
         },
         { "id": "knuckle_brass", "fg": 1474, "rotates": false },
         { "id": [ "knuckle_katar", "knuckle_nail", "bagh_nakha", "bio_claws_weapon" ], "fg": 1458, "rotates": false },
@@ -3217,7 +3216,7 @@
         { "id": [ "pot_xlhelmet", "pot_helmet" ], "fg": 1539, "rotates": false },
         { "id": "potato_baked", "fg": 1757, "rotates": false },
         {
-          "id": [ "potato", "irradiated_potato", "kiwi", "irradiated_kiwi", "egg_bird" ],
+          "id": [ "potato", "irradiated_potato", "kiwi", "irradiated_kiwi", "egg_chicken" ],
           "fg": 1758,
           "rotates": false
         },

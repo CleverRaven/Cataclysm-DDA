@@ -28,9 +28,9 @@
       "GMLODGE3_roof_3"
     ],
     "name": "Militia Lodge",
+    "vision_levels": "isolated_building",
     "sym": "L",
-    "color": "blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "color": "brown",
+    "see_cost": "high"
   }
 ]

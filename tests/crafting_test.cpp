@@ -44,6 +44,8 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
+static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
@@ -89,7 +91,7 @@ static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
 static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
 static const recipe_id recipe_balclava( "balclava" );
-static const recipe_id recipe_blanket( "blanket" );
+static const recipe_id recipe_blanket_blanket_makeshift( "blanket_blanket_makeshift" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
@@ -142,7 +144,7 @@ TEST_CASE( "recipe_subset" )
                 CHECK( subset.get_custom_difficulty( r ) == r->difficulty );
             }
             THEN( "it's in the right category" ) {
-                const auto cat_recipes( subset.in_category( "CC_FOOD" ) );
+                const auto cat_recipes( subset.in_category( crafting_category_CC_FOOD ) );
 
                 CHECK( cat_recipes.size() == 1 );
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
@@ -391,7 +393,7 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
             item_location added_tool = player_character.i_add( gear );
             REQUIRE( added_tool );
             if( plug_in && added_tool->can_link_up() ) {
-                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north ),
+                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint_north ),
                                               link_state::automatic ).success() );
             }
         } else {
@@ -437,7 +439,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     clear_avatar();
     clear_map();
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
     player_character.toggle_trait( trait_DEBUG_CNF );
     player_character.setpos( test_origin );
@@ -447,7 +449,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
         grant_profs_to_character( player_character, r );
     }
 
-    const tripoint battery_pos = test_origin + tripoint_north;
+    const tripoint_bub_ms battery_pos = test_origin + tripoint_north;
     std::optional<item> battery_item( "test_storage_battery" );
     place_appliance( battery_pos, vpart_ap_test_storage_battery, battery_item );
 
@@ -764,24 +766,24 @@ TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
     item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
-    ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
+    ups_mag.ammo_set( ups_mag.ammo_default(), 259 );
     ret_val<void> result = ups->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     INFO( result.c_str() );
     REQUIRE( result.success() );
     REQUIRE( dummy.has_item( *ups ) );
-    REQUIRE( ups->ammo_remaining() == 500 );
-    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 500 );
+    REQUIRE( ups->ammo_remaining() == 259 );
+    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 259 );
 }
 
 TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
 {
-    constexpr int ammo_count = 500;
+    constexpr int ammo_count = 259;
     bool const ups_on_ground = GENERATE( true, false );
     CAPTURE( ups_on_ground );
     avatar dummy;
     clear_map();
     clear_character( dummy );
-    tripoint const test_loc = dummy.pos();
+    tripoint_bub_ms const test_loc = dummy.pos_bub();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
@@ -790,7 +792,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     if( ups_on_ground ) {
         item &ups_on_map = get_map().add_item( test_loc, ups );
         REQUIRE( !ups_on_map.is_null() );
-        ups_loc = item_location( map_cursor( test_loc ), &ups_on_map );
+        ups_loc = item_location( map_cursor( tripoint_bub_ms( test_loc ) ), &ups_on_map );
     } else {
         ups_loc = dummy.i_add( ups );
         REQUIRE( dummy.has_item( *ups_loc ) );
@@ -840,8 +842,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.insert( tools.end(), 2, item( "polycarbonate_sheet" ) );
-        tools.insert( tools.end(), 1, item( "knife_paring" ) );
+        tools.insert( tools.end(), 4, item( "polycarbonate_sheet" ) );
+        tools.insert( tools.end(), 1, item( "knife_small" ) );
         tools.emplace_back( "motor_micro" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
@@ -854,8 +856,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item popcan_stove = tool_with_ammo( "popcan_stove", 60 );
             REQUIRE( popcan_stove.ammo_remaining() == 60 );
             tools.push_back( popcan_stove );
-            item soldering = tool_with_ammo( "soldering_iron_portable", 20 );
-            REQUIRE( soldering.ammo_remaining() == 20 );
+            item soldering = tool_with_ammo( "soldering_iron_portable", 16 );
+            REQUIRE( soldering.ammo_remaining() == 16 );
             tools.push_back( soldering );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
@@ -863,7 +865,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 10 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 6 );
             }
         }
 
@@ -891,18 +893,19 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( plastic_molding );
 
             item UPS( "UPS_off" );
-            item UPS_mag( UPS.magazine_default() );
+            item UPS_mag( "heavy_atomic_battery_cell" );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
             UPS.put_in( UPS_mag, pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                // this recipe should be replaced with a test recipe that isn't impacted by changes in game recipes
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 // vacuum molding takes 4 charges
-                CHECK( get_remaining_charges( "UPS_off" ) == 286 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
             }
         }
 
@@ -1213,13 +1216,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_blanket, 174, 0, true );
+            test_skill_progression( recipe_blanket_blanket_makeshift, 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_blanket, 173, 50, true );
+            test_skill_progression( recipe_blanket_blanket_makeshift, 173, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_blanket, 172, 100, true );
+            test_skill_progression( recipe_blanket_blanket_makeshift, 172, 100, true );
         }
     }
     SECTION( "lvl 1 -> 2" ) {
@@ -2152,7 +2155,7 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
     tools.insert( tools.end(), 10, tool_with_ammo( "popcan_stove", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
     tools.emplace_back( "pot_canning" );
-    tools.emplace_back( "knife_butcher" );
+    tools.emplace_back( "knife_huge" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 
@@ -2295,10 +2298,10 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     clear_vehicles();
     clear_avatar();
     avatar &player = get_avatar();
-    player.setpos( tripoint( 60, 58, 0 ) );
-    const tripoint veh_pos( 60, 60, 0 );
-    const tripoint furn1_pos( 60, 57, 0 );
-    const tripoint furn2_pos( 60, 56, 0 );
+    player.setpos( tripoint_bub_ms( 60, 58, 0 ) );
+    const tripoint_bub_ms veh_pos( 60, 60, 0 );
+    const tripoint_bub_ms furn1_pos( 60, 57, 0 );
+    const tripoint_bub_ms furn2_pos( 60, 56, 0 );
 
     const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
 

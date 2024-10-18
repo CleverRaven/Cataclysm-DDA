@@ -9,7 +9,7 @@
 #include <unordered_set>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "dialogue_helpers.h"
 #include "global_vars.h"
 
@@ -59,7 +59,8 @@ duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_vie
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
         bool required = true,
         time_duration default_val = 0_seconds );
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d );
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d,
+                                       bool is_npc );
 var_info read_var_info( const JsonObject &jo );
 translation_var_info read_translation_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,

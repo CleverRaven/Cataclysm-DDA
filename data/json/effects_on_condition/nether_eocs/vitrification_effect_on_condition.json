@@ -15,7 +15,8 @@
         "type": "neutral",
         "popup": true
       },
-      { "math": [ "u_vitri_glass_entered", "=", "1" ] }
+      { "math": [ "u_vitri_glass_entered", "=", "1" ] },
+      { "math": [ "u_back_from_vitri_glass", "=", "0" ] }
     ]
   },
   {
@@ -364,7 +365,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_queue_unvitrified_return",
-    "effect": { "queue_eocs": "EOC_unvitrified_return", "time_in_future": "1 seconds" }
+    "condition": { "math": [ "u_back_from_vitri_glass", "<", "1" ] },
+    "effect": [
+      { "queue_eocs": "EOC_unvitrified_return", "time_in_future": "1 seconds" },
+      { "math": [ "u_back_from_vitri_glass", "=", "1" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

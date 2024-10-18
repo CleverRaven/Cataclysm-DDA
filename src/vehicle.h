@@ -24,7 +24,8 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinates.h"
+#include "coordinate_constants.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -450,6 +451,9 @@ struct vehicle_part {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
+        /** temporarily held projected position */
+        tripoint_bub_ms next_pos = tripoint_bub_ms( -1, -1, 0 ); // NOLINT(cata-serialize)
+
         /** current part health with range [0,durability] */
         int hp() const;
 
@@ -624,7 +628,7 @@ class turret_data
         bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
-        std::set<std::string> ammo_effects() const;
+        std::set<ammo_effect_str_id> ammo_effects() const;
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
@@ -633,7 +637,7 @@ class turret_data
          * Check if target is in range of this turret (considers current ammo)
          * Assumes this turret's status is 'ready'
          */
-        bool in_range( const tripoint &target ) const;
+        bool in_range( const tripoint_bub_ms &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -656,7 +660,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &c, const tripoint &target );
+        int fire( Character &c, const tripoint_bub_ms &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -868,6 +872,9 @@ class vehicle
          * @param where Location of the other vehicle's origin tile.
          */
         static vehicle *find_vehicle( const tripoint_abs_ms &where );
+        // find_vehicle, but it compares the provided position to the position of
+        // every vehicle part instead of just the vehicle's position
+        static vehicle *find_vehicle_using_parts( const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
@@ -921,9 +928,11 @@ class vehicle
          */
         bool mod_hp( vehicle_part &pt, int qty );
 
-        // check if given player controls this vehicle
+        // check if given character controls this vehicle
         bool player_in_control( const Character &p ) const;
-        // check if player controls this vehicle remotely
+        // check if the *player* character controls this vehicle
+        bool player_is_driving_this_veh() const;
+        // check if the given character controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
@@ -1008,7 +1017,8 @@ class vehicle
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        void start_engines( Character *driver = nullptr, bool take_control = false,
+                            bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
@@ -1387,6 +1397,9 @@ class vehicle
         bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
+        bool has_driver() const;
+        // get character that is currently controlling the vehicle's motion
+        Character *get_driver() const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 
@@ -1958,6 +1971,12 @@ class vehicle
         // Update the set of occupied points and return a reference to it
         const std::set<tripoint> &get_points( bool force_refresh = false, bool no_fake = false ) const;
 
+        // calculate the new projected points for all vehicle parts to move to
+        void part_project_points( const tripoint &dp );
+
+        // get all vehicle parts' projected points
+        std::set<tripoint_bub_ms> get_projected_part_points() const;
+
         /**
         * Consumes specified charges (or fewer) from the vehicle part
         * @param what specific type of charge required, e.g. 'battery'
@@ -2092,7 +2111,9 @@ class vehicle
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
         void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        // TODO: Get rid of untyped overload.
         void interact_with( const tripoint &p, bool with_pickup = false );
+        void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;
 
@@ -2416,7 +2437,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         ~DefaultRemovePartHandler() override = default;
 
         void unboard( const tripoint &loc ) override {
-            get_map().unboard_vehicle( loc );
+            get_map().unboard_vehicle( tripoint_bub_ms( loc ) );
         }
         void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             get_map().add_item_or_charges( loc, std::move( it ) );
@@ -2424,7 +2445,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );

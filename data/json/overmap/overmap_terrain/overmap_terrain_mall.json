@@ -4,15 +4,18 @@
     "abstract": "generic_mall",
     "name": "mall",
     "color": "i_red",
+    "vision_levels": "large_city_building",
     "sym": "M",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ]
+    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_mall_road",
+    "vision_levels": "blends_till_outlines",
     "copy-from": "generic_mall",
+    "looks_like": "road",
     "name": "road",
     "color": "dark_gray"
   },
@@ -306,6 +309,8 @@
       "mall_a_70_basement",
       "mall_a_71_basement"
     ],
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "solid earth",
     "color": "brown",
     "sym": "#"
@@ -323,6 +328,7 @@
       "mall_a_68_sub_basement",
       "mall_a_69_sub_basement"
     ],
+    "vision_levels": "underground_stone",
     "copy-from": "generic_mall",
     "name": "mall - subway station",
     "color": "i_light_red"

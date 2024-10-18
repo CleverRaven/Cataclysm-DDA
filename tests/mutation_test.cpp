@@ -210,7 +210,6 @@ TEST_CASE( "Having_all_mutations_give_correct_highest_category", "[mutations][st
 // If a category breach power falls below 55, it suggests that category lacks enough pre-threshold mutations
 // to comfortably cross the Threshold
 //
-// Alpha threshold is intentionally meant to be harder to breach, so the permitted range is 35-60
 //
 // When creating or editing a category, remember that 55 is a limit, not suggestion
 // 65+ is the suggested range
@@ -239,14 +238,7 @@ TEST_CASE( "Having_all_pre-threshold_mutations_gives_a_sensible_threshold_breach
             dummy.give_all_mutations( cur_cat, false );
 
             const int breach_chance = dummy.mutation_category_level[cat_id];
-            if( cat_id == mutation_category_ALPHA ) {
-                THEN( "Alpha Threshold breach power is between 35 and 60" ) {
-                    INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                    CHECK( breach_chance >= 35 );
-                    CHECK( breach_chance <= 60 );
-                }
-                continue;
-            } else if( cat_id == mutation_category_CHIMERA ) {
+            if( cat_id == mutation_category_CHIMERA ) {
                 THEN( "Chimera Threshold breach power is 100+" ) {
                     INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                     CHECK( breach_chance >= 100 );
@@ -357,31 +349,31 @@ TEST_CASE( "OVERMAP_SIGHT_enchantment_affect_overmap_sight_range", "[mutations][
 
     WHEN( "character has no traits, that change overmap sight range" ) {
         THEN( "unchanged sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 10.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 10.0 );
         }
     }
 
     WHEN( "character has TEST_OVERMAP_SIGHT_5" ) {
         dummy.toggle_trait( trait_TEST_OVERMAP_SIGHT_5 );
         THEN( "they have increased overmap sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 15.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the TEST_OVERMAP_SIGHT_5 trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 15.0 );
         }
     }
 
     WHEN( "character has TEST_OVERMAP_SIGHT_MINUS_10 trait" ) {
         dummy.toggle_trait( trait_TEST_OVERMAP_SIGHT_MINUS_10 );
         THEN( "they have reduced overmap sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 3.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the TEST_OVERMAP_SIGHT_MINUS_10 trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 3.0 );
         }
     }
 }

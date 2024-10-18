@@ -13,6 +13,7 @@
         "office_tower_large": 300,
         "office_tower_hiddenlab": 200,
         "afs_astrobiology_lab": 200,
+        "afs_city_urban_farm_small": 400,
         "mall": 100
       },
       "houses": { "afs_city_ruinfield": 200, "afs_formless_ruins_dynamic": 300, "afs_house_1": 100, "house_09": 20 }

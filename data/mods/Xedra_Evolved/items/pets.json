@@ -15,7 +15,8 @@
     "color": "yellow",
     "flags": [ "INEDIBLE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "UNICORNFOOD" ]
+    "petfood": [ "UNICORNFOOD" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "golden_bridle",

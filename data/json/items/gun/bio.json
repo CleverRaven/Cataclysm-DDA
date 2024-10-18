@@ -7,7 +7,6 @@
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
     "volume": "103 ml",
     "price": "0 cent",
-    "to_hit": -2,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "magenta",

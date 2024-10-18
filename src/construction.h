@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "game_constants.h"
 #include "item.h"
 #include "translation.h"

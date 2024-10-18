@@ -74,7 +74,7 @@
     "type": "item_group",
     "id": "REFUGEE_Pablo_wield",
     "subtype": "collection",
-    "entries": [ { "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 } ]
+    "entries": [ { "item": "heavy_flashlight", "charges": 200 } ]
   },
   {
     "type": "talk_topic",
@@ -98,7 +98,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -109,7 +109,10 @@
         "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
         "topic": "TALK_REFUGEE_Pablo_Tacoma2",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_3" } ]
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "compare_string": [ "phase_3", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
+          ]
         }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -184,12 +187,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2_survivors",
-    "dynamic_line": "\"From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.\"  He gestures to three people gathered together a short distance away.  \"They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't,\" Pablo wipes his face with his hand and pauses for a moment.  \"When he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.\"",
+    "dynamic_line": "From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.\"  He gestures to three people gathered together a short distance away.  \"They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't,\" Pablo wipes his face with his hand and pauses for a moment.  \"When he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.",
     "responses": [
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
         "topic": "TALK_REFUGEE_Pablo_Background2_cleared",
-        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] }
       }
     ]
   },
@@ -213,7 +216,7 @@
         "effect": { "assign_mission": "MISSION_TACOMA_Nunez" },
         "condition": {
           "and": [
-            { "u_has_var": "knowledge_flag_tacoma_started", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "knowledge_flag_tacoma_started" } ] },
             { "not": { "u_has_mission": "MISSION_TACOMA_Nunez" } }
           ]
         }

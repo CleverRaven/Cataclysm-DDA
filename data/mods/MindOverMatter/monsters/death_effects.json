@@ -191,7 +191,7 @@
     "type": "SPELL",
     "name": "[Ψ]Delete Nullifying Fields Monster",
     "description": "This cleans up the nullifying fields after a zombie null dies.  It's a bug if you have it.",
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "ground", "hostile", "ally", "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
     "effect": "ter_transform",
     "effect_str": "ter_null_zombie_delete_fields",

@@ -383,6 +383,24 @@
   },
   {
     "type": "mutation",
+    "id": "purifiability_first",
+    "name": { "str": "Tests setting purifiability via EOCs" },
+    "points": 1,
+    "valid": true,
+    "purifiable": true,
+    "description": "Tests setting purifiability via EOCs - purifiable by default, can be flipped in gametime"
+  },
+  {
+    "type": "mutation",
+    "id": "purifiability_second",
+    "name": { "str": "Tests setting purifiability via EOCs" },
+    "points": 1,
+    "valid": true,
+    "purifiable": false,
+    "description": "Tests setting purifiability via EOCs - nonpurifiable by default, can't be flipped in gametime"
+  },
+  {
+    "type": "mutation",
     "id": "TEST_REMOVAL_0",
     "name": { "str": "Removal test zeroth (non-purifiable)" },
     "points": 1,

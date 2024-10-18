@@ -1,0 +1,241 @@
+[
+  {
+    "//": "Note, common and rare don't mean exactly that.  It's meant moreso as a dividing line between being able to feasibly pick this up at a gunstore, and only being found in collectors items.  For example, yes, an SL8 magazine is rare, but not on the level of a collectors item like a luger drum mag",
+    "//2": "Magazines are weighted by gun ratios on gunbroker, the gun with prob of 100 is the basis of these ratios, and further additions should be compared to that",
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_9mm",
+    "//3": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
+    "items": [
+      { "group": "magazines_9mm_glock", "prob": 100 },
+      { "group": "magazines_9mm_m9", "prob": 20 },
+      { "group": "magazines_9mm_px4", "prob": 20 },
+      { "group": "magazines_9mm_usp", "prob": 20 },
+      { "group": "magazines_9mm_p226", "prob": 40 },
+      { "group": "magazines_9mm_p320", "prob": 60 },
+      { "group": "magazines_9mm_browning_hi", "prob": 18 },
+      { "group": "magazines_9mm_ppq", "prob": 15 },
+      { "group": "magazines_9mm_hipoint_c9", "prob": 30 },
+      { "group": "magazines_9mm_cz", "prob": 40 },
+      { "group": "magazines_9mm_ccp", "prob": 5 },
+      { "group": "magazines_9mm_sp2022", "prob": 10 },
+      { "group": "magazines_9mm_mp5", "prob": 19 },
+      { "group": "magazines_9mm_p38", "prob": 14 },
+      { "group": "magazines_9mm_apc9", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_10mm",
+    "//": "Collections of magazines for 10mm guns that are sold in gunstores, such as Glocks.",
+    "items": [
+      { "group": "magazines_10mm_glock", "prob": 100 },
+      { "item": "40_speedloader6", "prob": 16 },
+      { "item": "m1911_10mag", "prob": 3 },
+      { "item": "p220_10_mag", "prob": 21 },
+      { "item": "witness_mag_10", "prob": 13 },
+      { "item": "xd_10_mag", "prob": 19 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_22lr",
+    "//": "Collections of magazines for .22 LR guns that are sold in gunstores, such as 10/22s, Ruger Standards.",
+    "items": [
+      { "group": "magazines_22_ar", "prob": 8 },
+      { "group": "magazines_22_1022", "prob": 100 },
+      { "group": "magazines_22_cp33", "prob": 5 },
+      { "item": "22_speedloader8", "prob": 1 },
+      { "item": "mosquitomag", "prob": 20 },
+      { "item": "wp22mag", "prob": 23 },
+      { "item": "ruger_mk4_mag", "prob": 39 },
+      { "item": "1911_22_mag", "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_30_carbine",
+    "//": "Collections of magazines for 30 carbine guns that are sold in gunstores, such as M1 Carbines and... nothing else.",
+    "items": [ { "item": "m1carbinemag", "prob": 100 }, { "item": "m1carbinebigmag", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_32",
+    "//": "Collections of magazines for 32 ACP guns that are sold in gunstores, such as a PPK.",
+    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "kp32mag", "prob": 68 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_38",
+    "//": "Collections of speedloaders for 38/357 revolvers that are sold in gunstores, such as a 686 or Model 10.",
+    "items": [
+      { "item": "38_speedloader", "prob": 10 },
+      { "item": "38_speedloader5", "prob": 31 },
+      { "item": "38_speedloader6", "prob": 100 },
+      { "item": "deaglemag_357", "prob": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_40sw",
+    "//": "Collections of magazines for 40 S&W guns that are sold in gunstores, such as the Glock 22.",
+    "items": [
+      { "group": "magazines_40_glock", "prob": 100 },
+      { "item": "px4_40mag", "prob": 21 },
+      { "item": "bhp40mag", "prob": 3 },
+      { "item": "hptjcpmag", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_44",
+    "//": "Collections of magazines/speedloaders for 44 magnum guns that are sold in gunstores, such as the Colt Anaconda.",
+    "items": [ { "item": "44_speedloader6", "prob": 100 }, { "item": "deaglemag", "prob": 17 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_45",
+    "//": "Collections of magazines for 45 ACP guns that are sold in gunstores, such as Glocks, 1911s",
+    "items": [
+      { "group": "magazines_45_glock", "prob": 100 },
+      { "group": "magazines_45_thompson", "prob": 21 },
+      { "group": "magazines_45_usc", "prob": 18 },
+      { "group": "magazines_45_1911", "prob": 1107 },
+      { "item": "usp45mag", "prob": 30 },
+      { "item": "ppq45mag", "prob": 5 },
+      { "item": "hptjhpmag", "prob": 103 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_57",
+    "//": "Collections of magazines for 5.7mm guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_57_ruger", "prob": 100 },
+      { "item": "fn57mag", "prob": 13 },
+      { "item": "fnp90mag", "prob": 115 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_223",
+    "//": "Collections of magazines for 223/556 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_stanag", "prob": 1007 },
+      { "group": "magazines_mini14", "prob": 100 },
+      { "group": "magazines_aug", "prob": 28 },
+      { "item": "sl8mag", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_303",
+    "//": "Collections of magazines/strippers for 303 guns that can be found in gunstores.",
+    "items": [ { "item": "enfield_303mag", "prob": 10 }, { "item": "clip303_5rd", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_308",
+    "//": "Collections of magazines for 308 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_fal", "prob": 25 },
+      { "group": "magazines_g3", "prob": 19 },
+      { "group": "magazines_m14", "prob": 300 },
+      { "group": "magazines_m77", "prob": 39 },
+      { "group": "magazines_scarh", "prob": 49 },
+      { "group": "magazines_ar10", "prob": 100 },
+      { "item": "steyr_scout_mag", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_380",
+    "//": "Collections of magazines for 380 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_hipoint380", "prob": 44 },
+      { "item": "rugerlcpmag", "prob": 100 },
+      { "item": "hpt3895mag_10rd", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_762",
+    "//": "Collections of magazines for 7.62x39 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_akm", "prob": 100 },
+      { "group": "magazines_bren2762", "prob": 44 },
+      { "group": "magazines_ar762", "prob": 19 },
+      { "item": "762x39_clip", "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_762R",
+    "//": "Collections of magazines for 7.62x54mmR guns that can be found in gunstores.",
+    "items": [ { "group": "magazines_psl", "prob": 12 }, { "item": "762R_clip", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_3006",
+    "//": "Collections of magazines for 308 guns that can be found in gunstores.",
+    "items": [ { "item": "3006_clip", "prob": 33 }, { "item": "blrmag", "prob": 3 }, { "item": "garandclip", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_450",
+    "//": "Collections of magazines for 450 Bushmaster guns that can be found in gunstores.",
+    "items": [ { "item": "450_ar15mag", "prob": 100 }, { "item": "ruger_arr_mag", "prob": 54 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_12",
+    "//": "Collections of magazines for 12 gauge guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_saiga12", "prob": 6 },
+      { "group": "magazines_shot_speedloaders", "prob": 20 },
+      { "group": "magazines_590m", "prob": 8 },
+      { "group": "magazines_mka", "prob": 100 },
+      { "item": "srm_1216_mag_16", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "rare_magazines_9mm",
+    "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
+    "items": [
+      { "group": "magazines_9mm_calico", "prob": 1 },
+      { "group": "magazines_9mm_luger", "prob": 60 },
+      { "group": "magazines_9mm_mauser", "prob": 20 },
+      { "group": "magazines_9mm_mp40", "prob": 60 },
+      { "group": "magazines_9mm_sten", "prob": 40 },
+      { "group": "magazines_9mm_tec9", "prob": 60 },
+      { "group": "magazines_9mm_uzi", "prob": 18 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "rare_magazines_45",
+    "//": "Collections of magazines for 45 ACP guns that are rare and should only be found in collections or gunshows, such as MACs.",
+    "items": [ { "item": "mac10mag", "prob": 100 }, { "item": "ump45mag", "prob": 5 }, { "item": "greasegun30mag", "prob": 25 } ]
+  }
+]

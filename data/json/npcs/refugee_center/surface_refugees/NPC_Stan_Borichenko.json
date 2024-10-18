@@ -80,7 +80,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -152,8 +152,7 @@
       "concatenate": [
         "Mostly my family and I have just been mourning.  This isn't the best place to do it.  ",
         {
-          "u_has_var": "mission_completed_Boris_mission_1",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
           "yes": "Still, now that we've found ways to make this community a bit of our own, I feel like maybe there's a chance things will get better.  Sometimes, when he's working, Boris seems like himself again and I have some hope.",
           "no": "I hope we'll have something productive to do soon; Boris, in particular, has skills to contribute that might help him feel alive again."
         }
@@ -172,14 +171,12 @@
       "concatenate": [
         "He's a strong man.  The things we've been through… that he's been through, before any of this.  If anyone can survive the loss we've seen, it's him.  But he pushes it all down, ",
         {
-          "u_has_var": "mission_completed_Boris_mission_1",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
           "yes": "if he's left with it too long.  Having work has been helping him.  Cleaning up that back room might seem small, but it was a big deal for him.",
           "no": "and if he keeps it up, I don't know how much of him will be left.  He needs something to *do*.  We can't just sit here, trapped like rats in a cage forever."
         },
         {
-          "u_has_var": "mission_completed_Boris_mission_3",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_3" } ],
           "yes": "  Even more, though, having a little memory of Ash has been more than we could ever have asked.  I thought it might hurt him, dwelling on those memories, but instead it's given both of us some strength back.",
           "no": ""
         }

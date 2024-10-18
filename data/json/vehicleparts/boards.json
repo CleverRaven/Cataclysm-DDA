@@ -96,7 +96,7 @@
         "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 1 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "damage_reduction": { "all": 7 }
   },
@@ -172,7 +172,7 @@
         "using": [ [ "welding_standard", 40 ], [ "vehicle_bolt_install", 1 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
     "damage_reduction": { "all": 7 }
@@ -205,7 +205,7 @@
         "using": [ [ "welding_standard", 40 ], [ "vehicle_bolt_install", 2 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "damage_reduction": { "all": 20 }
   },

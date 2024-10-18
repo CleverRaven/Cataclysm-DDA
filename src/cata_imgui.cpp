@@ -3,10 +3,13 @@
 #include <stack>
 #include <type_traits>
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+#undef IMGUI_DEFINE_MATH_OPERATORS
 
 #include "color.h"
+#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -14,7 +17,7 @@
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
 #include "wcwidth.h"
 #include <curses.h>
 #include <imtui/imtui-impl-ncurses.h>
@@ -33,8 +36,39 @@ struct pairs {
     short BG;
 };
 
+ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
-std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
+std::array<pairs, 100> colorpairs;   //storage for paired colors
+
+static ImVec4 compute_color( uint8_t index )
+{
+    if( index < 16 ) {
+        RGBTuple &rgbCol = rgbPalette[index];
+        return { static_cast<float>( rgbCol.Red ) / 255.0f,
+                 static_cast<float>( rgbCol.Green ) / 255.0f,
+                 static_cast<float>( rgbCol.Blue ) / 255.0f,
+                 1.0f };
+    } else if( index < 232 ) {
+        static uint8_t colors[6] = {0, 95, 135, 175, 215, 255};
+        int i = index - 16;
+        int r = i / 36;
+        i -= 36 * r;
+        int g = i / 6;
+        i -= 6 * g;
+        int b = i;
+        return { static_cast<float>( colors[r] ) / 255.0f,
+                 static_cast<float>( colors[g] ) / 255.0f,
+                 static_cast<float>( colors[b] ) / 255.0f,
+                 1.0f };
+    } else {
+        static uint8_t gray[24] = {8, 18, 28, 38, 48, 58, 68, 78, 88, 98, 108, 118,
+                                   128, 138, 148, 158, 168, 178, 188, 198, 208, 218,
+                                   228, 238
+                                  };
+        float level = static_cast<float>( gray[index - 232] ) / 255.0f;
+        return { level, level, level, 1.0f };
+    }
+}
 
 ImVec4 cataimgui::imvec4_from_color( nc_color &color )
 {
@@ -45,11 +79,7 @@ ImVec4 cataimgui::imvec4_from_color( nc_color &color )
     if( color.is_bold() ) {
         palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
     }
-    RGBTuple &rgbCol = rgbPalette[palette_index];
-    return { static_cast<float>( rgbCol.Red / 255. ),
-             static_cast<float>( rgbCol.Green / 255. ),
-             static_cast<float>( rgbCol.Blue / 255. ),
-             static_cast<float>( 255. ) };
+    return impalette[palette_index];
 }
 
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
@@ -174,8 +204,10 @@ void cataimgui::client::process_input( void *input )
 
 void cataimgui::load_colors()
 {
-
     color_loader<RGBTuple>().load( rgbPalette );
+    for( int i = 0; i < 256; i++ ) {
+        impalette[i] = compute_color( i );
+    }
 }
 
 void cataimgui::init_pair( int p, int f, int b )
@@ -232,6 +264,11 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
+
+    ImGuiStyle &style = ImGui::GetStyle();
+    // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
+    ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
+
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
 }
@@ -253,24 +290,32 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
-void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                                    const std::vector<std::string> &typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        std::vector<std::string> typefaces;
-        ensure_unifont_loaded( typefaces );
+        std::vector<std::string> io_typefaces{ typefaces };
+        ensure_unifont_loaded( io_typefaces );
 
         for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
             SDL_Color sdlCol = windowsPalette[index];
             ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
             sdlColorsToCata[rgb] = index;
         }
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( typefaces[0].c_str(), fontheight, nullptr,
+        auto it = std::find_if( io_typefaces.begin(),
+        io_typefaces.end(), []( const std::string & io_typeface ) {
+            return file_exist( io_typeface );
+        } );
+        std::string existing_typeface = *it;
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, nullptr,
                          io.Fonts->GetGlyphRangesDefault() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
         io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        io.Fonts->Build();
+        ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
             point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
@@ -411,8 +456,42 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
     }
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, const nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+/**
+ * Scrolls the current ImGui window by a scroll action
+ *
+ * Setting scroll needs to happen before drawing contents for page scroll to work properly
+ * @param s an enum for the currently pending scroll action
+ */
+void cataimgui::set_scroll( scroll &s )
+{
+    int scroll_px = 0;
+    int line_height = ImGui::GetTextLineHeightWithSpacing();
+    int page_height = ImGui::GetContentRegionAvail().y;
+
+    switch( s ) {
+        case scroll::none:
+            break;
+        case scroll::line_up:
+            scroll_px = -line_height;
+            break;
+        case scroll::line_down:
+            scroll_px = line_height;
+            break;
+        case scroll::page_up:
+            scroll_px = -page_height;
+            break;
+        case scroll::page_down:
+            scroll_px = page_height;
+            break;
+    }
+
+    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+
+    s = scroll::none;
+}
+
+void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
@@ -420,25 +499,31 @@ void cataimgui::window::draw_colored_text( std::string const &text, const nc_col
     ImGui::PopStyleColor();
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushStyleColor( ImGuiCol_Text, color );
     draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
+    if( text.empty() ) {
+        ImGui::NewLine();
+        return;
+    }
+
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
+
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
     }
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
     chars_per_line /= char_width;
 #endif
@@ -551,7 +636,7 @@ bool cataimgui::window::is_bounds_changed()
 
 size_t cataimgui::window::get_text_width( const std::string &text )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( text.c_str() ).x;
 #else
     return utf8_width( text );
@@ -560,7 +645,7 @@ size_t cataimgui::window::get_text_width( const std::string &text )
 
 size_t cataimgui::window::get_text_height( const char *text )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * strlen( text );
 #else
     return utf8_width( text );
@@ -569,7 +654,7 @@ size_t cataimgui::window::get_text_height( const char *text )
 
 size_t cataimgui::window::str_width_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).x * len;
 #else
     return len;
@@ -578,7 +663,7 @@ size_t cataimgui::window::str_width_to_pixels( size_t len )
 
 size_t cataimgui::window::str_height_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * len;
 #else
     return len;
@@ -618,8 +703,11 @@ void cataimgui::window::draw()
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
-    if( cached_bounds.h > 0 || cached_bounds.w > 0 ) {
+    if( cached_bounds.h > 1.0 || cached_bounds.w > 1.0 ) {
         ImGui::SetNextWindowSize( { cached_bounds.w, cached_bounds.h } );
+    } else if( cached_bounds.h > 0.0 && cached_bounds.w > 0.0 && cached_bounds.h <= 1.0 &&
+               cached_bounds.w <= 1.0 ) {
+        ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size * ImVec2 { cached_bounds.w, cached_bounds.h } );
     }
     if( ImGui::Begin( id.c_str(), &is_open, window_flags ) ) {
         draw_controls();

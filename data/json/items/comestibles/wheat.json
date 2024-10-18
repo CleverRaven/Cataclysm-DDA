@@ -16,7 +16,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ], [ "wheat_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "wheat" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
   },
   {
@@ -56,7 +56,7 @@
     "material": [ "wheat" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
   },
   {
@@ -77,7 +77,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -96,7 +96,7 @@
     "material": [ "wheat" ],
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -6
   },
   {
@@ -118,7 +118,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -139,7 +139,7 @@
     "volume": "24 ml",
     "//": "240 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", 3 ], [ "wheat_allergen", 1 ] ],
     "fun": -5
   },
   {
@@ -160,7 +160,7 @@
     "material": [ "wheat", "powder" ],
     "volume": "120 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", 4 ] ],
+    "vitamins": [ [ "iron", 4 ], [ "wheat_allergen", 1 ] ],
     "fun": -5
   },
   {
@@ -182,7 +182,7 @@
     "volume": "125 ml",
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
   },
   {
@@ -204,7 +204,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +225,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -246,7 +246,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -267,7 +267,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 7 ], [ "vitC", 7 ] ]
+    "vitamins": [ [ "iron", 7 ], [ "vitC", 7 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -288,7 +288,7 @@
     "//": "10 cm diameter, 1 cm thickness, 0.92 density",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -318,7 +318,8 @@
     "price": "5 USD 50 cent",
     "price_postapoc": "50 cent",
     "material": [ "wheat", "blood" ],
-    "primary_material": "wheat"
+    "primary_material": "wheat",
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -338,7 +339,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -358,7 +359,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 9 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -378,7 +379,14 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [
+      [ "vitC", 120 ],
+      [ "calcium", 2 ],
+      [ "iron", 2 ],
+      [ "wheat_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -398,7 +406,7 @@
     "material": [ "wheat" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -443,7 +451,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -464,7 +472,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -485,7 +493,7 @@
     "primary_material": "wheat",
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -508,7 +516,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -527,7 +535,7 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "volume": "500 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ], [ "wheat_allergen", 1 ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
@@ -548,7 +556,7 @@
     "material": [ "wheat", "fruit" ],
     "volume": "250 ml",
     "fun": 9,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -569,7 +577,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "id": "sponge_cake",
@@ -588,7 +596,7 @@
     "calories": 278,
     "fun": 4,
     "spoils_in": 420,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {

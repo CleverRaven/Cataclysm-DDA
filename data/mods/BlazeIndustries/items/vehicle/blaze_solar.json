@@ -9,7 +9,6 @@
     "volume": "10000 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -4,
     "flags": [ "NO_REPAIR" ],
     "material": [ "glass" ],
     "symbol": "]",

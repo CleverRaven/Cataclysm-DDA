@@ -102,8 +102,16 @@
     "//": "Used 22rds of .40 as the basis for dimensions.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "makeshift .40 20-round magazine" },
+    "variant_type": "gun",
+    "name": { "str": "Luty .40 20-round magazine" },
     "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W.",
+    "variants": [
+      {
+        "id": "smg_40_mag",
+        "name": { "str": "makeshift .40 20-round magazine" },
+        "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W."
+      }
+    ],
     "weight": "207 g",
     "volume": "172 ml",
     "longest_side": "24 cm",

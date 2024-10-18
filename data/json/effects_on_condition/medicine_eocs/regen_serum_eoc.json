@@ -1,0 +1,101 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "spent_to_ingested_ratio",
+    "//": "return ratio between calories you spent yesterday and calories you ingested yesterday. if bigger than 1, you consumed more calories than you ingested",
+    "num_args": 0,
+    "return": "max( get_calories_daily('type':'spent', 'day':'1'), 1 ) / max( get_calories_daily('type':'ingested', 'day':'1'), 1 )"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_REGEN",
+    "effect": [
+      { "u_consume_item": { "context_val": "id" } },
+      { "math": [ "_serum_duration", "=", "rng(time('1 d'), time('2 d'))" ] },
+      { "u_add_effect": "regen_serum_main", "duration": { "context_val": "serum_duration" } },
+      { "u_add_effect": "regen_serum_crash_cardio", "duration": { "math": [ "_serum_duration * rng(1.5, 2.5)" ] } },
+      { "queue_eocs": "EOC_APPLY_REGEN_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
+      { "queue_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] },
+      { "queue_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_REGEN_SERUM_CRASH",
+    "effect": [ { "u_add_effect": "regen_serum_crash_fatigue", "duration": [ "5 d", "10 d" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REGEN_SERUM_PAIN_SPIKE",
+    "condition": { "u_has_any_effect": [ "regen_serum_main" ] },
+    "//": "todo: move message to snippet?",
+    "effect": [
+      { "u_message": "You feel an immense pain, when something within your bloodstream moves eerily.", "type": "bad" },
+      { "math": [ "u_pain()", "+=", "rng(15, 55)" ] },
+      { "queue_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REGEN_SERUM_MUT_REJECTION",
+    "condition": { "one_in_chance": 5 },
+    "effect": [
+      {
+        "if": { "one_in_chance": 2 },
+        "then": { "u_mutate_category": "HUMAN", "use_vitamins": false },
+        "else": { "u_mutate": 1, "use_vitamins": false }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "regen_serum_main",
+    "name": [ "Injected 48x-\"Locutus\"" ],
+    "desc": [
+      "You just took a shot of some weird stuff.  You feel sleepy, nauseous, and generally weak, but your wounds are closing up at an unnatural pace."
+    ],
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into a vein, hoping it won't kill you.",
+    "remove_message": "You feel your rapid regeneration fade away, but you still feel sick.",
+    "rating": "mixed",
+    "flags": [ "MEND_ALL" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP", "multiply": 50 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "add": 50 },
+          { "value": "METABOLISM", "multiply": 2 },
+          { "value": "HUNGER", "multiply": 2 },
+          { "value": "SLEEPINESS", "multiply": 1 },
+          { "value": "STAMINA_REGEN_MOD", "multiply": -0.5 },
+          { "value": "VOMIT_MUL", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "regen_serum_crash_cardio",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "CARDIO_MULTIPLIER", "multiply": { "math": [ "(-1 / clamp( spent_to_ingested_ratio(), 0, 0.6 )) / 5" ] } },
+          { "value": "STRENGTH", "multiply": { "math": [ "(-1 / clamp( spent_to_ingested_ratio(), 0, 0.6 )) / 5" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "regen_serum_crash_fatigue",
+    "name": [ "Injected Serum Crash" ],
+    "desc": [ "Your body regeneration is not as fast as before, but you still feel some weakness." ],
+    "apply_message": "",
+    "remove_message": "",
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "multiply": -0.5 }, { "value": "SLEEPINESS", "multiply": 1 } ] } ]
+  }
+]

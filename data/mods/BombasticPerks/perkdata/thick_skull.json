@@ -11,7 +11,7 @@
     "material_thickness": 3,
     "symbol": "x",
     "color": "magenta",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "ZERO_WEIGHT", "NO_SALVAGE", "SOFT" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "ZERO_WEIGHT", "SOFT" ],
     "armor": [
       {
         "covers": [ "head" ],

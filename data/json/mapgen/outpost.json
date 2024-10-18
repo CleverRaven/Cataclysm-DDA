@@ -81,8 +81,7 @@
       ],
       "monster": {
         ".": [
-          { "monster": "mon_zombie_soldier", "chance": 1 },
-          { "monster": "mon_zombie_bio_op", "chance": 1 },
+          { "monster": "mon_zombie_soldier", "chance": 2 },
           { "monster": "mon_dispatch", "chance": 1 },
           { "monster": "mon_dispatch_military", "chance": 1 },
           { "monster": "mon_secubot", "chance": 5 }
@@ -100,7 +99,7 @@
       "rows": [
         "                        ",
         "                        ",
-        "                        ",
+        "    ......    .....     ",
         "    ...............     ",
         "    ...............     ",
         "    ...............     ",
@@ -213,8 +212,7 @@
       ],
       "monster": {
         ".": [
-          { "monster": "mon_zombie_soldier", "chance": 1 },
-          { "monster": "mon_zombie_bio_op", "chance": 1 },
+          { "monster": "mon_zombie_soldier", "chance": 2 },
           { "monster": "mon_dispatch", "chance": 1 },
           { "monster": "mon_dispatch_military", "chance": 1 },
           { "monster": "mon_secubot", "chance": 5 }

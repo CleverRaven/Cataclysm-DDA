@@ -89,7 +89,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "longest_side": "60 cm",
     "material": [ "moon_tears" ],
-    "weapon_category": [ "SHORT_SWORDS", "DURABLE_MELEE" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ] }
   },
   {
@@ -429,5 +429,14 @@
     "name": { "str_sp": "bō of practice" },
     "description": "A long, straight stick.  A simple weapon empowered by your experience in fighting against dreadful creatures.",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_knife_baselard",
+    "copy-from": "knife_baselard",
+    "name": { "str_sp": "moon's tears baselard" },
+    "description": "A dagger forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly heavy but seems extra sharp.",
+    "replace_materials": { "iron": "moon_tears" },
+    "proportional": { "melee_damage": { "stab": 1.2 } }
   }
 ]

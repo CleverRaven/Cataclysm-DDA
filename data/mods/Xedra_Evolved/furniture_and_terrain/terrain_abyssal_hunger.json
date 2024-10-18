@@ -1,0 +1,67 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_abyssal_flesh_wall",
+    "name": "warped flesh wall",
+    "description": "Cold to the touch, the deformed flesh of this monstrous being churns as it perceives your presence.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "looks_like": "t_nm_wall_flesh",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_abyssal_flesh_floor",
+    "name": "warped flesh floor",
+    "description": "Walking over the innards of this monstrous beast, you can feel it move underneath your feet.",
+    "symbol": ".",
+    "color": "magenta_white",
+    "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
+    "looks_like": "t_nm_floor_flesh"
+  },
+  {
+    "type": "terrain",
+    "id": "t_abyssal_flesh_roof",
+    "name": "warped flesh roof",
+    "description": "A section of flat, flesh-like rooftop.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "flags": [ "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_abyssal_brain",
+    "name": "Abyssal Hunger's brain",
+    "description": "A gigantic mass of flesh similar to a brain.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta_red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_abyssal_flesh_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BLOCK_WIND" ],
+    "looks_like": "t_concrete_wall_flesh"
+  },
+  {
+    "type": "furniture",
+    "id": "f_shard_location",
+    "name": "shard-filled brain chunk",
+    "description": "A chunk of brain matter holding some shards akin to the one you are looking for.  Examine to pick one.",
+    "//": "On examine, activates the EOC cthat grants the player the shard before sending them back to the ritual point.",
+    "symbol": "S",
+    "bgcolor": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ABYSSAL_HUNGER_GRANT_SHARD" ] }
+  }
+]

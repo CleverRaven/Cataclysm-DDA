@@ -7,9 +7,10 @@
 #include <map>
 #include <memory>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "point.h"
 
+class cata_path;
 class JsonArray;
 class submap;
 
@@ -61,6 +62,9 @@ class mapbuffer
          * submap object, don't delete it on your own.
          */
         submap *lookup_submap( const tripoint_abs_sm &p );
+        // Cheaper version of the above for when you only care about whether the
+        // submap exists or not.
+        bool submap_exists( const tripoint_abs_sm &p );
 
     private:
         using submap_map_t = std::map<tripoint_abs_sm, std::unique_ptr<submap>>;

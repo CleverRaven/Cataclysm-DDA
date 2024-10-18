@@ -102,7 +102,7 @@
     "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_hair_beads",
@@ -112,7 +112,7 @@
     "description": "An assortment of cowrie shells used to decorate locs or braids.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_necklace",
@@ -122,7 +122,7 @@
     "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -1374,7 +1374,7 @@
       {
         "id": "jewish_necklace2",
         "name": { "str": "Menorah necklace" },
-        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
+        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish holiday.",
         "color": "yellow",
         "weight": 9
       },
@@ -1472,7 +1472,7 @@
       {
         "id": "pentagram_necklace",
         "name": { "str": "Pentagram necklace" },
-        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths and emos.",
+        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths, and emos.",
         "color": "yellow",
         "weight": 15
       },
@@ -1588,7 +1588,7 @@
     "id": "pearl_collar",
     "type": "ARMOR",
     "name": { "str": "pearl collar" },
-    "description": "A collar made from round and lustrous pearls, its former owner must have been a wealthy individual.",
+    "description": "A collar made from round and lustrous pearls; its former owner must have been a wealthy individual.",
     "weight": "200 g",
     "volume": "200 ml",
     "price": "5 kUSD 900 USD",
@@ -1966,8 +1966,8 @@
   {
     "abstract": "badge_abstract",
     "type": "ARMOR",
-    "name": { "str": "badge template" },
-    "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
+    "name": { "str": "badge template", "//~": "NO_I18N" },
+    "description": { "str": "This is a template for police/medical badges.  If found in a game, it is a bug.", "//~": "NO_I18N" },
     "weight": "60 g",
     "volume": "8 ml",
     "price": "50 USD",
@@ -2008,7 +2008,14 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "SWAT badge" },
-    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
+    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the cops just aren't enough."
+  },
+  {
+    "id": "badge_fbi",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "FBI badge" },
+    "description": "A gold-filled brass shield with an eagle perched atop it and Lady Justice emblazoned on its center.  In large, engraved lettering it reads, \"FEDERAL BUREAU OF INVESTIGATION-US DEPARTMENT OF JUSTICE\".  It identifies the wearer as an agent with federal authority throughout all the United States and her territories; that is, whatever is left of them."
   },
   {
     "id": "badge_doctor",
@@ -2053,7 +2060,22 @@
     "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
-    "color": "pink"
+    "color": "pink",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "faux_fur_cat_ears",
+        "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
+        "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+        "color": "pink"
+      },
+      {
+        "id": "bunny_ears_white",
+        "name": { "str": "pair of white bunny ears", "str_pl": "pairs of white bunny ears" },
+        "description": "A fuzzy pair of white bunny ears.  It does nothing, but there's no reason to look good even if no one's looking.",
+        "color": "light_gray"
+      }
+    ]
   },
   {
     "id": "fur_cat_tail",
@@ -4234,6 +4256,279 @@
     "color": "dark_gray"
   },
   {
+    "id": "gold_anklet",
+    "type": "ARMOR",
+    "name": { "str": "gold anklet" },
+    "description": "An anklet made from tiny chain links of gold.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "200 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "silver_anklet",
+    "type": "ARMOR",
+    "name": { "str": "silver anklet" },
+    "description": "An anklet made from tiny chain links of silver.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "150 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "bat_anklet",
+    "type": "ARMOR",
+    "name": { "str": "bat charm anklet" },
+    "description": "An anklet with tiny charms in the shape of bats and blood drops.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "color": "red",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "flower_anklet",
+    "type": "ARMOR",
+    "name": { "str": "flower charm anklet" },
+    "description": "An anklet with tiny charms in the shape of flowers in an array of colors.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "color": "pink",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "woven_anklet",
+    "type": "ARMOR",
+    "name": { "str": "woven anklet" },
+    "description": "An anklet made from brightly colored cord woven into a repeating pattern.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "gold_lip_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "gold lip ring loop" },
+    "description": "An expensive gold lip ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "o",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_lip_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "gold lip ring stud" },
+    "description": "An expensive gold lip ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_lip_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "silver lip ring loop" },
+    "description": "An expensive silver lip ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_lip_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "silver lip ring stud" },
+    "description": "An expensive silver lip ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_nose_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "gold nose ring loop" },
+    "description": "An expensive gold nose ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "gold" ],
+    "symbol": "o",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_nose_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "gold nose ring stud" },
+    "description": "An expensive gold nose ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_nose_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "silver nose ring loop" },
+    "description": "An expensive silver nose ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_nose_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "silver nose ring stud" },
+    "description": "An expensive silver nose ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_toe_ring",
+    "type": "ARMOR",
+    "name": { "str": "gold toe ring" },
+    "description": "An expensive gold toe ring.",
+    "weight": "3 g",
+    "volume": "3 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+  },
+  {
+    "id": "silver_toe_ring",
+    "type": "ARMOR",
+    "name": { "str": "silver toe ring" },
+    "description": "An expensive silver toe ring.",
+    "weight": "3 g",
+    "volume": "3 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+  },
+  {
     "id": "simple_pistol_cartridge_necklace",
     "type": "ARMOR",
     "looks_like": "gold_necklace",
@@ -4261,7 +4556,7 @@
       },
       {
         "id": "pistol_pendent3",
-        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's throat has been twisted closed by a set of pliers, creating a spiraled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
       }
     ],
     "weight": "24 g",
@@ -4548,5 +4843,27 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "necklace_teeth",
+    "type": "ARMOR",
+    "name": { "str": "teeth necklace" },
+    "description": "A simple teeth necklace, this is sure to add some bite to an outfit.",
+    "symbol": "u",
+    "color": "white",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "weight": "42 g",
+    "volume": "30 ml",
+    "material": "bone",
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
+    "variants": [
+      {
+        "id": "necklace_teeth_monster",
+        "name": { "str": "monster teeth necklace" },
+        "description": "The teeth hanging from this one look alien, with a hypnotizing, iridescent shine.",
+        "append": true
+      }
+    ]
   }
 ]

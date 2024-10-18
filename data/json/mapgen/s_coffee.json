@@ -347,7 +347,6 @@
         "o": "f_oven",
         "r": "f_rack",
         "t": "f_table",
-        "v": "f_vending_o",
         "{": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
         "x": "f_counter"
       },
@@ -369,6 +368,7 @@
         "<": "t_ladder_up",
         "|": "t_wall_b"
       },
+      "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true } },
       "place_items": [
         { "chance": 80, "repeat": [ 1, 8 ], "item": "coffee_freezer", "x": [ 3, 4 ], "y": 4 },
         { "chance": 70, "repeat": [ 1, 8 ], "item": "coffee_display_2", "x": 7, "y": 13 },

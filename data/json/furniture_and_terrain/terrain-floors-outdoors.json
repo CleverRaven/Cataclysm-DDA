@@ -649,5 +649,59 @@
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "symbol": ".",
     "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_stone_masonry_floor",
+    "name": "stone masonry floor",
+    "description": "A floor of carefully cut and laid stones, joined with mortar.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "connect_groups": "ROCKFLOOR",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grate",
+    "name": "metal grate",
+    "description": "A walkway that can be used as a protective covering over drains, or even as a filter.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_red",
+    "name": "red floor",
+    "description": "A red section of flooring.",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_green",
+    "name": "green floor",
+    "description": "A green section of flooring.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_blue",
+    "name": "blue floor",
+    "description": "A blue section of flooring.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
   }
 ]

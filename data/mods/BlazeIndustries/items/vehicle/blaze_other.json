@@ -5,7 +5,6 @@
     "name": { "str": "vehicle shelving" },
     "description": "Several heavy frames retrofitted to be installed together which are outfitted with tie-downs and attachment points gallore for carrying an extended amount of cargo.",
     "weight": "350000 g",
-    "to_hit": -4,
     "color": "cyan",
     "symbol": "]",
     "material": [ "steel", "plastic" ],
@@ -28,7 +27,6 @@
     "price": "400 USD",
     "price_postapoc": "100 USD",
     "material": [ "steel" ],
-    "to_hit": -4,
     "flags": [ "DURABLE_MELEE" ],
     "looks_like": "minifridge",
     "melee_damage": { "bash": 8 }

@@ -1,0 +1,42 @@
+[
+  {
+    "type": "snippet",
+    "category": "<day>",
+    "//": "This is a snippet category originally made for undergarments, containing the days of the week.",
+    "text": [
+      { "id": "monday", "text": "Monday" },
+      { "id": "tuesday", "text": "Tuesday" },
+      { "id": "wednesday", "text": "Wednesday" },
+      { "id": "thursday", "text": "Thursday" },
+      { "id": "friday", "text": "Friday" },
+      { "id": "saturday", "text": "Saturday" },
+      { "id": "sunday", "text": "Sunday" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<animals>",
+    "//": "This category was originally made for underwear, so should be appropriate animals that appear on boxers, for example.  Should be plural.",
+    "text": [
+      { "id": "dolphins", "text": "dolphins" },
+      { "id": "chickens", "text": "chickens" },
+      { "id": "cows", "text": "cows" },
+      { "id": "horses", "text": "horses" },
+      { "id": "kittens", "text": "kittens" },
+      { "id": "mice", "text": "mice" },
+      { "id": "puppies", "text": "puppies" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<animal_print>",
+    "//": "This category was originally made for tights, and should be appropriate prints you would find on such garments.",
+    "text": [
+      { "id": "cowprint", "text": "cow print" },
+      { "id": "leopardprint", "text": "leopard print" },
+      { "id": "snakeprint", "text": "snake print" },
+      { "id": "tigerprint", "text": "tiger print" },
+      { "id": "zebraprint", "text": "zebra print" }
+    ]
+  }
+]

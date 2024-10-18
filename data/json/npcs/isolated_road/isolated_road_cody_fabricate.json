@@ -49,8 +49,7 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_artisans_blacksmith_crafting_EXODII",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting_EXODII" } ],
       "yes": "Alright, <u_val:number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem: if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel, or I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four.  For five I could, I think, create a suit of that nomad armor.  It would incorporate climate control, help you support more weight, and it'll have a jumpsuit built in, but you won't be able to wear normal clothes with it.",
       "no": "Alright, <u_val:number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem: if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel, or I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
     },
@@ -68,7 +67,7 @@
       },
       {
         "text": "[5 weeks, CBM-integrated protection] I'd like nomad armor.",
-        "condition": { "u_has_var": "dialogue_artisans_blacksmith_has_exodii_items", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_has_exodii_items" } ] },
         "effect": [ { "math": [ "u_number_artisans_blacksmith_wait", "=", "5" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       }
@@ -104,7 +103,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 350 } },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
+            { "compare_string": [ "1.2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 350, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
@@ -115,7 +114,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 400 } },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "2" }
+            { "compare_string": [ "2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 400, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
@@ -126,7 +125,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 500 } },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "4" }
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 500, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
@@ -137,7 +136,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 600 } },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "6" }
+            { "compare_string": [ "6", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 600, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
@@ -155,8 +154,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "3" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
+            { "compare_string": [ "3", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "1.2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -170,8 +169,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "4" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "1.2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -185,8 +184,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "5" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
+            { "compare_string": [ "5", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "1.2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -201,8 +200,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "3" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "2" }
+            { "compare_string": [ "3", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -216,8 +215,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "4" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "2" }
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -231,8 +230,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "5" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "2" }
+            { "compare_string": [ "5", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "2", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -247,8 +246,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "3" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "4" }
+            { "compare_string": [ "3", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -262,8 +261,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "4" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "4" }
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -277,8 +276,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "5" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "4" }
+            { "compare_string": [ "5", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -293,8 +292,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "3" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "6" }
+            { "compare_string": [ "3", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "6", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -308,8 +307,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "4" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "6" }
+            { "compare_string": [ "4", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "6", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [
@@ -323,8 +322,8 @@
         "text": "Thanks.",
         "condition": {
           "and": [
-            { "u_has_var": "number_artisans_blacksmith_wait", "value": "5" },
-            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "6" }
+            { "compare_string": [ "5", { "u_val": "number_artisans_blacksmith_wait" } ] },
+            { "compare_string": [ "6", { "u_val": "number_artisans_blacksmith_thickness" } ] }
           ]
         },
         "effect": [

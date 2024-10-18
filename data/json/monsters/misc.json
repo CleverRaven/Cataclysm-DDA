@@ -161,7 +161,7 @@
         "armor_penalty": { "bullet": 25 },
         "coverage": 50,
         "coverage_mult": { "all": 0.5 },
-        "required_effects": [ "stunned" ]
+        "condition": { "npc_has_any_effect": [ "stunned" ] }
       },
       { "name": "impossible to hit", "coverage": 100, "difficulty": { "all": 100.0 } },
       {

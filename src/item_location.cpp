@@ -90,6 +90,9 @@ class item_location::impl
         }
         virtual tripoint position() const = 0;
         virtual Character *carrier() const = 0;
+        virtual const vehicle_cursor *veh_cursor() const {
+            return nullptr;
+        };
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -220,7 +223,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur.pos();
+            return cur.pos().raw();
         }
 
         Character *carrier() const override {
@@ -230,7 +233,7 @@ class item_location::impl::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos() );
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos().raw() );
             }
             return res;
         }
@@ -263,7 +266,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos() );
+            mv += 100 * rl_dist( ch.pos(), cur.pos().raw() );
 
             // TODO: handle unpacking costs
 
@@ -487,6 +490,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         Character *carrier() const override {
             return nullptr;
+        }
+
+        const vehicle_cursor *veh_cursor() const override {
+            return &cur;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -812,7 +819,7 @@ void item_location::deserialize( const JsonObject &obj )
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint pos = tripoint_min;
+    tripoint_bub_ms pos = tripoint_bub_ms_min;
 
     obj.read( "idx", idx );
     obj.read( "pos", pos );
@@ -829,7 +836,7 @@ void item_location::deserialize( const JsonObject &obj )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -841,8 +848,13 @@ void item_location::deserialize( const JsonObject &obj )
         item_location parent;
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
+            if( parent == nowhere ) {
+                debugmsg( "parent location doesn't exist.  Item_location has lost its target over a save/load cycle." );
+                ptr.reset( new impl::nowhere );
+                return;
+            }
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( parent.pos_bub() ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->all_items_top();
@@ -1102,6 +1114,11 @@ void item_location::set_should_stack( bool should_stack ) const
 Character *item_location::carrier() const
 {
     return ptr->carrier();
+}
+
+const vehicle_cursor *item_location::veh_cursor() const
+{
+    return ptr->veh_cursor();
 }
 
 bool item_location::held_by( Character const &who ) const

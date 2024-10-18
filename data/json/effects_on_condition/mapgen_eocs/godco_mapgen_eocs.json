@@ -18,7 +18,7 @@
     "type": "effect_on_condition",
     "id": "godco_place_wall_new",
     "global": false,
-    "//": "4 hours 20 minutes per wall (from regular ground to full palisade) * 373 walls = ~1,567 hours.  Divided into 8-hour work shifts, thats ~196 days, or six and a half months for one person.  Presuming we have ~11 people working in a single shift, each building 1 wall, that should be ~18 days to build.  Please correct me if I messed up the math.",
+    "//": "4 hours 20 minutes per wall (from regular ground to full palisade) * 373 walls = ~1,567 hours.  Divided into 8-hour work shifts, that's ~196 days, or six and a half months for one person.  Presuming we have ~11 people working in a single shift, each building 1 wall, that should be ~18 days to build.  Please correct me if I messed up the math.",
     "effect": [
       { "mapgen_update": "place_right_corner_wall", "om_terrain": "godco_1" },
       { "mapgen_update": "place_gate_wall", "om_terrain": "godco_2" },

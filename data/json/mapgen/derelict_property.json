@@ -99,10 +99,10 @@
       "W": { "param": "trash_type", "fallback": "f_null" }
     },
     "nested": {
-      "|": { "chunks": [ [ "1x1_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
-      "w": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 6 ] ] },
-      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] },
-      "4": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
+      "|": { "chunks": [ [ "1x1_2z_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
+      "w": { "chunks": [ [ "1x1_2z_bash", 1 ], [ "null", 6 ] ] },
+      ".": { "chunks": [ [ "1x1_2z_bash", 1 ], [ "null", 10 ] ] },
+      "4": { "chunks": [ [ "1x1_2z_bash", 1 ], [ "null", 4 ] ] }
     },
     "items": {
       "{": { "item": "homebooks", "chance": 20, "repeat": [ 1, 2 ] },
@@ -146,9 +146,9 @@
     "id": "derelict_roof_palette",
     "palettes": [ "roof_palette" ],
     "nested": {
-      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 9 ] ] },
-      "-": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] },
-      "5": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
+      ".": { "chunks": [ [ "1x1_2z_bash", 1 ], [ "null", 9 ] ] },
+      "-": { "chunks": [ [ "1x1_2z_bash", 1 ], [ "null", 4 ] ] },
+      "5": { "chunks": [ [ "1x1_2z_bash", 1 ], [ "null", 4 ] ] }
     }
   },
   {

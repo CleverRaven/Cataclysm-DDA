@@ -1611,6 +1611,7 @@
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s!" ],
     "unarmed_allowed": true,
     "melee_allowed": true,
+    "crit_ok": true,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
@@ -2444,32 +2445,6 @@
     "melee_allowed": true,
     "required_buffs_all": [ "buff_niten_ondodge" ],
     "crit_ok": true,
-    "condition": {
-      "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "not": { "npc_has_effect": "stunned" } },
-        {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMANATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
-          ]
-        }
-      ]
-    },
-    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
-    "stun_dur": 1,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 1.5 },

@@ -14,7 +14,7 @@
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01" },
-            { "not": { "u_has_var": "BOSS_mission_directions", "value": "chef" } }
+            { "not": { "compare_string": [ "chef", { "u_val": "BOSS_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_chef" },

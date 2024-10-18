@@ -138,38 +138,5 @@
     "weight": "10000 g",
     "volume": "31250 ml",
     "properties": { "creature_size_capacity": "MEDIUM" }
-  },
-  {
-    "id": "stowed_fridge",
-    "type": "GENERIC",
-    "name": "tied-down fridge",
-    "symbol": "F",
-    "looks_like": "fridge",
-    "material": "steel",
-    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
-    "weight": "75 kg",
-    "volume": "800 L"
-  },
-  {
-    "id": "stowed_glass_fridge",
-    "type": "GENERIC",
-    "name": "tied-down glass door fridge",
-    "symbol": "F",
-    "looks_like": "glass_fridge",
-    "material": [ "steel", "glass" ],
-    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
-    "weight": "75 kg",
-    "volume": "800 L"
-  },
-  {
-    "id": "stowed_freezer",
-    "type": "GENERIC",
-    "name": "tied-down freezer",
-    "symbol": "F",
-    "looks_like": "freezer",
-    "material": "steel",
-    "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
-    "weight": "50 kg",
-    "volume": "900 L"
   }
 ]

@@ -3,8 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_HEALER_GREY",
     "dynamic_line": {
-      "u_has_var": "dialogue_healer_grey_talked_to_healer_grey",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_healer_grey_talked_to_healer_grey" } ],
       "no": "I must purge this land of its curse.  Will you help or hinder our mission?",
       "yes": "Blessed be."
     },

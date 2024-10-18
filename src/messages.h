@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
 #include "string_formatter.h"

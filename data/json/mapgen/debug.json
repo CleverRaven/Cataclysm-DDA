@@ -11,6 +11,7 @@
     "name": "debug_item_group_test",
     "sym": "T",
     "color": "light_red",
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {

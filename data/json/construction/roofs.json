@@ -8,7 +8,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_brick_roof"
   },
@@ -22,7 +22,7 @@
     "tools": [ [ [ "concrete_mix_tool", 25 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_concrete_roof"
   },
@@ -35,7 +35,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nails", 40, "LIST" ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_flat_roof"
   },
@@ -66,7 +66,7 @@
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_log_sod_roof"
   },
@@ -80,7 +80,7 @@
     "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "sheet_metal", 10 ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_metal_roof"
   },
@@ -94,7 +94,7 @@
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_metal_flat_roof"
   },
@@ -108,7 +108,7 @@
     "time": "60 m",
     "//": "Fairly time consuming as you have to extrude the resin slowly and wait for it to dry, then layer it on itself",
     "components": [ [ [ "alien_pod_resin", 1 ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_resin_roof"
   },
@@ -121,7 +121,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nails", 20, "LIST" ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_shingle_flat_roof"
   },
@@ -138,7 +138,7 @@
       [ [ "straw_pile", 60 ], [ "withered", 60 ] ],
       [ [ "cordage", 8, "LIST" ] ]
     ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_thatch_roof"
   },
@@ -151,7 +151,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nails", 40, "LIST" ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_wood_treated_roof"
   },
@@ -164,7 +164,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nails", 40, "LIST" ] ] ],
-    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_wood_roof"
   }

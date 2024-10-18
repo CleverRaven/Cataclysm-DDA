@@ -1,5 +1,6 @@
 #include "game.h"
 #include "handle_liquid.h"
+#include "imgui/imgui.h"
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"
@@ -53,7 +54,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
+void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -88,7 +90,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Connect to any neighbouring appliances or wires once
     std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
@@ -101,7 +103,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
+                veh->connect( p.raw(), trip.raw() );
                 connected_vehicles.insert( &veh_target );
             }
         }
@@ -113,20 +115,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         orient_part( veh, vpinfo, partnum );
     }
 }
-
-// uilist_callback whose sole responsibility is to draw the
-// connecting borders between the uilist and the info window.
-class app_uilist_handler : public uilist_callback
-{
-        void refresh( uilist *imenu ) override {
-            //NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( imenu->window, point( 0, 0 ), c_white, LINE_XXXO );
-            mvwputch( imenu->window, point( win_width - 1, 0 ), c_white, LINE_XOXX );
-            wnoutrefresh( imenu->window );
-        }
-};
-
-static app_uilist_handler app_callback;
 
 player_activity veh_app_interact::run( vehicle &veh, const point &p )
 {
@@ -187,22 +175,26 @@ void veh_app_interact::init_ui_windows()
     }
     const int width_info = win_width - 2;
     const int height_input = app_actions.size();
-    const int width_input = win_width;
-    const int height = height_info + height_input + 2;
+    const int win_height = height_info + 2;
+    const int full_height = win_height + height_input;
 
     // Center the UI
-    point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - height / 2 );
-    w_border = catacurses::newwin( height, win_width, topleft );
+    point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - full_height / 2 );
+    w_border = catacurses::newwin( win_height, win_width, topleft );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
-    // Setup modifications to the uilist to integrate it into the UI
-    imenu.w_width_setup = width_input;
-    imenu.w_x_setup = topleft.x;
-    imenu.w_y_setup = topleft.y + height_info;
+    ImVec2 text_metrics = { ImGui::CalcTextSize( "X" ).x, ImGui::GetTextLineHeight() };
+    ImVec2 origin = text_metrics * ImVec2{ static_cast<float>( topleft.x ), static_cast<float>( topleft.y + win_height ) };
+    ImVec2 size = text_metrics * ImVec2{ static_cast<float>( win_width ), static_cast<float>( height_input ) };
+    imenu.desired_bounds = { origin.x,
+                             origin.y,
+                             size.x,
+                             size.y + 4.0f * ( ImGui::GetStyle().FramePadding.y + ImGui::GetStyle().WindowBorderSize )
+                           };
+
     imenu.allow_cancel = true;
     imenu.border_color = c_white;
-    imenu.callback = &app_callback;
     imenu.setup();
 }
 
@@ -401,10 +393,10 @@ void veh_app_interact::refill()
         const point q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );
         act.values.push_back( a_point.x );
         act.values.push_back( a_point.y );
         act.values.push_back( -a_point.x );
@@ -490,9 +482,9 @@ void veh_app_interact::remove()
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        const tripoint a_point_abs( here.getabs( a_point_bub ) );
+        const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
         act.values.push_back( a_point_abs.y );
         act.values.push_back( a_point.x );
@@ -633,7 +625,7 @@ void veh_app_interact::app_loop()
             ui.reset();
             shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
             ui_manager::redraw();
-            shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> input_ui = imenu.create_or_get_ui();
             imenu.query();
         }
 

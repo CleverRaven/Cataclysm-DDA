@@ -16,7 +16,7 @@
     "material": [ "fruit" ],
     "volume": "1 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -34,7 +34,7 @@
     "material": [ "nut" ],
     "volume": "1 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "nut_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -50,6 +50,7 @@
     "price": "87 cent",
     "price_postapoc": "43 cent",
     "material": [ "bread", "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ], [ "bread_allergen", 1 ] ],
     "volume": "100 ml",
     "fun": 4,
     "quench": -1

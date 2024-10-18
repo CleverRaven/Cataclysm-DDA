@@ -19,6 +19,24 @@
     "extra_effects": [ { "id": "xe_light_healing", "hit_self": true } ]
   },
   {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "inject_warping_poison",
+    "cooldown": 25,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
+    "hitsize_min": 4,
+    "hit_dmg_u": "%1$s bites and injects poison into your %2$s!",
+    "hit_dmg_npc": "%1$s bites and injects poison into <npcname>!",
+    "miss_msg_u": "%1$s tries to bite your %2$s, but you dodge!",
+    "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s tries to bite your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to bite <npcname>, but fails to penetrate their armor.",
+    "eoc": [ "EOC_random_mutate" ],
+    "dodgeable": true,
+    "blockable": true
+  },
+  {
     "id": "xe_light_healing",
     "type": "SPELL",
     "name": "Cure Light Wounds",
@@ -61,7 +79,6 @@
     "id": "ratatosks_curse",
     "cooldown": 10,
     "move_cost": 100,
-    "attack_chance": 50,
     "hitsize_min": 4,
     "attack_upper": false,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
@@ -73,5 +90,19 @@
     "miss_msg_u": "%1$s tries to curse your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to curse and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
+  },
+  {
+    "id": "death_ratking",
+    "type": "SPELL",
+    "name": { "str": "Rat King Death" },
+    "description": "Rat king dies.",
+    "valid_targets": [ "hostile", "ally" ],
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "remove_effect",
+    "effect_str": "rat",
+    "min_range": 48,
+    "max_range": 48,
+    "extra_effects": [ { "id": "ratking_summon_rats", "hit_self": true } ]
   }
 ]

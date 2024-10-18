@@ -16,7 +16,21 @@
       { "item": "pants_army", "variant": "mil_pants_navy", "damage": [ 0, 4 ] },
       { "item": "boots", "damage": [ 0, 4 ] },
       { "item": "tool_belt", "damage": [ 0, 4 ], "prob": 40 },
-      { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "item": "mask_gas",
+            "charges": [ 0, 100 ],
+            "contents-group": "gasmask_inserts_in_use",
+            "prob": 25,
+            "damage": [ 1, 4 ]
+          },
+          { "group": "gasmask_bag_full", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "gasmask_bag_used", "prob": 60, "damage": [ 1, 4 ] }
+        ],
+        "prob": 5
+      },
       { "item": "hat_navy", "damage": [ 0, 4 ] },
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
@@ -68,7 +82,21 @@
       { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
       { "group": "wallets_military", "prob": 5 },
       { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
-      { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "item": "mask_gas",
+            "charges": [ 0, 100 ],
+            "contents-group": "gasmask_inserts_in_use",
+            "prob": 25,
+            "damage": [ 1, 4 ]
+          },
+          { "group": "gasmask_bag_full", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "gasmask_bag_used", "prob": 60, "damage": [ 1, 4 ] }
+        ],
+        "prob": 5
+      },
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },

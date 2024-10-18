@@ -365,11 +365,13 @@ void proficiency_set::set_time_practiced( const proficiency_id &practicing,
     current.practiced = amount;
 }
 
-void proficiency_set::learn( const proficiency_id &learned )
+void proficiency_set::learn( const proficiency_id &learned, bool recursive )
 {
     for( const proficiency_id &req : learned->required_proficiencies() ) {
-        if( !has_learned( req ) ) {
+        if( !has_learned( req ) && !recursive ) {
             return;
+        } else if( recursive ) {
+            learn( req, recursive );
         }
     }
     known.insert( learned );

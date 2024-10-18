@@ -242,6 +242,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
 - ```TOUGH_FEET``` This armor provide effect similar to wearing a proper boots (like scale on your legs), so you don't have a debuff from not wearing footwear.
 - ```UNDERSIZE``` This clothes can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else.
+- ```UNRESTRICTED``` Can always be worn, no exceptions.
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
@@ -334,6 +335,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story.
@@ -348,11 +350,13 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CHANGING```This flag is silently given to player to detect it can mutate.
 - ```CLAIRVOYANCE_PLUS``` Gives a clairvoyance effect, used for debug purposes.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
+- ```CLIMB_FLYING``` You can ascend without needing any support or ladder at all. You will fall after doing so unless paired with `LEVITATION`
 - ```CLIMB_NO_LADDER``` Capable of climbing up single-level walls without support.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLD_IMMUNE``` You are immune to cold damage.
+- ```CRAFT_IN_DARKNESS``` You can craft anything regardless of light levels.
 - ```CUT_IMMUNE``` You are immune to cutting damage.
 - ```DEAF``` Makes you deaf.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.  Also protects you from any dangerous effects of portal storms.
@@ -380,7 +384,9 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
 - ```INVISIBLE``` You can't be seen.
+- ```ITEM_WATERPROOFING``` Gear on your person is immune to being dissolved or broken while you're underwater.
 - ```LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
+- ```LEVITATION``` You can walk on air. Does not allow you to ascend unless paired with `CLIMB_FLYING`
 - ```MEND_ALL``` You need no splint to heal broken bones.
 - ```MUSCLE_VEH_BOOST``` Something, such as buzzing insect wings, is speeding you up when you use a muscle-powered vehicle.
 - ```MYCUS_IMMUNE``` Critter is immune to fungal hase field (`fd_fungal_haze`)
@@ -404,10 +410,15 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills.  Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills.  Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the `guilt` mondeath effect.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty.
+- ```READ_IN_DARKNESS``` You can read regardless of light level.
 - ```ROOTS2``` Gain enhanced effects from the Mycorrhizal Communion mutation.
 - ```ROOTS3``` Gain enhanced effects from the Mycorrhizal Communion mutation (slightly faster than `ROOTS2`).
 - ```SAPIOVORE``` Butcher humans without a morale penalty.
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
+- ```SHAPESHIFT_SIZE_HUGE``` Changes your size to `creature_size::huge`.  Checked last of the shapeshift size category flags and before any normal size flag.  This and other shapeshift size flags must be paired with the ```TEMPORARY_SHAPESHIFT``` flag.
+- ```SHAPESHIFT_SIZE_LARGE``` Changes your size to `creature_size::large`.  Checked third of the shapeshift size category flags and before any normal size flag.
+- ```SHAPESHIFT_SIZE_SMALL``` Changes your size to `creature_size::small`.  Checked second of the shapeshift size category flags and before any normal size flag.
+- ```SHAPESHIFT_SIZE_TINY``` Changes your size to `creature_size::tiny`.  Checked first of the shapeshift size category flags and before any normal size flag.
 - ```SLUDGE_IMMUNE``` Critter is immune to sludge trail field (`fd_sludge`)
 - ```SMALL``` Changes your size to `creature_size::small`.  Checked second of the size category flags.
 - ```SPIRITUAL``` Changes character's moral behaviour in some situations.
@@ -419,11 +430,13 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```SUPER_CLAIRVOYANCE``` Gives a super clairvoyance effect (works with multiple z-levels), used for debug purposes.
 - ```SAFECRACK_NO_TOOL``` Allows to open safes without stethoscope.
 - ```TELEPORT_LOCK``` You cannot teleport.  This has none of the protective effects of `DIMENSIONAL_ANCHOR`.
+- ```TEMPORARY_SHAPESHIFT``` You are in another shape due to some supernatural effect.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom.
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall.  Chance to slip and fall each step.
+- ```WATERWALKING``` You can walk across the surface of the water as though it were solid ground.  Should usually be combined with `ITEM_WATERPROOFING` to protect items as well.
 - ```WATCH``` You always know what time it is.
 - ```WEBBED_FEET``` You have webbings on your feet, supporting your swimming speed if not wearing footwear.
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
@@ -431,7 +444,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
 - ```WINGS_1``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
-- ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength. 
+- ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
@@ -596,7 +609,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CAN_SIT``` Furniture the player can sit on.  Player sitting near furniture with the `FLAT_SURF` tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
-- ```CHOCOLATE``` Made of delicious chocolate.  Used by the My Sweet Cataclysm mod.
 - ```CLIMBABLE``` You can climb on this obstacle.
 - ```CLIMB_SIMPLE``` You never fail climbing on this obstacle.
 - ```COLLAPSES``` Has a roof that can collapse.
@@ -639,7 +651,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```LOCKED``` Is locked, requiring either external control or lockpicking to open.
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
-- ```MURKY``` Liquid taken from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NANOFAB_TABLE``` This is a nanofabricator, and it can generate items out of specific blueprints.  Hardcoded
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles.  See also `DESTROY_ITEM`.
@@ -670,7 +681,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```ROUGH``` May hurt the player's feet.
 - ```RUBBLE``` Furniture behaves like rubble: it can be cleared by the `CLEAR_RUBBLE` item action.  Can be applied to terrain, but it "clears up the nothing".
 - ```RUG``` Enables the `Remove Carpet` Construction entry.
-- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor).
 - ```SHALLOW_WATER``` This is water that is not deep enough to submerge the player.
@@ -687,10 +697,10 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```SWIMMABLE``` Player and monsters can swim through it.
 - ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
-- ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
+- ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle.  Used for fungal conversion, and also implies `CONNECT_WITH_WALL`.
@@ -1139,8 +1149,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PACIFIST``` Monster will never do melee attacks.  Useful for having them use grab without attacking the player.
 - ```PARALYZEVENOM``` This monster can apply `paralyzepoison` effect for 10 minutes.
 - ```PARALYZE``` Attack may paralyze the player with venom.
-- ```PATH_AVOID_DANGER_1``` This monster will path around some dangers instead of through them.
-- ```PATH_AVOID_DANGER_2``` This monster will path around most dangers instead of through them.
+- ```PATH_AVOID_DANGER``` This monster will path around some dangers instead of through them.
 - ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
@@ -1176,7 +1185,6 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SWIMS``` Treats water as 50 movement point terrain.
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
-- ```VERMIN``` Obsolete flag for inconsequential monsters, now prevents loading.
 - ```WARM``` Warm blooded.
 - ```WATER_CAMOUFLAGE``` If in water, stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight.  Monsters see it from the lower of `vision_day` and `vision_night` ranges.  Can also make it harder to see in deep water or across z-levels if it is underwater and the viewer is not.
 - ```WEBWALK``` Doesn't destroy webs and won't get caught in them.
@@ -1266,7 +1274,7 @@ See [Character](#character)
 - ```FARM```
 - ```FUNGAL``` Location is related to fungi.  Used to classify location.
 - ```GLOBALLY_UNIQUE``` Location will only occur once per world.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
-- ```UNIQUE``` Location is unique and will only occur once per overmap.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
+- ```OVERMAP_UNIQUE``` Location will only occur once per overmap.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
 - ```LAKE``` Location is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
 - ```MAN_MADE``` For location, created by human.  Used by the Innawood mod.
 - ```MI-GO``` Location is related to mi-go.
@@ -1274,6 +1282,10 @@ See [Character](#character)
 - ```TRIFFID``` Location is related to triffids.  Used to classify location.
 - ```URBAN```
 - ```WILDERNESS``` Locations that have no road connection.
+
+#### City buildings
+
+- ```CITY_UNIQUE``` Location will only occur once per city.
 
 ### Overmap terrains
 
@@ -1310,8 +1322,9 @@ See [Character](#character)
 - ```SOURCE_MEDICINE``` For NPC AI, this location may contain useful medicines for looting.
 - ```SOURCE_LUXURY``` For NPC AI, this location may contain valuable/feel-good items to sell/keep.
 - ```SOURCE_PEOPLE``` For NPC AI, this location may have other survivors.
-- ```RISK_HIGH``` For NPC AI, this location has a high risk associated with it (e.g. labs, superstores, etc.).
-- ```RISK_LOW``` For NPC AI, this location is secluded and remote, and appears to be safe.
+- ```RISK_EXTREME``` For NPC AI, this location is extremely risky to even approach. Location should almost always contain active portals, huge hordes of zombies, or other very lethal enemies. Some examples would labs, superstores, and mi-go structures.
+- ```RISK_HIGH``` For NPC AI, this location is risky to visit. This is the minimum amount of risk for locations inside of a city.
+- ```RISK_LOW``` For NPC AI, this location is specifically a place of safety. Such locations should be fortified, remote, or be controlled by a neutral faction that provides security. This flag should only be applied to specific areas of nearly-guaranteed safety. Wilderness should not receive this flag unless there is some sort of specific shelter (e.g. an uninhabitated cave).
 - ```GENERIC_LOOT``` This is a place that may contain any of the above, but at a lower frequency, usually a house.
 
 
@@ -1322,7 +1335,7 @@ See [Character](#character)
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
-- ```NO_RESIZE``` This clothes you crafted spawn unfitted 
+- ```NO_RESIZE``` This clothes you crafted spawn unfitted
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```AFFECTED_BY_PAIN``` 1 unit of pain decreases the speed of craft for 1%. Recommended to not use in vanilla recipes
 - ```NO_MANIP``` Manipulation score do not affect crafting this recipe
@@ -1608,8 +1621,9 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA_CONTROL```This part allows for using the camera system installed on a vehicle.
 - ```CAMERA``` Vehicle part which allows looking through the installed camera system.
-- ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
+- ```CAPTURE_MONSTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.  Can only be installed on a part with `LOCKABLE_CARGO` flag.
+- ```CARGO_PASSABLE``` Items stored in vehicle part with this flag won't hinder passenger's ability to fit in comfortably into a given tile.
 - ```CARGO``` Cargo holding area.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.

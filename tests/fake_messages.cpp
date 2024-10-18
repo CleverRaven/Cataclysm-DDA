@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "messages.h"
 
@@ -57,7 +58,6 @@ void Messages::display_messages() {}
 void Messages::display_messages( const catacurses::window &, int, int, int, int ) {}
 void Messages::serialize( JsonOut & ) {}
 void Messages::deserialize( const JsonObject & ) {}
-
 void add_msg( std::string m )
 {
     Messages::add_msg( std::move( m ) );
@@ -79,6 +79,10 @@ void add_msg_if_player_sees( const Creature &, std::string m )
     Messages::add_msg( std::move( m ) );
 }
 void add_msg_if_player_sees( const tripoint &, const game_message_params &, std::string m )
+{
+    Messages::add_msg( std::move( m ) );
+}
+void add_msg_if_player_sees( const tripoint_bub_ms &, const game_message_params &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }

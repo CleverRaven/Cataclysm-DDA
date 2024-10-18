@@ -37,7 +37,7 @@
   {
     "id": "iso_danger",
     "type": "widget",
-    "label": "Location normality",
+    "label": "Ambient normality",
     "style": "text",
     "clauses": [
       {
@@ -53,7 +53,7 @@
         "condition": {
           "and": [
             { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "0" ] },
-            { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "10" ] },
+            { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "15" ] },
             {
               "not": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] }
             }
@@ -65,7 +65,7 @@
         "text": "Distorted",
         "color": "dark_gray",
         "condition": {
-          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "10" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "15" ] } ]
+          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "20" ] } ]
         }
       },
       {
@@ -73,14 +73,14 @@
         "text": "Unstable",
         "color": "magenta",
         "condition": {
-          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "20" ] } ]
+          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "25" ] } ]
         }
       },
       {
         "id": "vbad",
         "text": "Unraveling",
         "color": "pink",
-        "condition": { "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] } ] }
+        "condition": { "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "25" ] } ] }
       }
     ]
   }

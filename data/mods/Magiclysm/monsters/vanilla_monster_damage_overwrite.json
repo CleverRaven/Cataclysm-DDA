@@ -1237,12 +1237,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_nuckalavee",
-    "copy-from": "mon_nuckalavee",
-    "extend": { "flags": [ "POISONPROOF" ] }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_cat_mutant_prism",
     "copy-from": "mon_cat_mutant_prism",
     "extend": { "armor": { "light": 20 } }

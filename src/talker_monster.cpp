@@ -168,6 +168,11 @@ int talker_monster_const::get_friendly() const
     return me_mon_const->friendly;
 }
 
+int talker_monster_const::get_difficulty() const
+{
+    return me_mon_const->type->difficulty;
+}
+
 int talker_monster_const::get_size() const
 {
     add_msg_debug( debugmode::DF_TALKER, "Size category of monster %s = %d", me_mon_const->name(),
@@ -215,6 +220,12 @@ void talker_monster::die()
 void talker_monster::set_all_parts_hp_cur( int set ) const
 {
     me_mon->set_hp( set );
+}
+
+dealt_damage_instance talker_monster::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam ) const
+{
+    return source->deal_damage( source, bp, dam );
 }
 
 std::vector<std::string> talker_monster_const::get_topics( bool )

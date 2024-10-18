@@ -52,17 +52,7 @@
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] },
+    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] },
     "armor": { "bash": 3, "cut": 1 }
-  },
-  {
-    "id": "mon_zandcrawler",
-    "type": "MONSTER",
-    "copy-from": "mon_beekeeper",
-    "name": { "str": "zandcrawler" },
-    "description": "A calloused and misshapen form that seems to have adapted to the harsh, dry environment.",
-    "speed": 90,
-    "death_drops": "mon_zombie_swimmer_death_drops",
-    "extend": { "flags": [ "CAN_DIG" ] }
   }
 ]

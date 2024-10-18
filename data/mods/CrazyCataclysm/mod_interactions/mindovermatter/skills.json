@@ -1,0 +1,10 @@
+[
+  {
+    "type": "skill",
+    "id": "metaphysics",
+    "name": { "str": "woo woo" },
+    "display_category": "display_ranged",
+    "sort_rank": 14500,
+    "description": "Crystals, meditation, astral projection, remote viewing, channeling, ESP; it's all real, man.  It all works if you believe."
+  }
+]

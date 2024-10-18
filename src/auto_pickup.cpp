@@ -249,7 +249,7 @@ drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint &location )
 {
     drop_locations result;
-    const map_cursor map_location = map_cursor( location );
+    const map_cursor map_location = map_cursor( tripoint_bub_ms( location ) );
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {

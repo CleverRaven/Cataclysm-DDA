@@ -1,0 +1,315 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "microlab_triffidize",
+    "terrain": [ { "result": [ "t_strconc_floor", [ "t_region_groundcover_forest", 3 ] ], "valid_terrain": [ "t_strconc_floor" ] } ]
+  },
+  {
+    "name": "GROUP_MLAB_RUST_ZOMBIE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_rust", "weight": 250 },
+      { "monster": "mon_zombie_urchin", "weight": 20, "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_MLAB_ACID_ZOMBIE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_acidic", "weight": 250 },
+      { "monster": "mon_zombie_spitter", "weight": 20, "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_MLAB_PHASE_ZOMBIE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_phase_skulker", "weight": 250 },
+      { "monster": "mon_zombie_phase_shrike", "weight": 20, "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_MLAB_HUNTER_ZOMBIE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_hunter", "weight": 250 },
+      { "monster": "mon_zombie_predator", "weight": 20, "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_MLAB_RAPTOR_ZOMBIE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_pupa", "weight": 50 },
+      { "monster": "mon_zombie_pupa_decoy", "weight": 50 },
+      { "monster": "mon_spawn_raptor", "weight": 50, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "name": "GROUP_MLAB_MUTANTS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_mutant_experimental", "weight": 150 },
+      { "monster": "mon_mutant_evolved", "weight": 150 },
+      { "monster": "mon_mutant_camouflaged", "weight": 150 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MLAB_ROBOT",
+    "monsters": [
+      { "monster": "mon_science_bot", "weight": 200 },
+      { "monster": "mon_manhack", "weight": 200 },
+      { "monster": "mon_tazer_hack", "weight": 200 },
+      { "monster": "mon_manhack", "weight": 150, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_skitterbot", "weight": 150 },
+      { "monster": "mon_skitterbot", "weight": 150, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_secubot", "weight": 50 },
+      { "monster": "mon_talon_m202a1", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MLAB_LEECH_PLANT",
+    "monsters": [
+      { "monster": "mon_leech_root_drone", "weight": 200 },
+      { "monster": "mon_leech_root_runner", "weight": 200 },
+      { "monster": "mon_leech_root_drone", "weight": 200, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MLAB_YRAX",
+    "monsters": [
+      { "monster": "mon_yrax_trifacet", "weight": 200 },
+      { "monster": "mon_yrax_triakis", "weight": 200 },
+      { "monster": "mon_yrax_delta", "weight": 200, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_more_density",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MICROLAB", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_acid_zombies",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_ACID_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_hunter_zombies",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_HUNTER_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_rust_zombies",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_RUST_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_phase_zombies",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_PHASE_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_raptor_zombies",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_RAPTOR_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_robots",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_ROBOT", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_mutants",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_MUTANTS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_wasps",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_WASP_GUARD", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_leech_pod",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        " x ",
+        "xAx",
+        " x "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "monster": { "A": { "monster": "mon_leech_stalk" }, "x": { "monster": "mon_leech_pod_cluster", "chance": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_leech_plants",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "3x3_leech_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_leech_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_leech_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_leech_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_MLAB_LEECH_PLANT", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_slimes",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_SLIME", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_shadows",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "monster": "mon_darkman", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_vampire",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "monster": "mon_star_vampire_coiling", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_triffids",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "ter_furn_transforms": { "^": { "transform": "microlab_triffidize" } },
+      "place_monster": [ { "group": "GROUP_TRIFFID", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 12 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_fungaloids",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_FUNGI", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 12 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_migo",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MI-GO_CAMP_OM", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_tindalos",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [
+        { "monster": "mon_hound_tindalos", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 },
+        { "monster": "mon_tindalos", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mnm_yrax",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "group": "GROUP_MLAB_YRAX", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
     "condition": { "u_has_trait": "EATER" },
     "effect": [
       {

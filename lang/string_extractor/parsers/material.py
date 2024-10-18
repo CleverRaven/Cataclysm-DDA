@@ -8,13 +8,13 @@ def parse_material(json, origin):
 
     if "bash_dmg_verb" in json:
         write_text(json["bash_dmg_verb"], origin,
-                   comment="Bash damage verb of material {}".format(name))
+                   comment="Bash damage verb of material")
 
     if "cut_dmg_verb" in json:
         write_text(json["cut_dmg_verb"], origin,
-                   comment="Cut damage verb of material {}".format(name))
+                   comment="Cut damage verb of material")
 
     if "dmg_adj" in json:
         for i in range(4):
             write_text(json["dmg_adj"][i], origin,
-                       comment="Damage adjective of material {}".format(name))
+                       comment="Damage adjective of material")
