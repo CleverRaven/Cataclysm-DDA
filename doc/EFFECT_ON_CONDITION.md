@@ -1251,7 +1251,7 @@ Each time the avatar enters an OMT display a message as to whether or not they'r
     "id": "EOC_TEST_IS_IN_CITY",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+    "condition": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
     "effect": [ { "u_message": "You are in a city OMT.", "type": "good" } ],
     "false_effect": [ { "u_message": "You are NOT in a city OMT.", "type": "bad" } ]
   },
