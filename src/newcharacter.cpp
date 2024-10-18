@@ -1260,8 +1260,8 @@ static std::string assemble_stat_details( avatar &u, const unsigned char sel )
                     string_format( _( "Melee to-hit bonus: %+.2f" ), u.get_melee_hit_base() ),
                     u.get_melee_hit_base() >= 0 ? COL_STAT_BONUS : COL_STAT_PENALTY );
             description_str += colorize(
-                    string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
-                        u.throw_dispersion_per_dodge( false ) ), COL_STAT_PENALTY );
+                                   string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
+                                                  u.throw_dispersion_per_dodge( false ) ), COL_STAT_PENALTY );
             if( u.ranged_dex_mod() != 0 ) {
                 description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
                                              std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );
