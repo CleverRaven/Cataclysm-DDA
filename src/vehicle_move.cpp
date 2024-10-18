@@ -1340,7 +1340,7 @@ bool vehicle::check_is_heli_landed()
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
     if( global_pos3().z == 0 ||
-        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, global_pos3() ) ) {
+        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub() ) ) {
         is_flying = false;
         return true;
     }

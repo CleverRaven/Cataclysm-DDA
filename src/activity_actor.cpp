@@ -8070,7 +8070,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                     const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                      corpse.get_mtype()->gibType() :
                                                      corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos.raw(), dest.raw() );
+                    here.add_splatter_trail( type_blood, pos, dest );
                 }
 
                 // mixture of isaac clarke stomps and swinging your weapon

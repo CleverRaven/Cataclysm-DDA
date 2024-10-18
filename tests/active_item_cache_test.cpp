@@ -21,7 +21,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
     int z = 0;
     for( int x = 0; x < MAPSIZE_X; ++x ) {
         for( int y = 0; y < MAPSIZE_Y; ++y ) {
-            REQUIRE( here.i_at( tripoint{ x, y, z } ).empty() );
+            REQUIRE( here.i_at( tripoint_bub_ms{ x, y, z } ).empty() );
             CAPTURE( x, y, z );
             tripoint_abs_sm abs_loc = here.get_abs_sub() + tripoint( x / SEEX, y / SEEY, z );
             CAPTURE( abs_loc );
@@ -34,7 +34,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             REQUIRE_FALSE( here.get_submaps_with_active_items().empty() );
             REQUIRE( here.get_submaps_with_active_items().find( abs_loc ) !=
                      here.get_submaps_with_active_items().end() );
-            REQUIRE_FALSE( here.i_at( tripoint{ x, y, z } ).empty() );
+            REQUIRE_FALSE( here.i_at( tripoint_bub_ms{ x, y, z } ).empty() );
             here.i_clear( tripoint_bub_ms{ x, y, z } );
             here.process_items();
         }

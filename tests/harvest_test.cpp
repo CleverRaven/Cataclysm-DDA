@@ -37,7 +37,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         u.set_skill_level( skill_survival, 10 );
         u.wield( scalpel );
         monster cow( monid, mon_pos );
-        const tripoint cow_loc = cow.pos();
+        const tripoint_bub_ms cow_loc = cow.pos_bub();
         cow.die( nullptr );
         u.move_to( cow.get_location() );
         player_activity act( actid, 0, true );

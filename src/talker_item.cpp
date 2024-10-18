@@ -52,7 +52,7 @@ tripoint talker_item_const::pos() const
 
 tripoint_abs_ms talker_item_const::global_pos() const
 {
-    return get_map().getglobal( me_it_const->position() );
+    return get_map().getglobal( me_it_const->pos_bub() );
 }
 
 tripoint_abs_omt talker_item_const::global_omt_location() const

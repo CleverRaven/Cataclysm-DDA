@@ -1128,18 +1128,18 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
                     for( int sz = origin.z() - 1; sz >= min_z; --sz ) {
-                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
+                        const tripoint_bub_ms p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
-                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
+                        if( ( *seen_caches[cache_z] )[p.x()][p.y()] == 0.0f ) {
                             break;
                         }
                         // Or floor reached
-                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
+                        if( ( *floor_caches[cache_z] ) [p.x()][p.y()] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin.raw(), p ) > 100 : ledge_coverage( player_character,
+                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character,
                                     p ) > 100 ) {
-                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
+                                ( *seen_caches[cache_z] )[p.x()][p.y()] = 0.0f;
                             }
                             break;
                         }
