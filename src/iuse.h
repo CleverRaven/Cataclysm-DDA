@@ -30,9 +30,6 @@ namespace iuse
 {
 
 // FOOD AND DRUGS (ADMINISTRATION)
-std::optional<int> alcohol_medium( Character *, item *, const tripoint & );
-std::optional<int> alcohol_strong( Character *, item *, const tripoint & );
-std::optional<int> alcohol_weak( Character *, item *, const tripoint & );
 std::optional<int> antibiotic( Character *, item *, const tripoint & );
 std::optional<int> anticonvulsant( Character *, item *, const tripoint & );
 std::optional<int> antifungal( Character *, item *, const tripoint & );
