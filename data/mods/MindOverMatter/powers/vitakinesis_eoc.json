@@ -249,7 +249,7 @@
   {
     "id": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
+    "activity_level": "SLEEP_EXERCISE",
     "verb": "meditating",
     "based_on": "time",
     "can_resume": false,
