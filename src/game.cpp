@@ -11372,8 +11372,7 @@ bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_dista
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    // TODO: Fix when unary operation available
-    const bool pulling_furniture = dp.xy() == ( point_rel_ms_zero - u.grab_point.xy() ).raw();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy().raw();
     const bool has_floor = m.has_floor_or_water( fdest );
     creature_tracker &creatures = get_creature_tracker();
     bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
@@ -12796,8 +12795,8 @@ void game::update_overmap_seen()
             continue;
         }
         // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
-        point abs_delta = delta.raw().abs();
-        int max_delta = std::max( abs_delta.x, abs_delta.y );
+        point_rel_omt abs_delta = delta.abs();
+        int max_delta = std::max( abs_delta.x(), abs_delta.y() );
         const float multiplier = trigdist ? std::sqrt( h_squared ) / max_delta : 1;
         const std::vector<tripoint_abs_omt> line = line_to( ompos, p );
         float sight_points = dist;
