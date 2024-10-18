@@ -6048,6 +6048,50 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
     };
 }
 
+talk_effect_fun_t::func f_map_run_eocs( const JsonObject &jo, std::string_view member,
+                                        const std::string_view src, bool is_npc )
+{
+    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member, src );
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+    std::function<bool( dialogue & )> cond;
+    read_condition( jo, "condition", cond, true );
+    dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
+
+    var_info store_coordinates_in;
+    if( jo.has_member( "store_coordinates_in" ) ) {
+        store_coordinates_in = read_var_info( jo.get_member( "store_coordinates_in" ) );
+    }
+    bool stop_at_first = jo.get_bool( "stop_at_first", true );
+
+    return [is_npc, eocs, target_var, cond, range, store_coordinates_in,
+            stop_at_first]( dialogue & d ) {
+
+        tripoint_abs_ms pos;
+        if( target_var.has_value() ) {
+            pos = get_tripoint_from_var( target_var, d, is_npc );
+        } else {
+            pos = d.actor( is_npc )->global_pos();
+        }
+
+        std::vector<tripoint_abs_ms> adjacent = closest_points_first( pos, range.evaluate( d ) );
+
+        for( tripoint_abs_ms point : adjacent ) {
+            write_var_value( store_coordinates_in.type, store_coordinates_in.name, &d, point.to_string() );
+            for( effect_on_condition_id eoc_id : eocs ) {
+                if( cond( d ) ) {
+                    eoc_id->activate( d );
+                    if( stop_at_first ) {
+                        return;
+                    }
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_set_talker( const JsonObject &jo, std::string_view member,
                                       const std::string_view, bool is_npc )
 {
@@ -7144,6 +7188,7 @@ parsers = {
     { "u_deal_damage", "npc_deal_damage", jarg::member, &talk_effect_fun::f_deal_damage },
     { "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
     { "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun::f_cast_spell },
+    { "u_map_run_eocs", "npc_map_run_eocs", jarg::member, &talk_effect_fun::f_map_run_eocs },
     { "u_map_run_item_eocs", "npc_map_run_item_eocs", jarg::member, &talk_effect_fun::f_map_run_item_eocs },
     { "companion_mission", jarg::string, &talk_effect_fun::f_companion_mission },
     { "reveal_map", jarg::object, &talk_effect_fun::f_reveal_map },
