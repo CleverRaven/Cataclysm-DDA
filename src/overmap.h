@@ -337,7 +337,7 @@ class overmap
         bool is_in_city( const tripoint_om_omt &p ) const;
         // Returns the distance to the nearest city_tile within max_dist_to_check or std::nullopt if there isn't one
         std::optional<int> distance_to_city( const tripoint_om_omt &p,
-                                             const int max_dist_to_check = OMAPX ) const;
+                                             int max_dist_to_check = OMAPX ) const;
     private:
         // Any point that is part of or surrounded by a city
         std::unordered_set<point_om_omt> city_tiles;

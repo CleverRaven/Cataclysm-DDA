@@ -4195,7 +4195,7 @@ bool overmap::is_in_city( const tripoint_om_omt &p ) const
 }
 
 std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
-        const int max_dist_to_check ) const
+        int max_dist_to_check ) const
 {
     if( !city_tiles.empty() ) {
         for( int i = 0; i <= max_dist_to_check; i++ ) {
