@@ -617,8 +617,10 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
-            add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),
-                                    cr->disp_name( true ) );
+            if( sp.message().empty() ) {
+                add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),
+                                        cr->disp_name( true, true ) );
+            }
         }
 
         // handling DOTs here

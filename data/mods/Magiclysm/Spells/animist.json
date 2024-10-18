@@ -831,7 +831,7 @@
     "//": "added this min/max damage for player, so it will be visible how much hp would be healed.  ",
     "effect": "attack",
     "shape": "blast",
-    "message": "",
+    "message": "You regain health as you devour the life essence of your ally!",
     "min_damage": -1,
     "max_damage": -10,
     "damage_increment": -0.4,
