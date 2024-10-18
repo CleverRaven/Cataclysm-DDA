@@ -6385,7 +6385,11 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "//1": "1u base + 1u ingredient + 6u evaporation",
-    "components": [ [ [ "sugar_beet", 3 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "lye_powder", 20 ], [ "chem_potassium_hydroxide", 28 ] ] ]
+    "components": [
+      [ [ "sugar_beet", 3 ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "lye_powder", 20 ], [ "chem_potassium_hydroxide", 28 ] ]
+    ]
   },
   {
     "type": "recipe",
