@@ -1065,7 +1065,7 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
 
 ### `map_in_city`
 - type: location string or [variable object](##variable-object)
-- return true if the location is in a city
+- return true if the location is in the bounds of a city at or above z-1
 
 #### Valid talkers:
 
@@ -1080,6 +1080,19 @@ Check the location is in a city.
   "then": { "u_message": "Inside city" },
   "else": { "u_message": "Outside city" }
 },
+```
+
+Each time the avatar enters an OMT message them whether they're in a city or not.
+```
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_IS_IN_CITY",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+    "effect": [ { "u_message": "You are in a city OMT.", "type": "good" } ],
+    "false_effect": [ { "u_message": "You are NOT in a city OMT.", "type": "bad" } ]
+  },
 ```
 
 ### `player_see_u`, `player_see_npc`
