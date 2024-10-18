@@ -3837,6 +3837,7 @@ You or NPC is teleported to `target_var` coordinates
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful | 
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "dimension_prefix" | optional | string | default ""; if a value is specified, will teleport the player to a dimension named after the prefix. Currently very WIP |
 
 ##### Valid talkers:
 

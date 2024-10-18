@@ -5387,7 +5387,7 @@ bool game::revive_corpse( const tripoint &p, item &it, int radius )
     }
     // If this is not here, the game may attempt to spawn a monster before the map exists,
     // leading to it querying for furniture, and crashing.
-    if( g->new_game ) {
+    if( g->new_game || g->swapping_dimensions ) {
         return false;
     }
     if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
@@ -12391,6 +12391,55 @@ void game::vertical_move( int movez, bool force, bool peeking )
     cata_event_dispatch::avatar_moves( old_abs_pos.raw(), u, m );
 }
 
+bool game::travel_to_dimension( const std::string &new_prefix )
+{
+    map &here = get_map();
+    avatar &player = get_avatar();
+    unload_npcs();
+    for( monster &critter : all_monsters() ) {
+        despawn_monster( critter );
+    }
+    if( player.in_vehicle ) {
+        here.unboard_vehicle( player.pos_bub() );
+    }
+    // Make sure we don't mess up savedata if for some reason maps can't be saved
+    if( !save_maps() ) {
+        return false;
+    }
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        here.clear_vehicle_list( z );
+    }
+    here.rebuild_vehicle_level_caches();
+    // Inputting an empty string to the text input EOC fails
+    // so i'm using 'default' as empty/main dimension
+    if( new_prefix != "default" ) {
+        dimension_prefix = new_prefix;
+    } else {
+        dimension_prefix.clear();
+    }
+    MAPBUFFER.clear();
+    // FIXME hack to prevent crashes from temperature checks
+    // This returns to false in 'on_turn()' so it should be fine?
+    swapping_dimensions = true;
+    // In theory if we skipped the next two lines we'd have an exact copy of the overmap
+    // from the past dimension, only with differences noticeable in the local map.
+    overmap_buffer.clear();
+    // load/create new overmap
+    overmap_buffer.get( point_abs_om{} );
+    // Loads submaps and invalidate related caches
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+    here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
+    here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
+    here.invalidate_visibility_cache();
+    load_npcs();
+    // Handle static monsters
+    here.spawn_monsters( true, true );
+    update_overmap_seen();
+    // Update weather now as it could be different on the new location
+    get_weather().nextweather = calendar::turn;
+    return true;
+}
+
 void game::start_hauling( const tripoint &pos )
 {
     std::vector<item_location> candidate_items = m.get_haulable_items( pos );
@@ -13355,6 +13404,20 @@ cata_path PATH_INFO::world_base_save_path_path()
         return PATH_INFO::savedir_path();
     }
     return world_generator->active_world->folder_path_path();
+}
+
+cata_path PATH_INFO::current_dimension_save_path_path()
+{
+    std::string dimension_prefix = g->get_dimension_prefix();
+    if( !dimension_prefix.empty() ) {
+        return PATH_INFO::world_base_save_path_path() / "dimensions" / dimension_prefix;
+    }
+    return PATH_INFO::world_base_save_path_path();
+}
+
+cata_path PATH_INFO::current_dimension_player_save_path_path()
+{
+    return PATH_INFO::current_dimension_save_path_path() / base64_encode( get_avatar().get_save_id() );
 }
 
 void game::shift_destination_preview( const point &delta )

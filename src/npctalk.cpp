@@ -6934,13 +6934,28 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     } else {
         success_message.str_val = translation();
     }
+    str_or_var dimension_prefix;
+    if( jo.has_member( "dimension_prefix" ) ) {
+        dimension_prefix = get_str_or_var( jo.get_member( "dimension_prefix" ),
+                                           "dimension_prefix", false, "" );
+    } else {
+        dimension_prefix.str_val = "";
+    }
     bool force = jo.get_bool( "force", false );
-    return [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
+    return [is_npc, target_var, fail_message, success_message, force,
+            dimension_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
+            std::string prefix = dimension_prefix.evaluate( d );
+            bool successful_dimension_swap = false;
+            // Make sure we don't cause a dimension swap on every
+            // short/long range teleport outside the default dimension
+            if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
+                successful_dimension_swap = g->travel_to_dimension( prefix );
+            }
             if( teleport::teleport_to_point( *teleporter, get_map().bub_from_abs( target_pos ), true, false,
-                                             false, force ) ) {
+                                             false, force ) || successful_dimension_swap ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );
