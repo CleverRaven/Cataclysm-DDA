@@ -753,6 +753,7 @@ ifeq ($(TILES), 1)
   else ifneq ($(NATIVE),emscripten)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -761,7 +762,7 @@ ifeq ($(TILES), 1)
     endif
 
     LDFLAGS += -lSDL2_ttf -lSDL2_image
-
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs freetype2)
   endif
 
   DEFINES += -DTILES
@@ -960,9 +961,9 @@ ASTYLE_SOURCES := $(sort \
 SOURCES += $(THIRD_PARTY_SOURCES)
 
 IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
-
 ifeq ($(SDL), 1)
 	DEFINES += -DIMGUI_DISABLE_OBSOLETE_KEYIO
+	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_freetype.cpp
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_impl_sdl2.cpp $(IMGUI_DIR)/imgui_impl_sdlrenderer2.cpp
 else
 	IMGUI_SOURCES += $(IMTUI_DIR)/imtui-impl-ncurses.cpp $(IMTUI_DIR)/imtui-impl-text.cpp

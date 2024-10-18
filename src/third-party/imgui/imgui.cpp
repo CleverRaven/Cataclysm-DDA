@@ -7098,20 +7098,24 @@ void ImGui::SetCurrentFont(ImFont* font)
 
 void ImGui::PushFont(ImFont* font)
 {
+#ifdef TILES
     ImGuiContext& g = *GImGui;
     if (!font)
         font = GetDefaultFont();
     SetCurrentFont(font);
     g.FontStack.push_back(font);
     g.CurrentWindow->DrawList->PushTextureID(font->ContainerAtlas->TexID);
+#endif
 }
 
 void  ImGui::PopFont()
 {
+#ifdef TILES
     ImGuiContext& g = *GImGui;
     g.CurrentWindow->DrawList->PopTextureID();
     g.FontStack.pop_back();
     SetCurrentFont(g.FontStack.empty() ? GetDefaultFont() : g.FontStack.back());
+#endif
 }
 
 void ImGui::PushItemFlag(ImGuiItemFlags option, bool enabled)
