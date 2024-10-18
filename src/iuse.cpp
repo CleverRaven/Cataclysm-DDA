@@ -3858,12 +3858,35 @@ static std::string get_music_description()
 }
 
 void iuse::play_music( Character *p, const tripoint &source, const int volume,
-                       const int max_morale )
+                       const int max_morale, bool play_sounds )
 {
-    // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
-    // the other characters around should be able to profit as well.
-    const bool do_effects = p && p->can_hear( source, volume ) && !p->in_sleep_state();
     std::string sound = "music";
+
+    auto lambda_should_do_effects = [&source, &volume]( Character * p ) {
+        return p && p->can_hear( source, volume ) && !p->in_sleep_state();
+    };
+
+    auto lambda_add_music_effects = [&max_morale, &volume]( Character & guy ) {
+        guy.add_effect( effect_music, 1_turns );
+        guy.add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
+        // mp3 player reduces hearing
+        if( volume == 0 ) {
+            guy.add_effect( effect_earphones, 1_turns );
+        }
+    };
+
+    // check NPCs that can hear the source of the music
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_active() && lambda_should_do_effects( &guy ) ) {
+            lambda_add_music_effects( guy );
+        }
+    }
+
+    // player is not a NPC so they need to check separately
+    Character &player_character = get_player_character();
+    if( lambda_should_do_effects( &player_character ) ) {
+        lambda_add_music_effects( player_character );
+    }
 
     if( calendar::once_every( time_duration::from_minutes(
                                   get_option<int>( "DESCRIBE_MUSIC_FREQUENCY" ) ) ) ) {
@@ -3872,23 +3895,14 @@ void iuse::play_music( Character *p, const tripoint &source, const int volume,
         if( !music.empty() ) {
             sound = music;
             // descriptions aren't printed for sounds at our position
-            if( do_effects && p->pos() == source ) {
+            if( lambda_should_do_effects( p ) && p->pos() == source ) {
                 p->add_msg_if_player( _( "You listen to %s" ), music );
             }
         }
     }
 
-    if( volume != 0 ) {
+    if( volume != 0 && play_sounds ) {
         sounds::ambient_sound( source, volume, sounds::sound_t::music, sound );
-    }
-
-    if( do_effects ) {
-        p->add_effect( effect_music, 1_turns );
-        p->add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
-        // mp3 player reduces hearing
-        if( volume == 0 ) {
-            p->add_effect( effect_earphones, 1_turns );
-        }
     }
 }
 
