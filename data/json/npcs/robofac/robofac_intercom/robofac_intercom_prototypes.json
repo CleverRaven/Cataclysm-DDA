@@ -722,9 +722,14 @@
     "dynamic_line": "Excellent.  Report back in seven days' time, and your Platform will be ready."
   },
   {
-    "id": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED",
+    "id": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT",
     "type": "talk_topic",
-    "dynamic_line": "We will begin work shortly.  Report back tomorrow for pickup."
+    "dynamic_line": "We will begin work shortly.  Report back in two weeks for pickup."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG",
+    "type": "talk_topic",
+    "dynamic_line": "We will begin work shortly.  Report back in around one and a half months for pickup."
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
@@ -790,7 +795,7 @@
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT"
       },
       {
         "text": "[12 HGC] Fine.",
@@ -808,7 +813,7 @@
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
       { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
@@ -860,7 +865,7 @@
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT"
       },
       {
         "text": "[12 HGC] Fine.",
@@ -878,7 +883,7 @@
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
       { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
@@ -929,7 +934,7 @@
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT"
       },
       {
         "text": "[12 HGC] Fine.",
@@ -946,7 +951,7 @@
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
       { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
