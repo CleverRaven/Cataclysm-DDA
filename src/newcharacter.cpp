@@ -2169,14 +2169,7 @@ static struct {
 static std::string assemble_profession_details( const avatar &u, const input_context &ctxt,
         const std::vector<string_id<profession>> &sorted_profs, const int cur_id, const std::string &notes )
 {
-    std::string assembled;
-
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( sorted_profs[cur_id]->src, [](
-    const std::pair<profession_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+    std::string assembled = get_origin( sorted_profs[cur_id]->src ) + "\n";
 
     std::string profession_name = sorted_profs[cur_id]->gender_appropriate_name( u.male );
     if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
@@ -3382,13 +3375,7 @@ static struct {
 static std::string assemble_scenario_details( const avatar &u, const input_context &ctxt,
         const scenario *current_scenario, const std::string &notes )
 {
-    std::string assembled;
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( current_scenario->src,
-    []( const std::pair<string_id<scenario>, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+    std::string assembled = get_origin( current_scenario->src ) + "\n";
 
     std::string scenario_name = current_scenario->gender_appropriate_name( !u.male );
     if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {

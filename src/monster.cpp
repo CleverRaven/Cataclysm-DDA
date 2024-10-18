@@ -921,12 +921,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int max_width = getmaxx( w ) - column - 1;
     std::ostringstream oss;
 
-    oss << get_tag_from_color( c_white ) << _( "Origin: " );
-    oss << enumerate_as_string( type->src.begin(),
-    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    oss << "</color>" << "\n";
+    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
@@ -1011,15 +1006,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
 void monster::print_info_imgui() const
 {
-    ImGui::TextUnformatted( _( "Origin: " ) );
-    std::string mods = enumerate_as_string( type->src.begin(),
-                                            type->src.end(),
-    []( const std::pair<mtype_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    },
-    enumeration_conjunction::arrow );
-    ImGui::SameLine( 0, 0 );
-    ImGui::TextUnformatted( mods.c_str() );
+    ImGui::TextUnformatted( get_origin( type->src ).c_str() );
 
     if( debug_mode ) {
         ImGui::TextUnformatted( type->id.c_str() );
