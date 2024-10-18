@@ -1077,11 +1077,12 @@ void vehicle::operate_planter()
         vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
+                const ter_id &t = here.ter( loc );
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( here.ter( loc ) != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( t != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( here.ter( loc ) == ter_t_dirtmound ) {
+                } else if( t == ter_t_dirtmound ) {
                     here.set( loc, ter_t_dirt, furn_f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.

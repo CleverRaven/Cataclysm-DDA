@@ -3595,15 +3595,16 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
     const auto fld_override = field_override.find( tripoint_bub_ms( p ) );
     const bool fld_overridden = fld_override != field_override.end();
     map &here = get_map();
+    const field &f = here.field_at( p );
     const field_type_id &fld = fld_overridden ?
-                               fld_override->second : here.field_at( p ).displayed_field_type();
+                               fld_override->second : f.displayed_field_type();
     bool ret_draw_field = false;
     bool ret_draw_items = false;
     // go through each field and draw it
     if( !fld_overridden ) {
         const maptile &tile = here.maptile_at( p );
 
-        for( const std::pair<const field_type_id, field_entry> &fd_pr : here.field_at( p ) ) {
+        for( const std::pair<const field_type_id, field_entry> &fd_pr : f ) {
             const field_type_id &fld = fd_pr.first;
             if( !invisible[0] && fld.obj().display_field ) {
                 const lit_level lit = ll;

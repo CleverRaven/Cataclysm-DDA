@@ -1392,18 +1392,22 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+    if( cache_has_item_with_flag( flag_ALARMCLOCK, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_WATCH, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+    if( cache_has_item_with_flag( flag_WATCH, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
 }
 

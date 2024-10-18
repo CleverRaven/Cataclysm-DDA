@@ -6480,7 +6480,8 @@ void game::print_furniture_info( const tripoint &lp, const catacurses::window &w
     mvwprintz( w_look, point( column, line++ ), c_white, desc );
 
     // Print each line of furniture description in gray
-    desc = string_format( m.furn( lp ).obj().description );
+    const furn_id &f = m.furn( lp );
+    desc = string_format( f.obj().description );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     for( int i = 0; i < numlines; i++ ) {
@@ -6488,9 +6489,9 @@ void game::print_furniture_info( const tripoint &lp, const catacurses::window &w
     }
 
     // If this furniture has a crafting pseudo item, check for tool qualities and print them
-    if( !m.furn( lp )->crafting_pseudo_item.is_empty() ) {
+    if( !f->crafting_pseudo_item.is_empty() ) {
         // Make a pseudo item instance so we can use qualities_info later
-        const item pseudo( m.furn( lp )->crafting_pseudo_item );
+        const item pseudo( f->crafting_pseudo_item );
         // Set up iteminfo query to show qualities
         std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
         const iteminfo_query quality_query( quality_part );
@@ -10504,9 +10505,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             return false;
         }
     }
-    const optional_vpart_position vp_here = m.veh_at( u.pos_bub() );
-    const optional_vpart_position vp_there = m.veh_at( dest_loc );
-    const optional_vpart_position vp_grab = m.veh_at( u.pos_bub() + u.grab_point );
+    const optional_vpart_position &vp_here = m.veh_at( u.pos_bub() );
+    const optional_vpart_position &vp_there = m.veh_at( dest_loc );
+    const optional_vpart_position &vp_grab = m.veh_at( u.pos_bub() + u.grab_point );
     const vehicle *grabbed_vehicle = veh_pointer_or_null( vp_grab );
 
     bool pushing = false; // moving -into- grabbed tile; skip check for move_cost > 0
@@ -11112,13 +11113,14 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     if( !quick && !m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos_bub() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
             !check_zone( zone_type_NO_AUTO_PICKUP, u.pos() ) ) {
-            if( u.is_blind() && !m.i_at( u.pos_bub() ).empty() ) {
+            const map_stack &ms = m.i_at( u.pos_bub() );
+            if( u.is_blind() && !ms.empty() ) {
                 add_msg( _( "There's something here, but you can't see what it is." ) );
             } else if( m.has_items( u.pos_bub() ) ) {
                 std::vector<std::string> names;
                 std::vector<size_t> counts;
                 std::vector<item> items;
-                for( item &tmpitem : m.i_at( u.pos_bub() ) ) {
+                for( const item &tmpitem : ms ) {
 
                     std::string next_tname = tmpitem.tname();
                     std::string next_dname = tmpitem.display_name();
@@ -11404,10 +11406,11 @@ int game::grabbed_furn_move_time( const tripoint &dp )
 
     const bool canmove = can_move_furniture( fdest.raw(), dp );
     const furn_t &furntype = m.furn( fpos ).obj();
-    const int dst_items = m.i_at( fdest ).size();
+    const map_stack &ms = m.i_at( fdest );
+    const int dst_items = ms.size();
 
-    const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
-    [&]( item & liquid_item ) {
+    const bool only_liquid_items = std::all_of( ms.begin(), ms.end(),
+    [&]( const item & liquid_item ) {
         return liquid_item.made_of_from_type( phase_id::LIQUID );
     } );
 
@@ -11415,9 +11418,10 @@ int game::grabbed_furn_move_time( const tripoint &dp )
                              !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, fdest ) &&
                              !m.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, fdest ) &&
                              only_liquid_items;
-    const bool src_item_ok = m.furn( fpos ).obj().has_flag( ter_furn_flag::TFLAG_CONTAINER ) ||
-                             m.furn( fpos ).obj().has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER ) ||
-                             m.furn( fpos ).obj().has_flag( ter_furn_flag::TFLAG_SEALED );
+    const furn_t &fo = m.furn( fpos ).obj();
+    const bool src_item_ok = fo.has_flag( ter_furn_flag::TFLAG_CONTAINER ) ||
+                             fo.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER ) ||
+                             fo.has_flag( ter_furn_flag::TFLAG_SEALED );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -11494,10 +11498,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     const furn_t furntype = m.furn( fpos ).obj();
     const int src_items = m.i_at( fpos ).size();
-    const int dst_items = m.i_at( fdest ).size();
+    const map_stack &dst_ms = m.i_at( fdest );
+    const int dst_items = dst_ms.size();
 
-    const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
-    [&]( item & liquid_item ) {
+    const bool only_liquid_items = std::all_of( dst_ms.begin(), dst_ms.end(),
+    [&]( const item & liquid_item ) {
         return liquid_item.made_of_from_type( phase_id::LIQUID );
     } );
 
@@ -11505,9 +11510,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, fdest ) &&
                              !m.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, fdest );
 
-    const bool src_item_ok = m.furn( fpos ).obj().has_flag( ter_furn_flag::TFLAG_CONTAINER ) ||
-                             m.furn( fpos ).obj().has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER ) ||
-                             m.furn( fpos ).obj().has_flag( ter_furn_flag::TFLAG_SEALED );
+    const furn_t &fo = m.furn( fpos ).obj();
+    const bool src_item_ok = fo.has_flag( ter_furn_flag::TFLAG_CONTAINER ) ||
+                             fo.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER ) ||
+                             fo.has_flag( ter_furn_flag::TFLAG_SEALED );
 
     const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
     time_duration fire_age = m.get_field_age( fpos, fd_fire );
@@ -11598,16 +11604,17 @@ bool game::grabbed_furn_move( const tripoint &dp )
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
-            std::move( m.i_at( fpos ).begin(), m.i_at( fpos ).end(),
+            map_stack ms = m.i_at( fpos );
+            std::move( ms.begin(), ms.end(),
                        std::back_inserter( temp ) );
             m.i_clear( fpos );
-            for( auto item_iter = m.i_at( fdest ).begin();
-                 item_iter != m.i_at( fdest ).end(); ++item_iter ) {
-                m.i_at( fpos ).insert( *item_iter );
+            for( auto item_iter = ms.begin();
+                 item_iter != ms.end(); ++item_iter ) {
+                ms.insert( *item_iter );
             }
             m.i_clear( fdest );
             for( item &cur_item : temp ) {
-                m.i_at( fdest ).insert( cur_item );
+                ms.insert( cur_item );
             }
         } else {
             add_msg( _( "Stuff spills from the %s!" ), furntype.name() );

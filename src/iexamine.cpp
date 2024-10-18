@@ -1456,7 +1456,8 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint_bub_ms &exam
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
                 for( const tripoint_bub_ms &tmp : here.points_in_radius( tripoint_bub_ms( examp ), 3 ) ) {
-                    if( here.ter( tmp ) == ter_t_door_metal_o || here.ter( tmp ) == ter_t_door_metal_c ) {
+                    const ter_id &t = here.ter( tmp );
+                    if( t == ter_t_door_metal_o || t == ter_t_door_metal_c ) {
                         if( you.pos_bub() == tmp ) {
                             you.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
                         } else {
@@ -1640,22 +1641,24 @@ void iexamine::deployed_furniture( Character &you, const tripoint_bub_ms &pos )
 
     tripoint_bub_ms drop_pos = pos;
 
+    const furn_t &fo = here.furn( pos ).obj();
+    const std::string &name = fo.name();
     if( you.pos_bub().z() != pos.z() ) {
         drop_pos = you.pos_bub();
-        if( !you.query_yn( _( "Pull up the %s?" ), here.furn( pos ).obj().name() ) ) {
+        if( !you.query_yn( _( "Pull up the %s?" ), name ) ) {
             return;
         }
         you.add_msg_if_player( m_info, _( "You pull up the %s." ),
-                               here.furn( pos ).obj().name() );
+                               name );
     } else {
-        if( !you.query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
+        if( !you.query_yn( _( "Take down the %s?" ), name ) ) {
             return;
         }
         you.add_msg_if_player( m_info, _( "You take down the %s." ),
-                               here.furn( pos ).obj().name() );
+                               name );
     }
 
-    const itype_id furn_item = here.furn( pos ).obj().deployed_item;
+    const itype_id &furn_item = fo.deployed_item;
     here.add_item_or_charges( drop_pos, item( furn_item, calendar::turn ) );
     here.furn_set( pos, furn_str_id::NULL_ID() );
 }
@@ -2766,7 +2769,8 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             int skillLevel = round( you.get_skill_level( skill_survival ) );
             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plant_count = rng( skillLevel / 2, skillLevel );
-            plant_count *= here.furn( examp )->plant->harvest_multiplier;
+            const auto &fp = here.furn( examp )->plant;
+            plant_count *= fp->harvest_multiplier;
             plant_count = std::min( std::max( plant_count, 1 ), 12 );
             int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
             for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
@@ -2775,7 +2779,7 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
                 }
                 here.add_item_or_charges( you.pos_bub(), i );
             }
-            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->base ) );
+            here.furn_set( examp, furn_str_id( fp->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
         }
     }
@@ -2922,7 +2926,7 @@ void iexamine::aggie_plant( Character &you, const tripoint_bub_ms &examp )
 void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_kiln_type = here.furn( examp );
+    const furn_id &cur_kiln_type = here.furn( examp );
     furn_id next_kiln_type = furn_str_id::NULL_ID();
     if( cur_kiln_type == furn_f_kiln_empty ) {
         next_kiln_type = furn_f_kiln_full;
@@ -2930,7 +2934,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_metal_full;
     } else {
         debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_kiln_type.id().c_str() );
         return;
     }
 
@@ -3015,7 +3019,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
 void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_kiln_type = here.furn( examp );
+    const furn_id &cur_kiln_type = here.furn( examp );
     furn_id next_kiln_type = furn_str_id::NULL_ID();
     if( cur_kiln_type == furn_f_kiln_full ) {
         next_kiln_type = furn_f_kiln_empty;
@@ -3023,7 +3027,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_metal_empty;
     } else {
         debugmsg( "Examined furniture has action kiln_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_kiln_type.id().c_str() );
         return;
     }
     map_stack items = here.i_at( examp );
@@ -3075,13 +3079,13 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
 void iexamine::arcfurnace_empty( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_arcfurnace_type = here.furn( examp );
+    const furn_id &cur_arcfurnace_type = here.furn( examp );
     furn_id next_arcfurnace_type = furn_str_id::NULL_ID();
     if( cur_arcfurnace_type == furn_f_arcfurnace_empty ) {
         next_arcfurnace_type = furn_f_arcfurnace_full;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_arcfurnace_type.id().c_str() );
         return;
     }
 
@@ -3148,13 +3152,13 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint_bub_ms &examp )
 void iexamine::arcfurnace_full( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_arcfurnace_type = here.furn( examp );
+    const furn_id &cur_arcfurnace_type = here.furn( examp );
     furn_id next_arcfurnace_type = furn_str_id::NULL_ID();
     if( cur_arcfurnace_type == furn_f_arcfurnace_full ) {
         next_arcfurnace_type = furn_f_arcfurnace_empty;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_arcfurnace_type.id().c_str() );
         return;
     }
 
@@ -3207,13 +3211,13 @@ void iexamine::arcfurnace_full( Character &, const tripoint_bub_ms &examp )
 void iexamine::stook_empty( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_stook_type = here.furn( examp );
+    const furn_id &cur_stook_type = here.furn( examp );
     furn_id next_stook_type = furn_str_id::NULL_ID();
     if( cur_stook_type == furn_f_stook_empty ) {
         next_stook_type = furn_f_stook_full;
     } else {
         debugmsg( "Examined furniture has action stook_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_stook_type.id().c_str() );
         return;
     }
 
@@ -3249,13 +3253,13 @@ void iexamine::stook_empty( Character &, const tripoint_bub_ms &examp )
 void iexamine::stook_full( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_stook_type = here.furn( examp );
+    const furn_id &cur_stook_type = here.furn( examp );
     furn_id next_stook_type = furn_str_id::NULL_ID();
     if( cur_stook_type == furn_f_stook_full ) {
         next_stook_type = furn_str_id::NULL_ID();
     } else {
         debugmsg( "Examined furniture has action stook_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_stook_type.id().c_str() );
         return;
     }
     map_stack items = here.i_at( examp );
@@ -3296,13 +3300,13 @@ void iexamine::stook_full( Character &, const tripoint_bub_ms &examp )
 void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_autoclave_type = here.furn( examp );
+    const furn_id &cur_autoclave_type = here.furn( examp );
     furn_id next_autoclave_type = furn_str_id::NULL_ID();
     if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
         next_autoclave_type = furn_id( "f_autoclave_full" );
     } else {
         debugmsg( "Examined furniture has action autoclave_empty, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_autoclave_type.id().c_str() );
         return;
     }
 
@@ -3356,13 +3360,13 @@ void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
 void iexamine::autoclave_full( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_autoclave_type = here.furn( examp );
+    const furn_id &cur_autoclave_type = here.furn( examp );
     furn_id next_autoclave_type = furn_str_id::NULL_ID();
     if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
         next_autoclave_type = furn_id( "f_autoclave" );
     } else {
         debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_autoclave_type.id().c_str() );
         return;
     }
 
@@ -4953,8 +4957,9 @@ void iexamine::curtains( Character &you, const tripoint_bub_ms &examp )
         you.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
-        if( here.ter( examp )->has_curtains() ) {
-            here.ter_set( examp, here.ter( examp )->curtain_transform );
+        const ter_id &t = here.ter( examp );
+        if( t->has_curtains() ) {
+            here.ter_set( examp, t->curtain_transform );
         }
 
         here.spawn_item( you.pos_bub(), itype_nail, 1, 4, calendar::turn );
@@ -6130,7 +6135,7 @@ static bool is_non_rotten_crafting_component( const item &it )
 static void mill_activate( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    const furn_id cur_mill_type = here.furn( examp );
+    const furn_id &cur_mill_type = here.furn( examp );
     furn_id next_mill_type = furn_str_id::NULL_ID();
     if( cur_mill_type == furn_f_wind_mill ) {
         next_mill_type = furn_f_wind_mill_active;
@@ -6138,7 +6143,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
         next_mill_type = furn_f_water_mill_active;
     } else {
         debugmsg( "Examined furniture has action mill_activate, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_mill_type.id().c_str() );
         return;
     }
     bool food_present = false;
@@ -6297,17 +6302,17 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
 static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    furn_id cur_smoker_type = here.furn( examp );
+    const furn_id &cur_smoker_type = here.furn( examp );
     furn_id next_smoker_type = furn_str_id::NULL_ID();
-    const bool portable = here.furn( examp ) == furn_f_metal_smoking_rack ||
-                          here.furn( examp ) == furn_f_metal_smoking_rack_active;
+    const bool portable = cur_smoker_type == furn_f_metal_smoking_rack ||
+                          cur_smoker_type == furn_f_metal_smoking_rack_active;
     if( cur_smoker_type == furn_f_smoking_rack ) {
         next_smoker_type = furn_f_smoking_rack_active;
     } else if( cur_smoker_type == furn_f_metal_smoking_rack ) {
         next_smoker_type = furn_f_metal_smoking_rack_active;
     } else {
         debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_smoker_type.id().c_str() );
         return;
     }
     bool food_present = false;
@@ -6411,7 +6416,7 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
 void iexamine::mill_finalize( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    const furn_id cur_mill_type = here.furn( examp );
+    const furn_id &cur_mill_type = here.furn( examp );
     furn_id next_mill_type = furn_str_id::NULL_ID();
     if( cur_mill_type == furn_f_wind_mill_active ) {
         next_mill_type = furn_f_wind_mill;
@@ -6419,7 +6424,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
         next_mill_type = furn_f_water_mill;
     } else {
         debugmsg( "Furniture executed action mill_finalize, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_mill_type.id().c_str() );
         return;
     }
 
@@ -6527,7 +6532,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
 static void smoker_finalize( Character &, const tripoint &examp, const time_point &start_time )
 {
     map &here = get_map();
-    furn_id cur_smoker_type = here.furn( examp );
+    const furn_id &cur_smoker_type = here.furn( examp );
     furn_id next_smoker_type = furn_str_id::NULL_ID();
     if( cur_smoker_type == furn_f_smoking_rack_active ) {
         next_smoker_type = furn_f_smoking_rack;
@@ -6535,7 +6540,7 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
         next_smoker_type = furn_f_metal_smoking_rack;
     } else {
         debugmsg( "Furniture executed action smoker_finalize, but is of type %s",
-                  here.furn( examp ).id().c_str() );
+                  cur_smoker_type.id().c_str() );
         return;
     }
 
@@ -6587,13 +6592,13 @@ static void smoker_load_food( Character &you, const tripoint_bub_ms &examp,
                               const units::volume &remaining_capacity )
 {
     map &here = get_map();
-    if( here.furn( examp ) == furn_f_smoking_rack_active ||
-        here.furn( examp ) == furn_f_metal_smoking_rack_active ) {
+    const furn_id &rack = here.furn( examp );
+    if( rack == furn_f_smoking_rack_active ||
+        rack == furn_f_metal_smoking_rack_active ) {
         you.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
         return;
     }
 
-    furn_id rack = here.furn( examp );
     units::volume total_capacity = rack == furn_f_metal_smoking_rack ?
                                    sm_rack::MAX_FOOD_VOLUME_PORTABLE :
                                    sm_rack::MAX_FOOD_VOLUME;
@@ -6634,8 +6639,9 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
 {
     std::vector<item_comp> comps;
     map &here = get_map();
-    if( here.furn( examp ) == furn_f_wind_mill_active ||
-        here.furn( examp ) == furn_f_water_mill_active ) {
+    const furn_id &f = here.furn( examp );
+    if( f == furn_f_wind_mill_active ||
+        f == furn_f_water_mill_active ) {
         you.add_msg_if_player( _( "You can't place more food while it's milling." ) );
         return;
     }
@@ -6768,9 +6774,9 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
 
 void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
-    map &here = get_map();
-    if( here.furn( examp ) == furn_f_smoking_rack_active ||
-        here.furn( examp ) == furn_f_metal_smoking_rack_active ) {
+    const furn_id &f = get_map().furn( examp );
+    if( f == furn_f_smoking_rack_active ||
+        f == furn_f_metal_smoking_rack_active ) {
         smoker_finalize( get_avatar(), examp, start_time );
     }
 }
@@ -6778,28 +6784,29 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
 void iexamine::quern_examine( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    if( here.furn( examp ) == furn_f_water_mill ) {
+    const furn_id &f = here.furn( examp );
+    if( f == furn_f_water_mill ) {
         if( !here.is_water_shallow_current( examp ) ) {
             add_msg( _( "The water mill needs to be over shallow flowing water to work." ) );
             return;
         }
     }
-    if( here.furn( examp ) == furn_f_wind_mill ) {
+    if( f == furn_f_wind_mill ) {
         if( g->is_sheltered( examp ) ) {
             add_msg( _( "The wind mill needs to be outside in the wind to work." ) );
             return;
         }
     }
 
-    const bool active = here.furn( examp ) == furn_f_water_mill_active ||
-                        here.furn( examp ) == furn_f_wind_mill_active;
+    const bool active = f == furn_f_water_mill_active ||
+                        f == furn_f_wind_mill_active;
     map_stack items_here = here.i_at( examp );
 
     if( items_here.empty() && active ) {
         debugmsg( "active mill was empty!" );
-        if( here.furn( examp ) == furn_f_water_mill_active ) {
+        if( f == furn_f_water_mill_active ) {
             here.furn_set( examp, furn_f_water_mill );
-        } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
+        } else if( f == furn_f_wind_mill_active ) {
             here.furn_set( examp, furn_f_wind_mill );
         }
         return;
@@ -6807,9 +6814,9 @@ void iexamine::quern_examine( Character &you, const tripoint_bub_ms &examp )
 
     if( items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_milling_item ) {
         debugmsg( "f_mill_active was empty, and had fake_milling_item!" );
-        if( here.furn( examp ) == furn_f_water_mill_active ) {
+        if( f == furn_f_water_mill_active ) {
             here.furn_set( examp, furn_f_water_mill );
-        } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
+        } else if( f == furn_f_wind_mill_active ) {
             here.furn_set( examp, furn_f_wind_mill );
         }
         items_here.erase( items_here.begin() );
@@ -6921,9 +6928,10 @@ void iexamine::quern_examine( Character &you, const tripoint_bub_ms &examp )
                 }
             }
             if( active ) {
-                if( here.furn( examp ) == furn_f_water_mill_active ) {
+                const furn_id &f = here.furn( examp );
+                if( f == furn_f_water_mill_active ) {
                     here.furn_set( examp, furn_f_water_mill );
-                } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
+                } else if( f == furn_f_wind_mill_active ) {
                     here.furn_set( examp, furn_f_wind_mill );
                 }
                 add_msg( m_info, _( "You stop the milling process." ) );
@@ -6933,9 +6941,10 @@ void iexamine::quern_examine( Character &you, const tripoint_bub_ms &examp )
             add_msg( m_info, _( "Never mind." ) );
             break;
         case 4:
-            if( here.furn( examp ) == furn_f_water_mill_active ) {
+            const furn_id &f = here.furn( examp );
+            if( f == furn_f_water_mill_active ) {
                 here.furn_set( examp, furn_f_water_mill );
-            } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
+            } else if( f == furn_f_wind_mill_active ) {
                 here.furn_set( examp, furn_f_wind_mill );
             }
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
@@ -6953,10 +6962,11 @@ void iexamine::quern_examine( Character &you, const tripoint_bub_ms &examp )
 void iexamine::smoker_options( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    const bool active = here.furn( examp ) == furn_f_smoking_rack_active ||
-                        here.furn( examp ) == furn_f_metal_smoking_rack_active;
-    const bool portable = here.furn( examp ) == furn_f_metal_smoking_rack ||
-                          here.furn( examp ) == furn_f_metal_smoking_rack_active;
+    const furn_id &f = here.furn( examp );
+    const bool active = f == furn_f_smoking_rack_active ||
+                        f == furn_f_metal_smoking_rack_active;
+    const bool portable = f == furn_f_metal_smoking_rack ||
+                          f == furn_f_metal_smoking_rack_active;
     map_stack items_here = here.i_at( examp );
 
     if( portable && items_here.empty() && active ) {
@@ -6999,9 +7009,9 @@ void iexamine::smoker_options( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    const furn_t &f = here.furn( examp ).obj();
-    const itype *type = f.crafting_pseudo_item_type();
-    std::vector<const itype *> ammo_list = f.crafting_ammo_item_types();
+    const furn_t &fo = f.obj();
+    const itype *type = fo.crafting_pseudo_item_type();
+    std::vector<const itype *> ammo_list = fo.crafting_ammo_item_types();
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
@@ -7216,8 +7226,9 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
             }
         }
     } else {
-        name = here.furn( examp ).obj().name();
-        if( item::type_is_defined( here.furn( examp ).obj().deployed_item ) ) {
+        const furn_t &fo = here.furn( examp ).obj();
+        name = fo.name();
+        if( item::type_is_defined( fo.deployed_item ) ) {
             is_undeployable = true;
         }
 

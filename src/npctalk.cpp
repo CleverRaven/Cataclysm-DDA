@@ -4106,8 +4106,9 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                         break;
                     }
                 } else if( search_type.value() == "furniture" ) {
-                    if( here.furn( search_loc ).id().c_str() == cur_search_target ||
-                        ( !here.furn( search_loc ).id().is_null() && cur_search_target.empty() ) ) {
+                    const furn_str_id &fi = here.furn( search_loc ).id();
+                    if( fi.c_str() == cur_search_target ||
+                        ( !fi.is_null() && cur_search_target.empty() ) ) {
                         target_pos = here.getglobal( search_loc );
                         found = true;
                         break;
@@ -4120,8 +4121,9 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                         break;
                     }
                 } else if( search_type.value() == "trap" ) {
-                    if( here.tr_at( search_loc ).id.c_str() == cur_search_target ||
-                        ( !here.tr_at( search_loc ).is_null() &&
+                    const trap &tr = here.tr_at( search_loc );
+                    if( tr.id.c_str() == cur_search_target ||
+                        ( !tr.is_null() &&
                           cur_search_target.empty() ) ) {
                         target_pos = here.getglobal( search_loc );
                         found = true;

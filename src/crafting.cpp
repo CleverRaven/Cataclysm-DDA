@@ -271,18 +271,17 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
             debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
             return 0.0f;
         }
-    } else if( here.furn( *loc ).obj().workbench ) {
+    } else if( const auto &fw = here.furn( *loc ).obj().workbench ) {
         // Furniture workbench
-        const furn_t &f = here.furn( *loc ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        multiplier = fw->multiplier;
+        allowed_mass = fw->allowed_mass;
+        allowed_volume = fw->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = furn_f_ground_crafting_spot.obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        const auto &fg = furn_f_ground_crafting_spot.obj().workbench;
+        multiplier = fg->multiplier;
+        allowed_mass = fg->allowed_mass;
+        allowed_volume = fg->allowed_volume;
     }
 
     const units::mass &craft_mass = craft.weight();

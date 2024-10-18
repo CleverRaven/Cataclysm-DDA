@@ -90,9 +90,10 @@ void add_fallback_zone( npc &guy )
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
         tripoint_bub_ms const t_here = here.bub_from_abs( t );
-        if( here.has_furn( t_here ) &&
-            ( here.furn( t_here )->max_volume > ter_t_floor->max_volume ||
-              here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
+        const furn_id &f = here.furn( t_here );
+        if( f != furn_str_id::NULL_ID() &&
+            ( f->max_volume > ter_t_floor->max_volume ||
+              f->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
             !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
                          guy.get_path_avoid() )
