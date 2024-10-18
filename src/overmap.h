@@ -128,6 +128,15 @@ struct overmap_special_placement {
     const overmap_special *special_details;
 };
 
+// Wrapper around a river node to contain river data.
+// Could be used to determine entry/exit points for boats across overmaps.
+// Could also contain name.
+struct overmap_river_node {
+    const point_om_omt p1; // position, overmap origin node.
+    const point_om_omt p2; // position, overmap exit node.
+    const size_t size; // total omt of this river
+};
+
 // A batch of overmap specials to place.
 class overmap_special_batch
 {
@@ -319,6 +328,12 @@ class overmap
          */
         bool is_omt_generated( const tripoint_om_omt &loc ) const;
 
+        /* Returns true if position is an entry/exit position of a river node. */
+        bool is_river_node( const point_om_omt &p ) const;
+
+        /* Returns the overmap river node if the position is an entry/exit node of river. */
+        const overmap_river_node *get_river_node_at( const point_om_omt &p ) const;
+
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point_abs_omt global_base_point() const;
 
@@ -345,6 +360,7 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
+        std::vector<overmap_river_node> rivers;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
@@ -454,7 +470,7 @@ class overmap
         // code deduplication - calc ocean gradient
         float calculate_ocean_gradient( const point_om_omt &p, point_abs_om this_omt );
         // Overall terrain
-        void place_river( const point_om_omt &pa, const point_om_omt &pb );
+        void place_river( const point_om_omt &pa, const point_om_omt &pb, int river_scale = 1.0 );
         void place_forests();
         void place_lakes();
         void place_oceans();

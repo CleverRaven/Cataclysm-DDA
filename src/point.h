@@ -364,6 +364,10 @@ inline constexpr std::array<point, 4> four_cardinal_directions{{
         point_west, point_east, point_north, point_south
     }};
 
+inline constexpr std::array<point, 4> four_intercardinal_directions{{
+        point_north_east, point_south_east, point_south_west, point_north_west
+    }};
+
 inline constexpr std::array<point, 5> five_cardinal_directions{{
         point_west, point_east, point_north, point_south, point_zero
     }};
