@@ -886,7 +886,7 @@
     "id": "arvore_traverse_the_wilds",
     "type": "SPELL",
     "name": "Traverse the Wilds",
-    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest or a swamp.",
+    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest or a swamp, stepping out of a tree within range of the spell.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "flags": [ "VERBAL", "SOMATIC", "SILENT" ],
