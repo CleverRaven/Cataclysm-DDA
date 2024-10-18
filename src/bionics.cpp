@@ -812,7 +812,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( close_bionics_ui ) {
             *close_bionics_ui = true;
         }
-        avatar_action::fire_ranged_bionic( player_character, bio.get_weapon() );
+        avatar_action::fire_ranged_bionic( bio.get_weapon() );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "tried to activate weapon bionic \"%s\" without fake_weapon",

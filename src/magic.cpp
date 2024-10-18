@@ -867,8 +867,7 @@ std::optional<tripoint_bub_ms> spell::select_target( Creature *source )
         if( source->is_avatar() ) {
             do {
                 avatar &source_avatar = *source->as_avatar();
-                std::vector<tripoint_bub_ms> trajectory = target_handler::mode_spell( source_avatar, *this, true,
-                        true );
+                std::vector<tripoint_bub_ms> trajectory = target_handler::mode_spell( *this, true, true );
                 if( !trajectory.empty() ) {
                     target = trajectory.back();
                     target_is_valid = is_valid_target( source_avatar, target );
