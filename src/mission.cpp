@@ -16,6 +16,7 @@
 #include "colony.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
@@ -59,8 +60,11 @@ mission mission_type::create( const character_id &npc_id ) const
     ret.monster_type = monster_type;
     ret.monster_kill_goal = monster_kill_goal;
 
-    if( deadline_low != 0_turns || deadline_high != 0_turns ) {
-        ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
+    struct dialogue d( get_talker_for( get_player_character() ),
+                       get_talker_for( g->find_npc( npc_id ) ) );
+    time_duration deadline_as_var = deadline.evaluate( d );
+    if( deadline_as_var != 0_turns ) {
+        ret.deadline = calendar::turn + deadline_as_var;
     } else {
         ret.deadline = calendar::turn_zero;
     }
@@ -317,8 +321,10 @@ void mission::assign( avatar &u )
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
-        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
-            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        dialogue d( get_talker_for( u ), get_talker_for( g->find_npc( npc_id ) ) );
+        time_duration deadline_as_var = type->deadline.evaluate( d );
+        if( deadline_as_var != 0_turns ) {
+            deadline = calendar::turn + deadline_as_var;
         } else {
             deadline = calendar::turn_zero;
         }
@@ -786,6 +792,11 @@ const talk_effect_fun_t::likely_rewards_t &mission::get_likely_rewards() const
 bool mission::has_generic_rewards() const
 {
     return type->has_generic_rewards;
+}
+
+void mission::set_deadline( time_point new_deadline )
+{
+    deadline = new_deadline;
 }
 
 void mission::set_target( const tripoint_abs_omt &p )
