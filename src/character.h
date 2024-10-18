@@ -742,11 +742,13 @@ class Character : public Creature, public visitable
         /** Recalculate size class of character **/
         void recalculate_size();
 
-        /** Returns either "you" or the player's name. capitalize_first assumes
-            that the character's name is already upper case and uses it only for
-            possessive "your" and "you"
+        /** Displays character name with a npc_class/profession suffix
         **/
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        /** Returns the player's profession or an NPC's suffix if they have one
+        * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
+        **/
+        std::string disp_profession() const;
         virtual std::string name_and_maybe_activity() const;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
@@ -1116,8 +1118,6 @@ class Character : public Creature, public visitable
         int blocks_left;
 
         double recoil = MAX_RECOIL;
-
-        std::string custom_profession;
 
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
@@ -2709,6 +2709,11 @@ class Character : public Creature, public visitable
         std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
         std::optional<std::string> play_name;
+        // In-game name suffix, either a profession or npc class, variable
+        std::optional<std::string> play_name_suffix;
+        // In-game customized suffix, set by player OR temp professison for NPC
+        std::string custom_profession;
+
         bool male = false;
 
         std::vector<effect_on_condition_id> death_eocs;

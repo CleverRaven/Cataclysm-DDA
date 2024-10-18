@@ -456,7 +456,9 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
     prof = scenario_from->weighted_random_profession();
+    play_name_suffix = prof->gender_appropriate_name( male );
     zero_all_skills();
+
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     starting_city = std::nullopt;
     world_origin = std::nullopt;
