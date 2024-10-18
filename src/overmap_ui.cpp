@@ -1030,8 +1030,8 @@ static void draw_om_sidebar( ui_adaptor &ui,
                         vision_level_string = _( "This is a bug!" );
                         break;
                 }
-                lines = fold_and_print( wbar, point( 3, lines + 1 ), getmaxx( wbar ) - 3, c_light_gray,
-                                        vision_level_string );
+                lines += fold_and_print( wbar, point( 3, lines + 1 ), getmaxx( wbar ) - 3, c_light_gray,
+                                         vision_level_string );
             }
         }
     } else {
