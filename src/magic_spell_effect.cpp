@@ -660,9 +660,22 @@ static void damage_targets( const spell &sp, Creature &caster,
 
 void spell_effect::attack( const spell &sp, Creature &caster, const tripoint_bub_ms &epicenter )
 {
-    damage_targets( sp, caster, spell_effect_area( sp, epicenter, caster ) );
+    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, epicenter, caster );
+    damage_targets( sp, caster, area );
     if( sp.has_flag( spell_flag::SWAP_POS ) ) {
         swap_pos( caster, epicenter );
+    }
+    const double bash_scaling = sp.bash_scaling( caster );
+    if( bash_scaling > 0 ) {
+        ::map &here = get_map();
+        for( const tripoint_bub_ms &potential_target : area ) {
+            if( !sp.is_valid_target( caster, potential_target ) ) {
+                continue;
+            }
+            // the bash already makes noise, so no need for spell::make_sound()
+            here.bash( potential_target, sp.damage( caster ) * bash_scaling,
+                       sp.has_flag( spell_flag::SILENT ) );
+        }
     }
 }
 

@@ -620,6 +620,12 @@
     "upgrades": { "age_grow": 365, "into": "mon_iguanodon" }
   },
   {
+    "id": "mon_eolambia_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_iguanodon_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_eolambia" }
+  },
+  {
     "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_iguanodon_juvenile",

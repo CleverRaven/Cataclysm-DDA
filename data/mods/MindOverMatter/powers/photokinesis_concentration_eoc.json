@@ -422,7 +422,7 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_INVISIBILITY_DRAIN" } ]
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_INVISIBILITY" } ]
   },
   {
     "type": "effect_on_condition",

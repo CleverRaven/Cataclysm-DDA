@@ -482,11 +482,12 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
-                do {
-                    guy->normalize();
-                    guy->randomize();
-                    // Repeat until we get an NPC vulnerable to acid
-                } while( guy->is_immune_field( fd_acid ) );
+                guy->normalize();
+                guy->randomize();
+                guy->remove_worn_items_with( [&]( item & armor ) {
+                    return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
+                } );
+                REQUIRE( !guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( get_map().getglobal( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them

@@ -36,7 +36,7 @@
   {
     "id": "feral_rad_mage_summon_spell",
     "type": "SPELL",
-    "name": "Summon Zombie ",
+    "name": "Summon Zombie",
     "description": "A spell for the feral rad mage to summon a zombie.  It's a bug if you have this.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "WONDER", "NO_PROJECTILE" ],
@@ -76,7 +76,7 @@
   {
     "id": "feral_animist_summon_zombie",
     "type": "SPELL",
-    "name": "Summon Zombie ",
+    "name": "Summon Zombie",
     "description": "A spell for the feral rad mage to summon a normal zombie.  It's a bug if you have this.",
     "valid_targets": [ "ground" ],
     "flags": [ "HOSTILE_SUMMON", "LOUD", "NO_PROJECTILE" ],

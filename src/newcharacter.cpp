@@ -76,12 +76,6 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
-static const std::string type_hair_color( "hair_color" );
-static const std::string type_hair_style( "hair_style" );
-static const std::string type_skin_tone( "skin_tone" );
-static const std::string type_facial_hair( "facial_hair" );
-static const std::string type_eye_color( "eye_color" );
-
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
@@ -92,7 +86,6 @@ static const matype_id style_none( "style_none" );
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
 
-static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -203,7 +196,7 @@ static int stat_point_pool()
 {
     return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
 }
-static int stat_points_used( const avatar &u )
+static int stat_points_used( const Character &u )
 {
     int used = 0;
     for( int stat : {
@@ -218,7 +211,7 @@ static int trait_point_pool()
 {
     return get_option<int>( "INITIAL_TRAIT_POINTS" );
 }
-static int trait_points_used( const avatar &u )
+static int trait_points_used( const Character &u )
 {
     int used = 0;
     for( trait_id cur_trait : u.get_mutations( true ) ) {
@@ -241,7 +234,7 @@ static int skill_point_pool()
 {
     return get_option<int>( "INITIAL_SKILL_POINTS" );
 }
-static int skill_points_used( const avatar &u )
+static int skill_points_used( const Character &u )
 {
     int scenario = get_scenario()->point_cost();
     int profession_points = u.prof->point_cost();
@@ -262,12 +255,12 @@ static int point_pool_total()
 {
     return stat_point_pool() + trait_point_pool() + skill_point_pool();
 }
-static int points_used_total( const avatar &u )
+static int points_used_total( const Character &u )
 {
     return stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
 }
 
-static int has_unspent_points( const avatar &u )
+static int has_unspent_points( const Character &u )
 {
     return points_used_total( u ) < point_pool_total();
 }
@@ -278,7 +271,7 @@ struct multi_pool {
     // The amount of points awailable in a pool minus the points that are borrowed
     // by lower pools plus the points that can be borrowed from higher pools
     const int stat_points_left, trait_points_left, skill_points_left;
-    explicit multi_pool( const avatar &u ):
+    explicit multi_pool( const Character &u ):
         pure_stat_points( stat_point_pool() - stat_points_used( u ) ),
         pure_trait_points( trait_point_pool() - trait_points_used( u ) ),
         pure_skill_points( skill_point_pool() - skill_points_used( u ) ),
@@ -425,11 +418,14 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     }
 }
 
-void avatar::randomize( const bool random_scenario, bool play_now )
+void Character::randomize( const bool random_scenario, bool play_now )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
-    *this = avatar();
+    if( is_avatar() ) {
+        *this->as_avatar() = avatar();
+    }
+
     bool gender_selection = one_in( 2 );
     male = gender_selection;
     outfit = gender_selection;
@@ -458,7 +454,9 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         }
     }
 
-    prof = get_scenario()->weighted_random_profession();
+    const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
+    prof = scenario_from->weighted_random_profession();
+    zero_all_skills();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     starting_city = std::nullopt;
     world_origin = std::nullopt;
@@ -471,6 +469,10 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     set_body();
     randomize_hobbies();
+    const trait_id background = prof->pick_background();
+    if( !background.is_empty() ) {
+        set_mutation( background );
+    }
 
     int num_gtraits = 0;
     int num_btraits = 0;
@@ -598,23 +600,17 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     // Restart cardio accumulator
     reset_cardio_acc();
-}
 
-void avatar::randomize_cosmetics()
-{
-    randomize_cosmetic_trait( type_hair_color );
-    randomize_cosmetic_trait( type_hair_style );
-    randomize_cosmetic_trait( type_skin_tone );
-    randomize_cosmetic_trait( type_eye_color );
-    //arbitrary 50% chance to add beard to male characters
-    if( male && one_in( 2 ) ) {
-        randomize_cosmetic_trait( type_facial_hair );
-    } else {
-        set_mutation( trait_FACIAL_HAIR_NONE );
+    if( is_npc() ) {
+        add_profession_items();
+        as_npc()->randomize_personality();
+        as_npc()->generate_personality_traits();
+        initialize();
+        as_npc()->catchup_skills();
     }
 }
 
-void avatar::add_profession_items()
+void Character::add_profession_items()
 {
     // Our profession should not be a hobby
     if( prof->is_hobby() ) {
@@ -650,13 +646,50 @@ void avatar::add_profession_items()
             inv->push_back( it );
         }
 
-        if( it.is_book() ) {
-            items_identified.insert( it.typeId() );
+        if( it.is_book() && this->is_avatar() ) {
+            as_avatar()->identify( it );
         }
     }
 
     recalc_sight_limits();
     calc_encumbrance();
+}
+
+void Character::randomize_hobbies()
+{
+    hobbies.clear();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    choices.erase( std::remove_if( choices.begin(), choices.end(),
+    [this]( const string_id<profession> &hobby ) {
+        return !prof->allows_hobby( hobby );
+    } ), choices.end() );
+    if( choices.empty() ) {
+        debugmsg( "Why would you blacklist all hobbies?" );
+        choices = profession::get_all_hobbies();
+    };
+
+    int random = rng( 0, 5 );
+
+    if( random >= 1 ) {
+        add_random_hobby( choices );
+    }
+    if( random >= 3 ) {
+        add_random_hobby( choices );
+    }
+    if( random >= 5 ) {
+        add_random_hobby( choices );
+    }
+}
+
+void Character::add_random_hobby( std::vector<profession_id> &choices )
+{
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
+        toggle_trait( cur.trait );
+    }
 }
 
 static int calculate_cumulative_experience( int level )
@@ -2136,14 +2169,7 @@ static struct {
 static std::string assemble_profession_details( const avatar &u, const input_context &ctxt,
         const std::vector<string_id<profession>> &sorted_profs, const int cur_id, const std::string &notes )
 {
-    std::string assembled;
-
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( sorted_profs[cur_id]->src, [](
-    const std::pair<profession_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+    std::string assembled = get_origin( sorted_profs[cur_id]->src ) + "\n";
 
     std::string profession_name = sorted_profs[cur_id]->gender_appropriate_name( u.male );
     if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
@@ -3349,13 +3375,7 @@ static struct {
 static std::string assemble_scenario_details( const avatar &u, const input_context &ctxt,
         const scenario *current_scenario, const std::string &notes )
 {
-    std::string assembled;
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( current_scenario->src,
-    []( const std::pair<string_id<scenario>, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+    std::string assembled = get_origin( current_scenario->src ) + "\n";
 
     std::string scenario_name = current_scenario->gender_appropriate_name( !u.male );
     if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {

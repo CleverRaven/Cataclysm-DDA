@@ -475,11 +475,6 @@
     ]
   },
   {
-    "name": "GROUP_MUTATION_SNAIL",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 85 }, { "monster": "mon_snail_forest", "weight": 15 } ]
-  },
-  {
     "type": "monstergroup",
     "name": "GROUP_NUCLEAR_PLANT_BEASTS",
     "is_animal": true,
