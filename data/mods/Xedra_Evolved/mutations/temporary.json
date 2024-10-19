@@ -71,7 +71,8 @@
           { "gain": "karma_arm_lw_r" },
           { "gain": "karma_arm_lw_l" }
         ]
-      }
+      },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
     ]
   },
   {
@@ -86,7 +87,10 @@
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_DEVIL_TAIL_INITIATE" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -101,7 +105,10 @@
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
+    ]
   },
   {
     "type": "mutation",
