@@ -292,10 +292,12 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
+// NOLINTNEXTLINE(bugprone-suspicious-include)
 #include "cldr/imgui-glyph-ranges.cpp"
 
 static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::string &lang )
 {
+    // NOLINTBEGIN(bugprone-branch-clone)
     if( lang == "en" ) {
         AddGlyphRangesFromCLDRForEN( b );
     } else if( lang == "ar" ) {
@@ -347,6 +349,7 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
     } else if( lang == "zh_TW" ) {
         AddGlyphRangesFromCLDRForZH_HANS( b );
     }
+    // NOLINTEND(bugprone-branch-clone)
 }
 
 #if defined(__clang__) || defined(__GNUC__)
@@ -358,6 +361,7 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
 static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b,
                                 UNUSED const std::string &lang )
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
     b->AddRanges( &superscripts[0] );
 }
@@ -389,10 +393,12 @@ static void check_font( const ImFont *font )
 {
     if( !font || !font->IsLoaded() ) {
         // we can’t use debugmsg or cata_fatal because they trigger a new ImGui frame
+        // NOLINTNEXTLINE(cert-err33-c)
         fprintf( stderr,
-                 "Failed to create font atlas! Make sure that your chosen font "
-                 "exists, can be read, and has glyphs for your chosen "
+                 "Failed to create font atlas!  Make sure that your chosen "
+                 "font exists, can be read, and has glyphs for your chosen "
                  "language.\n" );
+        // NOLINTNEXTLINE(cata-assert)
         std::abort();
     }
 }
