@@ -25,7 +25,7 @@
     "fun": 60,
     "quench": 24,
     "calories": 900,
-    "material": [ "wheat", "flesh", "tomato", "veggy", "egg", "milk", "junk", "fruit", "gold", "silver" ],
+    "material": [ "wheat", "flesh", "tomato", "veggy", "egg", "milk", "junk", "fruit" ],
     "color": "yellow",
     "weight": "950 g",
     "volume": "220 ml",
