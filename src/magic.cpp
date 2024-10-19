@@ -2519,22 +2519,23 @@ class spellcasting_callback : public uilist_callback
 
         void refresh( uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
-            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
-                                        _( "Popup Distractions" );
-            ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[I]", ignore_string.c_str() );
-            const std::string assign_letter = _( "Assign Hotkey [=]" );
-            float w = ImGui::CalcTextSize( assign_letter.c_str() ).x;
-            float x = ImGui::GetContentRegionAvail().x - w;
-            ImGui::SameLine( x, 0 );
-            ImGui::TextColored( c_yellow, "%s", assign_letter.c_str() );
-            ImGui::NewLine();
-            if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
+            ImVec2 info_size = ImGui::GetContentRegionAvail();
+            info_size.y -= ( 1.0 * ImGui::GetTextLineHeightWithSpacing() ) - ImGui::GetFrameHeightWithSpacing();
+            if( ImGui::BeginChild( "spell info", info_size, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
                 if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
                     display_spell_info( menu->hovered );
                 }
             }
             ImGui::EndChild();
+            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
+                                        _( "Popup Distractions" );
+            ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[I]", ignore_string.c_str() );
+            ImGui::SameLine();
+            if( cataimgui::RightAlign( "hotkeys" ) ) {
+                ImGui::TextColored( c_yellow, "%s", _( "Assign Hotkey [=]" ) );
+                cataimgui::EndRightAlign();
+            }
         }
 };
 
@@ -2633,12 +2634,18 @@ void spellcasting_callback::display_spell_info( size_t index )
     cataimgui::set_scroll( spell_info_scroll );
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    // we remove 6 characteres from the width because there seems to be issues with wrapping in this menu (even with TextWrapped)
-    // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as oth er imgui menus
-    float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 16 );
-    cataimgui::draw_colored_text( sp.description(), spell_info_width );
+    std::vector<std::string> lines = string_split( sp.description(), '\n' );
+    for( std::string &l : lines ) {
+        cataimgui::TextColoredParagraph( c_white, l );
+        ImGui::NewLine();
+    }
     ImGui::NewLine();
-    cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ), spell_info_width );
+
+    std::vector<std::string> lines2 = string_split( sp.enumerate_spell_data( pc ), '\n' );
+    for( std::string &l : lines2 ) {
+        cataimgui::TextColoredParagraph( c_white, l );
+        ImGui::NewLine();
+    }
     ImGui::NewLine();
 
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
@@ -2832,21 +2839,19 @@ void spellcasting_callback::display_spell_info( size_t index )
         ImGui::Text( "%s: %s", _( "Duration" ), sp.duration_string( pc ).c_str() );
     }
 
-    // TODO(db48x): rewrite to display via ImGui directly, so that wrapping can be done correctly
-    // TODO(thePotatomancer): once we do rewrite it make sure to pass wrapping info to draw_colored_text or skip it entirely
-    float width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
     if( sp.has_components() ) {
+        ImGui::NewLine();
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
-                cataimgui::draw_colored_text( line );
+                     0, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
+                cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
-                cataimgui::draw_colored_text( line );
+                     0, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
+                cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }
         }
@@ -3066,6 +3071,7 @@ static std::string color_number( const float num )
         return colorize( "0", c_white );
     }
 }
+
 static void draw_spellbook_info( const spell_type &sp )
 {
     const spell fake_spell( sp.id );
@@ -3086,7 +3092,11 @@ static void draw_spellbook_info( const spell_type &sp )
     ImGui::TextColored( c_yellow, "%s", spell_class.c_str() );
 
     ImGui::NewLine();
-    cataimgui::draw_colored_text( sp.description.translated() );
+    std::vector<std::string> lines = string_split( sp.description.translated(), '\n' );
+    for( std::string &l : lines ) {
+        cataimgui::TextColoredParagraph( c_white, l );
+        ImGui::NewLine();
+    }
     ImGui::NewLine();
 
     cataimgui::draw_colored_text( string_format( "%s: %d", _( "Difficulty" ),
@@ -3174,10 +3184,8 @@ float spellbook_callback::desired_extra_space_right( )
 
 void spellbook_callback::refresh( uilist *menu )
 {
-    ImVec2 info_size = { desired_extra_space_right( ),
-                         desired_extra_space_right( ) * 3.0f * 1.62f
-                       };
     ImGui::TableSetColumnIndex( 2 );
+    ImVec2 info_size = ImGui::GetContentRegionAvail();
     if( ImGui::BeginChild( "spellbook info", info_size, false,
                            ImGuiWindowFlags_AlwaysAutoResize ) ) {
         if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
