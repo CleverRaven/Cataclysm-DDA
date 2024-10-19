@@ -156,7 +156,7 @@
     "description": "A cute coyote pup.  Though, on a closer look, something is off about it.",
     "copy-from": "mon_coyote_pup",
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "upgrades": { "age_grow": 68, "into": "mon_coyote_mutant_shark" },
+    "upgrades": { "age_grow": 270, "into": "mon_coyote_mutant_shark" },
     "harvest": "dog_tiny_with_skull_mutant"
   },
   {
@@ -180,7 +180,7 @@
     "description": "A cute coyote pup.  Though, on a closer look, something is off about it.",
     "copy-from": "mon_coyote_pup",
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "upgrades": { "age_grow": 68, "into": "mon_coyote_mutant_venom" },
+    "upgrades": { "age_grow": 270, "into": "mon_coyote_mutant_venom" },
     "harvest": "dog_tiny_with_skull_mutant",
     "extend": { "flags": [ "BADVENOM" ] }
   },
