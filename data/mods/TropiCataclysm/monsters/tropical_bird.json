@@ -36,7 +36,7 @@
     "volume": "600 ml",
     "weight": "450 g",
     "//1": "Sources say day-1 hatchlings weigh around 75% of their egg mass.",
-    "upgrades": { "age_grow": 45, "into": "mon_rhea" },
+    "upgrades": { "age_grow": 180, "into": "mon_rhea" },
     "//2": "6 months to reach adult size."
   },
   {
