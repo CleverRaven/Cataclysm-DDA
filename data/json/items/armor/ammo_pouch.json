@@ -863,7 +863,7 @@
     "id": "xl_tacvest_sling",
     "type": "ARMOR",
     "copy-from": "tacvest_sling",
-    "name": { "str": "tac vest with sling" },
+    "name": { "str": "tac vest with sling", "str_pl": "tac vests with slings" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -871,7 +871,7 @@
     "id": "xs_tacvest_sling",
     "type": "ARMOR",
     "copy-from": "tacvest_sling",
-    "name": { "str": "tac vest with sling" },
+    "name": { "str": "tac vest with sling", "str_pl": "tac vests with slings" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
