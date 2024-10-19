@@ -69,7 +69,7 @@
       { "distribution": [ { "group": "clothing_prisoner_shoes" }, { "group": "cop_shoes" } ] },
       { "distribution": [ { "item": "striped_shirt" }, { "group": "cop_torso" } ] },
       { "distribution": [ { "item": "striped_pants" }, { "group": "cop_pants" } ] },
-      { "distribution": [ { "item": "tacvest" }, { "item": "kevlar" } ], "prob": 15 },
+      { "distribution": [ { "group": "loaded_tacvest" }, { "item": "kevlar" } ], "prob": 15 },
       { "group": "socks_unisex" },
       { "group": "cop_gloves", "prob": 20 },
       { "distribution": [ { "item": "bandana" }, { "group": "cop_helmet" } ], "prob": 50 },

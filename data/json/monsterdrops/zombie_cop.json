@@ -57,12 +57,11 @@
     "entries": [
       {
         "collection": [
-          { "item": "tacvest", "damage": [ 1, 4 ] },
+          { "group": "loaded_tacvest", "damage": [ 1, 4 ] },
           {
             "distribution": [ { "group": "longguns_cop_in_field", "prob": 10 }, { "group": "longguns_cop_in_field_no_gun", "prob": 90 } ],
             "prob": 50
-          },
-          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 90 }
+          }
         ],
         "prob": 30
       },

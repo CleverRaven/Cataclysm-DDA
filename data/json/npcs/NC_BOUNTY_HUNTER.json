@@ -40,7 +40,7 @@
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_vest",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 80 }, { "item": "tacvest", "prob": 40 } ]
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 80 }, { "group": "loaded_tacvest", "prob": 40 } ]
   },
   {
     "type": "item_group",

@@ -253,7 +253,7 @@
       { "item": "pants_army" },
       { "item": "tshirt", "count": 3 },
       { "item": "under_armor" },
-      { "item": "tacvest" },
+      { "group": "loaded_tacvest" },
       { "item": "coat_rain" },
       { "item": "hood_rain" },
       { "item": "long_underpants" },

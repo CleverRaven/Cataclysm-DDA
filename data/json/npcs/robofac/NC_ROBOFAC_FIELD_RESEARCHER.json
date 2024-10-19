@@ -11,8 +11,8 @@
       { "item": "robofac_basic_greaves" },
       { "item": "robofac_basic_vambraces" },
       { "item": "mask_gas", "charges": [ 50, 100 ] },
-      { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 90 },
-      { "item": "tacvest" }
+      { "group": "guns_pistol_milspec", "prob": 90 },
+      { "group": "loaded_tacvest" }
     ]
   }
 ]

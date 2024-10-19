@@ -46,10 +46,9 @@
       { "item": "gloves_tactical", "prob": 60 },
       { "item": "boots_combat" },
       { "group": "clothing_watch" },
-      { "item": "holster" },
       { "item": "legrig" },
       { "item": "legrig", "prob": 30 },
-      { "item": "tacvest" }
+      { "group": "loaded_tacvest" }
     ]
   },
   {
