@@ -1558,11 +1558,22 @@ conditional_t::func f_has_weapon( bool is_npc )
     };
 }
 
+conditional_t::func f_is_controlling_vehicle( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos() ) ) {
+            return actor->is_in_control_of( vp->vehicle() );
+        }
+        return false;
+    };
+}
+
 conditional_t::func f_is_driving( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
-        if( const optional_vpart_position vp = get_map().veh_at( actor->pos() ) ) {
+        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos() ) ) {
             return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -2609,6 +2620,7 @@ parsers_simple = {
     {"u_can_stow_weapon", "npc_can_stow_weapon", &conditional_fun::f_can_stow_weapon },
     {"u_can_drop_weapon", "npc_can_drop_weapon", &conditional_fun::f_can_drop_weapon },
     {"u_has_weapon", "npc_has_weapon", &conditional_fun::f_has_weapon },
+    {"u_controlling_vehicle", "npc_controlling_vehicle", &conditional_fun::f_is_controlling_vehicle },
     {"u_driving", "npc_driving", &conditional_fun::f_is_driving },
     {"u_has_activity", "npc_has_activity", &conditional_fun::f_has_activity },
     {"u_is_riding", "npc_is_riding", &conditional_fun::f_is_riding },
