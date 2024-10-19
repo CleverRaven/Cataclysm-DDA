@@ -13,6 +13,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "output.h"
+#include "system_locale.h"
 #include "ui_manager.h"
 #include "input_context.h"
 
@@ -291,7 +292,78 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
-static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces )
+#include "cldr/imgui-glyph-ranges.cpp"
+
+static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::string &lang )
+{
+    if( lang == "en" ) {
+        AddGlyphRangesFromCLDRForEN( b );
+    } else if( lang == "ar" ) {
+        AddGlyphRangesFromCLDRForAR( b );
+    } else if( lang == "cs" ) {
+        AddGlyphRangesFromCLDRForCS( b );
+    } else if( lang == "da" ) {
+        AddGlyphRangesFromCLDRForDA( b );
+    } else if( lang == "de" ) {
+        AddGlyphRangesFromCLDRForDE( b );
+    } else if( lang == "el" ) {
+        AddGlyphRangesFromCLDRForEL( b );
+    } else if( lang == "es_AR" ) {
+        AddGlyphRangesFromCLDRForES( b );
+    } else if( lang == "es_ES" ) {
+        AddGlyphRangesFromCLDRForES( b );
+    } else if( lang == "fr" ) {
+        AddGlyphRangesFromCLDRForFR( b );
+    } else if( lang == "hu" ) {
+        AddGlyphRangesFromCLDRForHU( b );
+    } else if( lang == "id" ) {
+        AddGlyphRangesFromCLDRForID( b );
+    } else if( lang == "is" ) {
+        AddGlyphRangesFromCLDRForIS( b );
+    } else if( lang == "it_IT" ) {
+        AddGlyphRangesFromCLDRForIT( b );
+    } else if( lang == "ja" ) {
+        AddGlyphRangesFromCLDRForJA( b );
+    } else if( lang == "ko" ) {
+        AddGlyphRangesFromCLDRForKO( b );
+    } else if( lang == "nb" ) {
+        AddGlyphRangesFromCLDRForNB( b );
+    } else if( lang == "nl" ) {
+        AddGlyphRangesFromCLDRForNL( b );
+    } else if( lang == "pl" ) {
+        AddGlyphRangesFromCLDRForPL( b );
+    } else if( lang == "pt_BR" ) {
+        AddGlyphRangesFromCLDRForPT( b );
+    } else if( lang == "ru" ) {
+        AddGlyphRangesFromCLDRForRU( b );
+    } else if( lang == "sr" ) {
+        AddGlyphRangesFromCLDRForSR( b );
+    } else if( lang == "tr" ) {
+        AddGlyphRangesFromCLDRForTR( b );
+    } else if( lang == "uk_UA" ) {
+        AddGlyphRangesFromCLDRForUK_UA( b );
+    } else if( lang == "zh_CN" ) {
+        AddGlyphRangesFromCLDRForZH_HANT( b );
+    } else if( lang == "zh_TW" ) {
+        AddGlyphRangesFromCLDRForZH_HANS( b );
+    }
+}
+
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
+static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b,
+                                UNUSED const std::string &lang )
+{
+    static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
+    b->AddRanges( &superscripts[0] );
+}
+
+static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces,
+                       const ImWchar *ranges )
 {
     std::vector<std::string> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
@@ -309,15 +381,21 @@ static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces )
         config.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint;
     }
 #endif
-    io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, &config,
-                                  io.Fonts->GetGlyphRangesDefault() );
+
+    io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, &config, ranges );
 }
 
-#if defined(__clang__) || defined(__GNUC__)
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
+static void check_font( const ImFont *font )
+{
+    if( !font || !font->IsLoaded() ) {
+        // we can’t use debugmsg or cata_fatal because they trigger a new ImGui frame
+        fprintf( stderr,
+                 "Failed to create font atlas! Make sure that your chosen font "
+                 "exists, can be read, and has glyphs for your chosen "
+                 "language.\n" );
+        std::abort();
+    }
+}
 
 void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
                                     const Font_Ptr &mono_font,
@@ -332,8 +410,19 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
             sdlColorsToCata[rgb] = index;
         }
 
-        load_font( io, gui_typefaces );
-        load_font( io, mono_typefaces );
+        std::string lang = get_option<std::string>( "USE_LANG" );
+        if( lang.empty() ) {
+            lang = SystemLocale::Language().value_or( "en" );
+        }
+        ImFontGlyphRangesBuilder b = {};
+        b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
+        AddGlyphRangesFromCLDR( &b, lang );
+        AddGlyphRangesMisc( &b, lang );
+        ImVector<ImWchar> ranges;
+        b.BuildRanges( &ranges );
+
+        load_font( io, gui_typefaces, ranges.begin() );
+        load_font( io, mono_typefaces, ranges.begin() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
         io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
@@ -341,6 +430,8 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
         io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
         io.Fonts->Build();
+        check_font( io.Fonts->Fonts[0] );
+        check_font( io.Fonts->Fonts[1] );
         ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
