@@ -368,6 +368,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
+
+        /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
          * Used for nicer messages only.
          */

@@ -8663,6 +8663,29 @@ bool item::is_maybe_melee_weapon() const
            my_cat_id == item_category_tools;
 }
 
+bool item::made_of_any_food_components( bool deep_search ) const
+{
+    if( components.empty() || !get_comestible() ) {
+        return false;
+    }
+
+    for( const std::pair<itype_id, std::vector<item>> pair : components ) {
+        for( const item &it : pair.second ) {
+            nutrients &maybe_food = it.get_comestible()->default_nutrition;
+            bool must_be_food = maybe_food.kcal() > 0 || maybe_food.vitamins().empty();
+            bool has_food_component = false;
+            if( deep_search && !it.components.empty() ) {
+                // make true if any component has food values, even if some don't
+                has_food_component |= it.made_of_any_food_components( deep_search );
+            }
+            if( must_be_food || has_food_component ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool item::has_edged_damage() const
 {
     for( const damage_type &dt : damage_type::get_all() ) {
