@@ -1147,7 +1147,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = std::abs( veh.vertical_velocity / 100 ) * m1 / 10;
+        dmg = std::abs( veh.vertical_velocity / 100.0f ) * m1 / 10;
         veh.vertical_velocity = 0;
     }
 

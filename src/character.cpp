@@ -7644,7 +7644,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
 
 int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 {
-    const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
+    const double multiplier = vitamin_rate( vitamin ) * 100 / 1_days;
     return std::lround( ammount * multiplier );
 }
 

@@ -4059,7 +4059,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
-            ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
+            ( ( elapsed + act.moves_total - act.moves_left ) * 1_turns / 100 ) > 5_minutes ) {
             who.add_morale( morale_feeling_good, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {

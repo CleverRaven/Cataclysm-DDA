@@ -1129,7 +1129,7 @@ int outfit::swim_modifier( const int swim_skill ) const
     int ret = 0;
     if( swim_skill < 10 ) {
         for( const item &i : worn ) {
-            ret += i.volume() / 125_ml * ( 10 - swim_skill );
+            ret += i.volume() * ( 10 - swim_skill ) / 125_ml;
         }
     }
     return ret;

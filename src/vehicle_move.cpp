@@ -1086,7 +1086,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 if( vpi.has_flag( "SHARP" ) ) {
                     vp.blood += 100 + 5 * dam;
                 } else if( dam > rng( 10, 30 ) ) {
-                    vp.blood += 50 + dam / 2 * 5;
+                    vp.blood += 50 + dam * 5 / 2;
                 }
 
                 check_environmental_effects = true;
