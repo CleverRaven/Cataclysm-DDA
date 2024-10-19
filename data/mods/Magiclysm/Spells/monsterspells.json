@@ -156,7 +156,7 @@
     "id": "mon_demon_fireball",
     "name": "Demon Fireball",
     "description": "This is a monster only spell.",
-    "flags": [ "IGNITE_FLAMMABLE" ],
+    "flags": [ "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
     "min_damage": 15,
     "max_damage": 15,
@@ -203,7 +203,7 @@
     "range_increment": 0.1,
     "effect": "attack",
     "shape": "line",
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "id": "shambling_aoe",
@@ -213,7 +213,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE", "SPLIT_DAMAGE" ],
     "max_level": 0,
     "min_damage": 15,
     "max_damage": 70,
@@ -326,5 +326,122 @@
     "max_duration": 12000,
     "base_casting_time": 200,
     "flags": [ "NO_EXPLOSION_SFX", "RANDOM_DURATION" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "ankheg_acid_spit",
+    "name": { "str": "Ankheg Acid Spit" },
+    "description": "Spews a line of acid from your mouth.",
+    "valid_targets": [ "hostile" ],
+    "damage_type": "acid",
+    "max_level": 40,
+    "min_damage": 10,
+    "max_damage": 20,
+    "min_range": 8,
+    "max_range": 12,
+    "range_increment": 0.1,
+    "effect": "attack",
+    "extra_effects": [ { "id": "ankheg_acid_spit_self", "hit_self": true } ],
+    "shape": "line",
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_chance": 2,
+    "field_intensity_increment": 0.1,
+    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "ankheg_acid_spit_self",
+    "name": { "str": "Ankheg Acid Spit Self" },
+    "description": "Maims the ankheg's acid gland after spitting acid.",
+    "flags": [ "RANDOM_DURATION", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "maimed_acid_gland",
+    "shape": "blast",
+    "min_duration": 720000,
+    "max_duration": 2160000
+  },
+  {
+    "type": "SPELL",
+    "id": "catoblepas_gaze_spell",
+    "name": { "str": "catoblepas gaze" },
+    "description": "Does a big thwack of damage if the target can see the catoblepas",
+    "valid_targets": [ "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CATOBLEPAS_GAZE",
+    "shape": "blast",
+    "message": "",
+    "max_level": 20,
+    "min_range": 15,
+    "max_range": 15,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CATOBLEPAS_GAZE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "BLIND" } },
+        { "not": { "u_has_effect": "BLIND" } },
+        { "not": { "u_has_worn_with_flag": "BLIND" } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CATOBLEPAS_GAZE_2",
+            "condition": "u_is_character",
+            "effect": [
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "head",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'head') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "torso",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'torso') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "arm_l",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'arm_l') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "arm_r",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'arm_r') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "leg_l",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'leg_l') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "leg_r",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'leg_r') + 1" ] }
+              }
+            ],
+            "false_effect": [
+              {
+                "u_add_effect": "effect_catoblepas_gaze_monster",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze_monster') + 1" ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

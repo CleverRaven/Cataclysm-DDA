@@ -15,7 +15,8 @@
         "type": "neutral",
         "popup": true
       },
-      { "math": [ "u_vitri_glass_entered", "=", "1" ] }
+      { "math": [ "u_vitri_glass_entered", "=", "1" ] },
+      { "math": [ "u_back_from_vitri_glass", "=", "0" ] }
     ]
   },
   {
@@ -60,7 +61,7 @@
             { "math": [ "u_glass_health_arm_r", "=", "u_hp('arm_r')" ] },
             { "math": [ "u_glass_health_leg_l", "=", "u_hp('leg_l')" ] },
             { "math": [ "u_glass_health_leg_r", "=", "u_hp('leg_r')" ] },
-            { "math": [ "u_glass_fatigue", "=", "u_val('fatigue')" ] }
+            { "math": [ "u_glass_sleepiness", "=", "u_val('sleepiness')" ] }
           ]
         },
         {
@@ -364,7 +365,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_queue_unvitrified_return",
-    "effect": { "queue_eocs": "EOC_unvitrified_return", "time_in_future": "1 seconds" }
+    "condition": { "math": [ "u_back_from_vitri_glass", "<", "1" ] },
+    "effect": [
+      { "queue_eocs": "EOC_unvitrified_return", "time_in_future": "1 seconds" },
+      { "math": [ "u_back_from_vitri_glass", "=", "1" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -383,7 +388,7 @@
       { "math": [ "u_hp('arm_r')", "=", "u_glass_health_arm_r" ] },
       { "math": [ "u_hp('leg_l')", "=", "u_glass_health_leg_l" ] },
       { "math": [ "u_hp('leg_r')", "=", "u_glass_health_leg_r" ] },
-      { "math": [ "u_val('fatigue')", "=", "u_glass_fatigue" ] },
+      { "math": [ "u_val('sleepiness')", "=", "u_glass_sleepiness" ] },
       { "u_lose_morale": "morale_vitri_placid" },
       {
         "u_message": "You suck in a deep, ragged draught of air that burns in your chest.  Have you been holding your breath?  You must have been.  All you can hear for a moment is your heart hammering in your ears.  It takes a while to settle down.",

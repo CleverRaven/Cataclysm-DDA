@@ -120,7 +120,8 @@
       { "item": "artifact_bubble", "prob": 50 },
       { "item": "artifact_ophanim", "prob": 50 },
       { "item": "artifact_winch", "prob": 50 },
-      { "item": "artifact_devil_tail", "prob": 50 }
+      { "item": "artifact_devil_tail", "prob": 50 },
+      { "item": "artifact_ethereal_wings", "prob": 50 }
     ]
   },
   {

@@ -154,9 +154,9 @@
       },
       "item": {
         "?": { "item": "bottle_glass", "chance": 70, "repeat": 6 },
-        "^": [ { "item": "bucket", "chance": 100 }, { "item": "mop", "chance": 100 } ],
+        "^": [ { "item": "bucket_5gal", "chance": 100 }, { "item": "mop", "chance": 100 } ],
         "A": { "item": "wheel_wood", "chance": 100 },
-        "C": { "item": "bucket", "chance": 100 },
+        "C": { "item": "bucket_5gal", "chance": 100 },
         "j": { "item": "jerrycan", "chance": 100 },
         "h": { "item": "2x4", "chance": 100, "repeat": 2 },
         "o": { "item": "straw_pile", "chance": 100, "repeat": [ 5, 10 ] },

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "stunning_qr_trap",
+    "type": "TOOL",
+    "name": "stunning QR trap",
+    "category": "traps",
+    "properties": { "capture_species": "ROBOT" },
+    "description": "A jagged and eldritch looking QR code ready to be placed wherever you are concerned about mechanical eyes.  Will trap robots if they wander into it.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "longest_side": "5 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "plastic",
+    "symbol": "*",
+    "color": "light_gray",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": { "type": "place_trap", "trap": "tr_robot_snare", "moves": 150, "practice": 2, "done_message": "You set the QR code." }
+  },
+  {
+    "id": "stunning_arg_trap",
+    "type": "TOOL",
+    "name": "stunning arg trap",
+    "category": "traps",
+    "properties": { "capture_species": "CYBORG" },
+    "description": "A jagged and eldritch looking QR code ready to be placed wherever you are concerned about mechanical eyes.  Will trap cyborgs if they wander into it.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "longest_side": "5 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "plastic",
+    "symbol": "*",
+    "color": "light_gray",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": { "type": "place_trap", "trap": "tr_cyborg_snare", "moves": 150, "practice": 2, "done_message": "You set the QR code." }
+  }
+]

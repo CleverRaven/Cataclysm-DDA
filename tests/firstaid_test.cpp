@@ -21,8 +21,8 @@ static const skill_id skill_firstaid( "firstaid" );
 static void process_activity_interrupt( Character &guy, const int interrupt_time )
 {
     do {
-        guy.moves += guy.get_speed();
-        while( guy.moves > 0 && guy.has_activity( ACT_FIRSTAID ) ) {
+        guy.mod_moves( guy.get_speed() );
+        while( guy.get_moves() > 0 && guy.has_activity( ACT_FIRSTAID ) ) {
             guy.activity.do_turn( guy );
             if( guy.activity.moves_total - guy.activity.moves_left >= interrupt_time ) {
                 // Assume the player confirms the option to cancel the activity when getting interrupted,
@@ -44,7 +44,7 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( point_east, "test_talker" );
+    npc &dunsel = spawn_npc( point_bub_ms( point_east ), "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
     dunsel.pos() = dummy.pos() + point_east;
     dummy.set_skill_level( skill_firstaid, 10 );
@@ -99,7 +99,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( point_east, "test_talker" );
+    npc &dunsel = spawn_npc( point_bub_ms( point_east ), "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
     dunsel.pos() = dummy.pos() + point_east;
     dunsel.set_skill_level( skill_firstaid, 10 );

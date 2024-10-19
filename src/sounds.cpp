@@ -12,7 +12,6 @@
 #include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "character.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -315,6 +314,12 @@ void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
     sound( p, vol, category, description, true );
 }
 
+void sounds::ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                            const std::string &description )
+{
+    sounds::ambient_sound( p.raw(), vol, category, description );
+}
+
 void sounds::sound( const tripoint &p, int vol, sound_t category, const std::string &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
@@ -484,9 +489,8 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = get_map().getabs( source.xy() );
-            // TODO: fix point types
-            const point_abs_sm abs_sm( ms_to_sm_copy( abs_ms ) );
+            const point_abs_ms abs_ms = get_map().getglobal( source ).xy();
+            const point_abs_sm abs_sm( coords::project_to<coords::sm>( abs_ms ) );
             const tripoint_abs_sm target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
@@ -501,13 +505,13 @@ void sounds::process_sounds()
         }
         // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
-            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
-                const int dist = sound_distance( source, tp );
+            for( const tripoint_bub_ms &tp : get_map().trap_locations( trapType->id ) ) {
+                const int dist = sound_distance( source, tp.raw() );
                 const trap &tr = get_map().tr_at( tp );
                 // Exclude traps that certainly won't hear the sound
                 if( vol * 2 > dist ) {
                     if( tr.triggered_by_sound( vol, dist ) ) {
-                        tr.trigger( tp );
+                        tr.trigger( tp.raw() );
                     }
                 }
             }
@@ -576,9 +580,9 @@ void sounds::process_sound_markers( Character *you )
         // copy values instead of making references here to fix use-after-free error
         // sounds_since_last_turn may be inserted with new elements inside the loop
         // so the references may become invalid after the vector enlarged its internal buffer
-        const tripoint pos = sounds_since_last_turn[i].first;
+        const tripoint_bub_ms pos = tripoint_bub_ms( sounds_since_last_turn[i].first );
         const sound_event sound = sounds_since_last_turn[i].second;
-        const int distance_to_sound = sound_distance( you->pos(), pos );
+        const int distance_to_sound = sound_distance( you->pos_bub().raw(), pos.raw() );
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -620,7 +624,7 @@ void sounds::process_sound_markers( Character *you )
         const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
                                  volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0 && pos != you->pos() ) {
+        if( heard_volume <= 0 && pos != you->pos_bub() ) {
             continue;
         }
 
@@ -631,7 +635,7 @@ void sounds::process_sound_markers( Character *you )
 
         // Noises from vehicle player is in.
         if( you->controlling_vehicle ) {
-            vehicle *veh = veh_pointer_or_null( get_map().veh_at( you->pos() ) );
+            vehicle *veh = veh_pointer_or_null( get_map().veh_at( you->pos_bub() ) );
             const int noise = veh ? static_cast<int>( veh->vehicle_noise ) : 0;
 
             you->volume = std::max( you->volume, noise );
@@ -649,7 +653,7 @@ void sounds::process_sound_markers( Character *you )
                 !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
-                add_msg( m_warning, _( "Something is making noise." ) );
+                you->add_msg_if_player( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;
             }
@@ -658,7 +662,7 @@ void sounds::process_sound_markers( Character *you )
         if( you->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( you );
-                guy->handle_sound( sound.category, description, heard_volume, pos );
+                guy->handle_sound( sound.category, description, heard_volume, pos.raw() );
             }
             continue;
         }
@@ -668,7 +672,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // don't print our own noise or things without descriptions
-        if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
+        if( !sound.ambient && ( pos != you->pos_bub() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
             if( uistate.distraction_noise &&
                 !you->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
@@ -679,7 +683,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // skip some sounds to avoid message spam
-        const bool from_player = pos == you->pos() || ( sound.category == sound_t::movement &&
+        const bool from_player = pos == you->pos_bub() || ( sound.category == sound_t::movement &&
                                  distance_to_sound <= 1 );
         if( describe_sound( sound.category, from_player ) ) {
             game_message_type severity = m_info;
@@ -687,12 +691,12 @@ void sounds::process_sound_markers( Character *you )
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
-            if( pos == you->pos() ) {
+            if( pos == you->pos_bub() ) {
                 add_msg( severity, _( "From your position you hear %1$s" ), description );
             } else if( you->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
-                std::string direction = direction_name( direction_from( you->pos(), pos ) );
+                std::string direction = direction_name( direction_from( you->pos_bub(), pos ) );
                 add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
             }
         }
@@ -728,7 +732,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // Place footstep markers.
-        if( pos == you->pos() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
+        if( pos == you->pos_bub() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
             // If we are or can see the source, don't draw a marker, except for sonar etc
             continue;
         }
@@ -760,15 +764,15 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // If Z-coordinate is different, draw even when you can see the source
-        const bool diff_z = pos.z != you->posz();
+        const bool diff_z = pos.z() != you->posz();
 
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         // Also show sensory sounds like SONAR even if we can see the point.
         std::vector<tripoint> unseen_points;
-        for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
+        for( const tripoint_bub_ms &newp : get_map().points_in_radius( pos, err_offset ) ) {
             if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
-                unseen_points.emplace_back( newp );
+                unseen_points.emplace_back( newp.raw() );
             }
         }
 
@@ -912,7 +916,7 @@ void sfx::do_vehicle_engine_sfx()
     } else if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
-    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos() );
+    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos_bub() );
     vehicle *veh;
     if( vpart_opt.has_value() ) {
         veh = &vpart_opt->vehicle();
@@ -1627,7 +1631,7 @@ void sfx::do_danger_music()
     prev_hostiles = hostiles;
 }
 
-void sfx::do_fatigue()
+void sfx::do_low_stamina_sfx()
 {
     if( test_mode ) {
         return;
@@ -1642,47 +1646,47 @@ void sfx::do_fatigue()
     16: Stamina 50%
     17: Stamina 25%*/
     if( player_character.get_stamina() >= player_character.get_stamina_max() * .75 ) {
-        fade_audio_group( group::fatigue, 2000 );
+        fade_audio_group( group::low_stamina, 2000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
-        fade_audio_group( group::fatigue, 1000 );
+        fade_audio_group( group::low_stamina, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", seas_str, indoors,
                                     night, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
-        fade_audio_group( group::fatigue, 1000 );
+        fade_audio_group( group::low_stamina, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", seas_str, indoors,
                                     night, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
-        fade_audio_group( group::fatigue, 1000 );
+        fade_audio_group( group::low_stamina, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", seas_str, indoors,
                                     night, 100, channel::stamina_35, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                !player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
-        fade_audio_group( group::fatigue, 1000 );
+        fade_audio_group( group::low_stamina, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", seas_str, indoors,
                                     night, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                !player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
-        fade_audio_group( group::fatigue, 1000 );
+        fade_audio_group( group::low_stamina, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", seas_str, indoors,
                                     night, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && !player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
-        fade_audio_group( group::fatigue, 1000 );
+        fade_audio_group( group::low_stamina, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", seas_str, indoors,
                                     night, 100, channel::stamina_35, 1000 );
         return;
@@ -1741,8 +1745,8 @@ void sfx::do_footstep()
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         const Character &player_character = get_player_character();
-        int heard_volume = sfx::get_heard_volume( player_character.pos() );
-        const auto terrain = get_map().ter( player_character.pos() ).id();
+        int heard_volume = sfx::get_heard_volume( player_character.pos_bub() );
+        const auto terrain = get_map().ter( player_character.pos_bub() ).id();
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
             ter_t_shrub,
@@ -1834,7 +1838,7 @@ void sfx::do_footstep()
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
-        auto veh_displayed_part = get_map().veh_at( player_character.pos() ).part_displayed();
+        auto veh_displayed_part = get_map().veh_at( player_character.pos_bub() ).part_displayed();
 
         const season_type seas = season_of_year( calendar::turn );
         const std::string seas_str = season_str( seas );
@@ -2031,7 +2035,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
 void sfx::stop_sound_effect_fade( channel, int ) { }
 void sfx::stop_sound_effect_timed( channel, int ) { }
 void sfx::do_player_death_hurt( const Character &, bool ) { }
-void sfx::do_fatigue() { }
+void sfx::do_low_stamina_sfx() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
                               const std::optional<bool> &, const std::optional<bool> &, int ) { }
@@ -2053,6 +2057,11 @@ int sfx::get_heard_volume( const tripoint &source )
     }
     heard_volume *= g_sfx_volume_multiplier;
     return heard_volume;
+}
+
+int sfx::get_heard_volume( const tripoint_bub_ms &source )
+{
+    return sfx::get_heard_volume( source.raw() );
 }
 
 units::angle sfx::get_heard_angle( const tripoint &source )

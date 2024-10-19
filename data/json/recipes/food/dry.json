@@ -316,6 +316,68 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "kombu",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "kelp_sugar", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "kombu",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "22 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 7, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "kelp_sugar", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_seaweed",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "seaweed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_seaweed",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 5, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "seaweed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -693,7 +755,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 55, "LIST" ] ] ],
     "//": "by weight of unfertilized bird egg 550g of stuff",
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_invert", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "eggs_reptile", 12, "LIST" ], [ "eggs_invert", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -710,7 +772,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 55, "LIST" ] ], [ [ "surface_heat", 36, "LIST" ] ] ],
     "//": "by weight of unfertilized bird egg 550g of stuff plus 36u heat for the eggs (standard is 3 per egg)",
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_invert", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "eggs_reptile", 12, "LIST" ], [ "eggs_invert", 1, "LIST" ] ] ]
   },
   {
     "result": "protein_powder",
@@ -726,7 +788,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ], [ "dry_poultry", 2 ] ] ]
   },
   {
     "result": "protein_powder",
@@ -743,7 +805,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ], [ "dry_poultry", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -810,5 +872,37 @@
     "tools": [ [ [ "dehydrating_heat", 3, "LIST" ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
     "//": "30 g acorns",
     "components": [ [ [ "acorns_blanched", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_poultry",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "delete_flags": [ "BAD_TASTE" ],
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "12 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 10, "LIST" ] ] ],
+    "//": "100g of stuff",
+    "components": [ [ [ "poultry_raw_any", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_poultry",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 10, "LIST" ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "//": "100g of stuff, 6.6u to cook it",
+    "components": [ [ [ "poultry_raw_any", 1, "LIST" ] ] ]
   }
 ]

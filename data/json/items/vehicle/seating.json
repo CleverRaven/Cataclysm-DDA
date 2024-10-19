@@ -11,8 +11,8 @@
     "material": [ "nylon", "steel" ],
     "volume": "7500 ml",
     "category": "veh_parts",
-    "price": 35000,
-    "price_postapoc": 100,
+    "price": "350 USD",
+    "price_postapoc": "1 USD",
     "melee_damage": { "bash": 4 }
   },
   {
@@ -22,8 +22,8 @@
     "name": { "str": "leather bucket seat" },
     "description": "A soft car seat covered with leather.",
     "material": [ "leather", "nylon", "steel" ],
-    "price": 60000,
-    "price_postapoc": 250
+    "price": "600 USD",
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "type": "GENERIC",
@@ -37,8 +37,8 @@
     "material": [ "nylon", "steel" ],
     "volume": "7500 ml",
     "category": "veh_parts",
-    "price": 35000,
-    "price_postapoc": 100,
+    "price": "350 USD",
+    "price_postapoc": "1 USD",
     "melee_damage": { "bash": 4 }
   },
   {
@@ -48,8 +48,8 @@
     "name": { "str": "leather bench seat" },
     "description": "A wide, flat seat like you'd find in the back of a sedan, upholstered with leather.",
     "material": [ "leather", "nylon", "steel" ],
-    "price": 60000,
-    "price_postapoc": 250
+    "price": "600 USD",
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "type": "GENERIC",
@@ -59,8 +59,8 @@
     "weight": "300 g",
     "material": [ "plastic", "aluminum" ],
     "volume": "1250 ml",
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "2 USD 50 cent",
     "copy-from": "seat",
     "melee_damage": { "bash": 2 }
   }

@@ -303,7 +303,6 @@ class math_exp::math_exp_impl
                 },
                 [&d, val]( var const & v ) {
                     write_var_value( v.varinfo.type, v.varinfo.name,
-                                     d.actor( v.varinfo.type == var_type::npc ),
                                      &d, val );
                 },
                 []( auto &/* v */ ) {

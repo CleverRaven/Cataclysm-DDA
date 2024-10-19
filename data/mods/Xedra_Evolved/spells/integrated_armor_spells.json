@@ -17,7 +17,7 @@
     "type": "enchantment",
     "id": "coal_skin_enchantment",
     "name": { "str": "Salamander" },
-    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you,.",
+    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you.",
     "condition": "ALWAYS",
     "values": [
       { "value": "ARMOR_HEAT", "multiply": -0.2 },
@@ -50,7 +50,7 @@
     "type": "enchantment",
     "id": "flame_skin_enchantment",
     "name": { "str": "Salamonstrous" },
-    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you,.",
+    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you.",
     "condition": "ALWAYS",
     "values": [
       { "value": "ARMOR_HEAT", "multiply": -0.5 },

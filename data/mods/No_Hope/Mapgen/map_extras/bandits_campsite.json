@@ -1,0 +1,53 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "bandits_campsite",
+    "//": "TODO: Add more variations",
+    "object": { "place_nested": [ { "chunks": [ "bandits_campsite" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bandits_campsite",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "       .........        ",
+        "       .........        ",
+        "       ..V......        ",
+        "       .........        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              @         ",
+        "         @              ",
+        " ....         r    .... ",
+        " ....              .... ",
+        " ....              .... ",
+        " ..v.    l     l   ..v. ",
+        " .... @  l  F  l   .... ",
+        " ....    l     l   .... ",
+        "                        ",
+        "        r   @   r       ",
+        "                        ",
+        "       .........        ",
+        "       .........        ",
+        "       ..V......        ",
+        "       .........        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_dirt", "@": "t_dirt", "l": "t_trunk", "v": "t_dirt", "V": "t_dirt" },
+      "mapping": { "F": { "terrain": "t_dirt", "furniture": "f_brazier", "fields": { "field": "fd_fire" }, "item": { "item": "log" } } },
+      "traps": { "r": "tr_rollmat" },
+      "npcs": { "@": { "class": "bandit" } },
+      "vehicles": {
+        "v": { "vehicle": "bandit_vehicles", "chance": 100, "fuel": 50, "status": -1, "rotation": 90 },
+        "V": { "vehicle": "bandit_vehicles", "chance": 100, "fuel": 50, "status": -1, "rotation": 180 }
+      }
+    }
+  }
+]

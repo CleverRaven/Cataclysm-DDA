@@ -183,5 +183,21 @@
       { "value": "REGEN_MANA", "multiply": { "math": [ "rand(10) * 0.01" ] } },
       { "value": "REGEN_STAMINA", "multiply": { "math": [ "rand(10) * 0.01" ] } }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_technomancer_far_sight_lens",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "name": { "str": "Enhanced Vision" },
+    "description": "Looking through your enchanted lens allows you to see farther than ever.",
+    "values": [
+      {
+        "value": "OVERMAP_SIGHT",
+        "add": {
+          "math": [ "(5 + (0.5 * u_spell_level('technomancer_far_sight')) + (1 * u_spell_level('technomancer_far_sight_plus')))" ]
+        }
+      }
+    ]
   }
 ]

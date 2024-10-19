@@ -38,6 +38,8 @@ std::string enum_to_string<condition_type>( condition_type data )
     switch( data ) {
         case condition_type::FLAG:
             return "FLAG";
+        case condition_type::VITAMIN:
+            return "VITAMIN";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
         case condition_type::COMPONENT_ID_SUBSTRING:
@@ -196,7 +198,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos ) 
         return 0;
     }
     if( use_methods.find( "transform" ) != use_methods.end() ) {
-        return  invoke( p, it, pos, "transform" );
+        return invoke( p, it, pos, "transform" );
     } else {
         return invoke( p, it, pos, use_methods.begin()->first );
     }

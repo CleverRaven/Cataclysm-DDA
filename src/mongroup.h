@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "io_tags.h"
 #include "mapgen.h"
@@ -136,7 +136,8 @@ struct mongroup {
               unsigned int ppop )
         : type( ptype )
         , abs_pos( ppos )
-        , population( ppop ) {
+        , population( ppop )
+        , target( abs_pos.xy() ) {
     }
     mongroup( const std::string &ptype, const tripoint_abs_sm &ppos,
               unsigned int ppop, point_abs_sm ptarget, int pint, bool pdie, bool phorde ) :
@@ -222,6 +223,9 @@ class MonsterGroupManager
         static bool monster_is_blacklisted( const mtype_id &m );
 
         static bool is_animal( const mongroup_id &group );
+
+        // Public getter for private monsterGroupMap, do not use if you don't know what you're doing.
+        static std::map<mongroup_id, MonsterGroup> &Get_all_Groups();
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

@@ -327,6 +327,57 @@
     "ammo_type": "components"
   },
   {
+    "id": "warp_wood_floor_tokens",
+    "type": "AMMO",
+    "category": "other",
+    "name": { "str_sp": "wood-floor tokens" },
+    "description": "A group of small squares of wood, smooth and polished.  You can use them to transform a section of flooring into interlocking wooden planks.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 50,
+    "stack_size": 50,
+    "looks_like": "seed_wild_herbs",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "veggy" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "id": "warp_flagstone_floor_tokens",
+    "type": "AMMO",
+    "category": "other",
+    "name": { "str_sp": "flagstone tokens" },
+    "description": "A group of small stone stones, rough to the touch.  You can use them to transform a section of flooring into mortared flagstones.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 50,
+    "stack_size": 50,
+    "looks_like": "seed_wild_herbs",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "veggy" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "id": "warp_sand_floor_tokens",
+    "type": "AMMO",
+    "category": "other",
+    "name": { "str_sp": "sand tokens" },
+    "description": "A group of small yellow stones, gritty to the touch yet seemingly nothing ever rubs off.  You can use them to transform a section of flooring into fine sand.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 50,
+    "stack_size": 50,
+    "looks_like": "seed_wild_herbs",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "veggy" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
     "id": "warp_vortex_token",
     "type": "AMMO",
     "category": "other",
@@ -363,6 +414,28 @@
       "type": "effect_on_conditions",
       "description": "Return to the sky.",
       "effect_on_conditions": [ "EOC_WARPED_ENEMY_CHECK_RETURN" ]
+    }
+  },
+  {
+    "id": "warp_waterwalking_stone",
+    "type": "AMMO",
+    "category": "other",
+    "name": { "str_sp": "flotation stone" },
+    "description": "This smooth, whorled stone seems cool and wet to the touch, but when you take your hand off it your skin is perfectly dry.  If you activate it, you will be able to walk on the surface of water for three minutes.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 1,
+    "stack_size": 100,
+    "looks_like": "spiral_stone",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "alien_resin" ],
+    "symbol": ".",
+    "color": "cyan",
+    "ammo_type": "components",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Cross the waters.",
+      "effect_on_conditions": [ "EOC_WARPED_WATERWALKING" ]
     }
   },
   {

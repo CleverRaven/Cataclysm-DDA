@@ -14,7 +14,7 @@
     "copy-from": "generic_city_building",
     "name": "house",
     "color": "light_green",
-    "see_cost": 2,
+    "see_cost": "high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 80 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
@@ -126,6 +126,9 @@
       "house_40",
       "house_41",
       "house_42",
+      "house_43",
+      "house_43_first_floor",
+      "house_43_second_floor",
       "house_crack1",
       "house_crack2",
       "house_crack3",
@@ -222,7 +225,7 @@
       "urban_22_2_roof"
     ],
     "copy-from": "generic_city_house",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -249,7 +252,7 @@
     ],
     "copy-from": "generic_city_house",
     "sym": "v",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -295,7 +298,7 @@
       "urban_18_10"
     ],
     "copy-from": "generic_city_house_no_sidewalk",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -335,7 +338,7 @@
     ],
     "copy-from": "generic_city_house_no_sidewalk",
     "sym": "v",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -355,7 +358,7 @@
     "name": "dense urban",
     "sym": "v",
     "color": "i_white",
-    "see_cost": 40
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -433,6 +436,7 @@
       "house_40_roof",
       "house_41_roof",
       "house_42_roof",
+      "house_43_roof",
       "house_crack1_roof",
       "house_crack3_roof",
       "house_detatched10_roof",
@@ -596,7 +600,8 @@
     "name": "apartment tower",
     "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
+    "vision_levels": "large_city_building",
+    "see_cost": "full_high",
     "mondensity": 2,
     "extras": "build",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
@@ -605,10 +610,11 @@
   {
     "type": "overmap_terrain",
     "abstract": "apartments_tower_roof_any",
+    "vision_levels": "roof_or_air",
     "name": "apartment tower roof",
     "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2,
     "extras": "build"
   },
@@ -652,10 +658,12 @@
       "apartments_con_tower_104",
       "apartments_con_tower_114",
       "apartments_con_tower_015",
+      "apartments_con_tower_115",
       "apartments_mod_tower_003",
       "apartments_mod_tower_013",
       "apartments_mod_tower_103",
       "apartments_mod_tower_113",
+      "apartments_mod_tower_shack_roof",
       "s_apt_roof",
       "s_apt_2_upper_roof",
       "s_apt_2_roof",
@@ -742,6 +750,7 @@
     "type": "overmap_terrain",
     "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "blends_till_outlines",
     "name": "homeless camp",
     "sym": "H",
     "color": "green"
@@ -768,30 +777,11 @@
     "id": "derelict_property_roof",
     "type": "overmap_terrain",
     "name": "derelict property roof",
+    "vision_levels": "roof_or_air",
     "sym": ".",
     "color": "i_brown",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bunker_shop_g",
-    "name": "derelict property",
-    "sym": "X",
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bunker_shop_b",
-    "name": "scavenger bunker",
-    "sym": "B",
-    "color": "light_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

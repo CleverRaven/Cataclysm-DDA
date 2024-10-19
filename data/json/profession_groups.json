@@ -2,6 +2,7 @@
   {
     "type": "profession_group",
     "id": "adult_basic_background",
+    "//": "Default selection when creating new characters. Also applied to randomized NPCs. Hardcoded reference in Character::add_default_background()",
     "professions": [
       "driving_license",
       "simple_home_cooking",

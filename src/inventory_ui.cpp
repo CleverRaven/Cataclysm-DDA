@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -13,6 +14,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "input.h"
 #include "item.h"
@@ -40,6 +42,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -366,6 +369,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
+    json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
@@ -381,6 +385,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+    json.member( "overmap_fast_travel", overmap_fast_travel );
+    json.member( "overmap_fast_scroll", overmap_fast_scroll );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -395,6 +401,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_temperature", distraction_temperature );
     json.member( "distraction_mutation", distraction_mutation );
     json.member( "distraction_oxygen", distraction_oxygen );
+    json.member( "distraction_withdrawal", distraction_withdrawal );
     json.member( "numpad_navigation", numpad_navigation );
 
     json.member( "input_history" );
@@ -453,6 +460,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+    jo.read( "overmap_fast_travel", overmap_fast_travel );
+    jo.read( "overmap_fast_scroll", overmap_fast_scroll );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
@@ -467,6 +476,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_temperature", distraction_temperature );
     jo.read( "distraction_mutation", distraction_mutation );
     jo.read( "distraction_oxygen", distraction_oxygen );
+    jo.read( "distraction_withdrawal", distraction_withdrawal );
     jo.read( "numpad_navigation", numpad_navigation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
@@ -476,6 +486,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
 
     jo.read( "list_item_sort", list_item_sort );
+    jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
@@ -865,7 +876,7 @@ std::string inventory_holster_preset::get_denial( const item_location &it ) cons
     item_copy.charges = 1;
     item_location parent = it.has_parent() ? it.parent_item() : item_location();
 
-    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, parent );
+    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, false, parent );
     if( !ret.success() ) {
         return !ret.str().empty() ? ret.str() : "item can't be stored there";
     }
@@ -2093,6 +2104,13 @@ void inventory_selector::add_character_items( Character &character )
     }
 }
 
+void inventory_selector::add_character_ebooks( Character &character )
+{
+    for( item_location &ereader : character.all_items_loc() ) {
+        add_contained_ebooks( ereader );
+    }
+}
+
 void inventory_selector::add_map_items( const tripoint &target )
 {
     map &here = get_map();
@@ -2101,7 +2119,7 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), translation(), 100 );
         _add_map_items( target, map_cat, items, [target]( item & it ) {
-            return item_location( map_cursor( target ), &it );
+            return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
         } );
     }
 }
@@ -2162,10 +2180,10 @@ void inventory_selector::add_nearby_items( int radius )
 void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint &target )
 {
     map_stack items = remote_map->i_at( target );
-    const std::string name = to_upper_case( remote_map->name( target ) );
+    const std::string name = to_upper_case( remote_map->name( tripoint_omt_ms( target ) ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
-        return item_location( map_cursor( target ), &it );
+        return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
     } );
 }
 
@@ -2694,7 +2712,8 @@ int inventory_selector::query_count( char init, bool end_with_toggle )
         try {
             ret = std::stoi( query.second );
         } catch( const std::invalid_argument &e ) {
-            // TODO Tell User they did a bad
+            // Tell User they did a bad
+            popup( _( "That is not an integer." ) );
             ret = -1;
         } catch( const std::out_of_range &e ) {
             ret = INT_MAX;
@@ -2912,7 +2931,7 @@ drop_location inventory_selector::get_only_choice() const
     for( const inventory_column *col : columns ) {
         const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
         if( !ent.empty() ) {
-            return { ent.front()->any_item(), static_cast<int>( ent.front()->get_available_count() ) };
+            return { ent.front()->any_item(), static_cast<int>( ent.front()->chosen_count ) };
         }
     }
 
@@ -3379,7 +3398,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
                 item_location it = entry->any_item();
-                if( loc->can_reload_with( *it, true ) ) {
+                if( loc.can_reload_with( it, true ) ) {
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
@@ -3400,7 +3419,7 @@ void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int valu
         return;
     }
     for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+        if( loc.can_reload_with( entry.any_item(), true ) ) {
             item::reload_option tmp_opt( &u, loc, entry.any_item() );
             tmp_opt.qty( entry.chosen_count + value );
             entry.chosen_count = tmp_opt.qty();
@@ -3464,11 +3483,11 @@ void inventory_selector::action_examine( const item_location &sitem )
 
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
-    draw_item_info( [&]() -> catacurses::window {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        int width = std::min( 80, maxwidth );
-        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) ); },
-    data ).get_first_input();
+    data.arrow_scrolling = true;
+    int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+    int width = std::min( 80, maxwidth );
+    iteminfo_window info_window( data, point( maxwidth / 2 - width / 2, -1 ), width, 0 );
+    info_window.execute();
 }
 
 void inventory_selector::highlight()
@@ -3619,7 +3638,8 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
     // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
     inventory_entry &highlighted_entry = get_active_column().get_highlighted();
-    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+    if( mode == toggle_mode::SELECTED
+        && !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
         cata_assert( highlighted_entry.denial.has_value() );
         const std::string &denial = *highlighted_entry.denial;
 
@@ -3995,6 +4015,12 @@ drop_locations inventory_drop_selector::execute()
 
         const inventory_input input = get_input();
         if( input.action == "CONFIRM" ) {
+            for( drop_location &stuff : to_use ) {
+                if( !avatar_action::check_stealing( get_player_character(), *stuff.first ) ) {
+                    return drop_locations();
+                }
+            }
+
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
@@ -4228,7 +4254,7 @@ bool pickup_selector::wield( int &count )
 
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
-        add_reopen_activity();
+        reopen_menu();
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
@@ -4250,7 +4276,7 @@ bool pickup_selector::wear()
 
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
-        add_reopen_activity();
+        reopen_menu();
         u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
@@ -4260,10 +4286,12 @@ bool pickup_selector::wear()
     return false;
 }
 
-void pickup_selector::add_reopen_activity()
+void pickup_selector::reopen_menu()
 {
-    u.assign_activity( pickup_menu_activity_actor( where, to_use ) );
-    u.activity.auto_resume = true;
+    // copy the member variables to still be valid on call
+    uistate.open_menu = [where = where, to_use = to_use]() {
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+    };
 }
 
 void pickup_selector::remove_from_to_use( item_location &it )
@@ -4438,7 +4466,7 @@ std::string unload_selector::hint_string()
 {
     std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Contain mode(<color_yellow>%s</color>)" ),
+               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
                ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
 }
 

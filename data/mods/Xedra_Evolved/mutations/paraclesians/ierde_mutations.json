@@ -35,7 +35,8 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 6 }
     ],
-    "integrated_armor": [ "integrated_pebbled" ]
+    "integrated_armor": [ "integrated_pebbled" ],
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "type": "mutation",
@@ -62,7 +63,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_granite_skin" ]
+    "integrated_armor": [ "integrated_granite_skin" ],
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "type": "mutation",
@@ -95,11 +97,28 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Your stony skin makes your fists hit like hammers.  Though your attacks are slower, you do more bashing damage with your punches and can use your hands to replace some simple tools.",
+    "description": "The Ierde's stony skin makes their fists hit like hammers.  Though their attacks are slower, the Ierde does more bashing damage with punches and can use their hands to replace some simple tools.",
     "types": [ "CLAWS" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "category": [ "IERDE" ],
     "integrated_armor": [ "integrated_ierde_fists" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STRONG_EQUIPMENT",
+    "name": { "str": "Stone-Hardened Panoply" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Just as their body is now one with the stone, the Ierde can infuse the strength of the earth into their equipment, rendering it more resilient.  While on natural earth or stone or underground, the Ierde's equipment is twice as difficult to damage.",
+    "prereqs": [ "IERDE_STONE_FISTS" ],
+    "category": [ "IERDE" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
+        "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -166,6 +185,18 @@
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SMASHING_PUNCH" ],
     "spells_learned": [ [ "ierde_knockback_punch_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_REVEAL_EARTH_MAP",
+    "name": { "str": "Knowing Every Furrow" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to learn the terrain layout in a large area around themselves.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_PER_BONUS" ],
+    "spells_learned": [ [ "ierde_reveal_earth_map_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -240,6 +271,19 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_BUFF_ARMOR_ALLIES",
+    "name": { "str": "Skin of the Mountains" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When gaining this ability, the Ierde gains the ability to infuse the resilience of the earth into one of their allies.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "prereqs2": [ "IERDE_STRONG_EQUIPMENT" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_buff_armor_allies_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
@@ -263,7 +307,7 @@
     "changes_to": [ "IERDE_CARDIO2" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -274,7 +318,7 @@
     "changes_to": [ "IERDE_CARDIO3" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 2.4
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 1.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -285,7 +329,7 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "prereqs": [ "IERDE_SKIN_3" ],
-    "cardio_multiplier": 3.5
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 2.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -382,16 +426,16 @@
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "fatigue_regen_modifier": 0.5,
-    "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "enchantments": [
       {
         "values": [
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
-          { "value": "METABOLISM", "multiply": -1.0 }
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }
     ]
@@ -567,6 +611,30 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_MEDITATIONS",
+    "name": { "str": "Stone Meditations" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "[ WIP Does nothing ]The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_TUNNEL_TRANSLOCATION",
+    "name": { "str": "Traveling the Veins of the Earth" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to travel through stone to another underground location they have previously been to.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SINK_INTO_EARTH" ],
+    "prereqs2": [ "IERDE_STOP_BLEEDING" ],
+    "spells_learned": [ [ "ierde_tunnel_translocation_spell", 1 ], [ "ierde_tunnel_translocation_attune", 1 ] ]
   },
   {
     "type": "mutation",

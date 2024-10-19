@@ -10,6 +10,7 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -66,22 +67,37 @@ namespace io
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
             case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
+            case enchant_vals::mod::POWER_TRICKLE: return "POWER_TRICKLE";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::FAT_TO_MAX_HP: return "FAT_TO_MAX_HP";
+            case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
+            case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
+            case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
-            case enchant_vals::mod::FATIGUE: return "FATIGUE";
+            case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
+            case enchant_vals::mod::SLEEPINESS_REGEN: return "SLEEPINESS_REGEN";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_STR: return "PAIN_PENALTY_MOD_STR";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_DEX: return "PAIN_PENALTY_MOD_DEX";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_INT: return "PAIN_PENALTY_MOD_INT";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_PER: return "PAIN_PENALTY_MOD_PER";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
+			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
+            case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
+            case enchant_vals::mod::VISION_RANGE: return "VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_FAE: return "SIGHT_RANGE_FAE";
@@ -93,10 +109,12 @@ namespace io
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::BODYTEMP_SLEEP: return "BODYTEMP_SLEEP";
             case enchant_vals::mod::LUMINATION: return "LUMINATION";
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
             case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::HEALTHY_RATE: return "HEALTHY_RATE";
             case enchant_vals::mod::READING_EXP: return "READING_EXP";
             case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
             case enchant_vals::mod::OVERMAP_SIGHT: return "OVERMAP_SIGHT";
@@ -109,10 +127,12 @@ namespace io
             case enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER: return "CRAFTING_SPEED_MULTIPLIER";
             case enchant_vals::mod::BIONIC_MANA_PENALTY: return "BIONIC_MANA_PENALTY";
             case enchant_vals::mod::STEALTH_MODIFIER: return "STEALTH_MODIFIER";
+            case enchant_vals::mod::WEAKNESS_TO_WATER: return "WEAKNESS_TO_WATER";
             case enchant_vals::mod::MENDING_MODIFIER: return "MENDING_MODIFIER";
             case enchant_vals::mod::STOMACH_SIZE_MULTIPLIER: return "STOMACH_SIZE_MULTIPLIER";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::RECOIL_MODIFIER: return "RECOIL_MODIFIER";
+            case enchant_vals::mod::ARMOR_ALL: return "ARMOR_ALL";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -152,6 +172,7 @@ namespace io
             case enchant_vals::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
             case enchant_vals::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE: return "EQUIPMENT_DAMAGE_CHANCE";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
@@ -166,7 +187,7 @@ namespace io
             case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
             case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
             case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
-            case enchant_vals::mod::SHOUT_NOISE_BASE: return "SHOUT_NOISE_BASE";
+            case enchant_vals::mod::PHASE_DISTANCE: return "PHASE_DISTANCE";
             case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
             case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
             case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
@@ -175,6 +196,14 @@ namespace io
             case enchant_vals::mod::BLEED_STOP_BONUS: return "BLEED_STOP_BONUS";
             case enchant_vals::mod::UGLINESS: return "UGLINESS";
             case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
+            case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
+            case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
+            case enchant_vals::mod::THROW_STR: return "THROW_STR";
+            case enchant_vals::mod::THROW_DAMAGE: return "THROW_DAMAGE";
+            case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
+            case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
+            case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
+            case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -219,13 +248,10 @@ enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
         if( inline_id.empty() ) {
             jv.throw_error( "Inline enchantment cannot be created without an id." );
         }
-        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
-            jv.throw_error( "Inline enchantment " + inline_id +
-                            " cannot be created as an enchantment already has this id." );
-        }
 
         enchantment inline_enchant;
         inline_enchant.load( jv.get_object(), src, inline_id );
+        mod_tracker::assign_src( inline_enchant, src );
         spell_factory.insert( inline_enchant );
         return enchantment_id( inline_id );
     } else {
@@ -293,6 +319,7 @@ bool enchantment::is_monster_relevant() const
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_add ) {
         if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -302,7 +329,9 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
@@ -311,6 +340,7 @@ bool enchantment::is_monster_relevant() const
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_multiply ) {
         if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -320,7 +350,9 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
@@ -705,6 +737,59 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
     details.emplace_back( rhs.name.translated(), rhs.description.translated() );
 }
 
+void enchant_cache::force_add( const enchantment &rhs, const monster &mon )
+{
+    dialogue d( get_talker_for( mon ), nullptr );
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_add ) {
+        values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_add ) {
+        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
+
+    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
+
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
+    }
+
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
+         rhs.intermittent_activation ) {
+        for( const fake_spell &fake : act_pair.second ) {
+            intermittent_activation[act_pair.first].emplace_back( fake );
+        }
+    }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
+}
+
 void enchant_cache::force_add( const enchantment &rhs )
 {
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
@@ -876,6 +961,14 @@ units::volume enchant_cache::modify_value( const enchant_vals::mod mod_val,
     return value;
 }
 
+units::temperature_delta enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::temperature_delta value ) const
+{
+    value += units::from_celsius_delta<double>( get_value_add( mod_val ) );
+    value *= 1 + get_value_multiply( mod_val );
+    return value;
+}
+
 time_duration enchant_cache::modify_value( const enchant_vals::mod mod_val,
         time_duration value ) const
 {
@@ -915,26 +1008,27 @@ body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) c
 
 void enchant_cache::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
-    guy.mod_str_bonus( mult_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base() ) );
+    // since it's a modifier, need to remove original value from the math
+    guy.mod_str_bonus( modify_value( enchant_vals::mod::STRENGTH,
+                                     guy.get_str_base() ) - guy.get_str_base() );
 
-    guy.mod_dex_bonus( get_value_add( enchant_vals::mod::DEXTERITY ) );
-    guy.mod_dex_bonus( mult_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base() ) );
+    guy.mod_dex_bonus( modify_value( enchant_vals::mod::DEXTERITY,
+                                     guy.get_dex_base() ) - guy.get_dex_base() );
 
-    guy.mod_per_bonus( get_value_add( enchant_vals::mod::PERCEPTION ) );
-    guy.mod_per_bonus( mult_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base() ) );
+    guy.mod_per_bonus( modify_value( enchant_vals::mod::PERCEPTION,
+                                     guy.get_per_base() ) - guy.get_per_base() );
 
-    guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
-    guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
+    guy.mod_int_bonus( modify_value( enchant_vals::mod::INTELLIGENCE,
+                                     guy.get_int_base() ) - guy.get_int_base() );
 
-    guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
-    guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+    guy.mod_num_dodges_bonus( modify_value( enchant_vals::mod::BONUS_DODGE,
+                                            guy.get_num_dodges_base() ) - guy.get_num_dodges_base() );
 
-    guy.mod_num_blocks_bonus( get_value_add( enchant_vals::mod::BONUS_BLOCK ) );
-    guy.mod_num_blocks_bonus( mult_bonus( enchant_vals::mod::BONUS_BLOCK, guy.get_num_blocks_base() ) );
+    guy.mod_num_blocks_bonus( modify_value( enchant_vals::mod::BONUS_BLOCK,
+                                            guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
     if( emitter ) {
-        get_map().emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos_bub(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, false, eff.second );
@@ -944,7 +1038,7 @@ void enchant_cache::activate_passive( Character &guy ) const
         // a random approximation!
         if( one_in( to_seconds<int>( activation.first ) ) ) {
             for( const fake_spell &fake : activation.second ) {
-                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos() );
+                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos_bub() );
             }
         }
     }
@@ -977,12 +1071,12 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
                                       caster.get_name() );
-        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos() );
+        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
-        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
-            !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
+        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||
+            !spell_lvl.is_target_in_range( caster, trg_crtr.pos_bub() ) ) {
             return;
         }
 
@@ -991,7 +1085,7 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.npc_trigger_message,
                                       caster.get_name(), trg_crtr.disp_name() );
 
-        spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
+        spell_lvl.cast_all_effects( caster, trg_crtr.pos_bub() );
     }
 }
 

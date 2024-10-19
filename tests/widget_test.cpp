@@ -18,7 +18,7 @@
 #include <clocale>
 
 // Needed for screen scraping
-#if (defined(TILES) || defined(_WIN32))
+#if defined(TILES)
 #include "cursesport.h"
 #endif
 
@@ -43,6 +43,9 @@ const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
+
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
@@ -84,7 +87,6 @@ static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
-static const widget_id widget_test_fatigue_clause( "test_fatigue_clause" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
@@ -109,6 +111,7 @@ static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
 static const widget_id widget_test_per_color_num( "test_per_color_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
+static const widget_id widget_test_sleepiness_clause( "test_sleepiness_clause" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
@@ -131,7 +134,7 @@ static const widget_id widget_test_weight_clauses_normal( "test_weight_clauses_n
 
 // dseguin 2022 - Ugly hack to scrape content from the window object.
 // Scrapes the window w at origin, reading the number of cols and rows.
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
 static std::vector<std::string> scrape_win_at(
     catacurses::window &w, const point &origin, int cols, int rows )
 {
@@ -447,21 +450,21 @@ TEST_CASE( "widgets_showing_avatar_stats_with_color_for_normal_value", "[widget]
     }
 }
 
-TEST_CASE( "widget_showing_character_fatigue_status", "[widget]" )
+TEST_CASE( "widget_showing_character_sleepiness_status", "[widget]" )
 {
-    widget fatigue_w = widget_test_fatigue_clause.obj();
+    widget sleepiness_w = widget_test_sleepiness_clause.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.set_fatigue( 0 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: " );
-    ava.set_fatigue( 192 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
-    ava.set_fatigue( 384 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
-    ava.set_fatigue( 576 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
+    ava.set_sleepiness( 0 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: " );
+    ava.set_sleepiness( 192 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
+    ava.set_sleepiness( 384 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
+    ava.set_sleepiness( 576 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
 }
 
 TEST_CASE( "widgets_showing_avatar_health_with_color_for_normal_value", "[widget][health][color]" )
@@ -697,11 +700,11 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
 
         ava.clear_morale();
         CHECK( morale_w.layout( ava ) == "MORALE: 0" );
-        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        ava.add_morale( morale_food_good, 20 );
         CHECK( morale_w.layout( ava ) == "MORALE: 20" );
 
         ava.clear_morale();
-        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        ava.add_morale( morale_killed_innocent, -100 );
         CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
 
@@ -709,15 +712,15 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
         bodypart_id head( "head" );
         widget head_num_w = widget_test_hp_head_num.obj();
         widget head_graph_w = widget_test_hp_head_graph.obj();
-        REQUIRE( ava.get_part_hp_max( head ) == 84 );
-        REQUIRE( ava.get_part_hp_cur( head ) == 84 );
+        REQUIRE( ava.get_part_hp_max( head ) == 85 );
+        REQUIRE( ava.get_part_hp_cur( head ) == 85 );
 
         ava.set_part_hp_cur( head, 84 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 84" );
-        CHECK( head_graph_w.layout( ava ) == "HEAD: |||||" );
+        CHECK( head_graph_w.layout( ava ) == "HEAD: ||||\\" );
         ava.set_part_hp_cur( head, 42 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 42" );
-        CHECK( head_graph_w.layout( ava ) == "HEAD: ||\\,," );
+        CHECK( head_graph_w.layout( ava ) == "HEAD: ||,,," );
         ava.set_part_hp_cur( head, 17 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 17" );
         CHECK( head_graph_w.layout( ava ) == "HEAD: |,,,," );
@@ -1671,8 +1674,8 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms northeast = ava.pos_bub() + tripoint( 10, -10, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters" ) {
         clear_map();
@@ -1951,7 +1954,7 @@ static void fill_overmap_area( const avatar &ava, const oter_id &oter )
         for( int y = -1; y <= 1; ++y ) {
             const tripoint offset( x, y, 0 );
             overmap_buffer.ter_set( ava_pos + offset, oter );
-            overmap_buffer.set_seen( ava_pos + offset, true );
+            overmap_buffer.set_seen( ava_pos + offset, om_vision_level::full );
         }
     }
 }
@@ -2037,7 +2040,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
@@ -2089,7 +2092,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
         clear_map();
@@ -2615,7 +2618,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         CHECK( wgt.layout( ava ).empty() );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "test widget rendering when disabled" ) {
         const int cols = 32;
         const int rows = 5;

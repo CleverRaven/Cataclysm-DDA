@@ -19,7 +19,6 @@
     "difficulty": -20,
     "flags": [
       "SILENT",
-      "LIQUID",
       "NO_LEGS",
       "NO_HANDS",
       "RANDOM_DAMAGE",
@@ -43,7 +42,7 @@
     "max_damage": -335,
     "min_range": 1,
     "max_range": 1,
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX", "LIQUID" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "damage_type": "biological"
   },
   {
@@ -174,7 +173,6 @@
     "difficulty": -20,
     "flags": [
       "SILENT",
-      "LIQUID",
       "NO_LEGS",
       "NO_HANDS",
       "RANDOM_DAMAGE",

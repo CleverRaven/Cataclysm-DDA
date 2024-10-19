@@ -31,7 +31,6 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
-#include "loading_ui.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -52,6 +51,67 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
+
+#include "cata_imgui.h"
+#include "imgui/imgui.h"
+
+class demo_ui : public cataimgui::window
+{
+    public:
+        demo_ui();
+        void init();
+        void run();
+
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override;
+        void on_resized() override {
+            init();
+        };
+};
+
+demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) )
+{
+}
+
+cataimgui::bounds demo_ui::get_bounds()
+{
+    return { -1.f, -1.f, float( str_width_to_pixels( TERMX ) ), float( str_height_to_pixels( TERMY ) ) };
+}
+
+void demo_ui::draw_controls()
+{
+    ImGui::ShowDemoWindow();
+}
+
+void demo_ui::init()
+{
+    // The demo makes it's own screen.  Don't get in the way
+    force_to_back = true;
+}
+
+void demo_ui::run()
+{
+    init();
+
+    input_context ctxt( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    std::string action;
+
+    ui_manager::redraw();
+
+    while( is_open ) {
+        ui_manager::redraw();
+        action = ctxt.handle_input( 5 );
+        if( action == "QUIT" ) {
+            break;
+        }
+    }
+}
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 
@@ -510,15 +570,15 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 
-    loading_ui ui( false );
     try {
-        g->load_core_data( ui );
+        g->load_core_data();
     } catch( const std::exception &err ) {
         debugmsg( err.what() );
         std::exit( 1 );
@@ -855,6 +915,9 @@ bool main_menu::opening_screen()
                         get_safemode().show();
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
+                    } else if( sel2 == 5 ) { /// ImGui demo
+                        demo_ui demo;
+                        demo.run();
                     }
                     break;
                 case main_menu_opts::WORLD:
@@ -941,6 +1004,13 @@ bool main_menu::new_character_tab()
                 if( world == nullptr ) {
                     continue;
                 }
+                if( !world->world_saves.empty() ) {
+                    if( !query_yn(
+                            _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
+                        return false;
+                    }
+                }
+
                 world_generator->set_active_world( world );
                 try {
                     g->setup();
@@ -978,6 +1048,12 @@ bool main_menu::new_character_tab()
         WORLD *world = world_generator->pick_world( !is_play_now, is_play_now );
         if( world == nullptr ) {
             return false;
+        }
+        if( !world->world_saves.empty() ) {
+            if( !query_yn(
+                    _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
+                return false;
+            }
         }
         world_generator->set_active_world( world );
         try {
@@ -1084,23 +1160,24 @@ bool main_menu::load_character_tab( const std::string &worldname )
         return false;
     }
 
-    uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
+    uilist mmenu;
+    mmenu.title = string_format( _( "Load character from \"%s\"" ), worldname );
     mmenu.border_color = c_white;
     int opt_val = 0;
     for( const save_t &s : savegames ) {
         std::optional<std::chrono::seconds> playtime = get_playtime_from_save( cur_world, s );
         std::string save_str = s.decoded_name();
+        std::string playtime_str;
         if( playtime ) {
-            int padding = std::max( 16 - utf8_width( save_str ), 0 ) + 2;
             std::chrono::seconds::rep tmp_sec = playtime->count();
             int pt_sec = static_cast<int>( tmp_sec % 60 );
             int pt_min = static_cast<int>( tmp_sec % 3600 ) / 60;
             int pt_hrs = static_cast<int>( tmp_sec / 3600 );
-            save_str = string_format( "%s%s<color_c_light_blue>[%02d:%02d:%02d]</color>",
-                                      save_str, std::string( padding, ' ' ), pt_hrs, pt_min,
-                                      static_cast<int>( pt_sec ) );
+            playtime_str = string_format( "<color_c_light_blue>[%02d:%02d:%02d]</color>",
+                                          pt_hrs, pt_min, static_cast<int>( pt_sec ) );
         }
-        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, save_str );
+        // TODO: Replace this API to allow adding context without an empty description.
+        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, save_str, "", playtime_str );
     }
     mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();

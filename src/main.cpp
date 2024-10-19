@@ -1,5 +1,10 @@
-/* Entry point and main loop for Cataclysm
+/* Main Loop for cataclysm
+ * Linux only I guess
+ * But maybe not
+ * Who knows
  */
+
+// KG: Yes, the above is inaccurate now. It's also a poem, it stays.
 
 // IWYU pragma: no_include <sys/signal.h>
 #include <algorithm>
@@ -42,7 +47,6 @@
 #include "get_version.h"
 #include "help.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
@@ -135,7 +139,7 @@ int start_logger( const char *app_name )
 namespace
 {
 
-#if defined(_WIN32)
+#if defined(_WIN32) and defined(TILES)
 // Used only if AttachConsole() works
 FILE *CONOUT;
 #endif
@@ -168,9 +172,7 @@ void exit_handler( int s )
         } else
 #endif
         {
-#if !defined(__ANDROID__)
             imclient.reset();
-#endif
             exit( exit_status );
         }
     }
@@ -596,7 +598,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 reject( err );
             } else {
-                console.log( "Succesfully mounted IDBFS." );
+                console.log( "Successfully mounted IDBFS." );
                 resolve();
             }
         } );
@@ -619,7 +621,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 console.error( err );
             } else {
-                console.log( "Succesfully persisted to IDBFS..." );
+                console.log( "Successfully persisted to IDBFS..." );
             }
         } );
     }
@@ -804,9 +806,8 @@ int main( int argc, const char *argv[] )
         }
         if( cli.check_mods ) {
             init_colors();
-            loading_ui ui( false );
             const std::vector<mod_id> mods( cli.opts.begin(), cli.opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
+            exit( g->check_mod_data( mods ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -848,6 +849,8 @@ int main( int argc, const char *argv[] )
 
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
+        imclient->new_frame(); // we have to prime the pump, because of reasons
+        imclient->end_frame();
         const std::string lang = select_language();
         get_options().get_option( "USE_LANG" ).setValue( lang );
         set_language_from_options();

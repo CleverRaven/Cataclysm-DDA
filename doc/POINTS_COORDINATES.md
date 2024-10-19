@@ -22,7 +22,7 @@ Two origins for map square coordinates are common:
   for the whole game, relative to a fixed origin.
 * **Local** coordinates, which are relative to the corner of the current "reality
   bubble", or `map` roughly centered on the avatar.  In local map square
-  coordinates, `x` and `y` values will both fall in the range [0,120).
+  coordinates, `x` and `y` values will both fall in the range [0,132).
 
 The next scale is **submap** (sm) coordinates.  One submap is 12x12
 (`SEEX`x`SEEY`) map squares.  Submaps are the scale at which chunks of the map
@@ -40,7 +40,7 @@ Lastly, these is a system called **segment** (seg) coordinates.  These are only
 used in saving/loading submaps and you are unlikely to encounter them.
 
 As well as absolute and local coordinates, sometimes we need to use coordinates
-relative so some larger scale.  For example, when performing mapgen for a
+relative to some larger scale.  For example, when performing mapgen for a
 single overmap, we want to work with coordinates within that overmap.  This
 will be an overmap terrain-scale point relative to the corner of its containing
 overmap, and so typically take `x` and `y` values in the range [0,180).

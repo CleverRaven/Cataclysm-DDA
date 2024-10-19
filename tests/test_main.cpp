@@ -37,7 +37,6 @@
 #include "game.h"
 #include "help.h"
 #include "json.h"
-#include "loading_ui.h"
 #include "map.h"
 #include "messages.h"
 #include "options.h"
@@ -147,9 +146,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
 
-    loading_ui ui( false );
-    g->load_core_data( ui );
-    g->load_world_modfiles( ui );
+    g->load_core_data();
+    g->load_world_modfiles();
 
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );

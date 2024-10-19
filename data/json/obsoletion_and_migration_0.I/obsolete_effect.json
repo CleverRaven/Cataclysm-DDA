@@ -1,0 +1,105 @@
+[
+  {
+    "//": "For player, indistinguishable from pre_conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "pre_conjunctivitis_viral",
+    "show_in_info": false,
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "blood_analysis_description": "Viral Infection",
+    "max_duration": "71 h"
+  },
+  {
+    "//": "For player, indistinguishable from pre_conjunctivitis_viral, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "pre_conjunctivitis_bacterial",
+    "show_in_info": false,
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "blood_analysis_description": "Bacterial Infection",
+    "max_duration": "71 h"
+  },
+  {
+    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "conjunctivitis_viral",
+    "name": [ "Conjunctivitis" ],
+    "desc": [
+      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
+    ],
+    "apply_memorial_log": "Got pinkeye.",
+    "remove_memorial_log": "Got over a pinkeye infection.",
+    "apply_message": "Your itchy eye leaks a filmy discharge.",
+    "rating": "bad",
+    "resist_effects": [ "took_antihistamine", "took_flumed" ],
+    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "int_dur_factor": "50 m",
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
+    ],
+    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "blood_analysis_description": "Viral Infection"
+  },
+  {
+    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
+    "type": "effect_type",
+    "id": "conjunctivitis_bacterial",
+    "name": [ "Conjunctivitis" ],
+    "desc": [
+      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
+    ],
+    "apply_memorial_log": "Got pinkeye.",
+    "remove_memorial_log": "Got over a pinkeye infection.",
+    "apply_message": "Your itchy eye leaks a filmy discharge.",
+    "rating": "bad",
+    "resist_effects": [ "took_antihistamine", "took_flumed" ],
+    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
+    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
+    "int_dur_factor": "50 m",
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
+    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "blood_analysis_description": "Bacterial Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_antihistamine",
+    "name": [ "Took Antihistamine Drugs" ],
+    "desc": [ "You have taken an antihistamine drug recently." ],
+    "rating": "good",
+    "blood_analysis_description": "Antihistamines"
+  },
+  {
+    "id": "slippery_terrain",
+    "type": "effect_type",
+    "max_duration": "1 s",
+    "name": [ "Slick Surface", "Slippery Terrain", "Dangerously Slippery" ],
+    "desc": [
+      "There's a slippery surface here, running may be a bad idea.",
+      "It's quite slippery, it may not be safe to stand here.",
+      "This area is extremely slippery."
+    ],
+    "rating": "bad",
+    "show_intensity": true,
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "bile",
+    "name": [ "Bile Splashed" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in bile!",
+    "rating": "bad",
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "max_duration": "30 s",
+    "flags": [ "BILE_AFFLICTED" ]
+  }
+]

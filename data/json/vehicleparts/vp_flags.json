@@ -694,5 +694,14 @@
   {
     "id": "IGNORE_HEIGHT_REQUIREMENT",
     "type": "json_flag"
+  },
+  {
+    "id": "WHEEL_MOUNT_CONCRETE_MIX",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_CONCRETE_MIX",
+    "type": "json_flag",
+    "requires_flag": "WHEEL_MOUNT_CONCRETE_MIX"
   }
 ]

@@ -346,14 +346,13 @@
     "type": "start_location",
     "id": "sloc_cabin",
     "name": "Cabin",
-    "terrain": [ "cabin" ]
+    "terrain": [ "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7" ]
   },
   {
     "type": "start_location",
     "id": "sloc_liam_cabin",
     "name": "Liam's Cabin",
-    "terrain": [ "cabin_liam_driveway" ],
-    "flags": [ "ALLOW_OUTSIDE" ]
+    "terrain": [ "cabin_liam" ]
   },
   {
     "type": "start_location",
@@ -668,6 +667,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lighthouse_small_ground",
+    "name": "Small lighthouse island",
+    "terrain": [ "lighthouse_small_ground" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_military_base_warehouse",
     "name": "Military Base Warehouse",
     "terrain": [ "mil_base_2g" ]
@@ -766,7 +771,7 @@
     "type": "start_location",
     "id": "sloc_motel",
     "name": "Motel",
-    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2" ]
+    "terrain": [ "motel_twd_1_f1" ]
   },
   {
     "type": "start_location",

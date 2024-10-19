@@ -8,9 +8,9 @@
     "entries": [
       {
         "distribution": [
-          { "group": "ar15_223long", "charges-min": 0, "charges-max": 30, "prob": 8 },
-          { "group": "ar15_223medium", "charges-min": 0, "charges-max": 30, "prob": 8 },
-          { "group": "ar15_223short", "charges-min": 0, "charges-max": 30, "prob": 6 }
+          { "group": "ar15_223long", "charges": [ 0, 30 ], "prob": 8 },
+          { "group": "ar15_223medium", "charges": [ 0, 30 ], "prob": 8 },
+          { "group": "ar15_223short", "charges": [ 0, 30 ], "prob": 6 }
         ],
         "prob": 100
       },

@@ -3,7 +3,32 @@
     "type": "palette",
     "id": "microlab",
     "parameters": {
-      "labtype": { "type": "palette_id", "default": { "distribution": [ [ "microlab_generic", 6 ], [ "microlab_meat", 1 ] ] } }
+      "labtype": { "type": "palette_id", "default": { "distribution": [ [ "microlab_generic", 6 ], [ "microlab_meat", 1 ] ] } },
+      "unique_foe": {
+        "type": "nested_mapgen_id",
+        "default": {
+          "distribution": [
+            [ "mnm_more_density", 10 ],
+            [ "mnm_acid_zombies", 10 ],
+            [ "mnm_hunter_zombies", 10 ],
+            [ "mnm_rust_zombies", 10 ],
+            [ "mnm_phase_zombies", 10 ],
+            [ "mnm_raptor_zombies", 10 ],
+            [ "mnm_robots", 10 ],
+            [ "mnm_mutants", 10 ],
+            [ "mnm_wasps", 10 ],
+            [ "mnm_leech_plants", 10 ],
+            [ "mnm_slimes", 10 ],
+            [ "mnm_shadows", 10 ],
+            [ "mnm_vampire", 10 ],
+            [ "mnm_triffids", 5 ],
+            [ "mnm_fungaloids", 10 ],
+            [ "mnm_migo", 10 ],
+            [ "mnm_tindalos", 2 ],
+            [ "mnm_yrax", 2 ]
+          ]
+        }
+      }
     },
     "palettes": [ { "param": "labtype" } ]
   },
@@ -173,7 +198,10 @@
       "N": { "item": "fireman_cabinet", "chance": 100 }
     },
     "monster": {
-      " ": [ { "monster": "mon_zombie_living_wall", "chance": 3 }, { "monster": "mon_breather_hub", "chance": 1 } ],
+      " ": [
+        { "monster": "mon_zombie_living_wall", "chance": 3 },
+        { "group": "GROUP_AMALGAMATION_BREATHER_HUB_SPARSE", "chance": 1 }
+      ],
       "c": { "monster": "mon_zombie_living_wall", "chance": 3 },
       "@": { "monster": "mon_zombie_living_wall", "chance": 80 }
     },

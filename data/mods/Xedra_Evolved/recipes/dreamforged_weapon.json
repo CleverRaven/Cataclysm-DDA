@@ -19,10 +19,7 @@
     "type": "recipe",
     "result": "dreamdross_knife",
     "copy-from": "dreamdross_bo",
-    "components": [
-      [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ],
-      [ [ "knife_butcher", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ]
-    ],
+    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ], [ [ "knife_huge", 1 ], [ "knife_large", 1 ] ] ],
     "time": "2 h",
     "flags": [ "SECRET" ],
     "difficulty": 1

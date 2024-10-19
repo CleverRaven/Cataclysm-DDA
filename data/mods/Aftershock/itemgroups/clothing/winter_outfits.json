@@ -14,6 +14,13 @@
     "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 }, { "group": "afs_cryopod_g", "prob": 1 } ]
   },
   {
+    "//": "A group for any police-flavour advanced civilian piece of clothing",
+    "id": "afs_wintersuit_police_advanced",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_magellan_g", "prob": 2 } ]
+  },
+  {
     "//": "A group for any science-flavour advanced civilian piece of clothing",
     "id": "afs_wintersuit_science_advanced",
     "type": "item_group",

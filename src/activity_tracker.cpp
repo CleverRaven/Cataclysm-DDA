@@ -1,11 +1,14 @@
 #include "activity_tracker.h"
 
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <utility>
+
 #include "cata_assert.h"
 #include "game_constants.h"
 #include "options.h"
 #include "string_formatter.h"
-
-#include <cmath>
 
 int activity_tracker::weariness() const
 {
@@ -16,16 +19,17 @@ int activity_tracker::weariness() const
 }
 
 // Called every 5 minutes, when activity level is logged
-void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float fatigue_regen_mod )
+void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod,
+        float sleepiness_regen_mod )
 {
     if( average_activity() < LIGHT_EXERCISE ) {
-        cata_assert( fatigue_mod > 0.0f );
+        cata_assert( sleepiness_mod > 0.0f );
         low_activity_ticks += std::min( 1.0f, ( ( LIGHT_EXERCISE - average_activity() ) /
-                                                ( LIGHT_EXERCISE - NO_EXERCISE ) ) ) / fatigue_mod;
+                                                ( LIGHT_EXERCISE - NO_EXERCISE ) ) ) / sleepiness_mod;
         // Recover (by default) twice as fast while sleeping
         if( average_activity() < NO_EXERCISE ) {
             low_activity_ticks += ( ( NO_EXERCISE - average_activity() ) /
-                                    ( NO_EXERCISE - SLEEP_EXERCISE ) ) * fatigue_regen_mod;
+                                    ( NO_EXERCISE - SLEEP_EXERCISE ) ) * sleepiness_regen_mod;
         }
     }
 

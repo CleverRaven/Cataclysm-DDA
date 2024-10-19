@@ -139,6 +139,8 @@ Helpful pages:
 
 1. [Fork](https://github.com/CleverRaven/Cataclysm-DDA/fork) this repository here on GitHub.
 
+**Note:** Fork is different from branch, branches are covered [later](#make-your-changes).
+
 2. Clone your fork locally.
 
     ```bash

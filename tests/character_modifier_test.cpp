@@ -479,10 +479,10 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 0 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
-                       11.4 ).epsilon( 0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.667 ).epsilon(
+                       11.8 ).epsilon( 0.01 ) );
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.658 ).epsilon(
                        0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.667 ).epsilon(
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.658 ).epsilon(
                        0.01 ) );
         }
         WHEN( "Uninjured / hands encumbered" ) {
@@ -506,10 +506,10 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 70 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
-                       53.4 ).epsilon( 0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.299 ).epsilon(
+                       54.3 ).epsilon( 0.01 ) );
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.295 ).epsilon(
                        0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.299 ).epsilon(
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.295 ).epsilon(
                        0.01 ) );
         }
     }

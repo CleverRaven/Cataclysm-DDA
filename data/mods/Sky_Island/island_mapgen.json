@@ -14,7 +14,7 @@
     "color": "c_white",
     "looks_like": "field",
     "mondensity": 0,
-    "see_cost": 1
+    "see_cost": "low"
   },
   {
     "type": "mapgen",

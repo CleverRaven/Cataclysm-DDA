@@ -6,7 +6,6 @@
   },
   {
     "id": [
-      "af2011a1mag",
       "ppkmag",
       "sigp230mag",
       "p226mag_12rd_357sig",
@@ -61,7 +60,7 @@
       "hptc9mag_8rd",
       "hptc9mag_10rd",
       "hptc9mag_15rd",
-      "cz75mag_12rd",
+      "cz75mag_16rd",
       "cz75mag_20rd",
       "p08mag_8rd",
       "clip9mm_10rd",
@@ -188,7 +187,6 @@
       "40_speedloader6",
       "44_speedloader6",
       "454_speedloader5",
-      "454_speedloader6",
       "460_speedloader6",
       "500_speedloader5",
       "8x40_speedloader5",
@@ -200,18 +198,23 @@
   },
   {
     "id": [
-      "a180mag",
-      "a180mag1",
-      "a180mag2",
-      "a180mag3",
-      "a180mag4",
       "mosquitomag",
       "ruger1022bigmag",
       "ruger1022mag",
+      "ruger1022mag_15",
+      "ruger1022mag_30",
+      "ruger1022mag_32",
+      "ruger1022mag_55",
+      "ruger1022mag_70",
+      "ruger1022mag_110",
       "sw22mag",
       "j22mag",
       "wp22mag",
-      "kp32mag"
+      "kp32mag",
+      "cp33_mag",
+      "cp33_mag_50",
+      "ruger_mk4_mag",
+      "1911_22_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
@@ -263,8 +266,7 @@
       "ruger_arr_mag",
       "bren2_762mag30",
       "bren2_762mag10",
-      "g36mag_30rd",
-      "g36mag_100rd",
+      "sl8mag",
       "blrmag",
       "m1918bigmag",
       "m1918mag",
@@ -312,7 +314,9 @@
       "m1carbinebigmag",
       "zpap85mag",
       "papm77mag",
-      "papm77mag_10rd"
+      "papm77mag_10rd",
+      "22_ar15mag_10",
+      "22_ar15mag_28"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"
@@ -384,6 +388,10 @@
       "saiga410mag_30rd",
       "saiga10mag",
       "saiga30mag",
+      "srm_1216_mag_16",
+      "mka_1919_5",
+      "mka_1919_10",
+      "mka_1919_20",
       "afs_raketa30mag",
       "afs_shot_speedloader8",
       "USAS10mag",
@@ -398,6 +406,10 @@
       "aa12_box_mag",
       "aa12_drum_mag",
       "aa12_vehicle_drum",
+      "mossberg_590m_mag_5",
+      "mossberg_590m_mag_10",
+      "mossberg_590m_mag_15",
+      "mossberg_590m_mag_20",
       "m26_mass_mag_3",
       "m26_mass_mag_5"
     ],

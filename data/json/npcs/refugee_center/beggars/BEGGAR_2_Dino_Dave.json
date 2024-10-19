@@ -50,6 +50,7 @@
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
       { "item": "dinosuit" },
+      { "item": "cardboard_crown_loose" },
       { "item": "boots_winter" },
       { "item": "coat_winter" }
     ]
@@ -69,7 +70,7 @@
       {
         "condition": {
           "and": [
-            { "npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "mission_dinodave_cardboard_donor" } ] },
             { "not": "has_no_available_mission" }
           ]
         },
@@ -82,13 +83,13 @@
         },
         "text": "What are you going to do with all that cardboard now?",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
-        "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": { "u_add_var": "general_recruit_dave_happy", "value": "yes" }
       },
       {
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
-            { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] }
           ]
         },
         "text": "We've done it, Dave!  Smokes says you can build yourself a house up on the roof if you want.  You've got to keep it nice and clean, and help out the people down here by looking out for zombies, but you can still use the washrooms and things downstairs when you need to.  What do you say?",
@@ -114,7 +115,7 @@
       }
     },
     "responses": [
-      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
     ],
     "repeat_responses": [
@@ -131,7 +132,7 @@
     "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2", "effect": { "u_bulk_donate": 1 } },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
+      { "text": "No problem.  <end_talking_bye>", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
     ]
   },
   {
@@ -144,7 +145,7 @@
       { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -155,18 +156,18 @@
       { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole… a whole shopping list.  Got it here.",
-    "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_dinodave_cardboard_donor", "value": "yes" } },
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -174,8 +175,8 @@
     "id": "TALK_REFUGEE_BEGGAR_2_SANDMAN",
     "dynamic_line": "If you don't know who he is, I definitely can't tell you.  He talks to everyone, if you didn't hear him that means you can't be trusted, except to help me out.",
     "responses": [
-      { "text": "…What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "…<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -184,7 +185,7 @@
     "dynamic_line": "These cowards are afraid of me.  They won't let me into their base.  I'm going to build my new house and I won't let them in.",
     "responses": [
       { "text": "You said you were building a house?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,7 +196,7 @@
       { "text": "I… I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -203,46 +204,9 @@
     "id": "TALK_REFUGEE_BEGGAR_2_WEARING",
     "dynamic_line": "You ask me what I can see, but I don't tell you what you see.  Sometimes we have shields up, to protect ourselves.",
     "responses": [
-      { "text": "Shields?", "topic": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE" },
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE",
-    "dynamic_line": "Once I saw the full moon, and it was staring right at me - only it couldn't see me, because the sandman kept it away.  Understand?",
-    "responses": [
-      {
-        "condition": { "u_has_trait": "SCHIZOPHRENIC" },
-        "text": "[Kaluptic Psychosis] I think I do.  Are we the same?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_YES"
-      },
-      { "text": "No, I don't.", "topic": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_NO" },
-      { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_NO",
-    "dynamic_line": "That's OK, nobody's perfect, ha ha…",
-    "responses": [
-      { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_YES",
-    "dynamic_line": "Nobody's the same, not even twins.  But I'll tell you something.  The big eye looked at me.  When it did, it heard the voices, and it blinked.",
-    "responses": [
-      { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -252,10 +216,7 @@
       "concatenate": [
         "Well… I had it all pretty together,\u0020",
         {
-          "u_has_var": "beggars_recruited",
-          "type": "general",
-          "context": "recruit",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ],
           "yes": "but the others have left, and\u0020",
           "no": "and I feel bad with all the help you've given me already, but\u0020"
         },
@@ -264,7 +225,7 @@
     },
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
@@ -425,7 +386,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -453,7 +414,7 @@
     "update_mapgen_id": "cardboard_castle_1_main",
     "method": "json",
     "object": {
-      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_ter_furn_transforms": [ { "transform": "unlock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
       "set": [ { "point": "variable", "id": "dave_castle", "x": 4, "y": 19 } ]
     }

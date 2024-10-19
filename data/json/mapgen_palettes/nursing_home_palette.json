@@ -33,6 +33,7 @@
       "s": "t_sidewalk",
       "t": "t_carpet_red",
       "v": "t_ladder_down",
+      "V": "t_floor",
       "W": "t_wall",
       "X": "t_door_metal_pickable",
       "y": "t_pavement_y",
@@ -89,7 +90,8 @@
     "vehicles": {
       "3": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 270 },
-      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 }
+      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
+      "V": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 }
     }
   },
   {
@@ -126,6 +128,7 @@
       "s": "t_sidewalk",
       "t": "t_carpet_red",
       "v": "t_ladder_down",
+      "V": "t_floor",
       "W": "t_wall",
       "X": "t_door_metal_pickable",
       "y": "t_pavement_y",
@@ -187,7 +190,8 @@
     "vehicles": {
       "3": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 270 },
-      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 }
+      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
+      "V": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 }
     }
   },
   {

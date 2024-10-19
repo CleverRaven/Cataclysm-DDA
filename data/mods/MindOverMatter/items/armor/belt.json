@@ -6,8 +6,8 @@
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "material": [ "nylon", "steel", "nether_crystal" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -36,7 +36,22 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true } },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
+          "values": [
+            { "value": "ARMOR_CUT", "add": -15 },
+            { "value": "ARMOR_BASH", "add": -8 },
+            { "value": "ARMOR_STAB", "add": -20 },
+            { "value": "ARMOR_BULLET", "add": -40 }
+          ]
+        }
+      ],
+      "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true }
+    },
     "//": "Recharge time is 60 seconds due to bug #48019, making it actually 30 seconds. Reduce to 30 seconds if that ever gets fixed."
   },
   {
@@ -60,7 +75,8 @@
       "passive_effects": [
         {
           "has": "WORN",
-          "condition": "ALWAYS",
+          "condition": "ACTIVE",
+          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
           "values": [
             { "value": "ARMOR_CUT", "add": -15 },
             { "value": "ARMOR_BASH", "add": -8 },
@@ -86,8 +102,7 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ]
   },
   {
     "id": "psionic_fire_shield_belt",
@@ -96,8 +111,8 @@
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "material": [ "nylon", "steel", "nether_crystal" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -171,7 +186,6 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ]
   }
 ]

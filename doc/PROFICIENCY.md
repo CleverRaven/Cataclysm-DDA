@@ -172,3 +172,4 @@ Field   | Mandatory | Type   | Description
 `type`  | Mandatory | String | Where this bonus applies. Valid values are `"strength"`, `"dexterity"`, `"intelligence"`, `"perception"`.
 `value` | Mandatory | Float  | What the bonus is. This can be any numeric value representable as a floating point number.  Values of the same type from all available proficiencies are summed together to produce the final bonus for a proficiency.
 
+For the `melee_attack` key, only `"type": "stamina"` is valid, and when an attack is performed using a weapon category that points to this proficiency, the final stamina cost of the attack will be multiplied by 1 - (the sum of stamina bonuses). This does not stack across categories, and only the lowest resulting stamina value will be used.

@@ -9,19 +9,19 @@
     "id": "ierde_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ierde_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "ierde_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "ierde_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ierde_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "ierde_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "ierde_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ierde_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "ierde_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "arvore_sample_single",
@@ -33,19 +33,19 @@
     "id": "arvore_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "arvore_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "arvore_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "arvore_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "arvore_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "arvore_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "arvore_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "arvore_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "arvore_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "undine_sample_single",
@@ -57,19 +57,19 @@
     "id": "undine_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "undine_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "undine_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "undine_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "undine_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "undine_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "undine_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "undine_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "undine_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "salamander_sample_single",
@@ -81,19 +81,19 @@
     "id": "salamander_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "salamander_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "salamander_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "salamander_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "salamander_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "salamander_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "salamander_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "salamander_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "salamander_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "sylph_sample_single",
@@ -105,19 +105,19 @@
     "id": "sylph_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "sylph_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "sylph_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "sylph_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "sylph_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "sylph_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "sylph_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "sylph_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "sylph_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "homullus_sample_single",
@@ -129,18 +129,18 @@
     "id": "homullus_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "homullus_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "homullus_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "homullus_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "homullus_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "homullus_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "homullus_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "homullus_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "homullus_sample", "count": [ 10, 20 ] } ]
   }
 ]
