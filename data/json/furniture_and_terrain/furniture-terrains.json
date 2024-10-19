@@ -1188,6 +1188,9 @@
     "looks_like": "f_curtain",
     "flags": [ "THIN_OBSTACLE", "TRANSPARENT", "CLIMBABLE", "BLOCKSDOOR", "NOITEM", "PERMEABLE" ],
     "examine_action": "chainfence",
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 2 }, { "item": "scrap", "count": 4 }, { "item": "plastic_chunk", "count": 8 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 30,
