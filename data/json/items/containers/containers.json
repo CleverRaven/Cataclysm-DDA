@@ -1533,7 +1533,7 @@
     "color": "brown"
   },
   {
-    "id": "box_small_metal",
+    "id": "box_small_",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small metal box", "str_pl": "small metal boxes" },
@@ -5140,7 +5140,7 @@
     "category": "container",
     "name": { "str": "steel tankard" },
     "//1": "https://www.kultofathena.com/product/stainless-steel-tankard/",
-    "description": "While not as historic as one may think, it's considered a finer luxury in these trying times. Drink responsibly.",
+    "description": "While not as historic as one may think, it's considered a finer luxury in these trying times.  Drink responsibly.",
     "weight": "181 g",
     "volume": "724 ml",
     "longest_side": "10 cm",
