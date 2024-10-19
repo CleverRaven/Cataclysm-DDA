@@ -476,7 +476,7 @@ class overmap
 
         void place_highways();
         // Whether highway halfs starting at north were placed or not
-        std::bitset placed_highways( 4 );
+        std::bitset<4> placed_highways;
         // Replace reserved omts with the appopriate maps now that cities have been placed
         void finalize_highways();
 
@@ -689,7 +689,9 @@ bool is_river( const oter_id &ter );
 bool is_water_body( const oter_id &ter );
 bool is_lake_or_river( const oter_id &ter );
 bool is_ocean( const oter_id &ter );
+bool is_road( const oter_id &ter );
 bool is_highway( const oter_id &ter );
+bool is_highway_special( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain

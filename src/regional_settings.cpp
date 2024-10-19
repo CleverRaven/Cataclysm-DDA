@@ -452,12 +452,25 @@ static void load_overmap_highway_settings( const JsonObject &jo,
                                     overmap_highway_settings.frequency_y, !overlay );
         read_and_set_or_throw<int>( overmap_highway_settings_jo, "width_of_segments",
                                     overmap_highway_settings.width_of_segments, !overlay );
-        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_ground",
-                                    overmap_highway_settings.segment_ground, !overlay );
-        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_bridge",
-                                    overmap_highway_settings.segment_bridge, !overlay );
-        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_bridge_supports",
-                                    overmap_highway_settings.segment_bridge_supports, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "max_tunnel_distance",
+                                    overmap_highway_settings.max_tunnel_distance, !overlay );
+        read_and_set_or_throw<oter_str_id>( overmap_highway_settings_jo, "reserved_terrain_id",
+                                            overmap_highway_settings.reserved_terrain_id, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_flat_special",
+                overmap_highway_settings.segment_flat, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "segment_road_bridge_special",
+                overmap_highway_settings.segment_road_bridge, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "segment_road_tunnel_special",
+                overmap_highway_settings.segment_road_tunnel, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_bridge_special",
+                overmap_highway_settings.segment_bridge, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "segment_bridge_supports_special",
+                overmap_highway_settings.segment_bridge_supports, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_overpass_special",
+                overmap_highway_settings.segment_overpass, !overlay );
         const auto load_highway_special_types = [&jo, &overmap_highway_settings_jo,
              strict]( const std::string & type, building_bin & dest ) {
             if( !overmap_highway_settings_jo.has_object( type ) && strict ) {
