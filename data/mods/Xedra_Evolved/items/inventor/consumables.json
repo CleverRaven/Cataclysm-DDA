@@ -26,6 +26,7 @@
     "quench": 24,
     "calories": 900,
     "material": [ "wheat", "flesh", "tomato", "veggy", "egg", "milk", "junk", "fruit" ],
+    "flags": [ "INVENTOR_CRAFTED" ],
     "color": "yellow",
     "weight": "950 g",
     "volume": "220 ml",
