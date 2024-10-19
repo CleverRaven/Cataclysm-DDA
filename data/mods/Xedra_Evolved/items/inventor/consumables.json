@@ -40,7 +40,18 @@
       [ "milk_allergen", 1 ],
       [ "fruit_allergen", 1 ],
       [ "junk_allergen", 1 ]
-    ]
+    ],
+    "use_action": {
+      "msg": "The sandwich is a flavor that earthly words would do a disservice to describing.  As you lick your fingers clean, you feel rejuvinated.",
+      "damage_over_time": [
+        {
+          "damage_type": "pure",
+          "duration": "10 s",
+          "amount": -4,
+          "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ]
+        }
+      ]
+    }
   },
   {
     "id": "inventor_warp_grenade",
