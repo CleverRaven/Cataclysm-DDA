@@ -91,12 +91,16 @@ static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHO
 namespace
 {
 struct deferred_math {
+    JsonObject jo;
     std::string str;
     bool assignment;
     std::shared_ptr<math_exp> exp;
 
-    deferred_math( std::string_view str_, bool ass_ ) : str( str_ ), assignment( ass_ ),
-        exp( std::make_shared<math_exp>() ) {}
+    deferred_math( JsonObject const &jo_, std::string_view str_, bool ass_ )
+        : jo( jo_ ), str( str_ ), assignment( ass_ ), exp( std::make_shared<math_exp>() ) {
+
+        jo.allow_omitted_members();
+    }
 };
 
 struct condition_parser {
@@ -146,9 +150,9 @@ std::queue<deferred_math> &get_deferred_math()
     return dfr_math;
 }
 
-std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
+std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view str, bool ass )
 {
-    get_deferred_math().emplace( str, ass );
+    get_deferred_math().emplace( jo, str, ass );
     return get_deferred_math().back().exp;
 }
 
@@ -574,7 +578,11 @@ void finalize_conditions()
     std::queue<deferred_math> &dfr = get_deferred_math();
     while( !dfr.empty() ) {
         deferred_math &math = dfr.front();
-        math.exp->parse( math.str, math.assignment );
+        try {
+            math.exp->parse( math.str, math.assignment, false );
+        } catch( std::invalid_argument const &ex ) {
+            math.jo.throw_error_at( "math", ex.what() );
+        }
         dfr.pop();
     }
 }
@@ -2402,7 +2410,7 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t 
             return;
         }
     } else if( objects.size() == 3 ) {
-        rhs = defer_math( objects.get_string( 2 ), false );
+        rhs = defer_math( jo, objects.get_string( 2 ), false );
         if( oper == "=" ) {
             action = oper::assign;
         } else if( oper == "+=" ) {
@@ -2434,9 +2442,9 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t 
     }
     _validate_type( objects, type_ );
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
-    lhs = defer_math( objects.get_string( 0 ), lhs_assign );
+    lhs = defer_math( jo, objects.get_string( 0 ), lhs_assign );
     if( action >= oper::plus_assign && action <= oper::decrease ) {
-        mhs = defer_math( objects.get_string( 0 ), false );
+        mhs = defer_math( jo, objects.get_string( 0 ), false );
     }
 }
 
