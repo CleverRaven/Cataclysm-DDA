@@ -534,8 +534,16 @@ struct oter_t {
             return type->has_flag( oter_flags::ravine_edge );
         }
 
+        bool is_road() const {
+            return type->has_flag( oter_flags::road );
+        }
+
         bool is_highway() const {
             return type->has_flag( oter_flags::highway );
+        }
+
+        bool is_highway_special() const {
+            return type->has_flag( oter_flags::highway_special );
         }
 
     private:
