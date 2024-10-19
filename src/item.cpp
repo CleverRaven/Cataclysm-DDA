@@ -314,7 +314,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
-        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
+        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
             set_var( "zombie_form", type->source_monster->zombify_into.c_str() );
         }
     }
@@ -626,8 +626,8 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         }
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
-
-    if( !mt->zombify_into.is_empty() ) {
+ 
+    if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
         result.set_var( "zombie_form", mt->zombify_into.c_str() );
     }
 
@@ -13265,7 +13265,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
     }
 
     // handle human corpses rising as zombies
-    if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+    if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) &&
         !mon_human->zombify_into.is_empty() ) {
         set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
@@ -13551,7 +13551,7 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
         return ret_val<void>::make_failure();
     }
     // Link up the second vehicle first so, if it's a tow cable, the first vehicle will tow the second.
-    ret_val<void> result = link_to( second_linked_vp->vehicle(), second_linked_vp->mount(), link_type );
+    ret_val<void> result = link_to( second_linked_vp->vehicle(), second_linked_vp->mount(), link_type ); 
     if( !result.success() ) {
         return result;
     }
