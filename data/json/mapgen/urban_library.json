@@ -57,23 +57,8 @@
         "..............................---..............."
       ],
       "palettes": [ "library_palette", "standard_building_general_and_variant_palette" ],
-      "terrain": { ",": "t_open_air", "S": "t_linoleum_white", "t": "t_linoleum_white" },
-      "items": { "[": { "item": "SUS_book", "chance": 20 } },
-      "place_items": [
-        { "item": "textbooks", "x": 5, "y": [ 7, 18 ], "chance": 20, "repeat": [ 26, 52 ] },
-        { "item": "textbooks", "x": [ 7, 8 ], "y": 8, "chance": 10, "repeat": [ 6, 12 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 10, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 12, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 14, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 16, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 8 ], "y": 18, "chance": 5, "repeat": [ 6, 12 ] },
-        { "item": "homebooks", "x": [ 11, 12 ], "y": 7, "chance": 50, "repeat": [ 4, 8 ] },
-        { "item": "homebooks", "x": [ 16, 17 ], "y": 7, "chance": 50, "repeat": [ 4, 8 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 13, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 16, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 19, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 22, "chance": 80, "repeat": [ 8, 16 ] }
-      ]
+      "terrain": { "S": "t_linoleum_white", "t": "t_linoleum_white" },
+      "items": { "[": { "item": "SUS_book", "chance": 20 } }
     }
   }
 ]
