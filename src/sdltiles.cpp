@@ -99,6 +99,10 @@ std::unique_ptr<cataimgui::client> imclient;
 #include "worldfactory.h"
 #endif
 
+#if defined(__IPHONEOS__)
+#include "worldfactory.h"
+#endif
+
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
 #endif
@@ -176,6 +180,15 @@ static void InitSDL()
     // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
     // with the game.
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
+#endif
+
+#if defined(__IPHONEOS__)
+#if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
+    SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
+#endif
+
+#if defined(SDL_HINT_TOUCH_MOUSE_EVENTS)
+    SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
 #endif
 
 #if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
@@ -2591,7 +2604,7 @@ void StartTextInput()
     if( SDL_IsTextInputActive() == SDL_TRUE ) {
         return;
     }
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StartTextInput();
 #else
     if( window_focus ) {
@@ -2604,7 +2617,7 @@ void StartTextInput()
 
 void StopTextInput()
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StopTextInput();
 #else
     if( window_focus ) {
@@ -2930,6 +2943,12 @@ static void CheckMessages()
     }
 #endif
 
+#if defined(IOS_KEYBOARD)
+    if( !SDL_IsTextInputActive() ) {
+        StartTextInput();
+    }
+#endif
+
     last_input = input_event();
 
     std::optional<point> resize_dims;
@@ -3012,6 +3031,40 @@ static void CheckMessages()
                         break;
                 }
                 break;
+#if defined(__IPHONEOS__)
+            case SDL_APP_WILLENTERBACKGROUND:
+                if( world_generator &&
+                    world_generator->active_world &&
+                    g && g->uquit == QUIT_NO &&
+                    !std::uncaught_exception() ) {
+                    g->quicksave();
+                }
+                if( SDL_IsTextInputActive() ) {
+                    // TODO: Abstract common method with above usage
+                    text_input_active_when_regaining_focus = true;
+                    // Stop text input to not intefere with other programs
+                    SDL_StopTextInput();
+                    // Clear uncommited IME text. TODO: commit IME text instead.
+                    last_input = input_event();
+                    last_input.type = input_event_t::keyboard_char;
+                    last_input.edit.clear();
+                    last_input.edit_refresh = true;
+                    text_refresh = true;
+                } else {
+                    text_input_active_when_regaining_focus = false;
+                }
+                break;
+            case SDL_APP_DIDENTERBACKGROUND:
+                window_focus = false;
+                break;
+            case SDL_APP_DIDENTERFOREGROUND:
+                window_focus = true;
+                // Restore text input status
+                if( text_input_active_when_regaining_focus ) {
+                    SDL_StartTextInput();
+                }
+                break;
+#endif
             case SDL_RENDER_TARGETS_RESET:
                 render_target_reset = true;
                 break;
@@ -3029,7 +3082,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3087,7 +3140,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3825,7 +3878,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         StartTextInput();
     } else {
