@@ -1533,7 +1533,7 @@
     "color": "brown"
   },
   {
-    "id": "box_small_",
+    "id": "box_small_metal",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small metal box", "str_pl": "small metal boxes" },
