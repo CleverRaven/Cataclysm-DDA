@@ -1745,10 +1745,7 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
                                           target.evaluate( d ) ) ) );
 
         // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
-        point_abs_om overmap_pos;
-        tripoint_om_omt potential_city_tile;
-        std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( target_pos );
-        if( potential_city_tile.z() < -1 ) {
+        if( target_pos.z() < -1 ) {
             return false;
         }
 
