@@ -31,7 +31,7 @@
     "entries": [
       {
         "group": "dreamer_artifacts",
-        "artifact": { "procgen_id": "dreamer_artifacts", "rules": { "power_level": 500, "max_attributes": 1, "resonant": false } },
+        "artifact": { "procgen_id": "dreamer_artifacts", "rules": { "power_level": 500, "max_attributes": 1, "resonant": true } },
         "prob": 100
       }
     ]
