@@ -46,7 +46,8 @@
       {
         "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ],
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
-      }
+      },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.2 } ] }
     ],
     "flags": [ "GLIDE", "FEATHER_FALL" ]
   },
