@@ -212,5 +212,16 @@
     "max": 2500,
     "rate": "1 h",
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_lilin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lilin Mutagen" },
+    "excess": "mutagen_lilin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   }
 ]

@@ -2037,6 +2037,13 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_lilin",
+    "name": [ "Lilin Mutation" ],
+    "desc": [ "You are gaining Lilin powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_invisibility",
     "name": [ "Hidden from Mortal Eyes" ],
     "desc": [ "They could have sworn you were there a moment ago." ],
@@ -2289,6 +2296,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "vampire_virus" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_gained_lilin_power",
+    "//": "Hidden effects, prevents you from gaining more lilin powers too quickly",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
