@@ -10,13 +10,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_quail",
-    "name": "quail egg",
-    "copy-from": "egg_guinea_fowl",
-    "rot_spawn": { "group": "GROUP_EGG_QUAIL" }
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_toucan",
     "name": { "str": "toco toucan egg" },
     "spoils_in": "9 days",
