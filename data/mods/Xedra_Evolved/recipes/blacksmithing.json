@@ -129,6 +129,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "19 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -149,6 +150,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "22 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -170,6 +172,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "15 h",
+    "flags": [ "SECRET" ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -191,6 +194,7 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "19 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -211,6 +215,7 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "20 h 10 m",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -231,6 +236,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "8 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -252,6 +258,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "14 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -273,6 +280,7 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "20 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
