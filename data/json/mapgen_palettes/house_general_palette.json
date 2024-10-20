@@ -345,6 +345,20 @@
   },
   {
     "type": "palette",
+    "id": "standard_domestic_carpet_palette",
+    "//": "Use to randomly assign carpet colors",
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_red", 1 ], [ "t_carpet_green", 1 ], [ "t_carpet_purple", 1 ], [ "t_carpet_yellow", 1 ] ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" } }
+  },
+  {
+    "type": "palette",
     "id": "standard_domestic_lino_kitchen",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray/white linoleum flooring under kitchen furniture",
     "parameters": {
