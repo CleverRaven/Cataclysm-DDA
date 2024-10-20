@@ -84,7 +84,7 @@
     "rows": [
       "1eme1                                   ",
       "43256                                   ",
-      "87 90                                   "
+      "87L90                                   "
     ],
     "fill_rows": [
       "(⁰⎼⁰)                                   ",
@@ -104,7 +104,8 @@
       "8": { "body_parts": [ "foot_r" ] },
       "9": { "body_parts": [ "leg_l" ] },
       "0": { "body_parts": [ "foot_l" ] }
-    }
+    },
+    "label": "L"
   },
   {
     "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",
@@ -115,7 +116,7 @@
     "rows": [
       " 1em                                    ",
       "43256                                   ",
-      "87 90                                   "
+      "87L90                                   "
     ],
     "fill_rows": [
       " (⁰◀                                    ",

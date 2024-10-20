@@ -137,6 +137,11 @@ void bodygraph::load( const JsonObject &jo, const std::string_view )
             parts.emplace( sym, bpg );
         }
     }
+
+    if( jo.has_string( "label" ) ) {
+        label = jo.get_string( "label" );
+    }
+
 }
 
 void bodygraph::finalize()
@@ -649,7 +654,8 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 }
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
-        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height )
+        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
+        const std::string &label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;
@@ -680,29 +686,36 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
     for( int i = 0; static_cast<size_t>( i ) < rid->rows.size() && i < height; i++ ) {
         std::string ret_row;
         int j = hflip ? rid->rows[i].size() - 1 : 0;
+        size_t label_i = 0;
         for( int x = 0 ; x < width && j < BPGRAPH_MAXCOLS && j >= 0; hflip ? j-- : j++, x++ ) {
-            std::string sym = id->fill_sym.empty() ? rid->rows[i][j] : id->fill_sym;
-            auto iter = id->parts.find( rid->rows[i][j] );
-            const bodygraph_part *bgp = nullptr;
-            if( iter != id->parts.end() ) {
-                bgp = &iter->second;
-                bool missing_section = true;
-                for( const bodypart_id &bp : iter->second.bodyparts ) {
-                    if( u.has_part( bp, body_part_filter::equivalent ) ) {
-                        missing_section = false;
-                    }
+            std::string sym = " ";
+            const std::string &r = rid->rows[i][j];
+            if( r == rid->label ) {
+                if( label_i < label.length() ) {
+                    sym = label[label_i++];
                 }
-                for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
-                    if( u.has_part( sp->parent, body_part_filter::equivalent ) ) {
-                        missing_section = false;
+                ret_row.append( sym );
+            } else {
+                sym = id->fill_sym.empty() ? r : id->fill_sym;
+                auto iter = id->parts.find( r );
+                const bodygraph_part *bgp = nullptr;
+                if( iter != id->parts.end() ) {
+                    bgp = &iter->second;
+                    bool missing_section = true;
+                    for( const bodypart_id &bp : iter->second.bodyparts ) {
+                        if( u.has_part( bp, body_part_filter::equivalent ) ) {
+                            missing_section = false;
+                        }
                     }
+                    for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
+                        if( u.has_part( sp->parent, body_part_filter::equivalent ) ) {
+                            missing_section = false;
+                        }
+                    }
+                    sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
                 }
-                sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
+                ret_row.append( fragment_cb( bgp, sym ) );
             }
-            if( rid->rows[i][j] == " " ) {
-                sym = " ";
-            }
-            ret_row.append( fragment_cb( bgp, sym ) );
         }
         ret.emplace_back( ret_row );
     }

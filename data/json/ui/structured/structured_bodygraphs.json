@@ -33,26 +33,12 @@
     "string": " "
   },
   {
-    "id": "structured_tiny_body_graphs_left_label",
-    "type": "widget",
-    "style": "text",
-    "width": 5,
-    "string": "↑H E↓"
-  },
-  {
     "id": "structured_tiny_body_graphs_left_layout",
     "type": "widget",
     "style": "layout",
     "width": 5,
     "arrange": "rows",
-    "widgets": [ "tiny_body_graph", "structured_tiny_body_graphs_left_label", "tiny_body_graph_encumb" ]
-  },
-  {
-    "id": "structured_tiny_body_graphs_right_label",
-    "type": "widget",
-    "style": "text",
-    "width": 5,
-    "string": "↑S T↓"
+    "widgets": [ "tiny_body_graph", "structured_space", "tiny_body_graph_encumb" ]
   },
   {
     "id": "structured_tiny_body_graphs_right_layout",
@@ -60,7 +46,7 @@
     "style": "layout",
     "width": 5,
     "arrange": "rows",
-    "widgets": [ "tiny_body_graph_status", "structured_tiny_body_graphs_right_label", "tiny_body_graph_temp" ]
+    "widgets": [ "tiny_body_graph_status", "structured_space", "tiny_body_graph_temp" ]
   },
   {
     "id": "structured_tiny_body_graphs_side_left_layout",

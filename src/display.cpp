@@ -1416,7 +1416,8 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return colorize( sym, sym_col.second );
     };
 
-    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
+    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height,
+                                    bodygraph_var_labels[ int( var ) ] );
     height = rows.size();
 
     std::string ret;
