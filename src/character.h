@@ -520,6 +520,8 @@ struct run_cost_effect {
     float plus = 0;
 };
 
+nutrients default_character_compute_effective_nutrients( const item &comest );
+
 class Character : public Creature, public visitable
 {
     public:

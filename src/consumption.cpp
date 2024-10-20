@@ -312,6 +312,12 @@ static nutrients compute_default_effective_nutrients( const item &comest,
     return ret;
 }
 
+extern nutrients default_character_compute_effective_nutrients( const item &comest )
+{
+    static npc dummy;
+    return dummy.compute_effective_nutrients( comest );
+}
+
 // Calculate the nutrients that the given character would receive from consuming
 // the given item, taking into account the item components and the character's
 // traits.
