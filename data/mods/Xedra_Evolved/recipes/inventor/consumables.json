@@ -50,7 +50,7 @@
       { "proficiency": "prof_frying" },
       { "proficiency": "prof_frying_bread" }
     ],
-    "tools": [ [ [ "surface_heat", 23, "LIST" ] ], [ [ "waffleiron" ] ] ],
+    "tools": [ [ [ "surface_heat", 23, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "brown_bread", 4 ] ],
       [ [ "poultry", 2 ] ],
