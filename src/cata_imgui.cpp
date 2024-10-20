@@ -358,8 +358,7 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
 #define UNUSED
 #endif
 
-static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b,
-                                UNUSED const std::string &lang )
+static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
 {
     // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
@@ -423,7 +422,7 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         ImFontGlyphRangesBuilder b = {};
         b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
         AddGlyphRangesFromCLDR( &b, lang );
-        AddGlyphRangesMisc( &b, lang );
+        AddGlyphRangesMisc( &b );
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
