@@ -60,7 +60,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "cata_imgui.h"
-#if defined(MACOSX) || defined(__CYGWIN__) || defined(__IPHONEOS__)
+#if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
 #endif
 
@@ -85,13 +85,13 @@ class ui_adaptor;
 
 #if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_system.h>
+#include <unistd.h>
 #endif
 
 #if defined(__ANDROID__)
 #include <SDL_filesystem.h>
 #include <SDL_keyboard.h>
 #include <android/log.h>
-#include <unistd.h>
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
