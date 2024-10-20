@@ -74,8 +74,8 @@ targets:
         buildPhase: resources
     settings:
       base:
-        CLANG_CXX_LANGUAGE_STANDARD: c++14
-        CMAKE_CXX_STANDARD: 14
+        CLANG_CXX_LANGUAGE_STANDARD: c++17
+        CMAKE_CXX_STANDARD: 17
         CMAKE_CXX_STANDARD_REQUIRED: ON
         CMAKE_CXX_EXTENSIONS: OFF
         CLANG_WARN_DOCUMENTATION_COMMENTS: false
@@ -101,12 +101,12 @@ targets:
           - "-fsigned-char"
       Debug:
         OTHER_CPLUSPLUSFLAGS:
-          - "-Og -pthread '-std=c++14'"
+          - "-Og -pthread '-std=c++17'"
       Release:
         GCC_PREPROCESSOR_DEFINITIONS: 
           - RELEASE 
         OTHER_CPLUSPLUSFLAGS:
-          - "-0s -DNDEBUG -pthread '-std=c++14'"
+          - "-0s -DNDEBUG -pthread '-std=c++17'"
     dependencies:
       # TODO: build libcataclysm-tiles-common.a as it's own step again. Currently rolled in to single build
       # - framework: libs/libcataclysm-tiles-common.a
