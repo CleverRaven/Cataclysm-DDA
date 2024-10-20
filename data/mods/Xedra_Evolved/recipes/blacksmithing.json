@@ -96,7 +96,7 @@
     "type": "recipe",
     "//": "moon's tears recipes based on the hardened steel line of recipes.  They require the moon's tears proficiency instead of case hardening",
     "activity_level": "BRISK_EXERCISE",
-    "result": "",
+    "result": "moons_tears_knife_baselard",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
