@@ -172,6 +172,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "15 h",
+    "flags": [ "SECRET" ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
