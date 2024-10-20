@@ -2405,6 +2405,19 @@
     ]
   },
   {
+    "id": "nested_ak556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak556", "charges": [ 0, 30 ] },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_ak308",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

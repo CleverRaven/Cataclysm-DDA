@@ -2076,17 +2076,7 @@
   {
     "id": "minidraco556",
     "type": "MIGRATION",
-    "replace": "rdb_223"
-  },
-  {
-    "id": "ak556",
-    "type": "MIGRATION",
-    "replace": "rdb_223"
-  },
-  {
-    "id": "zpap85mag",
-    "type": "MIGRATION",
-    "replace": "stanag30"
+    "replace": "ak556"
   },
   {
     "id": "arx160",
