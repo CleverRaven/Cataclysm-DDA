@@ -63,9 +63,9 @@
     "//": "power infrastructure, etc",
     "type": "oter_vision",
     "levels": [
-      { "name": "electrical infrastructure", "sym": "&", "color": "light_gray" },
-      { "name": "infrastructure", "sym": "A", "color": "light_gray" },
-      { "name": "infrastructure", "sym": "A", "color": "light_gray" }
+      { "name": "infrastructure", "sym": "&", "color": "light_gray" },
+      { "name": "electrical infrastructure", "sym": "A", "color": "light_gray" },
+      { "name": "electrical infrastructure", "sym": "A", "color": "light_gray" }
     ]
   },
   {
