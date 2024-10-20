@@ -201,6 +201,9 @@ Use the `Home` key to return to the top.
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
+      - [`fall_damage_reduction`](#fall_damage_reduction)
+      - [`fall_damage_reduction_multiplicative`](#fall_damage_reduction_multiplicative)
+      - [`fall_damage_reduction_on_breaking`](#fall_damage_reduction_on_breaking)
       - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
       - [`looks_like`](#looks_like)
       - [`color` or `bgcolor`](#color-or-bgcolor)
@@ -5593,6 +5596,18 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 #### `floor_bedding_warmth`
 
 Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+
+#### `fall_damage_reduction`
+
+Flat damage reduction or inrease if negative number. Like falling on a bush or soft chair or mattress or sofa. 
+
+#### `fall_damage_reduction_multiplicative`
+
+Multiplicative damage reduction is used when landing on very springy terrain. Examples: Bed, mattres, Sofa. Should be above 2 if you want it to dampen even very hard fall. Also changes break point of furniture from fall. Default 1.
+
+#### `fall_damage_reduction_on_breaking`
+
+Fall damage reduction due to furniture breaking. Example table/bush breakng eats some energy of an impact. (This is applied instead of regular damage reduction if fall damage is way too high). Vanilla should not exceed 20 unless justified.
 
 #### `bonus_fire_warmth_feet`
 

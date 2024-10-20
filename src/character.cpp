@@ -278,11 +278,6 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
-static const furn_str_id furn_f_bed( "f_bed" );
-static const furn_str_id furn_f_bed_down( "f_bed_down" );
-static const furn_str_id furn_f_down_mattress( "f_down_mattress" );
-static const furn_str_id furn_f_floor_mattress( "f_floor_mattress" );
-
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_UPS( "UPS" );
@@ -12442,14 +12437,27 @@ float Character::fall_damage_mod() const
     return std::max( 0.0f, ret );
 }
 
-static float adjust_effective_force_for_soft_landing( float effective_force )
+static float adjust_effective_force_for_soft_landing( float effective_force , int fall_damage_reduction, float fall_damage_reduction_multiplicative, int max_bash)
 {
-    if( effective_force < 10.0 ) {
-        return 0.0f;  // If less than 10, reduce it to 0
-    } else if( effective_force < 25.0f ) {
-        return effective_force / 3.0f;  // If less than 25 but greater than or equal to 10, reduce by 3
-    } else {
-        return effective_force * 0.75f;  // Otherwise, reduce by 0.75
+    if( effective_force < fall_damage_reduction) {
+        return 0.0f;  // If less than fall_damage_reduction, reduce it to 0
+    } else if(effective_force < ( fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash ) ) {
+        return ( effective_force - fall_damage_reduction ) / fall_damage_reduction_multiplicative; //If less than springy * max_bash then full reduction bonus
+    }
+    else {
+        float upper_limit = fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash * 2;
+        float normalized_force = (effective_force - (fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash)) / (upper_limit - (fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash));
+
+        // Interpolating between the original division factor and 1
+        float division_factor = 1.0f + normalized_force * ((fall_damage_reduction_multiplicative + 1) / 2 - 1);
+
+        // If fall_damage_reduction_multiplicative is below 1, allow the force to increase but cap it at 5x the original effective force
+        float adjusted_force = effective_force / division_factor;
+        if (fall_damage_reduction_multiplicative < 1.0f) {
+            adjusted_force = std::min(adjusted_force, effective_force * 5.0f);  // Cap the force increase at 5x
+        }
+
+        return adjusted_force;
     }
 }
 
@@ -12515,17 +12523,21 @@ int Character::impact( const int force, const tripoint &p )
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
-            if( here.furn( p ) == furn_f_bed ||
-                here.furn( p ) == furn_f_bed_down ||
-                here.furn( p ) == furn_f_down_mattress ||
-                here.furn( p ) == furn_f_floor_mattress ) {
-                effective_force = adjust_effective_force_for_soft_landing( effective_force );
-            } else {
-                //if furniture breakable it breaks and slighly reduces damage
-                if( here.is_bashable_furn( p ) && here.furn( p )->bash.str_max <= effective_force ) {
-                    here.destroy_furn( tripoint_bub_ms( p ), true );
-                    effective_force -= here.furn( p )->bash.str_max * 0.2f;
+            if (here.is_bashable_furn(p)) {
+                if (here.furn(p)->fall_damage_reduction + here.furn(p)->fall_damage_reduction_multiplicative * 2 * here.furn(p)->bash.str_max) {
+                    effective_force = adjust_effective_force_for_soft_landing(effective_force, here.furn(p)->fall_damage_reduction , here.furn(p)->fall_damage_reduction_multiplicative, here.furn(p)->bash.str_max);
                 }
+                else {
+                    //if furniture breakable it breaks and slighly reduces damage
+                        here.destroy_furn(tripoint_bub_ms(p), true);
+                        effective_force -= here.furn(p)->fall_damage_reduction_on_breaking;
+                }
+            }
+            else
+            {
+                //if unbashable just appliying modifiers without any logic
+                effective_force -= here.furn(p)->fall_damage_reduction;
+                effective_force /= here.furn(p)->fall_damage_reduction_multiplicative;
             }
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
@@ -12534,18 +12546,18 @@ int Character::impact( const int force, const tripoint &p )
                 effective_force /= 1.5f;
                 mod /= 1.0f + ( 0.1f * swim_skill );
             }
-        } else if( !here.items_with( p, [&]( item const & it ) {
-        return it.typeId() == itype_mattress ||
-                   it.typeId() == itype_down_mattress;
-        } ).empty() || here.tr_at( p ).id == tr_mattress ||
-        here.tr_at( p ).id == tr_down_mattress ) {
-            effective_force = adjust_effective_force_for_soft_landing( effective_force );
+        } 
+        //checking for items on floor
+        if(!here.has_flag(ter_furn_flag::TFLAG_SWIMMABLE, p) && !here.items_with( p, [&]( item const & it ) {
+        return it.affects_fall();
+        } ).empty() ) {
+           // effective_force = adjust_effective_force_for_soft_landing( effective_force );
         }
     }
+    //for wielded items
     if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
-        ( weapon.typeId() == itype_mattress ||
-          weapon.typeId() == itype_down_mattress ) ) {
-        effective_force = adjust_effective_force_for_soft_landing( effective_force );
+        ( weapon.affects_fall() ) ) {
+        effective_force = adjust_effective_force_for_soft_landing(effective_force, weapon.fall_damage_reduction(), weapon.fall_damage_reduction_multiplicative(), 30);
     }
     // Rescale for huge force
     // At >30 force, proper landing is impossible and armor helps way less
