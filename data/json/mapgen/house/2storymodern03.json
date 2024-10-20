@@ -49,6 +49,7 @@
         "D": "t_carpet_red",
         "¤": "t_carpet_red"
       },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
       "furniture": { "!": "f_counter", "$": "f_bigmirror" }
     }
   },
@@ -101,6 +102,7 @@
       },
       "furniture": { "≠": "f_piano", "$": "f_stool", "&": "f_table" },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 4 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
       "items": { "&": { "item": "table_foyer", "chance": 50 } }
     }
   },
@@ -140,6 +142,7 @@
       ],
       "terrain": { ".": "t_open_air", "(": "t_shingle_flat_roof", "{": "t_railing_v", ",": "t_floor_noroof", "₸": "t_floor_noroof" },
       "furniture": { "!": "f_table", "₸": "f_deckchair" },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
       "items": { "!": { "item": "table_foyer", "chance": 50 } }
     }
   },

@@ -70,6 +70,7 @@
         "&": "t_sandbox"
       },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 1, "y": 0 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.2  } ],
       "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_brazier", "(": "f_camp_chair" },
       "place_item": [ { "item": "television", "repeat": 1, "x": 14, "y": 7 }, { "item": "lawnmower", "repeat": 1, "x": 12, "y": 12 } ],
       "place_items": [
@@ -149,6 +150,7 @@
         "                        "
       ],
       "palettes": [ "basement_empty" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.05  } ],
       "nested": {
         "2": {
           "chunks": [

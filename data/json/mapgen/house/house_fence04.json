@@ -52,6 +52,7 @@
         "&": "t_floor_noroof"
       },
       "furniture": { "&": "f_table", "?": [ "f_indoor_plant", "f_indoor_plant_y" ] },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
       "place_loot": [ { "item": "television", "x": 19, "y": 10 } ]
     }
   },
@@ -181,6 +182,7 @@
         "0": { "item": "hydro", "chance": 50 },
         "&": [ { "item": "farming_seeds", "chance": 35 }, { "item": "farming_tools", "chance": 50 } ]
       },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
       "place_loot": [
         { "item": "television", "x": 19, "y": 10 },
         { "item": "straw_hat", "x": [ 4, 10 ], "y": 5 },

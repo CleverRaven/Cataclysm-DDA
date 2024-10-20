@@ -182,6 +182,7 @@
           ]
         }
       },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.05  } ],
       "place_nested": [ { "chunks": [ "cannabis_extraction_equipment_nested_1x1" ], "x": 21, "y": 7 } ]
     }
   }
