@@ -190,6 +190,7 @@ static void InitSDL()
 #if defined(SDL_HINT_TOUCH_MOUSE_EVENTS)
     SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
 #endif
+#endif
 
 #if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
     // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
