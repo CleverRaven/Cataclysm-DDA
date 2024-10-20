@@ -7,8 +7,7 @@
     "monsters": [
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_camel", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
-      { "monster": "mon_quail", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] }
+      { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] }
     ]
   },
   {
@@ -21,7 +20,6 @@
       { "monster": "mon_capybara", "weight": 10 },
       { "monster": "mon_guinea_pig", "weight": 10 },
       { "monster": "mon_bushdog", "weight": 10 },
-      { "monster": "mon_quail", "weight": 10 },
       { "monster": "mon_camel", "weight": 10 },
       { "monster": "mon_boa", "weight": 10 },
       { "monster": "mon_anaconda", "weight": 10 }

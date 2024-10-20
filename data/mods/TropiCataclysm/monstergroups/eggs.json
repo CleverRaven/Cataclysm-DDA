@@ -1,10 +1,5 @@
 [
   {
-    "name": "GROUP_EGG_QUAIL",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_quail_chick" } ]
-  },
-  {
     "name": "GROUP_EGG_TINAMOU",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_tinamou_chick" } ]
