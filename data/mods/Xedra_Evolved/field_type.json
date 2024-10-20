@@ -225,5 +225,31 @@
     "phase": "gas",
     "display_items": false,
     "display_field": true
+  },
+  {
+    "id": "fd_sleep_aid",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "",
+        "effects": [
+          {
+            "effect_id": "effect_sleep_aid",
+            "intensity": 1,
+            "min_duration": "10 seconds",
+            "max_duration": "35 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 5,
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas"
   }
 ]
