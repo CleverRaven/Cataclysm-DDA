@@ -25,6 +25,16 @@
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   },
   {
+    "id": "lilin_ruach_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ruach" },
+    "min": 0,
+    "max": 6720,
+    "//": "Maximum amount is one lunar month's worth",
+    "rate": "0 m"
+  },
+  {
     "id": "cheval",
     "type": "vitamin",
     "vit_type": "counter",

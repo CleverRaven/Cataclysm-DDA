@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mutation",
+    "id": "LILIN_TRAITS",
+    "//": "Lilin are spiritual vampires--rather than feed on blood, they feed on the essence of their targets.  This allows them to gain some similar powers to vampires, but often in a more subtle fashion",
+    "name": { "str": "Lilit" },
+    "description": "You are one of the lilin, a hunter in the night, driven to feed on the spiritual essense (some might say the soul) of your prey.  Probably you were born that way, but maybe it happened to due to a malediction, or some artifact you found in a place best forgotten.  Regardless, it is your gift and your curse now, and you must use your powers to survive.",
+    "points": 2,
+    "mixed_effect": true,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "types": [ "HERITAGE" ],
+    "anger_relations": [ [ "VAMPIRE", -30 ], [ "HOMULLUS", 30 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_DRAIN_ESSENCE_MELEE",
+    "name": { "str": "Enervating Touch" },
+    "description": "With but a touch, you can drain the vitality and spiritual essence from your targets.",
+    "points": 2,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "spells_learned": [ [ "lilin_drain_essence_melee_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_DRAIN_ESSENCE_DISTANCE",
+    "name": { "//~": "Ruach is the Hebrew word for 'breath,' but it can also mean 'spirit' ", "str": "Ruach Drinker" },
+    "description": "You no longer need to touch your targets to drain their ruach; you can do it at a distance through their breath.",
+    "points": 2,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "spells_learned": [ [ "lilin_drain_essence_ranged_spell", 1 ] ]
+  }
+]

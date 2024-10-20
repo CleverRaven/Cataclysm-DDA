@@ -2281,5 +2281,50 @@
     "desc": [
       "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_no_ruach",
+    "name": [ { "str": "Ra'ab", "//~": "Biblical Hebrew for 'famine' or 'starvation'" } ],
+    "desc": [ "You are out of ruach and gradually weakening." ],
+    "rating": "bad",
+    "max_intensity": 28,
+    "int_decay_step": 1,
+    "int_decay_tick": 86400,
+    "//2": "Increases in intensity once per day",
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_max_val": [ 10 ],
+      "pain_chance": [ 45 ],
+      "pain_tick": [ 300 ],
+      "health_min": [ -1 ],
+      "health_max": [ 2 ],
+      "health_chance": [ 45 ],
+      "health_tick": [ 600 ]
+    },
+    "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ -1 ], "pain_tick": [ -6 ], "health_chance": [ -1 ], "health_tick": [ -12 ] },
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "HUNGER", "multiply": { "math": [ "u_effect_intensity('effect_lilin_no_ruach') * 0.05" ] } },
+          { "value": "THIRST", "multiply": { "math": [ "u_effect_intensity('effect_lilin_no_ruach') * 0.05" ] } },
+          { "value": "SLEEPINESS", "multiply": { "math": [ "u_effect_intensity('effect_lilin_no_ruach') * 0.05" ] } },
+          {
+            "value": "REGEN_HP",
+            "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -1)" ] }
+          },
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -0.95)" ] }
+          },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -0.95)" ] }
+          }
+        ]
+      }
+    ]
   }
 ]
