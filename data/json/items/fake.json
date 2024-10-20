@@ -276,6 +276,15 @@
     "charged_qualities": [ [ "DRILL", 3 ] ]
   },
   {
+    "id": "glassblowers_crucible_tool",
+    "type": "TOOL",
+    "name": { "str": "glassblower's crucible" },
+    "copy-from": "fake_appliance_tool",
+    "symbol": "o",
+    "color": "brown",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
+  },
+  {
     "id": "tablesaw_tool",
     "type": "TOOL",
     "name": { "str": "table saw" },
