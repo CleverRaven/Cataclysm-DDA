@@ -3,7 +3,7 @@
     "type": "BOOK",
     "category": "manuals",
     "id": "book_moons_tears_ingot",
-    "name": { "str": "Report: LAUGHING DANCER metallurgy" },
+    "name": { "str": "Report: LAUGHING DANCER metallurgy", "str_pl": "copies of Report: LAUGHING DANCER metallurgy" },
     "description": "A series of documents discussing the properties of the armor and weapons used by a group or organization only referred to as \"LAUGHING DANCER\".  Some of these described specifications don't seem physically possible.",
     "material": [ "paper" ],
     "weight": "60 g",
