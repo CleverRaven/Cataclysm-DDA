@@ -236,6 +236,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "8 h",
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
