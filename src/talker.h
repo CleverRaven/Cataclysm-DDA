@@ -55,7 +55,7 @@ class talker
         virtual item_location *get_item() {
             return nullptr;
         }
-        virtual item_location *get_item() const {
+        virtual item_location const *get_item() const {
             return nullptr;
         }
         virtual monster *get_monster() {
@@ -552,6 +552,7 @@ class talker
             return 0;
         }
         virtual void set_addiction_turns( const addiction_id &, int ) {}
+        virtual void mod_stored_kcal( int, bool ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
@@ -589,6 +590,10 @@ class talker
         virtual int attack_speed() const {
             return 0;
         }
+        virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
+                const damage_instance & ) const {
+            return dealt_damage_instance();
+        };
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }
@@ -605,6 +610,12 @@ class talker
             return false;
         }
         virtual bool wielded_with_weapon_category( const weapon_category_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_weapon_skill( const skill_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_item_ammotype( const ammotype & ) const {
             return false;
         }
         virtual bool has_item_with_flag( const flag_id & ) const {

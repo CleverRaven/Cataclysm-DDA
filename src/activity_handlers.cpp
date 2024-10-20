@@ -1452,7 +1452,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {
-        here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
 
     // all action types - yields
@@ -1465,13 +1465,15 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         target.remove_item();
         act->targets.pop_back();
 
-        here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-        here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_blood, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         for( int i = 1; i <= corpse->size; i++ ) {
-            here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                     corpse->size + 1 ) ) );
-            here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                     corpse->size + 1 ) ) );
+            here.add_splatter_trail( type_gib, you->pos_bub(),
+                                     random_entry( here.points_in_radius( you->pos_bub(),
+                                                   corpse->size + 1 ) ) );
+            here.add_splatter_trail( type_blood, you->pos_bub(),
+                                     random_entry( here.points_in_radius( you->pos_bub(),
+                                                   corpse->size + 1 ) ) );
         }
 
         // Ready to move on to the next item, if there is one
@@ -1510,13 +1512,15 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
             corpse_item.set_flag( success ? flag_FIELD_DRESS : flag_FIELD_DRESS_FAILED );
-            here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-            here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            here.add_splatter( type_blood, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
             for( int i = 1; i <= corpse->size; i++ ) {
-                here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                         corpse->size + 1 ) ) );
-                here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                         corpse->size + 1 ) ) );
+                here.add_splatter_trail( type_gib, you->pos_bub(),
+                                         random_entry( here.points_in_radius( you->pos_bub(),
+                                                       corpse->size + 1 ) ) );
+                here.add_splatter_trail( type_blood, you->pos_bub(),
+                                         random_entry( here.points_in_radius( you->pos_bub(),
+                                                       corpse->size + 1 ) ) );
             }
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
@@ -1662,8 +1666,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 you->pour_into( act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
-                if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
-                    iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
+                if( iexamine::has_keg( tripoint_bub_ms( act_ref.coords.at( 1 ) ) ) ) {
+                    iexamine::pour_into_keg( tripoint_bub_ms( act_ref.coords.at( 1 ) ), liquid );
                 } else {
                     here.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
                     you->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
@@ -1832,7 +1836,7 @@ void activity_handlers::game_do_turn( player_activity *act, Character *you )
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 {
-    const tripoint &pos = get_map().getlocal( act->placement );
+    const tripoint_bub_ms &pos = get_map().bub_from_abs( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
@@ -1866,6 +1870,10 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     here.destroy( pos, true );
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
+        if( it.is_null() || it.charges <= 0 ) {
+            debugmsg( "pickaxe expired during mining" );
+            return;
+        }
         you->consume_charges( it, it.ammo_required() );
     } else {
         debugmsg( "pickaxe activity targets empty" );
@@ -2111,7 +2119,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint( act->values[0],
+    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
     veh_interact::complete_vehicle( *you );
@@ -2889,7 +2897,7 @@ void activity_handlers::armor_layers_do_turn( player_activity *, Character *you 
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
 {
-    iexamine::atm( *you, you->pos() );
+    iexamine::atm( *you, you->pos_bub() );
 }
 
 // fish-with-rod fish catching function.
@@ -3084,7 +3092,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const bionic_id bid( act->str_values[cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( you->pos() ) &&
+    const bool u_see = player_character.sees( you->pos_bub() ) &&
                        ( !player_character.has_effect( effect_narcosis ) ||
                          player_character.has_bionic( bio_painkiller ) ||
                          player_character.has_flag( json_flag_PAIN_IMMUNE ) );
@@ -3098,11 +3106,13 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     time_duration time_left = time_duration::from_moves( act->moves_left );
 
     map &here = get_map();
-    if( autodoc && here.inbounds( you->pos() ) ) {
-        const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                             ter_furn_flag::TFLAG_AUTODOC );
+    if( autodoc && here.inbounds( you->pos_bub() ) ) {
+        const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                    you->pos_bub(), 1,
+                    ter_furn_flag::TFLAG_AUTODOC );
 
-        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos() ) || autodocs.empty() ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos_bub() ) ||
+            autodocs.empty() ) {
             you->remove_effect( effect_under_operation );
             act->set_to_null();
 
@@ -3232,8 +3242,9 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 ter_furn_flag::TFLAG_AUTODOC );
+            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                        you->pos_bub(), 1,
+                        ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
                            "Autodoc",
@@ -3241,8 +3252,9 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
         } else {
             add_msg( m_bad,
                      _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 ter_furn_flag::TFLAG_AUTODOC );
+            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                        you->pos_bub(), 1,
+                        ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a sad beeping noise: \"Operation failed\"" ), true,
                            "Autodoc",
@@ -3449,9 +3461,9 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
+                              sfx::get_heard_volume( here.bub_from_abs( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+        sounds::sound( here.bub_from_abs( act->placement ), 15, sounds::sound_t::destructive_activity,
                        //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
     }
@@ -3565,7 +3577,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
     const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
         check_fertilizer();
         // TODO: fix point types
-        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile.raw(), fertilizer );
+        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
         return !can_fert.success();
     };
 
@@ -3573,7 +3585,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         check_fertilizer();
         if( have_fertilizer() ) {
             // TODO: fix point types
-            iexamine::fertilize_plant( you, tile.raw(), fertilizer );
+            iexamine::fertilize_plant( you, tile, fertilizer );
             if( !have_fertilizer() ) {
                 add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
             }
@@ -3679,7 +3691,7 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
         you->as_avatar()->longpull( act->name );
     } else {
         // TODO: fix point types
-        you->longpull( act->name, get_map().bub_from_abs( act->placement ).raw() );
+        you->longpull( act->name, get_map().bub_from_abs( act->placement ) );
     }
     act->set_to_null();
 }
@@ -3794,8 +3806,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
     }
 
     // choose target for spell before continuing
-    const std::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
-            you ) : get_map().bub_from_abs( act->coords.front() ).raw();
+    const std::optional<tripoint_bub_ms> target = act->coords.empty() ? spell_being_cast.select_target(
+                you ) : get_map().bub_from_abs( tripoint_abs_ms( act->coords.front() ) );
     if( target ) {
         // npcs check for target viability
         if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {

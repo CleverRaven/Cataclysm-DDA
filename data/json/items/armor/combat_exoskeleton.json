@@ -3,7 +3,7 @@
     "abstract": "combat_exoskeleton_abstract",
     "category": "armor",
     "type": "ARMOR",
-    "name": { "str": "abstract combat exoskeleton" },
+    "name": { "str": "abstract combat exoskeleton", "//~": "NO_I18N" },
     "price": "60000 USD",
     "price_postapoc": "5000 USD",
     "symbol": "[",

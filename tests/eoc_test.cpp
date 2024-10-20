@@ -2,6 +2,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "effect_on_condition.h"
 #include "game.h"
 #include "make_static.h"
@@ -182,7 +183,7 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     tripoint_abs_ms const orig = coord_min( first, second );
     tm.load( project_to<coords::sm>( orig ), false, false );
     for( tripoint_abs_ms p : line_to( first, second ) ) {
-        REQUIRE( tm.ter( tm.getlocal( p ) ) == ter );
+        REQUIRE( tm.ter( tm.bub_from_abs( p ) ) == ter );
     }
 }
 
@@ -204,7 +205,7 @@ TEST_CASE( "EOC_beta_elevate", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
 
     REQUIRE( n.hp_percentage() > 0 );
 
@@ -348,7 +349,7 @@ TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
     clear_map();
     item weapon( itype_test_knife_combat );
     get_avatar().set_wielded_item( weapon );
-    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
 
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( n ) );
     global_variables &globvars = get_globals();
@@ -381,7 +382,7 @@ TEST_CASE( "EOC_attack_test", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
 
     dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( n ) );
     CHECK( effect_on_condition_EOC_attack_test->activate( newDialog ) );
@@ -1073,11 +1074,11 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     // Activate test for item
     CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
-    CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
+    CHECK( get_map().furn( get_map().bub_from_abs( pos_after ) ) == furn_f_cardboard_box );
 
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
-    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
+    CHECK( get_map().i_at( get_map().bub_from_abs( pos_after ) ).size() == 3 );
 
     // Math function test for armor
     CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
@@ -1134,7 +1135,7 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     // character_casts_spell
     spell temp_spell( spell_test_eoc_spell );
     temp_spell.set_level( get_avatar(), 5 );
-    temp_spell.cast_all_effects( get_avatar(), tripoint() );
+    temp_spell.cast_all_effects( get_avatar(), tripoint_bub_ms() );
 
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "test_trait" );
@@ -1184,7 +1185,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_map();
 
     // character_melee_attacks_character
-    npc &npc_dst_melee = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+    npc &npc_dst_melee = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
     item weapon_item( itype_test_knife_combat );
     get_avatar().wield( weapon_item );
     get_avatar().melee_attack( npc_dst_melee, false );
@@ -1198,7 +1199,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
 
     // character_melee_attacks_monster
     clear_map();
-    monster &mon_dst_melee = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_east );
+    monster &mon_dst_melee = spawn_test_monster( "mon_zombie", get_avatar().pos_bub() + tripoint_east );
     get_avatar().melee_attack( mon_dst_melee, false );
 
     CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
@@ -1209,7 +1210,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
 
     // character_ranged_attacks_character
-    const tripoint target_pos = get_avatar().pos() + point_east;
+    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east;
     clear_map();
     npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
     for( loop = 0; loop < 1000; loop++ ) {
@@ -1236,7 +1237,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item() );
+        get_avatar().fire_gun( mon_dst_ranged.pos_bub(), 1, *get_avatar().get_wielded_item() );
         if( !mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }
@@ -1306,14 +1307,14 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     map &m = get_map();
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint tgt = m.getlocal( start + tripoint_north );
+    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint_north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
     CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
     CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
 
-    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east * 10;
     npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
 
@@ -1333,11 +1334,11 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     g->place_player( tripoint_zero );
 
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint tgt = m.getlocal( start + tripoint_north );
+    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint_north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
-    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east * 10;
     npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
 
@@ -1346,8 +1347,8 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
                                     globvars.get_global_value( "npctalk_var_map_test_loc_a" ) ) );
     tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
                                     globvars.get_global_value( "npctalk_var_map_test_loc_b" ) ) );
-    CHECK( m.getlocal( tmp_abs_a ) == tripoint( 70, 70, 0 ) );
-    CHECK( m.getlocal( tmp_abs_b ) == tripoint( 70, 60, 0 ) );
+    CHECK( m.bub_from_abs( tmp_abs_a ) == tripoint_bub_ms( 70, 70, 0 ) );
+    CHECK( m.bub_from_abs( tmp_abs_b ) == tripoint_bub_ms( 70, 60, 0 ) );
 
     globvars.clear_global_values();
     clear_avatar();

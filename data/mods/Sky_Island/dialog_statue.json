@@ -581,6 +581,20 @@
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
       {
+        "text": "Construct: West Side Rooms",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_west_side_rooms" } },
+            { "math": [ "skyisland_build_westroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_west_side_rooms", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_west_side_rooms" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
         "text": "Construct: East Room 1",
         "condition": {
           "and": [
@@ -632,6 +646,20 @@
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
       {
+        "text": "Construct: East Side Rooms",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_east_side_rooms" } },
+            { "math": [ "skyisland_build_eastroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_east_side_rooms", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_east_side_rooms" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
         "text": "Construct: North Room 1",
         "condition": {
           "and": [
@@ -680,6 +708,20 @@
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_northroom4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: North Side Rooms",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_north_side_rooms" } },
+            { "math": [ "skyisland_build_northroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_north_side_rooms", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_north_side_rooms" } ],
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
       {
@@ -806,6 +848,15 @@
         "topic": "SKYISLAND_UPGRADE"
       },
       {
+        "text": "I need help with the Inverted Cube for the western side rooms.",
+        "condition": { "math": [ "skyisland_build_west_side_rooms", "==", "1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_west_side_rooms" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
         "text": "I need help with the Hollow Carver stage of the eastern room.",
         "condition": { "math": [ "skyisland_build_eastroom", "==", "2" ] },
         "effect": [
@@ -833,6 +884,15 @@
         "topic": "SKYISLAND_UPGRADE"
       },
       {
+        "text": "I need help with the Inverted Cube for the eastern side rooms.",
+        "condition": { "math": [ "skyisland_build_east_side_rooms", "==", "1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_east_side_rooms" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
         "text": "I need help with the Hollow Carver stage of the northern room.",
         "condition": { "math": [ "skyisland_build_northroom", "==", "2" ] },
         "effect": [
@@ -855,6 +915,15 @@
         "condition": { "math": [ "skyisland_build_northroom", "==", "4" ] },
         "effect": [
           { "run_eocs": "EOC_skyisland_build_northroom4" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Inverted Cube for the northern side rooms.",
+        "condition": { "math": [ "skyisland_build_north_side_rooms", "==", "1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_north_side_rooms" },
           { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
         ],
         "topic": "SKYISLAND_UPGRADE"

@@ -751,12 +751,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = vp.next_pos.raw();
-        veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
+        const tripoint_bub_ms dsp = vp.next_pos;
+        veh_collision coll = part_collision( p, dsp.raw(), just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
-            for( const tripoint &rotor_point : here.points_in_radius( dsp, radius ) ) {
-                veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
+            for( const tripoint_bub_ms &rotor_point : here.points_in_radius( dsp, radius ) ) {
+                veh_collision rotor_coll = part_collision( p, rotor_point.raw(), just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
                     if( just_detect ) {
@@ -1666,7 +1666,7 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
         coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
                          wheel_point );
 
-        tripoint wheel_tripoint = global_pos3() + wheel_point;
+        tripoint_bub_ms wheel_tripoint = pos_bub() + wheel_point;
 
         // maximum number of incorrect tiles for this type of turn(diagonal or not)
         const int allowed_incorrect_tiles_diagonal = 1;
@@ -1812,10 +1812,11 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
 
 vehicle *vehicle::act_on_map()
 {
-    const tripoint pt = global_pos3();
+    const tripoint_bub_ms pt = pos_bub();
     map &here = get_map();
     if( !here.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x() << "," << pt.y() << "," <<
+                      pt.z() <<
                       ")";
         stop();
         of_turn = 0;
@@ -1963,20 +1964,20 @@ vehicle *vehicle::act_on_map()
         mdir = face;
     }
 
-    tripoint dp;
+    tripoint_rel_ms dp;
     if( std::abs( velocity ) >= 20 && !falling_only ) {
         mdir.advance( velocity < 0 ? -1 : 1 );
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
+        dp.x() = mdir.dx();
+        dp.y() = mdir.dy();
     }
 
     if( should_fall ) {
-        dp.z = -1;
+        dp.z() = -1;
         is_flying = false;
     } else {
-        dp.z = requested_z_change;
+        dp.z() = requested_z_change;
         requested_z_change = 0;
-        if( dp.z > 0 && is_rotorcraft() ) {
+        if( dp.z() > 0 && is_rotorcraft() ) {
             is_flying = true;
         }
     }
@@ -1997,19 +1998,19 @@ bool vehicle::level_vehicle()
         if( prt.info().location != part_location_structure ) {
             continue;
         }
-        const tripoint part_pos = global_part_pos3( prt );
-        if( no_support.find( part_pos.z ) == no_support.end() ) {
-            no_support[part_pos.z] = part_pos.z > -OVERMAP_DEPTH;
+        const tripoint_bub_ms part_pos = bub_part_pos( prt );
+        if( no_support.find( part_pos.z() ) == no_support.end() ) {
+            no_support[part_pos.z()] = part_pos.z() > -OVERMAP_DEPTH;
         }
-        if( no_support[part_pos.z] ) {
-            no_support[part_pos.z] = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, part_pos ) &&
-                                     !here.supports_above( part_pos + tripoint_below );
+        if( no_support[part_pos.z()] ) {
+            no_support[part_pos.z()] = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, part_pos ) &&
+                                       !here.supports_above( part_pos + tripoint_below );
         }
         if( !is_on_ramp &&
-            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint_bub_ms( part_pos.x, part_pos.y,
-                             part_pos.z - 1 ) ) ||
-              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint_bub_ms( part_pos.x, part_pos.y,
-                             part_pos.z + 1 ) ) ) ) {
+            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint_bub_ms( part_pos.x(), part_pos.y(),
+                             part_pos.z() - 1 ) ) ||
+              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint_bub_ms( part_pos.x(), part_pos.y(),
+                             part_pos.z() + 1 ) ) ) ) {
             is_on_ramp = true;
         }
     }
@@ -2054,9 +2055,9 @@ void vehicle::check_falling_or_floating()
     is_flying = false;
     map &here = get_map();
 
-    auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
+    auto has_support = [&here]( const tripoint_bub_ms & position, const bool water_supports ) {
         // if we're at the bottom of the z-levels, we're supported
-        if( position.z == -OVERMAP_DEPTH ) {
+        if( position.z() == -OVERMAP_DEPTH ) {
             return true;
         }
         // water counts as support if we're swimming and checking to see if we're falling, but
@@ -2067,13 +2068,13 @@ void vehicle::check_falling_or_floating()
         if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
-        tripoint below( position.xy(), position.z - 1 );
+        tripoint_bub_ms below( position.xy(), position.z() - 1 );
         return here.supports_above( below );
     };
     // Check under the wheels, if they're supported nothing else matters.
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
-        const tripoint position = global_part_pos3( wheel_index );
+        const tripoint_bub_ms position = bub_part_pos( wheel_index );
         if( has_support( position, false ) ) {
             ++supported_wheels;
         }
@@ -2106,7 +2107,7 @@ void vehicle::check_falling_or_floating()
         if( !is_falling ) {
             continue;
         }
-        is_falling = !has_support( position, true );
+        is_falling = !has_support( tripoint_bub_ms( position ), true );
     }
     // in_deep_water if 2/3 of the vehicle is in deep water
     in_deep_water = 3 * deep_water_tiles >= 2 * pts.size();
@@ -2133,7 +2134,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
         const vpart_info &vpi = vp.info();
-        const tripoint pp = veh.global_part_pos3( vp );
+        const tripoint_bub_ms pp = veh.bub_part_pos( vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
@@ -2188,11 +2189,11 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        const tripoint part_pos = veh.global_part_pos3( ps );
-        if( rider->pos() != part_pos ) {
+        const tripoint_bub_ms part_pos = veh.bub_part_pos( ps );
+        if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
-                      part_pos.x, part_pos.y, part_pos.z );
+                      part_pos.x(), part_pos.y(), part_pos.z() );
             veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;
         }
@@ -2274,7 +2275,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else {
-                add_msg_if_player_sees( part_pos, m_bad,
+                add_msg_if_player_sees( part_pos.raw(), m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }

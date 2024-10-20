@@ -3,7 +3,7 @@
     "id": "camera",
     "type": "TOOL",
     "name": { "str": "camera" },
-    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
+    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.",
     "weight": "907 g",
     "volume": "250 ml",
     "price": "200 USD",
@@ -14,7 +14,7 @@
     "ammo": [ "battery" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "charges_per_use": 1,
-    "use_action": [ "CAMERA" ],
+    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" } ],
     "//": "swappable, but proprietary 80g Li-Ion battery",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "melee_damage": { "bash": 1 }
@@ -23,7 +23,7 @@
     "id": "camera_pro",
     "type": "TOOL",
     "name": { "str": "professional camera" },
-    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
+    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
     "volume": "1250 ml",
     "price": "8 kUSD",
@@ -32,8 +32,8 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "charges_per_use": 5,
-    "use_action": [ "CAMERA" ],
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "50 W" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "CAMERA_PRO", "ALWAYS_TWOHAND", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "//": "swappable, but proprietary 160g Li-Ion battery",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
@@ -804,16 +804,9 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [ "VIBE" ],
-    "flags": [ "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ]
+    "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
+    "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ]
   },
   {
     "id": "gas_charger",

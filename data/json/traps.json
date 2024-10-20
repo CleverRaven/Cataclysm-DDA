@@ -324,7 +324,7 @@
     "symbol": "^",
     "visibility": 5,
     "avoidance": 4,
-    "difficulty": 5,
+    "difficulty": 0,
     "action": "crossbow",
     "drops": [ "string_36", "crossbow", "bolt_steel" ],
     "vehicle_data": {
@@ -350,7 +350,7 @@
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
-    "difficulty": 6,
+    "difficulty": 0,
     "action": "shotgun",
     "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
@@ -375,7 +375,7 @@
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
-    "difficulty": 6,
+    "difficulty": 0,
     "action": "shotgun",
     "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
@@ -401,7 +401,7 @@
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
-    "difficulty": 6,
+    "difficulty": 0,
     "action": "shotgun",
     "drops": [ "string_36", "slamfire_shotgun", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
@@ -625,7 +625,7 @@
     "flags": [ "ECHOLOCATION_DETECTABLE" ],
     "visibility": 5,
     "avoidance": 4,
-    "difficulty": 7,
+    "difficulty": 0,
     "action": "boobytrap",
     "drops": [ "boobytrap" ],
     "vehicle_data": {
@@ -747,8 +747,8 @@
   {
     "id": "summon_trapspider",
     "type": "SPELL",
-    "name": "Summon Trapdoor Spider",
-    "description": "This spell summons hostile trapdoor spiders from the earth.",
+    "name": { "str": "Summon Trapdoor Spider", "//~": "NO_I18N" },
+    "description": { "str": "This spell summons hostile trapdoor spiders from the earth.", "//~": "NO_I18N" },
     "effect": "summon",
     "effect_str": "GROUP_SPIDER_TRAPDOOR",
     "shape": "blast",
@@ -1102,8 +1102,8 @@
   {
     "type": "SPELL",
     "id": "trap_base",
-    "name": { "str": "base spell for traps" },
-    "description": "EOCs the victim.",
+    "name": { "str": "base spell for traps", "//~": "NO_I18N" },
+    "description": { "str": "EOCs the victim.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
@@ -1132,7 +1132,7 @@
   {
     "type": "SPELL",
     "id": "portal_dungeon_entrance",
-    "name": "portal dungeon entrance",
+    "name": { "str": "portal dungeon entrance", "//~": "NO_I18N" },
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON"
   },
@@ -1148,7 +1148,7 @@
   {
     "type": "SPELL",
     "id": "portal_dungeon_exit",
-    "name": "portal dungeon exit",
+    "name": { "str": "portal dungeon exit", "//~": "NO_I18N" },
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
   },
@@ -1164,7 +1164,7 @@
   {
     "type": "SPELL",
     "id": "portal_dungeon_next_level",
-    "name": "portal dungeon next level",
+    "name": { "str": "portal dungeon next level", "//~": "NO_I18N" },
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
   },

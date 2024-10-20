@@ -34,6 +34,21 @@
     }
   },
   {
+    "type": "mapgen",
+    "update_mapgen_id": "smokes_take_down_back_bay_barricade",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },
+        { "square": "furniture", "id": "f_clear", "x": 3, "y": 4, "x2": 20, "y2": 14 },
+        { "square": "furniture", "id": "f_clear", "x": 4, "y": 15, "x2": 20, "y2": 15 },
+        { "square": "furniture", "id": "f_clear", "x": 5, "y": 16, "x2": 18, "y2": 16 },
+        { "square": "item_remove", "x": 3, "y": 3, "x2": 20, "y2": 16 },
+        { "square": "item_remove", "x": 21, "y": 12, "x2": 23, "y2": 15 }
+      ]
+    }
+  },
+  {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
     "name": { "str": "Clear Back Bay" },
@@ -48,6 +63,7 @@
         "om_terrain": "evac_center_9",
         "reveal_radius": 1
       },
+      "effect": [ { "mapgen_update": "smokes_take_down_back_bay_barricade", "om_terrain": "evac_center_8" } ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
@@ -68,7 +84,7 @@
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the Cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
+      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the Cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.  <color_red>If you accept, I'll tell the guards to immediately take down the barricade in the back.  You should only accept if you're ready to do this now.</color>",
       "accepted": "Please be careful, we don't need any more deaths.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
@@ -363,7 +379,7 @@
         "text": "He wants permission to build himself a little shelter outside of your lobby, somewhere out of the way.  He'd need access to your washrooms and things, but you could clear him out of this space.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2"
       },
-      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -375,7 +391,7 @@
         "text": "What about the rooftop?  There's a stair access there, I can see it from outside, and he'd probably be able to do a bit of a lookout job.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3"
       },
-      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -112,6 +112,7 @@
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
@@ -156,7 +157,6 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -234,6 +234,7 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const morale_type morale_book( "morale_book" );
@@ -336,8 +337,8 @@ void aim_activity_actor::start( player_activity &act, Character &who )
     item &it = *weapon.get_item();
 
     if( !check_gun_ability_to_shoot( who, it ) ) {
-        aborted = true; // why doesn't interrupt?
-        act.set_to_null();
+        aborted = true;
+        finish( act, who );
     }
 
     // Time spent on aiming is determined on the go by the player
@@ -543,10 +544,10 @@ item_location aim_activity_actor::get_weapon()
 void aim_activity_actor::restore_view() const
 {
     avatar &player_character = get_avatar();
-    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    bool changed_z = player_character.view_offset.z() != initial_view_offset.z();
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( player_character.view_offset.z );
+        get_map().invalidate_map_cache( player_character.view_offset.z() );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -683,6 +684,50 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
+}
+
+void bash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    avatar *player = who.as_avatar();
+    if( player == nullptr ) {
+        debugmsg( "An NPC (%s) has been assigned ACT_BASH", who.get_name() );
+        who.cancel_activity();
+        return;
+    }
+    while( who.get_moves() > 0 ) {
+        avatar::smash_result res = player->smash( target );
+        if( !res.did_smash ) {
+            add_msg( m_info, _( "Something got in the way of smashing." ) );
+            who.cancel_activity();
+            return;
+        }
+        if( res.success ) {
+            who.cancel_activity();
+            return;
+        }
+        if( res.resistance < 0 || res.skill < res.resistance ) {
+            add_msg( m_info, _( "You're no longer able to make progress smashing here." ) );
+            who.cancel_activity();
+            return;
+        }
+    }
+}
+
+void bash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsin )
+{
+    bash_activity_actor actor( tripoint_bub_ms_zero );
+
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+
+    return actor.clone();
 }
 
 void gunmod_remove_activity_actor::start( player_activity &act, Character & )
@@ -1285,7 +1330,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
-    hotwire_car_activity_actor actor( 0, tripoint_zero );
+    hotwire_car_activity_actor actor( 0, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -1877,7 +1922,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.fine_detail_vision_mod() > 4 ) {
+    if( who.fine_detail_vision_mod() > 4 && !who.has_flag( json_flag_READ_IN_DARKNESS ) ) {
         // It got too dark during the process of reading, bail out.
         act.set_to_null();
         who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
@@ -2715,7 +2760,7 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
     const item_location &lockpick,
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2727,7 +2772,7 @@ lockpick_activity_actor lockpick_activity_actor::use_item(
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_bionic(
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2963,7 +3008,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_zero );
+    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -4102,7 +4147,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
-    workout_activity_actor actor = workout_activity_actor( tripoint_zero );
+    workout_activity_actor actor{ tripoint_bub_ms_min };
 
     JsonObject data = jsin.get_object();
 
@@ -4370,7 +4415,7 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
-    harvest_activity_actor actor( tripoint_zero );
+    harvest_activity_actor actor{ tripoint_bub_ms_min };
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "target", actor.target );
@@ -4988,7 +5033,7 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.bub_from_abs( monster_coords.at( 0 ) );
+    const tripoint_bub_ms source_pos = here.bub_from_abs( tripoint_abs_ms( monster_coords.at( 0 ) ) );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         // We might end up here if the creature dies while being milked
@@ -5005,7 +5050,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.bub_from_abs( monster_coords.at( 0 ) );
+    const tripoint_bub_ms source_pos = here.bub_from_abs( tripoint_abs_ms( monster_coords.at( 0 ) ) );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
@@ -5641,6 +5686,15 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
 
 void outfit_swap_actor::start( player_activity &act, Character &who )
 {
+    if( !who.is_wielding( *outfit_item ) && !who.wield( *outfit_item ) ) {
+        who.add_msg_if_player( m_warning,
+                               _( "You'll need the outfit in your hands before you can change outfits." ) );
+        act.set_to_null();
+        return;
+    }
+    if( !outfit_item ) { // if we wielded it in the last if, it's invalidated and reacquired here
+        outfit_item = who.get_wielded_item();
+    }
     item fake_storage( outfit_item->typeId() );
     for( const item_location &worn_item : who.get_visible_worn_items() ) {
         act.moves_total += who.item_handling_cost( *worn_item ); // Cost of taking it off
@@ -6347,36 +6401,6 @@ std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
-{
-    std::optional<tripoint_bub_ms> p( where );
-    std::vector<drop_location> s( selection );
-    who.cancel_activity();
-    who.pick_up( game_menus::inv::pickup( p, s ) );
-}
-
-void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "where", where );
-    jsout.member( "selection", selection );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
-{
-    pickup_menu_activity_actor actor( {}, {} );
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "where", actor.where );
-    data.read( "selection", actor.selection );
-
-    return actor.clone();
-}
-
 static void chop_single_do_turn( player_activity &act )
 {
     const map &here = get_map();
@@ -6537,12 +6561,12 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
 
-    tripoint direction;
+    tripoint_rel_ms direction;
     if( !who.is_npc() &&
         ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
-            if( const std::optional<tripoint> dir = choose_direction(
-                    _( "Select a direction for the tree to fall in." ) ) ) {
+            if( const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
                 direction = *dir;
                 break;
             }
@@ -6583,13 +6607,13 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = tripoint( direc, pos.z() );
+                direction = tripoint_rel_ms( { direc, pos.z() } );
                 break;
             }
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -7218,38 +7242,35 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     }
 
     if( stage == INIT ) {
-        // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
-            coord_set.insert( p.raw() );
+            coord_set.insert( p );
         }
 
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
-            coord_set.insert( p.raw() );
+            coord_set.insert( p );
         }
         stage = THINK;
     }
 
     if( stage == THINK ) {
-        //initialize num_processed
+        // initialize num_processed
         num_processed = 0;
-        // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
         src_set.reserve( coord_set.size() );
-        for( const tripoint &p : coord_set ) {
+        for( const tripoint_abs_ms &p : coord_set ) {
             src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
         for( const tripoint_abs_ms &src : src_sorted ) {
-            // TODO: fix point types
-            placement = src.raw();
-            coord_set.erase( src.raw() );
+            placement = src;
+            coord_set.erase( src );
 
             const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
@@ -8017,7 +8038,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 
     int moves = 0;
     for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint &pos = here.getlocal( *pos_iter );
+        const tripoint_bub_ms &pos = here.bub_from_abs( *pos_iter );
         map_stack corpse_pile = here.i_at( pos );
         for( item &corpse : corpse_pile ) {
             if( !corpse.is_corpse() || !corpse.can_revive() ) {
@@ -8045,11 +8066,11 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                     // Splatter some blood around
                     // Splatter a bit more randomly, so that it looks cooler
                     const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                    const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+                    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
                     const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                      corpse.get_mtype()->gibType() :
                                                      corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos, dest );
+                    here.add_splatter_trail( type_blood, pos.raw(), dest.raw() );
                 }
 
                 // mixture of isaac clarke stomps and swinging your weapon
@@ -8182,6 +8203,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { ACT_AIM, &aim_activity_actor::deserialize },
     { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
+    { ACT_BASH, &bash_activity_actor::deserialize },
     { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
@@ -8223,7 +8245,6 @@ deserialize_functions = {
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
-    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },

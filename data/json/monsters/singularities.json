@@ -109,8 +109,8 @@
   {
     "id": "LTNT_LIFE_DRAIN",
     "type": "SPELL",
-    "name": { "str": "Life Drain" },
-    "description": "When even the grass rises against you, what hope do you have?",
+    "name": { "str": "Life Drain", "//~": "NO_I18N" },
+    "description": { "str": "When even the grass rises against you, what hope do you have?", "//~": "NO_I18N" },
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "hostile" ],
     "shape": "blast",
@@ -125,8 +125,11 @@
   {
     "id": "LTNT_attract_nearby",
     "type": "SPELL",
-    "name": { "str": "Visual Sundering" },
-    "description": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
+    "name": { "str": "Visual Sundering", "//~": "NO_I18N" },
+    "description": {
+      "str": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],
     "shape": "blast",
@@ -420,8 +423,8 @@
     "type": "SPELL",
     "//": "This is a hack because npc_die is not working(?!) for EOC_KILL_SHADOW",
     "id": "BEGONE_SHADOW",
-    "name": { "str": "BEGONE_SHADOW" },
-    "description": "BEGONE_SHADOW.",
+    "name": { "str": "BEGONE_SHADOW", "//~": "NO_I18N" },
+    "description": { "str": "BEGONE_SHADOW.", "//~": "NO_I18N" },
     "valid_targets": [ "ground", "self" ],
     "base_casting_time": 0,
     "min_damage": 1000,

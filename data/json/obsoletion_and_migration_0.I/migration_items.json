@@ -198,7 +198,7 @@
   {
     "id": "egg_toad",
     "type": "MIGRATION",
-    "replace": "egg_odd_toad"
+    "replace": "egg_freedom_toad"
   },
   {
     "id": "superalloy_harness_dog",
@@ -1947,5 +1947,55 @@
     "id": "acr_300blk",
     "type": "MIGRATION",
     "replace": "sig_mcx_rattler_sbr"
+  },
+  {
+    "id": "egg_pattern_frog",
+    "type": "MIGRATION",
+    "replace": "egg_leo_frog"
+  },
+  {
+    "id": "egg_strange_frog",
+    "type": "MIGRATION",
+    "replace": "egg_bullfrog_frog"
+  },
+  {
+    "id": "egg_foul_toad",
+    "type": "MIGRATION",
+    "replace": "egg_fowler_toad"
+  },
+  {
+    "id": "egg_odd_toad",
+    "type": "MIGRATION",
+    "replace": "egg_freedom_toad"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_peeper_frog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_gray_frog"
+  },
+  {
+    "id": "egg_palette_frog",
+    "type": "MIGRATION",
+    "replace": "egg_pickerel_frog"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_vocal_bigfrog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_shift_bigfrog"
+  },
+  {
+    "id": "wire_barbed_baseball",
+    "type": "MIGRATION",
+    "replace": "baseball"
   }
 ]

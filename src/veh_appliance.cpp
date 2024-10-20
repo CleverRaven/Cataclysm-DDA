@@ -54,7 +54,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
+void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -89,7 +90,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Connect to any neighbouring appliances or wires once
     std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
@@ -102,7 +103,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
+                veh->connect( p.raw(), trip.raw() );
                 connected_vehicles.insert( &veh_target );
             }
         }
@@ -392,10 +393,10 @@ void veh_app_interact::refill()
         const point q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );
         act.values.push_back( a_point.x );
         act.values.push_back( a_point.y );
         act.values.push_back( -a_point.x );
@@ -481,9 +482,9 @@ void veh_app_interact::remove()
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        const tripoint a_point_abs( here.getabs( a_point_bub ) );
+        const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
         act.values.push_back( a_point_abs.y );
         act.values.push_back( a_point.x );

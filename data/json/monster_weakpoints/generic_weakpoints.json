@@ -22,6 +22,7 @@
       {
         "id": "hard_hide",
         "name": "a particularly thick patch of hide",
+        "is_good": false,
         "armor_mult": { "all": 1.25 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "melee": 0.75 },
@@ -52,6 +53,7 @@
       {
         "id": "hard_point",
         "name": "a particularly thick patch of bone",
+        "is_good": false,
         "armor_mult": { "all": 1.25 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "melee": 0.75 },
@@ -83,6 +85,7 @@
       {
         "id": "hard_point",
         "name": "a strong, rigid chunk of metal",
+        "is_good": false,
         "armor_mult": { "all": 1.4 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "melee": 0.75 },

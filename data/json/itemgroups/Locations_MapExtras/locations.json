@@ -90,9 +90,8 @@
       { "group": "guns_pistol_common", "prob": 162 },
       { "group": "guns_rifle_common", "prob": 36 },
       { "group": "guns_shotgun_common", "prob": 2 },
-      { "group": "guns_pistol_obscure", "prob": 81 },
-      { "group": "guns_rifle_obscure", "prob": 18 },
-      { "group": "guns_shotgun_obscure", "prob": 1 },
+      { "group": "guns_display_pieces", "prob": 20 },
+      { "group": "guns_collectible", "prob": 2 },
       { "group": "ammo_obscure", "prob": 40 },
       { "group": "mags_common", "prob": 40 }
     ]
@@ -209,7 +208,7 @@
       [ "mag_porn", 5 ],
       [ "hairpin", 5 ],
       [ "purse", 30 ],
-      { "item": "mp3", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 5, "charges": [ 0, 500 ] },
@@ -677,7 +676,7 @@
       { "item": "radio", "prob": 25, "charges": [ 0, 15 ] },
       [ "power_supply", 25 ],
       [ "processor", 25 ],
-      { "item": "mp3", "prob": 30, "charges": [ 0, 15 ] },
+      { "item": "mp3", "prob": 20, "charges": [ 0, 15 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "hotplate", "prob": 20 },
       { "item": "flashlight", "prob": 30, "charges": [ 0, 10 ] },
@@ -1143,7 +1142,8 @@
       { "item": "dao", "prob": 3, "damage": [ 2, 4 ] },
       { "item": "sword_xiphos", "prob": 4, "damage": [ 2, 4 ] },
       { "item": "khopesh", "prob": 4, "damage": [ 2, 4 ] },
-      { "item": "spear_dory", "prob": 3, "damage": [ 2, 4 ] }
+      { "item": "spear_dory", "prob": 3, "damage": [ 2, 4 ] },
+      { "item": "pike_bronze", "prob": 3, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1958,7 +1958,7 @@
       [ "solder_wire", 70 ],
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "syringe", 8 ],
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "vibrator", "prob": 6, "charges": [ 0, 100 ] },
@@ -2287,7 +2287,7 @@
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
       { "item": "instant_coffee", "prob": 15 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 10 },
       { "item": "poncho", "prob": 15 },
@@ -2297,7 +2297,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "umbrella", "prob": 5 },

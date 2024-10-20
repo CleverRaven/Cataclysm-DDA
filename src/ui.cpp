@@ -71,6 +71,29 @@ void uilist_impl::draw_controls()
         ImGui::Separator();
     }
 
+    if( !parent.categories.empty() ) {
+        if( ImGui::BeginTabBar( "##categories",
+                                ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton ) ) {
+            for( size_t i = 0; i < parent.categories.size(); i++ ) {
+                auto cat = parent.categories[ i ];
+                bool selected = i == parent.switch_to_category;
+                ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
+                if( selected ) {
+                    flags = ImGuiTabItemFlags_SetSelected;
+                    parent.switch_to_category = -1;
+                }
+                if( ImGui::BeginTabItem( cat.second.c_str(), nullptr, flags ) ) {
+                    if( parent.current_category != i ) {
+                        parent.current_category = i;
+                        parent.filterlist();
+                    }
+                    ImGui::EndTabItem();
+                }
+            }
+            ImGui::EndTabBar();
+        }
+    }
+
     // An invisible table with three columns. Used to create a sidebar effect.
     // Ideally we would use a layout engine for this, but ImGui does not natively support any.
     // TODO: Investigate using Stack Layout (https://github.com/thedmd/imgui/tree/feature/layout-external)
@@ -127,7 +150,7 @@ void uilist_impl::draw_controls()
                         }
                         if( ImGui::Selectable( "##s", is_selected, flags ) ) {
                             parent.fselected = i;
-                            parent.selected = parent.hovered = parent.fentries[ parent.fselected ];
+                            parent.selected = parent.previewing = parent.fentries[ parent.fselected ];
                             // We are going to return now that the user clicked on something, so scrolling seems
                             // unnecessary. However, the debug spawn item function reuses the same menu to let the
                             // user spawn multiple items and it’s weird if the correct item isn’t scrolled into view
@@ -135,11 +158,12 @@ void uilist_impl::draw_controls()
                             parent.need_to_scroll = true;
                             is_selected = parent.clicked = true;
                         }
+                        bool is_hovered = ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride );
                         bool mouse_moved = ImGui::GetCurrentContext()->HoveredId !=
                                            ImGui::GetCurrentContext()->HoveredIdPreviousFrame;
-                        if( ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride ) && mouse_moved ) {
+                        if( is_hovered && mouse_moved ) {
                             // this row is hovered and the hover state just changed, show context for it
-                            parent.hovered = parent.fentries[ i ];
+                            parent.previewing = parent.fentries[ i ];
                         }
 
                         // Force the spacing to be set to the padding value.
@@ -149,20 +173,24 @@ void uilist_impl::draw_controls()
                                                           is_selected ? parent.hilight_color : parent.hotkey_color );
                         }
 
+                        std::string &str1 = entry.txt;
+                        std::string &str2 = entry.ctxt;
+                        nc_color color = entry.enabled || entry.force_color ? entry.text_color : parent.disabled_color;
+                        if( is_selected || is_hovered ) {
+                            str1 = entry._txt_nocolor;
+                            str2 = entry._ctxt_nocolor;
+                            color = parent.hilight_color;
+                        }
+
                         ImGui::TableSetColumnIndex( 1 );
-                        nc_color color = ( is_selected ?
-                                           parent.hilight_color :
-                                           ( entry.enabled || entry.force_color ?
-                                             entry.text_color :
-                                             parent.disabled_color ) );
-                        cataimgui::draw_colored_text( entry.txt, color );
+                        cataimgui::draw_colored_text( str1, color );
 
                         ImGui::TableSetColumnIndex( 2 );
                         // Right-align text.
                         ImVec2 curPos = ImGui::GetCursorScreenPos();
                         // Remove the edge padding so that the last pixel just touches the border.
                         ImGui::SetCursorScreenPos( ImVec2( ImMax( 0.0f, curPos.x + style.CellPadding.x ), curPos.y ) );
-                        cataimgui::draw_colored_text( entry.ctxt, color );
+                        cataimgui::draw_colored_text( str2, color );
 
                         ImGui::PopID();
                     }
@@ -184,7 +212,7 @@ void uilist_impl::draw_controls()
         if( !parent.footer_text.empty() ) {
             description = parent.footer_text;
         } else {
-            description = parent.entries[parent.hovered].desc;
+            description = parent.entries[parent.previewing].desc;
         }
         cataimgui::draw_colored_text( description );
     }
@@ -228,24 +256,32 @@ uilist_entry::uilist_entry( const std::string &txt )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const int key )
     : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_event> &key )
     : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -253,6 +289,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -261,6 +299,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -268,6 +308,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -275,6 +317,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -283,6 +327,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       desc( desc ), ctxt( column ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -292,6 +338,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), ctxt( column ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -300,6 +348,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       hotkey_color( keycolor ), text_color( txtcolor )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist::size_scalar &uilist::size_scalar::operator=( auto_assign )
@@ -414,7 +464,7 @@ void uilist::init()
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    hovered = 0;           // current mouse highlight, for entries[index]
+    previewing = 0;           // current mouse highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     desc_enabled = false;  // don't show option description by default
@@ -444,7 +494,7 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
 
     categories.clear();
-    current_category = 0;
+    switch_to_category = current_category = 0;
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -556,12 +606,12 @@ void uilist::filterlist()
         if( fentries.empty() ) {
             selected = -1;
         } else {
-            selected = fentries [ 0 ];
+            previewing = selected = fentries [ 0 ];
         }
     } else if( fselected < static_cast<int>( fentries.size() ) ) {
-        selected = fentries[fselected];
+        previewing = selected = fentries[fselected];
     } else {
-        fselected = selected = -1;
+        previewing = fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
     if( static_cast<int>( fentries.size() ) <= vmax ) {
@@ -654,6 +704,11 @@ void uilist::calc_data()
         text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
+    ImVec2 tabs_size = {};
+    if( !categories.empty() ) {
+        tabs_size.y = ImGui::GetTextLineHeightWithSpacing() + ( 2.0 * s.FramePadding.y );
+    }
+
     ImVec2 desc_size = {};
     if( desc_enabled ) {
         desc_size = calc_size( footer_text );
@@ -668,30 +723,36 @@ void uilist::calc_data()
         float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
         desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
-    float additional_height = title_size.y + text_size.y + desc_size.y + 2.0 *
+    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y + 2.0 *
                               ( s.FramePadding.y + s.WindowBorderSize );
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
-        ImGui::GetMainViewport()->Size.y ) {
-        vmax = floorf( ( ImGui::GetMainViewport()->Size.y - additional_height ) /
+        0.9 * ImGui::GetMainViewport()->Size.y ) {
+        vmax = floorf( ( 0.9 * ImGui::GetMainViewport()->Size.y - additional_height +
+                         ( s.FramePadding.y * 2.0 ) ) /
                        ImGui::GetTextLineHeightWithSpacing() );
     }
 
     float padding = 2.0f * s.CellPadding.x;
-    calculated_hotkey_width = ImGui::CalcTextSize( "X" ).x;
+    calculated_hotkey_width = ImGui::CalcTextSize( "M" ).x;
     calculated_label_width = 0.0;
     calculated_secondary_width = 0.0;
-    for( int fentry : fentries ) {
-        calculated_label_width = std::max( calculated_label_width, calc_size( entries[fentry].txt ).x );
+    for( const uilist_entry &entry : entries ) {
+        calculated_label_width = std::max( calculated_label_width, calc_size( entry.txt ).x );
         calculated_secondary_width = std::max( calculated_secondary_width,
-                                               calc_size( entries[fentry].ctxt ).x );
+                                               calc_size( entry.ctxt ).x );
     }
     calculated_menu_size = { 0.0, 0.0 };
     calculated_menu_size.x += calculated_hotkey_width + padding;
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
-    calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y - additional_height,
-                                       vmax * ImGui::GetTextLineHeightWithSpacing() ) + ( s.FramePadding.y * 2.0 );
+    float max_avail_height = ImGui::GetMainViewport()->Size.y;
+    if( desired_bounds.has_value() ) {
+        max_avail_height = desired_bounds.value().h;
+    }
+    calculated_menu_size.y = std::min( max_avail_height - additional_height +
+                                       ( s.FramePadding.y * 2.0 ),
+                                       vmax * ImGui::GetTextLineHeightWithSpacing() + ( s.FramePadding.y * 2.0 ) );
 
     extra_space_left = 0.0;
     extra_space_right = 0.0;
@@ -801,7 +862,7 @@ bool uilist::scrollby( const int scrollby )
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
-        selected = hovered = fentries [ fselected ];
+        selected = previewing = fentries [ fselected ];
         if( callback != nullptr ) {
             callback->select( this );
         }
@@ -928,13 +989,13 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
-            current_category += ret_act == "UILIST.LEFT" ? -1 : 1;
-            if( current_category < 0 ) {
-                current_category = categories.size() - 1;
-            } else if( current_category >= static_cast<int>( categories.size() ) ) {
-                current_category = 0;
+            int tmp = current_category + ( ret_act == "UILIST.LEFT" ? -1 : 1 );
+            if( tmp < 0 ) {
+                tmp = categories.size() - 1;
+            } else if( tmp >= static_cast<int>( categories.size() ) ) {
+                tmp = 0;
             }
-            filterlist();
+            switch_to_category = static_cast<size_t>( tmp );
         } else if( iter != keymap.end() ) {
             if( allow_unfiltered_hotkeys ) {
                 const bool enabled = entries[iter->second].enabled;
@@ -1051,7 +1112,7 @@ void uilist::settext( const std::string &str )
 
 void uilist::set_selected( int index )
 {
-    selected = hovered = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    selected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
@@ -1119,7 +1180,7 @@ void uimenu::finalize_addentries()
 
 void uimenu::set_selected( int index )
 {
-    menu.selected = menu.hovered = index;
+    menu.selected = menu.previewing = index;
 }
 
 void uimenu::set_title( const std::string &title )
@@ -1137,7 +1198,7 @@ int uimenu::query()
 struct pointmenu_cb::impl_t {
     const std::vector< tripoint > &points;
     int last; // to suppress redrawing
-    tripoint last_view; // to reposition the view after selecting
+    tripoint_rel_ms last_view; // to reposition the view after selecting
     shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
     explicit impl_t( const std::vector<tripoint> &pts );
@@ -1153,7 +1214,7 @@ pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
     last_view = player_character.view_offset;
     terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
         if( last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-            g->draw_trail_to_square( player_character.view_offset, true );
+            g->draw_trail_to_square( player_character.view_offset.raw(), true );
         }
     } );
     g->add_draw_callback( terrain_draw_cb );
@@ -1172,12 +1233,12 @@ void pointmenu_cb::impl_t::select( uilist *const menu )
     last = menu->selected;
     avatar &player_character = get_avatar();
     if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-        player_character.view_offset = tripoint_zero;
+        player_character.view_offset = tripoint_rel_ms_zero;
     } else {
         const tripoint &center = points[menu->selected];
-        player_character.view_offset = center - player_character.pos();
+        player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );
         // TODO: Remove this line when it's safe
-        player_character.view_offset.z = 0;
+        player_character.view_offset.z() = 0;
     }
     g->invalidate_main_ui_adaptor();
 }

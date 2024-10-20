@@ -586,6 +586,9 @@ class Character : public Creature, public visitable
 
         const profession *prof;
         std::set<const profession *> hobbies;
+        void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
+
 
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint_rel_ms grab_point;
@@ -773,6 +776,7 @@ class Character : public Creature, public visitable
 
         //returns character's profession
         const profession *get_profession() const;
+        void add_profession_items();
         //returns the hobbies
         std::set<const profession *> get_hobbies() const;
 
@@ -1152,7 +1156,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
-        void reach_attack( const tripoint &p, int forced_movecost = -1 );
+        void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
@@ -2421,6 +2425,9 @@ class Character : public Creature, public visitable
         std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
 
         // --------------- Skill Stuff ---------------
+
+        //sets all skills to 0 so that they're guaranteed to be in the map
+        void zero_all_skills();
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
@@ -2720,7 +2727,7 @@ class Character : public Creature, public visitable
         // Items currently being hauled
         std::vector<item_location> haul_list;
 
-        tripoint view_offset;
+        tripoint_rel_ms view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
@@ -2759,7 +2766,8 @@ class Character : public Creature, public visitable
 
         int avg_nat_bpm;
         void randomize_heartrate();
-
+        void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
@@ -3140,7 +3148,7 @@ class Character : public Creature, public visitable
          *  @return number of shots actually fired
          */
 
-        int fire_gun( const tripoint &target, int shots = 1 );
+        int fire_gun( const tripoint_bub_ms &target, int shots = 1 );
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
@@ -3148,10 +3156,11 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
+        int fire_gun( const tripoint_bub_ms &target, int shots, item &gun,
+                      item_location ammo = item_location() );
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
+        dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
+                                            const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
     protected:
         void on_damage_of_type( const effect_source &source, int adjusted_damage,

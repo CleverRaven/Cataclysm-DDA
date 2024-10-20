@@ -104,7 +104,9 @@ static const int npm_height = 3;
 
 namespace overmap_ui
 {
-static void create_note( const tripoint_abs_omt &curs );
+// returns true if a note was created or edited, false otherwise
+static bool create_note( const tripoint_abs_omt &curs,
+                         std::optional<std::string> context = std::nullopt );
 
 // {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
@@ -401,40 +403,41 @@ class map_notes_callback : public uilist_callback
                     return true;
                 }
                 if( action == "EDIT_NOTE" ) {
-                    create_note( note_location() );
-                    menu->ret = UILIST_MAP_NOTE_EDITED;
+                    if( create_note( note_location() ) ) {
+                        menu->ret = UILIST_MAP_NOTE_EDITED;
+                    }
                     return true;
                 }
                 if( action == "MARK_DANGER" ) {
-                    if( overmap_buffer.note_danger_radius( note_location() ) >= 0 &&
+                    const int danger_radius = overmap_buffer.note_danger_radius( note_location() );
+                    if( danger_radius >= 0 &&
                         query_yn( _( "Remove dangerous mark?" ) ) ) {
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
                         menu->ret = UILIST_MAP_NOTE_EDITED;
                         return true;
                     } else {
-                        bool has_mark = overmap_buffer.note_danger_radius( note_location() ) >= 0;
                         bool has_note = overmap_buffer.has_note( note_location() );
-                        std::string query_text = has_mark ?  _( "Edit dangerous mark?" )  : has_note ?
-                                                 _( "Mark area as dangerous (to avoid on auto move paths)?" ) :
-                                                 _( "Create note and mark area as dangerous (to avoid on auto move paths)?" );
-                        if( query_yn( query_text ) ) {
-                            if( !has_note ) {
-                                create_note( note_location() );
-                            }
-                            const int max_amount = 20;
-                            // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                            const std::string popupmsg = _( "Danger radius in overmap squares? (0-20)" );
-                            int amount = string_input_popup()
-                                         .title( popupmsg )
-                                         .width( 20 )
-                                         .text( "0" )
-                                         .only_digits( true )
-                                         .query_int();
-                            if( amount >= 0 && amount <= max_amount ) {
-                                overmap_buffer.mark_note_dangerous( note_location(), amount, true );
-                                menu->ret = UILIST_MAP_NOTE_EDITED;
-                                return true;
-                            }
+                        if( !has_note ) {
+                            has_note = create_note( note_location(), _( "Create a danger note." ) );
+                        }
+                        if( !has_note ) {
+                            return true;
+                        }
+                        const int max_amount = 20;
+                        // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                        const std::string popupmsg = string_format( _( "Danger radius in overmap squares? (0-%d)" ),
+                                                     max_amount );
+                        string_input_popup pop;
+                        const int amount = pop
+                                           .title( popupmsg )
+                                           .width( 20 )
+                                           .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
+                                           .only_digits( true )
+                                           .query_int();
+                        if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                            overmap_buffer.mark_note_dangerous( note_location(), amount, true );
+                            menu->ret = UILIST_MAP_NOTE_EDITED;
+                            return true;
                         }
                     }
                 }
@@ -1030,8 +1033,8 @@ static void draw_om_sidebar( ui_adaptor &ui,
                         vision_level_string = _( "This is a bug!" );
                         break;
                 }
-                lines = fold_and_print( wbar, point( 3, lines + 1 ), getmaxx( wbar ) - 3, c_light_gray,
-                                        vision_level_string );
+                lines += fold_and_print( wbar, point( 3, lines + 1 ), getmaxx( wbar ) - 3, c_light_gray,
+                                         vision_level_string );
             }
         }
     } else {
@@ -1214,11 +1217,19 @@ static void draw( overmap_draw_data_t &data )
     draw_ascii( g->w_overmap, data );
 }
 
-static void create_note( const tripoint_abs_omt &curs )
+static bool create_note( const tripoint_abs_omt &curs, std::optional<std::string> context )
 {
-    std::string color_notes = string_format( "%s\n\n\n",
-                              _( "Add a note to the map.  "
-                                 "For a custom GLYPH or COLOR follow the examples below.  "
+    const std::string old_note = overmap_buffer.note( curs );
+    if( !context ) {
+        if( old_note.empty() ) {
+            context = _( "Add a note to the map." );
+        } else {
+            context = _( "Edit an existing note." );
+        }
+    }
+    std::string color_notes = string_format( "%s\n%s\n\n",
+                              *context,
+                              _( "For a custom GLYPH or COLOR follow the examples below.  "
                                  "Default GLYPH and COLOR looks like this: "
                                  "<color_yellow>N</color>" ) );
 
@@ -1239,7 +1250,6 @@ static void create_note( const tripoint_abs_omt &curs )
                                        helper_text );
     std::string title = _( "Note:" );
 
-    const std::string old_note = overmap_buffer.note( curs );
     std::string new_note = old_note;
     auto map_around = get_overmap_neighbors( curs );
 
@@ -1294,10 +1304,13 @@ static void create_note( const tripoint_abs_omt &curs )
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {
             overmap_buffer.delete_note( curs );
+            return true;
         }
     } else if( !esc_pressed && old_note != new_note ) {
         overmap_buffer.add_note( curs, new_note );
+        return true;
     }
+    return false;
 }
 
 // if false, search yielded no results
@@ -1483,7 +1496,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
+            w_editor = catacurses::newwin( 15, OVERMAP_LEGEND_WIDTH - 1,
+                                           point( TERMX - OVERMAP_LEGEND_WIDTH + 1, 10 ) );
 
             ui.position_from_window( w_editor );
         } );
@@ -1534,12 +1548,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, "                         " );
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, _( "Rotation: %s %s" ), rotation,
                        can_rotate ? "" : _( "(fixed)" ) );
-            mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Highlighted regions" ) );
-            mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
-            // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
-            mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );
-            mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
-            mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );
+            fold_and_print( w_editor, point( 1, 5 ), getmaxx( w_editor ) - 2, c_red,
+                            _( "Highlighted regions already have map content generated.  Their overmap id will change, but not their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                 ( !terrain && uistate.place_special->is_rotatable() ) ) {
                 mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
@@ -1674,6 +1684,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
     tripoint_abs_omt horde_destination = tripoint_abs_omt_zero;
     switch( smenu.ret ) {
         case 0:
+            new_value = chosen_group.interest;
             query_int( new_value, _( "Set interest to what value?  Currently %d" ), chosen_group.interest );
             chosen_group.set_interest( new_value );
             break;
@@ -1686,6 +1697,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             chosen_group.target = project_to<coords::sm>( horde_destination ).xy();
             break;
         case 2:
+            new_value = chosen_group.population;
             query_int( new_value, _( "Set population to what value?  Currently %d" ), chosen_group.population );
             chosen_group.population = new_value;
             break;
@@ -1693,6 +1705,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             debug_menu::wishmonstergroup_mon_selection( chosen_group );
             break;
         case 4:
+            new_value = static_cast<int>( chosen_group.behaviour );
             // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
             popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
                    static_cast<int>( chosen_group.behaviour ) );
@@ -1772,30 +1785,39 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 
 static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
-                                       const bool driving )
+                                       const tripoint_abs_omt dest, const bool driving )
 {
-    std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
-    bool same_path_selected = path == player_character.omt_path;
+    std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
+    bool dest_is_curs = curs == dest;
+    bool path_changed = false;
+    if( path.front() == player_character.omt_path.front() && path != player_character.omt_path ) {
+        // the player is trying to go to their existing destination but the path has changed
+        path_changed = true;
+        player_character.omt_path.swap( path );
+        ui_manager::redraw();
+    }
     std::string confirm_msg;
     if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
         confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
     } else if( !driving && player_character.in_vehicle ) {
         confirm_msg = _( "You are in a vehicle but not driving.  Are you sure you want to walk?" );
     } else if( driving ) {
-        if( same_path_selected ) {
+        if( dest_is_curs ) {
             confirm_msg = _( "Drive to this point?" );
         } else {
             confirm_msg = _( "Drive to your destination?" );
         }
     } else {
-        if( same_path_selected ) {
+        if( dest_is_curs ) {
             confirm_msg = _( "Travel to this point?" );
         } else {
             confirm_msg = _( "Travel to your destination?" );
         }
     }
     if( query_yn( confirm_msg ) ) {
-        player_character.omt_path = path;
+        if( !path_changed ) {
+            player_character.omt_path.swap( path );
+        }
         if( driving ) {
             player_character.assign_activity( autodrive_activity_actor() );
         } else {
@@ -1803,6 +1825,9 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
             player_character.assign_activity( ACT_TRAVELLING );
         }
         return true;
+    }
+    if( path_changed ) {
+        player_character.omt_path.swap( path );
     }
     return false;
 }
@@ -1903,7 +1928,7 @@ static tripoint_abs_omt display()
     std::string action;
     data.show_explored = true;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    std::optional<tripoint> mouse_pos;
+    std::optional<tripoint_bub_ms> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     std::chrono::time_point<std::chrono::steady_clock> last_advance = std::chrono::steady_clock::now();
     auto display_path_iter = display_path.rbegin();
@@ -1957,13 +1982,13 @@ static tripoint_abs_omt display()
             }
         } else if( action == "SELECT" &&
                    ( mouse_pos = ictxt.get_coordinates( g->w_overmap, point_zero, true ) ) ) {
-            curs += mouse_pos->xy();
+            curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint pos_rel = get_map().getlocal( pos );
+            tripoint_bub_ms pos_rel = get_map().bub_from_abs( pos );
             uistate.open_menu = [pos_rel]() {
-                tripoint pos_cpy = pos_rel;
-                g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
+                tripoint_bub_ms pos_cpy = pos_rel;
+                g->look_around( true, pos_cpy.raw(), pos_rel.raw(), false, false, false, false, pos_rel.raw() );
             };
             action = "QUIT";
         } else if( action == "CENTER" ) {
@@ -1989,30 +2014,28 @@ static tripoint_abs_omt display()
                 overmap_buffer.delete_note( curs );
             }
         } else if( action == "MARK_DANGER" ) {
-            if( overmap_buffer.is_marked_dangerous( curs ) &&
+            const int danger_radius = overmap_buffer.note_danger_radius( curs );
+            if( danger_radius >= 0 &&
                 query_yn( _( "Remove dangerous mark?" ) ) ) {
-                overmap_buffer.mark_note_dangerous( curs, 0,
-                                                    false );
+                overmap_buffer.mark_note_dangerous( curs, 0, false );
             } else {
-                bool has_mark = overmap_buffer.note_danger_radius( curs ) >= 0;
                 bool has_note = overmap_buffer.has_note( curs );
-                std::string query_text = has_mark ?  _( "Edit dangerous mark?" )  : has_note ?
-                                         _( "Mark area as dangerous (to avoid on auto move paths)?" ) :
-                                         _( "Create note and mark area as dangerous (to avoid on auto move paths)?" );
-                if( query_yn( query_text ) ) {
-                    if( !has_note ) {
-                        create_note( curs );
-                    }
+                if( !has_note ) {
+                    has_note = create_note( curs, _( "Create a danger note." ) );
+                }
+                if( has_note ) {
                     const int max_amount = 20;
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    const std::string popupmsg = _( "Danger radius in overmap squares? (0-20)" );
-                    int amount = string_input_popup()
-                                 .title( popupmsg )
-                                 .width( 20 )
-                                 .text( "0" )
-                                 .only_digits( true )
-                                 .query_int();
-                    if( amount >= 0 && amount <= max_amount ) {
+                    const std::string popupmsg = string_format( _( "Danger radius in overmap squares? (0-%d)" ),
+                                                 max_amount );
+                    string_input_popup pop;
+                    const int amount = pop
+                                       .title( popupmsg )
+                                       .width( 20 )
+                                       .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
+                                       .only_digits( true )
+                                       .query_int();
+                    if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
                         overmap_buffer.mark_note_dangerous( curs, amount, true );
                     }
                 }
@@ -2027,7 +2050,8 @@ static tripoint_abs_omt display()
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {
                 const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-                if( try_travel_to_destination( player_character, player_character.omt_path.front(), driving ) ) {
+                if( try_travel_to_destination( player_character, curs, player_character.omt_path.front(),
+                                               driving ) ) {
                     action = "QUIT";
                     if( uistate.overmap_fast_travel ) {
                         keep_overmap_ui = true;
@@ -2052,7 +2076,7 @@ static tripoint_abs_omt display()
                 player_character.omt_path.swap( path );
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
-                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                if( try_travel_to_destination( player_character, curs, curs, driving ) ) {
                     action = "QUIT";
                     if( uistate.overmap_fast_travel ) {
                         keep_overmap_ui = true;

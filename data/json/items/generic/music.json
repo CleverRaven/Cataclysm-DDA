@@ -32,7 +32,7 @@
     "type": "GENERIC",
     "id": "headphones_circumaural",
     "name": { "str_sp": "headphones" },
-    "description": "A pair of headphones that cover your ears for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
+    "description": "A pair of headphones that cover your ears for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adapter.",
     "material": [ "plastic", "copper" ],
     "symbol": "Ω",
     "volume": "400 ml",

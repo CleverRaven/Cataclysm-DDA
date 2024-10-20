@@ -1674,8 +1674,8 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms northeast = ava.pos_bub() + tripoint( 10, -10, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters" ) {
         clear_map();
@@ -2092,7 +2092,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
         clear_map();

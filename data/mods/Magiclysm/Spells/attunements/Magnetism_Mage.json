@@ -4,7 +4,6 @@
     "type": "requirement",
     "components": [
       [
-        [ "8mm_bootleg", 1 ],
         [ "8mm_caseless", 1 ],
         [ "8mm_hvp", 1 ],
         [ "8mm_jhp", 1 ],
@@ -216,6 +215,7 @@
     "effect": "attack",
     "shape": "line",
     "damage_type": "light",
+    "multiple_projectiles": 4,
     "min_damage": 15,
     "max_damage": 75,
     "damage_increment": 1.8,
@@ -246,6 +246,7 @@
     "flags": [ "EVOCATION_SPELL" ],
     "effect": "attack",
     "shape": "line",
+    "multiple_projectiles": 4,
     "damage_type": "electric",
     "min_damage": 20,
     "max_damage": 150,

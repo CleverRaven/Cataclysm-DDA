@@ -17,13 +17,13 @@ namespace
 void update_test( map &m, tripoint_abs_omt const &loc )
 {
     manual_mapgen( loc, manual_update_mapgen, update_mapgen_test_update_place_shopping_cart );
-    REQUIRE( m.veh_at( m.getlocal( project_to<coords::ms>( loc ) ) ) );
+    REQUIRE( m.veh_at( m.bub_from_abs( project_to<coords::ms>( loc ) ) ) );
 }
 
 void nested_test( map &m, tripoint_abs_omt const &loc )
 {
     manual_mapgen( loc, manual_nested_mapgen, nested_mapgen_test_nested_place_shopping_cart );
-    REQUIRE( m.veh_at( m.getlocal( project_to<coords::ms>( loc ) ) ) );
+    REQUIRE( m.veh_at( m.bub_from_abs( project_to<coords::ms>( loc ) ) ) );
 }
 } // namespace
 

@@ -30,5 +30,20 @@
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "MATRIX_FOCUS", 1 ] ]
+  },
+  {
+    "id": "telepathic_focusing_tool",
+    "type": "TOOL",
+    "name": { "str": "telepathic focusing tool", "str_pl": "telepathic focusing assemblies" },
+    "description": "A glowing white netherium crystal surrounded by floating dust and shards of crystal.  The closer you look at the assembly the louder your thoughts sound.",
+    "weight": "4000 g",
+    "volume": "750 ml",
+    "longest_side": "25 cm",
+    "price": "30 USD",
+    "price_postapoc": "40 cent",
+    "melee_damage": { "bash": 5 },
+    "material": [ "nether_crystal", "steel" ],
+    "symbol": "[",
+    "color": "light_gray"
   }
 ]

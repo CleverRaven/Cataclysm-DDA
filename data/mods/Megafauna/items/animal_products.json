@@ -27,7 +27,7 @@
     "quench": 9,
     "calories": 140,
     "volume": "90 ml",
-    "rot_spawn": "GROUP_EGG_AUK"
+    "rot_spawn": { "group": "GROUP_EGG_AUK" }
   },
   {
     "type": "COMESTIBLE",
@@ -38,7 +38,7 @@
     "quench": 14,
     "calories": 2100,
     "volume": "1800 ml",
-    "rot_spawn": "GROUP_EGG_TITANIS_WALLERI"
+    "rot_spawn": { "group": "GROUP_EGG_TITANIS_WALLERI" }
   },
   {
     "type": "COMESTIBLE",

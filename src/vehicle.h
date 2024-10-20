@@ -637,7 +637,7 @@ class turret_data
          * Check if target is in range of this turret (considers current ammo)
          * Assumes this turret's status is 'ready'
          */
-        bool in_range( const tripoint &target ) const;
+        bool in_range( const tripoint_bub_ms &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -660,7 +660,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &c, const tripoint &target );
+        int fire( Character &c, const tripoint_bub_ms &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -2437,7 +2437,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         ~DefaultRemovePartHandler() override = default;
 
         void unboard( const tripoint &loc ) override {
-            get_map().unboard_vehicle( loc );
+            get_map().unboard_vehicle( tripoint_bub_ms( loc ) );
         }
         void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             get_map().add_item_or_charges( loc, std::move( it ) );

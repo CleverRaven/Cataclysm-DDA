@@ -1187,7 +1187,7 @@
     "//3": "The same company manufactures larger tablets for larger volumes, but the amount of active ingredient per litre of water is roughly equivalent and the procedure is similar",
     "//4": "The infrastructure does not currently exist for modelling whether water is cloudy.",
     "//5": "Based on this: usage is modeled in-game as: 1. Spend 5m/1L with significant batch savings to decant, 2. Add tablets 3. Assume mixing can be arranged, 4. wait 40 minutes for clean water.",
-    "description": "Intended for the clarification and disinfection of unsafe drinking water while camping or travelling, this sodium dichloroisocyanurate-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per liter (4 units of water).",
+    "description": "Intended for the clarification and disinfection of unsafe drinking water while camping or traveling, this sodium dichloroisocyanurate-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per liter (4 units of water).",
     "price": "9 cent",
     "price_postapoc": "20 cent",
     "volume": "2 ml",
@@ -1814,7 +1814,7 @@
   {
     "type": "COMESTIBLE",
     "abstract": "venom_gland",
-    "name": { "str": "venom gland" },
+    "name": { "str": "venom gland", "//~": "NO_I18N" },
     "category": "chems",
     "comestible_type": "FOOD",
     "spoils_in": "4 hours",

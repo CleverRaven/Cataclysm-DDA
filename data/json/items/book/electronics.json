@@ -301,26 +301,6 @@
     "fun": -1
   },
   {
-    "abstract": "schematics_generic",
-    "type": "BOOK",
-    "category": "manuals",
-    "name": { "str_sp": "schematics" },
-    "description": "seeing this is a bug",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "price": "1 kUSD",
-    "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
-    "material": [ "paper" ],
-    "skill": "electronics",
-    "required_level": 7,
-    "max_level": 7,
-    "intelligence": 8,
-    "time": "55 m",
-    "symbol": "ç",
-    "color": "blue"
-  },
-  {
     "id": "schematics_nursebot",
     "type": "BOOK",
     "name": { "str_sp": "nurse bot schematics" },

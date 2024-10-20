@@ -199,6 +199,10 @@ class game
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const cata_path &path, const std::string &src );
+        /** Loads dynamic data from the given directory. Excludes files from 'mod_interactions' sub-directory.  May throw. */
+        void load_mod_data_from_dir( const cata_path &path, const std::string &src );
+        /** Loads dynamic data from the folder if it is part of a subdirectory that is named after a currently loaded mod_id.  May throw. */
+        void load_mod_interaction_data_from_dir( const cata_path &path, const std::string &src );
     public:
         void setup();
         /** Saving and loading functions. */
@@ -610,7 +614,7 @@ class game
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void peek();
-        void peek( const tripoint &p );
+        void peek( const tripoint_bub_ms &p );
         std::optional<tripoint_bub_ms> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
@@ -776,6 +780,7 @@ class game
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         // TODO: Change to typed when single user is updated.
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
+        void draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
         void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
@@ -927,6 +932,14 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
+        /* Returns true if there's nobody to anger, player is already allowed to do this, or player answered yes to warning query
+        * This function also handles changing the faction opinion if player proceeds despite warning
+        * Returns false only if player declined query
+        * Second boolean asking_for_public_goods should be used for cases where the action isn't necessarily detrimental
+        * to the faction, like merely using the examine_action of furniture.
+        */
+        bool warn_player_maybe_anger_local_faction( bool really_bad_offense = false,
+                bool asking_for_public_goods = false );
         int grabbed_furn_move_time( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
 
@@ -950,8 +963,9 @@ class game
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
-        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
+        bool prompt_dangerous_tile( const tripoint &dest_loc,
+                                    std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         // TODO: Get rid of untyped overloads.
         void pickup( const tripoint &p );
@@ -1290,7 +1304,7 @@ class game
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
-        int slip_down_chance(
+        float slip_down_chance(
             climb_maneuver maneuver,
             climbing_aid_id aid = climbing_aid_id::NULL_ID(),
             bool show_chance_messages = true );
