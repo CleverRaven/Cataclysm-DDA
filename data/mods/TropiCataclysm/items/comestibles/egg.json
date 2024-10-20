@@ -56,9 +56,9 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_tinamou",
-    "name": "tinamou egg",
-    "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_TINAMOU", "chance": 70 }
+    "name": { "str": "small-billed tinamou egg" },
+    "copy-from": "egg_bluejay",
+    "rot_spawn": { "monster": "mon_tinamou_chick" }
   },
   {
     "type": "COMESTIBLE",

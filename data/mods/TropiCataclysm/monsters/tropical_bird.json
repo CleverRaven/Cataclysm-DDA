@@ -160,31 +160,20 @@
   {
     "id": "mon_tinamou",
     "type": "MONSTER",
-    "name": { "str": "tinamou" },
-    "description": "One of several species of the Tinamidae family.  These birds converged into shapes similar to fowl but are actually more closely related to the extinct moas.",
-    "default_faction": "small_animal",
-    "bodytype": "bird",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "2 L",
-    "weight": "1100 g",
-    "hp": 5,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -15,
-    "morale": 25,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 3,
-    "harvest": "bird_small",
-    "vision_day": 50,
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_type": { "baby_egg": "egg_tinamou" }, "baby_count": 6, "baby_timer": 10 },
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
+    "name": { "str": "small-billed tinamou" },
+    "description": "One of several species of tinamous present in Brazil.  Although these birds converged into shapes similar to domestic fowl, they are more closely related to the extinct moas, though unlike them, tinamous are capable of flight.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "135 ml",
+    "weight": "100 g",
+    "reproduction": { "baby_type": { "baby_egg": "egg_tinamou" }, "baby_count": 4, "baby_timer": 45 },
+    "//": "4 broods a year, and we're assuming they're breeding only for half a year. Clutch sizes per nest can reach 16 eggs, but these can be eggs from up to 4 females, so we're taking an average."
+  },
+  {
+    "id": "mon_tinamou_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_chicken_chick",
+    "upgrades": { "age_grow": 21, "into": "mon_tinamou" },
+    "//": "3 weeks to reach independence."
   },
   {
     "id": "mon_seriema",
@@ -251,13 +240,6 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
-  },
-  {
-    "id": "mon_tinamou_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
-    "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 10, "into": "mon_tinamou" }
   },
   {
     "id": "mon_chachalaca_chick",
