@@ -12437,24 +12437,29 @@ float Character::fall_damage_mod() const
     return std::max( 0.0f, ret );
 }
 
-static float adjust_effective_force_for_soft_landing( float effective_force , int fall_damage_reduction, float fall_damage_reduction_multiplicative, int max_bash)
+static float adjust_effective_force_for_soft_landing( float effective_force,
+        int fall_damage_reduction, float fall_damage_reduction_multiplicative, int max_bash )
 {
-    if( effective_force < fall_damage_reduction) {
+    if( effective_force < fall_damage_reduction ) {
         return 0.0f;  // If less than fall_damage_reduction, reduce it to 0
-    } else if(effective_force < ( fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash ) ) {
-        return ( effective_force - fall_damage_reduction ) / fall_damage_reduction_multiplicative; //If less than springy * max_bash then full reduction bonus
-    }
-    else {
+    } else if( effective_force < ( fall_damage_reduction + fall_damage_reduction_multiplicative *
+                                   max_bash ) ) {
+        return ( effective_force - fall_damage_reduction ) /
+               fall_damage_reduction_multiplicative; //If less than springy * max_bash then full reduction bonus
+    } else {
         float upper_limit = fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash * 2;
-        float normalized_force = (effective_force - (fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash)) / (upper_limit - (fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash));
+        float normalized_force = ( effective_force - ( fall_damage_reduction +
+                                   fall_damage_reduction_multiplicative * max_bash ) ) / ( upper_limit -
+                                           ( fall_damage_reduction + fall_damage_reduction_multiplicative * max_bash ) );
 
         // Interpolating between the original division factor and 1
-        float division_factor = 1.0f + normalized_force * ((fall_damage_reduction_multiplicative + 1) / 2 - 1);
+        float division_factor = 1.0f + normalized_force * ( ( fall_damage_reduction_multiplicative + 1 ) / 2
+                                - 1 );
 
         // If fall_damage_reduction_multiplicative is below 1, allow the force to increase but cap it at 5x the original effective force
         float adjusted_force = effective_force / division_factor;
-        if (fall_damage_reduction_multiplicative < 1.0f) {
-            adjusted_force = std::min(adjusted_force, effective_force * 5.0f);  // Cap the force increase at 5x
+        if( fall_damage_reduction_multiplicative < 1.0f ) {
+            adjusted_force = std::min( adjusted_force, effective_force * 5.0f ); // Cap the force increase at 5x
         }
 
         return adjusted_force;
@@ -12523,21 +12528,21 @@ int Character::impact( const int force, const tripoint &p )
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
-            if (here.is_bashable_furn(p)) {
-                if (here.furn(p)->fall_damage_reduction + here.furn(p)->fall_damage_reduction_multiplicative * 2 * here.furn(p)->bash.str_max) {
-                    effective_force = adjust_effective_force_for_soft_landing(effective_force, here.furn(p)->fall_damage_reduction , here.furn(p)->fall_damage_reduction_multiplicative, here.furn(p)->bash.str_max);
-                }
-                else {
+            if( here.is_bashable_furn( p ) ) {
+                if( here.furn( p )->fall_damage_reduction + here.furn( p )->fall_damage_reduction_multiplicative * 2
+                    * here.furn( p )->bash.str_max ) {
+                    effective_force = adjust_effective_force_for_soft_landing( effective_force,
+                                      here.furn( p )->fall_damage_reduction, here.furn( p )->fall_damage_reduction_multiplicative,
+                                      here.furn( p )->bash.str_max );
+                } else {
                     //if furniture breakable it breaks and slighly reduces damage
-                        here.destroy_furn(tripoint_bub_ms(p), true);
-                        effective_force -= here.furn(p)->fall_damage_reduction_on_breaking;
+                    here.destroy_furn( tripoint_bub_ms( p ), true );
+                    effective_force -= here.furn( p )->fall_damage_reduction_on_breaking;
                 }
-            }
-            else
-            {
+            } else {
                 //if unbashable just appliying modifiers without any logic
-                effective_force -= here.furn(p)->fall_damage_reduction;
-                effective_force /= here.furn(p)->fall_damage_reduction_multiplicative;
+                effective_force -= here.furn( p )->fall_damage_reduction;
+                effective_force /= here.furn( p )->fall_damage_reduction_multiplicative;
             }
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
@@ -12546,18 +12551,20 @@ int Character::impact( const int force, const tripoint &p )
                 effective_force /= 1.5f;
                 mod /= 1.0f + ( 0.1f * swim_skill );
             }
-        } 
+        }
         //checking for items on floor
-        if(!here.has_flag(ter_furn_flag::TFLAG_SWIMMABLE, p) && !here.items_with( p, [&]( item const & it ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        !here.items_with( p, [&]( item const & it ) {
         return it.affects_fall();
         } ).empty() ) {
-           // effective_force = adjust_effective_force_for_soft_landing( effective_force );
+            // effective_force = adjust_effective_force_for_soft_landing( effective_force );
         }
     }
     //for wielded items
     if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
         ( weapon.affects_fall() ) ) {
-        effective_force = adjust_effective_force_for_soft_landing(effective_force, weapon.fall_damage_reduction(), weapon.fall_damage_reduction_multiplicative(), 30);
+        effective_force = adjust_effective_force_for_soft_landing( effective_force,
+                          weapon.fall_damage_reduction(), weapon.fall_damage_reduction_multiplicative(), 30 );
     }
     // Rescale for huge force
     // At >30 force, proper landing is impossible and armor helps way less

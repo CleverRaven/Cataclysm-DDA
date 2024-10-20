@@ -12030,7 +12030,9 @@ itype_id item::typeId() const
 
 bool item::affects_fall() const
 {
-    return type ? type->fall_damage_reduction != 0 || type->fall_damage_reduction_multiplicative != 1.0f || type-> fall_damage_reduction_on_breaking != 0 : false;
+    return type ? type->fall_damage_reduction != 0 ||
+           type->fall_damage_reduction_multiplicative != 1.0f ||
+           type-> fall_damage_reduction_on_breaking != 0 : false;
 }
 int item::fall_damage_reduction() const
 {
