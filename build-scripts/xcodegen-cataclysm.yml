@@ -48,6 +48,8 @@ targets:
         includes: 
           - "*.cpp"
           - "*.h"
+          - "third-party/imgui/*.cpp"
+          - "third-party/imgui/*.h"
         excludes:
           - "*.txt"
           - "*.in"
