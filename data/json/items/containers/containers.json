@@ -2057,6 +2057,32 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "type": "GENERIC",
+    "category": "container",
+    "id": "clay_cup",
+    "name": { "str": "clay cup" },
+    "symbol": "u",
+    "description": "A simple clay cup used for holding liquid.",
+    "weight": "318 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "material": [ "clay" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//3": "Based on https://woolandclay.co/products/copy-of-clay-rose-ceramic-cup?variant=44312937103577&currency=USD&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&srsltid=AfmBOooF-nJhokvYE4XmLVMLYkPNM71TgbC7qana3ZQRLCV2Q7qviZy_tHU&com_cvv=8fb3d522dc163aeadb66e08cd7450cbbdddc64c6cf2e8891f6d48747c6d56d2c"
+  },
+  {
     "id": "clay_hydria",
     "type": "GENERIC",
     "category": "container",

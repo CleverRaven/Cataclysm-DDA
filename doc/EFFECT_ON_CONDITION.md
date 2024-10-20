@@ -2607,6 +2607,40 @@ A loop of 10 iterations.
 
 ## Character effects
 
+#### `u_deal_damage`, `npc_deal_damage`
+
+Deal damage, the same way melee attack deals damage; it can't be dodged, but it can be mitigated by armor
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_deal_damage" / "npc_deal_damage" | **mandatory** | string or [variable object](#variable-object) | Damage type that would be dealt |
+| "amount" | optional | int or [variable object](#variable-object) | Amount of damage that would be dealt; Default 0 | 
+| "bodypart" | optional | string or [variable object](#variable-object) | Bodypart that take the damage. Reminder that only characters can have limbs. Default is RANDOM | 
+| "arpen" | optional | int or [variable object](#variable-object) | Armor penetration of attack; Default 0 |
+| "arpen_mult" | optional | int or [variable object](#variable-object) | Multiplier for armor penetration; Default 1 | 
+| "dmg_mult" | optional | int or [variable object](#variable-object) | Multiplier for damage amount. Default 1 | 
+| "min_hit" | optional | int or [variable object](#variable-object) | If bodypart is RANDOM, limit body part only to bodyparts that has `hit_size` bigger than this; default -1 |
+| "max_hit" | optional | int or [variable object](#variable-object) | If bodypart is RANDOM, limit body part only to bodyparts that has `hit_size` smaller than this; default the size of your biggest body part |
+| "can_attack_high" | optional | bool | If true, can attack limbs with flag LIMB_UPPER, if false, such limbs are discarded; Default true |
+| "hit_roll" | optional | int or [variable object](#variable-object) | hit_roll |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+Deal 20 biological damage to your torso
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [ { "u_deal_damage": "biological", "amount": 20, "bodypart": "torso" } ]
+  },
+```
+
 #### `u_mutate`, `npc_mutate`
 
 Your character or the NPC will attempt to mutate; used in mutation system, for other purposes it's better to use [`u_add_trait`](#`u_add_trait`, `npc_add_trait`)
@@ -4436,6 +4470,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "flags" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by flags they have |
 | "excluded_flags" | string, [variable object](#variable-object) or array of strings or variable objects | excludes items from the list by flags they have |
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
+| "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
 | "worn_only" | boolean | return only items you you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
@@ -4470,6 +4505,7 @@ Examples:
           { "worn_only": true },
           { "wielded_only": true },
           { "held_only": true },
+          { "uses_energy": true },
           { "condition": { "math": [ "rand(1)" ] } }, // since 0 for conditions is evaluated as "false", this would randomly discard ~half of items from picked
           { "condition": { "math": [ "n_calories() >= 200" ] } }, // can check beta talker for it's specific properties via math
           { "condition": { "and": [ { "math": [ "n_calories() >= 200" ] }, { "math": [ "n_calories() <= 500" ] } ] } }, // and even as range!

@@ -185,6 +185,7 @@ struct item_search_data {
     std::vector<str_or_var> material;
     std::vector<str_or_var> flags;
     std::vector<str_or_var> excluded_flags;
+    std::optional<bool> uses_energy;
     bool worn_only;
     bool wielded_only;
     bool held_only;
@@ -249,10 +250,12 @@ struct item_search_data {
             excluded_flags.emplace_back( get_str_or_var( jo.get_member( "excluded_flags" ), "excluded_flags",
                                          false, "" ) );
         }
-
         if( jo.has_member( "condition" ) ) {
             read_condition( jo, "condition", condition, false );
             has_condition = true;
+        }
+        if( jo.has_member( "uses_energy" ) ) {
+            uses_energy.emplace( jo.get_member( "uses_energy" ) );
         }
 
         worn_only = jo.get_bool( "worn_only", false );
@@ -364,6 +367,10 @@ struct item_search_data {
             if( !excluded_flags_evaluated.empty() && match ) {
                 return false;
             }
+        }
+
+        if( uses_energy.has_value() && loc->uses_energy() != uses_energy.value() ) {
+            return false;
         }
 
         if( worn_only && !guy->is_worn( *loc ) ) {
@@ -2737,6 +2744,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Construct full line
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
+    // cache response conditionals
+    std::vector<bool> response_condition_exists;
+    std::vector<bool> response_condition_eval;
+    for( talk_response &response : responses ) {
+        response_condition_exists.emplace_back( response.condition );
+        response_condition_eval.emplace_back( response.condition ? response.condition( *this ) : false );
+    }
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
         challenge = string_format( _( "\"%s\"" ), challenge );
@@ -2842,8 +2856,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             } else if( action == "CONFIRM" ) {
                 response_ind = d_win.sel_response;
                 //response condition must be reverified since non-selectable responses can be displayed
-                talk_response &check_valid = responses[response_ind];
-                if( check_valid.condition && ( !check_valid.condition( *this ) && !debug_mode ) ) {
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
                     action = "NONE";
                 }
             } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
@@ -2862,10 +2876,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                     generate_response_lines();
                 }
             } else if( action == "ANY_INPUT" ) {
-                // Check real hotkeys
+                // Check real hotkeys; equivalent functionally to CONFIRM
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
                                                   response_hotkeys.end(), evt );
                 response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                        !debug_mode ) ) {
+                    action = "NONE";
+                }
             } else if( action == "QUIT" ) {
                 response_ind = get_best_quit_response();
             }
@@ -6425,6 +6443,62 @@ talk_effect_fun_t::func f_give_equipment( const JsonObject &jo, std::string_view
     };
 }
 
+
+talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view member,
+                                       const std::string_view, bool is_npc )
+{
+    str_or_var dmg_type = get_str_or_var( jo.get_member( member ), member );
+    dbl_or_var dmg_amount = get_dbl_or_var( jo, "amount", false, 0 );
+    dbl_or_var arpen = get_dbl_or_var( jo, "arpen", false, 0 );
+    dbl_or_var arpen_mult = get_dbl_or_var( jo, "arpen_mult", false, 1 );
+    dbl_or_var dmg_mult = get_dbl_or_var( jo, "dmg_mult", false, 1 );
+
+    dbl_or_var dbl_min_hit = get_dbl_or_var( jo, "min_hit", false, -1 );
+    dbl_or_var dbl_max_hit = get_dbl_or_var( jo, "max_hit", false, -1 );
+    dbl_or_var dbl_hit_roll = get_dbl_or_var( jo, "hit_roll", false, 0 );
+    bool can_attack_high = jo.get_bool( "can_attack_high", true );
+
+
+    str_or_var bodypart;
+
+    if( jo.has_member( "bodypart" ) ) {
+        bodypart = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", false, "RANDOM" );
+    } else {
+        bodypart.str_val = "RANDOM";
+    }
+
+    return [is_npc, dmg_type, dmg_amount, bodypart, arpen, arpen_mult, dmg_mult, dbl_min_hit,
+            dbl_max_hit, dbl_hit_roll, can_attack_high]( dialogue & d ) {
+
+        damage_instance dmg_inst;
+        damage_type_id damage_type = damage_type_id( dmg_type.evaluate( d ) );
+        std::string const bp_str = bodypart.evaluate( d );
+        bodypart_id bp;
+
+        if( d.actor( is_npc )->get_character() ) {
+            if( bp_str == "RANDOM" ) {
+                Character &guy = *d.actor( is_npc )->get_character();
+                int min_hit = dbl_min_hit.evaluate( d );
+                int max_hit = dbl_max_hit.evaluate( d );
+                int hit_roll = dbl_hit_roll.evaluate( d );
+
+                if( max_hit == -1 ) {
+                    max_hit = guy.get_max_hitsize_bodypart()->hit_size;
+                }
+                bp = guy.select_body_part( min_hit, max_hit, can_attack_high, hit_roll );
+            }
+        }
+
+        if( d.actor( is_npc )->get_monster() ) {
+            bp = bodypart_id( "bp_null" );
+        }
+
+        dmg_inst.add_damage( damage_type, dmg_amount.evaluate( d ), arpen.evaluate( d ),
+                             arpen_mult.evaluate( d ), dmg_mult.evaluate( d ), 1, 1 );
+        d.actor( is_npc )->deal_damage( d.actor( is_npc )->get_creature(), bp, dmg_inst );
+    };
+}
+
 talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view member,
         const std::string_view src, bool is_npc )
 {
@@ -7067,6 +7141,7 @@ parsers = {
     { "u_consume_item_sum", "npc_consume_item_sum", jarg::array, &talk_effect_fun::f_consume_item_sum },
     { "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun::f_remove_item_with },
     { "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
+    { "u_deal_damage", "npc_deal_damage", jarg::member, &talk_effect_fun::f_deal_damage },
     { "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
     { "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun::f_cast_spell },
     { "u_map_run_item_eocs", "npc_map_run_item_eocs", jarg::member, &talk_effect_fun::f_map_run_item_eocs },

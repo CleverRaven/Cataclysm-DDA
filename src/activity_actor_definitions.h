@@ -142,6 +142,32 @@ class autodrive_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class bash_activity_actor : public activity_actor
+{
+    private:
+        tripoint_bub_ms target;
+
+    public:
+        explicit bash_activity_actor( const tripoint_bub_ms &where ) : target( where ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BASH" );
+        };
+
+        void start( player_activity &, Character & ) override {}
+        void canceled( player_activity &, Character & ) override {}
+        void finish( player_activity &, Character & ) override {}
+
+        void do_turn( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class gunmod_remove_activity_actor : public activity_actor
 {
     private:

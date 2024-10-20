@@ -109,7 +109,8 @@
       "CONCENTRATE",
       "IGNITE_FLAMMABLE",
       "MUST_HAVE_CLASS_TO_LEARN",
-      "NO_HANDS"
+      "NO_HANDS",
+      "SPLIT_DAMAGE"
     ],
     "effect": "attack",
     "shape": "blast",
@@ -179,6 +180,7 @@
     "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "self" ],
     "max_level": 35,
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "min_damage": 10,

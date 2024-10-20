@@ -32,6 +32,7 @@
     "dynamic_line": "*shrugs.  \"Not my favorite job, but sure.  I'll keep an eye out.\"",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Liam", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND_Liam" },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },
