@@ -2306,6 +2306,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_temmporary_glorious",
+    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_no_ruach",
     "name": [ { "str": "Ra'ab", "//~": "Biblical Hebrew for 'famine' or 'starvation'" } ],
     "desc": [ "You are out of ruach and gradually weakening." ],
