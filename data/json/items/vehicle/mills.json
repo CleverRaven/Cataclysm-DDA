@@ -11,8 +11,8 @@
     "material": [ "steel" ],
     "volume": "20 L",
     "category": "veh_parts",
-    "price": 60000,
-    "price_postapoc": 1000,
+    "price": "600 USD",
+    "price_postapoc": "10 USD",
     "melee_damage": { "bash": 1 }
   },
   {
@@ -24,8 +24,8 @@
     "to_hit": -7,
     "symbol": "Y",
     "volume": "60 L",
-    "price": 150000,
-    "price_postapoc": 1500,
+    "price": "1 kUSD 500 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "wind_turbine"
   },
   {
@@ -38,8 +38,8 @@
     "symbol": "*",
     "material": [ "wood" ],
     "volume": "30 L",
-    "price": 120000,
-    "price_postapoc": 1000,
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "10 USD",
     "copy-from": "wind_turbine",
     "melee_damage": { "bash": 3 }
   },
@@ -51,8 +51,8 @@
     "weight": "210000 g",
     "symbol": "o",
     "volume": "60 L",
-    "price": 200000,
-    "price_postapoc": 1500,
+    "price": "2 kUSD",
+    "price_postapoc": "15 USD",
     "copy-from": "water_wheel"
   }
 ]

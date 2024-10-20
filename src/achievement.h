@@ -6,16 +6,18 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_subscriber.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;

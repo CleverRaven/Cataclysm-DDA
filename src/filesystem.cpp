@@ -281,9 +281,15 @@ bool is_directory( const fs::directory_entry &entry )
 // If at_end is true, returns whether entry's name ends in match.
 // Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool name_contains( const fs::directory_entry &entry, const std::string &match, const bool at_end )
+bool name_contains( const fs::directory_entry &entry, const std::string &match, const bool at_end,
+                    const bool match_path )
 {
-    std::string entry_name = entry.path().filename().u8string();
+    std::string entry_name;
+    if( match_path ) {
+        entry_name = entry.path().u8string();
+    } else {
+        entry_name = entry.path().filename().u8string();
+    }
     const size_t len_fname = entry_name.length();
     const size_t len_match = match.length();
 
@@ -421,7 +427,7 @@ std::vector<std::string> get_files_from_path( const std::string &pattern,
 {
     return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, match_extension );
+        return name_contains( entry, pattern, match_extension, false );
     } );
 }
 std::vector<cata_path> get_files_from_path( const std::string &pattern,
@@ -429,7 +435,28 @@ std::vector<cata_path> get_files_from_path( const std::string &pattern,
 {
     return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, match_extension );
+        return name_contains( entry, pattern, match_extension, false );
+    } );
+}
+
+std::vector<std::string> get_files_from_path_with_path_exclusion( const std::string &pattern,
+        const std::string &pattern_clash,
+        const std::string &root_path, const bool recursive_search, const bool match_extension )
+{
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return name_contains( entry, pattern, match_extension, false ) &&
+               !name_contains( entry, pattern_clash, false, true );
+    } );
+}
+std::vector<cata_path> get_files_from_path_with_path_exclusion( const std::string &pattern,
+        const std::string &pattern_clash,
+        const cata_path &root_path, const bool recursive_search, const bool match_extension )
+{
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return name_contains( entry, pattern, match_extension, false ) &&
+               !name_contains( entry, pattern_clash, false, true );
     } );
 }
 
@@ -449,7 +476,7 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
 
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, true );
+        return name_contains( entry, pattern, true, false );
     } );
 
     // Chop off the file names. Dir path MUST be splitted by '/'
@@ -471,7 +498,7 @@ std::vector<cata_path> get_directories_with( const std::string &pattern,
 
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, true );
+        return name_contains( entry, pattern, true, false );
     } );
 
     // Chop off the file names. Dir path MUST be splitted by '/'
@@ -504,7 +531,7 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
-            return name_contains( entry, ext, true );
+            return name_contains( entry, ext, true, false );
         } );
     } );
 
@@ -532,7 +559,7 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
-            return name_contains( entry, ext, true );
+            return name_contains( entry, ext, true, false );
         } );
     } );
 
@@ -542,6 +569,43 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
     }
 
     //remove resulting duplicates
+    files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
+
+    return files;
+}
+
+/**
+ * Finds all directories within given path
+ * @param root_path Search root.
+ * @param recursive_search Be recurse or not.
+ * @return vector or directories without pattern filename at end.
+ */
+std::vector<std::string> get_directories( const std::string &root_path,
+        const bool recursive_search )
+{
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return dir_exist( entry.path() );
+    } );
+
+    files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
+
+    return files;
+}
+
+/**
+ * Finds all directories within given path
+ * @param root_path Search root.
+ * @param recursive_search Be recurse or not.
+ * @return vector or directories without pattern filename at end.
+ */
+std::vector<cata_path> get_directories( const cata_path &root_path, const bool recursive_search )
+{
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return dir_exist( entry.path() );
+    } );
+
     files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
 
     return files;

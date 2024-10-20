@@ -59,6 +59,7 @@
         }
       }
     },
+    "map_extras": { "forest_water": { "chance": 20, "extras": { "mx_catoblepas_lair": 1 } } },
     "forest_mapgen_settings": {
       "forest_thick": {
         "terrains": [

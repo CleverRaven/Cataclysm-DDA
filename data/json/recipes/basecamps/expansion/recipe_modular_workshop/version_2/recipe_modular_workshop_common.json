@@ -99,7 +99,7 @@
     "blueprint_requires": [ { "id": "fbmw_2_common_smithy_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_3" }, { "id": "fbmw_2_blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_3" } ],
-    "blueprint_resources": [ "anvil" ],
+    "blueprint_resources": [ "anvil_crude" ],
     "components": [ [ [ "55gal_drum", 1 ] ], [ [ "30gal_drum", 1 ] ] ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",

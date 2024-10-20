@@ -200,7 +200,7 @@
         "max_radius": 40
       },
       {
-        "u_message": "Squeaking and chittering can be heard nearby, with the pattering of many feet, like a swarm of rats travelling quickly.  However, this sounds more, organized?  Almost like they're all walking in formation.",
+        "u_message": "Squeaking and chittering can be heard nearby, with the pattering of many feet, like a swarm of rats traveling quickly.  However, this sounds more, organized?  Almost like they're all walking in formation.",
         "type": "bad",
         "popup": true
       }

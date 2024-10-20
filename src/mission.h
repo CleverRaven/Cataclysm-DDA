@@ -13,7 +13,7 @@
 
 #include "calendar.h"
 #include "character_id.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "dialogue.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -212,7 +212,7 @@ struct mission_type {
         bool invisible_on_complete = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
-        npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
+        npc_class_id recruit_class = npc_class_id::NULL_ID();  // The type of NPC you are to recruit
         character_id target_npc_id;
         mtype_id monster_type = mtype_id::NULL_ID();
         species_id monster_species;
@@ -260,7 +260,8 @@ struct mission_type {
         static void finalize();
         static void check_consistency();
 
-        bool parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func );
+        bool parse_funcs( const JsonObject &jo, std::string_view src,
+                          std::function<void( mission * )> &phase_func );
         void load( const JsonObject &jo, const std::string &src );
 
         /**
@@ -315,6 +316,8 @@ class mission
         int monster_kill_goal = 0;
         // The kill count you need to reach to complete mission
         int kill_count_to_reach = 0;
+        // When this mission will auto-fail if not already completed/failed
+        // Also overloaded to track when the mission was completed/loaded
         time_point deadline;
         // ID of a related npc
         character_id npc_id;

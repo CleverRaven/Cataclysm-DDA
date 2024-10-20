@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_DISEASE_H
 #define CATA_SRC_DISEASE_H
 
-#include <iosfwd>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"

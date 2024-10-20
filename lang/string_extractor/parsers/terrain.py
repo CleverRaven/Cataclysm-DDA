@@ -13,11 +13,10 @@ def parse_terrain(json, origin):
     if "bash" in json:
         if "sound" in json["bash"]:
             write_text(json["bash"]["sound"], origin,
-                       comment="Bashing sound of terrain \"{}\"".format(name))
+                       comment="Bashing sound")
         if "sound_fail" in json["bash"]:
             write_text(json["bash"]["sound_fail"], origin,
-                       comment="Bashing failed sound of terrain \"{}\""
-                       .format(name))
+                       comment="Bashing failed sound")
     if "boltcut" in json:
         if "message" in json["boltcut"]:
             write_text(json["boltcut"]["message"], origin,

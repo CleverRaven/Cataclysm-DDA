@@ -544,14 +544,14 @@ Valid arguments:
 "perspiration_chance_bot"
 "perspiration_tick"       - Defaults to every tick
 
-"fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
-"fatigue_min"       - Minimal amount of fatigue, certain effect will give/take
-"fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"
-"fatigue_min_val"   - Defaults to 0, which means uncapped
-"fatigue_max_val"   - Defaults to 0, which means uncapped
-"fatigue_chance"    - Chance to get more tired
-"fatigue_chance_bot"
-"fatigue_tick"      - Defaults to every tick
+"sleepiness_amount"    - Amount of sleepiness it can give/take. After certain amount character will need to sleep.
+"sleepiness_min"       - Minimal amount of sleepiness, certain effect will give/take
+"sleepiness_max"       - if 0 or missing value will be exactly "sleepiness_min"
+"sleepiness_min_val"   - Defaults to 0, which means uncapped
+"sleepiness_max_val"   - Defaults to 0, which means uncapped
+"sleepiness_chance"    - Chance to get more tired
+"sleepiness_chance_bot"
+"sleepiness_tick"      - Defaults to every tick
 
 "stamina_amount"    - Amount of stamina it can give/take.
 "stamina_min"       - Minimal amount of stamina, certain effect will give/take

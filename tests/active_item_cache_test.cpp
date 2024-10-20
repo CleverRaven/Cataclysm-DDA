@@ -28,7 +28,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             REQUIRE( here.get_submaps_with_active_items().empty() );
             REQUIRE( here.get_submaps_with_active_items().find( abs_loc ) ==
                      here.get_submaps_with_active_items().end() );
-            item &item_ref = here.add_item( { x, y, z }, active );
+            item &item_ref = here.add_item( tripoint_bub_ms( x, y, z ), active );
             here.update_submaps_with_active_items();
             REQUIRE( item_ref.active );
             REQUIRE_FALSE( here.get_submaps_with_active_items().empty() );

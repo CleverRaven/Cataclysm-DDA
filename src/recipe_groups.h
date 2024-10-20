@@ -6,6 +6,7 @@
 #include <map>
 
 #include "type_id.h"
+#include "mapgendata.h"
 
 class JsonObject;
 class translation;
@@ -18,8 +19,9 @@ void check();
 void reset();
 
 std::map<recipe_id, translation> get_recipes_by_bldg( const std::string &bldg );
-std::map<recipe_id, translation> get_recipes_by_id( const std::string &id,
-        const std::string &om_terrain_id = "ANY" );
+std::map<recipe_id, translation> get_recipes_by_id( const std::string &id );
+std::map<recipe_id, translation> get_recipes_by_id( const std::string &id, const oter_id &omt_ter,
+        const std::optional<mapgen_arguments> *maybe_args );
 std::string get_building_of_recipe( const std::string &recipe );
 } // namespace recipe_group
 

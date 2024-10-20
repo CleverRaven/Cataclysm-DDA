@@ -13,7 +13,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "battery" ],
-    "flags": [ "NO_UNLOAD", "RECHARGE" ],
+    "flags": [ "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ],
     "capacity": 1500,
     "reload_time": 3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ]
@@ -42,7 +42,7 @@
     "price_postapoc": "50 USD",
     "capacity": 600,
     "reload_time": 5,
-    "flags": [ "NO_UNLOAD" ],
+    "flags": [ "NO_UNLOAD", "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 600 } } ]
   },
   {
@@ -57,7 +57,7 @@
     "capacity": 15000,
     "count": 15000,
     "reload_time": 5,
-    "flags": [ "NO_UNLOAD" ],
+    "flags": [ "NO_UNLOAD", "MAG_COMPACT" ],
     "default_ammo": "afs_battery_plus",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 15000 } } ]
   }

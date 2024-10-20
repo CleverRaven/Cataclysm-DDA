@@ -1,0 +1,123 @@
+[
+  {
+    "type": "attack_vector",
+    "id": "vector_null",
+    "//": "Fallback weapon vector, unarmed attacks always go through techs",
+    "weapon": true
+  },
+  {
+    "type": "attack_vector",
+    "id": "test_test",
+    "limbs": [ "debug_tail" ],
+    "encumbrance_limit": 33,
+    "bp_hp_limit": 75
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_headbutt",
+    "limbs": [ "head" ],
+    "contact_area": [ "head_forehead" ],
+    "bp_hp_limit": 50
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_bite",
+    "limbs": [ "mouth" ],
+    "contact_area": [ "mouth_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_punch",
+    "limbs": [ "hand_l", "hand_r" ],
+    "contact_area": [ "hand_fingers_l", "hand_fingers_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_wrist",
+    "limbs": [ "hand_l", "hand_r" ],
+    "contact_area": [ "hand_wrist_l", "hand_wrist_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_palm",
+    "limbs": [ "hand_l", "hand_r" ],
+    "contact_area": [ "hand_palm_l", "hand_palm_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_grasp",
+    "limbs": [ "hand_l", "hand_r" ],
+    "contact_area": [ "hand_palm_l", "hand_palm_r" ],
+    "limb_req": [ [ "arm", 2 ] ],
+    "armor_bonus": false
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_backhand",
+    "limbs": [ "hand_l", "hand_r" ],
+    "contact_area": [ "hand_back_l", "hand_back_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_shoulder",
+    "limbs": [ "arm_l", "arm_r" ],
+    "contact_area": [ "arm_shoulder_l", "arm_shoulder_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_arm",
+    "limbs": [ "arm_l", "arm_r" ],
+    "contact_area": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_arm_grapple",
+    "limbs": [ "arm_l", "arm_r" ],
+    "contact_area": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
+    "armor_bonus": false,
+    "limb_req": [ [ "arm", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_elbow",
+    "limbs": [ "arm_l", "arm_r" ],
+    "contact_area": [ "arm_elbow_l", "arm_elbow_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_foot_toes",
+    "limbs": [ "foot_l", "foot_r" ],
+    "contact_area": [ "foot_toes_l", "foot_toes_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_foot_sole",
+    "limbs": [ "foot_l", "foot_r" ],
+    "contact_area": [ "foot_sole_l", "foot_sole_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_foot_heel",
+    "limbs": [ "foot_l", "foot_r" ],
+    "contact_area": [ "foot_heel_l", "foot_heel_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_knee",
+    "limbs": [ "leg_l", "leg_r" ],
+    "contact_area": [ "leg_knee_l", "leg_knee_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_shin",
+    "limbs": [ "leg_l", "leg_r" ],
+    "contact_area": [ "leg_lower_l", "leg_lower_r" ],
+    "bp_hp_limit": 50,
+    "limb_req": [ [ "leg", 2 ] ]
+  }
+]

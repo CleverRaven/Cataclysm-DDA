@@ -160,23 +160,11 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "matrix_shard_group",
-    "items": [ { "item": "matrix_shard", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
     "id": "matrix_crystal_vitakin_dust_group",
     "items": [
       { "item": "matrix_crystal_vitakin_dust", "prob": 3, "container-item": "test_tube" },
       { "item": "matrix_crystal_vitakin_dust_refined", "prob": 1, "container-item": "test_tube" }
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "dist_matrix_crystal_skyscraper_lab_group",
-    "items": [ [ "matrix_crystal_drained", 4 ], [ "matrix_crystal_clairsentience", 1 ], [ "matrix_crystal_telepathy", 1 ] ]
   },
   {
     "type": "item_group",
@@ -192,5 +180,34 @@
     "subtype": "distribution",
     "id": "matrix_crystal_drained_group",
     "items": [ [ "matrix_crystal_drained", 50 ], [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystal_skyscraper_lab_group",
+    "items": [ [ "matrix_crystal_drained", 4 ], [ "matrix_crystal_clairsentience", 1 ], [ "matrix_crystal_telepathy", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_shard_group",
+    "items": [ { "item": "matrix_shard", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "concentrated_matrix_elixirs",
+    "items": [
+      { "item": "recipe_survivor_matrix_crystal_ground", "prob": 1 },
+      { "item": "matrix_crystal_biokin_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_clair_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_electrokin_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_photokin_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_pyrokin_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_telekin_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_telepath_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_teleport_dust_potion", "prob": 2, "container-item": "bottle_plastic" },
+      { "item": "matrix_crystal_vitakin_dust_potion", "prob": 2, "container-item": "bottle_plastic" }
+    ]
   }
 ]

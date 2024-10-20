@@ -4,7 +4,7 @@
     "id": "NC_UICA_PORT_CREW",
     "//": "For crew and customs officers in port Augustmoon.  They have some level of military training.",
     "name": { "str": "Augustmoon Crew" },
-    "job_description": "I´m part of the Augustmoon crew.",
+    "job_description": "I'm part of the Augustmoon crew.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_str": { "rng": [ 0, 1 ] },

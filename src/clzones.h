@@ -2,25 +2,24 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
-#include <functional>
 #include <cstddef>
-#include <iosfwd>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "memory_fast.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "avatar.h"
-#include "map.h"
 
 class JsonObject;
 class JsonOut;
@@ -67,7 +66,7 @@ class zone_type
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**
-         * All spells in the game.
+         * All zone types in the game.
          */
         static const std::vector<zone_type> &get_all();
         bool is_valid() const;
@@ -409,8 +408,10 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
+        // We need to be able to suppress the display of zones when the movement is part of a map rotation, as the underlying
+        // field is automatically rotated by the map rotation itself.
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true, bool skip_cache_update = false );
+                           bool update_avatar = true, bool skip_cache_update = false, bool suppress_display_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
         // Displays/removes display fields based on the current is_displayed value.

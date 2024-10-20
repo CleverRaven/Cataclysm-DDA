@@ -169,7 +169,7 @@
   {
     "id": "metal_bench",
     "copy-from": "seat_back",
-    "breaks_into": "ig_vp_prison_bench",
+    "breaks_into": "ig_vp_steel_plate",
     "comfort": 0,
     "floor_bedding_warmth": 0,
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
@@ -180,7 +180,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_lc_steel", 2 ] ] }
     },
     "type": "vehicle_part"
   }

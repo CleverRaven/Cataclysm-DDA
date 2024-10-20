@@ -146,6 +146,20 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_22_ar15kit",
+    "subtype": "collection",
+    "container-item": "box_retool_large",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "retool_ar15_22" },
+      {
+        "distribution": [ { "item": "22_ar15mag_10", "charges": 0, "count": 2 }, { "item": "22_ar15mag_28", "charges": 0, "count": 2 } ]
+      },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_223rem_mdrxkit",
     "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "subtype": "collection",
@@ -310,7 +324,8 @@
           { "group": "boxed_450bushmaster_ar15kit", "prob": 20 },
           { "group": "boxed_450bushmaster_ar15kit_medium", "prob": 15 },
           { "group": "boxed_450bushmaster_ar15kit_short", "prob": 10 },
-          { "group": "boxed_762_ar15kit", "prob": 30 }
+          { "group": "boxed_762_ar15kit", "prob": 30 },
+          { "group": "boxed_22_ar15kit", "prob": 30 }
         ],
         "prob": 100
       }

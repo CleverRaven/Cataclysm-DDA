@@ -57,35 +57,14 @@ void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
 bool consume_liquid( item &liquid, int radius = 0, const item *avoid = nullptr );
 
 /**
- * Handle finite liquid from ground. The function also handles consuming move points.
- * This may start a player activity.
- * @param on_ground Iterator to the item on the ground. Must be valid and point to an
- * item in the stack at `m.i_at(pos)`
- * @param pos The position of the item on the map.
+ * Handle liquids from inside a container item. The function also handles consuming move points.
+  * @param container Container of the liquid
  * @param radius around position to handle liquid for
  * @return Whether the item has been removed (which implies it was handled completely).
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_ground( const map_stack::iterator &on_ground, const tripoint &pos,
-                                int radius = 0 );
-
-/**
- * Handle liquid from inside a container item. The function also handles consuming move points.
- * @param in_container Iterator to the liquid. Must be valid and point to an
- * item in the @ref item::contents of the container.
- * @param container Container of the liquid
- * @param radius around position to handle liquid for
- * @return Whether the item has been removed (which implies it was handled completely).
- * The iterator is invalidated in that case. Otherwise the item remains but may have
- * fewer charges.
- */
-bool handle_liquid_from_container( item *in_container, item &container,
-                                   int radius = 0 );
-/**
- * Shortcut to the above: handles the first item in the container.
- */
-bool handle_liquid_from_container( item &container, int radius = 0 );
+bool handle_all_liquids_from_container( item_location &container, int radius = 0 );
 
 bool can_handle_liquid( const item &liquid );
 
@@ -112,11 +91,13 @@ bool handle_liquid( item &liquid, const item *source = nullptr, int radius = 0,
                     const tripoint *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, int part_num = -1,
                     const monster *source_mon = nullptr );
+bool handle_liquid( item_location &liquid, const item *source = nullptr, int radius = 0 );
 
 /* Not to be used directly. Use liquid_handler::handle_liquid instead. */
 bool perform_liquid_transfer( item &liquid, const tripoint *source_pos,
                               const vehicle *source_veh, int part_num,
                               const monster * /*source_mon*/, liquid_dest_opt &target );
+bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target );
 } // namespace liquid_handler
 
 #endif // CATA_SRC_HANDLE_LIQUID_H

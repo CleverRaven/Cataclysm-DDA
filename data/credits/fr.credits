@@ -71,11 +71,11 @@ Pour tout ce qui concerne la barre latérale.
 <color_yellow>BevapDin</color> - Pour la relecture de code et les efforts de restructuration
 <color_yellow>BrettDong</color> - Pour les traductions
 <color_yellow>curstwist</color> - Pour les toits, les générateurs de cartes, les PNJs et les journaux de modifications
-<color_yellow>davidpwbrown</color> - Pour le voyage et le pilote automatique. Ainsi que pour l'équitation
-<color_yellow>jbytheway</color> - Pour sont travail sur le système d'intégration continue et pour défendre ses positions
-<color_yellow>Hymore246</color> - Pour l'amélioration des arts martiaux
-<color_yellow>Qrox</color> - Pour avoir amélioré les rapports d'erreurs dans les versions Windows
-<color_yellow>ZhilkinSerg</color> - Pour les vérifications des changements avant fusion
+<color_yellow>davidpwbrown</color> - Pour le voyage et le pilote automatique.  Aussi, pour l'équitation.  
+<color_yellow>jbytheway</color> - Pour son travail sur le système d'intégration continue et pour défendre ses positions.  
+<color_yellow>Hymore246</color> - Pour l'amélioration des arts martiaux.  
+<color_yellow>Qrox</color> - Pour avoir amélioré les rapports d'erreurs dans les versions Windows.  
+<color_yellow>ZhilkinSerg</color> - Pour les vérifications des changements avant fusion.  
 
 <color_white>Pour une liste complète des contributeurs, veuillez consulter le dépôt Git:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>

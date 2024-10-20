@@ -1,0 +1,89 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "dynamic_line": {
+      "follower_present": "NC_ISHERWOOD_BARRY",
+      "no": {
+        "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ],
+        "no": [
+          "What's up?  Change of plans?",
+          "Everything OK?",
+          "Not really a good time for a chat.",
+          "I can't believe this is happening."
+        ],
+        "yes": [
+          { "gendered_line": "Barry!  Oh my god, you found him!", "relevant_genders": [ "u" ] },
+          "Barry!  You're okay!",
+          "Oh god, oh thank god.  Let's get Barry out of here."
+        ]
+      },
+      "yes": [
+        { "gendered_line": "Barry!  Oh my god, you found him!", "relevant_genders": [ "u" ] },
+        "Barry!  You're okay!",
+        "Oh god, oh thank god.  Let's get Barry out of here."
+      ]
+    },
+    "responses": [
+      {
+        "text": "We've got him, let's get out of here.",
+        "condition": {
+          "and": [
+            { "math": [ "isherwood_family_coming", "==", "1" ] },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] }
+          ]
+        },
+        "effect": [
+          { "u_lose_var": "barry_following", "type": "general", "context": "meeting" },
+          { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+          { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
+          { "math": [ "barry_travelling_home", "=", "1" ] },
+          {
+            "u_run_npc_eocs": [
+              {
+                "id": "EOC_BARRY_TELEPORT_HOME",
+                "effect": [
+                  {
+                    "u_location_variable": { "global_val": "barry_return_home_map" },
+                    "target_params": { "om_terrain": "horse_farm_isherwood_14", "om_special": "Isherwood Farm Mutable", "search_range": 500, "z": 0 },
+                    "terrain": "t_dirt",
+                    "target_max_radius": 30,
+                    "min_radius": 0,
+                    "max_radius": 0
+                  },
+                  { "u_teleport": { "global_val": "barry_return_home_map" } }
+                ]
+              }
+            ],
+            "unique_ids": [ "BARRY_MISSION" ]
+          },
+          {
+            "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "furniture": "f_chair",
+            "target_max_radius": 30,
+            "min_radius": 0,
+            "max_radius": 0
+          },
+          { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true },
+          { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Right.  Let's do this.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
+    "dynamic_line": {
+      "gendered_line": "*eyes you up and down with a nervous smile.  \"I almost didn't expect you to show up.\"  He hesitates, letting out a soft laugh.  \"That sounds bad.  I just mean, I can't really believe we're doing this.  Thank you… for doing this.  You ready to get Uncle Barry?\"",
+      "relevant_genders": [ "u" ]
+    },
+    "responses": [
+      { "text": "You got it, let's go!", "effect": "follow_only", "topic": "TALK_DONE" },
+      { "text": "Not yet, just give me a minute.", "topic": "TALK_DONE" }
+    ]
+  }
+]

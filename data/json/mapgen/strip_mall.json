@@ -119,7 +119,7 @@
         { "signage": "<family_name> Marketplace", "x": 0, "y": 0 },
         { "signage": "<family_name> Plaza", "x": 0, "y": 0 },
         { "signage": "<city> Plaza", "x": 0, "y": 0 },
-        { "signage": "<city> Shopping Centre", "x": 0, "y": 0 },
+        { "signage": "<city> Shopping Center", "x": 0, "y": 0 },
         { "signage": "<city> Business Village", "x": 0, "y": 0 },
         { "signage": "<city> Business Mall", "x": 0, "y": 0 },
         { "signage": "Ye Olde <city> Shoppes", "x": 0, "y": 0 },

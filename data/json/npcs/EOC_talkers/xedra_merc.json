@@ -21,7 +21,7 @@
     "dynamic_line": "With a terrible shriek the mercenary falls off the spike and begins to move.  It stares right at you before vanishing.  In the distance you can hear a radio squelch:\n\"Target acquired.  Falling back, regroup and prepare to attack the intruder.\"",
     "responses": [
       {
-        "text": "You can here the rushing of boots all around you, and the chattering of radios.  It must still be close and you are their target.",
+        "text": "You can hear the rushing of boots all around you, and the chattering of radios.  It must still be close and you are their target.",
         "effect": [
           { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "20 seconds", "30 seconds" ] },
           { "run_eocs": "EOC_HAUNTING_SPAWN" },

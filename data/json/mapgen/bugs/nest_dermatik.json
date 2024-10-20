@@ -2,6 +2,40 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "nest_dermatik_paper_roof",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "#" ], "terrain": { "#": "t_roof_paper" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_dermatik_paper_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "#" ],
+      "terrain": { "#": "t_paper" },
+      "place_nested": [ { "chunks": [ "nest_dermatik_paper_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_dermatik_dirt_roof",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "#" ], "terrain": { "#": "t_dirt" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_dermatik_dirt_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "#" ],
+      "terrain": { "#": "t_wall_dirt" },
+      "place_nested": [ { "chunks": [ "nest_dermatik_dirt_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "nest_dermatik",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -35,7 +69,6 @@
         "t": [ "t_region_tree", "t_region_groundcover" ],
         ",": [ "t_region_tree" ],
         "-": [ "t_wall_dirt" ],
-        "#": [ [ "t_paper", 3 ], "t_wall_dirt" ],
         ".": [ "t_mud_underground", [ "t_floor_paper", 2 ] ],
         "0": [ "t_pit_shallow" ]
       },
@@ -48,7 +81,8 @@
         { "monster": "mon_dermatik_larva", "x": [ 3, 22 ], "y": [ 8, 22 ], "repeat": [ 2, 4 ] },
         { "monster": "mon_dermatik_midwife", "x": [ 10, 12 ], "y": [ 14, 17 ], "repeat": [ 0, 2 ] },
         { "monster": "mon_dermatik", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 4 ] }
-      ]
+      ],
+      "nested": { "#": { "chunks": [ [ "nest_dermatik_paper_wall", 3 ], [ "nest_dermatik_dirt_wall", 1 ] ] } }
     }
   },
   {
@@ -59,31 +93,31 @@
       "fill_ter": "t_open_air",
       "rows": [
         "                        ",
-        "                        ",
-        "            ,,          ",
-        "      ,,,,,,,,,         ",
-        "     ,,,,,,,,,,,,,      ",
-        "    ,,,,,,,,,,,,,,,,    ",
-        "    ,,,,,,,,,,,,,,,,    ",
-        "    ,,,,,,,,,,,,,,,,    ",
-        "   ,,,,,,,,,,,,,,,,,    ",
-        "   ,,,,,,,,,,,,,,,,,,   ",
-        "   ,,,,,,,,,,,,,,,,,,,  ",
-        "   ,,,,,,,,,,,,,,,,,,,  ",
-        "   ,,,,,,,,,,,,,,,,,,,  ",
-        "   ,,,,,,,,,,,,,,,,,,,  ",
-        "  ,,,,,,,,,,,,,,,,,,,,  ",
-        "  ,,,,,,,,,,,,,,,,,,,,  ",
-        "  ,,,,,,,,,,,,,,,,,,,   ",
-        " ,,,,,,,,,,,,,,,,,,,,   ",
-        " ,,,,,,,,,,,,,,,,,,,,,  ",
-        " ,,,,,,,,,,,,,,,,,,,,,  ",
-        "   ,,,,,,,,,,,,,,,,,,   ",
-        "       ,,,,,,,,,,,,     ",
-        "        ,,,   ,         ",
-        "                        "
+        "              -         ",
+        "      -    ----         ",
+        "     ---...-..---       ",
+        "    --.--..-...--- -    ",
+        "    -... .- ...------   ",
+        "   -- .  .   ..-..---   ",
+        "  --- ....- .   ..--    ",
+        "  -   ..   ..... .---   ",
+        "  - ..   .. .... --.-   ",
+        "  -- .      ....  ..--  ",
+        "   --... . .....  ...-- ",
+        "  -- .  . ....... ..--- ",
+        "  --      ...... . .--  ",
+        "  -... ........   ...-  ",
+        " - ...  .........  .--  ",
+        "  --. .........  .---   ",
+        " --   .......   . ..--  ",
+        "--.... .. . . ... ...-  ",
+        " - .          ......--  ",
+        " ------...  .......--   ",
+        "   ---- ...  -.-----    ",
+        "      ---------- -      ",
+        "       --- --           "
       ],
-      "terrain": { ",": [ "t_roof_paper" ] }
+      "terrain": { "-": [ "t_dirt" ], ".": [ "t_roof_paper" ] }
     }
   }
 ]

@@ -86,12 +86,14 @@
   {
     "id": "INCENDIARY",
     "type": "ammo_effect",
-    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded"
+    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded in projectile::apply_effects_damage",
+    "//2": "10% chance to start fires on flammable (has flag FLAMMABLE_ASH) furniture/terrain **with defined shoot data**, hardcoded in map::shoot"
   },
   {
     "id": "IGNITE",
     "type": "ammo_effect",
-    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded"
+    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded",
+    "//2": "Guaranteed to start fires on flammable (has flag FLAMMABLE_ASH) furniture/terrain **with defined shoot data**, hardcoded in map::shoot"
   },
   {
     "id": "JET",
@@ -166,12 +168,7 @@
   {
     "id": "ROBOT_DAZZLE",
     "type": "ammo_effect",
-    "//": "Applies sensor-stunning effect to robots. Hardcoded"
-  },
-  {
-    "id": "RECOVER_X",
-    "type": "ammo_effect",
-    "//": " Has a [(X-1)/X] probability to create a single charge of the used ammo at the point of impact. Change the X with any number, like 'RECOVER_2' means [(2-1)/2]=50% chance. Hardcoded"
+    "//": "Applies sensor-stunning effect to robots.  Only intended to affect ROBOTs not CYBORGs. Hardcoded"
   },
   {
     "id": "RECYCLED",
@@ -390,6 +387,12 @@
     "trail": { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
   },
   {
+    "id": "STREAM_TINY",
+    "type": "ammo_effect",
+    "//": "Sometimes leaves a trail of small fire fields. All of these STREAM_XXXXXX effects have hardcoded interactions in projectile_attack (ballistics.cpp)",
+    "trail": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "chance": 10 }
+  },
+  {
     "id": "STREAM",
     "type": "ammo_effect",
     "//": "Leaves a trail of fire fields",
@@ -402,6 +405,12 @@
     "trail": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "chance": 75 }
   },
   {
+    "id": "PYROTECHNIC_DISPLAY",
+    "type": "ammo_effect",
+    "//": "Looks like huge fires, but doesn't actually burn stuff.",
+    "trail": { "field_type": "fd_fire_FAKE", "intensity_min": 1, "intensity_max": 3, "chance": 85 }
+  },
+  {
     "id": "STREAM_GAS_FUNGICIDAL",
     "type": "ammo_effect",
     "//": "Leaves a trail of fungicidal gas",
@@ -412,5 +421,11 @@
     "type": "ammo_effect",
     "//": "Creates a trail of laser",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "GENE_STING_BARB",
+    "type": "ammo_effect",
+    "//": "runs EoC that cause you to mutate",
+    "eoc": [ "EOC_random_mutate" ]
   }
 ]

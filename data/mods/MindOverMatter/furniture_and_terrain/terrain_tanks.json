@@ -10,6 +10,8 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
@@ -41,6 +43,8 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
@@ -72,6 +76,8 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,

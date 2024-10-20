@@ -43,7 +43,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "count": 8, "group": "pur_tablets_bottle_plastic_small_15" } ]
+    "entries": [ { "count": 8, "group": "pur_tablets_bottle_plastic_small_50" } ]
   },
   {
     "id": "twoliter_water_batch",

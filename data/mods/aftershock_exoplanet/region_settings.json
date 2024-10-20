@@ -33,9 +33,24 @@
       "shop_sigma": 80,
       "park_radius": 20,
       "park_sigma": 80,
-      "houses": { "afs_city_ruinfield": 400, "afs_formless_ruins_dynamic": 600, "afs_house_1": 300 },
-      "parks": { "afs_city_ruinfield": 100 },
-      "shops": { "afs_augmentation_clinic_1": 400, "afs_astrobiology_lab": 400 }
+      "houses": {
+        "afs_city_ruinfield": 400,
+        "afs_formless_ruins_dynamic": 600,
+        "afs_house_1": 300,
+        "afs_habitat_block_1": 200,
+        "afs_habitat_block_2": 100,
+        "afs_habitat_block_3": 200
+      },
+      "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10, "afs_enclosed_park": 30 },
+      "shops": {
+        "afs_augmentation_clinic_1": 400,
+        "afs_astrobiology_lab": 400,
+        "afs_general_store_1": 400,
+        "afs_city_urban_farm_small": 300,
+        "afs_enforcer_station_1": 100,
+        "afs_exosuit_garage_1": 100,
+        "afs_exosuit_garage_2": 100
+      }
     },
     "weather": {
       "base_temperature": -50.0,
@@ -56,6 +71,7 @@
         "t_region_grass": { "t_lichen": 1 },
         "t_region_soil": { "t_deaddirt": 1 },
         "t_region_shrub": { "t_lichen": 30 },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_shrub_fruit": { "t_lichenyum": 30 },
         "t_region_shrub_decorative": { "t_lichenyum": 3, "t_lichendirt": 1 },
         "t_region_tree": { "t_tree_worm": 30, "t_tree_lichen": 15, "t_tree_xenoinfested": 10 },

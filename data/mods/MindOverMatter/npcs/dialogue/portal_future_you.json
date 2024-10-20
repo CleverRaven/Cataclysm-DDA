@@ -6,7 +6,12 @@
       {
         "text": "[Premonition] *Determine if the voice is a threat*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_FAIL",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", "<=", "7" ] }
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('clair_danger_sense')", "<=", "7" ] },
+            { "math": [ "u_spell_level('clair_danger_sense')", "!=", "-1" ] }
+          ]
+        }
       },
       {
         "text": "[Premonition 8+] *Determine if the voice is a threat*",

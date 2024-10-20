@@ -23,23 +23,7 @@
             ],
             "prob": 25
           },
-          { "item": "welder" },
-          {
-            "collection": [
-              { "item": "propane_torch" },
-              { "item": "medium_propane_tank", "count": [ 0, 1 ], "prob": 95, "charges": [ 0, 15000 ] },
-              { "item": "small_propane_tank", "count": [ 1, 2 ], "prob": 95, "charges": [ 0, 3000 ] },
-              { "item": "medium_propane_tank", "count": [ 0, 1 ], "prob": 95, "charges": 15000 },
-              { "item": "small_propane_tank", "count": [ 1, 2 ], "prob": 95, "charges": 3000 },
-              {
-                "distribution": [
-                  { "item": "brazing_rod_bronze", "prob": 100, "charges": [ 1000, 2000 ] },
-                  { "item": "brazing_rod_alloy", "prob": 70, "charges": [ 500, 1500 ] }
-                ]
-              }
-            ],
-            "prob": 15
-          }
+          { "item": "welder" }
         ]
       },
       { "distribution": [ { "item": "welding_mask", "prob": 70 }, { "item": "goggles_welding", "prob": 70 } ] },

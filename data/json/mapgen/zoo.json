@@ -110,7 +110,6 @@
       ],
       "toilets": { "t": {  } },
       "terrain": {
-        "a": "t_atm",
         "b": "t_region_groundcover_urban",
         "c": "t_floor",
         "d": "t_thconc_floor",
@@ -173,6 +172,7 @@
         "_": "t_thconc_floor_no_roof"
       },
       "furniture": {
+        "a": "f_atm_off",
         "b": "f_boulder_small",
         "c": "f_counter",
         "d": "f_desk",
@@ -276,7 +276,7 @@
         "                                                                                  -...........- ",
         "                                                                                  -...........- ",
         "                                                                -----             -...........- ",
-        "                                                                -...-             -......M....- ",
+        "                                                                -...-             -......2....- ",
         "                                                                -...-             -...........- ",
         "                                                                -...-             -...........- ",
         "                                                                -..A-             -......A....- ",
@@ -305,7 +305,7 @@
         "                                                                           -..................- ",
         "                                                                           -..................- ",
         "                                                                           -..................- ",
-        "                                                                           -...........M......- ",
+        "                                                                           -...........2......- ",
         "                                                                           -..................- ",
         "                                                                           -..................- ",
         "                                                                           -..................- ",
@@ -350,7 +350,7 @@
         "                                 -........-                                                     ",
         "                    5-------------..------5                                                     ",
         "                    -...............-                                                           ",
-        "                    -.......MM......-                                                           ",
+        "                    -.......1.......-                                                           ",
         "                    -...............-                                                           ",
         "                    -....X....:.....-------5                                                    ",
         "                    -......................-                                                    ",
@@ -476,7 +476,7 @@
   {
     "name": "GROUP_COYOTES_ZOO",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_coyote", "weight": 5 }, { "monster": "mon_coyote_wolf", "weight": 5 } ]
+    "monsters": [ { "monster": "mon_coyote" } ]
   },
   {
     "name": "GROUP_TIGERS_ZOO",
@@ -505,10 +505,10 @@
     "name": "GROUP_SPIDERS_ZOO",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_spider_web_small", "weight": 10 },
-      { "monster": "mon_spider_trapdoor_small", "weight": 10 },
-      { "monster": "mon_spider_widow_small", "weight": 10 },
-      { "monster": "mon_spider_wolf_small", "weight": 10 }
+      { "group": "GROUP_SPIDER" },
+      { "group": "GROUP_SPIDER_TRAPDOOR" },
+      { "group": "GROUP_SPIDER_WIDOW" },
+      { "group": "GROUP_SPIDER_WOLF" }
     ]
   },
   {

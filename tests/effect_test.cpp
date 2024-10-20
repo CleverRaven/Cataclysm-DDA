@@ -34,7 +34,7 @@ static const efftype_id effect_test_fatalism( "test_fatalism" );
 static const efftype_id effect_test_int_remove( "test_int_remove" );
 static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const vitamin_id vitamin_test_vitv( "test_vitv" );
 static const vitamin_id vitamin_test_vitx( "test_vitx" );
@@ -599,7 +599,7 @@ TEST_CASE( "effect_modifiers", "[effect][modifier]" )
 
 TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
 {
-    const auto spawn_npc = [&]( const point & p, const std::string & npc_class ) {
+    const auto spawn_npc = [&]( const point_bub_ms & p, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
         const character_id model_id = get_map().place_npc( p, test_guy );
         g->load_npcs();
@@ -610,7 +610,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         return guy;
     };
 
-    static const tripoint target_location{ 5, 0, 0 };
+    static const tripoint_bub_ms target_location{ 5, 0, 0 };
     clear_npcs();
     clear_vehicles();
     clear_map();
@@ -635,7 +635,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
         WHEN( "when player cuts npc" ) {
 
-            npc &test_npc = *spawn_npc( player.pos().xy() + point_south_west, "thug" );
+            npc &test_npc = *spawn_npc( player.pos_bub().xy() + point_south_west, "thug" );
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
                 test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );
@@ -648,8 +648,8 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
     }
     GIVEN( "two npcs" ) {
-        npc &npc_src = *spawn_npc( player.pos().xy() + point_south, "thug" );
-        npc &npc_dst = *spawn_npc( player.pos().xy() + point_south_east, "thug" );
+        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point_south, "thug" );
+        npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point_south_east, "thug" );
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
             THEN( "bleed effect gets attributed to npc_src" ) {
@@ -736,7 +736,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
         for( int j = 0; j < 10; ++j ) {
             tripoint cursor( i + 20, j + 20, 0 );
 
-            mons.push_back( g->place_critter_at( debug_mon, cursor ) );
+            mons.push_back( g->place_critter_at( pseudo_debug_mon, cursor ) );
             // make sure they're there!
             CHECK( creatures.creature_at<Creature>( cursor ) != nullptr );
         }

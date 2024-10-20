@@ -8,6 +8,8 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "roof": "t_rock_floor_no_roof",
     "bash": {

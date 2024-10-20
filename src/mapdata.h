@@ -33,7 +33,7 @@ struct itype;
 struct tripoint;
 
 // size of connect groups bitset; increase if needed
-const int NUM_TERCONN = 32;
+const int NUM_TERCONN = 256;
 connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
@@ -134,6 +134,7 @@ struct plant_data {
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
+ * TRANSLUCENT - Must be paired with TRANSPARENT. Allows light to pass through, but blocks vision.
  * FLAT - Player can build and move furniture on
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
@@ -201,6 +202,7 @@ struct plant_data {
  */
 enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
+    TFLAG_TRANSLUCENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
@@ -268,6 +270,7 @@ enum class ter_furn_flag : int {
     TFLAG_CONSOLE,
     TFLAG_PLANTABLE,
     TFLAG_GROWTH_HARVEST,
+    TFLAG_GROWTH_OVERGROWN,
     TFLAG_MOUNTABLE,
     TFLAG_RAMP_END,
     TFLAG_FLOWER,
@@ -316,7 +319,6 @@ enum class ter_furn_flag : int {
     TFLAG_MURKY,
     TFLAG_AMMOTYPE_RELOAD,
     TFLAG_TRANSPARENT_FLOOR,
-    TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
@@ -324,6 +326,7 @@ enum class ter_furn_flag : int {
     TFLAG_SINGLE_SUPPORT,
     TFLAG_CLIMB_ADJACENT,
     TFLAG_FLOATS_IN_AIR,
+    TFLAG_HARVEST_REQ_CUT1,
 
     NUM_TFLAG_FLAGS
 };
@@ -489,11 +492,11 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        bool can_examine( const tripoint &examp ) const;
+        bool can_examine( const tripoint_bub_ms &examp ) const;
         bool has_examine( iexamine_examine_function func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_functions func );
-        void examine( Character &, const tripoint & ) const;
+        void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
@@ -506,6 +509,10 @@ struct map_data_common_t {
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = DEFAULT_TILE_VOLUME;
+
+        std::string liquid_source_item_id; // id of a liquid this tile provides
+        double liquid_source_min_temp = 4; // in centigrades, cold water as default value
+        std::pair<int, int> liquid_source_count = { 0, 0 }; // charges of liquid, if it's finite source
 
         translation description;
 
@@ -576,7 +583,7 @@ struct map_data_common_t {
          */
         const std::set<std::string> &get_harvest_names() const;
 
-        std::string extended_description() const;
+        virtual std::vector<std::string> extended_description() const;
 
         bool was_loaded = false;
 
@@ -624,6 +631,8 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+
+    std::vector<std::string> extended_description() const override;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -678,6 +687,8 @@ struct furn_t : map_data_common_t {
 
     bool is_movable() const;
 
+    std::vector<std::string> extended_description() const override;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
@@ -687,6 +698,32 @@ void load_terrain( const JsonObject &jo, const std::string &src );
 
 void verify_furniture();
 void verify_terrain();
+
+class ter_furn_migrations
+{
+    public:
+        /** Handler for loading "ter_furn_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
+class field_type_migrations
+{
+    public:
+        /** Handler for loading "field_type_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
 
 /*
 runtime index: ter_id
@@ -699,56 +736,6 @@ t_basalt
 */
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 extern ter_id t_null;
-/*
-runtime index: furn_id
-furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
-about ter_id above.
-*/
-// NOLINTNEXTLINE(cata-static-int_id-constants)
-extern furn_id f_null, f_clear,
-       f_hay, f_cattails, f_lotus, f_lilypad,
-       f_rubble, f_rubble_rock, f_wreckage, f_ash,
-       f_barricade_road, f_sandbag_half, f_sandbag_wall,
-       f_bulletin,
-       f_indoor_plant,
-       f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
-       f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
-       f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-       f_bench, f_table, f_pool_table,
-       f_counter,
-       f_fridge, f_glass_fridge, f_dresser, f_locker,
-       f_rack, f_bookcase,
-       f_washer, f_dryer,
-       f_vending_c, f_vending_o, f_dumpster, f_dive_block,
-       f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
-       f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
-       f_fema_groundsheet, f_large_groundsheet,
-       f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
-       f_skin_door_o,  f_skin_groundsheet,
-       f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
-       f_safe_c, f_safe_l, f_safe_o,
-       f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-       f_fvat_empty, f_fvat_full, f_fvat_wood_empty, f_fvat_wood_full,
-       f_wood_keg,
-       f_standing_tank,
-       f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
-       f_flower_marloss,
-       f_tatami,
-       f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-       f_arcfurnace_empty, f_arcfurnace_full,
-       f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
-       f_stook_empty, f_stook_full,
-       f_water_mill, f_water_mill_active,
-       f_wind_mill, f_wind_mill_active,
-       f_robotic_arm, f_vending_reinforced,
-       f_brazier,
-       f_firering,
-       f_tourist_table,
-       f_camp_chair,
-       f_sign,
-       f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-       f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
-       f_console, f_console_broken;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

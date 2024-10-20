@@ -248,6 +248,146 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "prison_island_1_3f_1" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   -----                ",
+        "   -...-                ",
+        "   -...-                ",
+        "   -----                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "prison_island_1_3f_4", "prison_island_1_3f_5" ] ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                     -----                      ",
+        "                     -...-                      ",
+        "                     -...-                      ",
+        "                     -----                      ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "prison_island_1_3f_11" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   -----                ",
+        "   -...-                ",
+        "   -...-                ",
+        "   -----                ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "prison_island_1_3f_14" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      -----             ",
+        "      -...-             ",
+        "      -...-             ",
+        "      -----             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [
       [
         "prison_island_1_ug_1",
@@ -374,7 +514,7 @@
         "A": "f_utility_shelf",
         "B": "f_utility_shelf",
         "C": "f_utility_shelf",
-        "D": "f_fridge"
+        "D": "f_freezer"
       },
       "items": {
         "9": { "item": "SUS_pantry", "chance": 95 },

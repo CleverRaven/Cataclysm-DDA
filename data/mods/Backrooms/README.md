@@ -7,7 +7,6 @@ This is an indoor only conversion for Cataclysm. The entire worldgen is replaced
 
 ## Warning: You MUST choose the scenario "Backrooms" when creating a character!
 As the Backrooms are the only location in the entire world, characters trying to start in other locations will fail to spawn.
-Turning city size to 0 is recommended just to avoid strangeness in map labeling.
 
 # Questions
 ### What's the current state of the mod?

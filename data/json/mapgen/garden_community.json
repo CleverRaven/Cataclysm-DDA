@@ -1,6 +1,41 @@
 [
   {
     "method": "json",
+    "nested_mapgen_id": "communitygarden_1_roof",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "    -----               ",
+        "    -...-               ",
+        "    -----               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "method": "json",
     "om_terrain": "communitygarden",
     "type": "mapgen",
     "weight": 100,
@@ -55,7 +90,8 @@
         { "signage": "<city> Community Garden", "x": 2, "y": 10 },
         { "signage": "<city> Community Garden", "x": 21, "y": 13 },
         { "signage": "<city> Community Garden", "x": 10, "y": 21 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "communitygarden_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -102,6 +138,42 @@
         { "signage": "<city> Community Garden.  Grow your own food!", "x": 2, "y": 21 },
         { "signage": "<city> Community Garden.  Open dawn to dusk.", "x": 21, "y": 21 }
       ]
+    }
+  },
+  {
+    "method": "json",
+    "nested_mapgen_id": "communitygarden_3_roof",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ----                 ",
+        "   -..-                 ",
+        "   -..-                 ",
+        "   ----                 ",
+        "                        ",
+        "                        ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "   RRRRRRRRRRRRRRRRRR   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "R": "t_glass_roof" }
     }
   },
   {
@@ -166,7 +238,8 @@
       "place_signs": [
         { "signage": "<city> Community Garden, sign up for your own plot!", "x": 1, "y": 2 },
         { "signage": "<city> Community Garden, grow your own vegetables!", "x": 22, "y": 2 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "communitygarden_3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "SUITABLE_SACRIFICE_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_character",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE3" },
+        { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
+        { "u_has_effect": "about_to_kill_best_friend" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_VAMPIRE_4" },
+      {
+        "u_message": "You feel your thirst for blood deepen as you kill someone who fully trusted you.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_4",
+    "effect": [
+      { "finish_mission": "KILL_YOUR_BEST_FRIEND", "success": true },
+      { "u_add_trait": "VAMPIRE4" },
+      { "u_add_effect": "vampire_virus_ascendant", "intensity": 1, "duration": "PERMANENT" },
+      { "u_message": "Your eyes redden even more as you pass a point of no return.", "type": "mixed" }
+    ]
+  }
+]

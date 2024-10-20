@@ -23,7 +23,7 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_2" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_room_NE" }, { "id": "fbmh_2_shack_NE" } ],
     "blueprint_excludes": [ { "id": "fbmh_2_room_NE" } ]
   },
   {

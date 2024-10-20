@@ -6,7 +6,7 @@
     "description": "A generic techno doodad used to cast spells.",
     "weight": "100 g",
     "volume": "250 ml",
-    "price": 5000,
+    "price": "50 USD",
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_red",

@@ -36,7 +36,7 @@
             "damage_required": [ 4, 100 ]
           }
         ],
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "coverage": 8
       },
       {
@@ -164,7 +164,7 @@
             "damage_required": [ 51, 100 ]
           }
         ],
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       }
     ]
   },
@@ -484,7 +484,7 @@
       {
         "id": "head_coup",
         "name": "the head",
-        "//": "If a zombie is downed, it's way easier to get a headshot.  The armour still applies though.",
+        "//": "If a zombie is downed, it's way easier to get a headshot.  The armor still applies though.",
         "coverage": 25,
         "crit_mult": { "all": 1.5 },
         "difficulty": { "ranged": 7 },
@@ -513,7 +513,7 @@
             "damage_required": [ 51, 100 ]
           }
         ],
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       }
     ]
   },

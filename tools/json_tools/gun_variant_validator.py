@@ -39,6 +39,7 @@ INHERITED_KEYS = [
     "ranged_damage",
     "reload",
     "longest_side",
+    "linkage",
     "pocket_data",
     "dispersion",
     "recoil",
@@ -88,93 +89,20 @@ VARIANT_CHECK_PAIR_BLACKLIST = {
 }
 IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "rm103a_pistol",
-    "rm11b_sniper_rifle",
-    "rm2000_smg",
-    "rm51_assault_rifle",
-    "rm614_lmg",
-    "rm88_battle_rifle",
     "bigun",
-    "sw629",
-    "sw_500",
-    "m2browning",
     "american_180",
-    "ruger_lcr_22",
-    "sig_mosquito",
-    "fn_p90",
-    "p50",
-    "fn_ps90",
     "fn_fal_semi",
-    "m134",
     "m1a",
-    "m240",
-    "m60",
-    "m60_semi",
-    "m110a1",
-    "ak308",
     "rfb_308",
     "steyr_scout",
-    "tac338",
-    "obrez",
-    "smg_45",
-    "hptjhp",
-    "cx4",
-    "hk_mp5_semi_pistol",
-    "hk_g3",
-    "briefcase_smg",
-    "mp18",
-    "mauser_c96",
-    "mauser_m714",
-    "ksub2000",
-    "smg_9mm",
-    "colt_ro635",
-    "arx160",
-    "sks",
-    "draco",
-    "mk47",
-    "mosin44",
-    "mosin91_30",
-    "model_10_revolver",
-    "mr73",
-    "ruger_lcr_38",
-    "sw_619",
-    "m1903",
-    "m1918",
-    "m249",
-    "m249_semi",
-    "ak556",
-    "minidraco556",
     "mdrx",
-    "sapra",
-    "raging_bull",
-    "raging_judge",
-    "type99",
-    "type99_sniper",
-    "m202_flash",
-    "sw_610",
     "STI_DS_10",
-    "kord",
     "hpt3895",
     "m2carbine",
-    "smg_40",
-    "rm228",
-    "needlegun",
-    "needlepistol",
-    "rm298",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "walther_ppk",
-    "kp32",
-    "1895sbl",
-    "bfr",
-    "sharps",
-    "m107a1",
-    "as50",
-    "tac50",
-    "bfg50",
     "fn_p90",
-    "m134",
     "hk_mp7",
     "obrez",
     "pressin",
@@ -182,38 +110,20 @@ NAME_CHECK_BLACKLIST = {
     "m2010",
     "weatherby_5",
     "win70",
-    "ruger_pr",
-    "2_shot_special",
-    "cop_38",
-    "model_10_revolver",
     "mr73",
-    "ruger_lcr_38",
-    "sw_619",
-    "m1918",
-    "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
-    "bond_410",
-    "colt_lightning",
-    "colt_saa",
     "p226_357sig",
     "glock_31",
     "p320_357sig",
-    "famas",
-    "fs2000",
     "scar_l",
-    "m231pfw",
     "brogyaga",
     "raging_bull",
     "raging_judge",
-    "m202_flash",
     "saiga_410",
     "shotgun_410",
     "mgl",
     "pseudo_m203",
-    "ak74",
-    "kord",
-    "colt_army",
     "atgm_launcher",
     "xedra_gun",
     "90two40",
@@ -223,19 +133,11 @@ NAME_CHECK_BLACKLIST = {
     "hi_power_40",
     "walther_ppq_40",
     "hptjcp",
-    "rm228",
     "AT4",
     "af2011a1_38super",
     "m1911a1_38super",
-    "colt_navy",
-    "ruger_arr",
     "plasma_gun",
     "bbgun",
-    "LAW",
-    "needlegun",
-    "needlepistol",
-    "RPG",
-    "skorpion_61",
 }
 BAD_IDENTIFIERS = [
     "10mm",
@@ -263,6 +165,7 @@ TYPE_DESCRIPTORS = [
     "coilgun",
     # Not great, but weird can get a pass
     "combination gun",
+    "derringer",
     "flamethrower",
     "flintlock",
     # Special faction-specific invented weapons get a pass
@@ -277,6 +180,7 @@ TYPE_DESCRIPTORS = [
     "lever gun",
     "LMG",
     "machine gun",
+    "minigun",
     # This is as close as you can get without a giant name
     "operational briefcase",
     "pistol",
@@ -389,11 +293,10 @@ def simplify_object(jo):
         return False
 
     req_keys = {"weight", "volume", "ammo", "id"}
-    extra_keys = {"longest_side", "pocket_data", "ranged_damage", "modes",
-                  "recoil", "dispersion", "name"}
+    all_keys = req_keys | set(INHERITED_KEYS)
+
     # Drop all the other keys
-    removed = list(filter(lambda key: key not in req_keys | extra_keys,
-                          jo.keys()))
+    removed = list(filter(lambda key: key not in all_keys, jo.keys()))
     # Need to iterate over removed because we can't delete from dict in for
     for key in removed:
         del jo[key]
@@ -733,19 +636,11 @@ def find_identifiers(all_guns):
                           (mag, gun["id"]))
                 continue
             mags.append(mag)
-        # A gun may/may not have speedloaders, which we treat like mags
-        for mag in gun["speedloaders"] if "speedloaders" in gun else []:
-            if mag not in all_jos:
-                if VERBOSE:
-                    print("\tnot checking speedloader %s for %s" %
-                          (mag, gun["id"]))
-                continue
-            mags.append(mag)
         # Add all the magazine names in
         for mag in mags:
             name = name_of(all_jos[mag])
-            # Skip STANAG, because those are uber generic
-            if "STANAG" not in name:
+            # Skip STANAG, because those are uber generic, also linkages
+            if "STANAG" not in name and "linkage" not in all_jos[mag]:
                 names.append(name)
         # If it didn't have any mags, we can skip it
         if len(names) < 2:
@@ -772,7 +667,7 @@ def find_bad_names(all_guns):
         name = name_of(gun)
         good = False
         for type_descriptor in TYPE_DESCRIPTORS:
-            if type_descriptor in name:
+            if type_descriptor.upper() in name.upper():
                 good = True
                 break
         if not good:
@@ -821,6 +716,20 @@ def check_combination(all_guns):
     return len(similar_guns) > 0
 
 
+def string_listify(strings, separator):
+    count = len(strings)
+    if count == 0:
+        return ""
+    elif count == 1:
+        return strings[0]
+
+    ret = ""
+    for i in range(count - 1):
+        ret += strings[i] + separator
+    ret += strings[count - 1]
+    return ret
+
+
 def check_identifiers(all_guns):
     if not args_dict["identifier"]:
         return False
@@ -832,12 +741,32 @@ def check_identifiers(all_guns):
             print_identifier_info(good[2], good[0], good[1])
     else:
         for bad in bad_tokens:
-            print_identifier_info("ERROR: No identifier:", bad[0], bad[1])
+            error_str = "This gun and it's magazines lack a shared identifier:"
+            print_identifier_info(f"ERROR: {error_str}", bad[0], bad[1])
         if VERBOSE:
-            good_token_list = ""
+            good_token_list = {}
             for good in good_tokens:
-                good_token_list += good[2] + " (" + good[0]["id"] + "), "
-            print("Valid Identifiers: " + good_token_list)
+                if good[2] in good_token_list:
+                    good_token_list[good[2]].append(good[0]["id"])
+                else:
+                    good_token_list[good[2]] = [good[0]["id"]]
+            # make sense: are real words (or gun names (: ), when they apply to
+            # multiple guns, those guns all take the same mags, etc
+            print("The following valid identifiers were found.",
+                  "Please check to ensure they make sense.")
+            good_tokens = [[]]
+            idx = 0
+            len_so_far = 0
+            for token in good_token_list:
+                guns_str = string_listify(good_token_list[token], " ")
+                good_tokens[idx].append(f"{token} ({guns_str})")
+                len_so_far += len(good_tokens[idx][-1])
+                if len_so_far > 100:
+                    len_so_far = 0
+                    idx += 1
+                    good_tokens.append([])
+            for string in good_tokens:
+                print(" -", string_listify(string, ", "))
 
     return len(bad_tokens) > 0
 

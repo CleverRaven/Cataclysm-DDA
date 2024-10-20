@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "3x35",
+    "name": "3x35mm",
+    "default": "3x35dart"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_25mm",
     "name": "25mm",
     "default": "afs_25mm_shot"

@@ -25,7 +25,7 @@ TEST_CASE( "skill_rust_occurs", "[character][skill]" )
         if( calendar::once_every( 4_hours ) ) {
             // Don't starve
             guy.set_stored_kcal( guy.get_healthy_kcal() );
-            // Clear thirst and fatigue
+            // Clear thirst and sleepiness
             guy.environmental_revert_effect();
             // And sleep deprivation
             guy.set_sleep_deprivation( 0 );

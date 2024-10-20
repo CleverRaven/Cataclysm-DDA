@@ -18,7 +18,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ), furn( f_null ) { }
+ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
+    furn( furn_str_id::NULL_ID().id() ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -172,19 +173,29 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                 if( forest_biome_ter_keys.empty() ) {
                     forest_biome_jo.throw_error( "Biome is not associated with any terrains." );
                 }
-                std::string first_ter = forest_biome_ter_keys.get_string( 0 );
-                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[first_ter],
-                                   overlay );
-                for( size_t biome_ter_idx = 1; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                std::string default_ter_name = member.name();
+                auto default_ter_it = forest_mapgen_settings.unfinalized_biomes.find( default_ter_name );
+                if( default_ter_it == forest_mapgen_settings.unfinalized_biomes.end() ) {
+                    if( overlay ) {
+                        forest_biome_jo.throw_error( "Terrain " + default_ter_name +
+                                                     " is not defined, cannot be used for forest biome." );
+                    }
+                    default_ter_it = forest_mapgen_settings.unfinalized_biomes.emplace( default_ter_name, forest_biome{} ).first;
+                }
+                forest_biome &default_ter = default_ter_it->second;
+                load_forest_biome( forest_biome_jo, default_ter, overlay );
+                for( size_t biome_ter_idx = 0; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                    std::string biome_ter_name = forest_biome_ter_keys.get_string( biome_ter_idx );
+                    if( biome_ter_name == default_ter_name ) {
+                        continue;
+                    }
                     forest_mapgen_settings.unfinalized_biomes.insert( std::pair<std::string, forest_biome>
-                            ( forest_biome_ter_keys.get_string( biome_ter_idx ),
-                              forest_mapgen_settings.unfinalized_biomes[first_ter] ) );
+                            ( forest_biome_ter_keys.get_string( biome_ter_idx ), default_ter ) );
                 }
             } else {
                 load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
                                    overlay );
             }
-
         }
     }
 }
@@ -400,7 +411,7 @@ static void load_overmap_ocean_settings( const JsonObject &jo,
         overmap_ocean_settings &overmap_ocean_settings,
         const bool strict, const bool overlay )
 {
-    if( !jo.has_object( "overmap_ocean_settings" ) && get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+    if( !jo.has_object( "overmap_ocean_settings" ) ) {
         if( strict ) {
             jo.throw_error( "OVERMAP_PLACE_OCEANS set to true, but \"overmap_ocean_settings\" not defined in region_settings" );
         }
@@ -762,7 +773,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
         tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = f_null;
+        tf_id.furn = furn_str_id::NULL_ID();
         if( it->second < 0.0001 ) {
             continue;
         }
@@ -783,7 +794,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
         tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = f_null;
+        tf_id.furn = furn_str_id::NULL_ID();
         if( it->second < 0.0001 ) {
             continue;
         }
@@ -823,7 +834,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         debugmsg( "boosted plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), btotal );
     }
 
-    tf_id.furn = f_null;
+    tf_id.furn = furn_str_id::NULL_ID();
     tf_id.ter = default_ter;
     weightlist[ 1000000 ] = tf_id;
     boosted_weightlist[ 1000000 ] = tf_id;
@@ -845,7 +856,7 @@ void forest_biome_component::finalize()
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
         tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = f_null;
+        tf_id.furn = furn_str_id::NULL_ID();
         const ter_str_id tid( pr.first );
         const furn_str_id fid( pr.first );
         if( tid.is_valid() ) {

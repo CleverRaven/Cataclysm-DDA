@@ -1,18 +1,18 @@
-# Lines longer than 78 characters will be wrapped automatically
-# The following line is for reference
+# Γραμμές μεγαλύτερες από 78 χαρακτήρες θα αναδιπλώνονται αυτόματα
+# Η παρακάτω είναι γραμμή αναφοράς
 ##############################################################################
-<color_white>Αρχικός συντάκτης:</color>    <color_white>Πρότζεκτ Μάνατζερ:</color>
-<color_yellow>Whales</color> (<color_dark_gray>Αναχώρησε</color>)    <color_yellow>KevinGranade</color>
+<color_white>Αρχικός δημιουργός:</color>    <color_white>Πρότζεκτ Μάνατζερ:</color>
+<color_yellow>Whales</color> (<color_dark_gray>αποχώρησε</color>)    <color_yellow>KevinGranade</color>
 
-<color_white>Τρέχον Κύριοι Προγραμματιστές:</color>
-<color_yellow>I-am-Erk</color> - Ultica, lore writing, ideas guy.
-<color_yellow>KorGgenT</color> - Professional yak shaver.
+<color_white>Ενεργοί Κύριοι Προγραμματιστές:</color>
+<color_yellow>I-am-Erk</color> - Ultica, συγγραφή παράδοσης, ο τύπος με τις ιδέες.
+<color_yellow>KorGgenT</color> - Επαγγελματίας κουρέας γιάκ.
 
 <color_white>Ιδιαίτερες ευχαριστίες στους:</color>
-<color_yellow>anothersimulacrum</color> - For stepping in and doing the hard work.
+<color_yellow>anothersimulacrum</color> - Για τις επεμβάσεις και την ανάληψη της βαριάς δουλειάς.
 <color_yellow>BombasticSlacks</color> - For fleshing out the armor system and making us sweat.
-<color_yellow>Fris0uman</color> - For getting our fridges working.
-<color_yellow>John-Candlebury</color> - For Hub01 and all the beautiful maps.
+<color_yellow>Fris0uman</color> - Γιατί έκανε τα ψυγεία μας να δουλέψουν
+<color_yellow>John-Candlebury</color> - Για το Hub01 και όλους τους υπέροχους χάρτες.
 <color_yellow>jbytheway</color> - For parametric mapgen and mutable locations.
 <color_yellow>BrettDong</color> - For translations and analyzing weird bugs.
 <color_yellow>wapcaplet</color> - For all things sidebar-related.
@@ -26,7 +26,7 @@
 <color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, and <color_yellow>Eltank</color>.
 
 <color_white>Ιδιαίτερες ευχαριστίες για τη τέχνη τους:</color>
-<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, and many more.
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, και πολλοί ακόμη.
 
 <color_white>Για μια πλήρη λίστα των συντελεστών παρακαλώ δείτε:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -36,7 +36,7 @@
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.F</color>):</color>
+<color_white>Κύριοι Προγραμματιστές (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - Οχήματα, βάρκες, βασικούς σταθμούς και οδηγούς τροποποίησης.
 <color_yellow>I-am-Erk</color> - Η κληρονομιά του Ultica συνεχίζει να είναι καρποφόρα.
 <color_yellow>KorGgenT</color> - Να μη με λέει που να βάζω τα δύο-επί-τέσσερά μου.

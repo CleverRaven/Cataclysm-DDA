@@ -146,7 +146,7 @@
     "style": "layout",
     "label": "Needs",
     "arrange": "rows",
-    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_desc_label", "body_temp_desc_label" ]
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "sleepiness_desc_label", "pain_desc_label", "body_temp_desc_label" ]
   },
   {
     "id": "ln_needs_sa_layout",
@@ -154,7 +154,7 @@
     "style": "layout",
     "label": "Needs (self-aware)",
     "arrange": "rows",
-    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_num_label", "body_temp_desc_label" ]
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "sleepiness_desc_label", "pain_num_label", "body_temp_desc_label" ]
   },
   {
     "id": "legacy_labels_narrow_sidebar",

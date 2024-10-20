@@ -74,7 +74,7 @@
     "type": "item_group",
     "id": "REFUGEE_Pablo_wield",
     "subtype": "collection",
-    "entries": [ { "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 } ]
+    "entries": [ { "item": "heavy_flashlight", "charges": 200 } ]
   },
   {
     "type": "talk_topic",
@@ -98,9 +98,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -113,7 +111,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_TACOMA_Nunez" },
-            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
+            { "compare_string": [ "phase_3", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
           ]
         }
       },
@@ -126,10 +124,7 @@
     "id": "TALK_REFUGEE_Pablo_1",
     "dynamic_line": "*looks up at you with a young faced lined prematurely with concern.  \"Hi there.  I'm Pablo, nice to see a new face.\"",
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_Pablo_1a" }
-      ]
+      "effect": [ { "u_add_var": "general_meeting_u_met_Pablo_Nunez", "value": "yes" }, { "npc_first_topic": "TALK_REFUGEE_Pablo_1a" } ]
     },
     "responses": [
       { "text": "Pablo, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Pablo_1_firstmeet" },
@@ -192,12 +187,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2_survivors",
-    "dynamic_line": "\"From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.\"  He gestures to three people gathered together a short distance away.  \"They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't,\" Pablo wipes his face with his hand and pauses for a moment.  \"When he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.\"",
+    "dynamic_line": "From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.\"  He gestures to three people gathered together a short distance away.  \"They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't,\" Pablo wipes his face with his hand and pauses for a moment.  \"When he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.",
     "responses": [
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
         "topic": "TALK_REFUGEE_Pablo_Background2_cleared",
-        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] }
       }
     ]
   },
@@ -221,7 +216,7 @@
         "effect": { "assign_mission": "MISSION_TACOMA_Nunez" },
         "condition": {
           "and": [
-            { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "knowledge_flag_tacoma_started" } ] },
             { "not": { "u_has_mission": "MISSION_TACOMA_Nunez" } }
           ]
         }
@@ -229,7 +224,7 @@
       {
         "text": "I've got a secure base.  You and your wife could come with me.",
         "topic": "TALK_REFUGEE_Pablo_Recruit",
-        "effect": { "u_add_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" },
+        "effect": { "u_add_var": "recruit_general_Pablo_ask_recruit", "value": "yes" },
         "condition": "u_has_camp"
       }
     ]

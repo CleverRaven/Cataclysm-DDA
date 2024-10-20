@@ -17,7 +17,7 @@
     "id": "katana",
     "copy-from": "katana",
     "type": "TOOL",
-    "name": { "str": "katana" },
+    "name": { "str_sp": "katana" },
     "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_IRON_HEART" ] }
   },
   {

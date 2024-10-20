@@ -54,8 +54,6 @@
       "n": "f_sink",
       "c": [ [ "f_crate_c", 2 ], "f_crate_o" ],
       "C": [ [ "f_crate_c", 2 ], "f_crate_o" ],
-      "j": "f_vending_c",
-      "V": "f_vending_c",
       "7": "f_filing_cabinet",
       "S": "f_utility_shelf",
       "x": "f_utility_shelf",

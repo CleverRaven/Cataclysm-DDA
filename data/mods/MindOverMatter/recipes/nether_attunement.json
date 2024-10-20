@@ -11,7 +11,7 @@
     "time": "15 m",
     "autolearn": true,
     "skill_used": "metaphysics",
-    "flags": [ "BLIND_EASY" ],
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_CENTERING_MEDITATION",

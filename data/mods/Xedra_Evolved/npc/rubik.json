@@ -26,7 +26,7 @@
     "id": "TALK_EXODII_MERCHANT_VAMPIRE",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Blood drinking dead and a group of Renfield's attending to the vampires. They aren't on every world and the exodii don't know why that is.",
+      "//~": "Blood drinking dead and a group of Renfield's attending to the vampires. They aren't on every world and the Exodii don't know why that is.",
       "str": "Claret drinking brown bread, an' a crew of Renny's, on this mudball.  Us un's can't tell if they're part of the enemy or parasites exposed when the enemy rises.  Not on every mudball but definitely moar than enough to be a right pain."
     },
     "responses": [
@@ -54,7 +54,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Vampires have infested your world?  We're gonna talk to the supercomputer and bring out some of our anti-vampire designs and will get back to you soon.",
-      "str": "If this green and brown, has the claret drinkers us un'll be truckin with ole Great Grey and bringin out the good and plenty.  Only one way to throw a smash and banger for the tick dead."
+      "str": "If this green and brown, has the claret drinkers us un'll be truckin' with ole Great Grey and bringin' out the good and plenty.  Only one way to throw a smash and banger for the tick dead."
     },
     "responses": [ { "text": "I'll keep your warnings in mind.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   }

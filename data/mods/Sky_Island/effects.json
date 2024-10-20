@@ -81,5 +81,14 @@
     ],
     "flags": [ "INVISIBLE", "FEATHER_FALL" ],
     "remove_message": "You fully materialize.  You're not invisible anymore!"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_warped_waterwalking",
+    "name": [ "Warped Waterwalking" ],
+    "desc": [ "You can walk on the surface of the water" ],
+    "rating": "good",
+    "remove_message": "You can no longer walk on the water.",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
   }
 ]

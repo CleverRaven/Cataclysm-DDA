@@ -1,20 +1,22 @@
 #include "anatomy.h"
 
-#include <array>
+#include <algorithm>
 #include <cmath>
-#include <cstddef>
-#include <numeric>
+#include <map>
 #include <set>
 #include <string>
 #include <unordered_set>
 
 #include "ballistics.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "creature.h"
 #include "debug.h"
-#include "generic_factory.h"
 #include "flag.h"
-#include "json.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"

@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_IRON_MIND",
+    "copy-from": "VAMPIRE_IRON_MIND",
+    "extend": { "flags": [ "TEEPSHIELD" ] }
+  }
+]

@@ -23,6 +23,9 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+struct attack_vector;
+using attack_vector_id = string_id<attack_vector>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
@@ -55,6 +58,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct crafting_category;
+using crafting_category_id = string_id<crafting_category>;
+
 struct effect_on_condition;
 using effect_on_condition_id = string_id<effect_on_condition>;
 
@@ -81,6 +87,9 @@ using emit_id = string_id<emit>;
 
 class enchantment;
 using enchantment_id = string_id<enchantment>;
+
+struct end_screen;
+using end_screen_id = string_id<end_screen>;
 
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
@@ -191,6 +200,9 @@ using oter_str_id = string_id<oter_t>;
 struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+class oter_vision;
+using oter_vision_id = string_id<oter_vision>;
 
 class overmap_connection;
 using overmap_connection_id = string_id<overmap_connection>;

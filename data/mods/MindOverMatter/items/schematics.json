@@ -28,6 +28,20 @@
     "color": "white"
   },
   {
+    "id": "schematics_telepathic_focusing_tool",
+    "type": "BOOK",
+    "name": { "str_sp": "telepathic focusing tool schematics" },
+    "description": "This is a series of technical design documents for a focusing assembly designed to \"enhance the precision of Netherum mathematics\".",
+    "copy-from": "schematics_generic",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 4,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "white"
+  },
+  {
     "id": "schematics_matrix_crystal_ground",
     "type": "BOOK",
     "name": { "str_sp": "refined matrix crystal schematics" },
@@ -128,8 +142,8 @@
   {
     "id": "schematics_instability_remover",
     "type": "BOOK",
-    "name": { "str_sp": "morphic resilience cream schematics" },
-    "description": "This document details a series of steps for making a cream which will \"enhance the subject's resilience to the deleterious effects of XE037 overexposure, allowing more rapid experimentation and reducing the need for subject acquisition\".  It's stamped with a XEDRA symbol in the corner with \"Project PHAVIAN\" written at the top.",
+    "name": { "str_sp": "morphic reinforcement serum schematics" },
+    "description": "This document details a series of steps for making an injectable serum which will \"enhance the subject's resilience against detrimental mutagenic alterations caused by XE037 overexposure, reducing negative outcomes during testing\".  It's stamped with a XEDRA symbol in the corner with \"Project PHAVIAN\" written at the top.",
     "copy-from": "schematics_generic",
     "skill": "chemistry",
     "required_level": 7,
@@ -175,7 +189,7 @@
     "name": { "str": "USB drive (Phavian)", "str_pl": "USB drives (Phavian)" },
     "description": "A USB thumb drive with the XEDRA logo over a large Ψ symbol printed on it.  You'd bet there's something important on here.",
     "price": "12 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "plastic", "aluminum" ],
     "weight": "4536 mg",
     "volume": "4 ml",

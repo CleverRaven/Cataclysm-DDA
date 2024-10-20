@@ -1,5 +1,5 @@
-#if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
+#ifndef TUI
 
 #include <cstdint>
 #include <memory>

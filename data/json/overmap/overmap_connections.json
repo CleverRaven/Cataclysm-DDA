@@ -8,7 +8,6 @@
       { "terrain": "road", "locations": [ "forest" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
       { "terrain": "road_nesw_manhole", "locations": [  ] },
-      { "terrain": "city_center", "locations": [ "field", "road" ] },
       { "terrain": "bridge", "locations": [ "water" ], "basic_cost": 120 },
       { "terrain": "bridgehead_ground", "locations": [ "water" ], "basic_cost": 120, "flags": [ "ORTHOGONAL" ] }
     ]

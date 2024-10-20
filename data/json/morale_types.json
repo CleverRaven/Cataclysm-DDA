@@ -438,5 +438,20 @@
     "id": "morale_asocial",
     "type": "morale_type",
     "text": "Spent time alone"
+  },
+  {
+    "id": "morale_bile",
+    "type": "morale_type",
+    "text": "Covered in bile"
+  },
+  {
+    "id": "morale_sunrise",
+    "type": "morale_type",
+    "text": "Saw the sun rise"
+  },
+  {
+    "id": "morale_sunset",
+    "type": "morale_type",
+    "text": "Saw the sun set"
   }
 ]

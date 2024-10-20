@@ -23,6 +23,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_barkfloor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
@@ -43,6 +45,7 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_heartwood_floor",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -63,6 +66,8 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_root_floor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,

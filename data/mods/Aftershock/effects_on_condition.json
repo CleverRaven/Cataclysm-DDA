@@ -73,11 +73,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_AFS_ESCAPE_POD_CARGO_TP",
-    "effect": [ { "u_teleport": { "global_val": "new_map" }, "force": true } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_CRASHING_SHIP_SETUP",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
@@ -102,6 +97,19 @@
         "popup": true
       },
       "u_die"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ESPER_SCENARIO_SETUP",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "math": [ "u_hp('head')", "-=", "rand(5)" ] },
+      { "math": [ "u_hp('torso')", "-=", "rand(5)" ] },
+      { "math": [ "u_hp('arm_r')", "-=", "rand(5)" ] },
+      { "math": [ "u_hp('arm_l')", "-=", "rand(5)" ] },
+      { "math": [ "u_hp('leg_l')", "-=", "rand(5)" ] },
+      { "math": [ "u_hp('leg_r')", "-=", "rand(5)" ] }
     ]
   }
 ]

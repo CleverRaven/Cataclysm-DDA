@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_COMPUTER_SESSION_H
 #define CATA_SRC_COMPUTER_SESSION_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <utility>
 #include <vector>
 

@@ -1,0 +1,129 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENTER_ABYSSAL_HUNGER_DUNGEON",
+    "effect": [
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
+      { "revert_location": { "global_val": "dungeon_loc" }, "key": "abyssal_hunger", "time_in_future": "infinite" },
+      {
+        "place_override": { "global_val": "place_name", "default_str": "Inside the Abyssal Hunger" },
+        "key": "abyssal_hunger",
+        "length": "infinite"
+      },
+      {
+        "revert_location": { "global_val": "dungeon_roof_loc" },
+        "time_in_future": "infinite",
+        "key": "abyssal_hunger"
+      },
+      { "mapgen_update": "abyssal_hunger_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
+      { "mapgen_update": "abyssal_hunger_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "math": [ "abyssal_hunger_level", "=", "1" ] },
+      {
+        "u_spawn_monster": "mon_bashing_globule",
+        "real_count": { "math": [ "rng( 1, 3 ) + abyssal_hunger_level" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      {
+        "u_spawn_monster": "mon_grasping_globule",
+        "real_count": { "math": [ "rng( 1, 3 ) + abyssal_hunger_level" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      { "u_message": "You were devoured by the Abyssal Hunger!" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL",
+    "condition": { "math": [ "abyssal_hunger_level", "<", "5" ] },
+    "effect": [
+      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "mapgen_update": "abyssal_hunger_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      {
+        "u_spawn_monster": "mon_bashing_globule",
+        "real_count": { "math": [ "rng( 2, 4 ) + abyssal_hunger_level" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      {
+        "u_spawn_monster": "mon_grasping_globule",
+        "real_count": { "math": [ "rng( 2, 4 ) + abyssal_hunger_level" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      {
+        "u_spawn_monster": "mon_spewing_globule",
+        "real_count": { "math": [ "abyssal_hunger_level - rng( 1, 2 )" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      { "u_message": "You move through the monster's innards and reach another empty space." }
+    ],
+    "false_effect": [
+      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "mapgen_update": "abyssal_hunger_brain", "target_var": { "global_val": "dungeon_loc" } },
+      {
+        "u_spawn_monster": "mon_bashing_globule",
+        "real_count": { "math": [ "rng( 1, 2 ) + abyssal_hunger_level" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      {
+        "u_spawn_monster": "mon_grasping_globule",
+        "real_count": { "math": [ "rng( 1, 2 ) + abyssal_hunger_level" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      {
+        "u_spawn_monster": "mon_spewing_globule",
+        "real_count": { "math": [ "abyssal_hunger_level - rng( 3, 4 )" ] },
+        "min_radius": 7,
+        "max_radius": 30
+      },
+      { "u_message": "You reach the Abyssal Hunger's brain." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ABYSSAL_HUNGER_GRANT_SHARD",
+    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "effect": [ { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" }, { "u_spawn_item": "abyssal_hunger_shard" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ABYSSAL_HUNGER_EXIT",
+    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "effect": [
+      { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      {
+        "u_teleport": { "global_val": "original_loc" },
+        "success_message": "You return to where you performed the ritual.",
+        "fail_message": "Something is very wrong!",
+        "force": true
+      },
+      { "alter_timed_events": "abyssal_hunger" },
+      { "math": [ "abyssal_hunger_level", "=", "0" ] }
+    ]
+  },
+  {
+    "id": "EOC_DEATH_ABYSSAL_HUNGER",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "effect": [
+      {
+        "u_message": "It is unclear if you were slain by an immune system or digested but suffice to say, you are no more.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" }
+    ]
+  }
+]

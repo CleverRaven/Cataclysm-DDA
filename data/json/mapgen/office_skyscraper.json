@@ -56,6 +56,7 @@
         "                                                ",
         "                                                "
       ],
+      "terrain": { " ": "t_soil" },
       "place_vehicles": [
         { "vehicle": "car", "x": 8, "y": 6, "rotation": 90, "chance": 25 },
         { "vehicle": "car", "x": 14, "y": 6, "rotation": 90, "chance": 25 },

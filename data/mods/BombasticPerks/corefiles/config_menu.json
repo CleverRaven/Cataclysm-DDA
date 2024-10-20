@@ -48,7 +48,7 @@
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
-        "text": "Normal (300 xp)",
+        "text": "Normal (300 XP)",
         "effect": { "math": [ "u_exp_per_level", "=", "300" ] },
         "condition": { "math": [ "u_exp_per_level", "!=", "300" ] },
         "failure_explanation": "Current Setting",
@@ -56,7 +56,7 @@
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
-        "text": "Large (1000 xp)",
+        "text": "Large (1000 XP)",
         "effect": { "math": [ "u_exp_per_level", "=", "1000" ] },
         "condition": { "math": [ "u_exp_per_level", "!=", "1000" ] },
         "failure_explanation": "Current Setting",
@@ -64,7 +64,7 @@
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
-        "text": "Very Large (10000 xp)",
+        "text": "Very Large (10000 XP)",
         "effect": { "math": [ "u_exp_per_level", "=", "10000" ] },
         "condition": { "math": [ "u_exp_per_level", "!=", "10000" ] },
         "failure_explanation": "Current Setting",

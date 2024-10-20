@@ -11,9 +11,8 @@
     "volume": "800 ml",
     "longest_side": "35 cm",
     "barrel_length": "203 mm",
-    "price": 100000,
-    "price_postapoc": 500,
-    "to_hit": -2,
+    "price": "1 kUSD",
+    "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -23,14 +22,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "stock mount", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [  ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
@@ -41,22 +33,21 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "12-gauge gatling gun" },
-    "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
+    "name": { "str": "12-gauge Gatling gun" },
+    "description": "An electrically driven six barrel Gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
     "weight": "4980 g",
     "volume": "4500 ml",
     "longest_side": "110 cm",
     "barrel_length": "762 mm",
-    "price": 180000,
-    "price_postapoc": 1750,
-    "to_hit": -2,
+    "price": "1 kUSD 800 USD",
+    "price_postapoc": "17 USD 50 cent",
     "material": [ "steel" ],
     "dispersion": 855,
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "energy_drain": "1 kJ",
     "reload": 200,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "sights mount", 1 ], [ "sling", 1 ] ],
     "flags": [ "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
     "melee_damage": { "bash": 9 }
@@ -67,13 +58,13 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "compact bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ksg",
         "name": { "str": "Kel-Tec KSG shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations."
+        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity."
       }
     ],
     "ascii_picture": "ksg",
@@ -81,15 +72,14 @@
     "volume": "3371 ml",
     "longest_side": "672 mm",
     "barrel_length": "470 mm",
-    "price": 99000,
-    "price_postapoc": 2250,
+    "price": "990 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 425,
     "sight_dispersion": 500,
     "durability": 7,
     "clip_size": 7,
-    "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -101,51 +91,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "ksg-25",
-    "copy-from": "shotgun_pump",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "extended bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 24 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's still only as long as conventional shotguns despite having a comparatively far higher capacity.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ksg-25",
-        "name": { "str": "Kel-Tec KSG-25 shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes."
-      }
-    ],
-    "ascii_picture": "ksg-25",
-    "weight": "2100 g",
-    "volume": "4495 ml",
-    "longest_side": "971 mm",
-    "barrel_length": "775 mm",
-    "price": 140000,
-    "price_postapoc": 4000,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 425,
-    "sight_dispersion": 500,
-    "durability": 7,
-    "clip_size": 12,
-    "built_in_mods": [ "ksg25_aux_shotgun" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "underbarrel", 2 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
     "melee_damage": { "bash": 9 }
   },
   {
@@ -169,8 +115,8 @@
     "volume": "2450 ml",
     "longest_side": "1166 mm",
     "barrel_length": "711 mm",
-    "price": 53800,
-    "price_postapoc": 2250,
+    "price": "538 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
     "barrel_volume": "186 ml",
     "material": [ "steel", "aluminum", "plastic" ],
@@ -198,7 +144,7 @@
       {
         "id": "slp",
         "name": { "str": "FN SLP MK I shotgun" },
-        "description": "An eminently practical semi-automatic shotgun, Fabrique Nationale's Mk I iteration of their Self-Loading Police brings together an 8-round magazine tube, accessory-ready picatinny rail, and comfortably rubber-padded grip surfaces.  Per the company's claims, it can dispense 8 servings of 12-gauge-diameter medicine in under a second, and, while you're not sure if that's true or even a good thing, the gun's certain to serve as a good educational tool for disciplining the dead."
+        "description": "An eminently practical semi-automatic shotgun, Fabrique Nationale's Mk I iteration of their Self-Loading Police brings together an 8-round magazine tube, accessory-ready Picatinny rail, and comfortably rubber-padded grip surfaces.  Per the company's claims, it can dispense 8 servings of 12-gauge-diameter medicine in under a second, and, while you're not sure if that's true or even a good thing, the gun's certain to serve as a good educational tool for disciplining the dead."
       }
     ],
     "ascii_picture": "mossberg590",
@@ -208,8 +154,8 @@
     "barrel_length": "508 mm",
     "//": "The true dimensions of the FN SLP are 1092 mm overall length, 558mm barrel length, and 3583 gramme weight.",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
-    "price": 70000,
-    "price_postapoc": 2400,
+    "price": "700 USD",
+    "price_postapoc": "24 USD",
     "clip_size": 9,
     "barrel_volume": "0 ml",
     "valid_mod_locations": [
@@ -228,6 +174,48 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
+  },
+  {
+    "id": "mossberg_590m",
+    "copy-from": "mossberg_590",
+    "looks_like": "mossberg_590",
+    "type": "GUN",
+    "name": { "str": "magazine-fed pump shotgun" },
+    "description": "A classic pump-action shotgun, all save for the fact that the manufacturer has modified it to use detachable box magazines instead of a standard shotgun tube.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590",
+        "name": { "str": "Mossberg 590M shotgun" },
+        "description": "A classic Mossberg 590 pump-action shotgun, modified by the manufacturer to utilize box magazines."
+      }
+    ],
+    "weight": "3628 g",
+    "volume": "2548 ml",
+    "longest_side": "1033 mm",
+    "barrel_length": "469 mm",
+    "price": "770 USD",
+    "price_postapoc": "19 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "mossberg_590m_mag_5", "mossberg_590m_mag_10", "mossberg_590m_mag_15", "mossberg_590m_mag_20" ]
+      }
+    ]
   },
   {
     "id": "mossberg_930",
@@ -254,8 +242,8 @@
     "longest_side": "994 mm",
     "barrel_length": "470 mm",
     "looks_like": "remington_870",
-    "price": 60000,
-    "price_postapoc": 2250,
+    "price": "600 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 345,
@@ -288,17 +276,9 @@
     "ascii_picture": "db_pipe_gun",
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "relative": { "weight": "625 g", "volume": "360 ml", "price": 5000 },
+    "relative": { "weight": "625 g", "volume": "360 ml", "price": "50 USD" },
     "barrel_volume": "720 ml",
-    "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
@@ -313,8 +293,8 @@
     "weight": "2267 g",
     "volume": "1610 ml",
     "longest_side": "95 cm",
-    "price": 20000,
-    "price_postapoc": 500,
+    "price": "200 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 855,
@@ -323,16 +303,7 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "barrel_length": "600 mm",
-    "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "barrel", 1 ],
-      [ "muzzle", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 12 }
@@ -373,8 +344,8 @@
     "volume": "2487 ml",
     "longest_side": "1234 mm",
     "barrel_length": "762 mm",
-    "price": 58700,
-    "price_postapoc": 2500,
+    "price": "587 USD",
+    "price_postapoc": "25 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 305,
@@ -411,8 +382,8 @@
     "//": "dispersion should be 300 moa, but CDDA exaggerates dispersion.",
     "sight_dispersion": 750,
     "clip_size": 4,
-    "price": 53800,
-    "price_postapoc": 2250,
+    "price": "538 USD",
+    "price_postapoc": "22 USD 50 cent",
     "barrel_volume": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
@@ -434,7 +405,7 @@
     "copy-from": "remington_870",
     "type": "GUN",
     "name": { "str": "7-round riot shotgun" },
-    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it's a very versatile and reliable weapon.",
+    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilized for self-defense or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it's a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
       {
@@ -452,8 +423,8 @@
     "dispersion": 345,
     "clip_size": 7,
     "barrel_volume": "20 ml",
-    "price": 33800,
-    "price_postapoc": 2750,
+    "price": "338 USD",
+    "price_postapoc": "27 USD 50 cent",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
@@ -468,8 +439,8 @@
     "volume": "3 L",
     "longest_side": "60 cm",
     "barrel_length": "300 mm",
-    "price": 75000,
-    "price_postapoc": 1250,
+    "price": "750 USD",
+    "price_postapoc": "12 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 855,
@@ -477,15 +448,7 @@
     "clip_size": 6,
     "reload": 200,
     "barrel_volume": "360 ml",
-    "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 12 }
@@ -509,8 +472,8 @@
     "volume": "3064 ml",
     "longest_side": "1068 mm",
     "barrel_length": "483 mm",
-    "price": 189000,
-    "price_postapoc": 4500,
+    "price": "1 kUSD 890 USD",
+    "price_postapoc": "45 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
@@ -545,8 +508,8 @@
     "volume": "1619 ml",
     "longest_side": "1111 mm",
     "barrel_length": "660 mm",
-    "price": 39900,
-    "price_postapoc": 2000,
+    "price": "399 USD",
+    "price_postapoc": "20 USD",
     "barrel_volume": "494 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -562,6 +525,41 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
+    "id": "shotgun_triple",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": { "str": "triple-barreled shotgun" },
+    "description": "A pretty modern-looking shotgun that has three barrels.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "triple_honcho",
+        "name": { "str": "Triple Honcho" },
+        "description": "Made by Charles Daly, this modern three-barrel shotgun had a unique balance between how much it cost and how little firepower it could release with its 18.5-inch barrels.  Luckily, you do not need to pay the full price for it anymore."
+      }
+    ],
+    "clip_size": 3,
+    "modes": [ [ "DEFAULT", "single", 1 ] ],
+    "weight": "2721 g",
+    "volume": "2926 ml",
+    "longest_side": "686 mm",
+    "barrel_length": "469 mm",
+    "price": "2000 USD",
+    "price_postapoc": "2 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "stock mount", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 3 } } ]
+  },
+  {
     "id": "shotgun_s",
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
@@ -573,8 +571,8 @@
     "volume": "2044 ml",
     "longest_side": "109 cm",
     "barrel_length": "470 mm",
-    "price": 10000,
-    "price_postapoc": 1500,
+    "price": "100 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 210,
@@ -597,56 +595,11 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "streetsweeper",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "automatic shotgun" },
-    "description": "This shotgun, deemed a destructive device, resembles a comically oversized revolver.  It can hold 12 rounds of 12 gauge shot, and fire all of them in under 3 seconds",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "streetsweeper",
-        "name": { "str": "Cobray Streetsweeper" },
-        "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch."
-      }
-    ],
-    "weight": "4200 g",
-    "volume": "3193 ml",
-    "longest_side": "592 mm",
-    "barrel_length": "470 mm",
-    "looks_like": "revolver_shotgun",
-    "price": 120000,
-    "price_postapoc": 3500,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "dispersion": 855,
-    "durability": 6,
-    "clip_size": 12,
-    "reload": 220,
-    "barrel_volume": "505 ml",
-    "default_mods": [ "grip" ],
-    "built_in_mods": [ "wire_stock" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "tavor_12",
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "auto-loading bullpup shotgun" },
-    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
@@ -660,8 +613,8 @@
     "longest_side": "725 mm",
     "barrel_length": "470 mm",
     "looks_like": "ksg",
-    "price": 180000,
-    "price_postapoc": 5500,
+    "price": "1 kUSD 800 USD",
+    "price_postapoc": "55 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 320,
@@ -669,7 +622,6 @@
     "min_cycle_recoil": 1250,
     "clip_size": 5,
     "sight_dispersion": 500,
-    "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -681,8 +633,48 @@
       [ "sling", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 15 } } ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "dp_12",
+    "copy-from": "shotgun_pump",
+    "type": "GUN",
+    "name": { "str": "double-barreled pump shotgun" },
+    "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "dp_12",
+        "name": { "str": "DP-12" },
+        "description": "A bullpup, 12-gauge, pump-action, double-barreled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
+      }
+    ],
+    "weight": "4989 g",
+    "volume": "8862 ml",
+    "//": "180 x 750 x 101 mm, trimmed about 35% down for empty spaces",
+    "longest_side": "749 mm",
+    "barrel_length": "479 mm",
+    "price": "1599 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 550,
+    "sight_dispersion": 700,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "winchester_1887",
@@ -703,8 +695,8 @@
     "longest_side": "708 mm",
     "barrel_length": "470 mm",
     "looks_like": "browning_blr",
-    "price": 100800,
-    "price_postapoc": 2250,
+    "price": "1 kUSD 8 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 860,
@@ -723,7 +715,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -746,8 +738,8 @@
     "longest_side": "989 mm",
     "barrel_length": "510 mm",
     "looks_like": "remington_870_express",
-    "price": 850000,
-    "price_postapoc": 2500,
+    "price": "8 kUSD 500 USD",
+    "price_postapoc": "25 USD",
     "material": [ "steel", "wood" ],
     "dispersion": 360,
     "durability": 8,
@@ -782,7 +774,7 @@
       {
         "id": "m2",
         "name": { "str": "Benelli M2 shotgun" },
-        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilising the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-cataclysm survivor."
+        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilizing the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-Cataclysm survivor."
       },
       {
         "id": "sbe",
@@ -795,8 +787,8 @@
     "longest_side": "1213 mm",
     "barrel_length": "660 mm",
     "//": "Based on a 26-inch-barrel field configuration.",
-    "price": 149900,
-    "price_postapoc": 1800,
+    "price": "1 kUSD 499 USD",
+    "price_postapoc": "18 USD",
     "clip_size": 4,
     "//2": "The capacity of an unmodified M2 is three shells in the tube plus one in the chamber. We're assuming that the player takes the time to rack a cartridge into the chamber and top off the tube when loading in shell number 4.",
     "durability": 10,
@@ -819,6 +811,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
+    "flags": [ "NO_TURRET", "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -827,13 +820,13 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "6-round tactical shotgun" },
-    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
+    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the Cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "m2_tac",
         "name": { "str": "Benelli M2 Tactical shotgun" },
-        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-cataclysm farming duties: seeding lead shot into fields of zombies."
+        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-Cataclysm farming duties: seeding lead shot into fields of zombies."
       },
       {
         "id": "mossberg_500_security",
@@ -846,8 +839,8 @@
     "longest_side": "1010 mm",
     "barrel_length": "470 mm",
     "//": "The true dimensions of a Mossberg 500 Security are 1003 mm in length, 457 mm in barrel length, and 3062 grammes.",
-    "price": 159900,
-    "price_postapoc": 2760,
+    "price": "1 kUSD 599 USD",
+    "price_postapoc": "27 USD 60 cent",
     "clip_size": 6,
     "//2": "The capacity of an unmodified M2 Tactical is five shells in the tube plus one in the chamber. We're assuming that the player takes the time to rack a cartridge into the chamber and top off the tube when loading in shell number six.",
     "barrel_volume": "0 ml",
@@ -867,8 +860,8 @@
     "longest_side": "65 cm",
     "barrel_length": "300 mm",
     "looks_like": "pipe",
-    "price": 8500,
-    "price_postapoc": 1000,
+    "price": "85 USD",
+    "price_postapoc": "10 USD",
     "material": [ "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 960,
@@ -876,8 +869,8 @@
     "clip_size": 1,
     "reload": 600,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -897,6 +890,183 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
+    "id": "ar12_shotgun",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "rifle shotgun" },
+    "description": "Despite looking like a military-issued rifle, this is, in fact, a shotgun.  It can accept a variety of magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tar_12p",
+        "name": { "str": "Tokarev TAR 12P" },
+        "weight": 327,
+        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "vr80",
+        "name": { "str": "VR 80" },
+        "weight": 575,
+        "description": "The work of Rock Island Armoury, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
+      },
+      {
+        "id": "boss25",
+        "name": { "str": "BOSS 25" },
+        "weight": 299,
+        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "ar12s",
+        "name": { "str": "AR-12S" },
+        "weight": 101,
+        "description": "Created by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "ar12a",
+        "name": { "str": "AR-12A" },
+        "weight": 98,
+        "description": "Made by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "gf25",
+        "name": { "str": "GF25" },
+        "weight": 158,
+        "description": "Work of GForce Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "mka1919",
+        "name": { "str": "MKA 1919" },
+        "weight": 85,
+        "description": "First of its type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
+      },
+      {
+        "id": "krx",
+        "name": { "str": "KRX" },
+        "weight": 231,
+        "description": "Created by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "vr60",
+        "name": { "str": "VR60" },
+        "weight": 109,
+        "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
+      }
+    ],
+    "weight": "3335 g",
+    "volume": "3443 ml",
+    "longest_side": "990 mm",
+    "barrel_length": "469 mm",
+    "price": "320 USD",
+    "price_postapoc": "12 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "gfy_1",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "bullpup shotgun" },
+    "description": "A curious magazine-fed shotgun, made using bullpup scheme.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "gfy_1",
+        "name": { "str": "GFY-1" },
+        "weight": 101,
+        "description": "A work of GForce Arms, this curious bullpup shotgun is compact, familiar to any rifleman, and can use standard MKA 1919 magazines."
+      },
+      {
+        "id": "bp12",
+        "name": { "str": "BP-12" },
+        "weight": 82,
+        "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept a variety of MKA 1919 magazines."
+      }
+    ],
+    "weight": "3628 g",
+    "volume": "3443 ml",
+    "longest_side": "723 mm",
+    "barrel_length": "469 mm",
+    "price": "325 USD",
+    "price_postapoc": "13 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "srm_1216",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "rotary-magazine shotgun" },
+    "description": "A lengthy shotgun that accepts revolving 16-round magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "srm_1216",
+        "name": { "str": "SRM Arms Model 1216" },
+        "description": "A delayed blowback semi-automatic shotgun feeding from detachable 16-round rotary magazines."
+      }
+    ],
+    "weight": "3062 g",
+    "volume": "8015 ml",
+    "//": "857 x 195 x 97 mm, trimmed about 30% down for empty spaces, minus 3670 ml of magazine volume.",
+    "longest_side": "857 mm",
+    "barrel_length": "470 mm",
+    "price": "1799 USD",
+    "price_postapoc": "50 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "m26_mass_standalone",
     "copy-from": "shotgun_base",
     "type": "GUN",
@@ -907,9 +1077,8 @@
     "volume": "2390 ml",
     "longest_side": "610 mm",
     "barrel_length": "197 mm",
-    "price": 189000,
-    "price_postapoc": 4500,
-    "to_hit": -2,
+    "price": "1 kUSD 890 USD",
+    "price_postapoc": "45 USD",
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,

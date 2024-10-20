@@ -56,7 +56,7 @@
         "vvvvvvvvvv____vvvvvvvvvvvvvvvvvvvv____vvvvvvvvvv"
       ],
       "palettes": [ "lumberyard" ],
-      "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 50000, 268750 ] } },
+      "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 500, 2687 ] } },
       "place_vehicles": [
         { "vehicle": "flatbed_truck", "x": [ 43, 45 ], "y": 33, "chance": 30, "rotation": 90 },
         { "vehicle": "pickup", "x": [ 35, 37 ], "y": [ 28, 31 ], "chance": 30, "rotation": 90 },

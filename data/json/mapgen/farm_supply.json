@@ -75,7 +75,7 @@
             "entries": [
               { "group": "ammo_rifle_common_collection", "prob": 25 },
               { "group": "ammo_shotgun_common_collection", "prob": 40 },
-              { "group": "mags_rifle_common_gunstore", "prob": 35 }
+              { "group": "mags_common", "prob": 35 }
             ]
           },
           "chance": 100,
@@ -519,7 +519,7 @@
         "à": {
           "item": {
             "subtype": "collection",
-            "entries": [ { "group": "guns_rifle_common_display", "prob": 40 }, { "group": "guns_shotgun_common_display", "prob": 60 } ]
+            "entries": [ { "group": "guns_rifle_common_display", "prob": 60 }, { "group": "guns_shotgun_common_display", "prob": 40 } ]
           },
           "chance": 7,
           "repeat": [ 0, 2 ]
@@ -530,7 +530,7 @@
             "entries": [
               { "group": "ammo_rifle_common_collection", "prob": 25 },
               { "group": "ammo_shotgun_common_collection", "prob": 40 },
-              { "group": "mags_rifle_common_gunstore", "prob": 35 }
+              { "group": "mags_common", "prob": 35 }
             ]
           },
           "chance": 7,

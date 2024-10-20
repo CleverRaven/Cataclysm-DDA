@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement_1" ],
+    "om_terrain": "bunker_basement_1",
+    "//": "Adds back autodoc",
     "weight": 25000,
     "object": {
       "fill_ter": "t_floor",
@@ -99,7 +100,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement_1" ],
+    "//": "Non suicide version",
+    "om_terrain": "bunker_basement_1",
     "weight": 50000,
     "object": {
       "fill_ter": "t_floor",

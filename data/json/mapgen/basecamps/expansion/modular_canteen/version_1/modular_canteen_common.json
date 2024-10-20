@@ -17,9 +17,11 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 11, "y": 8 },
-        { "point": "furniture", "id": "f_fireplace", "x": 13, "y": 8 },
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8 }
+        { "point": "furniture", "id": "f_fireplace", "x": 11, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 11, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_fireplace", "x": 13, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 13, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 10, "y": 8 } ]
     }
@@ -30,9 +32,11 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 8 },
-        { "point": "furniture", "id": "f_woodstove", "x": 13, "y": 8 },
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8 }
+        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 11, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_woodstove", "x": 13, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 13, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 8, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 10, "y": 8 }, { "item": "pan", "x": 10, "y": 8 } ]
     }
@@ -78,10 +82,11 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_smoking_rack", "x": 17, "y": 8 },
-        { "point": "furniture", "id": "f_smoking_rack", "x": 18, "y": 8 },
-        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 8 },
-        { "point": "furniture", "id": "f_kiln_empty", "x": 19, "y": 12 }
+        { "point": "furniture", "id": "f_smoking_rack", "x": 17, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 18, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 19, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 19, "y": 12, "z": 1 }
       ]
     }
   },
@@ -118,7 +123,7 @@
         { "point": "furniture", "id": "f_butcher_rack", "x": 17, "y": 12 },
         { "point": "furniture", "id": "f_table", "x": 16, "y": 12 }
       ],
-      "place_loot": [ { "item": "knife_butcher", "x": 16, "y": 12 } ]
+      "place_loot": [ { "item": "knife_huge", "variant": "knife_butcher", "x": 16, "y": 12 } ]
     }
   },
   {

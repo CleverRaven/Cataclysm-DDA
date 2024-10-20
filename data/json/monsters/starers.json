@@ -37,7 +37,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO",
       "NO_FUNG_DMG",
       "WIELDED_WEAPON"

@@ -14,3 +14,7 @@ for entry in pofile:
     #         occurrences[word] = 1
     if typos:
         print(typos, "<=", entry.msgid.replace('\n', '\\n'))
+    if entry.msgid_plural:
+        typos = spell_check(entry.msgid_plural)
+        if typos:
+            print(typos, "<=", entry.msgid_plural.replace('\n', '\\n'))

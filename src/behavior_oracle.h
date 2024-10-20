@@ -3,8 +3,8 @@
 #define CATA_SRC_BEHAVIOR_ORACLE_H
 
 #include <functional>
-#include <iosfwd>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
 namespace behavior

@@ -18,5 +18,16 @@
     "sym": "b",
     "color": "pink",
     "autonote": true
+  },
+  {
+    "id": "mx_gunship",
+    "type": "map_extra",
+    "name": { "str": "Gunship Crash" },
+    "description": "Gunship crashed here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_gunship" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "light_blue",
+    "autonote": true
   }
 ]

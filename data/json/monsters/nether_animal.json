@@ -41,7 +41,6 @@
     "copy-from": "mon_dog",
     "name": { "str": "triclopean dog" },
     "description": "A rather average looking dog until you notice the third eye, right on its forehead, covered by a thick eyelid.  Whenever its open, small particles of dust from the ground rise and swirl around it.",
-    "default_faction": "dog",
     "harvest": "dog_triclopean_with_skull"
   },
   {

@@ -5,5 +5,30 @@
     "name": { "str": "Cloak of Elvenkind: Forest Stealth" },
     "description": "You have a much easier time hiding in the forest.",
     "points": 2
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_01",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_02",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_03",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_04",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_05",
+    "remove": true
   }
 ]

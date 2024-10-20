@@ -10,7 +10,7 @@
       { "text": "What are you doing here?", "topic": "TALK_NC_SURVIVOR_CHEF_INTRO" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -22,7 +22,7 @@
       { "text": "How are you alive?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY1" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -36,7 +36,7 @@
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -50,7 +50,7 @@
       { "text": "What happened next?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY2" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -64,7 +64,7 @@
       { "text": "Horrible.  Did you get any pictures yourself?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY3" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -78,7 +78,7 @@
       { "text": "What'd you do?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY4" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -92,7 +92,7 @@
       { "text": "Crazy, so you have been here ever since?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY5" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -105,7 +105,7 @@
     "responses": [
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -119,7 +119,7 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_SURVIVOR_CHEF_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

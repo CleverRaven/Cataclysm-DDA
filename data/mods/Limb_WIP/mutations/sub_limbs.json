@@ -1,0 +1,1030 @@
+[
+  {
+    "type": "sub_body_part",
+    "id": "arm_shoulder_l",
+    "copy-from": "arm_shoulder_l",
+    "name": "left shoulder",
+    "similar_bodyparts": [ "arm_bionic_basic_shoulder_l", "arm_feathers_shoulder_l", "arm_wing_bird_shoulder_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_shoulder_r",
+    "copy-from": "arm_shoulder_r",
+    "name": "right shoulder",
+    "similar_bodyparts": [ "arm_bionic_basic_shoulder_r", "arm_feathers_shoulder_r", "arm_wing_bird_shoulder_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_upper_l",
+    "copy-from": "arm_upper_l",
+    "name": "left upper arm",
+    "similar_bodyparts": [ "arm_bionic_basic_upper_l", "arm_feathers_upper_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_upper_r",
+    "copy-from": "arm_upper_r",
+    "name": "right upper arm",
+    "similar_bodyparts": [ "arm_bionic_basic_upper_r", "arm_feathers_upper_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_elbow_l",
+    "copy-from": "arm_elbow_l",
+    "name": "left elbow",
+    "similar_bodyparts": [ "arm_bionic_basic_elbow_l", "arm_feathers_elbow_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_elbow_r",
+    "copy-from": "arm_elbow_r",
+    "name": "right elbow",
+    "similar_bodyparts": [ "arm_bionic_basic_elbow_r", "arm_feathers_elbow_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_lower_l",
+    "copy-from": "arm_lower_l",
+    "name": "left forearm",
+    "similar_bodyparts": [ "arm_bionic_basic_lower_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_lower_r",
+    "copy-from": "arm_lower_r",
+    "name": "right forearm",
+    "similar_bodyparts": [ "arm_bionic_basic_lower_r" ]
+  },
+  {
+    "id": "eyes_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes",
+    "side": 1,
+    "opposite": "eyes_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodyparts": [ "eyes_bulging_l", "eyes_compound_l", "eyes_dragonfly_mono_l" ]
+  },
+  {
+    "id": "eyes_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes",
+    "side": 2,
+    "opposite": "eyes_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodyparts": [ "eyes_bulging_r", "eyes_compound_l", "eyes_dragonfly_mono_r" ]
+  },
+  {
+    "id": "head_forehead",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "head",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "forehead",
+    "similar_bodyparts": [ "head_dragonfly_forehead" ]
+  },
+  {
+    "id": "head_crown",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "head",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "crown",
+    "similar_bodyparts": [ "head_dragonfly_crown" ]
+  },
+  {
+    "id": "head_nape",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "head",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "nape",
+    "similar_bodyparts": [ "head_dragonfly_nape" ]
+  },
+  {
+    "id": "head_throat",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "head",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "throat",
+    "similar_bodyparts": [ "head_dragonfly_throat" ]
+  },
+  {
+    "id": "head_ear_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "head",
+    "opposite": "head_ear_l",
+    "side": 2,
+    "name": "right ear",
+    "name_multiple": "ears",
+    "similar_bodyparts": [ "head_dragonfly_ear_r" ]
+  },
+  {
+    "id": "head_ear_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "head",
+    "opposite": "head_ear_r",
+    "side": 1,
+    "name": "left ear",
+    "name_multiple": "ears",
+    "similar_bodyparts": [ "head_dragonfly_ear_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_wrist_l",
+    "copy-from": "hand_wrist_l",
+    "name": "left wrist",
+    "similar_bodyparts": [ "hand_bionic_basic_wrist_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_wrist_r",
+    "copy-from": "hand_wrist_r",
+    "name": "right wrist",
+    "similar_bodyparts": [ "hand_bionic_basic_wrist_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_palm_l",
+    "copy-from": "hand_palm_l",
+    "name": "left palm",
+    "similar_bodyparts": [ "hand_bionic_basic_palm_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_palm_r",
+    "copy-from": "hand_palm_r",
+    "name": "right palm",
+    "similar_bodyparts": [ "hand_bionic_basic_palm_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_back_l",
+    "copy-from": "hand_back_l",
+    "name": "left back of hand",
+    "similar_bodyparts": [ "hand_bionic_basic_back_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_back_r",
+    "copy-from": "hand_back_r",
+    "name": "right back of hand",
+    "similar_bodyparts": [ "hand_bionic_basic_back_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_fingers_l",
+    "copy-from": "hand_fingers_l",
+    "name": "left fingers",
+    "similar_bodyparts": [ "hand_bionic_basic_fingers_l", "arm_wing_bird_fingers_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "hand_fingers_r",
+    "copy-from": "hand_fingers_r",
+    "name": "right fingers",
+    "similar_bodyparts": [ "hand_bionic_basic_fingers_r", "arm_wing_bird_fingers_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_hip_l",
+    "copy-from": "leg_hip_l",
+    "name": "left hip",
+    "similar_bodyparts": [ "leg_bionic_basic_hip_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_hip_r",
+    "copy-from": "leg_hip_r",
+    "name": "right hip",
+    "similar_bodyparts": [ "leg_bionic_basic_hip_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_upper_l",
+    "copy-from": "leg_upper_l",
+    "name": "left thigh",
+    "similar_bodyparts": [ "leg_bionic_basic_upper_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_upper_r",
+    "copy-from": "leg_upper_r",
+    "name": "right thigh",
+    "similar_bodyparts": [ "leg_bionic_basic_upper_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_knee_l",
+    "copy-from": "leg_knee_l",
+    "name": "left knee",
+    "similar_bodyparts": [ "leg_bionic_basic_knee_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_knee_r",
+    "copy-from": "leg_knee_r",
+    "name": "right knee",
+    "similar_bodyparts": [ "leg_bionic_basic_knee_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_lower_l",
+    "copy-from": "leg_lower_l",
+    "name": "left lower leg",
+    "similar_bodyparts": [ "leg_bionic_basic_lower_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_lower_r",
+    "copy-from": "leg_lower_r",
+    "name": "right lower leg",
+    "similar_bodyparts": [ "leg_bionic_basic_lower_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_draped_l",
+    "copy-from": "leg_draped_l",
+    "name": "left leg (draped)",
+    "similar_bodyparts": [ "leg_bionic_basic_draped_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "leg_draped_r",
+    "copy-from": "leg_draped_r",
+    "name": "right leg (draped)",
+    "similar_bodyparts": [ "leg_bionic_basic_draped_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_sole_l",
+    "copy-from": "foot_sole_l",
+    "name": "left foot bottom",
+    "similar_bodyparts": [ "foot_bionic_basic_sole_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_sole_r",
+    "copy-from": "foot_sole_r",
+    "name": "right foot bottom",
+    "similar_bodyparts": [ "foot_bionic_basic_sole_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_arch_l",
+    "copy-from": "foot_arch_l",
+    "name": "left foot arch",
+    "similar_bodyparts": [ "foot_bionic_basic_arch_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_arch_r",
+    "copy-from": "foot_arch_r",
+    "name": "right foot arch",
+    "similar_bodyparts": [ "foot_bionic_basic_arch_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_ankle_l",
+    "copy-from": "foot_ankle_l",
+    "name": "left ankle",
+    "similar_bodyparts": [ "foot_bionic_basic_ankle_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_ankle_r",
+    "copy-from": "foot_ankle_r",
+    "name": "right ankle",
+    "similar_bodyparts": [ "foot_bionic_basic_ankle_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_toes_l",
+    "copy-from": "foot_toes_l",
+    "name": "left toes",
+    "similar_bodyparts": [ "foot_bionic_basic_toes_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_toes_r",
+    "copy-from": "foot_toes_r",
+    "name": "right toes",
+    "similar_bodyparts": [ "foot_bionic_basic_toes_r" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_heel_l",
+    "copy-from": "foot_heel_l",
+    "name": "left heel",
+    "similar_bodyparts": [ "foot_bionic_basic_heel_l" ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "foot_heel_r",
+    "copy-from": "foot_heel_r",
+    "name": "right heel",
+    "similar_bodyparts": [ "foot_bionic_basic_heel_r" ]
+  },
+  {
+    "id": "sub_limb_debug_tail_1",
+    "type": "sub_body_part",
+    "parent": "debug_tail",
+    "side": 0,
+    "max_coverage": 100,
+    "name": "first debug sublimb for debug tail"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "sub_limb_debug_tail_2",
+    "parent": "debug_tail",
+    "max_coverage": 50,
+    "side": 0,
+    "name": "second debug sublimb for debug tail"
+  },
+  {
+    "id": "eyes_bulging_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_bulging",
+    "side": 1,
+    "opposite": "eyes_bulging_r",
+    "name_multiple": "bulging eyes",
+    "name": "left bulging eye"
+  },
+  {
+    "id": "eyes_bulging_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_bulging",
+    "side": 2,
+    "opposite": "eyes_bulging_l",
+    "name_multiple": "bulging eyes",
+    "name": "right bulging eye"
+  },
+  {
+    "id": "eyes_compound_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_insect_1",
+    "side": 1,
+    "opposite": "eyes_compound_r",
+    "name_multiple": "compound eyes",
+    "name": "left compound eye"
+  },
+  {
+    "id": "eyes_compound_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_insect_1",
+    "side": 2,
+    "opposite": "eyes_compound_l",
+    "name_multiple": "compound eyes",
+    "name": "right compound eye"
+  },
+  {
+    "id": "eyes_dragonfly_mono_l",
+    "type": "sub_body_part",
+    "name": "gigantic compound eye (front left)",
+    "name_multiple": "gigantic compound eye (front)",
+    "parent": "eyes_dragonfly",
+    "max_coverage": 50,
+    "side": 1,
+    "opposite": "eyes_dragonfly_mono_r"
+  },
+  {
+    "id": "eyes_dragonfly_mono_r",
+    "type": "sub_body_part",
+    "name": "gigantic compound eye (front right)",
+    "name_multiple": "gigantic compound eye (front)",
+    "parent": "eyes_dragonfly",
+    "max_coverage": 50,
+    "side": 2,
+    "opposite": "eyes_dragonfly_mono_l"
+  },
+  {
+    "id": "head_dragonfly_forehead",
+    "type": "sub_body_part",
+    "name": "gigantic compound eye (forehead)",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "side": 0
+  },
+  {
+    "id": "head_dragonfly_crown",
+    "type": "sub_body_part",
+    "name": "gigantic compound eye (crown)",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "side": 0
+  },
+  {
+    "id": "head_dragonfly_nape",
+    "type": "sub_body_part",
+    "name": "nape",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "side": 0
+  },
+  {
+    "id": "head_dragonfly_throat",
+    "type": "sub_body_part",
+    "name": "throat",
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
+    "side": 0
+  },
+  {
+    "id": "head_dragonfly_ear_l",
+    "type": "sub_body_part",
+    "name": "left ear",
+    "name_multiple": "ears",
+    "parent": "head_dragonfly",
+    "max_coverage": 10,
+    "side": 1,
+    "opposite": "head_dragonfly_ear_r"
+  },
+  {
+    "id": "head_dragonfly_ear_r",
+    "type": "sub_body_part",
+    "name": "right ear",
+    "name_multiple": "ears",
+    "parent": "head_dragonfly",
+    "max_coverage": 10,
+    "side": 2,
+    "opposite": "head_dragonfly_ear_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_shoulder_l",
+    "name": "left feathered shoulder",
+    "name_multiple": "feathered shoulders",
+    "parent": "arm_feathers_l",
+    "side": 1,
+    "opposite": "arm_feathers_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_shoulder_r",
+    "name": "right feathered shoulder",
+    "name_multiple": "feathered shoulders",
+    "parent": "arm_feathers_r",
+    "side": 2,
+    "opposite": "arm_feathers_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_upper_l",
+    "name": "left feathered upper arm",
+    "name_multiple": "feathered upper arms",
+    "parent": "arm_feathers_l",
+    "side": 1,
+    "opposite": "arm_feathers_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_upper_r",
+    "name": "right feathered upper arm",
+    "name_multiple": "feathered upper arms",
+    "parent": "arm_feathers_r",
+    "side": 2,
+    "opposite": "arm_feathers_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_elbow_l",
+    "name": "left feathered elbow",
+    "name_multiple": "feathered elbows",
+    "parent": "arm_feathers_l",
+    "side": 1,
+    "opposite": "arm_feathers_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_elbow_r",
+    "name": "right feathered elbow",
+    "name_multiple": "feathered elbows",
+    "parent": "arm_feathers_r",
+    "side": 2,
+    "opposite": "arm_feathers_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_lower_l",
+    "name": "lower left feathered arms",
+    "name_multiple": "lower feathered arms",
+    "parent": "arm_feathers_l",
+    "side": 1,
+    "opposite": "arm_feathers_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_lower_r",
+    "name": "lower right feathered arms",
+    "name_multiple": "lower feathered arms",
+    "parent": "arm_feathers_r",
+    "side": 2,
+    "opposite": "arm_feathers_lower_l",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_shoulder_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": 1,
+    "opposite": "arm_wing_bird_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_shoulder_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": 2,
+    "opposite": "arm_wing_bird_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_upper_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left upper wing",
+    "name_multiple": "upper wings",
+    "side": 1,
+    "opposite": "arm_wing_bird_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_upper_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right upper wing",
+    "name_multiple": "upper wings",
+    "side": 2,
+    "opposite": "arm_wing_bird_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_elbow_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left wing joint",
+    "name_multiple": "wing joints",
+    "side": 1,
+    "opposite": "arm_wing_bird_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_elbow_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right wing joint",
+    "name_multiple": "wing joints",
+    "side": 2,
+    "opposite": "arm_wing_bird_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_lower_l",
+    "parent": "arm_wing_bird_l",
+    "name": "lower left wings",
+    "name_multiple": "lower wing",
+    "side": 1,
+    "opposite": "arm_wing_bird_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_lower_r",
+    "parent": "arm_wing_bird_r",
+    "name": "lower right wing",
+    "name_multiple": "lower wings",
+    "side": 2,
+    "opposite": "arm_wing_bird_lower_l",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_fingers_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left wing talons",
+    "name_multiple": "wing talons",
+    "side": 1,
+    "opposite": "arm_wing_bird_fingers_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_fingers_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right wing talons",
+    "name_multiple": "wing talons",
+    "side": 2,
+    "opposite": "arm_wing_bird_fingers_l",
+    "max_coverage": 5
+  },
+  {
+    "id": "leg_bionic_basic_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_bionic_basic_l",
+    "side": 1,
+    "secondary": true,
+    "opposite": "leg_bionic_basic_draped_r",
+    "name_multiple": "bionic legs (draped)",
+    "name": "left bionic leg (draped)",
+    "locations_under": [ "leg_bionic_basic_hip_l", "leg_bionic_basic_upper_l" ]
+  },
+  {
+    "id": "leg_bionic_basic_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_bionic_basic_r",
+    "side": 2,
+    "secondary": true,
+    "opposite": "leg_bionic_basic_draped_l",
+    "name_multiple": "bionic legs (draped)",
+    "name": "right bionic leg (draped)",
+    "locations_under": [ "leg_hip_r", "leg_upper_r" ]
+  },
+  {
+    "id": "arm_bionic_basic_shoulder_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "arm_bionic_basic_r",
+    "side": 2,
+    "opposite": "arm_bionic_basic_shoulder_l",
+    "name_multiple": "bionic shoulders",
+    "name": "right bionic shoulder"
+  },
+  {
+    "id": "arm_bionic_basic_upper_r",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "arm_bionic_basic_r",
+    "side": 2,
+    "opposite": "arm_bionic_basic_upper_l",
+    "name_multiple": "upper bionic arms",
+    "name": "right upper bionic arm"
+  },
+  {
+    "id": "arm_bionic_basic_elbow_r",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "arm_bionic_basic_r",
+    "side": 2,
+    "opposite": "arm_bionic_basic_elbow_l",
+    "name_multiple": "bionic elbows",
+    "name": "right bionic elbow"
+  },
+  {
+    "id": "arm_bionic_basic_lower_r",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "arm_bionic_basic_r",
+    "side": 2,
+    "opposite": "arm_bionic_basic_lower_l",
+    "name_multiple": "lower bionic arms",
+    "name": "right bionic forearm"
+  },
+  {
+    "id": "arm_bionic_basic_shoulder_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "arm_bionic_basic_l",
+    "side": 1,
+    "opposite": "arm_bionic_basic_shoulder_r",
+    "name_multiple": "bionic shoulders",
+    "name": "left bionic shoulder"
+  },
+  {
+    "id": "arm_bionic_basic_upper_l",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "arm_bionic_basic_l",
+    "side": 1,
+    "opposite": "arm_bionic_basic_upper_r",
+    "name_multiple": "upper bionic arms",
+    "name": "left upper bionic arm"
+  },
+  {
+    "id": "arm_bionic_basic_elbow_l",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "arm_bionic_basic_l",
+    "side": 1,
+    "opposite": "arm_bionic_basic_elbow_r",
+    "name_multiple": "bionic elbows",
+    "name": "left bionic elbow"
+  },
+  {
+    "id": "arm_bionic_basic_lower_l",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "arm_bionic_basic_l",
+    "side": 1,
+    "opposite": "arm_bionic_basic_lower_r",
+    "name_multiple": "lower bionic arms",
+    "name": "left bionic forearm"
+  },
+  {
+    "id": "leg_bionic_basic_hip_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "leg_bionic_basic_r",
+    "side": 2,
+    "opposite": "leg_bionic_basic_hip_l",
+    "name_multiple": "bionic hips",
+    "name": "right bionic hip"
+  },
+  {
+    "id": "leg_bionic_basic_upper_r",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "leg_bionic_basic_r",
+    "side": 2,
+    "opposite": "leg_bionic_basic_upper_l",
+    "name_multiple": "bionic thighs",
+    "name": "right bionic thigh"
+  },
+  {
+    "id": "leg_bionic_basic_knee_r",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_bionic_basic_r",
+    "side": 2,
+    "opposite": "leg_bionic_basic_knee_l",
+    "name_multiple": "bionic knees",
+    "name": "right bionic knee"
+  },
+  {
+    "id": "leg_bionic_basic_lower_r",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "leg_bionic_basic_r",
+    "side": 2,
+    "opposite": "leg_bionic_basic_lower_l",
+    "name_multiple": "bionic lower legs",
+    "name": "right bionic lower leg"
+  },
+  {
+    "id": "leg_bionic_basic_hip_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "leg_bionic_basic_l",
+    "side": 1,
+    "opposite": "leg_bionic_basic_hip_r",
+    "name_multiple": "bionic hips",
+    "name": "left bionic hip"
+  },
+  {
+    "id": "leg_bionic_basic_upper_l",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "leg_bionic_basic_l",
+    "side": 1,
+    "opposite": "leg_bionic_basic_upper_r",
+    "name_multiple": "bionic thighs",
+    "name": "left bionic thigh"
+  },
+  {
+    "id": "leg_bionic_basic_knee_l",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_bionic_basic_l",
+    "side": 1,
+    "opposite": "leg_bionic_basic_knee_r",
+    "name_multiple": "bionic knees",
+    "name": "left bionic knee"
+  },
+  {
+    "id": "leg_bionic_basic_lower_l",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "leg_bionic_basic_l",
+    "side": 1,
+    "opposite": "leg_bionic_basic_lower_r",
+    "name_multiple": "bionic lower legs",
+    "name": "left bionic lower leg"
+  },
+  {
+    "id": "hand_bionic_basic_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "hand_bionic_basic_r",
+    "side": 2,
+    "opposite": "hand_bionic_basic_wrist_l",
+    "name_multiple": "bionic wrists",
+    "name": "right bionic wrist"
+  },
+  {
+    "id": "hand_bionic_basic_palm_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_bionic_basic_r",
+    "side": 2,
+    "opposite": "hand_bionic_basic_palm_l",
+    "name_multiple": "bionic palms",
+    "name": "right bionic palm"
+  },
+  {
+    "id": "hand_bionic_basic_back_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_bionic_basic_r",
+    "side": 2,
+    "opposite": "hand_bionic_basic_back_l",
+    "name_multiple": "back of bionic hands",
+    "name": "right back of bionic hand"
+  },
+  {
+    "id": "hand_bionic_basic_fingers_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "hand_bionic_basic_r",
+    "side": 2,
+    "opposite": "hand_bionic_basic_fingers_l",
+    "name_multiple": "bionic fingers",
+    "name": "right bionic fingers"
+  },
+  {
+    "id": "hand_bionic_basic_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "hand_bionic_basic_l",
+    "side": 1,
+    "opposite": "hand_bionic_basic_wrist_r",
+    "name_multiple": "bionic wrists",
+    "name": "left bionic wrist"
+  },
+  {
+    "id": "hand_bionic_basic_palm_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_bionic_basic_l",
+    "side": 1,
+    "opposite": "hand_bionic_basic_palm_r",
+    "name_multiple": "bionic palms",
+    "name": "left bionic palm"
+  },
+  {
+    "id": "hand_bionic_basic_back_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_bionic_basic_l",
+    "side": 1,
+    "opposite": "hand_bionic_basic_back_r",
+    "name_multiple": "back of bionic hands",
+    "name": "left back of bionic hand"
+  },
+  {
+    "id": "hand_bionic_basic_fingers_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "hand_bionic_basic_l",
+    "side": 1,
+    "opposite": "hand_bionic_basic_fingers_r",
+    "name_multiple": "bionic fingers",
+    "name": "left bionic fingers"
+  },
+  {
+    "id": "foot_bionic_basic_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_bionic_basic_l",
+    "side": 1,
+    "opposite": "foot_bionic_basic_sole_r",
+    "name_multiple": "bionic foot bottoms",
+    "name": "left bionic foot bottom"
+  },
+  {
+    "id": "foot_bionic_basic_arch_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_bionic_basic_l",
+    "side": 1,
+    "opposite": "foot_bionic_basic_arch_r",
+    "name_multiple": "bionic foot arches",
+    "name": "left bionic foot arch"
+  },
+  {
+    "id": "foot_bionic_basic_toes_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "foot_bionic_basic_l",
+    "side": 1,
+    "opposite": "foot_bionic_basic_toes_r",
+    "name_multiple": "bionic toes",
+    "name": "left bionic toes"
+  },
+  {
+    "id": "foot_bionic_basic_ankle_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_bionic_basic_l",
+    "side": 1,
+    "opposite": "foot_bionic_basic_ankle_r",
+    "name_multiple": "bionic ankles",
+    "name": "left bionic ankle"
+  },
+  {
+    "id": "foot_bionic_basic_heel_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_bionic_basic_l",
+    "side": 1,
+    "opposite": "foot_bionic_basic_heel_r",
+    "name_multiple": "bionic heels",
+    "name": "left bionic heel"
+  },
+  {
+    "id": "foot_bionic_basic_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_bionic_basic_r",
+    "side": 2,
+    "opposite": "foot_bionic_basic_sole_l",
+    "name_multiple": "bionic foot bottoms",
+    "name": "right bionic foot bottom"
+  },
+  {
+    "id": "foot_bionic_basic_arch_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_bionic_basic_r",
+    "side": 2,
+    "opposite": "foot_arch_l",
+    "name_multiple": "bionic foot arches",
+    "name": "bionic right foot arch"
+  },
+  {
+    "id": "foot_bionic_basic_toes_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "foot_bionic_basic_r",
+    "side": 2,
+    "opposite": "foot_bionic_basic_toes_l",
+    "name_multiple": "bionic toes",
+    "name": "bionic right toes"
+  },
+  {
+    "id": "foot_bionic_basic_ankle_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_bionic_basic_r",
+    "side": 2,
+    "opposite": "foot_bionic_basic_ankle_l",
+    "name_multiple": "bionic ankles",
+    "name": "bionic right ankle"
+  },
+  {
+    "id": "foot_bionic_basic_heel_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_bionic_basic_r",
+    "side": 2,
+    "opposite": "foot_bionic_basic_heel_l",
+    "name_multiple": "bionic heels",
+    "name": "bionic right heel"
+  },
+  {
+    "id": "bionic_treads_body",
+    "type": "sub_body_part",
+    "max_coverage": 80,
+    "parent": "leg_bionic_treads",
+    "side": 0,
+    "opposite": "bionic_treads_treads",
+    "name_multiple": "bionic",
+    "name": "tank treads shell"
+  },
+  {
+    "id": "bionic_treads_treads",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "leg_bionic_treads",
+    "side": 0,
+    "opposite": "bionic_treads_body",
+    "name_multiple": "bionic treads",
+    "name": "tank treads tracks"
+  }
+]

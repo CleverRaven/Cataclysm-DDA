@@ -23,5 +23,10 @@
       "UNKNOWN",
       "ZOMBIE"
     ]
+  },
+  {
+    "type": "scent_type",
+    "id": "sc_vampire",
+    "receptive_species": [ "NETHER", "HORROR", "ABERRATION", "HALLUCINATION", "UNKNOWN" ]
   }
 ]

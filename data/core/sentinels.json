@@ -45,6 +45,12 @@
     "intensity_levels": [ { "name": "nothing" } ]
   },
   {
+    "id": "null",
+    "type": "fault",
+    "name": { "str": "This is a bug" },
+    "description": "This fault id is a reserved sentinel."
+  },
+  {
     "type": "SPELL",
     "id": "null",
     "name": { "str": "none" },

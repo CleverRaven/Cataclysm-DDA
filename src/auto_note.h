@@ -2,15 +2,19 @@
 #ifndef CATA_SRC_AUTO_NOTE_H
 #define CATA_SRC_AUTO_NOTE_H
 
-#include <iosfwd>
+#include <cstdint>
+#include <optional>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "cata_path.h"
-#include "map_extras.h"
-#include "string_id.h"
+#include "catacharset.h"
+#include "color.h"
+#include "map_extras.h"  // IWYU pragma: keep
+#include "type_id.h"
 
 namespace auto_notes
 {

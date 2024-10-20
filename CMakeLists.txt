@@ -78,8 +78,10 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
-    set(_OS_FREEBSD_ 1)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")
+    set(_OS_BSD_ 1)
 endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
@@ -312,8 +314,34 @@ if (CURSES)
     message(STATUS "Searching for Curses library --")
     set(CURSES_NEED_NCURSES TRUE)
     set(CURSES_NEED_WIDE TRUE)
-    find_package(Curses)
-    if (NOT CURSES_FOUND)
+    if (WIN32 AND VCPKG_MANIFEST_MODE)
+        find_package(unofficial-pdcurses CONFIG)
+        if(TARGET unofficial::pdcurses::pdcurses)
+            set(USE_PDCURSES TRUE)
+        endif()
+    elseif(MSYS2)
+        if(True) # GNU NCURSES: mingw-w64-ucrt-x86_64-ncurses
+            add_library(pdcurses STATIC IMPORTED)
+            set_target_properties(pdcurses PROPERTIES
+                IMPORTED_LOCATION $ENV{MSYSTEM_PREFIX}/lib/libncursesw.a
+                INTERFACE_INCLUDE_DIRECTORIES $ENV{MSYSTEM_PREFIX}/include/ncursesw
+            )
+            set(USE_PDCURSES FALSE)
+        else() # PDCursesMOD: mingw-w64-ucrt-x86_64-pdcurses
+            add_library(pdcurses STATIC IMPORTED)
+            set_target_properties(pdcurses PROPERTIES
+                IMPORTED_LOCATION $ENV{MSYSTEM_PREFIX}/lib/libpdcurses_wingui.a
+                INTERFACE_INCLUDE_DIRECTORIES $ENV{MSYSTEM_PREFIX}/include/pdcurses
+                INTERFACE_COMPILE_DEFINITIONS
+                "PDC_WIDE;PDC_FORCE_UTF8;PDC_NCMOUSE;PDC_RGB;CHTYPE_32"
+            )
+            set(USE_PDCURSES TRUE)
+        endif()
+        set(CURSES_FOUND True)
+    else ()
+        find_package(Curses)
+    endif ()
+    if (NOT (CURSES_FOUND OR TARGET unofficial::pdcurses::pdcurses))
         message(FATAL_ERROR
                 "This project requires ncurses to be installed to be compiled in text-only mode. \
                  Please install the ncurses development libraries, \
@@ -350,6 +378,9 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
+    endif ()
+    if (_OS_BSD_)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lexecinfo")
     endif ()
 endif ()
 

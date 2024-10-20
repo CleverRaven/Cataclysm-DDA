@@ -218,7 +218,7 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
+void mapgendata::square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }

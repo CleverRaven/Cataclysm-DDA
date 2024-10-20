@@ -1,0 +1,307 @@
+[
+  {
+    "id": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
+    "type": "mission_definition",
+    "name": { "str": "Bring me the heart of a Jabberwock" },
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 8,
+    "value": 0,
+    "item": "jabberwock_heart",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "forest_thick",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you as a new member of my court.",
+      "offer": "Prove to me that you have the heart of a knight.  Bring me the putrid heart of a Jabberwock.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "You will need incredible melee skills to handle this or an impressive gun.",
+      "inquire": "Have you brought me the favor I requested?",
+      "success": "I'm pleased to grant you a Melian mount of your own.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill two March lords in my name" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_march_lord",
+    "monster_kill_goal": 2,
+    "//": "Note: make this mission point to a border patrol office when doing so won't make the git checks fail",
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_lords_for_boann", "value": "yes" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill some of my opponents and I'll reward you handsomely.",
+      "offer": "Prove your allegiance to me.  Kill two March Lords so all will know which side you fight.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "They are fearsome opponents but lack long-range attacks.  You can find them in the border patrol offices.",
+      "inquire": "Have you did as I requested?",
+      "success": "I'm pleased to grant you the right to call upon the daffodil warriors.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_DOGTHING_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill this suspicious dog for me" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_thing",
+    "monster_kill_goal": 1,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "forest_thick",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_dog_thing", "x": 11, "y": 11 } ] }
+    },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_dogthing_for_boann", "value": "yes" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a dangerous monster in my honor and I shall reward you.",
+      "offer": "A dog-like being has been found nearby.  Whatever it is, it's not a dog.  Kill it, and I will teach you how to see beyond barriers.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "Do not be deceived by its looks.  It is not a regular dog.  Be very careful as we do not know what it can do.",
+      "inquire": "Have you brought me the favor I requested?",
+      "success": "I will now grant you the knowledge to see beyond all walls.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill five Mi-Go guards for me" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_mi_go_guard",
+    "monster_kill_goal": 5,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mi-go_camp1",
+        "om_special": "Mi-Go Encampment",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 200
+      }
+    },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "killed_five_mi_go_guards_for_boann", "value": "yes" }
+    },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll grant you a reward.",
+      "offer": "A knight must be able to face harsh conditions.  Kill five Mi-Go guards and you'll receive an object able to refuel your magical energy.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "Something to protect yourself from the fumes and heat is a must.  They are smart enough to feel fear, so if they're injured enough they'll stop attacking and try to flee.",
+      "inquire": "Have you killed the guards?",
+      "success": "Here is the object.  As promised, using it will recharge your mana.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill an armored centipede for me" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_centipede_mega",
+    "monster_kill_goal": 1,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_centipede_mega", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "killed_armored_centipede_for_boann", "value": "yes" }
+    },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you.",
+      "offer": "A knight must know how to triumph despite their foe's armor.  Kill an armored centipede and I'll grant you an insignia, so you might be recognized as one of my knights.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "Study the weak spots of weaker centipedes, it'll give you an advantage.  Its armor isn't as effective against blunt and piercing weapon than it is against slashing weapons and bullets.",
+      "inquire": "Have you slain the centipede?",
+      "success": "I'm honored to grant you this insignia.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill the remains of a dreamforged automaton" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_dreamforged_automaton",
+    "monster_kill_goal": 1,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_dreamforged_automaton", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_automaton_for_boann", "value": "yes" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great foe in my honor and I'll reward you.",
+      "offer": "A rampaging automaton has been spotted.  Destroy it, and you'll be granted a great weapon.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "The reports mentioned that it relies on electricity to attack.  Find a way to shield yourself against that, and it'll be much easier to kill.  The reports also mentioned how damaged the automaton's exposed insides are, so I wouldn't attempt to use weapons that only damage the insides if I were you.",
+      "inquire": "Have you slain the automaton as I requested?",
+      "success": "I'm pleased to grant you a frostrimed estoc.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_GET_TRIFFID_HEART_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Bring me a chunk of a triffid heart" },
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 8,
+    "value": 0,
+    "item": "triffid_heart_chunk",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "triffid_grove",
+        "om_special": "Triffid Grove",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 580
+      }
+    },
+    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you as a new member of my knights.",
+      "offer": "I want you to brave the harshest environments.  Bring me a chunk of a triffid heart and I'll grant you a powerful set of armor.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "Tear gas is deadly to them.  In addition, they don't go along with anything that isn't a triffid.",
+      "inquire": "Have you brought me the favor I requested?",
+      "success": "I'm pleased to grant you a set of armor appropriate for a knight.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill a titan stag beetle for me" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_stag_beetle_mega",
+    "monster_kill_goal": 1,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_stag_beetle_mega", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_titan_beetle_for_boann", "value": "yes" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you.",
+      "offer": "A knight must be able to triumph of all beasts.  Kill a titan stag beetle and you'll receive a magical musical instrument.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "Mundane weapons won't do much so try to find something that bypasses its armor.  It's also very slow so keeping your distance is easy.  Learning the weak points of smaller beetles and using high-power ammunitions can work too but expect its shell to block most shots.",
+      "inquire": "Have you slain the titanic beetle?",
+      "success": "I give you Väinämöinen's Kantele.  Take care of it, for it is very precious.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Bring me a piece of the darkest shadow" },
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 8,
+    "value": 0,
+    "item": "shadow_singularity_piece",
+    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you.",
+      "offer": "There's a shadow that haunts the night.  Bring me proof that you killed it and I'll grant you the right to bear my banner.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "To encounter it, stand alone or accompanied by at most two allies in a field or a forest at night.  It might take multiple nights for it to show itself so prepare something to do while you wait.  Light massively weaken it so ensure the battlefield is well lit.  Separate it from its minions, as it can create more than you'll manage to kill and heal its wounds over time.  It is also particularly resilient against bullets so engage in melee if you manage to get close enough.",
+      "inquire": "Have you slain the shadow?",
+      "success": "I am honored to give you this banner.  Wear it with pride, as you more than earned that right.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  },
+  {
+    "id": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN",
+    "type": "mission_definition",
+    "name": { "str": "Kill a star-crowned hound in my name" },
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "difficulty": 8,
+    "value": 0,
+    "monster_type": "mon_tindalos",
+    "monster_kill_goal": 1,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_tindalos", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "killed_star_crown_hound_for_boann", "value": "yes" }
+    },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you.",
+      "offer": "Knight, I ask you to kill a star-crowned hound.  This will be a difficult challenge but I trust that you will prevail against this mighty foe.  Kill it and a necklace that will amplify your magical abilities will be yours.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "It is strong but slow, so disengaging is possible.  It will summon hounds, but they quickly fade away so they aren't that much of an issue compared to it.  Stand away from corners in walls as it can teleport to them.  It has no armor against fire, electricity and blunt weapons but it quickly heal all its wounds so continuous heavy damage is the key to kill it.  If you cannot manage to injure it, do not hesitate to withdraw and try another way to kill it.",
+      "inquire": "Have you slain the hound from beyond reality?",
+      "success": "I give you this necklace as a gift for your services.  May it serve you well.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  }
+]

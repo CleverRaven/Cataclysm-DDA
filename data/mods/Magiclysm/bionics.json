@@ -20,7 +20,7 @@
     "description": "Internal tank for blood power generator bionic.",
     "volume": "751 ml",
     "weight": "1 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "plastic" ],
     "symbol": "(",
     "color": "magenta",

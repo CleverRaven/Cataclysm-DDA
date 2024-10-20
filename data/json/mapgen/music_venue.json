@@ -94,7 +94,6 @@
       },
       "place_loot": [
         { "group": "cash_register_random", "x": 10, "y": 16 },
-        { "chance": 20, "item": "tshirt_tour", "x": [ 8, 19 ], "y": [ 6, 12 ], "repeat": [ 1, 5 ] },
         { "item": "amplifier_head", "x": 3, "y": 10 },
         { "chance": 10, "item": "amplifier_head", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
         { "chance": 5, "item": "amplifier_head", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] },

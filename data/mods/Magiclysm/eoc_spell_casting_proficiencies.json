@@ -153,6 +153,44 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SPELLCASTING_ENERVATION_PROFICIENCY_ADD",
+    "global": false,
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      { "math": [ "u_prof_lowest", "=", "4" ] },
+      {
+        "if": { "math": [ "u_proficiency('prof_magic_enervation_beginner', 'format': 'percent')", ">=", "100" ] },
+        "then": [
+          {
+            "if": { "math": [ "u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "then": [
+              {
+                "if": { "math": [ "u_proficiency('prof_magic_enervation_master', 'format': 'percent')", ">=", "100" ] },
+                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "else": [
+                  { "math": [ "u_proficiency('prof_magic_enervation_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
+                  { "math": [ "u_prof_level", "=", "2" ] },
+                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                ]
+              }
+            ],
+            "else": [
+              { "math": [ "u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
+              { "math": [ "u_prof_level", "=", "1" ] },
+              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+            ]
+          }
+        ],
+        "else": [
+          { "math": [ "u_proficiency('prof_magic_enervation_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
+          { "math": [ "u_prof_level", "=", "0" ] },
+          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_CONVEYANCE_PROFICIENCY_ADD",
     "global": false,
     "eoc_type": "ACTIVATION",
@@ -185,6 +223,251 @@
           { "math": [ "u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
           { "math": [ "u_prof_level", "=", "0" ] },
           { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELLCASTING_RESTORATION_PROFICIENCY_ADD",
+    "global": false,
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      { "math": [ "u_prof_lowest", "=", "4" ] },
+      {
+        "if": { "math": [ "u_proficiency('prof_magic_restoration_beginner', 'format': 'percent')", ">=", "100" ] },
+        "then": [
+          {
+            "if": { "math": [ "u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "then": [
+              {
+                "if": { "math": [ "u_proficiency('prof_magic_restoration_master', 'format': 'percent')", ">=", "100" ] },
+                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "else": [
+                  { "math": [ "u_proficiency('prof_magic_restoration_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
+                  { "math": [ "u_prof_level", "=", "2" ] },
+                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                ]
+              }
+            ],
+            "else": [
+              { "math": [ "u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
+              { "math": [ "u_prof_level", "=", "1" ] },
+              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+            ]
+          }
+        ],
+        "else": [
+          { "math": [ "u_proficiency('prof_magic_restoration_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
+          { "math": [ "u_prof_level", "=", "0" ] },
+          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELLCASTING_TRANSFORMATION_PROFICIENCY_ADD",
+    "global": false,
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      { "math": [ "u_prof_lowest", "=", "4" ] },
+      {
+        "if": { "math": [ "u_proficiency('prof_magic_transformation_beginner', 'format': 'percent')", ">=", "100" ] },
+        "then": [
+          {
+            "if": { "math": [ "u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "then": [
+              {
+                "if": { "math": [ "u_proficiency('prof_magic_transformation_master', 'format': 'percent')", ">=", "100" ] },
+                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "else": [
+                  { "math": [ "u_proficiency('prof_magic_transformation_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
+                  { "math": [ "u_prof_level", "=", "2" ] },
+                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                ]
+              }
+            ],
+            "else": [
+              { "math": [ "u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
+              { "math": [ "u_prof_level", "=", "1" ] },
+              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+            ]
+          }
+        ],
+        "else": [
+          { "math": [ "u_proficiency('prof_magic_transformation_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
+          { "math": [ "u_prof_level", "=", "0" ] },
+          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EVOCATION_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('damage', 'flag_whitelist': 'EVOCATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_evocation_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_evocation_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_evocation_master', 'format': 'percent') / 1000) )"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANNELING_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'CHANNELING_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_channel_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_channel_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CHANNELING_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_channel_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_channel_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURATION_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('duration', 'flag_whitelist': 'CONJURATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_summon_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_summon_master', 'format': 'percent') / 1000) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CONJURATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_summon_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_summon_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENHANCEMENT_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('duration', 'flag_whitelist': 'ENHANCEMENT_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enhancement_master', 'format': 'percent') / 1000) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'ENHANCEMENT_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enhancement_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENERVATION_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('duration', 'flag_whitelist': 'ENERVATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_enervation_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enervation_master', 'format': 'percent') / 1000) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('aoe', 'flag_whitelist': 'ENERVATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_enervation_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_enervation_master', 'format': 'percent') / 1000) )"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONVEYANCE_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CONVEYANCE_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_conveyance_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('range', 'flag_whitelist': 'CONVEYANCE_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_conveyance_master', 'format': 'percent') / 1000) )"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESTORATION_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('damage', 'flag_whitelist': 'RESTORATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_restoration_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_master', 'format': 'percent') / 1000) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'RESTORATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_restoration_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TRANSFORMATION_SPELLS_PROFICIENCY_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'TRANSFORMATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_transformation_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_transformation_master', 'format': 'percent') / 1000) ) * -1"
+        ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('duration', 'flag_whitelist': 'TRANSFORMATION_SPELL')",
+          "=",
+          "( (u_proficiency('prof_magic_transformation_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_transformation_master', 'format': 'percent') / 1000) )"
         ]
       }
     ]

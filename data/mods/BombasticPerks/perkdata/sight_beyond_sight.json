@@ -1,0 +1,26 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_sight_beyond_sight_active",
+    "name": { "str": "Sight Beyond Sight Active" },
+    "points": 0,
+    "player_display": false,
+    "description": "Your Sight Beyond Sight is active.  You should never see this.",
+    "enchantments": [
+      {
+        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+      }
+    ],
+    "flags": [ "BLIND" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_sight_beyond_sight_ON",
+    "condition": { "not": { "u_has_trait": "perk_sight_beyond_sight_active" } },
+    "effect": [
+      { "u_add_trait": "perk_sight_beyond_sight_active" },
+      { "u_message": "You close your eyes and feel the air.", "type": "good" }
+    ],
+    "false_effect": [ { "u_lose_trait": "perk_sight_beyond_sight_active" }, { "u_message": "You open your eyes.", "type": "neutral" } ]
+  }
+]

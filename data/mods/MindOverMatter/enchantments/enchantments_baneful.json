@@ -1,6 +1,17 @@
 [
   {
     "type": "enchantment",
+    "id": "ench_nemesis_buff",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "SPEED", "add": { "math": [ "Nemesis_iteration * 1" ] } },
+      { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+      { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+      { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+    ]
+  },
+  {
+    "type": "enchantment",
     "id": "enchant_riftwalker_teleport",
     "condition": "ALWAYS",
     "has": "HELD",

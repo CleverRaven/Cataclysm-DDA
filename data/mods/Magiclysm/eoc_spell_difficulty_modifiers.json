@@ -1,0 +1,132 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GRABBED_ARMS_MAKES_SOMATIC_SPELLS_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "grabbed", "bodypart": "arm_r" }, { "u_has_effect": "grabbed", "bodypart": "arm_l" } ] },
+        { "not": { "u_has_flag": "SUBTLE_SPELL" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )",
+          "=",
+          "(u_effect_intensity('grabbed', 'bodypart': 'arm_l') + u_effect_intensity('grabbed', 'bodypart': 'arm_r') ) / 10"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GRABBED_HANDS_MAKES_SOMATIC_SPELLS_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "grabbed", "bodypart": "hand_r" }, { "u_has_effect": "grabbed", "bodypart": "hand_l" } ] },
+        { "not": { "u_has_flag": "SUBTLE_SPELL" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )",
+          "=",
+          "(u_effect_intensity('grabbed', 'bodypart': 'hand_l') + u_effect_intensity('grabbed', 'bodypart': 'hand_r') ) / 5"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_CHANNELING_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_CHANNELING_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'CHANNELING_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CHANNELING_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_EVOCATION_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_EVOCATION_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'EVOCATION_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'EVOCATION_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_CONJURATION_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_CONJURATION_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'CONJURATION_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CONJURATION_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_ENHANCEMENT_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_ENHANCEMENT_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'ENHANCEMENT_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'ENHANCEMENT_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_ENERVATION_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_ENERVATION_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'ENERVATION_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'ENERVATION_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_CONVEYANCE_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_CONVEYANCE_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'CONVEYANCE_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'CONVEYANCE_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_RESTORATION_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_RESTORATION_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'RESTORATION_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'RESTORATION_SPELL')", "=", "999" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_CASTING_TRANSFORMATION_SPELLS_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "NO_CASTING_TRANSFORMATION_SPELLS" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'TRANSFORMATION_SPELL')", "=", "999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'TRANSFORMATION_SPELL')", "=", "999" ] }
+    ]
+  }
+]

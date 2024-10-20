@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coords_fwd.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
 #include "point.h"
@@ -74,7 +75,9 @@ class scent_map
          */
         /**@{*/
         void set( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
+        // TODO: Get rid of untyped override
         int get( const tripoint &p ) const;
+        int get( const tripoint_bub_ms &p ) const;
         /**@}*/
         void set_unsafe( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
         int get_unsafe( const tripoint &p ) const;

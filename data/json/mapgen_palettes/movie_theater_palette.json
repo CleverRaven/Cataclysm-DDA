@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "movie_theater_palette.json",
     "furniture": {
+      "a": "f_atm_off",
       "T": "f_counter",
       "f": "f_counter",
       "&": "f_toilet",
@@ -26,11 +27,10 @@
       "@": "f_sofa",
       "o": "f_oven",
       "r": "f_rack",
-      "F": "f_vending_c",
-      "v": "f_vending_c",
       "Z": "f_console_broken",
       "N": "f_bulletin"
     },
+    "vendingmachines": { "F": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
     "terrain": {
       "$": "t_carpet_green",
       "#": "t_carpet_purple",
@@ -49,7 +49,6 @@
       "^": "t_door_glass_c",
       "D": "t_door_metal_pickable",
       "d": "t_door_locked",
-      "a": "t_atm",
       "w": "t_window",
       "-": "t_railing_h",
       "R": "t_railing_h",

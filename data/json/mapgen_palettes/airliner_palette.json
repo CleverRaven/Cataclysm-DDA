@@ -28,7 +28,7 @@
     "furniture": {
       "a": "f_seat_airplane",
       "c": "f_counter",
-      "f": "f_fridge",
+      "f": "f_heavy_duty_fridge",
       "l": "f_locker",
       "S": "f_sink",
       "x": "f_console_broken",

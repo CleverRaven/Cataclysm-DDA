@@ -20,7 +20,7 @@
     "using": [ [ "volatile_explosive", 20, "LIST" ], [ "explosives_casting_standard", 1 ] ],
     "components": [
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "super_glue", 4 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "small_grenade_case", 1, "LIST" ] ],
       [ [ "matrix_crystal_pyrokin_dust", 5 ], [ "matrix_crystal_pyrokin_dust_refined", 1 ] ]
     ]

@@ -87,7 +87,7 @@
         " -......--------......- ",
         " -..U.................- ",
         " -........oooo........- ",
-        " -........oooo....M...- ",
+        " -........oooo....K...- ",
         " -..Z.....oooo........- ",
         " -........oooo........- ",
         " -....................- ",
@@ -109,7 +109,7 @@
       "palettes": [ "roof_palette" ],
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
         "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
       },
       "place_nested": [
@@ -230,7 +230,7 @@
         " -....................- ",
         " -....................--",
         " -.....................-",
-        " -.................M...-",
+        " -.............K.......-",
         " -.....................-",
         " -....Z...............--",
         " -....................- ",
@@ -240,7 +240,7 @@
       "palettes": [ "roof_palette" ],
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
         "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
       },
       "place_nested": [

@@ -1,32 +1,32 @@
 # Строки длиннее 78 символов будут автоматически перенесены
 # Следующая строка для сравнения
 ##############################################################################
-<color_white>Автор идеи:</color>   <color_white>Руководитель проекта:</color>
-<color_yellow>Whales</color>(<color_dark_gray>отошел от разработки</color>)   <color_yellow>KevinGranade</color>
+<color_white>Автор оригинала:</color>                <color_white>Руководитель проекта:</color>
+<color_yellow>Whales</color> (<color_dark_gray>отошёл от разработки</color>)   <color_yellow>KevinGranade</color>
 
-<color_white>Главные разработчики:</color>
-<color_yellow>I-am-Erk</color> - Ultica, лор, генератор идей.
-<color_yellow>KorGgenT</color> - Профессионально стрижет яков.
+<color_white>Текущие главные разработчики:</color>
+<color_yellow>I-am-Erk</color> — Ultica, писатель лора, генератор идей.
+<color_yellow>KorGgenT</color> — профессионально стрижёт яков.
 
 <color_white>Особая благодарность:</color>
-<color_yellow>anothersimulacrum</color> - Влетел и сделал много сложных штук.
-<color_yellow>BombasticSlacks</color> - За улучшение системы брони и за то, что заставил нас потеть.
-<color_yellow>Fris0uman</color> - За то, что наши холодильники теперь работают.
- <color_yellow>John-Candlebury</color> - За Хаб01 и другие прекрасные локации.
-<color_yellow>jbytheway</color> - За параметрический генератор карт и изменяемые локации.
-<color_yellow>BrettDong</color> - За переводы и разбор сложных багов.
-<color_yellow>wapcaplet</color> - За классные штуки для боковой панели.
-<color_yellow>ZhilkinSerg</color> - За объединение всех штук.
-<color_yellow>Rivet-the-Zombie</color> - За приверженность рекорду "один мердж в день".
-<color_yellow>Night-Pryanik</color> - За бесчисленное множество исправлений и улучшений.
-<color_yellow>Qrox</color> - За улучшение инфраструктуры UI.
-<color_yellow>Ramza13</color> - За превращение JSON в тьюринг-полный язык.
-<color_yellow>Drew4484</color> - За всю сталь.
-<color_yellow>LyleSY</color> - За еще больше динозавррров.
-<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, и <color_yellow>Eltank</color>.
+<color_yellow>anothersimulacrum</color> — влетел и сделал много сложных штук.
+<color_yellow>BombasticSlacks</color> — за улучшение системы брони и за то, что заставил нас потеть.
+<color_yellow>Fris0uman</color> — за то, что наши холодильники теперь работают.
+<color_yellow>John-Candlebury</color> — за Центр 01 и другие прекрасные локации.
+<color_yellow>jbytheway</color> — за параметрический генератор карт и изменяемые локации.
+<color_yellow>BrettDong</color> — за переводы и разбор запутанных багов.
+<color_yellow>wapcaplet</color> — за классные штуки для боковой панели.
+<color_yellow>ZhilkinSerg</color> — за слияния запросов.
+<color_yellow>Rivet-the-Zombie</color> — за приверженность рекорду «одно слияние в день».
+<color_yellow>Night-Pryanik</color> — за бесчисленное множество исправлений и улучшений.
+<color_yellow>Qrox</color> — за улучшение инфраструктуры интерфейса.
+<color_yellow>Ramza13</color> — за превращение JSON в тьюринг-полный язык.
+<color_yellow>Drew4484</color> — за всю сталь.
+<color_yellow>LyleSY</color> — за ещё больше динозавррров.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color> и <color_yellow>Eltank</color>.
 
 <color_white>Особая благодарность за художественный вклад:</color>
-<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, и многим другим.
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color> и многим другим.
 
 <color_white>Полный список участников разработки доступен здесь:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -37,20 +37,20 @@
 ******************************************************************************
 
 <color_white>Главные разработчики (<color_cyan>0.F</color>):</color>
-<color_yellow>mlangsdorf</color> - транспорт, лодки, лагеря и руководства по созданию модификаций.
-<color_yellow>I-am-Erk</color> - Наследие Ultica живёт.
-<color_yellow>KorGgenT</color> - Не даёт подсказок, куда класть доски.
+<color_yellow>mlangsdorf</color> — транспорт, лодки, лагеря и руководства по созданию модификаций.
+<color_yellow>I-am-Erk</color> — наследие Ultica живёт.
+<color_yellow>KorGgenT</color> — не даёт подсказок куда класть доски.
 
 <color_white>Особая благодарность (<color_cyan>0.F</color>):</color>
-<color_yellow>Aivean</color> - За выдающуюся производительность.
-<color_yellow>anothersimulacrum</color> - За выматывание меня.
-<color_yellow>jbytheway</color> - За мотивирование меня.
-<color_yellow>BrettDong</color> - За переводы и многое другое.
-<color_yellow>Qrox</color> - За показ места, вызывающего сообщения об ошибках.
-<color_yellow>LyleSY</color> - За динозаврррров.
+<color_yellow>Aivean</color> — за выдающуюся производительность.
+<color_yellow>anothersimulacrum</color> — за выматывание меня.
+<color_yellow>jbytheway</color> — за мотивирование меня.
+<color_yellow>BrettDong</color> — за переводы и многое другое.
+<color_yellow>Qrox</color> — за показ места, вызывающего ошибки.
+<color_yellow>LyleSY</color> — за динозаврррров.
 
-<color_white>Особая благодарность за художественный вклад (<color_cyan>0.F):</color>
-<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, и многим другим.
+<color_white>Особая благодарность за художественный вклад (<color_cyan>0.F</color>):</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color> и многим другим.
 
 <color_white>Полный список участников разработки доступен здесь:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -61,23 +61,23 @@
 ******************************************************************************
 
 <color_white>Главные разработчики (<color_cyan>0.E</color>):</color>
-<color_yellow>mlangsdorf</color> - транспорт, лодки, лагеря и руководства по созданию модификаций.
-<color_yellow>I-am-Erk</color> - Тайлсет Ultica, диалоги, неигровые персонажи, генерация предметов в кухнях.
-<color_yellow>KorGgenT</color> - Маглицизм и боли в желудке.
+<color_yellow>mlangsdorf</color> — транспорт, лодки, лагеря и руководства по созданию модификаций.
+<color_yellow>I-am-Erk</color> — Ultica, диалоги, NPC, генерация предметов в кухнях.
+<color_yellow>KorGgenT</color> — Магиклизм и боли в желудке.
 
 <color_white>Особая благодарность (<color_cyan>0.E</color>):</color>
-<color_yellow>Narc</color> - за поддержку бота для автоматических билдов в Jenkins.
-<color_yellow>Rivet-the-Zombie</color> - за принятие нового пулл-реквеста каждый день.
-<color_yellow>BevapDin</color> - за рецензирование кода и работу над рефакторингом.
-<color_yellow>BrettDong</color> - за переводы.
-<color_yellow>curstwist</color> - за крыши, генерацию мира, неигровых персонажей и логи изменений.
-<color_yellow>davidpwbrown</color> - за автоперемещение и автовождение, а еще за верховую езду.
-<color_yellow>jbytheway</color> - за работу по непрерывной интеграции и доводы в пользу трехмерных координат.
-<color_yellow>Hymore246</color> - за обновление системы боевых искусств.
-<color_yellow>Qrox</color> - за читаемые бэктрейсы для версий под Windows.
-<color_yellow>ZhilkinSerg</color> - за тестирование.
+<color_yellow>Narc</color> — за поддержку автоматического билд-бота Jenkins.
+<color_yellow>Rivet-the-Zombie</color> — за слияния пулл-реквестов каждый день.
+<color_yellow>BevapDin</color> — за рецензирование кода и работу над рефакторингом.
+<color_yellow>BrettDong</color> — за переводы.
+<color_yellow>curstwist</color> — за крыши, генерацию мира, NPC и логи изменений.
+<color_yellow>davidpwbrown</color> — за автоперемещение и автовождение, а ещё за верховую езду.
+<color_yellow>jbytheway</color> — за работу по непрерывной интеграции и трёхмерные координаты.
+<color_yellow>Hymore246</color> — за обновление системы боевых искусств.
+<color_yellow>Qrox</color> — за читаемые бэктрейсы для версий под Windows.
+<color_yellow>ZhilkinSerg</color> — за тестирование.
 
-Полный список участников разработки доступен в хранилище Git:
+<color_white>Полный список участников разработки доступен в репозитории Git:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
 
 ******************************************************************************
@@ -86,10 +86,10 @@
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
 <color_white>Особая благодарность (<color_cyan>0.D</color>):</color>
-<color_yellow>Narc</color> - За настройку автоматического билд-бота Jenkins.
-<color_yellow>Acidia</color> - За потрясающий вклад в квесты, НПС и локации.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - За громадную работу по переводу игры.
-<color_yellow>HuXTUS</color> - За целое море классного контента.
+<color_yellow>Narc</color> — за настройку автоматического билд-бота Jenkins.
+<color_yellow>Acidia</color> — за потрясающий вклад в квесты, NPC и локации.
+<color_yellow>Wuzzy</color> и <color_yellow>VlasovVitaly</color> — за громадную работу по переводу игры.
+<color_yellow>HuXTUS</color> — за целое море классного контента.
 
 ******************************************************************************
 
@@ -97,10 +97,10 @@
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
 <color_white>Особая благодарность (<color_cyan>0.C</color>):</color>
-<color_yellow>Narc</color> - За настройку автоматического билд-бота Jenkins.
-<color_yellow>Acidia</color> - За потрясающий вклад в квесты, НПС и локации.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - За громадную работу по переводу игры.
-<color_yellow>HuXTUS</color> - За целое море классного контента.
+<color_yellow>Narc</color> — за настройку автоматического билд-бота Jenkins.
+<color_yellow>Acidia</color> — за потрясающий вклад в квесты, NPC и локации.
+<color_yellow>Wuzzy</color> и <color_yellow>VlasovVitaly</color> — за громадную работу по переводу игры.
+<color_yellow>HuXTUS</color> — за целое море классного контента.
 
 ******************************************************************************
 
@@ -108,11 +108,11 @@
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
 <color_white>Особая благодарность (<color_cyan>0.B</color>):</color>
-<color_yellow>Narc</color> - За настройку автоматического билд-бота Jenkins.
-<color_yellow>Acidia</color> - За потрясающий вклад в квесты, НПС и локации.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - За громадную работу по переводу игры.
-<color_yellow>i2amroy</color> - За большую переработку инфраструктуры игры.
-<color_yellow>HuXTUS</color> - За целое море классного контента.
+<color_yellow>Narc</color> — за настройку автоматического билд-бота Jenkins.
+<color_yellow>Acidia</color> — за потрясающий вклад в квесты, NPC и локации.
+<color_yellow>Wuzzy</color> и <color_yellow>VlasovVitaly</color> — за громадную работу по переводу игры.
+<color_yellow>i2amroy</color> — за большую переработку инфраструктуры игры.
+<color_yellow>HuXTUS</color> — за целое море классного контента.
 
 ******************************************************************************
 
@@ -120,11 +120,11 @@
 <color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
 <color_white>Особая благодарность (<color_cyan>0.A</color>):</color>
-<color_yellow>TheDarklingWolf</color> - За создание той самой Cataclysm:DDA, которую мы знаем.
-<color_yellow>Narc</color> - За настройку автоматического билд-бота Jenkins.
-<color_yellow>BevapDin</color> - За безостановочную охоту на баги.
-<color_yellow>dwarfkoala</color> - За изобилие багофиксов.
-<color_yellow>Ill-kun</color> - За бесчётные чистки игрового интерфейса.
+<color_yellow>TheDarklingWolf</color> — за создание той самой Cataclysm:DDA, которую мы знаем.
+<color_yellow>Narc</color> — за настройку автоматического билд-бота Jenkins.
+<color_yellow>BevapDin</color> — за безостановочную охоту на баги.
+<color_yellow>dwarfkoala</color> — за изобилие багфиксов.
+<color_yellow>Ill-kun</color> — за бесчётные чистки интерфейса.
 
 ******************************************************************************
 
@@ -132,10 +132,10 @@
 <color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
 <color_white>Особая благодарность (<color_cyan>0.9</color>):</color>
-<color_yellow>TheDarklingWolf</color> - За создание той самой Cataclysm:DDA, которую мы знаем.
-<color_yellow>Narc</color> - За настройку автоматического билд-бота Jenkins.
-<color_yellow>yobbobanana</color> - За посредничество между переводчиками и GitHub'ом.
-<color_yellow>Анжела 'Rivet' Грейвс</color>, Непоколебимый Генератор Катаклизмических Идей.
+<color_yellow>TheDarklingWolf</color> — за создание той самой Cataclysm:DDA, которую мы знаем.
+<color_yellow>Narc</color> — за настройку автоматического билд-бота Jenkins.
+<color_yellow>yobbobanana</color> — за посредничество между переводчиками и GitHub'ом.
+<color_yellow>Анжела «Rivet» Грейвс</color> — Непоколебимый Генератор Катаклизмических Идей.
 
 ******************************************************************************
 
@@ -143,6 +143,6 @@
 <color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
 
 <color_white>Особая благодарность (<color_cyan>0.8</color>):</color>
-<color_yellow>TheDarklingWolf</color> - За создание той самой Cataclysm:DDA, которую мы знаем.
-<color_yellow>Narc</color> - За настройку автоматического билд-бота Jenkins.
-<color_yellow>yobbobanana</color> - За посредничество между переводчиками и GitHub'ом.
+<color_yellow>TheDarklingWolf</color> — за создание той самой Cataclysm:DDA, которую мы знаем.
+<color_yellow>Narc</color> — за настройку автоматического билд-бота Jenkins.
+<color_yellow>yobbobanana</color> — за посредничество между переводчиками и GitHub'ом.

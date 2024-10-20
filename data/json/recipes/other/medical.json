@@ -77,10 +77,10 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
-    "//": "3 units of water + 114g of cotton, bandages will soak up some of the water but the rest should be potable",
+    "//": "3 units of water + 114g of cotton, bandages will soak up some of the water but the rest should be returned",
     "result_mult": 9,
-    "components": [ [ [ "bandages_makeshift", 9 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ],
-    "byproducts": [ [ "water_clean", 2 ] ]
+    "components": [ [ [ "bandages_makeshift", 9 ] ], [ [ "water_clean", 3 ] ] ],
+    "byproducts": [ [ "water", 2 ] ]
   },
   {
     "result": "adhesive_bandages",
@@ -304,7 +304,7 @@
         [ "metal_funnel", 2 ]
       ],
       [ [ "hose", 1 ] ],
-      [ [ "condom", 1 ], [ "balloon", 1 ] ]
+      [ [ "any_condom", 1, "LIST" ], [ "balloon", 1 ] ]
     ]
   },
   {

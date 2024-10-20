@@ -5,6 +5,9 @@
   * [Dependencies](#dependencies)
   * [Make flags](#make-flags)
   * [Compiling localization files](#compiling-localization-files)
+* [Fedora](#fedora)
+  * [ncurses builds](#ncurses-builds)
+  * [SDL builds](#sdl-builds)
 * [Debian](#debian)
   * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
   * [Linux (native) SDL builds](#linux-native-sdl-builds)
@@ -115,11 +118,50 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 
 [llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [our llama README](../../tools/llama/README.md) for more details.
 
-# Debian
+# Fedora
+## Ncurses builds
 
-Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
+Dependencies:
 
-The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
+  * ncurses
+  * g++ and make
+
+Install:
+
+    sudo dnf install astyle gcc-c++ ncurses-devel make
+
+### Building
+
+Run:
+
+    make
+
+## SDL builds
+
+Dependencies:
+
+  * SDL2
+  * SDL2_image
+  * SDL2_ttf
+  * freetype
+  * g++ and make
+  * libsdl2-mixer-dev - Used if compiling with sound support.
+
+Install:
+
+    sudo dnf install astyle gcc-c++ SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel freetype-devel make
+
+### Building
+
+A simple installation could be done by simply running:
+
+    make TILES=1
+
+A more comprehensive alternative is:
+
+    make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
+
+The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
 # Gentoo
 If you want sound and graphics, make sure to emerge with the following:
@@ -134,6 +176,14 @@ It may also be possible to get away with fewer dependencies, but this set has be
 Once the above libraries are installed, compile with:
 
     make -j$(nproc) TILES=1 SOUND=1 RELEASE=1
+
+
+# Debian
+
+Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
+
+The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
+
 
 ## Linux (native) ncurses builds
 

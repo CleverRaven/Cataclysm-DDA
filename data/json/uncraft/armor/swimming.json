@@ -1,0 +1,18 @@
+[
+  {
+    "result": "bikini_bottom_short",
+    "type": "uncraft",
+    "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "lycra_patch", 3 ] ], [ [ "thread_nomex", 3 ] ] ]
+  },
+  {
+    "result": "bikini_top_short",
+    "type": "uncraft",
+    "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "lycra_patch", 3 ] ], [ [ "thread_nomex", 3 ] ] ]
+  }
+]

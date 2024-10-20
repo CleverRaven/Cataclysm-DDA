@@ -39,19 +39,19 @@
     "id": "raptor_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "raptor_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "raptor_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "tyrant_sample_single",
@@ -63,19 +63,19 @@
     "id": "tyrant_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "tyrant_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "tyrant_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "tyrant_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "tyrant_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "tyrant_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "stego_sample_single",
@@ -87,19 +87,19 @@
     "id": "stego_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "stego_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "stego_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "stego_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "stego_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "stego_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "horns_sample_single",
@@ -111,19 +111,19 @@
     "id": "horns_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "horns_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "horns_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "horns_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "horns_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "horns_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "horns_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "horns_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "horns_sample", "count": [ 10, 20 ] } ]
   },
   {
     "type": "item_group",

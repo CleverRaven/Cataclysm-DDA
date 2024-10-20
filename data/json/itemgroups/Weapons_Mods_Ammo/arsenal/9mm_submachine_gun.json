@@ -53,8 +53,7 @@
       { "item": "btmp9mag_9x19mm_10rd", "prob": 100 },
       { "item": "btmp9mag_9x19mm_20", "prob": 200 },
       { "item": "btmp9mag_9x19mm_25", "prob": 300 },
-      { "item": "btmp9mag_9x19mm_30", "prob": 400 },
-      { "item": "btmp9mag_9x19mm_50rd", "prob": 10 }
+      { "item": "btmp9mag_9x19mm_30", "prob": 400 }
     ]
   },
   {
@@ -77,10 +76,7 @@
       { "item": "mp5mag_15rd", "prob": 200 },
       { "item": "mp5mag_20rd", "prob": 300 },
       { "item": "mp5mag", "prob": 500 },
-      { "item": "mp5mag_38rd", "prob": 50 },
-      { "item": "mp5mag_40rd", "prob": 25 },
-      { "item": "mp5bigmag", "prob": 13 },
-      { "item": "mp5mag_100rd", "prob": 7 }
+      { "item": "mp5mag_38rd", "prob": 50 }
     ]
   }
 ]

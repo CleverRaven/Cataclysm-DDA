@@ -28,10 +28,5 @@
     "id": "book_inventor",
     "type": "MIGRATION",
     "replace": "artifact_cable_whip"
-  },
-  {
-    "id": "rip_ticket",
-    "type": "MIGRATION",
-    "replace": "bio_warhead"
   }
 ]

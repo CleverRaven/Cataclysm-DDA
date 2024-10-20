@@ -1,0 +1,77 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_nest_nothronychus",
+    "object": {
+      "rows": [
+        "                        ",
+        "   t                    ",
+        "            t           ",
+        "                        ",
+        "              t      t  ",
+        "       t   t----        ",
+        "         ----..-t       ",
+        " t    t---..-..---t  t  ",
+        "       -.-..---..--t    ",
+        "     ---.---..,--.-     ",
+        "    t-.--..,-...-.--    ",
+        "      --...-..-.--.     ",
+        "     -..-.,..-.,..-t  t ",
+        " t   --....-,-..---     ",
+        "     t---...-.-.-..-    ",
+        "      -.---.-....---    ",
+        "    t  --.-....---t     ",
+        "       t-....---t    t  ",
+        "         -----t         ",
+        "           t            ",
+        "                 t      ",
+        "      t                 ",
+        "                        ",
+        "               t        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "t": [ "t_region_tree", "t_region_groundcover_forest" ],
+        ",": [ "t_pit_shallow" ],
+        "-": [ "t_fern", "t_grass", "t_grass", "t_region_groundcover_forest" ],
+        ".": [ "t_dirt", "t_dirt", "t_grass", "t_grass", "t_region_groundcover_forest" ]
+      },
+      "place_monster": [
+        {
+          "monster": "mon_nothronychus",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 10 ],
+          "chance": 50,
+          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+        }
+      ],
+      "place_item": [
+        { "item": "egg_nothronychus", "x": 10, "y": 10, "amount": [ 3, 15 ] },
+        { "item": "egg_nothronychus", "x": 14, "y": 9, "amount": [ 3, 15 ] },
+        { "item": "egg_nothronychus", "x": 10, "y": 12, "amount": [ 3, 15 ] },
+        { "item": "egg_nothronychus", "x": 15, "y": 12, "amount": [ 3, 15 ] },
+        { "item": "egg_nothronychus", "x": 12, "y": 13, "amount": [ 3, 15 ] },
+        { "item": "feather", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 10, 20 ], "repeat": [ 1, 24 ], "chance": 20 },
+        {
+          "item": "down_feather",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "amount": [ 5, 10 ],
+          "repeat": [ 1, 24 ],
+          "chance": 20
+        },
+        {
+          "item": "straw_pile",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "amount": [ 10, 20 ],
+          "repeat": [ 1, 24 ],
+          "chance": 20
+        }
+      ],
+      "place_items": [ { "item": "trash_forest", "x": [ 4, 17 ], "y": [ 6, 15 ], "repeat": [ 1, 3 ], "chance": 40 } ]
+    }
+  }
+]

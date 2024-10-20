@@ -413,7 +413,7 @@
     },
     "effect": [
       { "math": [ "old_guard_rep_scouting", "=", "0" ] },
-      { "u_add_var": "u_scouted_exodii", "type": "missions", "context": "old_guard", "value": "yes" }
+      { "u_add_var": "missions_old_guard_u_scouted_exodii", "value": "yes" }
     ]
   }
 ]

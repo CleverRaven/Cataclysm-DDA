@@ -152,6 +152,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_druid_goodberry",
+    "name": "Dabbler (Goodberry)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  Biohacking was your passion, trying to optimize your life through diet, exercise, and sleep tricks, and you turned to druidic magic to cut out wasted time.  When the Pomodoro timer went off, you scurried to the fridge, grabbed a handful of berries and enchanted them, scarfed them down, and then got back to work.  You never had to deal with meal replacement nonsense, you just ate your berries and got things done.  Your clients are dead now and everything you worked on is ash and dust, but eating those berries has proven to be the best habit you picked up.",
+    "points": 4,
+    "spells": [ { "id": "druid_goodberry", "level": 5 } ],
+    "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_eshaper_spawn_tools",
     "name": "Dabbler (Utility Molding)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Utility Molding.  You read a pamphlet once entitled, \"One Spell is All You Need!\" and thought it seemed like a good idea.  And true, maybe you've never needed a mining pick before, but the ability to all up a knife or a shovel or a hammer whenever you want has come in handy countless times.",
@@ -207,6 +217,16 @@
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Slowfall.  Some people become mages due to a dream, or a goal they want to pursue, but for you it was the memory of falling down the stairs as a child and breaking your leg.  With your magic you could jump off a roof and it was no more dangerous than jumping off a low stone wall, and that's been pretty useful for some of the situations you've found yourself in since the Cataclysm.",
     "points": 4,
     "spells": [ { "id": "magus_slowfall", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magus_faerie_fire",
+    "name": "Dabbler (Faerie Fire)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Faerie Fire.  Maybe it wasn't a great use of your time, but it was fun at parties and one time when your cat ran off it made it very easy to find her.  Since the Cataclysm, though, your magical powers have become much more useful.",
+    "points": 4,
+    "spells": [ { "id": "magus_light_target", "level": 5 } ],
     "traits": [ "MAGUS" ]
   },
   {

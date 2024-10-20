@@ -112,7 +112,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_TAILORING",
     "name": "stretch fabric",
-    "description": "Practice the use of stretch fabric in clothing by making and modifying some basic garment forms with lycra patches.",
+    "description": "Practice the use of stretch fabric in clothing by making and modifying some basic garment forms with Lycra patches.",
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",

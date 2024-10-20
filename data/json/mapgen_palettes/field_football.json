@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "field_football",
-    "furniture": { "h": "f_bench", "H": "f_bench", "R": "f_trashcan", "C": "f_counter", "F": "f_fridge", "I": "f_sink" },
+    "furniture": { "h": "f_bench", "H": "f_bench", "R": "f_trashcan", "C": "f_counter", "F": "f_heavy_duty_fridge", "I": "f_sink" },
     "terrain": {
       "4": "t_gutter_downspout",
       "%": "t_grass_white",

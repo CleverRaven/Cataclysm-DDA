@@ -135,7 +135,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "pipe_fittings", "count": 1 },
-        { "item": "wire", "count": 4 },
+        { "item": "lc_wire", "count": 4 },
         { "item": "sheet_metal_small", "count": 2 }
       ]
     },

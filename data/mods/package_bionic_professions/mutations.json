@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mutation",
+    "id": "PROF_AUTODOC",
+    "name": { "str": "Autodoc Specialist" },
+    "points": 0,
+    "description": "You're trained in proper operation of the Autodoc, an advanced machine used for surgical procedures.  Operations involving it will be moderately more likely to succeed.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  }
+]

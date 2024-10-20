@@ -172,7 +172,6 @@ class veh_interact
         void do_siphon();
         // Returns true if exiting the screen
         bool do_unload();
-        void do_change_shape();
         void do_assign_crew();
         void do_relabel();
         /*@}*/

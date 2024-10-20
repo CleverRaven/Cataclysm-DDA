@@ -3,10 +3,12 @@
 #define CATA_SRC_CONSTRUCTION_GROUP_H
 
 #include <cstddef>
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;

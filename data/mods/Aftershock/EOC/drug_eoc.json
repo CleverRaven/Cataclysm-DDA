@@ -11,7 +11,7 @@
         { "u_has_effect": "afs_medigel_eff", "bodypart": { "context_val": "bodypart" } }
       ]
     },
-    "effect": [ { "u_lose_effect": "afs_medigel_eff" } ]
+    "effect": [ { "u_lose_effect": "afs_medigel_eff", "target_part": { "context_val": "bodypart" } } ]
   },
   {
     "type": "effect_on_condition",

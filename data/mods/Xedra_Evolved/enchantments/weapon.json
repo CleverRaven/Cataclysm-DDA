@@ -9,7 +9,7 @@
     "id": "xedra_weak_healing",
     "type": "SPELL",
     "name": "Weak healing",
-    "description": "Heal 1 hp.  Used in various enchantments.  You can see it only in debug.",
+    "description": "Heal 1 HP.  Used in various enchantments.  You can see it only in debug.",
     "valid_targets": [ "self" ],
     "min_damage": -1,
     "max_damage": -1,

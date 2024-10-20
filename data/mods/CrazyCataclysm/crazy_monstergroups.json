@@ -6,7 +6,7 @@
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 60 },
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
     ],
-    "//": "Autumn is halloween"
+    "//": "Autumn is Halloween"
   },
   {
     "type": "monstergroup",
@@ -79,5 +79,17 @@
       { "monster": "mon_bear_smoky", "weight": 100, "cost_multiplier": 0, "conditions": [ "WINTER" ] }
     ],
     "//": "Additional bears during winter, when they hibernate."
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWAGE_TREATMENT",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NUCLEAR_PLANT_BEASTS",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 } ]
   }
 ]

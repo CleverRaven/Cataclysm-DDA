@@ -41,7 +41,7 @@
   {
     "id": "nether_attunement_nether_lightning",
     "type": "SPELL",
-    "name": { "str": "Nether Attunement Lightning All ARound" },
+    "name": { "str": "Nether Attunement Lightning All Around" },
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "description": "Unleashes a blast of lightning everywhere around.",
     "message": "",

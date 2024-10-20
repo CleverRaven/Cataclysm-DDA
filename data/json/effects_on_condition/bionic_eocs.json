@@ -84,7 +84,7 @@
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
-    "effect": { "math": [ "u_val('fatigue')", "++" ] }
+    "effect": { "math": [ "u_val('sleepiness')", "++" ] }
   },
   {
     "type": "effect_on_condition",

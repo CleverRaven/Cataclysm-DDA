@@ -23,8 +23,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 18, "y": 11 },
-        { "point": "furniture", "id": "f_table", "x": 18, "y": 12 }
+        { "point": "furniture", "id": "f_fireplace", "x": 18, "y": 11, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 18, "y": 11, "z": 1 },
+        { "point": "furniture", "id": "f_table", "x": 18, "y": 12, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 18, "y": 12, "chance": 100 } ]
     }
@@ -47,8 +48,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_woodstove", "x": 18, "y": 11 },
-        { "point": "furniture", "id": "f_table", "x": 18, "y": 12 }
+        { "point": "furniture", "id": "f_woodstove", "x": 18, "y": 11, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 18, "y": 11, "z": 1 },
+        { "point": "furniture", "id": "f_table", "x": 18, "y": 12, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 18, "y": 12, "chance": 100 } ]
     }

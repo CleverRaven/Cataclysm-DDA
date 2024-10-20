@@ -178,7 +178,7 @@
     "id": "sct_late",
     "name": "Lategame",
     "points": 0,
-    "description": "Heavy (survivor pneumatic) post-cataclysm gear, excluding rare lootables.",
+    "description": "Heavy (survivor pneumatic) post-Cataclysm gear, excluding rare lootables.",
     "skills": [
       { "level": 8, "name": "melee" },
       { "level": 8, "name": "bashing" },

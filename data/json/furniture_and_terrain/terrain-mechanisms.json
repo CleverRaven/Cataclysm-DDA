@@ -7,6 +7,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -26,6 +27,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -45,6 +47,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -64,6 +67,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -83,6 +87,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -102,6 +107,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -159,6 +165,7 @@
     "symbol": "|",
     "color": "brown",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -256,7 +263,9 @@
     "symbol": "=",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "//": "For the player to chat with an NPC through the intercom, the npc must have 'name_unique': 'the_intercom' and must be within 10 tiles of the intercom.",
     "examine_action": "intercom",
     "bash": {
@@ -279,7 +288,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": "cardreader_robofac",
     "bash": {
       "str_min": 18,
@@ -300,7 +311,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD" ],
@@ -328,7 +341,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "MILITARY_CARD" ],
@@ -357,7 +372,9 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "INDUSTRIAL_CARD" ],
@@ -386,7 +403,9 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": "cardreader_fp",
     "bash": {
       "str_min": 18,
@@ -432,7 +451,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "COOP_CARD" ],
@@ -747,7 +768,9 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "MINEABLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "MINEABLE" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -776,6 +799,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "elevator",
     "bash": {
@@ -817,6 +841,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -866,6 +891,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -915,6 +941,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "bash": {
       "str_min": 40,

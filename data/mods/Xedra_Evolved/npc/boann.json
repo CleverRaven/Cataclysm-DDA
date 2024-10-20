@@ -37,7 +37,191 @@
     "dynamic_line": "I came here with my court when the Hedge between our worlds thinned and the border marches expanded.  They came for conquest and I came here for coexistence.",
     "responses": [
       { "text": "So you're a good faerie?", "topic": "TALK_BOANN_2" },
-      { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" },
+      {
+        "text": "How can I join your court?",
+        "topic": "TALK_BOANN_JOIN",
+        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+      },
+      {
+        "text": "Is there anything I can do for you?",
+        "topic": "TALK_QUEST_LIST",
+        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+      },
+      {
+        "text": "I am ready to leave this world for yours.",
+        "topic": "TALK_OUTWORLD_CONFIRM",
+        "condition": { "math": [ "Boann_Quests_Completed", ">=", "10" ] }
+      },
+      {
+        "text": "I'd like some advice about the Jabberwock.",
+        "condition": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" },
+        "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the march lords.",
+        "condition": { "u_has_mission": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN" },
+        "topic": "TALK_KILL_TWO_MARCH_LORDS_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about that dog.",
+        "condition": { "u_has_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" },
+        "topic": "TALK_KILL_DOGTHING_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the Mi-Go guards.",
+        "condition": { "u_has_mission": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN" },
+        "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the armored centipede.",
+        "condition": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" },
+        "topic": "TALK_KILL_ARMORED_CENTIPEDE_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the automaton.",
+        "condition": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" },
+        "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the triffid heart",
+        "condition": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" },
+        "topic": "TALK_GET_TRIFFID_HEART_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the titan stag beetle",
+        "condition": { "u_has_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" },
+        "topic": "TALK_KILL_TITAN_BEETLE_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the shadow and its piece",
+        "condition": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" },
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the star-crowned hound",
+        "condition": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" },
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_ADVICE"
+      },
+      {
+        "text": "I'm back and I killed the Jabberwock.  [Give her the heart]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" }, { "u_has_item": "jabberwock_heart" } ] },
+        "effect": [
+          { "u_consume_item": "jabberwock_heart", "count": 1, "popup": true },
+          { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" },
+          { "u_spawn_item": "horse_tack", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_add_var": "completed_boann_bring_jabberwock_heart", "value": "yes" },
+          { "finish_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART", "success": true }
+        ],
+        "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the March Lords.",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_lords_for_boann" } ] },
+        "effect": [
+          { "u_add_trait": "CALL_DAFFODIL" },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_lords_for_boann" },
+          { "u_add_var": "completed_boann_kill_two_lords", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_TWO_MARCH_LORDS_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed that dog-like thing.",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_dogthing_for_boann" } ] },
+        "effect": [
+          { "u_spawn_item": "spellbook_hedge_clairvoyance_cone", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_dogthing_for_boann" },
+          { "u_add_var": "completed_boann_kill_dogthing", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_DOGTHING_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the Mi-Go guards.",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_five_mi_go_guards_for_boann" } ] },
+        "effect": [
+          { "u_spawn_item": "mana_recharge_sphere", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_five_mi_go_guards_for_boann" },
+          { "u_add_var": "completed_boann_kill_five_mi_go_guards", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the armored centipede",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_armored_centipede_for_boann" } ] },
+        "effect": [
+          { "u_spawn_item": "boann_insignia", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_armored_centipede_for_boann" },
+          { "u_add_var": "completed_boann_kill_armored_centipede", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_ARMORED_CENTIPEDE_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the automaton.",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_automaton_for_boann" } ] },
+        "effect": [
+          { "u_spawn_item": "winter_lord_estoc", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_automaton_for_boann" },
+          { "u_add_var": "completed_boann_kill_dreamforged_automaton", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the triffid heart.  [Give her the heart chunk]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" }, { "u_has_item": "triffid_heart_chunk" } ] },
+        "effect": [
+          { "u_consume_item": "triffid_heart_chunk", "count": 1, "popup": true },
+          { "u_spawn_item": "helmet_verdant", "count": 1 },
+          { "u_spawn_item": "armor_verdant_cuirass", "count": 1 },
+          { "u_spawn_item": "gauntlets_verdant", "count": 1 },
+          { "u_spawn_item": "boots_verdant", "count": 1 },
+          { "u_spawn_item": "cloak_verdant", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_add_var": "completed_boann_bring_triffid_heart", "value": "yes" },
+          { "finish_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN", "success": true }
+        ],
+        "topic": "TALK_GET_TRIFFID_HEART_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the titan stag beetle",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_titan_beetle_for_boann" } ] },
+        "effect": [
+          { "u_spawn_item": "väinämöinens_kantele", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_titan_beetle_for_boann" },
+          { "u_add_var": "completed_boann_kill_titan_beetle", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_TITAN_BEETLE_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the Shadow.  [Give her the piece of shadow]",
+        "condition": {
+          "and": [ { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" }, { "u_has_item": "shadow_singularity_piece" } ]
+        },
+        "effect": [
+          { "u_consume_item": "shadow_singularity_piece", "count": 1, "popup": true },
+          { "u_spawn_item": "boann_banner", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_add_var": "completed_boann_bring_shadow_piece", "value": "yes" },
+          { "finish_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN", "success": true }
+        ],
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the the star-crowned hound",
+        "condition": { "compare_string": [ "yes", { "u_val": "killed_star_crown_hound_for_boann" } ] },
+        "effect": [
+          { "u_spawn_item": "dream_attuning_necklace", "count": 1 },
+          { "math": [ "Boann_Quests_Completed", "++" ] },
+          { "u_lose_var": "killed_star_crown_hound_for_boann" },
+          { "u_add_var": "completed_boann_kill_star_crown_hound", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_COMPLETED"
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -47,7 +231,11 @@
     "dynamic_line": "Some of my kind might find that word pejorative, but it's what you've called us for so very long.  It had been quite a while since we were last able to come in numbers to this world, until the last few years.",
     "responses": [
       { "text": "Why were you able to return?", "topic": "TALK_BOANN_3" },
-      { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" },
+      {
+        "text": "How can I join your court?",
+        "topic": "TALK_BOANN_JOIN",
+        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+      },
       { "text": "Well those of us who aren't faeries have other places to be now.", "topic": "TALK_DONE" }
     ]
   },
@@ -57,7 +245,11 @@
     "dynamic_line": "The same thing that is causing the portal storms made travel between our worlds easier again.  We have to engage in fairly strenuous decontamination procedures on our way back but we've had those in place for aeons.",
     "responses": [
       { "text": "Decontamination?  You can leave here and not worry about the risen dead?", "topic": "TALK_BOANN_4" },
-      { "text": "How can I join your court?  I want to leave here when you do!", "topic": "TALK_BOANN_JOIN" },
+      {
+        "text": "How can I join your court?  I want to leave here when you do!",
+        "topic": "TALK_BOANN_JOIN",
+        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+      },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
   },
@@ -66,7 +258,11 @@
     "id": "TALK_BOANN_4",
     "dynamic_line": "If we die here, we will rise just like you, we are within the belly of the beast, so to speak here.  But yes when we go elsewhere we don't bring this with us, that would be rude.",
     "responses": [
-      { "text": "Please take me away with you.", "topic": "TALK_BOANN_JOIN" },
+      {
+        "text": "Please take me away with you.",
+        "topic": "TALK_BOANN_JOIN",
+        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+      },
       { "text": "I haven't decided if I believe you or not but I'll see you around.", "topic": "TALK_DONE" }
     ]
   },
@@ -75,49 +271,686 @@
     "id": "TALK_BOANN_JOIN",
     "dynamic_line": "Well you can't just join by asking, you need to accomplish a series of progressively more difficult quests, bringing me trophies and relics proving your worth to join our ranks.",
     "responses": [
-      { "text": "Do you have a quest for me now?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Do you have a quest for me now?",
+        "topic": "TALK_QUEST_LIST",
+        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+      },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
   },
   {
-    "id": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
-    "type": "mission_definition",
-    "name": { "str": "Bring me the heart of a Jabberwock" },
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 8,
-    "value": 0,
-    "item": "jabberwock_heart",
-    "start": {
-      "assign_mission_target": {
-        "om_terrain": "forest_thick",
-        "om_terrain_replace": "forest",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 5,
-        "z": 0
+    "type": "talk_topic",
+    "id": "TALK_QUEST_LIST",
+    "dynamic_line": {
+      "math": [ "Boann_Quests_Accepted", "==", "10" ],
+      "yes": "I have no other quests for you.  Once you'll have completed them all, you'll become part of my court and allowed to move offworld when you will wish so.",
+      "no": {
+        "math": [ "Boann_Quests_Completed", ">=", "6" ],
+        "yes": "(Boann hands you a list) Here is a list of the quests to complete to become part of my court.  They are very difficult, but their rewards will be worth it.",
+        "no": {
+          "math": [ "Boann_Quests_Accepted", "==", "6" ],
+          "yes": "I have no new quests for now.  Once you'll have completed them, you'll become one of my knights and able to accomplish the quests that will make you a member of my court.",
+          "no": "(Boann hands you a list) Here is a list of the quests to complete to become one of my knights.  Take your time, they can be accomplished when you want."
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "And when I'll be a knight you'll bring me out of here?",
+        "topic": "TALK_QUEST_KNIGHT_OUTWORLD",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "told_about_knight_not_coming" } ] } }
       },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
+      {
+        "text": "[Bring me the heart of a Jabberwock]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_bring_jabberwock_heart" } ] } }
+          ]
+        },
+        "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_OFFER"
+      },
+      {
+        "text": "[Find and kill two March Lords]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_two_lords" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_TWO_MARCH_LORDS_OFFER"
+      },
+      {
+        "text": "[Kill the suspicious dog]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_dogthing" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_DOGTHING_OFFER"
+      },
+      {
+        "text": "[Kill five Mi-Go guards]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_five_mi_go_guards" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_OFFER"
+      },
+      {
+        "text": "[Kill an armored centipede]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_armored_centipede" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_ARMORED_CENTIPEDE_OFFER"
+      },
+      {
+        "text": "[Kill the remains of a dreamforged automaton]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_dreamforged_automaton" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_OFFER"
+      },
+      {
+        "text": "[Bring me back a chunk of a triffid heart]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_bring_triffid_heart" } ] } }
+          ]
+        },
+        "topic": "TALK_GET_TRIFFID_HEART_OFFER"
+      },
+      {
+        "text": "[Kill a titan stag beetle]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_titan_beetle" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_TITAN_BEETLE_OFFER"
+      },
+      {
+        "text": "[Bring me back a piece of the darkest shadow]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_bring_shadow_piece" } ] } }
+          ]
+        },
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_OFFER"
+      },
+      {
+        "text": "[Kill a star-crowned hound]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_star_crown_hound" } ] } }
+          ]
+        },
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_OFFER"
+      },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_QUEST_KNIGHT_OUTWORLD",
+    "dynamic_line": "You won't be a member of my court yet.  After another few quests, you will, and you along with all those that follow you will be brought out of this world whenever you wish so.",
+    "responses": [
+      {
+        "text": "Can I see the quest list again?",
+        "topic": "TALK_QUEST_LIST",
+        "effect": [ { "u_add_var": "told_about_knight_not_coming", "value": "yes" } ]
+      },
+      {
+        "text": "I'm going to head on now.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_add_var": "told_about_knight_not_coming", "value": "yes" } ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "Prove to me that you have the heart of a knight.  Bring me the putrid heart of a Jabberwock.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the Jabberwock?",
+        "condition": { "not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+        "effect": [ { "assign_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "You will need incredible melee skills to handle this or an impressive gun.  Otherwise it do not have hidden tricks or notable intelligence so it'll be a straightforward fight.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the Jabberwock?",
+        "condition": { "not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+        "effect": [ { "assign_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm pleased to grant you a Melian mount of your own.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_TWO_MARCH_LORDS_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "Prove your allegiance to me.  Kill two March Lords so all will know which side you fight.",
+    "responses": [
+      {
+        "text": "I'll do it.",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_TWO_MARCH_LORDS_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_TWO_MARCH_LORDS_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_TWO_MARCH_LORDS_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "They are fearsome opponents but lack long-range attacks.  You can find them in the border patrol offices with their soldiers.",
+    "responses": [
+      {
+        "text": "I'll do it.",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_TWO_MARCH_LORDS_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_TWO_MARCH_LORDS_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_TWO_MARCH_LORDS_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_TWO_MARCH_LORDS_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm pleased to grant you the right to call upon the daffodil warriors.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_DOGTHING_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "A dog-like being has been found nearby.  Whatever it is, it's not a dog.  Kill it, and I will teach you how to see beyond barriers.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the dog?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_DOGTHING_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_DOGTHING_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_DOGTHING_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Do not be deceived by its looks.  It is not a regular dog.  Be very careful as we do not know what it can do.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the dog?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_DOGTHING_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_DOGTHING_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_DOGTHING_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_DOGTHING_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I will now grant you the knowledge to see beyond all walls, written on this parchment.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_FIVE_MI_GO_GUARDS_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "A knight must be able to face harsh conditions.  Kill five Mi-Go guards and you'll receive an object able to refuel your magical energy.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the guards?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_FIVE_MI_GO_GUARDS_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Something to protect yourself from the fumes and heat is a must.  They are smart enough to feel fear, so if they're injured enough they'll stop attacking and try to flee.",
+    "responses": [
+      {
+        "text": "I'll do it. Where's the guards?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_FIVE_MI_GO_GUARDS_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_FIVE_MI_GO_GUARDS_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_FIVE_MI_GO_GUARDS_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "Here is the object.  As promised, using it will recharge your mana.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_ARMORED_CENTIPEDE_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "A knight must know how to triumph despite their foe's armor.  Kill an armored centipede and I'll grant you an insignia, so you might be recognized as one of my knights.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the centipede?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_ARMORED_CENTIPEDE_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_ARMORED_CENTIPEDE_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_ARMORED_CENTIPEDE_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Study the weak spots of weaker centipedes, it'll give you an advantage.  Its armor isn't as effective against blunt and piercing weapon than it is against slashing weapons and bullets.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the centipede?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_ARMORED_CENTIPEDE_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_ARMORED_CENTIPEDE_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_ARMORED_CENTIPEDE_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_ARMORED_CENTIPEDE_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm honored to grant you this insignia.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_DREAMFORGED_AUTOMATON_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "A rampaging automaton has been spotted.  Destroy it, and you'll be granted a great weapon.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the automaton?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_DREAMFORGED_AUTOMATON_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "My scouts mentioned that it relies on electricity to attack.  Find a way to shield yourself against that, and it'll be much easier to kill.  They also mentioned how damaged the automaton's exposed insides are, so I wouldn't attempt to use weapons that only damage the insides if I were you.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the automaton?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_DREAMFORGED_AUTOMATON_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_DREAMFORGED_AUTOMATON_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm pleased to grant you this frostrimed estoc.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_GET_TRIFFID_HEART_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "I want you to brave the harshest environments.  Bring me a chunk of a triffid heart and I'll grant you a powerful set of armor.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the triffids?",
+        "condition": { "not": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_GET_TRIFFID_HEART_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_GET_TRIFFID_HEART_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GET_TRIFFID_HEART_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Tear gas is deadly to them.  In addition, they don't go along with anything that isn't a triffid.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the triffids?",
+        "condition": { "not": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_GET_TRIFFID_HEART_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GET_TRIFFID_HEART_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_GET_TRIFFID_HEART_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_GET_TRIFFID_HEART_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm pleased to grant you a set of armor appropriate for a knight.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_TITAN_BEETLE_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "A knight must be able to triumph of all beasts.  Kill a titan stag beetle and you'll receive a magical musical instrument.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the beetle?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_TITAN_BEETLE_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_TITAN_BEETLE_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_TITAN_BEETLE_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Mundane weapons won't do much so try to find something that bypasses its armor.  It's also very slow so keeping your distance is easy.  Learning the weak points of smaller beetles and using high-power ammunitions can work too but expect its shell to block most shots.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the beetle?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_TITAN_BEETLE_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_TITAN_BEETLE_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_TITAN_BEETLE_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_TITAN_BEETLE_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I give you Väinämöinen's Kantele.  Take care of it, it's very precious.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_GET_SHADOW_SINGULARITY_PIECE_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "There is a shadow that haunts the night.  Bring me proof that you killed it and I'll grant you the right to bear my banner.",
+    "responses": [
+      {
+        "text": "I'll do it.",
+        "condition": { "not": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" } },
+        "effect": [
+          { "assign_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" },
+          { "math": [ "Boann_Quests_Accepted", "++" ] }
+        ],
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GET_SHADOW_SINGULARITY_PIECE_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "To encounter it, stand alone or accompanied by at most two allies in a field or a forest at night.  It might take multiple nights for it to show itself so prepare something to do while you wait.  Light massively weaken it so ensure the battlefield is well lit.  Separate it from its minions, as it can create more than you'll manage to kill and heal its wounds over time.  It is also particularly resilient against bullets so engage in melee if you manage to get close enough.",
+    "responses": [
+      {
+        "text": "I'll do it.",
+        "condition": { "not": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" } },
+        "effect": [
+          { "assign_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" },
+          { "math": [ "Boann_Quests_Accepted", "++" ] }
+        ],
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GET_SHADOW_SINGULARITY_PIECE_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_GET_SHADOW_SINGULARITY_PIECE_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I am honored to give you this banner.  Wear it with pride, as you more than earned that right.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_STAR_CROWN_HOUND_OFFER" ],
+    "type": "talk_topic",
+    "dynamic_line": "Knight, I ask you to kill a star-crowned hound.  This will be a difficult challenge but I trust that you will prevail against this mighty foe.  Kill it and a necklace that will amplify your magical abilities will be yours.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the hound?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_ACCEPTED"
+      },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_STAR_CROWN_HOUND_ADVICE" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_STAR_CROWN_HOUND_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "It is strong but slow, so disengaging is possible.  It will summon hounds, but they quickly fade away so they aren't that much of an issue compared to it.  Stand away from corners in walls as it can teleport to them.  It has no armor against fire, electricity and blunt weapons but it quickly heal all its wounds so continuous heavy damage is the key to kill it.  If you cannot manage to injure it, do not hesitate to withdraw and try another way to kill it.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where's the hound?",
+        "condition": { "not": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" } },
+        "effect": [ { "assign_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" }, { "math": [ "Boann_Quests_Accepted", "++" ] } ],
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_ACCEPTED"
+      },
+      { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+      { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_STAR_CROWN_HOUND_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "I had no doubts in you.",
+    "responses": [
+      { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+      { "text": "Do you have any advice?", "topic": "TALK_KILL_STAR_CROWN_HOUND_ADVICE" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_KILL_STAR_CROWN_HOUND_COMPLETED" ],
+    "type": "talk_topic",
+    "dynamic_line": "I give you this necklace as a gift for your services.  May it serve you well.",
+    "responses": [
+      { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+      { "text": "Thank you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_OUTWORLD_CONFIRM" ],
+    "type": "talk_topic",
+    "//": "TODO: add custom tombstone as the player don't actually die",
+    "dynamic_line": "Are you certain?  Leaving this world is a one-way trip.  There is still a very long time before it becomes urgent to do so and many things to gain from staying here a little longer.",
+    "responses": [
+      { "text": "I changed my mind.  I'll stay for now", "topic": "TALK_DONE" },
+      { "text": "I am sure.  Bring me out of here.  (This will end the game)", "topic": "TALK_LEAVE_THIS_WORLD" },
+      {
+        "text": "I am sure.  Bring me and my followers out of here.  (This will end the game)",
+        "topic": "TALK_LEAVE_THIS_WORLD",
+        "condition": { "npc_allies_global": 1 },
+        "effect": [ { "u_add_var": "u_has_followers", "value": "yes" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_THIS_WORLD",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "u_has_followers" } ],
+      "yes": "(Boann lead you and your followers to a hidden ritual circle) This is the exit point.  After the ritual, you will all go through the decontamination process before you are allowed to claim your own barony, as fit for a member of my court.  Your followers will then claim a small part of it for their homes.",
+      "no": "(Boann lead you to a hidden ritual circle) This is the exit point.  After the ritual, you'll go through the decontamination process before being allowed to claim your own barony, as fit for a member of my court."
     },
-    "end": {
-      "opinion": { "trust": 2, "value": 2 },
-      "effect": [
-        { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" },
-        { "u_spawn_item": "horse_tack", "count": 1 }
-      ]
-    },
-    "has_generic_rewards": false,
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "Kill a great beast in my honor and I'll reward you as a new member of my court.",
-      "offer": "Prove to me that you have the heart of a knight.  Bring me the putrid heart of a Jabberwock.",
-      "accepted": "I had no doubts in you.",
-      "rejected": "You may change your mind at a later date.",
-      "advice": "You will need incredible melee skills to handle this or an impressive gun.",
-      "inquire": "Have you brought me the favor I requested?",
-      "success": "I'm pleased to grant you a Melian mount of your own.",
-      "success_lie": "I don't think so…",
-      "failure": "Quitting already?"
-    }
+    "responses": [
+      {
+        "text": "A whole new world, filled with possibilities.  A place where the Cataclysm isn't.  What you do now is another story.",
+        "topic": "TALK_DONE",
+        "effect": [ "u_die", { "u_add_effect": "a_winner_is_u", "duration": "PERMANENT" } ]
+      }
+    ]
   }
 ]

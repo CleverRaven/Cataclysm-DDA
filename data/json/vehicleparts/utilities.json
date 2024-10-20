@@ -110,8 +110,8 @@
     "category": "veh_parts",
     "weight": "500 g",
     "volume": "300 ml",
-    "price": 3000,
-    "price_postapoc": 72
+    "price": "30 USD",
+    "price_postapoc": "72 cent"
   },
   {
     "type": "vehicle_part",

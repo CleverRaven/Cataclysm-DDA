@@ -79,7 +79,7 @@
     "id": "reinforced_windshield",
     "type": "vehicle_part",
     "copy-from": "windshield",
-    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "mc_wire" } ],
     "damage_modifier": 80,
     "damage_reduction": { "all": 16 },
     "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",

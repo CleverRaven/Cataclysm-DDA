@@ -60,7 +60,7 @@
         "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
-      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true } }
     }
   },
   {

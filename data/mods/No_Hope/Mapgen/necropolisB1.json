@@ -1,53 +1,11 @@
 [
   {
-    "name": "GROUP_NECROPOLIS_SEWERS",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_irradiated_wanderer_1", "weight": 90 },
-      { "monster": "mon_irradiated_wanderer_2", "weight": 40 },
-      { "monster": "mon_irradiated_wanderer_3", "weight": 10 },
-      { "monster": "mon_irradiated_wanderer_4", "weight": 1 },
-      { "monster": "mon_charred_nightmare", "weight": 1 },
-      { "monster": "mon_centipede_giant", "weight": 100 }
-    ]
-  },
-  {
-    "name": "GROUP_NECROPOLIS_VAULT",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_irradiated_wanderer_1", "weight": 40 },
-      { "monster": "mon_irradiated_wanderer_2", "weight": 50 },
-      { "monster": "mon_irradiated_wanderer_3", "weight": 40 },
-      { "monster": "mon_irradiated_wanderer_4", "weight": 5 },
-      { "monster": "mon_charred_nightmare", "weight": 5 }
-    ]
-  },
-  {
-    "name": "GROUP_NECROPOLIS_SWIMMING",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_irradiated_wanderer_2", "weight": 5 } ]
-  },
-  {
-    "id": "vault_survival",
-    "type": "item_group",
-    "magazine": 100,
-    "ammo": 90,
-    "items": [
-      { "group": "guns_rare_readied", "prob": 35 },
-      { "item": "mask_filter", "prob": 20 },
-      { "group": "ammo_pocket_batteries_full", "prob": 15 },
-      { "item": "radio", "prob": 10 },
-      { "item": "bandages", "prob": 10, "count": 3 },
-      { "item": "knife_combat", "prob": 20 },
-      { "item": "vest", "prob": 15 },
-      { "item": "cleansuit", "prob": 20 },
-      { "item": "rad_monitor", "prob": 10 },
-      { "item": "geiger_off", "prob": 10 },
-      { "item": "tool_belt", "prob": 15 }
-    ]
-  },
-  {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_1", "necropolis_b_2", "necropolis_b_3" ],
+      [ "necropolis_b_10", "necropolis_b_11", "necropolis_b_12" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -105,16 +63,15 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_1", "necropolis_b_2", "necropolis_b_3" ],
-      [ "necropolis_b_10", "necropolis_b_11", "necropolis_b_12" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_4", "necropolis_b_5", "necropolis_b_6" ],
+      [ "necropolis_b_13", "necropolis_b_14", "necropolis_b_15" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -175,16 +132,15 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_4", "necropolis_b_5", "necropolis_b_6" ],
-      [ "necropolis_b_13", "necropolis_b_14", "necropolis_b_15" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_7", "necropolis_b_8", "necropolis_b_9" ],
+      [ "necropolis_b_16", "necropolis_b_17", "necropolis_b_18" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -249,16 +205,15 @@
         { "item": "sewage_plant", "x": [ 36, 37 ], "y": [ 13, 13 ], "chance": 60 },
         { "item": "cop_evidence", "x": [ 26, 27 ], "y": [ 40, 40 ], "chance": 60 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_7", "necropolis_b_8", "necropolis_b_9" ],
-      [ "necropolis_b_16", "necropolis_b_17", "necropolis_b_18" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_19", "necropolis_b_20", "necropolis_b_21" ],
+      [ "necropolis_b_28", "necropolis_b_29", "necropolis_b_30" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -329,17 +284,16 @@
         { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
-      "place_vehicles": [ { "vehicle": "humvee", "x": 42, "y": 20, "chance": 30, "rotation": 270 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_19", "necropolis_b_20", "necropolis_b_21" ],
-      [ "necropolis_b_28", "necropolis_b_29", "necropolis_b_30" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+      "place_vehicles": [ { "vehicle": "humvee", "x": 42, "y": 20, "chance": 100, "rotation": 270 } ]
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_22", "necropolis_b_23", "necropolis_b_24" ],
+      [ "necropolis_b_31", "necropolis_b_32", "necropolis_b_33" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -402,16 +356,15 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
       "place_items": [ { "item": "homebooks", "x": [ 66, 67 ], "y": [ 39, 39 ], "chance": 90 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_22", "necropolis_b_23", "necropolis_b_24" ],
-      [ "necropolis_b_31", "necropolis_b_32", "necropolis_b_33" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_25", "necropolis_b_26", "necropolis_b_27" ],
+      [ "necropolis_b_34", "necropolis_b_35", "necropolis_b_36" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -477,16 +430,15 @@
         { "item": "pawn", "x": [ 19, 20 ], "y": [ 28, 30 ], "chance": 70 },
         { "item": "pawn", "x": [ 23, 23 ], "y": [ 28, 32 ], "chance": 70 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_25", "necropolis_b_26", "necropolis_b_27" ],
-      [ "necropolis_b_34", "necropolis_b_35", "necropolis_b_36" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_37", "necropolis_b_38", "necropolis_b_39" ],
+      [ "necropolis_b_46", "necropolis_b_47", "necropolis_b_48" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -552,17 +504,16 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
-      "place_vehicles": [ { "vehicle": "humvee", "x": 13, "y": 16, "chance": 30, "rotation": 270 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_37", "necropolis_b_38", "necropolis_b_39" ],
-      [ "necropolis_b_46", "necropolis_b_47", "necropolis_b_48" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+      "place_vehicles": [ { "vehicle": "humvee", "x": 13, "y": 16, "chance": 100, "rotation": 270 } ]
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_40", "necropolis_b_41", "necropolis_b_42" ],
+      [ "necropolis_b_49", "necropolis_b_50", "necropolis_b_51" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -624,16 +575,15 @@
         { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.075 },
         { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.075 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_40", "necropolis_b_41", "necropolis_b_42" ],
-      [ "necropolis_b_49", "necropolis_b_50", "necropolis_b_51" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_43", "necropolis_b_44", "necropolis_b_45" ],
+      [ "necropolis_b_52", "necropolis_b_53", "necropolis_b_54" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -695,16 +645,15 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
       "place_items": [ { "item": "alcohol", "x": [ 50, 50 ], "y": [ 38, 38 ], "chance": 90 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_43", "necropolis_b_44", "necropolis_b_45" ],
-      [ "necropolis_b_52", "necropolis_b_53", "necropolis_b_54" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_55", "necropolis_b_56", "necropolis_b_57" ],
+      [ "necropolis_b_64", "necropolis_b_65", "necropolis_b_66" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -769,16 +718,15 @@
         { "item": "sewage_plant", "x": [ 38, 40 ], "y": [ 10, 10 ], "chance": 70 },
         { "item": "sewage_plant", "x": [ 38, 40 ], "y": [ 12, 12 ], "chance": 70 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_55", "necropolis_b_56", "necropolis_b_57" ],
-      [ "necropolis_b_64", "necropolis_b_65", "necropolis_b_66" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_58", "necropolis_b_59", "necropolis_b_60" ],
+      [ "necropolis_b_67", "necropolis_b_68", "necropolis_b_69" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -840,16 +788,15 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_58", "necropolis_b_59", "necropolis_b_60" ],
-      [ "necropolis_b_67", "necropolis_b_68", "necropolis_b_69" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_b_61", "necropolis_b_62", "necropolis_b_63" ],
+      [ "necropolis_b_70", "necropolis_b_71", "necropolis_b_72" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -909,16 +856,12 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_b_61", "necropolis_b_62", "necropolis_b_63" ],
-      [ "necropolis_b_70", "necropolis_b_71", "necropolis_b_72" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_b_73", "necropolis_b_74", "necropolis_b_75" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -948,13 +891,12 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b1" ]
-    },
-    "om_terrain": [ [ "necropolis_b_73", "necropolis_b_74", "necropolis_b_75" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_b_76", "necropolis_b_77", "necropolis_b_78" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -988,13 +930,12 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 66, 71 ], "y": [ 0, 5 ], "density": 0.15 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_b_76", "necropolis_b_77", "necropolis_b_78" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_b_79", "necropolis_b_80", "necropolis_b_81" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1024,9 +965,6 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b1" ]
-    },
-    "om_terrain": [ [ "necropolis_b_79", "necropolis_b_80", "necropolis_b_81" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   }
 ]

@@ -36,11 +36,8 @@
     "faults_removed": [ "fault_electronic_blown_capacitor" ],
     "skills": { "electronics": 4 },
     "requirements": [
-      {
-        "qualities": [ { "id": "SCREW", "level": 1 } ],
-        "tools": [ [ "soldering_iron" ], [ "soldering_iron_portable" ] ],
-        "components": [ [ [ "e_scrap", 1 ] ] ]
-      }
+      [ "soldering_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "e_scrap", 1 ] ] ] }
     ]
   },
   {
@@ -61,11 +58,8 @@
     "faults_removed": [ "fault_electronic_shorted_circuit" ],
     "skills": { "electronics": 5 },
     "requirements": [
-      {
-        "qualities": [ { "id": "SCREW", "level": 1 } ],
-        "tools": [ [ "soldering_iron" ], [ "soldering_iron_portable" ] ],
-        "components": [ [ [ "circuit", 1 ] ] ]
-      }
+      [ "soldering_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "circuit", 1 ] ] ] }
     ]
   }
 ]

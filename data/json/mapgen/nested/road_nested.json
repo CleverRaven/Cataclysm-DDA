@@ -105,7 +105,7 @@
     "nested_mapgen_id": "24x24_marked_crosswalks",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "//": "Could merge with traffic lights so they're not independant.",
+      "//": "Could merge with traffic lights so they're not independent.",
       "place_nested": [
         {
           "chunks": [ "16x16_marked_crosswalk_h", "null" ],
@@ -144,7 +144,7 @@
     "nested_mapgen_id": "24x24_traffic_lights",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "//": "Could merge with crosswalks so they're not independant, places traffic light on right of joining roads",
+      "//": "Could merge with crosswalks so they're not independent, places traffic light on right of joining roads",
       "place_nested": [
         {
           "chunks": [ "1x1_traffic_light" ],

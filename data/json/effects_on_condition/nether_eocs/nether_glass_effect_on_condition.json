@@ -35,7 +35,7 @@
           "id": "EOC_nether_glass_yrax_encounter",
           "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 250 } }, { "u_at_om_location": "nether_glass_deep" } ] },
           "effect": [
-            { "u_add_var": "u_met_apeirohedra", "type": "general", "context": "yrax", "value": "yes" },
+            { "u_add_var": "general_yrax_u_met_apeirohedra", "value": "yes" },
             { "run_eocs": [ "capture_generic_nre_anomaly" ] },
             {
               "u_spawn_monster": "mon_yrax_apeirogon",

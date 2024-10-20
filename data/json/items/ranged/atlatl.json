@@ -8,8 +8,8 @@
     "volume": "2100 ml",
     "symbol": "(",
     "color": "brown",
-    "price": 4500,
-    "price_postapoc": 750,
+    "price": "45 USD",
+    "price_postapoc": "7 USD 50 cent",
     "longest_side": "60 cm",
     "material": [ "wood" ],
     "flags": [
@@ -31,7 +31,7 @@
     "dispersion": 500,
     "sight_dispersion": 90,
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "atlatl": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "atlatl": 1 }, "open_container": true } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 12 }
   },
@@ -42,8 +42,8 @@
     "description": "A steal tipped and fletched atlatl spear, ready to throw with an atlatl.  Not suitable for close combat.",
     "weight": "280 g",
     "volume": "600 ml",
-    "price": 1000,
-    "price_postapoc": 30,
+    "price": "10 USD",
+    "price_postapoc": "30 cent",
     "longest_side": "90 cm",
     "symbol": "/",
     "color": "green",
@@ -53,7 +53,7 @@
     "dispersion": 35,
     "loudness": 0,
     "critical_multiplier": 15,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 97,
     "melee_damage": { "stab": 10 }
   },
   {
@@ -63,8 +63,8 @@
     "description": "A bronze tipped and fletched atlatl spear, ready to throw with an atlatl.  Not suitable for close combat.",
     "weight": "280 g",
     "volume": "600 ml",
-    "price": 1000,
-    "price_postapoc": 30,
+    "price": "10 USD",
+    "price_postapoc": "30 cent",
     "longest_side": "90 cm",
     "symbol": "/",
     "color": "green",
@@ -74,7 +74,7 @@
     "dispersion": 35,
     "loudness": 0,
     "critical_multiplier": 15,
-    "effects": [ "RECOVER_25" ],
+    "recovery_chance": 96,
     "melee_damage": { "stab": 8 }
   },
   {
@@ -84,8 +84,8 @@
     "description": "A fletched atlatl spear with a sharpened wooden tip.  Not suitable for close combat.",
     "weight": "230 g",
     "volume": "580 ml",
-    "price": 250,
-    "price_postapoc": 5,
+    "price": "2 USD 50 cent",
+    "price_postapoc": "5 cent",
     "longest_side": "90 cm",
     "symbol": "/",
     "color": "green",
@@ -95,7 +95,7 @@
     "dispersion": 50,
     "loudness": 0,
     "critical_multiplier": 8,
-    "effects": [ "RECOVER_6" ],
+    "recovery_chance": 83,
     "melee_damage": { "stab": 5 }
   }
 ]

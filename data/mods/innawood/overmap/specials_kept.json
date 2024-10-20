@@ -13,7 +13,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -23,7 +23,7 @@
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
     "rotate": false,
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -36,7 +36,7 @@
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -74,7 +74,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 8, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -104,7 +104,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",

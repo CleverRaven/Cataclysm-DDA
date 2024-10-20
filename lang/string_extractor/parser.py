@@ -17,6 +17,7 @@ from .parsers.dream import parse_dream
 from .parsers.effect import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
 from .parsers.enchant import parse_enchant
+from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
 from .parsers.fault import parse_fault
@@ -42,6 +43,7 @@ from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
 from .parsers.option_slider import parse_option_slider
+from .parsers.oter_vision import parse_oter_vision
 from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
@@ -61,6 +63,7 @@ from .parsers.morale_type import parse_morale_type
 from .parsers.movement_mode import parse_movement_mode
 from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
+from .parsers.overmap_special import parse_overmap_special
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
@@ -104,6 +107,7 @@ parsers = {
     "anatomy": dummy_parser,
     "armor": parse_generic,
     "ascii_art": dummy_parser,
+    "attack_vector": dummy_parser,
     "battery": parse_generic,
     "behavior": dummy_parser,
     "bionic": parse_bionic,
@@ -113,6 +117,7 @@ parsers = {
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
+    "camp_migration": dummy_parser,
     "character_mod": parse_character_mod,
     "charge_removal_blacklist": dummy_parser,
     "city": parse_city,
@@ -134,6 +139,7 @@ parsers = {
     "effect_type": parse_effect_type,
     "emit": dummy_parser,
     "enchantment": parse_enchant,
+    "end_screen": parse_end_screen,
     "engine": parse_generic,
     "event_statistic": parse_event_statistic,
     "event_transformation": dummy_parser,
@@ -187,12 +193,13 @@ parsers = {
     "npc": parse_npc,
     "npc_class": parse_npc_class,
     "oter_id_migration": dummy_parser,
+    "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
     "overmap_location": dummy_parser,
-    "overmap_special": dummy_parser,
+    "overmap_special": parse_overmap_special,
     "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
@@ -234,6 +241,7 @@ parsers = {
     "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
+    "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
     "trait_migration": dummy_parser,
@@ -256,5 +264,5 @@ parsers = {
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
     "wheel": parse_generic,
-    "widget": parse_widget
+    "widget": parse_widget,
 }

@@ -1,6 +1,6 @@
 [
   {
-    "id": "debug_mon",
+    "id": "pseudo_debug_mon",
     "type": "MONSTER",
     "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
@@ -136,7 +136,7 @@
     ]
   },
   {
-    "id": "weakpoint_mon",
+    "id": "pseudo_weakpoint_mon",
     "type": "MONSTER",
     "name": { "str": "weakpoint monster" },
     "description": "This monster exists only for weakpoint testing purposes.",
@@ -161,7 +161,7 @@
         "armor_penalty": { "bullet": 25 },
         "coverage": 50,
         "coverage_mult": { "all": 0.5 },
-        "required_effects": [ "stunned" ]
+        "condition": { "npc_has_any_effect": [ "stunned" ] }
       },
       { "name": "impossible to hit", "coverage": 100, "difficulty": { "all": 100.0 } },
       {

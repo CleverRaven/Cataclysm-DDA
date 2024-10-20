@@ -162,11 +162,12 @@ struct vpslot_toolkit {
 
 struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
-    std::string post_terrain;
-    std::string post_furniture;
-    std::string post_field;
-    int post_field_intensity = 0;
-    time_duration post_field_age = 0_turns;
+    std::optional<ter_str_id> post_terrain;
+    std::optional<furn_str_id> post_furniture;
+    std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
+    int post_field_intensity;
+    time_duration post_field_age;
 };
 
 struct vp_control_req {
@@ -505,6 +506,7 @@ struct vehicle_prototype {
         std::vector<part_def> parts;
         std::vector<vehicle_item_spawn> item_spawns;
         std::vector<zone_def> zone_defs;
+        std::vector<std::pair<vproto_id, mod_id>> src;
 
         shared_ptr_fast<vehicle> blueprint;
 
@@ -512,7 +514,6 @@ struct vehicle_prototype {
         static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
     private:
         bool was_loaded = false; // used by generic_factory
-        std::vector<std::pair<vproto_id, mod_id>> src;
         friend class generic_factory<vehicle_prototype>;
         friend struct mod_tracker;
 };

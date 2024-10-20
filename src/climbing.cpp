@@ -1,23 +1,23 @@
-#include <cstdlib>
-#include <unordered_set>
-#include <utility>
-
 #include "climbing.h"
 
-#include "cata_assert.h"
+#include <cstdint>
+#include <memory>
+#include <set>
+#include <utility>
+
+#include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
-#include "enum_conversions.h"
-#include "enums.h"
-#include "game.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "int_id.h"
-#include "json.h"
+#include "init.h"
+#include "json_error.h"
 #include "map.h"
-#include "string_formatter.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
+template <typename E> struct enum_traits;
 
 static const climbing_aid_id climbing_aid_default( "default" );
 
@@ -378,15 +378,14 @@ climbing_aid::fall_scan::fall_scan( const tripoint &examp )
 
     // Get coordinates just below and at ground level.
     // Also detect if furniture would block our tools/abilities.
-    tripoint bottom = examp;
-    tripoint just_below = examp;
-    just_below.z--;
+    tripoint_bub_ms bottom( examp );
+    tripoint_bub_ms just_below( bottom + tripoint_below );
 
     int hit_furn = false;
     int hit_crea = false;
     int hit_veh = false;
 
-    for( tripoint lower = just_below; here.valid_move( bottom, lower, false, true ); ) {
+    for( tripoint_bub_ms lower = just_below; here.valid_move( bottom, lower, false, true ); ) {
         if( !hit_furn ) {
             if( here.has_furn( lower ) ) {
                 hit_furn = true;
@@ -410,7 +409,7 @@ climbing_aid::fall_scan::fall_scan( const tripoint &examp )
             }
         }
         ++height;
-        bottom.z--;
-        lower.z--;
+        bottom.z()--;
+        lower.z()--;
     }
 }

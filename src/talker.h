@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
 #include "messages.h"
@@ -55,7 +55,7 @@ class talker
         virtual item_location *get_item() {
             return nullptr;
         }
-        virtual item_location *get_item() const {
+        virtual item_location const *get_item() const {
             return nullptr;
         }
         virtual monster *get_monster() {
@@ -215,11 +215,24 @@ class talker
         virtual int get_spell_count( const trait_id & ) const {
             return 0;
         }
+        virtual int get_spell_sum( const trait_id &, int ) const {
+            return 0;
+        }
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
         virtual void set_skill_exp( const skill_id &, int, bool ) {}
         virtual bool has_trait( const trait_id & ) const {
+            return false;
+        }
+        virtual int get_total_in_category( const mutation_category_id &, enum mut_count_type ) const {
+            return 0;
+        }
+        virtual int get_total_in_category_char_has( const mutation_category_id &,
+                enum mut_count_type ) const {
+            return 0;
+        }
+        virtual bool is_trait_purifiable( const trait_id & ) const {
             return false;
         }
         virtual bool has_recipe( const recipe_id & ) const {
@@ -228,13 +241,17 @@ class talker
         virtual void learn_recipe( const recipe_id & ) {}
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
+        virtual int get_daily_calories( int, std::string const & ) const {
+            return 0;
+        }
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
         virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
         virtual void deactivate_mutation( const trait_id & ) {}
-        virtual void set_fatigue( int ) {};
+        virtual void set_trait_purifiability( const trait_id &, const bool & ) {}
+        virtual void set_sleepiness( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
         }
@@ -269,6 +286,7 @@ class talker
             return 0_seconds;
         }
         virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
+        virtual void train_proficiency_for( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
@@ -503,7 +521,7 @@ class talker
         virtual int get_activity_level() const {
             return 0;
         }
-        virtual int get_fatigue() const {
+        virtual int get_sleepiness() const {
             return 0;
         }
         virtual int get_hunger() const {
@@ -534,6 +552,7 @@ class talker
             return 0;
         }
         virtual void set_addiction_turns( const addiction_id &, int ) {}
+        virtual void mod_stored_kcal( int, bool ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
@@ -562,12 +581,19 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
+        virtual int perceived_pain_cur() const {
+            return 0;
+        }
         virtual void attack_target( Creature &, bool, const matec_id &,
                                     bool, int ) {}
 
         virtual int attack_speed() const {
             return 0;
         }
+        virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
+                const damage_instance & ) const {
+            return dealt_damage_instance();
+        };
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }
@@ -584,6 +610,12 @@ class talker
             return false;
         }
         virtual bool wielded_with_weapon_category( const weapon_category_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_weapon_skill( const skill_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_item_ammotype( const ammotype & ) const {
             return false;
         }
         virtual bool has_item_with_flag( const flag_id & ) const {
@@ -636,6 +668,9 @@ class talker
         virtual void set_anger( int ) {}
         virtual void set_morale( int ) {}
         virtual int get_friendly() const {
+            return 0;
+        }
+        virtual int get_difficulty() const {
             return 0;
         }
         virtual void set_friendly( int ) {}

@@ -100,6 +100,11 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
+int scent_map::get( const tripoint_bub_ms &p ) const
+{
+    return scent_map::get( p.raw() );
+}
+
 void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
@@ -193,8 +198,8 @@ void scent_map::update( const tripoint &center, map &m )
     const int diffusivity = 100;
 
     // The new scent flag searching function. Should be wayyy faster than the old one.
-    m.scent_blockers( blocks_scent, reduces_scent, point( scentmap_minx - 1, scentmap_miny - 1 ),
-                      point( scentmap_maxx + 1, scentmap_maxy + 1 ) );
+    m.scent_blockers( blocks_scent, reduces_scent, point_bub_ms( scentmap_minx - 1, scentmap_miny - 1 ),
+                      point_bub_ms( scentmap_maxx + 1, scentmap_maxy + 1 ) );
     // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
     // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
     // is a net performance improvement over the old code. Could probably still be better.

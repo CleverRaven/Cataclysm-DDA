@@ -1,14 +1,18 @@
+#include "advanced_inv_pane.h"
+
 #include <cstddef>
 #include <iterator>
 #include <list>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_pagination.h"
-#include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_assert.h"
+#include "character.h"
+#include "character_attire.h"
 #include "flag.h"
 #include "item.h"
 #include "item_search.h"
@@ -78,7 +82,9 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;
     filter = save_state->filter;
-    container = save_state->container;
+    if( area == AIM_CONTAINER ) {
+        container = save_state->container;
+    }
     container_base_loc = static_cast<aim_location>( save_state->container_base_loc );
 }
 
@@ -248,7 +254,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.i_stacked( square.get_vehicle_stack() ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
-        map_cursor loc_cursor( square.pos );
+        map_cursor loc_cursor( tripoint_bub_ms( square.pos ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::vector<item_location> locs;
             locs.reserve( stacks[x].size() );
