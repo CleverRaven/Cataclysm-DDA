@@ -284,12 +284,10 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
-static const itype_id itype_down_mattress( "down_mattress" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
-static const itype_id itype_mattress( "mattress" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
@@ -479,9 +477,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const trap_str_id tr_down_mattress( "tr_down_mattress" );
 static const trap_str_id tr_ledge( "tr_ledge" );
-static const trap_str_id tr_mattress( "tr_mattress" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -12562,9 +12558,10 @@ int Character::impact( const int force, const tripoint &p )
     }
     //for wielded items
     if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
-        ( weapon.affects_fall() ) ) {
+        weapon.affects_fall() ) {
         effective_force = adjust_effective_force_for_soft_landing( effective_force,
                           weapon.fall_damage_reduction(), weapon.fall_damage_reduction_multiplicative(), 30 );
+
     }
     // Rescale for huge force
     // At >30 force, proper landing is impossible and armor helps way less
