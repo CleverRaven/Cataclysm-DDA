@@ -1990,6 +1990,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "name": { "male": "Groom", "female": "Bride" },            // String, either a single gender neutral (i.e. "Survivor") or object with members "male" and "female"
     "description": "This is an example profession.",           // In-game description
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
     "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
     "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
     "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
@@ -3174,13 +3175,13 @@ Vehicle components when installed on a vehicle.
                               // quality and the quality level, that the vehicle part provides.
                               // Only the "LIFT", "JACK", and "SELF_JACK" qualities are valid.
 "transform_terrain": {        // (Optional) This part can transform terrain, like a plow.
-                              // One of "post_terain", "post_furniture", or "post_field" is required.
-  "pre_flags": [ "PLOWABLE" ], // List of flags for the terrain that can be transformed.
-  "post_terrain": "t_dirtmound", // (Optional, default to "t_null") The resulting terrain, if any.
-  "post_furniture": "f_boulder", // (Optional, default to "f_null") The resulting furniture, if any.
-  "post_field": "fd_fire",    // (Optional, default to "fd_null") The resulting field, if any.
-  "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
-  "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
+  "pre_flags": [ "PLOWABLE" ], // (Optional) List of flags for the terrain that can be transformed.
+  "post_terrain": "t_dirtmound", // (Optional*) The resulting terrain.
+  "post_furniture": "f_boulder", // (Optional*) The resulting furniture.
+  "post_field": "fd_fire",    // (Optional*) The resulting field.
+  "post_field_intensity": 10, // (Mandatory if post_field is specified) The field's intensity.
+  "post_field_age": "20 s"    // (Mandatory if post_field is specified) The field's time to live.
+                              // *One of "post_terrain", "post_furniture", or "post_field" is required.
 },
 "variants_bases": [ // variant bases to generate (see below)
   { "id": "scooter", "label": "Scooter" },

@@ -1789,6 +1789,8 @@ EOCs
 EOD
 eolocanth
 eolocanths
+eolambia
+eolambias
 eoraptor
 eoraptors
 EPA

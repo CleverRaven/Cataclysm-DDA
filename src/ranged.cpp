@@ -1416,6 +1416,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
+    thrown.set_var( "last_act_by_char_id", getID().get_value() );
 
     const int move_cost = throw_cost( *this, to_throw );
     mod_moves( -move_cost );

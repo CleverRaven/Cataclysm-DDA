@@ -31,7 +31,6 @@
 #include "units.h"
 
 static const std::string null_item_id( "null" );
-static const itype_id itype_corpse( "corpse" );
 
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
@@ -322,83 +321,18 @@ std::size_t Single_item_creator::create( ItemList &list,
     return list.size() - prev_list_size;
 }
 
-void Single_item_creator::finalize( const itype_id &container_ex )
-{
-    auto sanitize_count = [this]() {
-        if( modifier->count.first == -1 ) {
-            modifier->count.first = 1;
-        }
-        if( modifier->count.second == -1 ) {
-            modifier->count.second = 1;
-        }
-    };
-    itype_id cont;
-    if( container_item.has_value() ) {
-        cont = container_item.value();
-    } else {
-        cont = container_ex;
-    }
-    if( modifier.has_value() ) {
-        std::unique_ptr<item> content_final;
-        if( modifier->charges.first != -1 || modifier->charges.second != -1 ) {
-            if( type == S_ITEM ) {
-                content_final = std::make_unique<item>( itype_id( id ), calendar::turn_zero );
-                if( !modifier->ammo && !content_final->type->can_have_charges() && !content_final->is_tool() &&
-                    !content_final->is_gun() && !content_final->is_magazine() ) {
-                    debugmsg( "itemgroup entry for spawning item %s defined charges but can't have any", id );
-                    sanitize_count();
-                    return;
-                }
-            }
-        }
-        if( modifier->count.first != -1 && modifier->count.second == -1 ) {
-            if( type != S_ITEM ) {
-                debugmsg( "cannot auto derive count-max for spawning itemgroup %s", id );
-                sanitize_count();
-                return;
-            } else {
-                auto &count = modifier->count;
-                int max_capacity = -1;
-                if( !content_final ) {
-                    content_final = std::make_unique<item>( itype_id( id ), calendar::turn_zero );
-                }
-                item container_final( cont, calendar::turn_zero );
-                if( container_final.is_null() ) {
-                    debugmsg( "cannot auto derive count-max for itemgroup entry of spawning %s inside null container-item.",
-                              id, container_ex.str() );
-                    sanitize_count();
-                    return;
-                }
-                if( content_final->is_gun() || content_final->is_magazine() || content_final->is_tool() ) {
-                    debugmsg( "cannot auto derive count-max for itemgroup entry of spawning %s.", id );
-                    sanitize_count();
-                    return;
-                }
-                if( modifier->container && !modifier->container->has_item( itype_corpse ) &&
-                    !modifier->container->has_item( itype_id::NULL_ID() ) ) {
-                    debugmsg( "cannot auto derive count-max for itemgroup entry of spawning %s with container-item defined in entry.",
-                              id );
-                    sanitize_count();
-                    return;
-                }
-                if( content_final->type->weight == 0_gram ) {
-                    max_capacity = content_final->charges_per_volume( container_final.get_total_capacity() );
-                } else {
-                    max_capacity = std::min( content_final->charges_per_volume( container_final.get_total_capacity() ),
-                                             content_final->charges_per_weight( container_final.get_total_weight_capacity() ) );
-                }
-                count.second = std::max( count.first, max_capacity );
-            }
-        }
-        sanitize_count();
-    }
-}
-
 void Single_item_creator::check_consistency( bool actually_spawn ) const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( itype_id( id ) ) ) {
             debugmsg( "item id %s is unknown (in %s)", id, context() );
+        }
+        if( modifier && ( modifier->charges.first != -1 || modifier->charges.second != -1 ) ) {
+            itype_id content_final( id );
+            if( !modifier->ammo && !content_final->can_have_charges() && !content_final->tool &&
+                !content_final->gun && !content_final->magazine ) {
+                debugmsg( "itemgroup entry for spawning item %s defined charges but can't have any", id );
+            }
         }
     } else if( type == S_ITEM_GROUP ) {
         if( !item_group::group_is_defined( item_group_id( id ) ) ) {
@@ -544,7 +478,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
-    , count( -1, -1 )
+    , count( 1, 1 )
       // Dirt in guns is capped unless overwritten in the itemgroup
       // most guns should not be very dirty or dirty at all
     , dirt( 0, 500 )
@@ -873,19 +807,6 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
         sic->inherit_ammo_mag_chances( with_ammo, with_magazine );
     }
     items.push_back( std::move( ptr ) );
-}
-
-void Item_group::finalize( const itype_id &container )
-{
-    itype_id cont;
-    if( container_item.has_value() ) {
-        cont = container_item.value();
-    } else {
-        cont = container;
-    }
-    for( auto &e : items ) {
-        e->finalize( cont );
-    }
 }
 
 std::size_t Item_group::create( Item_spawn_data::ItemList &list,

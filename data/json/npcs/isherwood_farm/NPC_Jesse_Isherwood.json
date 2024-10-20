@@ -91,7 +91,7 @@
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -104,8 +104,8 @@
     "responses": [
       { "text": "Sounds like you are betting on civilization not coming back.", "topic": "TALK_ISHERWOOD_JESSE_OPINION" },
       { "text": "Do you have any animal care tips?", "topic": "TALK_ISHERWOOD_JESSE_TIPS" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -113,8 +113,8 @@
     "id": "TALK_ISHERWOOD_JESSE_OPINION",
     "dynamic_line": "We can't wait for someone else to fix things, we need to take care of ourselves.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -122,8 +122,8 @@
     "id": "TALK_ISHERWOOD_JESSE_TIPS",
     "dynamic_line": "Horses make good all around companions.  They can get places that cars can't and also help when all the engines fail.  They become very trusting if you feed them some nice fodder.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -137,8 +137,8 @@
         "topic": "TALK_JESSE_CHRIS"
       },
       { "text": "What needs killing?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'm not interested right now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -146,8 +146,8 @@
     "id": "TALK_JESSE_CARLOS1",
     "dynamic_line": "He's out back in the workshop.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -155,8 +155,8 @@
     "id": "TALK_JESSE_CHRIS",
     "dynamic_line": "He's out doing some surveying, we are planning on adding a fence line and some defenses.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -164,8 +164,8 @@
     "id": "TALK_JESSE_CARLOS2",
     "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -185,7 +185,7 @@
       { "text": "I'd like to speak with Carlos too about some work.", "topic": "TALK_JESSE_CARLOS2" },
       { "text": "Is Chris around?", "topic": "TALK_JESSE_CHRIS" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
