@@ -117,7 +117,7 @@
   {
     "id": "mon_zombie_fat",
     "type": "MONSTER",
-    "name": { "str": "fat zombie" },
+    "name": { "str": "obese zombie" },
     "description": "Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
     "copy-from": "mon_zombie",
     "proportional": { "volume": 1.5, "weight": 1.5 },
