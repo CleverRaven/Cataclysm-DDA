@@ -32,8 +32,6 @@ enum class bodygraph_var : int {
     last // END OF ENUMS
 };
 
-const std::vector<std::string> bodygraph_var_labels = { "hp", "temperature", "encumbrance", "status", "wet" };
-
 struct disp_overmap_cache {
     private:
         tripoint_abs_omt _center;

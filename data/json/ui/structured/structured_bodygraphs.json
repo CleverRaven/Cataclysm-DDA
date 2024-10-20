@@ -54,7 +54,7 @@
     "style": "layout",
     "width": 5,
     "arrange": "rows",
-    "widgets": [ "tiny_body_graph_side", "structured_tiny_body_graphs_left_label", "tiny_body_graph_side_encumb" ]
+    "widgets": [ "tiny_body_graph_side", "structured_space", "tiny_body_graph_side_encumb" ]
   },
   {
     "id": "structured_tiny_body_graphs_side_right_layout",
@@ -62,6 +62,6 @@
     "style": "layout",
     "width": 5,
     "arrange": "rows",
-    "widgets": [ "tiny_body_graph_side_status", "structured_tiny_body_graphs_right_label", "tiny_body_graph_side_temp" ]
+    "widgets": [ "tiny_body_graph_side_status", "structured_space", "tiny_body_graph_side_temp" ]
   }
 ]
