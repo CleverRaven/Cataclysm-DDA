@@ -4,6 +4,7 @@
     "id": "EOC_LILIN_RUACH_DRAIN",
     "recurrence": [ "6 minutes", "6 minutes" ],
     "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
     "effect": [
       { "u_lose_effect": "effect_lilin_no_ruach" },
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "--" ] },

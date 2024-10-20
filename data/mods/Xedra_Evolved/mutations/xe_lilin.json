@@ -11,7 +11,8 @@
     "starting_trait": false,
     "purifiable": false,
     "types": [ "HERITAGE" ],
-    "anger_relations": [ [ "VAMPIRE", -30 ], [ "HOMULLUS", 30 ] ]
+    "anger_relations": [ [ "VAMPIRE", -30 ], [ "HOMULLUS", 30 ] ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",

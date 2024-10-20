@@ -2284,6 +2284,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_vampire_immune",
+    "//": "Hidden effects, prevents you from being vampirized",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "vampire_virus" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_no_ruach",
     "name": [ { "str": "Ra'ab", "//~": "Biblical Hebrew for 'famine' or 'starvation'" } ],
     "desc": [ "You are out of ruach and gradually weakening." ],
