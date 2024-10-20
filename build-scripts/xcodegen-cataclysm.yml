@@ -46,10 +46,10 @@ targets:
         name: Sources
         buildPhase: sources
         includes: 
+          - "**/third-party/imgui/*.cpp"
+          - "**/third-party/imgui/*.h"
           - "*.cpp"
           - "*.h"
-          - "third-party/imgui/*.cpp"
-          - "third-party/imgui/*.h"
         excludes:
           - "*.txt"
           - "*.in"
