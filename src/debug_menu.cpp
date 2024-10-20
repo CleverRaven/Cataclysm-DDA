@@ -570,6 +570,100 @@ static void monster_ammo_edit( monster &mon )
     }
 }
 
+static std::string query_npctalkvar_new_value()
+{
+    std::string value;
+    string_input_popup popup_val;
+    popup_val
+    .title( _( "Value" ) )
+    .width( 85 )
+    .edit( value );
+    return value;
+}
+
+static void edit_global_npctalk_vars()
+{
+    uilist global_var_list;
+    global_var_list.desc_enabled = true;
+    global_var_list.title = _( "Edit npctalkvar variables (global)" );
+    global_variables &globvars = get_globals();
+    // some ordering shennanigans so that i == 0 is the option to add a new var
+    int i = 1;
+    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (global)" )};
+    global_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
+    for( std::pair<const std::string, std::string> &some_global : globvars.get_global_values() ) {
+        keymap_index.emplace_back( some_global.first );
+        std::string description = string_format( _( "raw var value: %s" ), some_global.second );
+        // only run std::stof if these are actually doubles and won't explode us
+        if( strtol( some_global.second.c_str(), nullptr, 0 ) ) {
+            description += "\n";
+            description += string_format( _( "as time_duration: %s" ),
+                                          to_string( time_duration::from_turns( std::stof( some_global.second ) ) ) );
+            description += "\n";
+            description += string_format( _( "as time_point: %s" ),
+                                          to_string( calendar::turn_zero + time_duration::from_turns( std::stof( some_global.second ) ) ) );
+        }
+        global_var_list.addentry_desc( i, true, input_event(), some_global.first, description );
+        i++;
+    }
+    global_var_list.query();
+    int selected_globvar = global_var_list.ret;
+    if( selected_globvar == 0 ) {
+        std::string key;
+        string_input_popup popup_key;
+        popup_key
+        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
+        .title( _( "Key\n npctalk_var_" ) )
+        .width( 85 )
+        .edit( key );
+        globvars.set_global_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
+        globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+    }
+}
+
+static void edit_character_npctalk_vars( Character &you )
+{
+
+    uilist char_var_list;
+    char_var_list.desc_enabled = true;
+    char_var_list.title = string_format( _( "Edit npctalkvar variables (%s)" ), you.disp_name() );
+    std::unordered_map<std::string, std::string> &char_vars = you.get_values();
+    // some ordering shennanigans so that i == 0 is the option to add a new var
+    int i = 1;
+    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (local)" )};
+    char_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
+    for( std::pair<const std::string, std::string> &some_local : char_vars ) {
+        keymap_index.emplace_back( some_local.first );
+        std::string description = string_format( _( "raw var value: %s" ), some_local.second );
+        // only run std::stof if these are actually doubles and won't explode us
+        if( strtol( some_local.second.c_str(), nullptr, 0 ) ) {
+            description += "\n";
+            description += string_format( _( "as time_duration: %s" ),
+                                          to_string( time_duration::from_turns( std::stof( some_local.second ) ) ) );
+            description += "\n";
+            description += string_format( _( "as time_point: %s" ),
+                                          to_string( calendar::turn_zero + time_duration::from_turns( std::stof( some_local.second ) ) ) );
+        }
+        char_var_list.addentry_desc( i, true, input_event(), some_local.first, description );
+        i++;
+    }
+    char_var_list.query();
+    int selected_globvar = char_var_list.ret;
+    if( selected_globvar == 0 ) {
+        std::string key;
+        string_input_popup popup_key;
+        popup_key
+        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
+        .title( _( "Key\n npctalk_var_" ) )
+        .width( 85 )
+        .edit( key );
+        you.set_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
+        you.set_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+    }
+}
+
 static void run_eoc_menu( Creature *target = nullptr, bool target_as_alpha = false )
 {
     if( !target && target_as_alpha ) {
@@ -2583,19 +2677,7 @@ static void character_edit_menu()
             break;
         }
         case D_EDIT_VARS: {
-            std::string key;
-            std::string value;
-            string_input_popup popup_key;
-            string_input_popup popup_val;
-            popup_key
-            .title( _( "Key" ) )
-            .width( 85 )
-            .edit( key );
-            popup_val
-            .title( _( "Value" ) )
-            .width( 85 )
-            .edit( value );
-            you.set_value( "npctalk_var_" + key, value );
+            edit_character_npctalk_vars( you );
             break;
         }
         case D_FACTION: {
@@ -3293,24 +3375,6 @@ static void damage_self()
             player_character.die( nullptr );
         }
     }
-}
-
-static void edit_global_vars()
-{
-    std::string key;
-    std::string value;
-    string_input_popup popup_key;
-    string_input_popup popup_val;
-    popup_key
-    .title( _( "Key" ) )
-    .width( 85 )
-    .edit( key );
-    popup_val
-    .title( _( "Value" ) )
-    .width( 85 )
-    .edit( value );
-    global_variables &globvars = get_globals();
-    globvars.set_global_value( "npctalk_var_" + key, value );
 }
 
 static void game_report()
@@ -4147,7 +4211,7 @@ void debug()
         }
         break;
         case debug_menu_index::EDIT_GLOBAL_VARS:
-            edit_global_vars();
+            edit_global_npctalk_vars();
             break;
 
         case debug_menu_index::SAVE_SCREENSHOT:
