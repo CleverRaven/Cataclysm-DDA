@@ -875,9 +875,30 @@ You don't wield anything
 { "not": "u_has_weapon" }
 ```
 
+### `u_controlling_vehicle`, `npc_controlling_vehicle`
+- type: simple string
+- return true if alpha or beta talker control a vehicle; Nota bene: NPCs cannot currently operate vehicles
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_controlling_vehicle"
+```
+
+true if you do not drive
+```json
+{ "not": "u_controlling_vehicle" }
+```
+
 ### `u_driving`, `npc_driving`
 - type: simple string
-- return true if alpha or beta talker operate a vehicles; Nota bene: NPCs cannot currently operate vehicles
+- return true if alpha or beta talker operate a moving vehicle; Nota bene: NPCs cannot currently operate vehicles
 
 #### Valid talkers:
 
