@@ -11,6 +11,28 @@
       {
         "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "==", "0" ] },
         "then": { "u_add_effect": "effect_lilin_no_ruach" }
+      },
+      {
+        "if": {
+          "math": [
+            "u_vitamin('lilin_ruach_vitamin')",
+            ">=",
+            "1680 + (u_has_trait('LILIN_HOLD_MORE_RUACH') * 1680) + (u_has_trait('LILIN_HOLD_MORE_RUACH_2') * 3360) + (u_has_trait('LILIN_HOLD_MORE_RUACH_3') * 5040)"
+          ]
+        },
+        "then": {
+          "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
+          "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "6720" ] },
+          "else": {
+            "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
+            "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "5040" ] },
+            "else": {
+              "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
+              "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "3360" ] },
+              "else": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "1680" ] }
+            }
+          }
+        }
       }
     ]
   },
@@ -19,7 +41,7 @@
     "id": "EOC_LILIN_SPEND_RUACH_FOR_POWERS",
     "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "==", "240" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
       { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "+=", "1" ] },
       {
         "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "+=", "u_lilin_amount_of_ruach_spent_for_powers_increaser" ]

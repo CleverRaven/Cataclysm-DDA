@@ -53,7 +53,46 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
+    "prereqs": [ "LILIN_DRAIN_ESSENCE_MELEE" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_drain_essence_ranged_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_HOLD_MORE_RUACH",
+    "name": { "str": "Ruach Spring" },
+    "description": "Your powers have expanded and you are now capable of holding more ruach.",
+    "points": 2,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "changes_to": [ "LILIN_HOLD_MORE_RUACH_2" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_HOLD_MORE_RUACH_2",
+    "name": { "str": "Ruach Well" },
+    "description": "Your powers have expanded and you are now capable of holding even more ruach.",
+    "points": 2,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_HOLD_MORE_RUACH" ],
+    "changes_to": [ "LILIN_HOLD_MORE_RUACH_3" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_HOLD_MORE_RUACH_3",
+    "name": { "str": "Ruach Sea" },
+    "description": "Your powers have expanded and you are now capable of holding an enormous amount of ruach.",
+    "points": 2,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_HOLD_MORE_RUACH_2" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
   }
 ]
