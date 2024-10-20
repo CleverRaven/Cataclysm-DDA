@@ -5220,7 +5220,7 @@
     "leads_to": [ "SCUTTLE" ],
     "visibility": 8,
     "ugliness": 9,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
     "noise_modifier": 0.9,
     "destroys_gear": true,
     "flags": [ "TOUGH_FEET" ]
@@ -5242,7 +5242,7 @@
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "movecost_flatground_modifier": 1.25,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
     "noise_modifier": 0.25,
     "destroys_gear": true
   },
@@ -7324,7 +7324,6 @@
     "changes_to": [ "ROOTS2" ],
     "cancels": [ "LEG_TENTACLES", "HOOVES" ],
     "category": [ "PLANT" ],
-    "restricts_gear": [ "leg_stub_r", "leg_stub_l" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
   {
@@ -7812,7 +7811,7 @@
       { "part": "foot_l", "neutral": 6 },
       { "part": "foot_r", "neutral": 6 }
     ],
-    "restricts_gear": [ "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
     "movecost_modifier": 1.2,
     "noise_modifier": 0.0,
     "flags": [ "TOUGH_FEET" ]
