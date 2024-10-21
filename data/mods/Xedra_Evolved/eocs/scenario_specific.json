@@ -7,6 +7,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_lilin_starting_ruach",
+    "//": "Starts you off with some ruach so you don't begin starving immediately",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "rng(550,850) " ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "scenario_paraclesian_birth",
     "eoc_type": "SCENARIO_SPECIFIC",
     "condition": { "u_has_trait": "IERDE" },

@@ -133,6 +133,7 @@
       "sloc_shelter_vandalized_b",
       "sloc_shelter_vandalized_c"
     ],
+    "eoc": [ "scenario_lilin_starting_ruach" ],
     "forced_traits": [ "LILIN_TRAITS", "LILIN_DRAIN_ESSENCE_MELEE" ]
   }
 ]
