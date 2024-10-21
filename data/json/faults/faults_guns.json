@@ -1,5 +1,13 @@
 [
   {
+    "id": "fault_gun_flintlock",
+    "type": "fault",
+    "name": { "str": "Flintlock fouling" },
+    "description": "Firing blackpowder loads from a flintlock fouls it, which reduces reliability and, if left uncleaned, leads to rust.  It fouls the gun much faster than the use of modern smokeless powder cartridges.  Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly.",
+    "item_prefix": "rusting",
+    "flags": [ "BLACKPOWDER_FOULING_DAMAGE", "NO_DIRTYING" ]
+  },
+  {
     "id": "fault_gun_blackpowder",
     "type": "fault",
     "name": { "str": "Blackpowder fouling" },
