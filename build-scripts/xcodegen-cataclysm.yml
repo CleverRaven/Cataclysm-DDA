@@ -55,7 +55,10 @@ targets:
           - "*.in"
           - "*.rc"
           - "*.cmake"
-          - "**/third-party/**"
+          - "**/third-party/flatbuffers/**"
+          - "**/third-party/ghc/**"
+          - "**/third-party/imtui/**"
+          - "**/third-party/pinyin/**"
           - "**/chkjson/**"
       - path: ../build-data/ios/resources/LaunchScreen.storyboard
         group: Resources
