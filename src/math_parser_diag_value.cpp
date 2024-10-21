@@ -154,6 +154,11 @@ var_info diag_value::var() const
     return _diag_value_at_parse_time<var_info>( data );
 }
 
+var_info diag_value::var( dialogue const &/* d */ ) const
+{
+    return _diag_value_at_parse_time<var_info, var_info const &, true>( data );
+}
+
 bool diag_value::is_array() const
 {
     return std::holds_alternative<diag_array>( data );
