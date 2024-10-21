@@ -314,7 +314,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
-        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
+        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() &&
+            get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
             set_var( "zombie_form", type->source_monster->zombify_into.c_str() );
         }
     }
@@ -627,7 +628,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
-    if( !mt->zombify_into.is_empty() ) {
+    if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
         result.set_var( "zombie_form", mt->zombify_into.c_str() );
     }
 
@@ -1498,8 +1499,8 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
-        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs(
-                                               get_player_character().pos() ) ) );
+        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+                                               get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -1714,7 +1715,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
@@ -2400,10 +2401,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                        bool /* debug */ ) const
 {
     if( parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
-        info.emplace_back( "BASE", string_format( _( "Origin: %s" ), enumerate_as_string( type->src,
-        []( const std::pair<itype_id, mod_id> &source ) {
-            return string_format( "'%s'", source.second->name() );
-        }, enumeration_conjunction::arrow ) ) );
+        info.emplace_back( "BASE", get_origin( type->src ) );
         insert_separation_line( info );
     }
 
@@ -3624,7 +3622,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
-    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+    if( mod.loudness_multiplier != 1.0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
@@ -5615,16 +5613,18 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES ) ) {
             for( const damage_info_order &dio : damage_info_order::get_all(
                      damage_info_order::info_type::MELEE ) ) {
-                // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
-                // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                info.emplace_back( "BASE", string_format( "%s: ",
-                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ),
-                                   "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
-                //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
-                //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
-                info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
-                                   dio.dmg_type->name.translated() ),
-                                   "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+                if( non_crit.type_damage( dio.dmg_type ) > 0 || crit.type_damage( dio.dmg_type ) > 0 ) {
+                    // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+                    // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+                    info.emplace_back( "BASE", string_format( "%s: ",
+                                       uppercase_first_letter( dio.dmg_type->name.translated() ) ),
+                                       "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
+                    //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
+                    //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
+                    info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
+                                       dio.dmg_type->name.translated() ),
+                                       "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+                }
             }
         }
         // Moves
@@ -6653,8 +6653,8 @@ void item::handle_pickup_ownership( Character &c )
                 } else if( as_monster ) {
                     owned_by = is_owned_by( *as_monster );
                 }
-                return &cr != &c && owned_by && rl_dist( cr.pos(), c.pos() ) < MAX_VIEW_DISTANCE &&
-                       cr.sees( c.pos() );
+                return &cr != &c && owned_by && rl_dist( cr.pos_bub(), c.pos_bub() ) < MAX_VIEW_DISTANCE &&
+                       cr.sees( c.pos_bub() );
             };
             const auto sort_criteria = []( const Creature * lhs, const Creature * rhs ) {
                 const npc *const lnpc = lhs->as_npc();
@@ -10856,14 +10856,28 @@ int item::ammo_remaining( const bool include_linked ) const
     return ammo_remaining( nullptr, include_linked );
 }
 
+bool item::uses_energy() const
+{
+    if( is_vehicle_battery() ) {
+        return true;
+    }
+    const item *mag = magazine_current();
+    if( mag && mag->uses_energy() ) {
+        return true;
+    }
+    return has_flag( flag_USES_BIONIC_POWER ) ||
+           has_flag( flag_USE_UPS ) ||
+           ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
+}
+
 units::energy item::energy_remaining( const Character *carrier ) const
 {
-    units::energy ret = 0_kJ;
+    return energy_remaining( carrier, false );
+}
 
-    // Future energy based batteries
-    if( is_vehicle_battery() ) {
-        ret += energy;
-    }
+units::energy item::energy_remaining( const Character *carrier, bool ignoreExternalSources ) const
+{
+    units::energy ret = 0_kJ;
 
     // Magazine in the item
     const item *mag = magazine_current();
@@ -10871,18 +10885,27 @@ units::energy item::energy_remaining( const Character *carrier ) const
         ret += mag->energy_remaining( carrier );
     }
 
-    // Power from bionic
-    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-        ret += carrier->get_power_level();
-    }
+    if( !ignoreExternalSources ) {
 
-    // Extra power from UPS
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        ret += carrier->available_ups();
-    }
+        // Future energy based batteries
+        if( is_vehicle_battery() ) {
+            ret += energy;
+        }
+
+        // Power from bionic
+        if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+            ret += carrier->get_power_level();
+        }
+
+        // Extra power from UPS
+        if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+            ret += carrier->available_ups();
+        }
+    };
 
     // Battery(ammo) contained within
     if( is_magazine() ) {
+        ret += energy;
         for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
             if( e->typeId() == itype_battery ) {
                 ret += units::from_kilojoule( static_cast<std::int64_t>( e->charges ) );
@@ -11086,8 +11109,22 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     if( is_battery() || fuel_efficiency >= 0 ) {
         int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
         qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
-        // fix negative quantity
-        if( qty < 0_J ) {
+        // Either we're out of juice or truncating the value above means we didn't drain quite enough.
+        // In the latter case at least this will bump up energy enough to satisfy the remainder,
+        // if not it will drain the item all the way.
+        // TODO: reconsider what happens with fuel burning, right now this stashes
+        // the remainder of energy from burning the fuel in the item in question,
+        // which potentially allows it to burn less fuel next time.
+        // Do we want an implicit 1kJ battery in the generator to smooth things out?
+        if( qty > energy ) {
+            int64_t residual_drain = contents.ammo_consume( 1, pos, fuel_efficiency );
+            energy += units::from_kilojoule( residual_drain );
+        }
+        if( qty > energy ) {
+            qty -= energy;
+            energy = 0_J;
+        } else {
+            energy -= qty;
             qty = 0_J;
         }
     }
@@ -11107,13 +11144,6 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
         units::energy bio_used = std::min( carrier->get_power_level(), qty );
         carrier->mod_power_level( -bio_used );
         qty -= bio_used;
-    }
-
-    // If consumption is not integer kJ we need to consume one extra battery charge to "round up".
-    // Should happen only if battery powered and energy per shot is not integer kJ.
-    if( qty > 0_kJ && is_battery() ) {
-        int consumed_kj = contents.ammo_consume( 1, pos );
-        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
     }
 
     return wanted_energy - qty;
@@ -13237,6 +13267,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+        get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) &&
         !mon_human->zombify_into.is_empty() ) {
         set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
@@ -13829,7 +13860,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( !length_check_needed ) {
             return false;
         }
-        link().length = rl_dist( here.getabs( pos ), link().t_abs_pos.raw() ) +
+        link().length = rl_dist( here.getglobal( pos ), link().t_abs_pos ) +
                         link().t_mount.abs().x + link().t_mount.abs().y;
         if( check_length() ) {
             return reset_link( true, carrier );
@@ -14073,6 +14104,18 @@ bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
     return true;
 }
 
+units::energy item::energy_per_second() const
+{
+    units::energy energy_to_burn;
+    if( type->tool->turns_per_charge > 0 ) {
+        energy_to_burn += units::from_kilojoule( std::max<int64_t>( ammo_required(),
+                          1 ) ) / type->tool->turns_per_charge;
+    } else if( type->tool->power_draw > 0_mW ) {
+        energy_to_burn += type->tool->power_draw * 1_seconds;
+    }
+    return energy_to_burn;
+}
+
 bool item::process_tool( Character *carrier, const tripoint &pos )
 {
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
@@ -14081,8 +14124,9 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     }
 
     // if insufficient available charges shutdown the tool
-    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-        ammo_remaining( carrier, true ) == 0 ) {
+    if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
+        ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
+          ( !uses_energy() && ammo_remaining( carrier, true ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -14097,20 +14141,19 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         }
     }
 
-    int energy = 0;
-    if( type->tool->turns_per_charge > 0 &&
-        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        energy = std::max( ammo_required(), 1 );
-    } else if( type->tool->power_draw > 0_W ) {
-        // kJ (battery unit) per second
-        energy = units::to_kilowatt( type->tool->power_draw );
-        // energy_bat remainder results in chance at additional charge/discharge
-        const int kw_in_mw = units::to_milliwatt( 1_kW );
-        energy += x_in_y( units::to_milliwatt( type->tool->power_draw ) % kw_in_mw, kw_in_mw ) ? 1 : 0;
-    }
+    if( energy_remaining( carrier ) > 0_J ) {
+        energy_consume( energy_per_second(), pos, carrier );
+    } else {
+        // Non-electrical charge consumption.
+        int charges_to_use = 0;
+        if( type->tool->turns_per_charge > 0 &&
+            to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+            charges_to_use = std::max( ammo_required(), 1 );
+        }
 
-    if( energy > 0 ) {
-        ammo_consume( energy, pos, carrier );
+        if( charges_to_use > 0 ) {
+            ammo_consume( charges_to_use, pos, carrier );
+        }
     }
 
     type->tick( carrier, *this, pos );
@@ -14337,7 +14380,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
                                      watertight_container ) ) {
             if( is_comestible() ) {
-                here.rotten_item_spawn( *this, pos );
+                here.rotten_item_spawn( *this, tripoint_bub_ms( pos ) );
             }
             if( is_corpse() ) {
                 here.handle_decayed_corpse( *this, here.getglobal( pos ) );

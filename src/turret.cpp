@@ -602,7 +602,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // The position of the vehicle part.
-    tripoint pos = global_part_pos3( pt );
+    tripoint_bub_ms pos = bub_part_pos( pt );
 
     // Create the targeting computer's npc
     npc &cpu = pt.get_targeting_npc( *this );
@@ -622,7 +622,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Manual target not set, find one automatically.
         // BEWARE: Calling turret_data.fire on tripoint min coordinates starts a crash
         //      triggered at `trajectory.insert( trajectory.begin(), source )` at ranged.cpp:236
-        pt.reset_target( pos );
+        pt.reset_target( pos.raw() );
         int boo_hoo;
 
         // TODO: calculate chance to hit and cap range based upon this
@@ -653,7 +653,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     } else {
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
-        if( pos != target.first ) {
+        if( pos.raw() != target.first ) {
             target.second = target.first;
             debugmsg( "%s moved after aiming but before it could fire.", cpu.get_name() );
             return shots;
@@ -662,7 +662,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     // Get the turret's target and reset it
     tripoint_bub_ms targ( target.second );
-    pt.reset_target( pos );
+    pt.reset_target( pos.raw() );
 
     shots = gun.fire( cpu, targ );
 

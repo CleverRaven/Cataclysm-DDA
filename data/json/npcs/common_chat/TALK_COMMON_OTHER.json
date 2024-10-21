@@ -21,7 +21,7 @@
         "effect": "start_trade"
       },
       { "text": "Want to share some useful items with me?", "topic": "TALK_SHARE_EQUIPMENT" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -170,14 +170,14 @@
         },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": -4, "value": -5, "anger": 20 } }
       },
-      { "switch": true, "default": true, "text": "Nevermind.", "topic": "TALK_NONE" }
+      { "switch": true, "default": true, "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
     "id": "TALK_AGREE_FOLLOW",
     "type": "talk_topic",
     "dynamic_line": "You got it, I'm with you!",
-    "responses": [ { "text": "Awesome!", "topic": "TALK_FRIEND" }, { "text": "Okay, let's go!", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Awesome!", "topic": "TALK_FRIEND" }, { "text": "<lets_go>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_DENY_FOLLOW",
@@ -209,17 +209,14 @@
       },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_PLAYER_LEADS",
     "type": "talk_topic",
     "dynamic_line": "Alright.  You can lead now.",
-    "responses": [
-      { "text": "Good.  Something else…", "topic": "TALK_FRIEND" },
-      { "text": "Alright, let's go.", "topic": "TALK_NONE" }
-    ]
+    "responses": [ { "text": "Good.  Something else…", "topic": "TALK_FRIEND" }, { "text": "<lets_go>", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_LEADER_STAYS",
@@ -229,7 +226,7 @@
   {
     "id": "TALK_DESCRIBE_MISSION",
     "type": "talk_topic",
-    "responses": [ { "text": "I see.", "topic": "TALK_NONE" }, { "text": "Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I see.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_TRAIN_NPC_START",
@@ -251,7 +248,7 @@
         "effect": "lead_to_safety"
       },
       { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_NPC_FORCE", "switch": true, "default": true },
-      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -266,7 +263,7 @@
         "effect": "start_training_seminar",
         "switch": true
       },
-      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -289,7 +286,7 @@
         "effect": "lead_to_safety"
       },
       { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_FORCE", "switch": true, "default": true },
-      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -360,7 +357,7 @@
     "dynamic_line": "Alright, show me how it's done.",
     "responses": [
       { "text": "Okay, let's begin.", "topic": "TALK_DONE", "effect": "start_training_npc" },
-      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -369,7 +366,7 @@
     "dynamic_line": "Alright, let's begin.",
     "responses": [
       { "text": "Sounds good.", "topic": "TALK_DONE", "effect": "start_training" },
-      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -384,7 +381,8 @@
     "dynamic_line": "I'm on watch.",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND", "effect": "stop_guard" },
-      { "text": "See you around.", "topic": "TALK_DONE" }
+      { "text": "Let's talk.", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -470,13 +468,13 @@
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -3, "fear": 1, "value": -3, "anger": 5 } }
       },
       {
-        "text": "Eh, never mind.",
+        "text": "<end_talking_nevermind>",
         "switch": true,
         "default": true,
         "condition": { "npc_has_effect": "asked_for_item" },
         "topic": "TALK_NONE"
       },
-      { "text": "Never mind, I'll do without.  Bye.", "topic": "TALK_DONE" }
+      { "text": "Never mind, I'll do without.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -575,7 +573,10 @@
     "id": "TALK_DELIVER_ASK",
     "type": "talk_topic",
     "dynamic_line": "I'm willing to pay <topic_item_price> per batch for a total of <topic_item_your_total_price>.",
-    "responses": [ { "text": "Works for me.", "topic": "TALK_DELIVER_CONFIRM" }, { "text": "Maybe later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Works for me.", "topic": "TALK_DELIVER_CONFIRM" },
+      { "text": "<end_talking_later>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_DELIVER_CONFIRM",

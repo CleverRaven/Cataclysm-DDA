@@ -241,6 +241,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         return std::nullopt;
     }
 
+    it.set_var( "last_act_by_char_id", p->getID().get_value() );
+
     int result = 0;
 
     if( need_fire ) {
@@ -652,10 +654,19 @@ void explosion_iuse::load( const JsonObject &obj, const std::string & )
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
 }
 
-std::optional<int> explosion_iuse::use( Character *p, item &, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint &pos ) const
 {
     if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( p, pos, explosion );
+        Character *source = p;
+        if( it.has_var( "last_act_by_char_id" ) ) {
+            character_id thrower( it.get_var( "last_act_by_char_id", 0 ) );
+            if( thrower == get_player_character().getID() ) {
+                source = &get_player_character();
+            } else {
+                source = g->find_npc( thrower );
+            }
+        }
+        explosion_handler::explosion( source, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
@@ -1081,16 +1092,16 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     if( p->cant_do_mounted() ) {
         return ret_val<tripoint>::make_failure( pos );
     }
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
+    tripoint_bub_ms pnt( pos );
+    if( pos == p->pos_bub().raw() ) {
         if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
-            pnt = *pnt_;
+            pnt = tripoint_bub_ms( *pnt_ );
         } else {
             return ret_val<tripoint>::make_failure( pos );
         }
     }
 
-    if( pnt == p->pos() ) {
+    if( pnt == p->pos_bub() ) {
         return ret_val<tripoint>::make_failure( pos,
                                                 _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
@@ -1141,7 +1152,7 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
         }
     }
 
-    return ret_val<tripoint>::make_success( pnt );
+    return ret_val<tripoint>::make_success( pnt.raw() );
 }
 
 std::optional<int> deploy_furn_actor::use( Character *p, item &it,
@@ -1185,7 +1196,11 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
+    if( !place_appliance( tripoint_bub_ms( suitable.value() ),
+                          vpart_appliance_from_item( appliance_base ), it ) ) {
+        // failed to place somehow, cancel!!
+        return 0;
+    }
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -3798,8 +3813,8 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
 static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
     map &here = get_map();
-    const tripoint a = pos + tripoint( offset, 0 );
-    const tripoint b = pos - tripoint( offset, 0 );
+    const tripoint_bub_ms a = tripoint_bub_ms( pos ) + tripoint( offset, 0 );
+    const tripoint_bub_ms b = tripoint_bub_ms( pos ) - tripoint( offset, 0 );
     return here.move_cost( a ) != 2 && here.move_cost( b ) != 2;
 }
 
@@ -5185,10 +5200,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint center = p->pos() + tripoint( ( radius + 1 ) * direction.x,
-                            ( radius + 1 ) * direction.y, 0 );
+    const tripoint_bub_ms center = p->pos_bub() + tripoint( ( radius + 1 ) * direction.x,
+                                   ( radius + 1 ) * direction.y, 0 );
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return std::nullopt;
@@ -5216,10 +5231,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     return 0;
 }
 
-bool deploy_tent_actor::check_intact( const tripoint &center ) const
+bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         const furn_id fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {

@@ -19,7 +19,7 @@
     "dynamic_line": "*frowning, grimacing.  \"I don't know.  It's.  I can't talk about this right now.\"",
     "responses": [
       { "text": "Of course, I'm sorry.", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AboutGreeting_End" },
-      { "text": "I should probably go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

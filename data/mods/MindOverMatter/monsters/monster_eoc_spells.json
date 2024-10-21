@@ -289,12 +289,7 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [
-                        { "flags": [ "RECHARGE" ] },
-                        { "flags": [ "ELECTRONIC" ] },
-                        { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-                        { "flags": [ "USE_UPS" ] }
-                      ],
+                      "search_data": [ { "uses_energy": true } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",

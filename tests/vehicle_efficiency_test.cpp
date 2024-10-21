@@ -174,7 +174,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int max_dist = target_distance * 1.01;
     clear_game( terrain );
 
-    const tripoint map_starting_point( 60, 60, 0 );
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
@@ -208,7 +208,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float starting_fuel_per = fuel_percentage_left( veh, starting_fuel );
     REQUIRE( std::abs( starting_fuel_per - 1.0f ) < 0.001f );
 
-    const tripoint starting_point = veh.global_pos3();
+    const tripoint_bub_ms starting_point = veh.pos_bub();
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
@@ -235,9 +235,9 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
             REQUIRE( here.ter( pos ) );
         }
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.global_pos3() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint displacement = starting_point - veh.global_pos3();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
         here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;

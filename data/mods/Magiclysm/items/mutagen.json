@@ -8,7 +8,7 @@
     "description": "A very concentrated form of mana potion.",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the concentrated mana mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
     }
@@ -22,7 +22,7 @@
     "name": { "str_sp": "mana mutagen" },
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mana mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_manatouched", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -35,7 +35,7 @@
     "name": { "str_sp": "black dragon mutagen" },
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the black dragon mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_black_dragon", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -48,7 +48,7 @@
     "color": "black",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the black dragon mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_black_dragon", 450, 550 ] ]
     }

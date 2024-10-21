@@ -2442,11 +2442,16 @@ class item : public visitable
          */
         int shots_remaining( const Character *carrier ) const;
 
+        // Does this use electrical energy, or is it fueled by something else?
+        bool uses_energy() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
+         * Set second parameter to true to ignore vehicle batteries, UPS and bionic power when checking
          */
+
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
+        units::energy energy_remaining( const Character *carrier, bool ignoreExternalSources ) const;
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
@@ -2458,6 +2463,7 @@ class item : public visitable
 
 
     private:
+        units::energy energy_per_second() const;
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:

@@ -123,7 +123,6 @@ static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
 static bool need_invalidate_framebuffers = false;
-
 palette_array windowsPalette;
 
 static Font_Ptr font;
@@ -811,7 +810,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     const bool draw_overlays = blink || fast_traveling;
-    o = origin.raw().xy();
+    o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
@@ -3523,8 +3522,9 @@ static void CheckMessages()
         try_sdl_update();
     }
     if( quit ) {
-        catacurses::endwin();
-        exit( 0 );
+        if( g->uquit != quit_status::QUIT_EXIT_PENDING ) {
+            g->uquit = quit_status::QUIT_EXIT;
+        }
     }
 }
 
@@ -3681,7 +3681,7 @@ void catacurses::init_interface()
             ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
             fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                           /*precheck=*/true, /*force=*/false,
-                                          /*pump_events=*/true );
+                                          /*pump_events=*/true, /*terrain=*/false );
         } catch( const std::exception &err ) {
             dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
             // use_tiles is the cached value of the USE_TILES option.
@@ -3696,7 +3696,7 @@ void catacurses::init_interface()
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
         closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                         /*precheck=*/true, /*force=*/false,
-                                        /*pump_events=*/true );
+                                        /*pump_events=*/true, /*terrain=*/false );
         tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
@@ -3711,7 +3711,7 @@ void catacurses::init_interface()
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/true, /*force=*/false,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3723,8 +3723,12 @@ void catacurses::init_interface()
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
+#if defined(SDL_SOUND)
     // initialize sound set
-    load_soundset();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif // SOUND
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
@@ -3752,11 +3756,11 @@ void load_tileset()
     }
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                     /*precheck=*/false, /*force=*/false,
-                                    /*pump_events=*/true );
+                                    /*pump_events=*/true, /*terrain=*/false );
     if( use_far_tiles ) {
         fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                       /*precheck=*/false, /*force=*/false,
-                                      /*pump_events=*/true );
+                                      /*pump_events=*/true, /*terrain=*/false );
     }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
@@ -3764,7 +3768,7 @@ void load_tileset()
     if( overmap_tilecontext ) {
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/false,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     }
 }

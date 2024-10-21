@@ -1466,18 +1466,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -1536,18 +1528,10 @@
       "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -1606,18 +1590,10 @@
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -1675,18 +1651,10 @@
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -2114,7 +2082,8 @@
         "%": "t_carpet_purple",
         "T": "t_carpet_purple",
         "=": "t_carpet_purple",
-        "x": "t_carpet_purple"
+        "x": "t_carpet_purple",
+        "s": "t_carpet_purple"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2188,7 +2157,8 @@
         "%": "t_carpet_green",
         "T": "t_carpet_green",
         "=": "t_carpet_green",
-        "x": "t_carpet_green"
+        "x": "t_carpet_green",
+        "s": "t_carpet_green"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2264,7 +2234,8 @@
         "%": "t_carpet_red",
         "T": "t_carpet_red",
         "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        "x": "t_carpet_red",
+        "s": "t_carpet_red"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2339,7 +2310,8 @@
         "%": "t_carpet_red",
         "T": "t_carpet_red",
         "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        "x": "t_carpet_red",
+        "s": "t_carpet_red"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -3761,18 +3733,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -3846,18 +3810,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -3931,18 +3887,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
@@ -4016,18 +3964,10 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 1, "ammo": 1, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 4 ] },
-          { "item": "guns_pistol_rare", "chance": 10, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
         ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },

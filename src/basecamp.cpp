@@ -697,7 +697,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
     }
     // NPC camps may never have had bb_pos registered
     validate_bb_pos( project_to<coords::ms>( omt_pos ) );
-    tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    tripoint_bub_ms src_loc = here.bub_from_abs( bb_pos ) + point_north;
     std::vector<tripoint_abs_ms> possible_liquid_dumps;
     if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
@@ -714,7 +714,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
                 }
                 set_storage_tiles( src_set );
             }
-            src_loc = here.getlocal( zones.front()->get_center_point() );
+            src_loc = here.bub_from_abs( zones.front()->get_center_point() );
             set_storage_zone( zones );
         }
         map &here = get_map();
@@ -722,7 +722,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
             if( zone->get_type() == zone_type_CAMP_STORAGE ) {
                 for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                          zone->get_start_point(), zone->get_end_point() ) ) {
-                    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, here.getlocal( p ) ) ) {
+                    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, here.bub_from_abs( p ) ) ) {
                         possible_liquid_dumps.emplace_back( p );
                     }
                 }
@@ -1020,7 +1020,7 @@ void basecamp_action_components::consume_components()
     std::vector<tripoint> src;
     src.resize( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
-        src.emplace_back( target_map.getlocal( p ) );
+        src.emplace_back( target_map.bub_from_abs( p ).raw() );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,

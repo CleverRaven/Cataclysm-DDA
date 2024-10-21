@@ -1789,6 +1789,8 @@ EOCs
 EOD
 eolocanth
 eolocanths
+eolambia
+eolambias
 eoraptor
 eoraptors
 EPA
@@ -4401,6 +4403,7 @@ Ojibwe
 ok
 okie
 Okinawan
+Oklahoma
 Olaf
 Olam
 o'lantern

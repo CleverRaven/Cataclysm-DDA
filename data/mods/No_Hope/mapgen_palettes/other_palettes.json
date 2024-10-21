@@ -973,7 +973,7 @@
     "item": { "/": { "item": "american_flag" } },
     "items": {
       "X": { "item": "SUS_gunstore_safe", "chance": 20 },
-      "O": { "item": "SUS_gunstore_safe_obscure", "chance": 25 },
+      "O": { "item": "guns_common_display", "chance": 25 },
       "s": { "item": "SUS_gunstore_crate", "chance": 25 },
       "S": { "item": "SUS_gunstore_crate", "chance": 5 },
       "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
