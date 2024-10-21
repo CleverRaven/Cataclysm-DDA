@@ -2073,8 +2073,7 @@
         "%": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "T": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "s": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        "s": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "s": "f_speaker_cabinet", "&": "f_pinball_machine" },
