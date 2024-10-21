@@ -1688,14 +1688,16 @@ static void read()
     avatar &player_character = get_avatar();
     // Can read items from inventory or within one tile (including in vehicles)
     item_location loc = game_menus::inv::read( player_character );
-    item the_book = *loc.get_item();
 
-    if( loc && avatar_action::check_stealing( get_player_character(), the_book ) ) {
-        if( loc->type->can_use( "learn_spell" ) ) {
-            the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
-        } else {
-            loc = loc.obtain( player_character );
-            player_character.read( loc );
+    if( loc ) {
+        item the_book = *loc.get_item();
+        if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
+            if( loc->type->can_use( "learn_spell" ) ) {
+                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
+            } else {
+                loc = loc.obtain( player_character );
+                player_character.read( loc );
+            }
         }
     } else {
         add_msg( _( "Never mind." ) );
