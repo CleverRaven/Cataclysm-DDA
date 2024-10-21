@@ -13,7 +13,7 @@
     "id": "LILIN_TRAITS",
     "//": "Lilin are spiritual vampires--rather than feed on blood, they feed on the essence of their targets.  This allows them to gain some similar powers to vampires, but often in a more subtle fashion",
     "name": { "str": "Lilit" },
-    "description": "You are one of the lilin, a hunter in the night, driven to feed on the spiritual essense (some might say the soul) of your prey.  Probably you were born that way, but maybe it happened to due to a malediction, or some artifact you found in a place best forgotten.  Regardless, it is your gift and your curse now, and you must use your powers to survive.\n\nYou may activate this trait to spend some ruach toward increasing your power.  You must be outside under the moonlight to have a chance of gaining new lilin powers.",
+    "description": "You are one of the lilin, a hunter in the night, driven to feed on the spiritual essence (some might say the soul) of your prey.  Probably you were born that way, but maybe it happened to due to a malediction, or some artifact you found in a place best forgotten.  Regardless, it is your gift and your curse now, and you must use your powers to survive.\n\nYou may activate this trait to spend some ruach toward increasing your power.  You must be outside under the moonlight to have a chance of gaining new lilin powers.",
     "points": 2,
     "mixed_effect": true,
     "valid": false,
@@ -112,6 +112,68 @@
     "player_display": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
     "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_UNARMED_EXTRA_DAMAGE",
+    "name": { "//~": "This is a reference to Proverbs 30:15", "str": "Alukah's Daughter" },
+    "description": "You can drain essence from your targets with your unarmed attacks.  Not well enough to absorb their ruach, should they have any, but enough to cause additional damage at night.  This damage is strongest during the half to full moon and weakest during the new moon.  It functions only slightly during the day.",
+    "points": 2,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_STRENGTH" ],
+    "prereqs2": [ "LILIN_DRAIN_ESSENCE_DISTANCE" ],
+    "category": [ "LILIN" ],
+    "//": "Use a more appropriate damage type once enchantments support custom damage types",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_has_weapon" },
+            { "not": "is_day" },
+            {
+              "or": [ { "math": [ "moon_phase() == 2" ] }, { "math": [ "moon_phase() == 3" ] }, { "math": [ "moon_phase() == 4" ] } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "ITEM_DAMAGE_PURE",
+            "add": { "math": [ "3 + (u_has_effect('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ] }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": "u_has_weapon" },
+            { "not": "is_day" },
+            {
+              "or": [
+                { "math": [ "moon_phase() == 5" ] },
+                { "math": [ "moon_phase() == 6" ] },
+                { "math": [ "moon_phase() == 7" ] },
+                { "math": [ "moon_phase() == 1" ] }
+              ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "ITEM_DAMAGE_PURE",
+            "add": { "math": [ "2 + (u_has_effect('effect_lilin_attribute_bonuses') * 2) + (u_vitamin('lilin_ruach_vitamin') / 2000)" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": "is_day" }, { "math": [ "moon_phase() == 8" ] } ] },
+        "values": [ { "value": "ITEM_DAMAGE_PURE", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "not": "u_has_weapon" }, "is_day" ] },
+        "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
