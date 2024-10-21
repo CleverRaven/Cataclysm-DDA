@@ -43,7 +43,7 @@
           "else": {
             "if": { "u_has_species": "NETHER" },
             "then": [
-              { "math": [ "u_ruach_random_nether_amount", "=", "rng(-600,1200)" ] },
+              { "math": [ "u_ruach_random_nether_amount", "=", "rng(-800,800)" ] },
               {
                 "if": { "math": [ "u_ruach_random_nether_amount", ">", "0" ] },
                 "then": [ { "npc_message": "You feel a moment of white heat as you absorb the ruach.", "type": "good" } ],
