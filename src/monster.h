@@ -114,6 +114,7 @@ class monster : public Creature
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
+        void set_baby_timer( const time_point &time );
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
