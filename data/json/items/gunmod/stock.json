@@ -170,14 +170,14 @@
     "material": [ "wood" ],
     "color": "brown",
     "location": "stock mount",
-    "mod_targets": [ "mauser_c96", "mauser_m714" ],
+    "mod_targets": [ "mauser_c96" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "holster": true,
         "rigid": true,
-        "item_restriction": [ "mauser_c96", "mauser_m714" ],
+        "item_restriction": [ "mauser_c96" ],
         "max_contains_volume": "650 ml",
         "max_contains_weight": "1815 g",
         "max_item_length": "32 cm",
