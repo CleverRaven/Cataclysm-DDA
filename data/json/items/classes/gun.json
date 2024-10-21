@@ -49,7 +49,8 @@
     "reload": 4,
     "flags": [ "NEVER_JAMS", "FIRESTARTER" ],
     "ammo_to_fire": 100,
-    "faults": [  ]
+    "faults": [  ],
+    "use_action": { "type": "firestarter" }
   },
   {
     "abstract": "launcher_base",
