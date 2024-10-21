@@ -673,7 +673,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cave_underground" ],
-    "weight": 700000,
+    "weight": 700,
     "object": {
       "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
