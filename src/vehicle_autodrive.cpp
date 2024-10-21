@@ -637,19 +637,19 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     tileray tdir( to_angle( facing ) );
     ret.tdir = tdir;
     std::map<int, std::pair<int, int>> extent_map;
-    const point pivot = driven_veh.pivot_point();
+    const point_rel_ms pivot = driven_veh.pivot_point_rel();
     for( const vehicle_part &part : driven_veh.parts ) {
         if( part.removed ) {
             continue;
         }
-        tripoint pos;
+        tripoint_rel_ms pos;
         driven_veh.coord_translate( tdir, pivot, part.mount, pos );
-        if( extent_map.find( pos.y ) == extent_map.end() ) {
-            extent_map[pos.y] = { pos.x, pos.x };
+        if( extent_map.find( pos.y() ) == extent_map.end() ) {
+            extent_map[pos.y()] = {pos.x(), pos.x()};
         } else {
-            auto &extent = extent_map[pos.y];
-            extent.first = std::min( extent.first, pos.x );
-            extent.second = std::max( extent.second, pos.x );
+            auto &extent = extent_map[pos.y()];
+            extent.first = std::min( extent.first, pos.x() );
+            extent.second = std::max( extent.second, pos.x() );
         }
     }
     for( const auto &extent : extent_map ) {
@@ -665,10 +665,10 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         const int diameter = part.info().rotor_info->rotor_diameter;
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
-            tripoint pos;
+            tripoint_rel_ms pos;
             driven_veh.coord_translate( tdir, pivot, part.mount, pos );
-            for( tripoint pt : points_in_radius( pos, radius ) ) {
-                ret.occupied_zone.emplace_back( pt.xy() );
+            for( tripoint_rel_ms pt : points_in_radius( pos, radius ) ) {
+                ret.occupied_zone.emplace_back( pt.xy().raw() );
             }
         }
     }

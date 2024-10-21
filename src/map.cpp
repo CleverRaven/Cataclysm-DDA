@@ -860,7 +860,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
             }
             int part_num = veh.get_non_fake_part( coll.part );
 
-            const point &collision_point = veh.part( coll.part ).mount;
+            const point_rel_ms &collision_point = veh.part( coll.part ).mount;
             const int coll_dmg = coll.imp;
 
             // Shock damage, if the target part is a rotor treat as an aimed hit.
@@ -1059,8 +1059,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     }
 
     // Used to calculate the epicenter of the collision.
-    point epicenter1;
-    point epicenter2;
+    point_rel_ms epicenter1;
+    point_rel_ms epicenter2;
 
     float dmg;
     // Vertical collisions will be simpler for a while (1D)
@@ -1194,8 +1194,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.damage( *this, target_parm, dmg2_part, damage_bash );
     }
 
-    epicenter2.x /= coll_parts_cnt;
-    epicenter2.y /= coll_parts_cnt;
+    epicenter2.x() /= coll_parts_cnt;
+    epicenter2.y() /= coll_parts_cnt;
 
     if( dmg2_part > 100 ) {
         // Shake vehicle because of collision
@@ -1573,7 +1573,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
 
             // ramps make everything super tricky
             int psg_offset_z = -ramp_offset;
-            tripoint next_pos; // defaults to 0,0,0
+            tripoint_rel_ms next_pos; // defaults to 0,0,0
             if( parts_to_move.empty() ) {
                 next_pos = veh_part.precalc[1];
             }
@@ -6002,7 +6002,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( *this, vp.pos(), engine_heater_is_on );
+        vp.part().process_contents( *this, vp.pos_bub(), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
@@ -9883,7 +9883,7 @@ void map::build_obstacle_cache(
     // Cache all the vehicle stuff in one loop
     for( wrapped_vehicle &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
-            tripoint_bub_ms p { v.pos + vp.part().precalc[0]};
+            tripoint_bub_ms p { v.pos + vp.part().precalc[0].raw()};
             if( p.z() != start.z() ) {
                 break;
             }
