@@ -1150,7 +1150,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::carry_weight_kgs_color( ava );
             break;
         case widget_var::carry_weight_lbs:
-            desc = display::carry_weight_lbs_color(ava);
+            desc = display::carry_weight_lbs_color( ava );
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
