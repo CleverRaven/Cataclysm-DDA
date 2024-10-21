@@ -59,7 +59,7 @@
         { "vehicle": "car", "x": 4, "y": 4, "chance": 35, "rotation": 270 },
         { "vehicle": "tricycle", "x": 6, "y": 22, "chance": 40, "status": 0 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.2  } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.2 } ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 22, "y": 1 } ]
     }
   },
@@ -132,7 +132,7 @@
         "                        "
       ],
       "palettes": [ "basement_empty" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.05  } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.05 } ],
       "nested": {
         "1": {
           "chunks": [

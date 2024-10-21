@@ -48,7 +48,7 @@
         "g": "t_thconc_floor",
         "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ],
       "furniture": { "?": "f_bunkbed", "$": "f_home_furnace", "%": "f_table", "&": "f_sink", "~": "f_floor_lamp" },
       "items": { "!": { "item": "bed", "chance": 50 } },
       "place_loot": [ { "item": "laptop", "x": 11, "y": 17 }, { "item": "television", "x": 16, "y": 18 } ]
@@ -89,7 +89,7 @@
       ],
       "terrain": { "{": "t_chainfence", ")": "t_chaingate_c", "=": "t_carpet_purple", "`": "t_carpet_yellow" },
       "furniture": { "(": "f_rack", "$": "f_table" },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1  } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ],
       "items": { "$": { "item": "table_foyer", "chance": 50 }, "(": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "television", "x": 14, "y": 6 } ]
     }

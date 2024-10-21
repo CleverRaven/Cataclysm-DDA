@@ -33,7 +33,7 @@
         ".......%...%........%..."
       ],
       "palettes": [ "domestic_general_and_variant_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.2  } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.2 } ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -153,7 +153,7 @@
         "                        "
       ],
       "palettes": [ "basement_empty" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.05  } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.05 } ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 60 ], [ "8x8_gym_W", 20 ], [ "8x8_gym_S", 20 ], [ "room_8x8_hobby_S", 30 ], [ "room_8x8_hobby_W", 30 ] ]
