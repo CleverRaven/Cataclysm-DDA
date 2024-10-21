@@ -5251,12 +5251,19 @@ talk_effect_fun_t::func f_assign_mission( const JsonObject &jo, std::string_view
         const std::string_view )
 {
     str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
-    return [mission_name]( dialogue const & d ) {
+    dbl_or_var deadline = get_dbl_or_var( jo, "deadline", false );
+    return [mission_name, deadline]( dialogue & d ) {
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name.evaluate( d ) );
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
+        // mission::assign assigns the type's deadline (which is often 0!), so if we want our specific
+        // deadline to be kept, it must always be done after assignment
+        const double deadline_dbl = deadline.evaluate( d );
+        if( deadline_dbl ) {
+            new_mission->set_deadline( calendar::turn_zero + time_duration::from_turns( deadline_dbl ) );
+        }
     };
 }
 

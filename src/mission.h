@@ -180,7 +180,6 @@ struct mission_type {
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
         std::vector<std::pair<mission_type_id, mod_id>> src;
-        bool was_loaded = false;
     private:
         // The untranslated name of the mission
         translation name = to_translation( "Bugged mission type" );
@@ -192,13 +191,15 @@ struct mission_type {
         int difficulty = 0;
         // Value; determines rewards and such
         int value = 0;
-        // Low and high deadlines
-        time_duration deadline_low = 0_turns;
-        time_duration deadline_high = 0_turns;
+        // When this mission will auto-fail, if ever. Can be pair of values or just one
+        // If loaded as a pair, automatically calls rng(min, max) when evaluated, standard stuff
+        duration_or_var deadline;
         // If true, the NPC will press this mission!
         bool urgent = false;
         // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.
         bool has_generic_rewards = true;
+
+        bool was_loaded = false;
 
         // A limited subset of the talk_effects on the mission
         talk_effect_fun_t::likely_rewards_t likely_rewards;
@@ -372,6 +373,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
+        void set_deadline( time_point new_deadline );
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         void set_assigned_player_id( const character_id &char_id );

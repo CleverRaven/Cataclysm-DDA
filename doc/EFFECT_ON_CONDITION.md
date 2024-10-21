@@ -1588,6 +1588,7 @@ Will assign mission to the player
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "assign_mission" | **mandatory** | string or [variable object](#variable-object) | Mission that would be assigned to the player |
+| "deadline" | optional | string or [variable object](#variable-object) | Time point when mission will be failed automatically if not already complete |
 
 ##### Valid talkers:
 
@@ -1596,9 +1597,9 @@ Will assign mission to the player
 | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
-Assign you a `MISSION_REACH_FAKE_DAVE` mission
+Assign you a `MISSION_REACH_FAKE_DAVE` mission which must be completed within the next 17 hours
 ```json
-{ "assign_mission": "MISSION_REACH_FAKE_DAVE" }
+{ "assign_mission": "MISSION_REACH_FAKE_DAVE", "deadline": { "math": [ "time('now') + time(' 17 h')" ] } }
 ```
 
 #### `remove_active_mission`

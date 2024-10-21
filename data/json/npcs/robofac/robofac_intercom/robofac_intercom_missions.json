@@ -1087,8 +1087,7 @@
     "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
-    "deadline_low": 20,
-    "deadline_high": 20,
+    "deadline": [ "20 days", "20 days" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {
       "describe": ".",
