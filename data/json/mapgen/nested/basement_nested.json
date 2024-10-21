@@ -2082,7 +2082,8 @@
         "%": "t_carpet_purple",
         "T": "t_carpet_purple",
         "=": "t_carpet_purple",
-        "x": "t_carpet_purple"
+        "x": "t_carpet_purple",
+        "s": "t_carpet_purple"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2156,7 +2157,8 @@
         "%": "t_carpet_green",
         "T": "t_carpet_green",
         "=": "t_carpet_green",
-        "x": "t_carpet_green"
+        "x": "t_carpet_green",
+        "s": "t_carpet_green"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2232,7 +2234,8 @@
         "%": "t_carpet_red",
         "T": "t_carpet_red",
         "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        "x": "t_carpet_red",
+        "s": "t_carpet_red"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2307,7 +2310,8 @@
         "%": "t_carpet_red",
         "T": "t_carpet_red",
         "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        "x": "t_carpet_red",
+        "s": "t_carpet_red"
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
