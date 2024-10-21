@@ -220,9 +220,10 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         // If the furniture is movable and the character can move it, use it to barricade
         //  is workable here as NPCs by definition are not starting the game.  (Let's hope.)
         ///\EFFECT_STR determines what furniture might be used as a starting area barricade
-        if( m.furn( p ).obj().is_movable() &&
-            m.furn( p ).obj().move_str_req < get_player_character().get_str() ) {
-            if( m.furn( p ).obj().movecost == 0 ) {
+        const furn_t &fo = m.furn( p ).obj();
+        if( fo.is_movable() &&
+            fo.move_str_req < get_player_character().get_str() ) {
+            if( fo.movecost == 0 ) {
                 // Obstacles are better, prefer them
                 furnitures1.push_back( p );
             } else {

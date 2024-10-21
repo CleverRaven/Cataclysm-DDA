@@ -230,8 +230,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( here.furn( p ).to_i() > 0 ) {
-                    const furn_t &furniture_type = here.furn( p ).obj();
+                const furn_id &f = here.furn( p );
+                if( f.to_i() > 0 ) {
+                    const furn_t &furniture_type = f.obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -718,7 +719,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         veh_msg = pgettext( "vehicle", "out" );
     }
 
-    const ter_t &terrain_type = here.ter( target ).obj();
+    const ter_id &t = here.ter( target );
+    const ter_t &terrain_type = t.obj();
     const furn_t &furniture_type = here.furn( target ).obj();
 
     int off = 1;
@@ -728,15 +730,16 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                target.z() );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), t.to_i(),
                static_cast<std::string>( terrain_type.id ),
                terrain_type.movecost
              );
     off++; // 2
-    if( here.furn( target ).to_i() > 0 ) {
+    const furn_id &f = here.furn( target );
+    if( f.to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
-                   here.furn( target ).to_i(),
+                   f.to_i(),
                    static_cast<std::string>( furniture_type.id ),
                    furniture_type.movecost,
                    furniture_type.move_str_req

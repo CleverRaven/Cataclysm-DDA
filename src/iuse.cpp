@@ -2808,8 +2808,8 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint &pos )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->prying->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->prying->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->prying->valid();
         }
         return false;
     };
@@ -4740,8 +4740,8 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint & )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->oxytorch->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->oxytorch->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->oxytorch->valid();
         }
         return false;
     };
@@ -4784,8 +4784,8 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->hacksaw->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->hacksaw->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->hacksaw->valid();
         }
         return false;
     };
@@ -4827,8 +4827,8 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint & )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->boltcut->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->boltcut->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->boltcut->valid();
         }
         return false;
     };
