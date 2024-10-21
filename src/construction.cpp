@@ -83,7 +83,11 @@ static const construction_category_id construction_category_APPLIANCE( "APPLIANC
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
+static const construction_group_str_id
+construction_group_deconstruct_simple_furniture( "deconstruct_simple_furniture" );
+
 static const construction_str_id construction_constr_veh( "constr_veh" );
+
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
@@ -1027,7 +1031,8 @@ construction_id construction_menu( const bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( player_character, total_inv, constructs[select] ) ) {
-                    if( !player_can_see_to_build( player_character, constructs[select] ) ) {
+                    if( constructs[select] != construction_group_deconstruct_simple_furniture &&
+                        !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         draw_preview.reset();
