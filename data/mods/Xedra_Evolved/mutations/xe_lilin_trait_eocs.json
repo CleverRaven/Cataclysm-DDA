@@ -184,5 +184,55 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TURN_INTO_OWL_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TURN_INTO_OWL_activated_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360" ] },
+              { "u_add_trait": "TURN_INTO_OWL_TRAITS" },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
+              {
+                "u_message": "Your eyes grow wide as feathers sprout from your arms and you take to the air on silent wings.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to transform into an owl.", "type": "bad" },
+              { "queue_eocs": "EOC_LILIN_TURN_INTO_OWL_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TURN_INTO_OWL_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_OWL_TRAITS" },
+            "effect": [
+              { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
+              { "u_lose_trait": "TURN_INTO_OWL_TRAITS" },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TURN_INTO_OWL_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "LILIN_TURN_INTO_OWL" }
   }
 ]
