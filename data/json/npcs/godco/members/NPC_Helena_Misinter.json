@@ -116,7 +116,7 @@
         "topic": "TALK_GODCO_Gemma_Firstmeet",
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
       },
-      { "text": "I'm just passing through.  I'll see you around.", "topic": "TALK_DONE" }
+      { "text": "I'm just passing through.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +134,7 @@
     "dynamic_line": { "gendered_line": "I'm glad you could make it here.  May the Lord have mercy on you.", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Thank you, I hope he shares that sentiment.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Thank you.  I'll see you around.", "topic": "TALK_DONE" }
+      { "text": "Thank you.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -159,7 +159,7 @@
         },
         "topic": "TALK_GODCO_Helena_Contact_FreeMerch"
       },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -168,8 +168,8 @@
     "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgment of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Helena_Uncle" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -177,8 +177,8 @@
     "id": "TALK_GODCO_Helena_Uncle",
     "dynamic_line": "He had many visions, and he had many secrets.  I don't know all of them, but there was one he was highly vocal about, regarding <the_cataclysm>, that according to him \"The spawn of Satan shall descend upon the Earth, and all will be consumed in death and destruction\".  He never said much else about it, and always had a mortified face whenever someone brought it up.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -186,8 +186,8 @@
     "id": "TALK_GODCO_Helena_Mood",
     "dynamic_line": "Thanks to my uncle's forethought, we've been blessed by God.  We have plenty of food for ourselves, safety from the hordes of Hell, and the continued protection of the Lord our God.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,8 +195,8 @@
     "id": "TALK_GODCO_Helena_Community",
     "dynamic_line": "They denied us, they labeled us as a doomsday cult, threw sticks and stones at us, and yet, we were standing resiliently.  Why?  Because we knew God was on our side.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -206,7 +206,7 @@
     "responses": [
       { "text": "Okay, I'll see about that later.", "topic": "TALK_GODCO_Helena_2" },
       { "text": "What is the Decalogue?", "topic": "TALK_GODCO_Helena_Decalouge" },
-      { "text": "Okay, I'll see about that.  Goodbye.", "topic": "TALK_DONE" }
+      { "text": "Okay, I'll see about that.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
