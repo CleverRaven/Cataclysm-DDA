@@ -177,6 +177,11 @@ bool diag_value::is_array() const
     return std::holds_alternative<diag_array>( data );
 }
 
+bool diag_value::is_empty() const
+{
+    return std::holds_alternative<std::monostate>( data );
+}
+
 diag_array const &diag_value::array() const
 {
     return _diag_value_at_parse_time<diag_array, diag_array const &>( data );
