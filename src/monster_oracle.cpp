@@ -38,7 +38,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         // case 2: no whitelist specified (it is approved for everything) but a blacklist specified
         if( absorb_material.empty() && !no_absorb_material.empty() ) {
             bool found = false;
-            for( item &it : get_map().i_at( subject->pos() ) ) {
+            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
                                       mat_type->id ) != no_absorb_material.end() ) ) {
@@ -55,7 +55,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         }
         // Case 3: there is a whitelist but no blacklist, so only allow the whitelisted ones
         if( !absorb_material.empty() && no_absorb_material.empty() ) {
-            for( item &it : get_map().i_at( subject->pos() ) ) {
+            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( std::find( absorb_material.begin(), absorb_material.end(),
                                    mat_type->id ) != absorb_material.end() ) {

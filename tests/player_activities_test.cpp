@@ -489,7 +489,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             WHEN( "shearing finishes" ) {
                 CHECK( dummy.activity.id() == ACT_NULL );
                 THEN( "player receives the items" ) {
-                    const map_stack items = get_map().i_at( dummy.pos() );
+                    const map_stack items = get_map().i_at( dummy.pos_bub() );
                     int count_amount = 0;
                     int count_random = 0;
                     int count_mass   = 0;
@@ -1842,7 +1842,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.empty() );
 
             THEN( "interruption by zombie moving towards dummy" ) {
-                zombie.set_dest( get_map().getglobal( dummy.pos() ) );
+                zombie.set_dest( get_map().getglobal( dummy.pos_bub() ) );
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );

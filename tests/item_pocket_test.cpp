@@ -2804,8 +2804,8 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
 
     SECTION( "container emptied by processing" ) {
         itype_id const id = spawned_w_modifier->get_contents().first_item().typeId();
-        get_map().i_clear( spawned_w_custom_container.position() );
-        get_map().i_clear( spawned_in_def_container.position() );
+        get_map().i_clear( spawned_w_custom_container.pos_bub() );
+        get_map().i_clear( spawned_in_def_container.pos_bub() );
         restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                     get_weather().forced_temperature );
         get_weather().forced_temperature = units::from_celsius( 21 );
