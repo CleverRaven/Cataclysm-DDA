@@ -1311,6 +1311,10 @@
   {
     "id": "migo_bio_tech",
     "type": "TOOL",
+    "//": [
+      "intentionally do not spawn anywhere, until migo interest would be implemented",
+      "for now, works only as reference for eoc-item-variable interaction"
+    ],
     "name": { "str_sp": "Mi-go Biotech" },
     "conditional_names": [
       { "type": "VAR", "condition": "npctalk_var_mbt_f_function", "value": "morale", "name": { "str_sp": "%s (happy)" } },
@@ -1334,7 +1338,8 @@
       }
     ],
     "description": "A piece of mi-go biotechnology.",
-    "weight": "1 g",
+    "material": [ "alien_resin" ],
+    "weight": "250 g",
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "100 USD",
