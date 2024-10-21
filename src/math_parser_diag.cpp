@@ -31,7 +31,7 @@ The typical parsing function takes the form:
 std::function<double( dialogue & )> myfunction_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value myval( std::string{} );
+    diag_value myval;
     if( kwargs.count( "mykwarg" ) != 0 ) {
         myval = *kwargs.at( "mykwarg" );
     }
@@ -198,7 +198,7 @@ std::function<double( dialogue & )> damage_level_eval( char scope,
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value bp_val( std::string{} );
+    diag_value bp_val;
     if( kwargs.count( "bodypart" ) != 0 ) {
         bp_val = *kwargs.at( "bodypart" );
     }
@@ -539,7 +539,7 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
         scope_school,
         scope_spell
     };
-    diag_value filter( std::string{} );
+    diag_value filter;
     spell_scope spellsearch_scope;
     if( kwargs.count( "mod" ) != 0 ) {
         filter = *kwargs.at( "mod" );
@@ -554,8 +554,8 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
         spellsearch_scope = scope_all;
     }
 
-    diag_value whitelist( std::string{} );
-    diag_value blacklist( std::string{} );
+    diag_value whitelist;
+    diag_value blacklist;
     if( kwargs.count( "flag_whitelist" ) != 0 ) {
         whitelist = *kwargs.at( "flag_whitelist" );
     }
@@ -747,7 +747,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
 {
     diag_value radius_val( 1000 );
     diag_value filter_val( "any" );
-    diag_value allow_hallucinations_val( 0 );
+    diag_value allow_hallucinations_val;
     std::optional<var_info> loc_var;
     if( kwargs.count( "radius" ) != 0 ) {
         radius_val = *kwargs.at( "radius" );
@@ -1028,7 +1028,7 @@ std::function<double( dialogue & )> get_daily_calories( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
     diag_value type_val( "total" );
-    diag_value day_val( 0 );
+    diag_value day_val;
 
     if( kwargs.count( "day" ) != 0 ) {
         day_val = *kwargs.at( "day" );
@@ -1108,7 +1108,7 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
 std::function<double( dialogue & )> spell_count_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value school_value( std::string{} );
+    diag_value school_value;
     if( kwargs.count( "school" ) != 0 ) {
         school_value = *kwargs.at( "school" );
     }
@@ -1122,8 +1122,8 @@ std::function<double( dialogue & )> spell_count_eval( char scope,
 std::function<double( dialogue & )> spell_sum_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value school_value( std::string{} );
-    diag_value min_level( 0 );
+    diag_value school_value;
+    diag_value min_level;
 
     if( kwargs.count( "school" ) != 0 ) {
         school_value = *kwargs.at( "school" );
@@ -1256,7 +1256,7 @@ double _time_in_unit( double time, std::string_view unit )
 std::function<double( dialogue & )> time_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value unit_val( std::string{} );
+    diag_value unit_val;
     if( kwargs.count( "unit" ) != 0 ) {
         unit_val = *kwargs.at( "unit" );
     }
@@ -1294,7 +1294,7 @@ std::function<void( dialogue &, double )> time_ass( char /* scope */,
 std::function<double( dialogue & )> time_since_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value unit_val( std::string{} );
+    diag_value unit_val;
     if( kwargs.count( "unit" ) != 0 ) {
         unit_val = *kwargs.at( "unit" );
     }
@@ -1320,7 +1320,7 @@ std::function<double( dialogue & )> time_since_eval( char /* scope */,
 std::function<double( dialogue & )> time_until_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value unit_val( std::string{} );
+    diag_value unit_val;
     if( kwargs.count( "unit" ) != 0 ) {
         unit_val = *kwargs.at( "unit" );
     }
@@ -1356,7 +1356,7 @@ std::function<double( dialogue & )> time_until_eval( char /* scope */,
 std::function<double( dialogue & )> time_until_eoc_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value unit_val( std::string{} );
+    diag_value unit_val;
     if( kwargs.count( "unit" ) != 0 ) {
         unit_val = *kwargs.at( "unit" );
     }
@@ -1376,12 +1376,12 @@ std::function<double( dialogue & )> time_until_eoc_eval( char /* scope */,
 std::function<double( dialogue & )> effect_duration_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value bp_val( std::string{} );
+    diag_value bp_val;
     if( kwargs.count( "bodypart" ) != 0 ) {
         bp_val = *kwargs.at( "bodypart" );
     }
 
-    diag_value unit_val( std::string{} );
+    diag_value unit_val;
     if( kwargs.count( "unit" ) != 0 ) {
         unit_val = *kwargs.at( "unit" );
     }
@@ -1427,7 +1427,7 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value fmt_val( "time_spent" );
-    diag_value direct_val( 0 );
+    diag_value direct_val;
     if( kwargs.count( "format" ) != 0 ) {
         fmt_val = *kwargs.at( "format" );
     }
@@ -1641,7 +1641,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
     }
 
     // dummy kwarg, intentionally discarded!
-    diag_value ignore_weariness_val( 0 );
+    diag_value ignore_weariness_val;
     if( kwargs.count( "dont_affect_weariness" ) != 0 ) {
         ignore_weariness_val = *kwargs.at( "dont_affect_weariness" );
     }
@@ -1687,7 +1687,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
 std::function<void( dialogue &, double )> calories_ass( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value ignore_weariness_val( 0 );
+    diag_value ignore_weariness_val;
     if( kwargs.count( "dont_affect_weariness" ) != 0 ) {
         ignore_weariness_val = *kwargs.at( "dont_affect_weariness" );
     }
