@@ -82,6 +82,14 @@
     "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
   },
   {
+    "id": "daily_health_num",
+    "type": "widget",
+    "label": "Daily health",
+    "var": "daily_health",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
+  },
+  {
     "id": "health_desc",
     "type": "widget",
     "label": "Health",
