@@ -153,6 +153,10 @@ New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
 EOCs modifying calories track spent calories
+NPC factions get mad if you mess with their property by smashing or deconstructing it etc
+Add a bronze pike to the game
+obsolete generic NPC common classes; use the avatar character generator instead
+Added check for stealing prior to unloading containers
 
 
 ## Content:
@@ -336,6 +340,11 @@ Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
+adds a nomex zombie mutation line for firefighters
+Adds clay cup item and recipe, Fixes ceramic cup recipe
+Deconstruct room divider
+New 2x2 library building
+Adds steel tankard as an item and it's recipe.
 
 
 ## Interface:
@@ -434,6 +443,12 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
+Increased width of overmap editor window
+Missions track when they were completed/failed
+Add activity to continually bash something until it's destroyed
+Replace danger note prompt with headings on note edit dialog
+Show pocket numbers in pocket descriptions
+uilist menus that have categories now include a tabbar to allow the user to select a category
 
 
 ## Mods:
@@ -689,6 +704,21 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
+[MoM] Update MoM for spells damaging other limbs
+[DinoMod] eolambia
+[MoM] Monster_takes_damage updates
+Changes the Onyx Lightning Test Subject profession to be more in line with army uniform
+[MoM] Anabolic Rejuvenation / Accelerated Resuscitation updates
+[MoM] Spread Electron Overflow charge value out over the number of items it's charging
+[DinoMod] easy to shoot skeletal dinos
+[Aftershock] Update Electron Overflow for multiple item charging
+[Magiclysm] Add Goodberry druid spell
+[Aftershock] Fix electron overflow energy cost
+[MoM] Add the Mesmerize telepathic power
+Expand Electron Overflow valid targets
+Make the FBI Paranormal Investigator use the new FBI items and skills from #76068.
+Exchange soldering to surface heat in battery car clay recipe.
+[MoM] Change the Wakeful Rest activity level to SLEEP_EXERCISE
 
 
 ## Balance:
@@ -788,6 +818,10 @@ Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
+Nerf some traps(caltrops, nailboards, glass). Larger creatures can destroy them with their weight, or otherwise render them ineffective and need to be setup again
+Adjusted jean vest warmth
+XE Dreamer Traits reduce max mana
+Audit portable charcoal kiln
 
 
 ## Bugfixes:
@@ -1052,6 +1086,27 @@ Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix Britishisms in the JSON files.
 Fix non-battery charge consumption of active items
+Enable Giant Pincer Mutation
+Fix complition error on GCC
+Fix floating-point precision problem in apply_light_arc
+Log correct tileset name on loading
+Fix conflict between `ammo` and `ammo_restriction` in sling staff
+Avoid truncating slip chances during arithmetic
+Fixed RM13 premature shutdown issue
+cache dialogue conditional results, fix dialogue hotkeys
+Kills from explosive devices are properly tracked
+[Aftershock] Fix incorrect EoC name
+Fixes issue where the last typed character in an ImGui InputText field is covered by blank space on TUI/curses build
+Several skin mutations now allow for installation of Alloy Plating CBM
+Inhalers spawn in pharmacies again
+Map travel prompt behavior fixes
+[MoM] Some bug fixes
+[MoM] Check for beta talker on damage EoCs
+Eliminated unexpected switching when selecting ground tiles under vehicles in advanced inventory
+Not being able to put smaller mags into tac vest
+Check correct unknown tile in overmap tileset
+[MoM] Fix `EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT` error
+Change damage type string from verb to adjective
 
 
 ## Performance:
@@ -1085,6 +1140,7 @@ Optimize typed coordinate conversion functions for widespread savings
 NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 Fix lag examining large stacks of crafted items
+Reduce unnecessary/duplicate checks for dangerous tiles
 
 
 ## Infrastructure:
@@ -1162,6 +1218,12 @@ Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Adds bash_scaling fields to use with spells
+Replace some player responses with snippets
+Make mutation able to use mana as resourse without EoC
+Mod Compatibility 2: Prevent Error from duplicate ids within mod_interactions folder
+Remove duplicated code to generate origin string
+Add controlling_vehicle EOC condition
 
 
 ## Build:
@@ -1193,6 +1255,7 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Allow new KEYBDINGS window title to be translated
 
 
 # 0.G (Gaiman)
