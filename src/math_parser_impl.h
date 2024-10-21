@@ -60,8 +60,7 @@ enum class paren {
 
 struct scoped_diag_proto {
     std::string_view token;
-    pdiag_func_eval dfe{};
-    pdiag_func_ass dfa{};
+    pdiag_func df{};
     char scope = 'g';
 };
 
@@ -94,15 +93,13 @@ struct func_jmath {
 struct func_diag_proto {
     std::string_view token;
     char scope = 'g';
-    pdiag_func_eval fe{};
-    pdiag_func_ass fa{};
+    pdiag_func f{};
     std::vector<thingie> args;
     diag_kwargs kwargs;
 
-    explicit func_diag_proto( std::string_view token_, char scope_, pdiag_func_eval fe_,
-                              pdiag_func_ass fa_,
+    explicit func_diag_proto( std::string_view token_, char scope_, pdiag_func f_,
                               std::vector<thingie> &args_, diag_kwargs &kwargs_ )
-        : token( token_ ), scope( scope_ ), fe( fe_ ), fa( fa_ ), args( args_ ), kwargs( kwargs_ ) {}
+        : token( token_ ), scope( scope_ ), f( f_ ), args( args_ ), kwargs( kwargs_ ) {}
 };
 struct func_diag {
     using eval_f = diag_eval_dbl_f;

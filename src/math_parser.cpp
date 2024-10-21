@@ -75,8 +75,7 @@ std::optional<scoped_diag_proto> _get_dialogue_func( std::string_view token )
         scope = token[0];
         scoped = token.substr( 2, token.size() - 2 );
     }
-    auto const &cnt_eval = get_all_diag_eval_funcs();
-    auto const &cnt_ass = get_all_diag_ass_funcs();
+    auto const &cnt_eval = get_all_diag_funcs();
     auto dfe = cnt_eval.find( scoped );
     if( dfe != cnt_eval.end() ) {
         if( dfe->second.scopes.find( scope ) == std::string_view::npos ) {
@@ -84,10 +83,8 @@ std::optional<scoped_diag_proto> _get_dialogue_func( std::string_view token )
                                              "Scope %c is not valid for dialogue function %s() (valid scopes: %s)",
                                              scope, scoped, dfe->second.scopes ) );
         }
-        auto dfa = cnt_ass.find( scoped );
-        pdiag_func_eval const &feval = &dfe->second;
-        pdiag_func_ass  const &fass = dfa != cnt_ass.end() ? &dfa->second : pdiag_func_ass{};
-        return { { scoped, feval, fass, scope } };
+
+        return { { scoped, &dfe->second, scope } };
     }
 
     return std::nullopt;
@@ -539,7 +536,7 @@ void math_exp::math_exp_impl::parse_diag_f(
 {
     state.validate( parse_state::expect::operand );
     ops.emplace( token );
-    arity.emplace( symbol, token.dfe->num_params, arity_t::type_t::func, true );
+    arity.emplace( symbol, token.df->num_params, arity_t::type_t::func, true );
     state.set( parse_state::expect::lparen, false );
 }
 
@@ -620,20 +617,20 @@ thingie math_exp::math_exp_impl::_resolve_proto( thingie &thing, bool assignment
         std::vector<diag_value> const &args = args_ == nullptr ? _get_diag_vals( thing ) : *args_;
         last_token = proto.token;
 
-        if( !assignment && proto.fe == nullptr ) {
+        if( !assignment && proto.f->fe == nullptr ) {
             throw std::invalid_argument(
                 string_format( "Function prototype %s() cannot be evaluated", proto.token ) );
         }
-        if( assignment && proto.fa == nullptr ) {
+        if( assignment && proto.f->fa == nullptr ) {
             throw std::invalid_argument(
                 string_format( "Function prototype %s() cannot be used as an assignment target", proto.token ) );
         }
 
         func_diag::eval_f fe =
             assignment ? func_diag::eval_f{} :
-            proto.fe->f( proto.scope, args, proto.kwargs );
+            proto.f->fe( proto.scope, args, proto.kwargs );
         func_diag::ass_f fa =
-            assignment ? proto.fa->f( proto.scope, args, proto.kwargs ) : func_diag::ass_f{};
+            assignment ? proto.f->fa( proto.scope, args, proto.kwargs ) : func_diag::ass_f{};
 
         _validate_unused_kwargs( proto.kwargs );
 
@@ -677,7 +674,7 @@ void math_exp::math_exp_impl::new_func()
             [&params, &kwargs, this]( scoped_diag_proto const & v )
             {
                 output.emplace( std::in_place_type_t<func_diag_proto>(), v.token, v.scope,
-                                v.dfe, v.dfa, params, kwargs );
+                                v.df, params, kwargs );
             },
             [&params, this]( pmath_func v )
             {
