@@ -2433,48 +2433,49 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( target->made_of_from_type( phase_id::SOLID ) ) {
-            // Spill out any invalid contents first
-            target.overflow();
+        if( !target->made_of_from_type( phase_id::SOLID ) ) {
+            continue;
+        }
+        // Spill out any invalid contents first
+        target.overflow();
 
-            item &leftovers = *target;
-            // Make a copy to be put in the destination location
-            item newit = leftovers;
+        item &leftovers = *target;
+        // Make a copy to be put in the destination location
+        item newit = leftovers;
 
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
+        if( newit.is_owned_by( who, true ) ) {
+            newit.set_owner( who );
+        } else {
+            continue;
+        }
 
-            // Handle charges, quantity == 0 means move all
-            if( quantity != 0 && newit.count_by_charges() ) {
-                newit.charges = std::min( newit.charges, quantity );
-                leftovers.charges -= quantity;
-            } else {
-                leftovers.charges = 0;
-            }
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            newit.charges = std::min( newit.charges, quantity );
+            leftovers.charges -= quantity;
+        } else {
+            leftovers.charges = 0;
+        }
 
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            const tripoint_bub_ms src = target.pos_bub();
-            const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            // Yuck, I'm sticking weariness scaling based on activity level here
-            const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
-                        dest );
-                if( hauling_mode ) {
-                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
-                }
+        // This is for hauling across zlevels, remove when going up and down stairs
+        // is no longer teleportation
+        const tripoint_bub_ms src = target.pos_bub();
+        const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
+        // Yuck, I'm sticking weariness scaling based on activity level here
+        const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
+        who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
+        if( to_vehicle ) {
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+        } else {
+            std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                    dest );
+            if( hauling_mode ) {
+                who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
             }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
+        }
+        // If we picked up a whole stack, remove the leftover item
+        if( leftovers.charges <= 0 ) {
+            target.remove_item();
         }
     }
 
