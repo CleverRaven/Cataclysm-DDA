@@ -561,15 +561,9 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_zoo_giftshop",
-    "name": "Zoo (Giftshop)",
+    "id": "sloc_zoo_cafeteria",
+    "name": "Zoo (Cafeteria)",
     "terrain": [ "zoo_0_1" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_zoo_cages",
-    "name": "Zoo (Cages)",
-    "terrain": [ "zoo_1_1" ]
   },
   {
     "type": "start_location",
