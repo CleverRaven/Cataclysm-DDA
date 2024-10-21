@@ -117,8 +117,7 @@
   {
     "type": "scenario",
     "id": "xe_lilin_scenario",
-    "//": "Name below is a reference to Isaiah 34:14",
-    "name": "The Owl's Abode",
+    "name": { "//~": "Name is a reference to Isaiah 34:14", "str": "The Owl's Abode" },
     "points": 0,
     "description": "For most or all of your life, you've had a secret; you are a predator.  While you don't need to drink blood or eat flesh or anything so crude, you must absorb the spiritual essence, the ruach of living beings in order to maintain your health and vitality.  You had to hide your condition before the Cataclysm, especially as things became stranger in the years leading up to it, but now you don't have to hide anymore.  On the other hand, your potential ruach supply has take a drastic decline.",
     "start_name": "Away from town",

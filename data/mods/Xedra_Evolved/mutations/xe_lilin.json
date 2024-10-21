@@ -106,7 +106,7 @@
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
     "name": { "str": "The Cedars of Lebanon" },
-    "description": "Adds a Strength Bonus to The Mighty One.  Should not be player-visible.",
+    "description": "Adds a Strength Bonus to Might of the Nephilim.  Should not be player-visible.",
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -179,7 +179,7 @@
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
     "name": { "str": "The Leaping Faun" },
-    "description": "Adds a Dexterity/Dodge Bonus to The Mighty One.  Should not be player-visible.",
+    "description": "Adds a Dexterity/Dodge Bonus to Might of the Nephilim.  Should not be player-visible.",
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -203,7 +203,7 @@
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION",
     "name": { "str": "And All the People Saw the Sounds" },
-    "description": "Adds a Perception Bonus to The Mighty One.  Should not be player-visible.",
+    "description": "Adds a Perception Bonus to Might of the Nephilim.  Should not be player-visible.",
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -264,5 +264,29 @@
     "prereqs": [ "LILIN_HOLD_MORE_RUACH_2" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT",
+    "name": { "str": "The Night-Hunter" },
+    "description": "You are at home in the night, and your prowess is heightened while the moon is up as long as you have any ruach within you.",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [
+      "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
+      "LILIN_UNARMED_EXTRA_DAMAGE",
+      "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
+      "LILIN_SPEED_DODGE_BOOST"
+    ],
+    "prereqs2": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION", "LILIN_NIGHT_VISION" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+        "ench_effects": [ { "effect": "effect_lilin_limb_score_bonuses_at_night", "intensity": 1 } ]
+      }
+    ]
   }
 ]

@@ -2408,7 +2408,7 @@
   {
     "type": "effect_type",
     "id": "effect_lilin_speed_boost",
-    "name": [ { "str": "Reap[ing the Whirlwind" } ],
+    "name": [ { "str": "Reaping the Whirlwind" } ],
     "desc": [ "You are moving incredibly quickly." ],
     "rating": "good",
     "enchantments": [
@@ -2422,5 +2422,22 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_limb_score_bonuses_at_night",
+    "name": [ { "str": "The Night Hunter" } ],
+    "desc": [ "Now they will know why they fear the night." ],
+    "rating": "good",
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 1.2 },
+      { "limb_score": "breathing", "modifier": 1.5 },
+      { "limb_score": "lift", "modifier": 1.25 },
+      { "limb_score": "grip", "modifier": 1.25 },
+      { "limb_score": "reaction", "modifier": 1.35 },
+      { "limb_score": "block", "modifier": 1.3 },
+      { "limb_score": "vision", "modifier": 1.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
