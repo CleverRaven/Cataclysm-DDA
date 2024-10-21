@@ -28,7 +28,7 @@ using is_variant_type = is_one_of<T, V>;
 // *INDENT-ON*
 
 struct diag_value {
-    using impl_t = std::variant<double, std::string, var_info, math_exp, diag_array>;
+    using impl_t = std::variant<std::monostate, double, std::string, var_info, math_exp, diag_array>;
 
     diag_value() = default;
 

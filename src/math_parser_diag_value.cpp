@@ -33,6 +33,11 @@ template<class C, class R = C, bool at_runtime = false>
 constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
 {
     return std::visit( overloaded{
+        []( std::monostate const &/* std */ ) -> R
+        {
+            static R null_R{};
+            return null_R;
+        },
         []( C const & v ) -> R
         {
             return v;
@@ -69,6 +74,10 @@ double diag_value::dbl() const
 double diag_value::dbl( dialogue const &d ) const
 {
     return std::visit( overloaded{
+        []( std::monostate const &/* std */ )
+        {
+            return 0.0;
+        },
         []( double v )
         {
             return v;
@@ -117,6 +126,10 @@ std::string_view diag_value::str() const
 std::string diag_value::str( dialogue const &d ) const
 {
     return std::visit( overloaded{
+        []( std::monostate const &/* std */ )
+        {
+            return std::string{};
+        },
         []( double v )
         {
             // NOLINTNEXTLINE(cata-translate-string-literal)
