@@ -144,10 +144,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_armor_outer_text";
         case widget_var::carry_weight_text:
             return "carry_weight_text";
-        case widget_var::carry_weight_kgs:
-            return "carry_weight_kgs";
-        case widget_var::carry_weight_lbs:
-            return "carry_weight_lbs";
+        case widget_var::carry_weight_value:
+            return "carry_weight_value";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -1041,8 +1039,7 @@ bool widget::uses_text_function() const
         case widget_var::body_graph_wet:
         case widget_var::bp_armor_outer_text:
         case widget_var::carry_weight_text:
-        case widget_var::carry_weight_kgs:
-        case widget_var::carry_weight_lbs:
+        case widget_var::carry_weight_value:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -1146,11 +1143,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::carry_weight_text:
             desc = display::carry_weight_text_color( ava );
             break;
-        case widget_var::carry_weight_kgs:
-            desc = display::carry_weight_kgs_color( ava );
+        case widget_var::carry_weight_value:
+            desc = display::carry_weight_value_color( ava );
             break;
-        case widget_var::carry_weight_lbs:
-            desc = display::carry_weight_lbs_color( ava );
             break;
         case widget_var::date_text:
             desc.first = display::date_string();

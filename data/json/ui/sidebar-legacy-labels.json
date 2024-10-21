@@ -183,37 +183,20 @@
     "type": "widget"
   },
   {
-    "id": "ll_carry_weight_kgs",
+    "id": "ll_carry_weight_value",
     "width": 12,
     "style": "text",
     "text_align": "left",
-    "var": "carry_weight_kgs",
+    "var": "carry_weight_value",
     "type": "widget"
   },
   {
-    "id": "ll_weight_carried_kgs",
+    "id": "ll_weight_carried_value",
     "width": 13,
     "style": "layout",
     "label": "Weight Carried (kg)",
     "arrange": "minimum_columns",
-    "widgets": [ "ll_carry_weight_label", "ll_carry_weight_kgs" ],
-    "type": "widget"
-  },
-  {
-    "id": "ll_carry_weight_lbs",
-    "width": 12,
-    "style": "text",
-    "text_align": "left",
-    "var": "carry_weight_lbs",
-    "type": "widget"
-  },
-  {
-    "id": "ll_weight_carried_lbs",
-    "width": 13,
-    "style": "layout",
-    "label": "Weight Carried (lb)",
-    "arrange": "minimum_columns",
-    "widgets": [ "ll_carry_weight_label", "ll_carry_weight_lbs" ],
+    "widgets": [ "ll_carry_weight_label", "ll_carry_weight_value" ],
     "type": "widget"
   },
   {
@@ -237,8 +220,7 @@
       "weapon_style_layout",
       "vehicle_acf_label_layout",
       "compass_all_danger_layout",
-      "ll_weight_carried_kgs",
-      "ll_weight_carried_lbs",
+      "ll_weight_carried_value",
       "rad_badge_desc",
       "sundial_label_layout"
     ]

@@ -181,10 +181,8 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
 // Color for displaying the given encumbrance level
 nc_color encumb_color( int level );
 
-// Weight carried, formatted as "current/max" in kg
-std::pair<std::string, nc_color> carry_weight_kgs_color( const avatar &ava );
-// Weight carried, formatted as "current/max" in lb
-std::pair<std::string, nc_color> carry_weight_lbs_color( const avatar &ava );
+// Weight carried, formatted as "current/max"
+std::pair<std::string, nc_color> carry_weight_value_color( const avatar &ava );
 
 // Colorized symbol for the overmap tile at the given location
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
