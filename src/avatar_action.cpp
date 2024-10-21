@@ -1087,6 +1087,11 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         }
     }
 
+    item thing = *loc.get_item();
+    if( !avatar_action::check_stealing( get_player_character(), thing ) ) {
+        return;
+    }
+
     loc.overflow();
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
