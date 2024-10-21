@@ -1270,6 +1270,9 @@ class Character : public Creature, public visitable
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
 
+        // Should only be called when damage is actually taken.
+        // Handles determining loudness, log message, and calling sounds::sound
+        void vocalize_pain_on_take_dmg();
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
