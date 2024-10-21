@@ -747,9 +747,11 @@ void uilist::calc_data()
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
     float max_avail_height = 0.9 * ImGui::GetMainViewport()->Size.y;
-    float desired_height;
-    if( desired_bounds.has_value() && ( desired_height = desired_bounds.value().h != -1 ) ) {
-        max_avail_height = std::min( max_avail_height, desired_height );
+    if( desired_bounds.has_value() ) {
+        float desired_height = desired_bounds.value().h;
+        if( desired_height != -1 ) {
+            max_avail_height = std::min( max_avail_height, desired_height );
+        }
     }
     calculated_menu_size.y = std::min( max_avail_height - additional_height +
                                        ( s.FramePadding.y * 2.0 ),
