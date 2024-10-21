@@ -12461,7 +12461,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             return VisitResponse::NEXT;
         }
 
-        if( e->is_tool() ) {
+        if( e->is_tool() || e->is_gun() ) {
             if( e->typeId() == what || ( in_tools && e->ammo_current() == what ) ) {
                 int n;
                 if( carrier ) {
