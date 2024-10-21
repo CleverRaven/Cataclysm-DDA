@@ -1,0 +1,37 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "young_dragon_heart_black",
+    "name": { "str": "Young black dragon's heart" },
+    "weight": "1100 g",
+    "color": "black_green",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 347,
+    "description": "A thick, hulking mass of flesh that's easily the size of your head.  You can feel an young dragon's life force still pulsing inside this black heart.  Forbidden to trade by governments around the world before cataclysm, the myth about eating dragon's heart might be true…",
+    "price": "10000000 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "flesh" ],
+    "volume": "1 L",
+    "fun": -10,
+    "vitamins": [ [ "mutagen_black_dragon", 300 ], [ "meat_allergen", 1 ] ],
+    "flags": [ "PREDATOR_FUN" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "crystalized_dragon_heart_black",
+    "name": { "str": "Crystalized black dragon heart" },
+    "//": "The relic_data is just to make it purple.",
+    "weight": "8800 g",
+    "color": "black_green",
+    "symbol": "%",
+    "description": "A huge, heart-shaped black crystal and a dime green light within.  After death, adult dragon's heart will be crystalized by their very own essence accumulated through life.  Although enormous draconic magic condensed within, you are not sure there are any archmage still alive can help you unlock its secret… right?",
+    "price": "100000000 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "crystal" ],
+    "volume": "8 L",
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "flags": [ "UNBREAKABLE", "GEMSTONE" ]
+  }
+]
