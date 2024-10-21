@@ -56,6 +56,7 @@ struct diag_value {
     bool is_str() const;
     bool is_var() const;
     bool is_array() const;
+    bool is_empty() const;
 
     // these functions can be used at parse time if the parameter needs
     // to be of exactly this type with no conversion.
