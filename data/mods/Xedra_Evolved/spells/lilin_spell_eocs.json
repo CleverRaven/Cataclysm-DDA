@@ -141,6 +141,15 @@
             "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
           {
+            "if": {
+              "and": [
+                { "math": [ "rand(1)", "==", "1" ] },
+                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
+              ]
+            },
+            "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+          },
+          {
             "u_deal_damage": "biological",
             "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
             "bodypart": "head"
