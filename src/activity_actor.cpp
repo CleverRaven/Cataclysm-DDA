@@ -2463,7 +2463,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
         // Yuck, I'm sticking weariness scaling based on activity level here
         const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
-        who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
+        who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance / weary_mult );
         if( to_vehicle ) {
             put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
         } else {
