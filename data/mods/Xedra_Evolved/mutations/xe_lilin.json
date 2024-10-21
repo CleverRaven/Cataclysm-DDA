@@ -40,22 +40,35 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "changes_to": [ "LILIN_DRAIN_ESSENCE_DISTANCE" ],
+    "changes_to": [ "LILIN_DRAIN_RUACH_DISTANCE" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_drain_ruach_melee_spell", 1 ] ]
   },
   {
     "type": "mutation",
     "id": "LILIN_DRAIN_RUACH_DISTANCE",
-    "name": { "//~": "Ruach is the Hebrew word for 'breath,' but it can also mean 'spirit' ", "str": "Ruach Drinker" },
-    "description": "You no longer need to touch your targets to drain their ruach; you can do it at a distance through their breath.",
-    "points": 2,
+    "name": { "str": "Breath Stealer" },
+    "description": "You no longer need to touch your targets to drain their ruach; you can do it at a short distance through their breath.",
+    "points": 4,
     "starting_trait": false,
     "purifiable": false,
-    "prereqs": [ "LILIN_DRAIN_ESSENCE_MELEE" ],
-    "prereqs2": [ "" ],
+    "prereqs": [ "LILIN_DRAIN_RUACH_MELEE" ],
+    "changes_to": [ "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
     "category": [ "LILIN" ],
-    "spells_learned": [ [ "lilin_drain_ruach_ranged_spell", 1 ], [ "lilin_drain_ruach_melee_spell", 1 ] ]
+    "spells_learned": [ [ "lilin_drain_ruach_short_ranged_spell", 1 ], [ "lilin_drain_ruach_melee_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_DRAIN_RUACH_LONG_DISTANCE",
+    "name": { "//~": "Ruach is the Hebrew word for 'breath,' but it can also mean 'spirit' ", "str": "Ruach Drinker" },
+    "description": "You no longer need to touch your targets to drain their ruach; you can do it at a great distance through their breath.",
+    "points": 6,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_DRAIN_RUACH_DISTANCE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "spells_learned": [ [ "lilin_drain_ruach_long_ranged_spell", 1 ], [ "lilin_drain_ruach_melee_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -146,7 +159,7 @@
     "purifiable": false,
     "player_display": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_STRENGTH" ],
-    "prereqs2": [ "LILIN_DRAIN_ESSENCE_DISTANCE" ],
+    "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
     "category": [ "LILIN" ],
     "//": "Use a more appropriate damage type once enchantments support custom damage types",
     "enchantments": [
@@ -163,7 +176,9 @@
         "values": [
           {
             "value": "ITEM_DAMAGE_BIO",
-            "add": { "math": [ "3 + (u_has_effect('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ] }
+            "add": {
+              "math": [ "3 + (u_effect_intensity('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ]
+            }
           }
         ]
       },
@@ -185,7 +200,9 @@
         "values": [
           {
             "value": "ITEM_DAMAGE_BIO",
-            "add": { "math": [ "2 + (u_has_effect('effect_lilin_attribute_bonuses') * 2) + (u_vitamin('lilin_ruach_vitamin') / 2000)" ] }
+            "add": {
+              "math": [ "2 + (u_effect_intensity('effect_lilin_attribute_bonuses') * 2) + (u_vitamin('lilin_ruach_vitamin') / 2000)" ]
+            }
           }
         ]
       },

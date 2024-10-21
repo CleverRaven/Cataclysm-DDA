@@ -209,12 +209,12 @@
                 "time_in_future": [
                   {
                     "math": [
-                      "450 + (u_vitamin('lilin_ruach_vitamin') / 10) + ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 360)"
+                      "450 + (u_vitamin('lilin_ruach_vitamin') / 10) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 360)"
                     ]
                   },
                   {
                     "math": [
-                      "1800 + (u_vitamin('lilin_ruach_vitamin') / 3) + ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 600)"
+                      "1800 + (u_vitamin('lilin_ruach_vitamin') / 3) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 600)"
                     ]
                   }
                 ]

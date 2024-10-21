@@ -20,13 +20,34 @@
     "base_casting_time": 150
   },
   {
-    "id": "lilin_drain_ruach_ranged_spell",
+    "id": "lilin_drain_ruach_short_ranged_spell",
+    "type": "SPELL",
+    "//": "You should only ever know one of these two at a time",
+    "name": "Ruach Drinker",
+    "description": "Drain the ruach from a target at range.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
+    "message": "",
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "NO_FAIL", "SOMATIC" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_RUACH_DRAIN",
+    "shape": "blast",
+    "min_range": 3,
+    "max_range": 3,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "base_casting_time": 150
+  },
+  {
+    "id": "lilin_drain_ruach_long_ranged_spell",
     "type": "SPELL",
     "name": "Ruach Drinker",
     "description": "Drain the ruach from a target at range.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
+    "flags": [ "SILENT", "NO_FAIL", "SOMATIC" ],
     "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
@@ -54,12 +75,12 @@
     "max_level": 1,
     "min_duration": {
       "math": [
-        "45000 + (u_vitamin('lilin_ruach_vitamin') * 10) + ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 36000)"
+        "45000 + (u_vitamin('lilin_ruach_vitamin') * 10) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 36000)"
       ]
     },
     "max_duration": {
       "math": [
-        "180000 + ((u_vitamin('lilin_ruach_vitamin') / 3) * 100) + ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 60000)"
+        "180000 + ((u_vitamin('lilin_ruach_vitamin') / 3) * 100) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 60000)"
       ]
     },
     "energy_source": "NONE",
@@ -72,7 +93,7 @@
     "name": "Reaping the Whirlwind",
     "description": "Spend some ruach to greatly enhance your speed for a short period of time.",
     "message": "",
-    "valid_targets": [ "sekf" ],
+    "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
     "spell_class": "LILIN_TRAITS",
     "max_level": 1,
