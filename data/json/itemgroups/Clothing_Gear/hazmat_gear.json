@@ -21,7 +21,7 @@
       { "item": "xedra_enviro_suit", "prob": 60 },
       { "item": "rebreather", "prob": 60 },
       { "item": "rebreather_cartridge_regen", "prob": 60, "charges": [ 0, -1 ] },
-      { "item": "dimensional_anchor", "prob": 33, "charges": [ 0, 2500 ] },
+      { "item": "dimensional_anchor", "prob": 33, "charges": [ 0, 1800 ] },
       { "group": "full_1st_aid", "prob": 15 },
       { "item": "geiger_off", "prob": 15, "charges": [ 0, 100 ] }
     ]

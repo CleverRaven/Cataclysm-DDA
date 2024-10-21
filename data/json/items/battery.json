@@ -168,5 +168,51 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ]
+  },
+  {
+    "id": "anchor_cell_atomic",
+    "category":"tool_magazine",
+    "name": { "str": "plutonium anchor battery", "str_pl": "plutonium anchor batteries"},
+    "description": "An odd tablet shaped battery with a rugged black case.  On the front is emblazoned an <color_yellow>arrow leading into many concentric rings</color>.  The back reads:\nLONG RANGE BATTERY\n48 HOUR DURATION\nFOR USE IN <color_yellow> 5-POINT ANCHOR</color>\n<color_red>RETURN TO QUARTERMASTER WHEN DEPLETED</color>",
+    "weight":"2600 g",
+    "volume": "2.3 L",
+    "price":1000000000,
+    "price_postapoc":"50 USD",
+    "material": [ "plastic", "lead" ],
+    "symbol": "=",
+    "color": "black",
+    "ammo_type":["battery"],
+    "count": 1800,
+    "capacity": 1800,
+    "looks_like":"battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1800 } } ]
+  },
+  {
+    "id": "anchor_cell_lith",
+    "category":"tool_magazine",
+    "name": { "str": "lithium anchor battery", "str_pl": "lithium anchor batteries"},
+    "description": "An odd tablet shaped battery with a sleek white case.  On the front is emblazoned an <color_yellow>arrow leading into many concentric rings</color>.  The back reads: \nSHORT RANGE BATTERY\n8 HOUR DURATION\nFOR USE IN <color_yellow> 5-POINT ANCHOR</color>\n<color_green>RECHARGE WHEN NOT IN USE </color>",
+    "weight":"1600 g",
+    "volume": "2.3 L",
+    "price":500000000,
+    "price_postapoc":"25 USD",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "white",
+    "ammo_type":["battery"],
+    "count": 300,
+    "capacity": 300,
+    "looks_like":"battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 300 } } ]
+  },
+  {
+    "id": "anchor_cell_robofac",
+    "category":"tool_magazine",
+    "name":{ "str": "Hub 01 anchor battery", "str_pl": "Hub 01 anchor batteries"},
+    "description": "A blue, tablet shaped battery manufactured by the scientists at Hub-01 for use in the Modular Defense Anchor.  The rechargable battery lasts 8 hours, and can also fit into the stock 5-point anchor.",
+    "copy-from": "anchor_cell_lith",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 300 } } ]
   }
 ]
