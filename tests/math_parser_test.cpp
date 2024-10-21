@@ -360,6 +360,13 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     testexp.eval( d );
     CHECK( std::stod( d.get_value( "blorg" ) ) == 87139.7 );
 
+    CHECK( testexp.parse( "_testvar++" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 2 );
+    CHECK( testexp.parse( "_testvar --" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 1 );
+
     // assignment to scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina') = 459" ) );
     testexp.eval( d );

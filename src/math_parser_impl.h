@@ -40,6 +40,7 @@ struct ass_op {
     std::string_view symbol;
     bool needs_mhs;
     binary_op::f_t f;
+    bool unaryone = false; // FIXME: hack...
 };
 using pass_op = ass_op const *;
 
@@ -351,13 +352,15 @@ constexpr std::array<unary_op, 3> prefix_unary_ops{
     unary_op{ "!", math_opers::b_neg },
 };
 
-constexpr std::array<ass_op, 6> ass_ops{
+constexpr std::array<ass_op, 8> ass_ops{
     ass_op{ "=", false, math_opers::add },
     ass_op{ "+=", true, math_opers::add },
     ass_op{ "-=", true, math_opers::sub },
     ass_op{ "*=", true, math_opers::mul },
     ass_op{ "/=", true, math_opers::div },
     ass_op{ "%=", true, math_opers::mod },
+    ass_op{ "++", true, math_opers::add, true },
+    ass_op{ "--", true, math_opers::sub, true },
 };
 
 #endif // CATA_SRC_MATH_PARSER_IMPL_H

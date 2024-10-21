@@ -540,7 +540,11 @@ void math_exp::math_exp_impl::parse_ass_op( pass_op const &op )
         new_oper();
     }
     ops.emplace( op );
-    state.set( parse_state::expect::operand, true );
+    if( op->unaryone ) {
+        state.set( parse_state::expect::eof, true );
+    } else {
+        state.set( parse_state::expect::operand, true );
+    }
 }
 
 void math_exp::math_exp_impl::parse_diag_f(
@@ -835,9 +839,12 @@ void math_exp::math_exp_impl::new_oper()
         },
         [this]( pass_op v )
         {
-            cata_assert( output.size() >= 2 );
-            thingie rhs = _resolve_proto( output.top() );
-            output.pop();
+            thingie rhs{ 1.0 };
+            if( !v->unaryone ) {
+                cata_assert( output.size() >= 2 );
+                rhs = _resolve_proto( output.top() );
+                output.pop();
+            }
 
             thingie temp = std::move( output.top() );
             output.pop();
