@@ -350,6 +350,7 @@
     "parameters": {
       "carpet_color_type": {
         "type": "ter_str_id",
+        "scope": "nest",
         "default": {
           "distribution": [ [ "t_carpet_red", 1 ], [ "t_carpet_green", 1 ], [ "t_carpet_purple", 1 ], [ "t_carpet_yellow", 1 ] ]
         }
