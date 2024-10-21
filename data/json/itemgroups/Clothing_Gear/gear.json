@@ -259,7 +259,7 @@
       { "item": "smart_phone", "prob": 20, "charges": [ 0, -1 ] },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
-      [ "tacvest", 10 ],
+      { "group": "loaded_tacvest", "prob": 10 },
       { "item": "chainsaw_off", "prob": 1, "charges": [ 0, -1 ] },
       [ "backpack", 15 ],
       [ "backpack_denim", 1 ],

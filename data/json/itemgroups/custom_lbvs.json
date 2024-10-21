@@ -17,6 +17,12 @@
   },
   {
     "type": "item_group",
+    "id": "loaded_tacvest",
+    "subtype": "collection",
+    "entries": [ { "item": "tacvest", "contents-group": "custom_tacvest" } ]
+  },
+  {
+    "type": "item_group",
     "id": "molle_vest_bag_accessories",
     "subtype": "collection",
     "entries": [
@@ -118,6 +124,17 @@
       { "item": "camelbak", "prob": 40 },
       { "group": "molle_vest_bag_accessories", "count": [ 1, 2 ] },
       { "item": "deployment_bag", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "custom_tacvest",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tactical_holster", "prob": 100 },
+      { "item": "camelbak", "prob": 40 },
+      { "distribution": [ { "item": "dump_pouch" }, { "item": "gadget_pouch", "count": [ 1, 2 ] } ], "prob": 40 },
+      { "item": "sheath", "prob": 20 }
     ]
   }
 ]

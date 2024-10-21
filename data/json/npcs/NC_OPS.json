@@ -49,7 +49,7 @@
       [ "jacket_army", 40 ],
       [ "cloak", 20 ],
       [ "ballistic_vest_esapi", 10 ],
-      [ "tacvest", 40 ],
+      { "group": "loaded_tacvest", "prob": 40 },
       [ "kevlar", 20 ],
       [ "chestrig", 30 ]
     ]
