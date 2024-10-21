@@ -704,21 +704,18 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
                 60, get_owner() );
         // Find the nearest unsorted zone to dump objects at
         if( !zones.empty() ) {
-            if( zones != storage_zones ) {
-                std::unordered_set<tripoint_abs_ms> src_set;
-                for( const zone_data *zone : zones ) {
-                    for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
-                             zone->get_start_point(), zone->get_end_point() ) ) {
-                        src_set.emplace( p );
-                    }
+            std::unordered_set<tripoint_abs_ms> src_set;
+            for( const zone_data *zone : zones ) {
+                for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
+                         zone->get_start_point(), zone->get_end_point() ) ) {
+                    src_set.emplace( p );
                 }
-                set_storage_tiles( src_set );
             }
+            set_storage_tiles( src_set );
             src_loc = here.bub_from_abs( zones.front()->get_center_point() );
-            set_storage_zone( zones );
         }
         map &here = get_map();
-        for( const zone_data *zone : storage_zones ) {
+        for( const zone_data *zone : zones ) {
             if( zone->get_type() == zone_type_CAMP_STORAGE ) {
                 for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                          zone->get_start_point(), zone->get_end_point() ) ) {
