@@ -171,6 +171,15 @@
             "bodypart": "leg_l"
           },
           {
+            "if": {
+              "and": [
+                { "math": [ "rand(1)", "==", "1" ] },
+                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
+              ]
+            },
+            "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5" ] }
+          },
+          {
             "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },
             "then": {
               "u_add_effect": "staggered_character",
