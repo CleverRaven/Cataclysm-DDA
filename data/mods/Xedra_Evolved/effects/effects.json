@@ -2330,6 +2330,7 @@
     "max_intensity": 28,
     "int_decay_step": 1,
     "int_decay_tick": 86400,
+    "show_intensity": true,
     "//2": "Increases in intensity once per day",
     "base_mods": {
       "pain_min": [ 1 ],
@@ -2364,7 +2365,17 @@
           }
         ]
       }
-    ]
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.96, "scaling": -0.035 },
+      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.035 },
+      { "limb_score": "lift", "modifier": 0.96, "scaling": -0.035 },
+      { "limb_score": "grip", "modifier": 0.96, "scaling": -0.035 },
+      { "limb_score": "reaction", "modifier": 0.95, "scaling": -0.035 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.035 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.035 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
