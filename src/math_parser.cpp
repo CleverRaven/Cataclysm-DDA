@@ -204,7 +204,7 @@ constexpr void _validate_operand( thingie const &thing, std::string_view symbol 
 
 void _validate_unused_kwargs( diag_kwargs const &kwargs )
 {
-    for( diag_kwargs::value_type const &v : kwargs ) {
+    for( diag_kwargs::impl_t::value_type const &v : kwargs.kwargs ) {
         if( !v.second.was_used() ) {
             throw std::invalid_argument( string_format( R"(Unused kwarg "%s")", v.first ) );
         }
@@ -605,7 +605,7 @@ void math_exp::math_exp_impl::new_func()
                     "All positional arguments must precede keyword-value pairs" );
             }
             kwarg &kw = std::get<kwarg>( output.top().data );
-            kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
+            kwargs.kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
             output.pop();
         }
         for( std::vector<thingie>::size_type i = 0; i < nparams; i++ ) {
