@@ -2313,6 +2313,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_ruach_drain_side_effects",
+    "name": [ "Ruach-drained" ],
+    "desc": [ "A lilit has drained away some of your life-force." ],
+    "max_intensity": 14,
+    "int_decay_step": -1,
+    "int_decay_tick": 259200,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_no_ruach",
     "name": [ { "str": "Ra'ab", "//~": "Biblical Hebrew for 'famine' or 'starvation'" } ],
     "desc": [ "You are out of ruach and gradually weakening." ],

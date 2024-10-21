@@ -162,7 +162,7 @@
         },
         "values": [
           {
-            "value": "ITEM_DAMAGE_PURE",
+            "value": "ITEM_DAMAGE_BIO",
             "add": { "math": [ "3 + (u_has_effect('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ] }
           }
         ]
@@ -184,18 +184,18 @@
         },
         "values": [
           {
-            "value": "ITEM_DAMAGE_PURE",
+            "value": "ITEM_DAMAGE_BIO",
             "add": { "math": [ "2 + (u_has_effect('effect_lilin_attribute_bonuses') * 2) + (u_vitamin('lilin_ruach_vitamin') / 2000)" ] }
           }
         ]
       },
       {
         "condition": { "and": [ { "not": "u_has_weapon" }, { "not": "is_day" }, { "math": [ "moon_phase() == 8" ] } ] },
-        "values": [ { "value": "ITEM_DAMAGE_PURE", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
+        "values": [ { "value": "ITEM_DAMAGE_BIO", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
       },
       {
         "condition": { "and": [ { "not": "u_has_weapon" }, "is_day" ] },
-        "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 1 } ]
+        "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 1 } ]
       }
     ]
   },
@@ -216,7 +216,6 @@
     "name": { "str": "Reaping the Whirlwind" },
     "description": "With an expenditure of ruach you can drastically enhance your speed for a short period of time.",
     "points": 4,
-    "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" ],
@@ -237,7 +236,7 @@
   {
     "type": "mutation",
     "id": "LILIN_NIGHT_VISION",
-    "name": { "str": "Owl's Gaze" },
+    "name": { "str": "Strigine Gaze" },
     "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
     "points": 2,
     "purifiable": false,

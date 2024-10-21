@@ -2,8 +2,191 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN",
+    "//": "Humans and humanlike fae give about one day's worth (240) ruach, aliens give a totally random amount, Nether creatures are a huge gamble (they could give you tons of ruach but could also absorb some from you), inhuman fae and vampires give a random amount within a few hours (20-60), animals and cyborgs give an hour's worth (5-15), insects give half of what animals give (2-7), nothing else gives any.",
     "condition": "u_is_character",
-    "effect": [  ]
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
+      { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
+      { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "u_has_species": "CHANGELING" },
+                { "u_has_species": "HOMULLUS" },
+                { "u_has_species": "FERAL" },
+                { "u_has_species": "HUMAN" },
+                { "u_has_species": "RENFIELD" }
+              ]
+            }
+          ]
+        },
+        "then": [
+          { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
+          { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
+          { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+        ],
+        "else": {
+          "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
+          "then": [
+            { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(1,400)" ] },
+            {
+              "npc_message": "You feel a rush of warmth as you absorb the ruach, though your skin breaks out in goosebumps afterward.",
+              "type": "good"
+            },
+            { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+          ],
+          "else": {
+            "if": { "u_has_species": "NETHER" },
+            "then": [
+              { "math": [ "u_ruach_random_nether_amount", "=", "rng(-600,1200)" ] },
+              {
+                "if": { "math": [ "u_ruach_random_nether_amount", ">", "0" ] },
+                "then": [ { "npc_message": "You feel a moment of white heat as you absorb the ruach.", "type": "good" } ],
+                "else": [
+                  {
+                    "npc_message": "You attempt to absorb the being's ruach but encounter only a yawning void that drains some of your own ruach back to it!",
+                    "type": "bad"
+                  }
+                ]
+              },
+              { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "u_ruach_random_nether_amount" ] },
+              { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+            ],
+            "else": {
+              "if": {
+                "or": [
+                  { "u_has_species": "IERDE" },
+                  { "u_has_species": "ARVORE" },
+                  { "u_has_species": "UNDINE" },
+                  { "u_has_species": "SYLPH" },
+                  { "u_has_species": "SALAMANDER" },
+                  { "u_has_species": "VAMPIRE" }
+                ]
+              },
+              "then": [
+                { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(20,60)" ] },
+                { "npc_message": "You feel a moment of warmth as you absorb the ruach.", "type": "good" },
+                { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+              ],
+              "else": {
+                "if": {
+                  "or": [
+                    { "u_has_species": "CYBORG" },
+                    { "u_has_species": "MAMMAL" },
+                    { "u_has_species": "AMPHIBIAN" },
+                    { "u_has_species": "BIRD" },
+                    { "u_has_species": "REPTILE" },
+                    { "u_has_species": "FISH" },
+                    { "u_has_species": "KRAKEN" }
+                  ]
+                },
+                "then": [
+                  { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(5,15)" ] },
+                  {
+                    "npc_message": "You feel a brief tingle as you absorb the animal's ruach.  Weak, but better than nothing.",
+                    "type": "good"
+                  },
+                  { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+                ],
+                "else": {
+                  "if": {
+                    "or": [
+                      { "u_has_species": "INSECT" },
+                      { "u_has_species": "CENTIPEDE" },
+                      { "u_has_species": "INSECT_FLYING" },
+                      { "u_has_species": "SPIDER" }
+                    ]
+                  },
+                  "then": [
+                    { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(2,7)" ] },
+                    {
+                      "npc_message": "You feel a slight prickling as you absorb the insect's ruach.  Barely worth bothering with.",
+                      "type": "good"
+                    },
+                    { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS",
+    "effect": [
+      {
+        "u_add_effect": "effect_lilin_ruach_drain_side_effects",
+        "intensity": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') + 1" ] },
+        "duration": [ "72 h", "72 h" ]
+      },
+      {
+        "if": "u_is_character",
+        "then": [
+          { "math": [ "n_npc_fear()", "+=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 3)" ] },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "head"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_l"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "torso"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_l"
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },
+            "then": {
+              "u_add_effect": "staggered_character",
+              "intensity": 1,
+              "duration": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') - 3) * 2), 0 )" ] }
+            }
+          }
+        ],
+        "else": [
+          { "math": [ "u_val('morale')", "-=", "5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 3)" ] },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },
+            "then": {
+              "u_add_effect": "staggered",
+              "intensity": 1,
+              "duration": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') - 3) * 2), 0 )" ] }
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
