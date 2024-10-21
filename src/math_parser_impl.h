@@ -16,6 +16,7 @@
 #include "dialogue_helpers.h"
 #include "math_parser_diag.h"
 #include "math_parser_func.h"
+#include "math_parser_type.h"
 #include "type_id.h"
 
 struct binary_op {
@@ -28,6 +29,7 @@ struct binary_op {
     associativity assoc;
     using f_t = double ( * )( double, double );
     f_t f = nullptr;
+    math_type_t type = math_type_t::ret;
 };
 using pbin_op = binary_op const *;
 struct unary_op {
@@ -333,11 +335,11 @@ constexpr std::array<binary_op, 14> binary_ops{
     binary_op{ "?", 0, binary_op::associativity::right },
     binary_op{ ":", 0, binary_op::associativity::right },
     binary_op{ "<", 1, binary_op::associativity::left, math_opers::lt },
-    binary_op{ "<=", 1, binary_op::associativity::left, math_opers::lte },
-    binary_op{ ">", 1, binary_op::associativity::left, math_opers::gt },
-    binary_op{ ">=", 1, binary_op::associativity::left, math_opers::gte },
-    binary_op{ "==", 1, binary_op::associativity::left, math_opers::eq },
-    binary_op{ "!=", 1, binary_op::associativity::left, math_opers::neq },
+    binary_op{ "<=", 1, binary_op::associativity::left, math_opers::lte, math_type_t::compare },
+    binary_op{ ">", 1, binary_op::associativity::left, math_opers::gt, math_type_t::compare },
+    binary_op{ ">=", 1, binary_op::associativity::left, math_opers::gte, math_type_t::compare },
+    binary_op{ "==", 1, binary_op::associativity::left, math_opers::eq, math_type_t::compare },
+    binary_op{ "!=", 1, binary_op::associativity::left, math_opers::neq, math_type_t::compare },
     binary_op{ "+", 2, binary_op::associativity::left, math_opers::add },
     binary_op{ "-", 2, binary_op::associativity::left, math_opers::sub },
     binary_op{ "*", 3, binary_op::associativity::left, math_opers::mul },

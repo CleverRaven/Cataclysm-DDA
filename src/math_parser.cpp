@@ -301,7 +301,7 @@ class math_exp::math_exp_impl
         math_exp_impl() = default;
         explicit math_exp_impl( thingie &&t ): tree( t ) {}
 
-        bool parse( std::string_view str, bool assignment, bool handle_errors ) {
+        bool parse( std::string_view str, bool handle_errors ) {
             if( str.empty() ) {
                 return false;
             }
@@ -310,7 +310,6 @@ class math_exp::math_exp_impl
                 std::locale::global( oldloc );
             } );
             try {
-                _force_assignment = assignment;
                 _parse( str );
             } catch( std::invalid_argument const &ex ) {
                 if( handle_errors ) {
@@ -329,21 +328,12 @@ class math_exp::math_exp_impl
         double eval( const_dialogue const &d ) const {
             return tree.eval( d );
         }
+        double eval( dialogue &d ) const {
+            return tree.eval( d );
+        }
 
-        void assign( dialogue &d, double val ) const {
-            std::visit( overloaded{
-                [&d, val]( func_diag const & v ) {
-                    v.assign( d, val );
-                },
-                [&d, val]( var const & v ) {
-                    write_var_value( v.varinfo.type, v.varinfo.name,
-                                     &d, val );
-                },
-                []( auto &/* v */ ) {
-                    debugmsg( "Assignment called on eval tree" );
-                },
-            },
-            tree.data );
+        math_type_t get_type() const {
+            return type;
         }
 
     private:
@@ -373,7 +363,7 @@ class math_exp::math_exp_impl
         thingie tree{ 0.0 };
         std::string_view last_token;
         parse_state state;
-        bool _force_assignment = false; // FXIME: TEMPORARY REMOVE
+        math_type_t type = math_type_t::ret;
 
         void _parse( std::string_view str );
         void parse_string( std::string_view token, std::string_view full );
@@ -483,10 +473,7 @@ void math_exp::math_exp_impl::_parse( std::string_view str )
         new_oper();
     }
 
-    tree = _resolve_proto( output.top(), _force_assignment );
-    if( _force_assignment && !is_assign_target( tree ) ) {
-        throw std::invalid_argument( "Assignment tree can only contain one variable name or dialogue assignment function" );
-    }
+    tree = _resolve_proto( output.top() );
 
     if( output.size() != 1 ) {
         throw std::invalid_argument( "Invalid expression.  That's all we know.  Blame andrei." );
@@ -826,6 +813,9 @@ void math_exp::math_exp_impl::new_oper()
             } else {
                 _validate_operand( lhs, v->symbol );
                 _validate_operand( rhs, v->symbol );
+                if( output.empty() && arity.empty() ) {
+                    type = v->type;
+                }
                 output.emplace( std::in_place_type_t<oper>(), lhs, rhs, v->f );
             }
         },
@@ -862,6 +852,7 @@ void math_exp::math_exp_impl::new_oper()
             if( !output.empty() || !arity.empty() ) {
                 throw std::invalid_argument( "misplaced assignment operator" );
             }
+            type = math_type_t::assign;
             output.emplace( std::in_place_type_t<ass_oper>(), lhs, mhs, rhs, v->f );
         },
         []( auto /* v */ )
@@ -940,10 +931,10 @@ math_exp::math_exp( math_exp_impl impl_ )
 {
 }
 
-bool math_exp::parse( std::string_view str, bool assignment, bool handle_errors )
+bool math_exp::parse( std::string_view str, bool handle_errors )
 {
     impl = std::make_unique<math_exp_impl>();
-    return impl->parse( str, assignment, handle_errors );
+    return impl->parse( str, handle_errors );
 }
 
 math_exp::math_exp( math_exp const &other ) :
@@ -965,7 +956,12 @@ double math_exp::eval( const_dialogue const &d ) const
     return impl->eval( d );
 }
 
-void math_exp::assign( dialogue &d, double val ) const
+double math_exp::eval( dialogue &d ) const
 {
-    return impl->assign( d, val );
+    return impl->eval( d );
+}
+
+math_type_t math_exp::get_type() const
+{
+    return impl->get_type();
 }
