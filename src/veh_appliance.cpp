@@ -55,7 +55,7 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
 }
 
 void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const std::optional<item> &base )
+                      const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -114,6 +114,8 @@ void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
         orient_part( veh, vpinfo, partnum );
     }
+
+    veh->set_owner( owner );
 }
 
 player_activity veh_app_interact::run( vehicle &veh, const point &p )
