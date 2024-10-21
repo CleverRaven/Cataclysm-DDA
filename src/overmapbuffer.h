@@ -231,6 +231,10 @@ class overmapbuffer
          * If there are any, it's not safe.
          */
         bool is_safe( const tripoint_abs_omt &p );
+        /**
+         * Check if the tripoint is part of or surrounded by a city, ignoring z-level
+         */
+        bool is_in_city( const tripoint_abs_omt &p );
 
         /**
          * Move the tracking mark of the given vehicle.

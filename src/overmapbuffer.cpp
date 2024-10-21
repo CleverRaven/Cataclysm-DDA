@@ -869,8 +869,9 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
 overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
+    ret.set_cost( oter_travel_cost_type::highway, 8 );
     ret.set_cost( oter_travel_cost_type::road, 10 );
-    ret.set_cost( oter_travel_cost_type::dirt_road, 10 );
+    ret.set_cost( oter_travel_cost_type::dirt_road, 13 );
     ret.set_cost( oter_travel_cost_type::field, 15 );
     ret.set_cost( oter_travel_cost_type::trail, 18 );
     ret.set_cost( oter_travel_cost_type::shore, 20 );
@@ -893,6 +894,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
+    ret.set_cost( oter_travel_cost_type::highway, 8 );
     ret.set_cost( oter_travel_cost_type::road, 10 );
     const int field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
@@ -1680,6 +1682,15 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
         }
     }
     return true;
+}
+
+bool overmapbuffer::is_in_city( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_pos;
+    tripoint_om_omt potential_city_tile;
+    std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( p );
+    overmap &target_overmap = get( overmap_pos );
+    return target_overmap.is_in_city( potential_city_tile );
 }
 
 std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(

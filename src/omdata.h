@@ -237,6 +237,7 @@ struct enum_traits<oter_flags> {
 enum class oter_travel_cost_type : int {
     other,
     impassable,
+    highway,
     road,
     field,
     dirt_road,
@@ -533,6 +534,22 @@ struct oter_t {
             return type->has_flag( oter_flags::ravine_edge );
         }
 
+        bool is_road() const {
+            return type->has_flag( oter_flags::road );
+        }
+
+        bool is_highway() const {
+            return type->has_flag( oter_flags::highway );
+        }
+
+        bool is_highway_reserved() const {
+            return type->has_flag( oter_flags::highway_reserved );
+        }
+
+        bool is_highway_special() const {
+            return type->has_flag( oter_flags::highway_special );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -659,7 +676,7 @@ class overmap_special
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit, const overmap &omap ) const;
         const cata::flat_set<std::string> &get_flags() const {
             return flags_;
         }
