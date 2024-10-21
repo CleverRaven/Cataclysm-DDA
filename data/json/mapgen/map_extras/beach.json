@@ -1,0 +1,279 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_beach_sandy",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [
+        {
+          "else_chunks": [ "sandybeach_ewN" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": [ { "east": "ocean_shore" }, { "west": "ocean_shore" }, { "north": "ocean_surface" } ]
+        },
+        {
+          "else_chunks": [ "sandybeach_ewS" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": [ { "east": "ocean_shore" }, { "west": "ocean_shore" }, { "south": "ocean_surface" } ]
+        },
+        {
+          "else_chunks": [ "sandybeach_nsE" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": [ { "north": "ocean_shore" }, { "south": "ocean_shore" }, { "east": "ocean_surface" } ]
+        },
+        {
+          "else_chunks": [ "sandybeach_nsW" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": [ { "north": "ocean_shore" }, { "south": "ocean_shore" }, { "west": "ocean_surface" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sandybeach_ewN",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "222222222222222222222222",
+        "222222222222222222222222",
+        "333333333333333333333333",
+        "333333333333333333333333",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "1": "t_null", "2": "t_null", "3": "t_null" },
+      "nested": {
+        "1": { "chunks": [ [ "seaweed_ew_line", 50 ], [ "null", 50 ] ] },
+        "2": { "chunks": [ [ "ocean_detritus", 50 ], [ "null", 50 ] ] },
+        "3": { "chunks": [ [ "ocean_detritus", 70 ], [ "null", 30 ] ] }
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sandybeach_ewS",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "333333333333333333333333",
+        "333333333333333333333333",
+        "222222222222222222222222",
+        "222222222222222222222222",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "1": "t_null", "2": "t_null", "3": "t_null" },
+      "nested": {
+        "1": { "chunks": [ [ "seaweed_ew_line", 50 ], [ "null", 50 ] ] },
+        "2": { "chunks": [ [ "ocean_detritus", 50 ], [ "null", 50 ] ] },
+        "3": { "chunks": [ [ "ocean_detritus", 70 ], [ "null", 30 ] ] }
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sandybeach_nsE",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [        
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         ",
+        "         332211         "
+      ],
+      "terrain": { "1": "t_null", "2": "t_null", "3": "t_null" },
+      "nested": {
+        "1": { "chunks": [ [ "seaweed_nl_line", 50 ], [ "null", 50 ] ] },
+        "2": { "chunks": [ [ "ocean_detritus", 50 ], [ "null", 50 ] ] },
+        "3": { "chunks": [ [ "ocean_detritus", 70 ], [ "null", 30 ] ] }
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sandybeach_nsW",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [        
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         ",
+        "         112233         "
+      ],
+      "terrain": { "1": "t_null", "2": "t_null", "3": "t_null" },
+      "nested": {
+        "1": { "chunks": [ [ "seaweed_nl_line", 50 ], [ "null", 50 ] ] },
+        "2": { "chunks": [ [ "ocean_detritus", 50 ], [ "null", 50 ] ] },
+        "3": { "chunks": [ [ "ocean_detritus", 70 ], [ "null", 30 ] ] }
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "seaweed_ew_line",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "000",
+        "111",
+        "000"
+      ],
+      "terrain": { "0": "t_null", "1": "t_null" },
+      "furniture": { "1": [ [ "f_null", 2 ], [ "f_beach_seaweed", 6 ], "f_beach_log" ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "seaweed_nl_line",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "010",
+        "010",
+        "010"
+      ],
+      "terrain": { "0": "t_null", "1": "t_null" },
+      "furniture": { "1": [ [ "f_null", 2 ], [ "f_beach_seaweed", 6 ], "f_beach_log" ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ocean_detritus",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "terrain": { "0": "t_null" },
+      "furniture": {
+        "0": [
+          [ "f_beach_log", 25 ],
+          [ "f_beach_seaweed", 30 ],
+          "f_broken_boat",
+          [ "f_boulder_small", 25 ],
+          [ "f_boulder_medium", 15 ],
+          [ "f_boulder_large", 3 ]
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  }
+]
