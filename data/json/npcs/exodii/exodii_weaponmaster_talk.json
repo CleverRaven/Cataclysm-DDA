@@ -1,0 +1,76 @@
+[
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_1",
+    "type": "talk_topic",
+    "//": "mute by choise, and deaf most of the time (don't like to turn on the hearing cbm unless for job)",
+    "dynamic_line": "&What you see looks like the back of a mechanical spider, with at least a dozen crude but polished metal arms going from the enormously wide spine and shoulders.  Spine of a creature, meanwhile, sits in an awkward-looking chair, doing something on a wide, heavily lighted workbench.  Creature seems to be busy with something.",
+    "responses": [
+      { "text": "&Wait a bit.", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_2A" },
+      { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_2B" }
+    ]
+  },
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_2A",
+    "type": "talk_topic",
+    "dynamic_line": "&It doesn't react at your presence at all.",
+    "responses": [
+      { "text": "&Wait in silence.", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_3" },
+      { "text": "Hello!?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
+    ]
+  },
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_2B",
+    "type": "talk_topic",
+    "dynamic_line": "&It seems to not hear you at all.",
+    "responses": [
+      { "text": "&Wait for longer.", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_3" },
+      { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
+    ]
+  },
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_3",
+    "type": "talk_topic",
+    "dynamic_line": "&A few seconds later, they seem to finish whatever they were busy with and slowly turn their chair to you.  Their front looks no less exotic than their back; the abundance of metal arms looks even more extraordinary next to the clear lack of any legs.  What you initially thought to be a chair is simply a rotating platform, sturdy enough to support the weight of the entire body of a creature.  Few cameras, that seems to be a replacement for eyes, look at you motionlessly, while the forehead of the creature has the surprisingly familiar sign \"IX\" painted on.",
+    "responses": [ { "text": "Who-…  Wha-…  What are you?", "topic": "TALK_WEAPONMASTER_INTRO_4" } ]
+  },
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_4",
+    "type": "talk_topic",
+    "dynamic_line": "&Still completely mute, it shows you something you completely missed: The entire wall behind the workbench was full of various weapons: some as big as modern rifles, a few as large as machineguns installed on aircraft, and one that looked like dismantled tank turrets.  Melee weapons were not left behind, from moderate-sized swords and clubs to warhammers twice the human height and what you can describe only as \"boots for mecha\".  Then it pointed to the sign near you that showed the carved pictograms of coins, some unknown for you sign, and then a bullet - all things considered, it is either a weaponmaster or a weapon merchant.",
+    "responses": [ { "text": "Woah.  Can i buy one?", "topic": "TALK_WEAPONMASTER_INTRO_5" } ]
+  },
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_5",
+    "type": "talk_topic",
+    "dynamic_line": "&They don't move and do not say anything.",
+    "responses": [ { "text": "Do you understand me?", "topic": "TALK_WEAPONMASTER_INTRO_6" } ]
+  },
+  {
+    "id": "TALK_WEAPONMASTER_INTRO_6",
+    "type": "talk_topic",
+    "dynamic_line": "&They clearly do not understand you.  It seems they do not hear you either.",
+    "responses": [
+      {
+        "text": "&You pull off your backpack, and start to pull different stuff you deem worthy of trading.  The weaponmaster finally looks interested.",
+        "topic": "TALK_NONE",
+        "effect": [ { "npc_first_topic": "TALK_EXODII_WEAPONMASTER" }, "start_trade" ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_WEAPONMASTER",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&Weaponmaster seems to tinkering something, but turned their chair to you as you approached.",
+      "&Weaponmaster seems to clean some weapon, but as you approach them, they call someone to pick a gun, and turn to you.",
+      "&Weaponmaster seems to polish some armor, but turn to you the second you enter the room."
+    ],
+    "responses": [
+      {
+        "text": "&With familiar move, you take off different valuables on the trader counter, proposing a trade.",
+        "topic": "TALK_NONE",
+        "effect": [ "start_trade" ]
+      }
+    ]
+  }
+]
