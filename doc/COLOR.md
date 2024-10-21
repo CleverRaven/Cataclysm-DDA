@@ -110,7 +110,7 @@ Do note how the color tags override the default color for a `"mixed"` dialogue m
 Additionally, color tags can be combined to generate color gradients, and be nested into each other:
 
 ```json
-    { "u_message": "<color_red>(H</color><color_magenta>ell)</color><color_red>fire</color> and brimstone." },
+    { "u_message": "<color_red>H</color><color_magenta>ell</color><color_red>fire</color> and brimstone." },
     { "u_message": "<color_light_gray><color_white>This text is white</color> while this text is light_gray, <color_light_red>this is light_red</color>. This is light_gray again</color>", "type": "mixed" }
 ```
 

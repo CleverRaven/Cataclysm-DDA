@@ -2073,7 +2073,8 @@
         "%": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "T": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "s": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "s": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2145,7 +2146,8 @@
         "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2219,7 +2221,8 @@
         "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "T": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
@@ -2292,7 +2295,8 @@
         "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "T": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },

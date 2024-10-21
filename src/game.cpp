@@ -9888,6 +9888,9 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( !u.has_item( *loc ) && !loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+        if( !avatar_action::check_stealing( get_player_character(), *loc.get_item() ) ) {
+            return;
+        }
         loc = loc.obtain( u );
         if( !loc ) {
             add_msg( _( "Never mind." ) );
