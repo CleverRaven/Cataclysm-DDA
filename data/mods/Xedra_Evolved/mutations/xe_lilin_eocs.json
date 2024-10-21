@@ -87,5 +87,43 @@
       }
     ],
     "false_effect": [ { "queue_eocs": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE", "time_in_future": [ "1 hours", "2 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_INITIAL",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "LILIN_ATTRIBUTE_BONUSES", { "context_val": "trait" } ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_STRENGTH",
+          "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_DEXTERITY",
+          "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_PERCEPTION"
+        ],
+        "names": [ "Empower your Strength", "Empower your Dexterity", "Empower your Perception" ],
+        "title": "Pick a choice",
+        "descriptions": [
+          "Gain strength bonuses when using From Strength to Strength.",
+          "Gain dexterity and dodge bonuses when using From Strength to Strength.",
+          "Gain perception bonuses when using From Strength to Strength."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_STRENGTH",
+    "effect": [ { "u_add_trait": "LILIN_ATTRIBUTE_BONUSES_STRENGTH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_DEXTERITY",
+    "effect": [ { "u_add_trait": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_PERCEPTION",
+    "effect": [ { "u_add_trait": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" } ]
   }
 ]

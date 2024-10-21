@@ -2355,5 +2355,54 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_attribute_bonuses",
+    "name": [ { "str": "Might of the Nephilim" } ],
+    "desc": [ "You are enhancing your physical abilities." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "LILIN_ATTRIBUTE_BONUSES_STRENGTH" },
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "1 + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 1) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 1) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 1) + (u_has_trait('THRESH_LILIN') * 2)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_trait": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" },
+        "values": [
+          {
+            "value": "DEXTERITY",
+            "add": {
+              "math": [
+                "1 + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 1) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 1) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 1) + (u_has_trait('THRESH_LILIN') * 2)"
+              ]
+            }
+          },
+          { "value": "BONUS_DODGE", "add": 1 }
+        ]
+      },
+      {
+        "condition": { "u_has_trait": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" },
+        "values": [
+          {
+            "value": "PERCEPTION",
+            "add": {
+              "math": [
+                "1 + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 1) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 1) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 1) + (u_has_trait('THRESH_LILIN') * 2)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
 ]

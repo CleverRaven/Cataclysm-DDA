@@ -9,7 +9,7 @@
         "then": {
           "run_eocs": [
             {
-              "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated_activated_2",
+              "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated_2",
               "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
               "effect": [
                 { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
@@ -18,7 +18,7 @@
                 { "u_message": "You spin a beguiling web of illusion around yourself.", "type": "good" },
                 {
                   "queue_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
-                  "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200" ] }
+                  "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200 ) )" ] }
                 }
               ],
               "false_effect": [
@@ -74,7 +74,7 @@
               },
               {
                 "queue_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
-                "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200" ] }
+                "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200 ) )" ] }
               }
             ],
             "false_effect": [
@@ -89,13 +89,99 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_PROCESSED",
+    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_processed",
     "condition": { "and": [ { "u_has_trait": "BEAUTIFUL3" }, { "u_has_effect": "effect_lilin_temporary_glorious" } ] },
     "effect": [
       {
         "if": { "and": [ "u_is_outside", "is_day" ] },
         "then": { "u_lose_trait": "BEAUTIFUL3" },
         "else": { "if": { "or": [ { "not": "u_is_outside" }, { "not": "is_day" } ] }, "then": { "u_add_trait": "BEAUTIFUL3" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated",
+    "condition": { "not": { "u_has_effect": "effect_lilin_attribute_bonuses" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "80" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "80" ] },
+              { "u_add_effect": "effect_lilin_attribute_bonuses", "duration": "PERMANENT" },
+              { "u_message": "You draw on your ruach to enhance your physical abilities.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * ((u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280)"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to enhance your physical abilities.", "type": "bad" },
+              { "queue_eocs": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivated",
+            "condition": { "u_has_effect": "effect_lilin_attribute_bonuses" },
+            "effect": [
+              { "u_message": "Your physical abilities return to normal.", "type": "neutral" },
+              { "u_lose_effect": "effect_lilin_attribute_bonuses" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": [ { "u_deactivate_trait": "LILIN_ATTRIBUTE_BONUSES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance",
+    "condition": { "u_has_effect": "effect_lilin_temporary_glorious" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
+              {
+                "u_message": "You feel a chill on your skin as you maintain your enhanced physical abilities.",
+                "type": "mixed"
+              },
+              {
+                "queue_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * ((u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280)"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to enhance your physical abilities.", "type": "neutral" },
+              { "u_lose_effect": "effect_lilin_attribute_bonuses" }
+            ]
+          }
+        ]
       }
     ]
   }

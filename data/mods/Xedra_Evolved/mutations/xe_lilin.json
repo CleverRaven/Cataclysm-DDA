@@ -13,7 +13,7 @@
     "id": "LILIN_TRAITS",
     "//": "Lilin are spiritual vampires--rather than feed on blood, they feed on the essence of their targets.  This allows them to gain some similar powers to vampires, but often in a more subtle fashion",
     "name": { "str": "Lilit" },
-    "description": "You are one of the lilin, a hunter in the night, driven to feed on the spiritual essense (some might say the soul) of your prey.  Probably you were born that way, but maybe it happened to due to a malediction, or some artifact you found in a place best forgotten.  Regardless, it is your gift and your curse now, and you must use your powers to survive.\n\nYou may activate this trait to spend some ruach toward increasing your power.  You must be outside under the moon to have a chance of gaining new lilin powers.",
+    "description": "You are one of the lilin, a hunter in the night, driven to feed on the spiritual essense (some might say the soul) of your prey.  Probably you were born that way, but maybe it happened to due to a malediction, or some artifact you found in a place best forgotten.  Regardless, it is your gift and your curse now, and you must use your powers to survive.\n\nYou may activate this trait to spend some ruach toward increasing your power.  You must be outside under the moonlight to have a chance of gaining new lilin powers.",
     "points": 2,
     "mixed_effect": true,
     "valid": false,
@@ -22,7 +22,7 @@
     "active": true,
     "category": [ "LILIN" ],
     "types": [ "HERITAGE" ],
-    "anger_relations": [ [ "VAMPIRE", -30 ], [ "HOMULLUS", 30 ] ],
+    "anger_relations": [ [ "VAMPIRE", -40 ], [ "HOMULLUS", 30 ] ],
     "enchantments": [
       {
         "values": [ { "value": "MUT_INSTABILITY_MOD", "add": { "math": [ "u_sum_traits_of_category_char_has('LILIN') * -1" ] } } ],
@@ -40,6 +40,7 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
+    "changes_to": [ "LILIN_DRAIN_ESSENCE_DISTANCE" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_drain_essence_melee_spell", 1 ] ]
   },
@@ -52,8 +53,9 @@
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_DRAIN_ESSENCE_MELEE" ],
+    "prereqs2": [ "" ],
     "category": [ "LILIN" ],
-    "spells_learned": [ [ "lilin_drain_essence_ranged_spell", 1 ] ]
+    "spells_learned": [ [ "lilin_drain_essence_ranged_spell", 1 ], [ "lilin_drain_essence_melee_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -83,9 +85,75 @@
     "threshreq": [ "THRESH_LILIN" ],
     "active": true,
     "activated_is_setup": true,
-    "activated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_ACTIVATE" ],
-    "processed_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_PROCESSED" ],
-    "deactivated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_DEACTIVATE" ]
+    "activated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_activated" ],
+    "processed_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_processed" ],
+    "deactivated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_ATTRIBUTE_BONUSES",
+    "name": { "str": "Might of the Nephilim" },
+    "description": "Like the monstrous children of angels and humans, your prowess surpasses mortal limits.  Activate this trait to empower yourself.",
+    "points": 4,
+    "purifiable": false,
+    "category": [ "LILIN" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_activated" ],
+    "deactivated_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
+    "name": { "str": "The Cedars of Lebanon" },
+    "description": "Adds a Strength Bonus to The Mighty One.  Should not be player-visible.",
+    "points": 2,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
+    "name": { "str": "The Leaping Faun" },
+    "description": "Adds a Dexterity/Dodge Bonus to The Mighty One.  Should not be player-visible.",
+    "points": 2,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION",
+    "name": { "str": "And All the People Saw the Sounds" },
+    "description": "Adds a Perception Bonus to The Mighty One.  Should not be player-visible.",
+    "points": 2,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_NIGHT_VISION",
+    "name": { "str": "And All the People Saw the Sounds" },
+    "description": "Adds a Perception Bonus to The Mighty One.  Should not be player-visible.",
+    "points": 2,
+    "purifiable": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "u_is_outside",
+        "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.5" ] } } ]
+      },
+      {
+        "condition": { "not": "u_is_outside" },
+        "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.75" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
