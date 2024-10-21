@@ -1,17 +1,17 @@
 [
   {
-    "id": "lilin_drain_essence_melee_spell",
+    "id": "lilin_drain_ruach_melee_spell",
     "type": "SPELL",
     "name": "Essence Drain",
     "description": "Touch your victim and drain away a part of their ruach to fuel you. It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
-    "class": [ "LILIN_TRAITS" ],
+    "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_LILIN_ESSENCE_DRAIN",
+    "effect_str": "EOC_LILIN_RUACH_DRAIN",
     "shape": "blast",
     "min_range": 1,
     "max_range": 1,
@@ -20,24 +20,51 @@
     "base_casting_time": 150
   },
   {
-    "id": "lilin_drain_essence_ranged_spell",
+    "id": "lilin_drain_ruach_ranged_spell",
     "type": "SPELL",
     "name": "Ruach Drinker",
     "description": "Drain the ruach from a target at range.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
-    "class": [ "LILIN_TRAITS" ],
+    "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_LILIN_ESSENCE_DRAIN",
+    "effect_str": "EOC_LILIN_RUACH_DRAIN",
     "shape": "blast",
     "min_range": 10,
     "max_range": 10,
     "energy_source": "STAMINA",
     "base_energy_cost": 2000,
     "base_casting_time": 150
+  },
+  {
+    "id": "lilin_change_weather_fog_spell",
+    "type": "SPELL",
+    "name": "Thick Clouds A Covering",
+    "description": "Manipulate the weather, pulling the water from the air and cause a thick fog to form and blanket the countryside.  Activate again to release your hold on the weather.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG",
+    "shape": "blast",
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "45000 + (u_vitamin('lilin_ruach_vitamin') * 10) + ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 36000)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "180000 + ((u_vitamin('lilin_ruach_vitamin') / 3) * 100) + ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 60000)"
+      ]
+    },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 250
   },
   {
     "id": "lilin_speed_dodge_boost_spell",
@@ -47,7 +74,7 @@
     "message": "",
     "valid_targets": [ "sekf" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
-    "class": [ "LILIN_TRAITS" ],
+    "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
     "effect": "effect_on_condition",

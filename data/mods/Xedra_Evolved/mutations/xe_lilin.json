@@ -33,7 +33,7 @@
   },
   {
     "type": "mutation",
-    "id": "LILIN_DRAIN_ESSENCE_MELEE",
+    "id": "LILIN_DRAIN_RUACH_MELEE",
     "name": { "str": "Enervating Touch" },
     "description": "With but a touch, you can drain the vitality and spiritual essence from your targets.",
     "points": 2,
@@ -42,11 +42,11 @@
     "purifiable": false,
     "changes_to": [ "LILIN_DRAIN_ESSENCE_DISTANCE" ],
     "category": [ "LILIN" ],
-    "spells_learned": [ [ "lilin_drain_essence_melee_spell", 1 ] ]
+    "spells_learned": [ [ "lilin_drain_ruach_melee_spell", 1 ] ]
   },
   {
     "type": "mutation",
-    "id": "LILIN_DRAIN_ESSENCE_DISTANCE",
+    "id": "LILIN_DRAIN_RUACH_DISTANCE",
     "name": { "//~": "Ruach is the Hebrew word for 'breath,' but it can also mean 'spirit' ", "str": "Ruach Drinker" },
     "description": "You no longer need to touch your targets to drain their ruach; you can do it at a distance through their breath.",
     "points": 2,
@@ -55,7 +55,16 @@
     "prereqs": [ "LILIN_DRAIN_ESSENCE_MELEE" ],
     "prereqs2": [ "" ],
     "category": [ "LILIN" ],
-    "spells_learned": [ [ "lilin_drain_essence_ranged_spell", 1 ], [ "lilin_drain_essence_melee_spell", 1 ] ]
+    "spells_learned": [ [ "lilin_drain_ruach_ranged_spell", 1 ], [ "lilin_drain_ruach_melee_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_CHANGE_WEATHER_FOG",
+    "name": { "//~": "This is a reference to Job 22:14", "str": "Thick Clouds A Covering" },
+    "points": 2,
+    "description": "Call up thick clouds of fog, allowing you to hide from your enemies.  This power is <color_green>lasts longer</color> when closer to the new moon.",
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_change_weather_fog_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -68,7 +77,6 @@
     "active": true,
     "activated_is_setup": true,
     "prereqs": [ "LILIN_HOLD_MORE_RUACH_2" ],
-    "prereqs2": [  ],
     "activated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_deactivated" ]
   },
