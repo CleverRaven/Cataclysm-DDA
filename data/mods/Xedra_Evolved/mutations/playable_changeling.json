@@ -238,7 +238,8 @@
         "FAIR_FOLK_COMMONER_BROWNIE",
         "FAIR_FOLK_COMMONER_POOKA",
         "FAIR_FOLK_COMMONER_SELKIE",
-        "FAIR_FOLK_COMMONER_TROW"
+        "FAIR_FOLK_COMMONER_TROW",
+        "LILIN"
       ]
     }
   },
@@ -252,16 +253,10 @@
         "FAIR_FOLK_COMMONER_BROWNIE",
         "FAIR_FOLK_COMMONER_POOKA",
         "FAIR_FOLK_COMMONER_SELKIE",
-        "FAIR_FOLK_COMMONER_TROW"
+        "FAIR_FOLK_COMMONER_TROW",
+        "LILIN"
       ]
-    },
-    "threshreq": [
-      "THRESH_FAIR_FOLK_NOBLE",
-      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
-      "THRESH_FAIR_FOLK_COMMONER_POOKA",
-      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
-      "THRESH_FAIR_FOLK_COMMONER_TROW"
-    ]
+    }
   },
   {
     "type": "mutation",
