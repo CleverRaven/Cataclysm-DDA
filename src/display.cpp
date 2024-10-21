@@ -1017,7 +1017,7 @@ std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar
 {
     float divisor = 1000000.0f;
     std::string unit = "kg";
-    if (get_option<std::string>("USE_METRIC_WEIGHTS") == "lbs") {
+    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ) {
         divisor = 453592.37f;
         unit = "lb";
     }
@@ -1025,7 +1025,7 @@ std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar
     float max_wt = ( ava.weight_capacity().value() / divisor );
 
     // Create a string showing "current_weight / max_weight"
-    std::string weight_text = string_format( "%.1f/%.1f" + unit, carry_wt, max_wt);
+    std::string weight_text = string_format( "%.1f/%.1f" + unit, carry_wt, max_wt );
 
     // Set the color based on carry weight
     nc_color weight_color = c_green;  // Default color
