@@ -1016,7 +1016,7 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
 std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar &ava )
 {
     float divisor = 1000000.0f;
-    std::string unit = "kgs";
+    std::string unit = "kg";
     if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ) {
         divisor = 453592.37f;
         unit = "lbs";
