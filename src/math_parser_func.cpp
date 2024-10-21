@@ -37,5 +37,13 @@ std::vector<std::string_view> tokenize( std::string_view str, std::string_view s
         }
         start = pos + 1;
     }
+    // FIXME: shameful handling for increment/decrement operators
+    if( ret.size() >= 3 &&
+        ( ( ret.at( ret.size() - 1 ) == "+" && ret.at( ret.size() - 2 ) == "+" ) ||
+          ( ret.at( ret.size() - 1 ) == "-" && ret.at( ret.size() - 2 ) == "-" ) ) ) {
+        ret.pop_back();
+        ret.pop_back();
+        ret.emplace_back( str.substr( str.size() - 2 ) );
+    }
     return ret;
 }
