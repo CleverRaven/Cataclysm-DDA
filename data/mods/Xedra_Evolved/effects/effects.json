@@ -2404,5 +2404,23 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_speed_boost",
+    "name": [ { "str": "Reap[ing the Whirlwind" } ],
+    "desc": [ "You are moving incredibly quickly." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.5 },
+          { "value": "ATTACK_SPEED", "multiply": -0.66 },
+          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "DODGE_CHANCE", "add": { "math": [ "2 + (u_has_trait('THRESH_LILIN') * 2)" ] } },
+          { "value": "RANGE_DODGE", "add": { "math": [ "0.25 + (u_has_trait('THRESH_LILIN') * 0.25)" ] } }
+        ]
+      }
+    ]
   }
 ]

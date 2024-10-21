@@ -31,7 +31,7 @@
     "name": { "str": "Ruach" },
     "min": 0,
     "max": 6720,
-    "//": "Maximum amount is one lunar month's worth",
+    "//": "Maximum amount is one lunar month's worth at 10 spent per hour.",
     "rate": "0 m"
   },
   {

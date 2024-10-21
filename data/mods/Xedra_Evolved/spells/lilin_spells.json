@@ -8,6 +8,7 @@
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
     "class": [ "LILIN_TRAITS" ],
+    "max_level": 1,
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_ESSENCE_DRAIN",
@@ -27,6 +28,7 @@
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
     "class": [ "LILIN_TRAITS" ],
+    "max_level": 1,
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_ESSENCE_DRAIN",
@@ -36,5 +38,23 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 2000,
     "base_casting_time": 150
+  },
+  {
+    "id": "lilin_speed_dodge_boost_spell",
+    "type": "SPELL",
+    "name": "Reaping the Whirlwind",
+    "description": "Spend some ruach to greatly enhance your speed for a short period of time.",
+    "message": "",
+    "valid_targets": [ "sekf" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
+    "class": [ "LILIN_TRAITS" ],
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_SPEED_BOOST",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 75
   }
 ]

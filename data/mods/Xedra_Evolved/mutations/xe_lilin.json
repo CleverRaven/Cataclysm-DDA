@@ -126,6 +126,19 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_SPEED_DODGE_BOOST",
+    "name": { "str": "Reaping the Whirlwind" },
+    "description": "With an expenditure of ruach you can drastically enhance your speed for a short period of time.",
+    "points": 4,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_speed_dodge_boost_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION",
     "name": { "str": "And All the People Saw the Sounds" },
     "description": "Adds a Perception Bonus to The Mighty One.  Should not be player-visible.",
@@ -138,8 +151,8 @@
   {
     "type": "mutation",
     "id": "LILIN_NIGHT_VISION",
-    "name": { "str": "And All the People Saw the Sounds" },
-    "description": "Adds a Perception Bonus to The Mighty One.  Should not be player-visible.",
+    "name": { "str": "Owl's Gaze" },
+    "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
     "points": 2,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
