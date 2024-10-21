@@ -89,7 +89,8 @@
     "purifiable": false,
     "active": true,
     "activated_is_setup": true,
-    "prereqs": [ "LILIN_HOLD_MORE_RUACH_2" ],
+    "prereqs": [ "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
+    "category": [ "LILIN" ],
     "activated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_deactivated" ]
   },

@@ -117,7 +117,7 @@
                 "queue_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
+                    "rng(0.75,1.25) * 1 + ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
                   ]
                 }
               }
@@ -134,7 +134,7 @@
       {
         "run_eocs": [
           {
-            "id": "EEOC_LILIN_ATTRIBUTE_BONUSES_deactivated",
+            "id": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivated",
             "condition": { "u_has_effect": "effect_lilin_attribute_bonuses" },
             "effect": [
               { "u_message": "Your physical abilities return to normal.", "type": "neutral" },
@@ -154,7 +154,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance",
-    "condition": { "u_has_effect": "effect_lilin_temporary_glorious" },
+    "condition": { "u_has_effect": "effect_lilin_attribute_bonuses" },
     "effect": [
       {
         "run_eocs": [
@@ -171,7 +171,7 @@
                 "queue_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
+                    "rng(0.75,1.25) * 1 + ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
                   ]
                 }
               }
