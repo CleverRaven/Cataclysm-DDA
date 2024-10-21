@@ -96,7 +96,7 @@
     "id": "mon_toucan_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 35, "into": "mon_toucan" },
+    "upgrades": { "age_grow": 144, "into": "mon_toucan" },
     "//": "Copied from the vanilla corvids. ~8 weeks to fledge, but couldn't find any info on how long it takes for them to reach adult size. Sexual maturity is a bad metric as they reach it very late, at 3-4 years of age."
   },
   {
@@ -114,8 +114,8 @@
     "id": "mon_parrot_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 12, "into": "mon_parrot" },
-    "//": "12 days to reach independence. Use the default multiplier of 4 to our advantage to get a rough estimate of reaching adult size.",
+    "upgrades": { "age_grow": 48, "into": "mon_parrot" },
+    "//": "12 days to reach independence. Use a multiplier of 4 to our advantage to get a rough estimate of reaching adult size.",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
@@ -138,7 +138,7 @@
     "id": "mon_macaw_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 23, "into": "mon_macaw" },
+    "upgrades": { "age_grow": 90, "into": "mon_macaw" },
     "//": "3 months to reach independence.",
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -162,7 +162,7 @@
     "id": "mon_finch_saffron_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 8, "into": "mon_finch_saffron" }
+    "upgrades": { "age_grow": 32, "into": "mon_finch_saffron" }
   },
   {
     "id": "mon_great_kiskadee",
@@ -180,7 +180,7 @@
     "id": "mon_great_kiskadee_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 10, "into": "mon_great_kiskadee" }
+    "upgrades": { "age_grow": 40, "into": "mon_great_kiskadee" }
   },
   {
     "id": "mon_rufous_hornero",
@@ -196,8 +196,7 @@
     "id": "mon_rufous_hornero_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 25, "into": "mon_rufous_hornero" },
-    "//": "24-26 days to reach independence. Use the default multiplier of 4 to our advantage to get a rough estimate of reaching adult size."
+    "upgrades": { "age_grow": 40, "into": "mon_rufous_hornero" }
   },
   {
     "id": "mon_tinamou",

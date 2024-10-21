@@ -261,7 +261,7 @@
     "id": "mon_chickadee_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 7, "into": "mon_chickadee" }
+    "upgrades": { "age_grow": 28, "into": "mon_chickadee" }
   },
   {
     "id": "mon_waxwing",
@@ -278,7 +278,7 @@
     "id": "mon_waxwing_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 8, "into": "mon_waxwing" }
+    "upgrades": { "age_grow": 32, "into": "mon_waxwing" }
   },
   {
     "id": "mon_duck",
@@ -303,7 +303,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 60, "into": "mon_duck" },
+    "upgrades": { "age_grow": 240, "into": "mon_duck" },
     "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
   },
   {
@@ -335,7 +335,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 49, "into": "mon_duck_domestic" },
+    "upgrades": { "age_grow": 196, "into": "mon_duck_domestic" },
     "//": "28 weeks to start laying eggs for pekins."
   },
   {
@@ -379,7 +379,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 75, "into": "mon_turkey" }
+    "upgrades": { "age_grow": 300, "into": "mon_turkey" }
   },
   {
     "id": "mon_turkey_domestic",
@@ -410,7 +410,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 75, "into": "mon_turkey_domestic" }
+    "upgrades": { "age_grow": 300, "into": "mon_turkey_domestic" }
   },
   {
     "id": "mon_pheasant",
@@ -433,7 +433,7 @@
     "copy-from": "mon_generic_chick",
     "name": { "str": "yellow chick" },
     "description": "A tiny yellow and brown chick, it could be from a number of different species.",
-    "upgrades": { "age_grow": 14, "into": "mon_chicken" },
+    "upgrades": { "age_grow": 56, "into": "mon_chicken" },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
@@ -444,7 +444,7 @@
     "id": "mon_grouse_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 30, "into": "mon_grouse" }
+    "upgrades": { "age_grow": 120, "into": "mon_grouse" }
   },
   {
     "id": "mon_crow_chick",
@@ -457,37 +457,37 @@
     },
     "volume": "67 ml",
     "weight": "50 g",
-    "upgrades": { "age_grow": 36, "into": "mon_crow" }
+    "upgrades": { "age_grow": 144, "into": "mon_crow" }
   },
   {
     "id": "mon_raven_chick",
     "type": "MONSTER",
     "copy-from": "mon_crow_chick",
-    "upgrades": { "age_grow": 35, "into": "mon_raven" }
+    "upgrades": { "age_grow": 140, "into": "mon_raven" }
   },
   {
     "id": "mon_bluejay_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 10, "into": "mon_bluejay" }
+    "upgrades": { "age_grow": 40, "into": "mon_bluejay" }
   },
   {
     "id": "mon_cardinal_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 10, "into": "mon_cardinal" }
+    "upgrades": { "age_grow": 40, "into": "mon_cardinal" }
   },
   {
     "id": "mon_robin_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 7, "into": "mon_robin" }
+    "upgrades": { "age_grow": 28, "into": "mon_robin" }
   },
   {
     "id": "mon_sparrow_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 7, "into": "mon_sparrow" }
+    "upgrades": { "age_grow": 28, "into": "mon_sparrow" }
   },
   {
     "id": "mon_pheasant_chick",
@@ -498,14 +498,14 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 55, "into": "mon_pheasant" },
+    "upgrades": { "age_grow": 222, "into": "mon_pheasant" },
     "//": "A year to reach sexual maturity, but only 80 days to reach independence, so lets get an average from that."
   },
   {
     "id": "mon_goose_canadian_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_water",
-    "upgrades": { "age_grow": 135, "into": "mon_goose_canadian" },
+    "upgrades": { "age_grow": 547, "into": "mon_goose_canadian" },
     "//": "A year to reach independence, 2-3 years to reach sexual maturity, so lets assume 1.5 years to reach full size."
   },
   {
@@ -636,7 +636,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 53, "into": "mon_goose" }
+    "upgrades": { "age_grow": 212, "into": "mon_goose" }
   },
   {
     "id": "mon_hummingbird",
@@ -666,13 +666,13 @@
     "id": "mon_hummingbird_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 6, "into": "mon_hummingbird" }
+    "upgrades": { "age_grow": 24, "into": "mon_hummingbird" }
   },
   {
     "id": "mon_woodpecker_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_tiny",
-    "upgrades": { "age_grow": 6, "into": "mon_woodpecker" }
+    "upgrades": { "age_grow": 24, "into": "mon_woodpecker" }
   },
   {
     "id": "mon_coot",
@@ -725,26 +725,26 @@
     "id": "mon_coot_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_water",
-    "upgrades": { "age_grow": 23, "into": "mon_coot" }
+    "upgrades": { "age_grow": 92, "into": "mon_coot" }
   },
   {
     "id": "mon_cormorant_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_water",
-    "upgrades": { "age_grow": 97, "into": "mon_cormorant" },
+    "upgrades": { "age_grow": 400, "into": "mon_cormorant" },
     "//": "2 years to reach sexual maturity, but only 10 weeks to reach independence, so lets get an average from that."
   },
   {
     "id": "mon_moorhen_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_water",
-    "upgrades": { "age_grow": 22, "into": "mon_moorhen" }
+    "upgrades": { "age_grow": 88, "into": "mon_moorhen" }
   },
   {
     "id": "mon_grebe_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick_water",
-    "upgrades": { "age_grow": 60, "into": "mon_grebe" },
+    "upgrades": { "age_grow": 240, "into": "mon_grebe" },
     "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
   },
   {
@@ -770,7 +770,7 @@
     "id": "mon_guinea_fowl_chick",
     "type": "MONSTER",
     "copy-from": "mon_chicken_chick",
-    "upgrades": { "age_grow": 28, "into": "mon_guinea_fowl" },
+    "upgrades": { "age_grow": 112, "into": "mon_guinea_fowl" },
     "//": "16 weeks to develop adult plumage and reach maturity."
   }
 ]
