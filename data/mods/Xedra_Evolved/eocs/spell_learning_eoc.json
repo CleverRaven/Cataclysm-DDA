@@ -60,11 +60,11 @@
     "effect": [
       {
         "if": { "math": [ "xe_eater_leveling", ">", "0" ] },
-        "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER", "repeat": { "global_val": "xe_eater_leveling" } } ]
+        "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER", "iterations": { "global_val": "xe_eater_leveling" } } ]
       },
       {
         "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] },
-        "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER", "repeat": { "global_val": "xe_dreamer_leveling" } } ]
+        "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER", "iterations": { "global_val": "xe_dreamer_leveling" } } ]
       }
     ]
   },
