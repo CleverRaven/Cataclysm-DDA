@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "category": "tool_magazine",
     "name": { "str": "suit battery", "str_pl": "suit batteries" },
-    "description": "A heavy battery cell, compatible with most industrial equipment but purposefully designed to power EVA suits. It's a bit too big to fit in most portable tools.",
+    "description": "A heavy battery cell, compatible with most industrial equipment but purposefully designed to power EVA suits  It's a bit too big to fit in most portable tools.",
     "ascii_picture": "heavy_plus_battery_cell",
     "weight": "880 g",
     "volume": "900 ml",
