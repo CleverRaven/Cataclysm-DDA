@@ -68,11 +68,12 @@
     "message": "",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "RANDOM_DURATION", "NO_FAIL" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG",
     "shape": "blast",
-    "spell_class": "LILIN_TRAITS",
-    "max_level": 1,
     "min_duration": {
       "math": [
         "45000 + (u_vitamin('lilin_ruach_vitamin') * 10) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 36000)"
