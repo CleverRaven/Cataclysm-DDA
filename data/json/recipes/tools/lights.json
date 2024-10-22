@@ -270,7 +270,7 @@
       [ [ "betavoltaic", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "wire", 2 ] ],
+      [ [ "any_wire", 2, "LIST" ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
       [
         [ "cotton_patchwork", 4 ],
@@ -366,7 +366,7 @@
     "using": [ [ "welding_standard", 25 ], [ "glue_strong", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "car_headlight", 1 ] ], [ [ "mc_wire", 2 ], [ "hc_wire", 2 ], [ "ch_wire", 2 ], [ "qt_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -382,7 +382,7 @@
     "using": [ [ "welding_standard", 25 ], [ "glue_strong", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ] ]
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "mc_wire", 3 ], [ "hc_wire", 3 ], [ "ch_wire", 3 ], [ "qt_wire", 3 ] ] ]
   },
   {
     "type": "recipe",

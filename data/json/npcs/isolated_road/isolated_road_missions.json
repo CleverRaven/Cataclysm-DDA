@@ -24,7 +24,8 @@
       "success": "Thanks, darlin'.  If you could show it to Jay, that would mean a lot to me.  If there's anything I could ever make for you as payment after that, just let me know.",
       "success_lie": "That's great!  Make sure to show it to Jay.",
       "failure": "Well you tried at least…"
-    }
+    },
+    "end": { "effect": { "u_add_var": "dialogue_artisans_blacksmith_completed_quest", "value": "yes" } }
   },
   {
     "id": "MISSION_GUNSMITH_1",

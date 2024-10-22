@@ -70,6 +70,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &dam ) const override;
         int pain_cur() const override;
         int perceived_pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
@@ -88,6 +90,10 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
+        int get_total_in_category( const mutation_category_id &categ,
+                                   mut_count_type count_type ) const override;
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const override;
         bool is_trait_purifiable( const trait_id &trait_to_check ) const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
@@ -169,6 +175,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool wielded_with_weapon_category( const weapon_category_id &w_cat ) const override;
+        bool wielded_with_weapon_skill( const skill_id &w_skill ) const override;
+        bool wielded_with_item_ammotype( const ammotype &w_ammotype ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 
@@ -188,6 +196,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_height() const override;
         int get_bmi_permil() const override;
         int get_weight() const override;
+        int get_volume() const override;
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
@@ -272,6 +281,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;
+        void mod_stored_kcal( int value, bool ignore_weariness ) override;
         void set_thirst( int value ) override;
 
         // speaking

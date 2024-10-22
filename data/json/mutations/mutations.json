@@ -301,7 +301,7 @@
   {
     "type": "mutation",
     "id": "HUMAN_ACCLIMATIZATION",
-    "name": { "str": "Human ACCLIMATIZATION" },
+    "name": { "str": "Human Acclimatization" },
     "points": 0,
     "player_display": false,
     "dummy": true,
@@ -1133,7 +1133,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "LUPINE", "ELFA" ],
-    "changes_to": [ "ANIMALEMPATH2" ]
+    "changes_to": [ "ANIMALEMPATH2" ],
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",
@@ -1144,7 +1145,8 @@
     "description": "Something about your presence is calming to animals, and they will treat you with innate trust.  This only applies to natural animals such as woodland creatures.",
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "ELFA" ],
-    "prereqs": [ "ANIMALEMPATH" ]
+    "prereqs": [ "ANIMALEMPATH" ],
+    "flags": [ "ANIMALEMPATH2" ]
   },
   {
     "type": "mutation",
@@ -1285,6 +1287,7 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "starting_trait": true,
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
     "enchantments": [ { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": 5 } ] } ]
@@ -1925,7 +1928,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
-    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ]
+    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD" ]
   },
   {
     "type": "mutation",
@@ -1936,7 +1940,8 @@
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
     "types": [ "ANIMAL_EMPATHY", "PREDATION" ],
     "prereqs": [ "ANIMALDISCORD" ],
-    "category": [ "MOUSE", "RABBIT" ]
+    "category": [ "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD2" ]
   },
   {
     "type": "mutation",
@@ -3132,7 +3137,7 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 12,
-    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to Kevlar.",
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, and bone.",
     "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 }, { "value": "BODYTEMP_SLEEP", "add": 0.25 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -3449,7 +3454,6 @@
     "visibility": 10,
     "ugliness": 9,
     "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
-    "valid": false,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
     "integrated_armor": [ "integrated_giant_pincer" ],
@@ -3669,7 +3673,7 @@
     "vitamin_cost": 210,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
+    "description": "Your body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -3707,8 +3711,7 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
-    "social_modifiers": { "lie": 15, "persuade": 10 },
-    "player_display": false
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -5512,7 +5515,7 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
@@ -9170,17 +9173,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_FBI",
-    "//": "This doesn't do anything at the moment, as I am too scared of breaking C++ things, but it will eventually.",
-    "name": { "str": "Special Agent" },
-    "points": 0,
-    "description": "You are a member of the Federal Bureau of Investigation, also known as the FBI.  You have jurisdiction throughout the remaining 49 States, Indian Country, and any other territories of the USA.  Whether that means anything now is another question.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
     "id": "PROF_CHURL",
     "name": { "str": "Churl" },
     "points": 0,
@@ -9642,6 +9634,34 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE",
+    "name": { "str": "Debug Mana Furnace" },
+    "points": 99,
+    "valid": false,
+    "description": "Using mana to incinerate all bugs, activate to start burning",
+    "active": true,
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE_active",
+      "msg_transform": "You start using mana to burning bugs.",
+      "active": true,
+      "moves": 0
+    },
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE_active",
+    "name": { "str": "Debug Mana Furnace (ON) " },
+    "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly",
+    "copy-from": "DEBUG_MANA_FURNACE",
+    "cost": 100,
+    "time": "1 s",
+    "mana": true,
+    "lumination": [ [ "torso", 8 ] ],
+    "transform": { "target": "DEBUG_MANA_FURNACE", "msg_transform": "You stop incinerate bugs with mana.", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOTEMP",
     "name": { "str": "Debug HVAC" },
     "points": 99,
@@ -10000,7 +10020,18 @@
     "points": -4,
     "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "cancels": [ "GUNSHY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GUNSHY",
+    "name": { "str": "Gun-Shy" },
+    "points": -3,
+    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event.  You can still use bows and slings.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "BRAWLER" ]
   },
   {
     "type": "mutation",

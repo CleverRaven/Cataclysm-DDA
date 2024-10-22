@@ -12,8 +12,10 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "enums.h"
 #include "npc.h"
 #include "options.h"
 #include "string_input_popup.h"
@@ -396,6 +398,66 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> sum_traits_of_category_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+
+    diag_value type( std::string{ "ALL" } );
+    if( kwargs.count( "type" ) != 0 ) {
+        type = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), category = params[0], type]( dialogue const & d ) {
+
+        mutation_category_id cat = mutation_category_id( category.str() );
+        std::string thing = type.str( d );
+        mut_count_type count_type;
+
+        if( thing == "POSITIVE" ) {
+            count_type = mut_count_type::POSITIVE;
+        } else if( thing == "NEGATIVE" ) {
+            count_type = mut_count_type::NEGATIVE;
+        } else if( thing == "ALL" ) {
+            count_type = mut_count_type::ALL;
+        } else {
+            debugmsg( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+            return 0;
+        }
+
+        return d.actor( beta )->get_total_in_category( cat, count_type );
+    };
+}
+
+std::function<double( dialogue & )> sum_traits_of_category_char_has_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+
+    diag_value type( std::string{ "ALL" } );
+    if( kwargs.count( "type" ) != 0 ) {
+        type = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), category = params[0], type]( dialogue const & d ) {
+
+        mutation_category_id cat = mutation_category_id( category.str() );
+        std::string thing = type.str( d );
+        mut_count_type count_type;
+
+        if( thing == "POSITIVE" ) {
+            count_type = mut_count_type::POSITIVE;
+        } else if( thing == "NEGATIVE" ) {
+            count_type = mut_count_type::NEGATIVE;
+        } else if( thing == "ALL" ) {
+            count_type = mut_count_type::ALL;
+        } else {
+            debugmsg( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+            return 0;
+        }
+
+        return d.actor( beta )->get_total_in_category_char_has( cat, count_type );
+    };
+}
+
 std::function<double( dialogue & )> has_flag_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -525,7 +587,7 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
             case scope_mod: {
                 const mod_id target_mod_id( filter_str );
                 for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( spellIt->get_src() == target_mod_id
+                    if( get_mod_base_id_from_src( spellIt->get_src() ) == target_mod_id
                         && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
                       ) {
@@ -1578,6 +1640,12 @@ std::function<double( dialogue & )> calories_eval( char scope,
         format_value = *kwargs.at( "format" );
     }
 
+    // dummy kwarg, intentionally discarded!
+    diag_value ignore_weariness_val( 0.0 );
+    if( kwargs.count( "dont_affect_weariness" ) != 0 ) {
+        ignore_weariness_val = *kwargs.at( "dont_affect_weariness" );
+    }
+
     return[format_value, beta = is_beta( scope )]( dialogue const & d ) -> double {
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percent" )
@@ -1605,7 +1673,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
             if( d.actor( beta )->get_character() ) {
                 return d.actor( beta )->get_stored_kcal();
             }
-            item_location *it = d.actor( beta )->get_item();
+            item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
             if( it && *it ) {
                 npc dummy;
                 return dummy.compute_effective_nutrients( *it->get_item() ).kcal();
@@ -1617,10 +1685,49 @@ std::function<double( dialogue & )> calories_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> calories_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value ignore_weariness_val( 0.0 );
+    if( kwargs.count( "dont_affect_weariness" ) != 0 ) {
+        ignore_weariness_val = *kwargs.at( "dont_affect_weariness" );
+    }
+    return[ignore_weariness_val, beta = is_beta( scope ) ]( dialogue const & d, double val ) {
+        const bool ignore_weariness = is_true( ignore_weariness_val.dbl( d ) );
+        int current_kcal = d.actor( beta )->get_stored_kcal();
+        int difference = val - current_kcal;
+        return d.actor( beta )->mod_stored_kcal( difference, ignore_weariness );
+    };
+}
+
+std::function<double( dialogue & )> weight_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
-    return[beta = is_beta( scope ) ]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_stored_kcal( val );
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() || d.actor( beta )->get_monster() ) {
+            return d.actor( beta )->get_weight();
+        }
+        item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
+        if( it && *it ) {
+            return static_cast<int>( to_milligram( it->get_item()->weight() ) );
+        }
+        debugmsg( "For weight(), talker is not character nor item" );
+        return 0;
+    };
+}
+
+std::function<double( dialogue & )> volume_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() || d.actor( beta )->get_monster() ) {
+            return d.actor( beta )->get_volume();
+        }
+        item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
+        if( it && *it ) {
+            return to_milliliter( it->get_item()->volume() );
+        }
+        debugmsg( "For volume(), talker is not character nor item" );
+        return 0;
     };
 }
 
@@ -1764,6 +1871,8 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
+    { "sum_traits_of_category", { "un", 1, sum_traits_of_category_eval } },
+    { "sum_traits_of_category_char_has", { "un", 1, sum_traits_of_category_char_has_eval } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "has_var", { "g", 1, has_var_eval } },
     { "hp", { "un", 1, hp_eval } },
@@ -1803,6 +1912,8 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "calories", { "un", 0, calories_eval } },
+    { "weight", { "un", 0, weight_eval } },
+    { "volume", { "un", 0, volume_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
     { "climate_control_str_heat", { "un", 0, climate_control_str_heat_eval } },

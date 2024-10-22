@@ -69,6 +69,7 @@ enum class mod : int {
     BONUS_BLOCK,
     MELEE_DAMAGE,
     RANGED_DAMAGE,
+    RANGED_ARMOR_PENETRATION,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
@@ -179,6 +180,7 @@ enum class mod : int {
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
+    WEAKPOINT_ACCURACY,
     NUM_MOD
 };
 } // namespace enchant_vals

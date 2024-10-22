@@ -145,9 +145,19 @@
       { "id": "scratch_grab_required" }
     ],
     "stomach_size": 500,
+    "reproduction": { "baby_type": { "baby_monster": "mon_coyote_pup_mutant_shark" }, "baby_count": 4, "baby_timer": 63 },
     "harvest": "dog_with_skull_fur_mutant",
-    "path_settings": { "max_dist": 7 },
-    "extend": { "flags": [ "NO_BREED" ] }
+    "path_settings": { "max_dist": 7 }
+  },
+  {
+    "id": "mon_coyote_pup_mutant_shark",
+    "type": "MONSTER",
+    "name": { "str": "grinning coyote pup" },
+    "description": "A cute coyote pup.  Though, on a closer look, something is off about it.",
+    "copy-from": "mon_coyote_pup",
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "upgrades": { "age_grow": 270, "into": "mon_coyote_mutant_shark" },
+    "harvest": "dog_tiny_with_skull_mutant"
   },
   {
     "id": "mon_coyote_mutant_venom",
@@ -159,8 +169,20 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "path_settings": { "max_dist": 7 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_coyote_pup_mutant_venom" }, "baby_count": 4, "baby_timer": 63 },
     "harvest": "dog_with_skull_fur_mutant",
-    "extend": { "flags": [ "NO_BREED", "BADVENOM" ] }
+    "extend": { "flags": [ "BADVENOM" ] }
+  },
+  {
+    "id": "mon_coyote_pup_mutant_venom",
+    "type": "MONSTER",
+    "name": { "str": "slavering coyote pup" },
+    "description": "A cute coyote pup.  Though, on a closer look, something is off about it.",
+    "copy-from": "mon_coyote_pup",
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "upgrades": { "age_grow": 270, "into": "mon_coyote_mutant_venom" },
+    "harvest": "dog_tiny_with_skull_mutant",
+    "extend": { "flags": [ "BADVENOM" ] }
   },
   {
     "id": "mon_deer_mutant_spider",

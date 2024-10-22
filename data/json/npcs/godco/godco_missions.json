@@ -192,19 +192,19 @@
     "id": "MISSION_GODCO_GET_GUITAR_STRING",
     "type": "mission_definition",
     "name": { "str": "Obtain a guitar string" },
-    "description": "Find a piano wire to be used as a guitar string.",
+    "description": "Find a length of tempered steel wire to be used as a guitar string.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
-    "item": "piano_wire",
+    "item": "qt_wire",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need a new guitar string.",
-      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a piano wire, I can fix my guitar.",
+      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a new string, I can fix my guitar.",
       "accepted": "Thanks.  I'll give you a performance when you get back with it.",
       "rejected": "I guess I'll just skip that note.",
-      "advice": "Music shops should have some.",
+      "advice": "I read that musical wire is made of tempered steel.  Music shops should have some, or you could take apart a piano.",
       "inquire": "Do you have it?",
       "success": "Thank you so much!  This should last for a while.",
       "success_lie": "Thanks for trying… I guess.",
@@ -674,7 +674,7 @@
         "search_range": 1000,
         "min_distance": 3
       },
-      "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
+      "update_mapgen": { "place_items": [ { "item": "fertility_supplements", "x": 15, "y": 15 } ] }
     },
     "end": {
       "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ],
@@ -1291,8 +1291,8 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Purge the heretics.",
-      "offer": "Blasphemy, heresy, the righteous judgement of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
-      "accepted": "Righteous judgement shall come!",
+      "offer": "Blasphemy, heresy, the righteous judgment of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
+      "accepted": "Righteous judgment shall come!",
       "rejected": "Are you standing with them?",
       "advice": "Attack at night to surprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",
       "inquire": "Are the heretics purged?",
@@ -1389,5 +1389,12 @@
       "success_lie": "If you see this, it's a bug.",
       "failure": "Of course, you have no evidence."
     }
+  },
+  {
+    "type": "item_group",
+    "id": "fertility_supplements",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "fert_supplement", "container-item": "null", "count": 25 } ]
   }
 ]

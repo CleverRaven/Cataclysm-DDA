@@ -83,7 +83,11 @@ static const construction_category_id construction_category_APPLIANCE( "APPLIANC
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
+static const construction_group_str_id
+construction_group_deconstruct_simple_furniture( "deconstruct_simple_furniture" );
+
 static const construction_str_id construction_constr_veh( "constr_veh" );
+
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
@@ -536,8 +540,8 @@ construction_id construction_menu( const bool blueprint )
     tilecontext->set_disable_occlusion( true );
     g->invalidate_main_ui_adaptor();
 #endif
-    std::unique_ptr<restore_on_out_of_scope<tripoint>> restore_view
-            = std::make_unique<restore_on_out_of_scope<tripoint>>( player_character.view_offset );
+    std::unique_ptr<restore_on_out_of_scope<tripoint_rel_ms>> restore_view
+            = std::make_unique<restore_on_out_of_scope<tripoint_rel_ms>>( player_character.view_offset );
 
     const auto recalc_buffer = [&]() {
         //leave room for top and bottom UI text
@@ -777,9 +781,9 @@ construction_id construction_menu( const bool blueprint )
                                         visible_center,
                                         ter_dims.scaled_font_size, ter_dims.window_size_pixel,
                                         player_character.pos_bub().xy(), g->is_tileset_isometric() );
-        player_character.view_offset = tripoint( ( player_character.pos_bub().xy() - target ).raw(), 0 );
+        player_character.view_offset = tripoint_rel_ms( player_character.pos_bub().xy() - target, 0 );
 #else
-        player_character.view_offset = tripoint( 0, ( w_height + 1 ) / 2, 0 );
+        player_character.view_offset = tripoint_rel_ms( 0, ( w_height + 1 ) / 2, 0 );
 #endif
         g->invalidate_main_ui_adaptor();
 
@@ -1027,7 +1031,8 @@ construction_id construction_menu( const bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( player_character, total_inv, constructs[select] ) ) {
-                    if( !player_can_see_to_build( player_character, constructs[select] ) ) {
+                    if( constructs[select] != construction_group_deconstruct_simple_furniture &&
+                        !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         draw_preview.reset();
@@ -1230,12 +1235,12 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
             blink = true;
         }
         if( action == "MOUSE_MOVE" ) {
-            const std::optional<tripoint> mouse_pos_raw = ctxt.get_coordinates(
+            const std::optional<tripoint_bub_ms> mouse_pos_raw = ctxt.get_coordinates(
                         g->w_terrain, g->ter_view_p.xy(), true );
-            if( mouse_pos_raw.has_value() && mouse_pos_raw->z == loc.z()
-                && mouse_pos_raw->x >= loc.x() - 1 && mouse_pos_raw->x <= loc.x() + 1
-                && mouse_pos_raw->y >= loc.y() - 1 && mouse_pos_raw->y <= loc.y() + 1 ) {
-                mouse_pos = tripoint_bub_ms( *mouse_pos_raw );
+            if( mouse_pos_raw.has_value() && mouse_pos_raw->z() == loc.z()
+                && mouse_pos_raw->x() >= loc.x() - 1 && mouse_pos_raw->x() <= loc.x() + 1
+                && mouse_pos_raw->y() >= loc.y() - 1 && mouse_pos_raw->y() <= loc.y() + 1 ) {
+                mouse_pos = *mouse_pos_raw;
             } else {
                 mouse_pos = std::nullopt;
             }
@@ -1696,8 +1701,7 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
         return;
     }
 
-    // TODO: fix point types
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 270_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "constructing failed: add_vehicle returned null" );
@@ -1718,7 +1722,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     get_map().partial_con_remove( p );
 
-    place_appliance( p.raw(), vpart_from_item( itype_wall_wiring ) );
+    place_appliance( p, vpart_from_item( itype_wall_wiring ) );
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character & )
@@ -1742,8 +1746,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
-    // TODO: fix point types
-    place_appliance( p.raw(), vpart, base );
+    place_appliance( p, vpart, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )

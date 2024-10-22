@@ -493,7 +493,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zon
     std::vector<tripoint> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.getlocal( elem ) );
+        pts.push_back( m.bub_from_abs( elem ).raw() );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }
@@ -578,7 +578,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
         // Handle any water from map sources.
-        item water = m.water_from( p );
+        item water = m.liquid_from( p );
         if( !water.is_null() ) {
             add_item( water );
         }
@@ -866,7 +866,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                here.water_from( player_character.pos_bub() ).typeId() == itype_salt_water ) {
+                here.liquid_from( player_character.pos_bub() ).typeId() == itype_salt_water ) {
                 // rusting never completely destroys an item, so no need to handle return value
                 elem_stack_iter.inc_damage();
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );

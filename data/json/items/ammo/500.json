@@ -29,7 +29,6 @@
     "copy-from": "500_Magnum",
     "type": "AMMO",
     "name": { "str_sp": ".500 S&W Magnum, black powder" },
-    "description": ".500 S&W Magnum ammunition with a 500gr bullet.  The .500 S&W Magnum round is a colossally powerful handgun cartridge capable of killing almost any target with one hit.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -44,7 +43,6 @@
     "copy-from": "500_Magnum",
     "type": "AMMO",
     "name": { "str_sp": ".500 S&W Magnum, reloaded" },
-    "description": ".500 S&W Magnum ammunition with a 500gr bullet.  The .500 S&W Magnum round is a colossally powerful handgun cartridge capable of killing almost any target with one hit.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

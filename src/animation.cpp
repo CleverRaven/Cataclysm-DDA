@@ -121,8 +121,7 @@ bool is_layer_visible( const std::map<tripoint_bub_ms, explosion_tile> &layer )
 //! Get p relative to u's current position and view
 tripoint_rel_ms relative_view_pos( const avatar &u, const tripoint_bub_ms &p ) noexcept
 {
-    return tripoint_rel_ms( p.raw() - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
-                            -u.posz() ) );
+    return p - u.pos_bub() - u.view_offset + point_rel_ms( POSX, POSY );
 }
 
 // Convert p to screen position relative to the current terrain view
@@ -806,6 +805,11 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     draw_line_curses( *this, temp );
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_trail", false );
 }
+void game::draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points )
+{
+    draw_line_curses( *this, points );
+    tilecontext->init_draw_line( p, points, "line_trail", false );
+}
 #else
 void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
@@ -816,6 +820,10 @@ void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points
         temp.emplace_back( tmp );
     }
     draw_line_curses( *this, temp );
+}
+void game::draw_line( const tripoint_bub_ms &/*p*/, const std::vector<tripoint_bub_ms> &points )
+{
+    draw_line_curses( *this, points );
 }
 #endif
 

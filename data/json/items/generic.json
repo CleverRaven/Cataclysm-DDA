@@ -315,7 +315,7 @@
     "phase": "liquid",
     "color": "white",
     "name": { "str_sp": "superglue" },
-    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favourite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
+    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
     "price": "1 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
@@ -1029,8 +1029,8 @@
     "id": "lc_wire",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "mild steel wire" },
-    "description": "A length of thin, relatively stiff steel wire.  Like the sort you find in chain link fences.",
+    "name": { "str": "steel wire" },
+    "description": "A length of thin, relatively stiff wire made of mild steel.  Ubiquitously found in everyday applications such as chain link fences.",
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "1 USD",
@@ -1043,6 +1043,7 @@
     "id": "mc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "medium steel wire" },
+    "description": "A length of thin, stiff wire made of medium steel.  Its balance between strength and flexibility makes it suitable for steel ropes and cables.",
     "material": [ "mc_steel" ]
   },
   {
@@ -1050,6 +1051,7 @@
     "id": "hc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "high steel wire" },
+    "description": "A length of strong wire made of high carbon steel.  Often used in industrial machinery and springs.",
     "material": [ "hc_steel" ]
   },
   {
@@ -1057,6 +1059,7 @@
     "id": "ch_wire",
     "copy-from": "lc_wire",
     "name": { "str": "hardened steel wire" },
+    "description": "A length of thin, relatively stiff steel wire, made of hardened steel.",
     "material": [ "ch_steel" ]
   },
   {
@@ -1064,6 +1067,7 @@
     "id": "qt_wire",
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
+    "description": "A length of flexible and durable steel wire, made of tempered spring steel.  Often used in industrial and automotive springs, and the wire in musical instruments.",
     "material": [ "qt_steel" ]
   },
   {
@@ -2070,7 +2074,7 @@
     "price": "2000 kUSD",
     "price_postapoc": "30 USD",
     "//": "actually worth millions",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2082,7 +2086,7 @@
     "price": "1000 kUSD",
     "price_postapoc": "30 USD",
     "//": "given to HUB 01 for even better armor",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2697,8 +2701,11 @@
     "abstract": "bark_abstract",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "piece of abstract bark", "str_pl": "pieces of abstract bark" },
-    "description": "A sheet of bark from a hypothetical tree.  Useful for making adding new bark items slightly simpler.",
+    "name": { "str": "piece of abstract bark", "str_pl": "pieces of abstract bark", "//~": "NO_I18N" },
+    "description": {
+      "str": "A sheet of bark from a hypothetical tree.  Useful for making adding new bark items slightly simpler.",
+      "//~": "NO_I18N"
+    },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
@@ -3256,8 +3263,8 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "cyan",
-    "name": { "str": "abstract plastic card" },
-    "description": "A generic plastic card item template with numbers based off a credit card.",
+    "name": { "str": "abstract plastic card", "//~": "NO_I18N" },
+    "description": { "str": "A generic plastic card item template with numbers based off a credit card.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],

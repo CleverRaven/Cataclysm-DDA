@@ -251,7 +251,7 @@ class item : public visitable
          * @param alert whether to display any messages
          * @return same instance to allow method chaining
          */
-        item &deactivate( const Character *ch = nullptr, bool alert = true );
+        item &deactivate( Character *ch = nullptr, bool alert = true );
 
         /** Filter converting instance to active state */
         item &activate();
@@ -1685,6 +1685,10 @@ class item : public visitable
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
+        bool can_have_fault_type( const std::string &fault_type ) const;
+
+        std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
+
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
@@ -2438,11 +2442,16 @@ class item : public visitable
          */
         int shots_remaining( const Character *carrier ) const;
 
+        // Does this use electrical energy, or is it fueled by something else?
+        bool uses_energy() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
+         * Set second parameter to true to ignore vehicle batteries, UPS and bionic power when checking
          */
+
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
+        units::energy energy_remaining( const Character *carrier, bool ignoreExternalSources ) const;
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
@@ -2454,6 +2463,7 @@ class item : public visitable
 
 
     private:
+        units::energy energy_per_second() const;
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:
@@ -2551,7 +2561,7 @@ class item : public visitable
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not have a magazine for a specific ammo type */
         std::set<ammotype> ammo_types( bool conversion = true ) const;
-        /** Default ammo for the the item magazine pocket, if item has ammo_types().
+        /** Default ammo for the item magazine pocket, if item has ammo_types().
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;

@@ -33,6 +33,8 @@ static const skill_id skill_gun( "gun" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
 
+static const trait_id trait_GUNSHY( "GUNSHY" );
+
 std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
@@ -199,13 +201,13 @@ int turret_data::range() const
     return res;
 }
 
-bool turret_data::in_range( const tripoint &target ) const
+bool turret_data::in_range( const tripoint_bub_ms &target ) const
 {
     if( !veh || !part ) {
         return false;
     }
     int range = veh->turret_query( *part ).range();
-    int dist = rl_dist( veh->global_part_pos3( *part ), target );
+    int dist = rl_dist( veh->bub_part_pos( *part ), target );
     return range >= dist;
 }
 
@@ -308,7 +310,7 @@ void turret_data::post_fire( Character &you, int shots )
     veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_energy_drain() * shots ) );
 }
 
-int turret_data::fire( Character &c, const tripoint &target )
+int turret_data::fire( Character &c, const tripoint_bub_ms &target )
 {
     if( !veh || !part ) {
         return 0;
@@ -390,7 +392,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
             if( has_target ) {
                 turret_data turret = turret_query( *t );
                 npc &cpu = t->get_targeting_npc( *this );
-                shots += turret.fire( cpu, t->target.second );
+                shots += turret.fire( cpu, tripoint_bub_ms( t->target.second ) );
                 t->reset_target( global_part_pos3( *t ) );
             }
         }
@@ -415,6 +417,11 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
             _( "Pfft.  You are a brawler; using turrets is beneath you." ) );
         return false;
     }
+    if( player_character.has_trait( trait_GUNSHY ) ) {
+        player_character.add_msg_if_player(
+            _( "You refuse to use a firearm even when it's mounted." ) );
+        return false;
+    }
 
     // Get target
     target_handler::trajectory trajectory = target_handler::mode_turrets( player_character, *this,
@@ -422,11 +429,11 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
 
     bool got_target = !trajectory.empty();
     if( got_target ) {
-        tripoint target = trajectory.back();
+        tripoint_bub_ms target = trajectory.back();
         // Set target for any turret in range
         for( vehicle_part *t : turrets ) {
             if( turret_query( *t ).in_range( target ) ) {
-                t->target.second = target;
+                t->target.second = target.raw();
             }
         }
 
@@ -595,7 +602,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // The position of the vehicle part.
-    tripoint pos = global_part_pos3( pt );
+    tripoint_bub_ms pos = bub_part_pos( pt );
 
     // Create the targeting computer's npc
     npc &cpu = pt.get_targeting_npc( *this );
@@ -615,7 +622,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Manual target not set, find one automatically.
         // BEWARE: Calling turret_data.fire on tripoint min coordinates starts a crash
         //      triggered at `trajectory.insert( trajectory.begin(), source )` at ranged.cpp:236
-        pt.reset_target( pos );
+        pt.reset_target( pos.raw() );
         int boo_hoo;
 
         // TODO: calculate chance to hit and cap range based upon this
@@ -646,7 +653,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     } else {
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
-        if( pos != target.first ) {
+        if( pos.raw() != target.first ) {
             target.second = target.first;
             debugmsg( "%s moved after aiming but before it could fire.", cpu.get_name() );
             return shots;
@@ -654,8 +661,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // Get the turret's target and reset it
-    tripoint targ = target.second;
-    pt.reset_target( pos );
+    tripoint_bub_ms targ( target.second );
+    pt.reset_target( pos.raw() );
 
     shots = gun.fire( cpu, targ );
 

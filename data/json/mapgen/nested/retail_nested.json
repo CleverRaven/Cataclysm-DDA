@@ -1157,8 +1157,6 @@
         "b": "f_bench",
         "d": "f_filing_cabinet",
         "L": "f_shredder",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
@@ -1189,8 +1187,6 @@
         "G": "f_locker",
         "b": "f_bench",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
@@ -1218,8 +1214,6 @@
         "C": "f_rack",
         "G": "f_sofa",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "?": "f_console_broken"
       },
@@ -1286,8 +1280,6 @@
         "b": "f_bench",
         "d": "f_filing_cabinet",
         "L": "f_shredder",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
         "?": "f_console_broken"
@@ -1320,8 +1312,6 @@
         "C": "f_rack",
         "G": "f_locker",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },

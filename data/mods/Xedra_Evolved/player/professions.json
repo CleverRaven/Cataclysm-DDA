@@ -34,32 +34,42 @@
     "id": "fbi_investigator",
     "name": "FBI Paranormal Investigator",
     "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
-    "points": 3,
+    "points": 4,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 5, "name": "pistol" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "shotgun" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "throw" },
       { "level": 4, "name": "speech" },
+      { "level": 3, "name": "swimming" },
       { "level": 5, "name": "deduction" }
     ],
-    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar", "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "entries": [
           { "item": "pants" },
           { "item": "dress_shirt" },
           { "item": "tie_skinny" },
-          { "item": "blazer" },
-          { "item": "trenchcoat" },
+          { "item": "jacket_windbreaker", "variant": "windbreaker_fbi" },
           { "item": "gloves_light" },
+          { "item": "hat_ball", "variant": "hat_fbi" },
+          { "item": "badge_fbi" },
           { "item": "wristwatch" },
           { "item": "socks" },
           { "item": "dress_shoes" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-          { "group": "army_mags_usp9" },
-          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
+          { "group": "holster_glock19_fed", "container-item": "holster" },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "wyld_candy", "count": 10, "container-item": "null", "entry-wrapper": "wrapper_wyld" }
         ]
       },
@@ -173,6 +183,66 @@
           { "group": "military_ballistic_vest_light" },
           { "group": "torso_grenade_bandolier_jotunn" },
           { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_gracken_hunter",
+    "name": "Xedra Offworld Team: Big Game Hunter",
+    "description": "You are what Xedra refers to as a non-local guide.  A mature Gracken hired on to join the Offworld Acquisitions Team, you trained in human long distance weaponry in order to take down big game and create new improvements to bring back to your people.  They gave you a big gun and a little training in how to use it and in return you help them know what things in other dimensions to hunt and what to run from.",
+    "recipes": [
+      "gracken_strong_arms",
+      "gracken_long_arms",
+      "gracken_shade_arms",
+      "gracken_shade_hands",
+      "gracken_sharp_nails",
+      "gracken_dextrous_hands"
+    ],
+    "traits": [
+      "THRESH_SPECIES_GRACKEN",
+      "GRACKEN_BUILD",
+      "NIGHTVISION",
+      "SHADE_SKIN",
+      "SHADE_LEGS",
+      "SHADE_ARMS",
+      "SHADE_HANDS",
+      "SHADE_FEET",
+      "SHADE_STOMACH",
+      "SHADE_EVOLUTION_GLAND",
+      "RADIOTROPHIC",
+      "GRACKEN",
+      "PROF_FED"
+    ],
+    "points": 7,
+    "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
+          { "item": "colt_saa", "ammo-item": "45colt_jhp", "container-item": "holster", "charges": 6 },
+          { "item": "45colt_jhp", "charges": 30 },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] },
+          { "item": "legpouch_large", "contents-group": "army_mags_tac338" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -551,6 +621,7 @@
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
     "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "IERDE_MEDITATION" ],
     "items": {
       "both": {
         "entries": [
@@ -577,6 +648,7 @@
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_NURTURE_GREEN" ],
     "items": {
       "both": {
         "entries": [
@@ -603,6 +675,7 @@
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
     "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "UNDINE_MOVEMENT" ],
     "items": {
       "both": {
         "entries": [
@@ -629,6 +702,7 @@
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "SALAMANDER_FIRE_DANCE" ],
     "items": {
       "both": {
         "entries": [
@@ -655,6 +729,7 @@
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "HOMULLUS_SOCIAL" ],
     "items": {
       "both": {
         "entries": [
@@ -681,6 +756,7 @@
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "recipes": [ "mutagen_airkin", "ethereal_draught" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "SYLPH_EVERYWHERE_NOWHERE" ],
     "items": {
       "both": {
         "entries": [

@@ -249,5 +249,33 @@
     "type": "effect_on_condition",
     "id": "EOC_REMOVE_LUNA_MISSION",
     "effect": { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_NEXT_WEATHER",
+    "effect": [ "next_weather" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEARN_MOONS_TEARS_RECIPES",
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "moon_tear_ingot",
+          "moons_tears_knife_baselard",
+          "moons_tears_broadsword",
+          "moons_tears_arming_sword",
+          "moons_tears_mace",
+          "moons_tears_scimitar",
+          "moons_tears_estoc",
+          "moons_tears_spear",
+          "moons_tears_battleaxe",
+          "moons_tears_katana"
+        ],
+        "type": "recipe",
+        "true_eocs": [  ],
+        "false_eocs": [  ]
+      }
+    ]
   }
 ]

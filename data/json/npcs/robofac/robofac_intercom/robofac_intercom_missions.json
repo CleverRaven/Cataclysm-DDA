@@ -163,7 +163,7 @@
         },
         "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS_NoneAvailable"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
   {
@@ -742,7 +742,7 @@
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
           { "u_spawn_item": "UPS_OFF", "count": 1 },
           { "u_spawn_item": "heavy_battery_cell", "count": 1 },
-          { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
+          { "u_spawn_item": "robofac_yrax_trifacet_deactivation_manual", "count": 1 },
           { "u_spawn_item": "hm12", "count": 1 }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED"

@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "game.h"
 #include "item.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -132,6 +133,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
 
 bool tutorial_game::init()
 {
+    loading_ui::done();
     // TODO: clean up old tutorial
 
     // Start at noon at the end of the spring and set a fixed temperature of 20 degrees to prevent freezing
@@ -372,6 +374,10 @@ void tutorial_game::post_action( action_id act )
 
         }
         break;
+
+        case ACTION_SAVE:
+            get_weather().forced_temperature.reset();
+            break;
 
         default:
             // TODO: add more actions here

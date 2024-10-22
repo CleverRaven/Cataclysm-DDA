@@ -226,7 +226,8 @@
       "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
       "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH_END",
       "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED",
-      "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED",
+      "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_SHORT",
+      "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED_LONG",
       "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
       "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED"
     ],
@@ -318,6 +319,29 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA"
+      },
+      {
+        "text": "I have found more of those golden robots, can you make anything of them yet?",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
+                { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_quadraphract_leg", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_quadraphract", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
+                { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } }
+              ]
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS"
       },
       {
         "text": "What the hell were you testing out there?",
@@ -425,7 +449,7 @@
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS"
       },
-      { "text": "I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -434,7 +458,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_met_robofac_intercom" } ],
       "yes": "&The intercom is silent.",
-      "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirrs as it focuses on you.  There is no immediate response."
+      "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirs as it focuses on you.  There is no immediate response."
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_intercom_u_met_robofac_intercom", "value": "yes" }, "sentinel": "met_intercom" },
     "responses": [

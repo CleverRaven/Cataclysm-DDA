@@ -19,7 +19,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -347,7 +346,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( player_character.view_offset );
     target = player_character.pos_bub() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -507,7 +506,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 void editmap::do_ui_invalidation()
 {
     avatar &player_character = get_avatar();
-    player_character.view_offset = ( target - player_character.pos_bub() ).raw();
+    player_character.view_offset = target - player_character.pos_bub();
     g->invalidate_main_ui_adaptor();
     create_or_get_ui_adaptor()->invalidate_ui();
 }
@@ -668,7 +667,7 @@ void editmap::draw_main_ui_overlay()
             std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
-                    submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z()} );
+                    submap *sm = tmpmap.get_submap_at_grid( tripoint_rel_sm{ x, y, target.z()} );
                     if( sm ) {
                         const tripoint_bub_ms sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z() );
                         for( const spawn_point &sp : sm->spawns ) {
@@ -693,8 +692,8 @@ void editmap::draw_main_ui_overlay()
 #endif
             hilights["mapgentgt"].draw( *this, true );
             drawsq_params params = drawsq_params().center( tripoint_bub_ms( SEEX - 1, SEEY - 1, target.z() ) );
-            for( const tripoint &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, p, params );
+            for( const tripoint_omt_ms &p : tmpmap.points_on_zlevel() ) {
+                tmpmap.drawsq( g->w_terrain, p.raw(), params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
@@ -1968,7 +1967,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z()} );
+            submap *destsm = target_bay.get_submap_at_grid( tripoint_rel_sm{ x, y, target.z()} );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to get vehicles at (%d,%d,%d) but the submap is not loaded", x, y, target.z() );
                 continue;
@@ -2005,7 +2004,7 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
     target_bay.load( omt_tgt, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z()} );
+            submap *destsm = target_bay.get_submap_at_grid( tripoint_rel_sm{ x, y, target.z()} );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to destroy vehicle at (%d,%d,%d) but the submap is not loaded", x, y, target.z() );
                 continue;
@@ -2059,7 +2058,7 @@ void editmap::mapgen_retarget()
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point vec_ms = omt_to_ms_copy( vec->xy() );
+            point_rel_ms vec_ms = coords::project_to<coords::ms>( point_rel_omt( vec->xy() ) );
             tripoint_bub_ms ptarget = target + vec_ms;
             if( get_map().inbounds( ptarget ) &&
                 get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
@@ -2117,13 +2116,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getabs( target.xy() ) );
+        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getabs( target.xy() ) );
+            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {

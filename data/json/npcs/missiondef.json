@@ -34,8 +34,8 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": { "str": "Find Inhaler" },
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "inhaler",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "inhaler" },
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
@@ -47,7 +47,7 @@
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be in the back with the good stuff.",
       "inquire": "Find any inhaler yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
@@ -81,7 +81,7 @@
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter, either antibiotics or broad-spectrum antibiotics will do.",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be in the back, either antibiotics or broad-spectrum antibiotics will do.",
       "inquire": "Find any antibiotics yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
@@ -96,7 +96,21 @@
       ]
     },
     "end": {
-      "effect": [ { "npc_lose_effect": "infection" }, "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ]
+      "effect": [
+        { "npc_lose_effect": "infection" },
+        "stop_guard",
+        { "set_npc_rule": "investigate_noises" },
+        "npc_thankful",
+        {
+          "if": { "u_has_item": "antibiotics" },
+          "then": { "u_consume_item": "antibiotics", "popup": true },
+          "else": {
+            "if": { "u_has_item": "strong_antibiotic" },
+            "then": { "u_consume_item": "strong_antibiotic", "popup": true },
+            "else": { "u_consume_item": "panacea", "popup": true }
+          }
+        }
+      ]
     },
     "fail": { "effect": "npc_die" }
   },
@@ -1007,8 +1021,11 @@
     "//1": "Only run EOC if character is currently on succession cooldown!",
     "condition": {
       "and": [
+        "u_is_avatar",
         { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
-        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] }
+        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] },
+        { "math": [ "u_hp('torso')", "!=", "0" ] },
+        { "math": [ "u_hp('head')", "!=", "0" ] }
       ]
     },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",

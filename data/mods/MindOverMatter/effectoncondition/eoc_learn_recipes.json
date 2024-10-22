@@ -1220,7 +1220,7 @@
           ]
         },
         {
-          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
         },
         { "math": [ "_success", "!=", "false" ] }
       ]
@@ -1230,7 +1230,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER",
-    "condition": { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+    "condition": {
+      "and": [
+        { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } }
+      ]
+    },
     "effect": [
       { "u_learn_recipe": "psi_research_extended_channeling" },
       {
@@ -1251,7 +1256,7 @@
         { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
         {
-          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
         },
         { "math": [ "_success", "!=", "false" ] }
       ]
@@ -1263,7 +1268,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER",
-    "condition": { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
+    "condition": {
+      "and": [
+        { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
+        { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } }
+      ]
+    },
     "effect": [
       { "u_learn_recipe": "psi_research_torrential_channeling" },
       {

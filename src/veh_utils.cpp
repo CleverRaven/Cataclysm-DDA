@@ -373,7 +373,7 @@ class veh_menu_cb : public uilist_callback
             last_view = player_character.view_offset;
             terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
                 if( draw_trail && last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-                    g->draw_trail_to_square( player_character.view_offset, true );
+                    g->draw_trail_to_square( player_character.view_offset.raw(), true );
                 }
             } );
             g->add_draw_callback( terrain_draw_cb );
@@ -388,7 +388,7 @@ class veh_menu_cb : public uilist_callback
     private:
         const std::vector< tripoint > &points;
         int last; // to suppress redrawing
-        tripoint last_view; // to reposition the view after selecting
+        tripoint_rel_ms last_view; // to reposition the view after selecting
         shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
         void select( uilist *menu ) override {
@@ -398,12 +398,12 @@ class veh_menu_cb : public uilist_callback
             last = menu->selected;
             avatar &player_character = get_avatar();
             if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-                player_character.view_offset = tripoint_zero;
+                player_character.view_offset = tripoint_rel_ms_zero;
             } else {
                 const tripoint &center = points[menu->selected];
-                player_character.view_offset = center - player_character.pos();
+                player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );
                 // Remove next line if/when it's wanted/safe to shift view to other zlevels
-                player_character.view_offset.z = 0;
+                player_character.view_offset.z() = 0;
             }
             g->invalidate_main_ui_adaptor();
             if( on_select ) {

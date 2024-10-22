@@ -1346,5 +1346,78 @@
     "id": [ "TALK_TEST_GUARD" ],
     "type": "talk_topic",
     "responses": [ { "text": "I have a custom response to a common topic", "topic": "TALK_TEST_FACTION_TRUST" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SHOW_ALWAYS",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "0", ">", "1" ] },
+        "text": "You should see this response but not be able to select it (except in debug mode).",
+        "show_always": true,
+        "topic": "TALK_DONE"
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SHOW_ALWAYS3",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "1", ">", "0" ] },
+        "text": "You should always see this response and be able to select it.",
+        "show_always": true,
+        "topic": "TALK_DONE"
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SHOW_ALWAYS2",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "0", ">", "1" ] },
+        "text": "You should see this response but not be able to select it (except in debug mode) because",
+        "show_always": true,
+        "show_reason": "zero isn't greater than one.",
+        "topic": "TALK_DONE"
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SHOW_CONDITION",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "0", ">", "1" ] },
+        "text": "You should see this response but not be able to select it (except in debug mode) because",
+        "topic": "TALK_DONE",
+        "show_condition": { "math": [ "1", ">", "0" ] },
+        "show_reason": "zero isn't greater than one."
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SHOW_CONDITION2",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "0", ">", "1" ] },
+        "text": "You should not see this response.",
+        "topic": "TALK_DONE",
+        "show_condition": { "math": [ "0", ">", "1" ] },
+        "show_reason": "zero isn't greater than one."
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
   }
 ]

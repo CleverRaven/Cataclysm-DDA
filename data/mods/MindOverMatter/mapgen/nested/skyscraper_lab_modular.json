@@ -430,6 +430,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "furniture": { "¢": "f_counter", "M": "f_machinery_electronic", "Ć": "f_counter" },
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 0, "y": 0, "chance": 75 } ],
       "items": {
         "¢": [
           { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 4 ] },
@@ -478,6 +479,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "furniture": { "¢": "f_counter", "M": "f_machinery_electronic", "Ć": "f_counter" },
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 7, "y": 0, "chance": 75 } ],
       "items": {
         "¢": [
           { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 4 ] },

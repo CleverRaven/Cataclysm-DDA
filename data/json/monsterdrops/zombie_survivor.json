@@ -166,7 +166,6 @@
             "distribution": [
               { "group": "guns_pistol_common", "prob": 100 },
               { "group": "guns_rifle_common_worn", "prob": 20, "contents-item": "shoulder_strap" },
-              { "group": "guns_smg_common_worn", "prob": 5, "contents-item": "shoulder_strap" },
               { "group": "guns_shotgun_common_worn", "prob": 40, "contents-item": "shoulder_strap_simple" }
             ],
             "prob": 24

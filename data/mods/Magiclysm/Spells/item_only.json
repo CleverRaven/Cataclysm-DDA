@@ -446,7 +446,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "flags": [ "NO_LEGS", "SILENT", "RANDOM_DAMAGE", "IGNITE_FLAMMABLE" ],
+    "flags": [ "NO_LEGS", "SILENT", "RANDOM_DAMAGE", "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
     "min_damage": 68,
     "max_damage": 88,
     "min_aoe": 7,
@@ -701,7 +701,7 @@
     "name": "Toxicum",
     "description": "Release a toxic gas which will poison everybody in range.",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "flags": [ "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "NO_LEGS", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "min_dot": 1,
@@ -728,7 +728,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "NO_LEGS", "SILENT" ],
+    "flags": [ "NO_LEGS", "SILENT", "SPLIT_DAMAGE" ],
     "min_range": 15,
     "max_range": 15,
     "min_duration": 90000,
@@ -765,7 +765,7 @@
     "damage_type": "necrotic",
     "min_aoe": 4,
     "max_aoe": 4,
-    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "message": ""
   },
   {
@@ -818,5 +818,31 @@
     "effect_str": "EOC_FORGE_RETURN_TELEPORT",
     "shape": "blast",
     "base_casting_time": 30000
+  },
+  {
+    "id": "ring_of_flight_spell",
+    "type": "SPELL",
+    "name": "Flight",
+    "description": "You can fly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_ring_of_flight",
+    "shape": "blast",
+    "min_duration": 90000,
+    "max_duration": 90000
+  },
+  {
+    "id": "mbracer_blinding_strike_spell",
+    "type": "SPELL",
+    "name": "The Blinding Strike",
+    "description": "Your attacks are much faster.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_bracers_of_the_blinding_strike",
+    "shape": "blast",
+    "min_duration": 1500,
+    "max_duration": 1500
   }
 ]

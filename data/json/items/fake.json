@@ -2,8 +2,8 @@
   {
     "abstract": "fake_item",
     "type": "GENERIC",
-    "name": { "str": "fake item" },
-    "description": "Dummy item.",
+    "name": { "str": "fake item", "//~": "NO_I18N" },
+    "description": { "str": "Dummy item.", "//~": "NO_I18N" },
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
     "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY" ],
     "weight": "1 g",
@@ -198,13 +198,6 @@
     "qualities": [ [ "ANVIL", 4 ] ]
   },
   {
-    "id": "fake_anvil_crude",
-    "type": "TOOL",
-    "copy-from": "fake_item",
-    "name": { "str": "anvil" },
-    "qualities": [ [ "ANVIL", 2 ] ]
-  },
-  {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",
@@ -267,7 +260,7 @@
   },
   {
     "abstract": "fake_appliance_tool",
-    "name": { "str": "fake appliance tool" },
+    "name": { "str": "fake appliance tool", "//~": "NO_I18N" },
     "type": "TOOL",
     "copy-from": "fake_item",
     "ammo": [ "battery" ],

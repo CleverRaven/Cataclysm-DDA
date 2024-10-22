@@ -403,6 +403,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_catoblepas_gaze",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_catoblepas_gaze_monster",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 4 ], "hurt_max": [ 9 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 3 ], "hurt_max": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "biomancer_visceral_side_effects",
     "name": [ "Visceral Overexertion" ],
     "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],
@@ -511,7 +533,8 @@
     "remove_message": "Your communion with Mother Nature fades.",
     "rating": "good",
     "max_duration": "120 m",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] }
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] },
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "effect_type",
@@ -1223,6 +1246,16 @@
     "removes_effects": [ "bleed" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+          ]
+        },
         "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ],
@@ -1395,6 +1428,66 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_mring_fire_protection",
+    "//": "Hidden effect, used so the ring of fire protection will stop you from being set on fire",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "onfire" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ring_of_flight",
+    "name": [ "Flying" ],
+    "desc": [ "You're flying." ],
+    "rating": "good",
+    "remove_message": "Your magical flight ends.",
+    "flags": [ "CLIMB_FLYING", "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mring_sustenance",
+    "//": "Hidden effect, used as an attunement period for the ring of sustenance",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bracers_of_the_blinding_strike",
+    "name": [ "Blinding Strikes" ],
+    "desc": [ "Your attacks come incredibly quickly." ],
+    "rating": "good",
+    "apply_message": "Your strikes speed up immensely.",
+    "remove_message": "Your quick strikes slow to normal speed.",
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_plus_two_to_hit",
+    "//": "Self-explanatory",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "base_mods": { "hit_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer",
+    "name": [ "Wielding Stormhammer" ],
+    "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer_cooldown",
+    "//": "Longer internal cooldown for feral stormshaper hammer",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1464,7 +1557,8 @@
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
-      "effect_technomancer_pain_ignore"
+      "effect_technomancer_pain_ignore",
+      "effect_feral_stormshaper_stormhammer"
     ]
   },
   {
@@ -1610,7 +1704,9 @@
       "gravity_mage_melee",
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
-      "effect_burning_trail"
+      "effect_burning_trail",
+      "effect_ring_of_flight",
+      "effect_feral_stormshaper_stormhammer"
     ]
   },
   {
@@ -1685,5 +1781,96 @@
       { "u_remove_item_with": "aura_cold_energy" },
       { "u_remove_item_with": "pocket_sun" }
     ]
+  },
+  {
+    "id": "effect_dust_reborn",
+    "type": "effect_type",
+    "name": [ "Divided" ],
+    "desc": [ "Your body was split before, which makes you really fragile, but allow you to accept more mana than before." ],
+    "remove_message": "Your body turns back to normal state.",
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.7 }, { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
+  },
+  {
+    "id": "golemancer_block",
+    "type": "effect_type",
+    "name": [ "Golemancer's block" ],
+    "desc": [ "Decrease any damage taken in the next 1 second." ],
+    "rating": "good",
+    "show_intensity": false,
+    "show_in_info": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_BASH", "add": -20 },
+          { "value": "ARMOR_CUT", "add": -20 },
+          { "value": "ARMOR_STAB", "add": -20 },
+          { "value": "ARMOR_BULLET", "add": -20 },
+          { "value": "ARMOR_HEAT", "add": -20 },
+          { "value": "ARMOR_COLD", "add": -20 },
+          { "value": "ARMOR_ELEC", "add": -20 },
+          { "value": "ARMOR_ACID", "add": -20 },
+          { "value": "ARMOR_BIO", "add": -20 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sun_mage_buff",
+    "type": "effect_type",
+    "name": [ "Sol" ],
+    "desc": [ "You feel your mana connected to the Sun, and it makes you better than ever." ],
+    "remove_message": "You don't feel Solar energy in your body anymore.",
+    "rating": "good",
+    "max_duration": "10 m",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 1, "multiply": 0.25 },
+          { "value": "DEXTERITY", "add": 1, "multiply": 0.25 },
+          { "value": "INTELLIGENCE", "add": 1, "multiply": 0.25 },
+          { "value": "PERCEPTION", "add": 1, "multiply": 0.25 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "freeze_aura",
+    "name": [ "Freeze burn" ],
+    "desc": [ "Your skin is frozen." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -25 ] },
+    "scaling_mods": { "speed_mod": [ -15 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "void_mage_night_vision",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 20 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vulcanist_no_smoke_or_blisters",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "blocks_effects": [ "smoke_eyes", "smoke_lungs", "blisters" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "withering_eff",
+    "name": [ "Withering" ],
+    "desc": [ "Consume their nature for your own purposes." ],
+    "apply_message": "You take a withering effect!",
+    "rating": "good",
+    "max_intensity": 30,
+    "int_add_val": 1,
+    "base_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] },
+    "scaling_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] }
   }
 ]

@@ -121,17 +121,19 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_bench", "&": "f_toilet", "S": "f_sink", "t": "f_trashcan", "v": "f_vending_c", "{": "f_locker" },
+      "furniture": { "#": "f_bench", "&": "f_toilet", "S": "f_sink", "t": "f_trashcan", "{": "f_locker" },
+      "vendingmachines": {
+        "v": { "item_group": "vending_food_items", "lootable": true },
+        "V": { "item_group": "vending_drink_items", "lootable": true }
+      },
       "place_items": [
         { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 18, "y": 6 },
         { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 19, "y": 6 },
         { "chance": 20, "repeat": 2, "item": "clothing_male", "x": 20, "y": 6 },
         { "chance": 25, "item": "male_underwear", "x": 21, "y": 6 },
         { "chance": 25, "item": "male_underwear", "x": 17, "y": 6 },
-        { "chance": 75, "repeat": 2, "item": "vending_drink_items", "x": 13, "y": 6 },
         { "chance": 25, "item": "female_underwear", "x": 6, "y": 6 },
         { "chance": 25, "item": "female_underwear", "x": 3, "y": 6 },
-        { "chance": 75, "repeat": 2, "item": "vending_food_items", "x": 10, "y": 6 },
         { "chance": 15, "item": "shoes", "x": 18, "y": 8 },
         { "chance": 15, "item": "shoes", "x": 6, "y": 8 },
         { "chance": 15, "item": "shoes", "x": 4, "y": 8 },
@@ -151,7 +153,7 @@
         " |&|&|StS|ffff|StS|&|&| ",
         " |+|+|fff+ffff+fff|+|+| ",
         " |fffffff|ffff|fffffff| ",
-        " |{{{{{ff|vffv|ff{{{{{| ",
+        " |{{{{{ff|vffV|ff{{{{{| ",
         " |||||||+||rr||+||||||| ",
         " -.####..........####4- ",
         " -....................- ",

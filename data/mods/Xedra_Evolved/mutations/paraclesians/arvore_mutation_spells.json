@@ -353,6 +353,20 @@
     "duration_increment": 36000
   },
   {
+    "id": "arvore_seed_bearer_real",
+    "type": "SPELL",
+    "name": "Seed Bearer Real",
+    "description": "The actual spell that calls forth seeds.  It's a bug if you have it.",
+    "skill": "deduction",
+    "flags": [ "SPAWN_GROUP" ],
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "farming_seeds",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1
+  },
+  {
     "id": "arvore_summon_preservation_container",
     "type": "SPELL",
     "name": { "str": "To Withstand Decay" },

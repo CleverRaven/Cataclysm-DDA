@@ -189,9 +189,9 @@ struct jmapgen_setmap {
 
     /**
      * checks if applying these objects to data would cause cause a collision with vehicles
-     * on the same map
+     * on the same map. Returns the name of the vehicle if a collision, and an empty string otherwise.
      **/
-    bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
+    ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 };
 
 struct spawn_data {
@@ -244,8 +244,9 @@ class jmapgen_piece
                             const std::string &context ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( const mapgendata &, const tripoint_rel_ms &/*offset*/ ) const {
-            return false;
+        virtual ret_val<void> has_vehicle_collision( const mapgendata &,
+                const tripoint_rel_ms &/*offset*/ ) const {
+            return ret_val<void>::make_success();
         }
 };
 
@@ -426,7 +427,7 @@ struct jmapgen_objects {
          * checks if applying these objects to data would cause cause a collision with vehicles
          * on the same map
          **/
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
+        ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
     private:
         /**
@@ -447,7 +448,7 @@ class mapgen_function_json_base
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                              const JsonObject &jso ) const;
         size_t calc_index( const point &p ) const;
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
+        ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
         void add_placement_coords_to( std::unordered_set<point> & ) const;
 
@@ -523,13 +524,15 @@ class update_mapgen_function_json : public mapgen_function_json_base
         bool setup_update( const JsonObject &jo );
         void finalize_parameters();
         void check() const;
-        bool update_map(
+        // Returns an empty string on success and the name of a colliding "vehicle" on failure.
+        ret_val<void> update_map(
             const tripoint_abs_omt &omt_pos, const mapgen_arguments &, const tripoint_rel_ms &offset,
             mission *miss, bool verify = false, bool mirror_horizontal = false,
             bool mirror_vertical = false, int rotation = 0 ) const;
-        bool update_map( const mapgendata &md,
-                         const tripoint_rel_ms &offset = tripoint_rel_ms( tripoint_zero ),
-                         bool verify = false ) const;
+        // Returns an empty string on success and the name of a colliding "vehicle" on failure.
+        ret_val<void> update_map( const mapgendata &md,
+                                  const tripoint_rel_ms &offset = tripoint_rel_ms( tripoint_zero ),
+                                  bool verify = false ) const;
 
     protected:
         bool setup_internal( const JsonObject &/*jo*/ ) override;

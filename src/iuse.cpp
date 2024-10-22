@@ -33,7 +33,6 @@
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -166,7 +165,6 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_conjunctivitis( "conjunctivitis" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
-static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
@@ -281,6 +279,7 @@ static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_pur_tablets( "pur_tablets" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -297,6 +296,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_purifying( "water_purifying" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
 
@@ -679,9 +679,9 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
     }
     if( p->has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) ) {
         effect &eff = p->get_effect( effect_conjunctivitis, bodypart_id( "eyes" ) );
-        if( eff.get_duration() > 2_days ) {
+        if( eff.get_duration() > 1_days ) {
             p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
-            eff.set_duration( 2_days );
+            eff.set_duration( 1_days );
         }
     }
     return 1;
@@ -717,18 +717,18 @@ std::optional<int> iuse::fungicide( Character *p, item *, const tripoint & )
         p->remove_effect( effect_spores );
         int spore_count = rng( 1, 6 );
         map &here = get_map();
-        for( const tripoint &dest : here.points_in_radius( p->pos(), 1 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 1 ) ) {
             if( spore_count == 0 ) {
                 break;
             }
-            if( dest == p->pos() ) {
+            if( dest == p->pos_bub() ) {
                 continue;
             }
             if( here.passable( dest ) && x_in_y( spore_count, 8 ) ) {
                 if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( !critter.type->in_species( species_FUNGUS ) ) {
-                        add_msg_if_player_sees( dest, m_warning, _( "The %s is covered in tiny spores!" ),
+                        add_msg_if_player_sees( dest.raw(), m_warning, _( "The %s is covered in tiny spores!" ),
                                                 critter.name() );
                     }
                     if( !critter.make_fungus() ) {
@@ -1117,6 +1117,11 @@ std::optional<int> iuse::blech( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::blech_because_unclean( Character *p, item *it, const tripoint & )
 {
     if( !p->is_npc() ) {
+        if( test_mode ) {
+            p->add_msg_if_player( m_info,
+                                  _( "Automatically eating the gross food because a test told us to." ) );
+            return 1;
+        }
         if( it->made_of( phase_id::LIQUID ) ) {
             if( !p->query_yn( _( "This looks unclean; are you sure you want to drink it?" ) ) ) {
                 return std::nullopt;
@@ -1241,11 +1246,11 @@ static void spawn_spores( const Character &p )
     map &here = get_map();
     fungal_effects fe;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
+    for( const tripoint_bub_ms &dest : closest_points_first( p.pos_bub(), 4 ) ) {
         if( here.impassable( dest ) ) {
             continue;
         }
-        float dist = rl_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos_bub() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
@@ -1364,7 +1369,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         }
 
         p.set_mutation( trait_THRESH_MARLOSS );
-        get_map().ter_set( p.pos(), ter_t_marloss );
+        get_map().ter_set( p.pos_bub(), ter_t_marloss );
         get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
@@ -1510,7 +1515,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         map &here = get_map();
         fungal_effects fe;
-        for( const tripoint &nearby_pos : here.points_in_radius( p->pos(), 3 ) ) {
+        for( const tripoint_bub_ms &nearby_pos : here.points_in_radius( p->pos_bub(), 3 ) ) {
             if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
                 !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, nearby_pos ) &&
                 !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, nearby_pos ) ) {
@@ -1609,14 +1614,12 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
-        if( mon->has_flag( mon_flag_EATS ) ) {
+        if( !mon->has_fully_eaten() && mon->has_flag( mon_flag_EATS ) ) {
             int kcal = it->get_comestible()->default_nutrition.kcal();
-            mon->amount_eaten += kcal;
-            if( mon->amount_eaten >= mon->stomach_size ) {
+            mon->mod_amount_eaten( kcal );
+            if( mon->has_fully_eaten() ) {
                 p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
             }
-        } else if( !mon->has_flag( mon_flag_EATS ) ) {
-            mon->add_effect( effect_critter_well_fed, 24_hours );
         }
 
         if( petfood.feed.empty() ) {
@@ -1744,7 +1747,7 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
     // isolated little body of water with no definite fish population
     // TODO: fix point types
     const oter_id &cur_omt =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
+        overmap_buffer.ter( coords::project_to<coords::omt>( here.getglobal( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
@@ -1768,9 +1771,9 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     map &here = get_map();
-    std::optional<tripoint> found;
-    for( const tripoint &pnt : here.points_in_radius( p->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) && good_fishing_spot( pnt, p ) ) {
+    std::optional<tripoint_bub_ms> found;
+    for( const tripoint_bub_ms &pnt : here.points_in_radius( p->pos_bub(), 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) && good_fishing_spot( pnt.raw(), p ) ) {
             found = pnt;
             break;
         }
@@ -1782,7 +1785,7 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint & )
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations( 60, *found );
+    p->activity.coord_set = g->get_fishable_locations( 60, found->raw() );
     return 0;
 }
 
@@ -2250,10 +2253,10 @@ class exosuit_interact
             for( item *i : c.items_with( filter ) ) {
                 candidates.emplace_back( c, i );
             }
-            for( const tripoint &p : here.points_in_radius( c.pos(), PICKUP_RANGE ) ) {
+            for( const tripoint_bub_ms &p : here.points_in_radius( c.pos_bub(), PICKUP_RANGE ) ) {
                 for( item &i : here.i_at( p ) ) {
                     if( filter( i ) ) {
-                        candidates.emplace_back( map_cursor( tripoint_bub_ms( p ) ), &i );
+                        candidates.emplace_back( map_cursor( p ), &i );
                     }
                 }
             }
@@ -2463,6 +2466,81 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint 
         water->convert( itype_water_clean, p ).poison = 0;
     }
     return charges_of_water;
+}
+
+
+// Part of iuse::water_tablets, but with the user interaction split out so it can be unit tested
+std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
+{
+    const double default_ratio = 4; // Existing pur_tablets will not have the var
+    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
+                                     default_ratio ) );
+    if( max_water_per_tablet < 1 ) {
+        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+                  purifier->typeId().str(), max_water_per_tablet );
+        return std::nullopt;
+    }
+
+    const std::vector<item *> liquids = water->items_with( []( const item & it ) {
+        return it.typeId() == itype_water;
+    } );
+    int charges_of_water = 0;
+    for( const item *water : liquids ) {
+        charges_of_water += water->charges;
+    }
+    float to_consume_f = charges_of_water;
+    to_consume_f /= max_water_per_tablet;
+
+    const int available = p->crafting_inventory().count_item( itype_pur_tablets );
+    if( available * max_water_per_tablet >= charges_of_water ) {
+        int to_consume = std::ceil( to_consume_f );
+        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
+                              purifier->tname( to_consume ) );;
+        // Pull from surrounding map first because it will update to_consume
+        get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
+        // Then pull from inventory
+        if( to_consume > 0 ) {
+            p->use_amount( itype_pur_tablets, to_consume );
+        }
+    } else {
+        p->add_msg_if_player( m_info,
+                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              charges_of_water / max_water_per_tablet,  available );
+        return std::nullopt;
+    }
+
+    // Try to match crafting recipe at 5m for 1, 90% batch time savings:
+    int req_moves = to_moves<int>( 5_minutes );
+    req_moves = req_moves * 0.1 * to_consume_f;
+    p->mod_moves( -req_moves );
+
+    for( item *water : liquids ) {
+        water->convert( itype_water_purifying, p ).poison = 0;
+        water->set_birthday( calendar::turn );
+    }
+    // We've already consumed the tablets, so don't try to consume them again
+    return std::nullopt;
+}
+
+std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint & )
+{
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    item_location obj = g->inv_map_splice( []( const item_location & e ) {
+        return ( !e->empty() && e->has_item_with( []( const item & it ) {
+            return it.typeId() == itype_water;
+        } ) ) || ( e->typeId() == itype_water &&
+                   get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.position() ) );
+    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
+
+    if( !obj ) {
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
+        return std::nullopt;
+    }
+
+    return purify_water( p, it, obj );
 }
 
 std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint & )
@@ -2924,7 +3002,7 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint & )
 
     vehicle *v = nullptr;
     bool found_more_than_one = false;
-    for( const tripoint &pos : here.points_in_radius( p->pos(), 1 ) ) {
+    for( const tripoint_bub_ms &pos : here.points_in_radius( p->pos_bub(), 1 ) ) {
         const optional_vpart_position vp = here.veh_at( pos );
         if( !vp ) {
             continue;
@@ -2994,13 +3072,13 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint &pos,
         return std::nullopt;
     }
 
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
+    tripoint_bub_ms pnt( pos );
+    if( pos == p->pos_bub().raw() ) {
         const std::optional<tripoint> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
         }
-        pnt = *pnt_;
+        pnt = tripoint_bub_ms( *pnt_ );
     }
 
     map &here = get_map();
@@ -3105,7 +3183,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint &pos 
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().getabs( *target ) ) );
+                         item_location( you, it ), get_map().getglobal( *target ) ) );
     return 1;
 }
 
@@ -4387,7 +4465,7 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint 
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 12 ) ) {
-        if( here.is_cornerfloor( dest.raw() ) ) {
+        if( here.is_cornerfloor( dest ) ) {
             here.add_field( dest, fd_tindalos_rift, 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
@@ -4469,6 +4547,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        return 1;
     }
 
     if( vampire ) {
@@ -4581,6 +4660,9 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint & )
             p->add_msg_if_player( m_info, _( "You can't chop down that." ) );
         }
         return std::nullopt;
+    }
+    if( p->is_avatar() && !g->warn_player_maybe_anger_local_faction( true ) ) {
+        return std::nullopt; // player declined to anger locals
     }
     int moves = chop_moves( p, it );
     const std::vector<Character *> helpers = p->get_crafting_helpers();
@@ -5260,6 +5342,11 @@ std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint 
 
         // can't mod non-tool, or a tool with existing mods, or a battery currently installed
         if( !e.is_tool() || !e.toolmods().empty() || e.magazine_current() ) {
+            return false;
+        }
+
+        // can't mod integrated tools
+        if( e.has_flag( flag_INTEGRATED ) ) {
             return false;
         }
 
@@ -6341,7 +6428,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_
     }
 
     // TODO: fix point types
-    tripoint_abs_omt omp( ms_to_omt_copy( here.getabs( aim_point ) ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.getglobal( aim_point ) ) );
     const oter_id &cur_ter = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),
@@ -7062,7 +7149,7 @@ std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint & )
 static void sendRadioSignal( Character &p, const flag_id &signal )
 {
     map &here = get_map();
-    for( const tripoint &loc : here.points_in_radius( p.pos(), 60 ) ) {
+    for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), 60 ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
@@ -7089,7 +7176,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
-                        itm->type->invoke( &p, *itm, loc );
+                        itm->type->invoke( &p, *itm, loc.raw() );
                         item_location itm_loc = item_location( map_cursor( tripoint_bub_ms( loc ) ), itm );
                         here.update_lum( itm_loc, true );
                     }
@@ -7345,7 +7432,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
     }
 
     avatar &player_character = get_avatar();
-    point p2( player_character.view_offset.xy() );
+    tripoint_rel_ms stored_view_offset( player_character.view_offset );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -7380,8 +7467,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
         }
     }
 
-    player_character.view_offset.x = p2.x;
-    player_character.view_offset.y = p2.y;
+    player_character.view_offset = stored_view_offset;
     return 1;
 }
 
@@ -7423,7 +7509,7 @@ static bool multicooker_hallu( Character &p )
             } else {
                 p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
 
-                for( const tripoint &pn : get_map().points_in_radius( p.pos(), 1 ) ) {
+                for( const tripoint_bub_ms &pn : get_map().points_in_radius( p.pos_bub(), 1 ) ) {
                     if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
                         m->hallucination = true;
                     }

@@ -73,3 +73,53 @@ There are two types of special color transformation which can affect both foregr
 * highlight.
 
 **Note:** Color rules can be redefined (for example, `\data\raw\color_templates\no_bright_background.json`).
+
+
+## Color tags
+
+Color tags can be used in most places where strings can be displayed to the player:
+
+```json
+    "name": "[Ψ]Stop Concentrating",
+    "description": "End your concentration on all of your maintained powers.\n\nChanneling this power <color_green>always succeeds</color>.",
+```
+
+```json
+    "text": [
+      "<color_light_blue>You see a Russian sheepdog off at the edge of your vision.  It walks past some scenery and vanishes.</color>"
+    ]
+```
+and
+```json
+    { "u_message": "The <color_light_green>zombie</color> bursts in <color_red>flames!</color>", "type": "mixed" }
+```
+
+will be displayed respectively as:
+
+![image](https://github.com/user-attachments/assets/56a68737-3265-464f-bc81-09b9fb4b8dd9)
+
+![image](https://github.com/user-attachments/assets/eec18405-9205-4778-af13-30a3ccc7f589)
+
+and 
+
+![image](https://github.com/user-attachments/assets/054348a1-b4d4-4890-a72d-3dd8084516f6)
+
+
+Do note how the color tags override the default color for a `"mixed"` dialogue message (`magenta`).  This is not always the case, so it requires testing to find out the intended combination.
+
+Additionally, color tags can be combined to generate color gradients, and be nested into each other:
+
+```json
+    { "u_message": "<color_red>H</color><color_magenta>ell</color><color_red>fire</color> and brimstone." },
+    { "u_message": "<color_light_gray><color_white>This text is white</color> while this text is light_gray, <color_light_red>this is light_red</color>. This is light_gray again</color>", "type": "mixed" }
+```
+
+which are displayed as:
+
+![image](https://github.com/user-attachments/assets/fcf5589c-d8b9-47e0-a24d-6dd2441d241b)
+
+![image](https://github.com/user-attachments/assets/4cc6d7b4-40f5-45dc-a333-951eaf486a2e)
+
+
+**Note:** Items that use `relic data` automatically turn the item's displayed name in `pink`.  Color tags override this, in case one wants to "hide" it from the player, or to make them look "mundane".  Similarly, if one wants, otherwise mundane items can have colored names.
+

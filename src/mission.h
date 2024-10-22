@@ -316,6 +316,8 @@ class mission
         int monster_kill_goal = 0;
         // The kill count you need to reach to complete mission
         int kill_count_to_reach = 0;
+        // When this mission will auto-fail if not already completed/failed
+        // Also overloaded to track when the mission was completed/loaded
         time_point deadline;
         // ID of a related npc
         character_id npc_id;

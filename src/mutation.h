@@ -17,6 +17,7 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "sleep.h"
@@ -208,6 +209,7 @@ struct mutation_branch {
         bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
@@ -564,8 +566,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-int get_total_nonbad_in_category( const mutation_category_id &categ );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

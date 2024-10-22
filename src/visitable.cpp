@@ -508,7 +508,7 @@ VisitResponse map_cursor::visit_items(
         // around that location to do our work.
         tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
         here.load( project_to<coords::omt>( abs_pos ), false );
-        tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
+        tripoint_omt_ms p = here.omt_from_abs( abs_pos );
         return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
     }
 }
@@ -584,6 +584,10 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     // updating pockets is only necessary when removing mods,
     // but no way to determine where something got removed here
     update_modified_pockets();
+
+    if( !res.empty() ) {
+        on_contents_changed();
+    }
 
     return res;
 }

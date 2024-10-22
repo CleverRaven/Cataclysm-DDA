@@ -17,7 +17,7 @@
     "weapon_damage_requirements": [ { "type": "bash", "min": 12 } ],
     "melee_allowed": true,
     "crit_ok": true,
-    "stun_dur": 100,
+    "stun_dur": 3,
     "weighting": 1,
     "required_char_flags_all": [ "MELEE_PERK_STAGGER_STRIKE" ],
     "condition": {
@@ -69,7 +69,7 @@
     "messages": [ "You ground %s with a shoulder bash", "<npcname> drops %s with a shoulder bash" ],
     "required_char_flags_all": [ "MELEE_PERK_TACKLE" ],
     "required_buffs_any": [ "buff_perk_momentum" ],
-    "weighting": 3,
+    "weighting": 100,
     "crit_ok": true,
     "melee_allowed": true,
     "unarmed_allowed": true,
@@ -84,7 +84,7 @@
     },
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 0.8 } ],
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight. Requires <info>momentum(3)</info> or higher to trigger.",
-    "down_dur": 200,
+    "down_dur": 2,
     "eocs": [ "EOC_CLEAR_MOMENTUM" ],
     "attack_vectors": [ "vector_shoulder" ]
   },
@@ -96,7 +96,11 @@
     "required_char_flags_all": [ "MELEE_PERK_JUST_HIT_IT" ],
     "melee_allowed": true,
     "condition": {
-      "and": [ { "not": { "u_has_effect": "mabuff:buff_perk_tempo" } }, { "not": { "u_has_effect": "mabuff:buff_perk_momentum" } } ]
+      "and": [
+        { "not": { "u_has_effect": "mabuff:buff_perk_tempo" } },
+        { "not": { "u_has_effect": "mabuff:buff_perk_momentum" } },
+        { "not": { "u_has_effect": "perk_insight" } }
+      ]
     },
     "crit_ok": true,
     "weapon_categories_allowed": [ "GREAT_AXES", "GREAT_SWORDS", "GREAT_HAMMERS", "AXE", "MEDIUM-SWORDS", "LONG_SWORDS", "MACES", "AXES", "FLAILS" ],

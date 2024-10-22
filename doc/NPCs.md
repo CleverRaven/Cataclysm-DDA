@@ -272,47 +272,47 @@ For further information on snippets, see [New Contributor Guide: Dialogue](https
 
 Field | Default messages/snippets | Used for...
 ---|---|---
-`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
-`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags.json
-`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags.json
-`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags.json
-`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags.json
+`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags_follower.json
+`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags_follower.json
+`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags_follower.json
+`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags_follower.json
+`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags_line.json
 `<close_distance>` | `<close_distance>` | see data/json/npcs/talk_tags.json
-`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags.json
+`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags_line.json
 `<danger_close_distance>` | `<danger_close_distance>` | see data/json/npcs/talk_tags.json
-`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags.json
+`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags_line.json
 `<far_distance>` | `<far_distance>` | see data/json/npcs/talk_tags.json
-`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags.json
-`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags.json
-`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags.json
-`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags.json
-`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags.json
-`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags.json
-`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags.json
-`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags.json
-`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags.json
-`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags.json
-`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags.json
-`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags.json
-`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags.json
-`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags.json
-`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags.json
-`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags.json
+`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags_line.json
+`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags_line.json
+`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags_line.json
+`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags_line.json
+`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags_line.json
+`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags_line.json
+`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags_follower.json
+`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags_follower.json
+`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags_line.json
+`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags_line.json
+`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags_follower.json
+`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags_line.json
+`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags_line.json
+`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags_line.json
+`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags_line.json
+`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags_line.json
 `<medium_distance>` | `<medium_distance>` | see data/json/npcs/talk_tags.json
-`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags.json
-`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags.json
-`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags.json
-`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags.json
-`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags.json
-`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags.json
-`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags.json
-`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags.json
-`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags.json
-`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags.json
-`<wait>` | `<wait>` | see data/json/npcs/talk_tags.json
-`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags.json
-`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags.json
-`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags.json
+`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags_line.json
+`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags_line.json
+`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags_line.json
+`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags_follower.json
+`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags_follower.json
+`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags_follower.json
+`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags_line.json
+`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags_line.json
+`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags_line.json
+`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags_follower.json
+`<wait>` | `<wait>` | see data/json/npcs/talk_tags_follower.json
+`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags_follower.json
+`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags_follower.json
+`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags_line.json
 `snip_bleeding` | `My %s is bleeding!` | The NPC is bleeding from their %s.
 `snip_bleeding_badly` | `My %s is bleeding badly!` | The NPC is bleeding badly from their %s.
 `snip_wound_bite` | `The bite wound on my %s looks bad.` | The NPC's %s was badly bitten.
@@ -611,7 +611,7 @@ Speaker effects are useful for setting status variables to indicate that player 
 ---
 
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trials) for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. The "condition" field dictates whether the response will be shown. It can also have a trial object which can be used to either lie, persuade, or intimidate the NPC, or even test another conditional [see below](#trials) for details; different "effect"s can be applied for trial success/failure.
 
 Format:
 ```json
@@ -769,11 +769,20 @@ Similar to `opinion`, but adjusts the NPC's opinion of your character according 
 
 ### Response Availability
 
-#### condition
+#### `condition`
 This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content, [see Dialogue Conditions below](#dialogue-conditions) for details.
 
-#### switch and default
+#### `switch and default`
 The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
+
+#### `show_condition`
+An optional key that, if defined and evaluates to true, will allow the response to be displayed even if it has a condition evaluating false. The response still will not be selectable if its condition is false, unless debug mode is ON. Cannot be defined if `show_always: true`. Note: do not confuse `show_condition` with `condition`. Empty by default.
+
+#### `show_always`
+Shorthand for "show_condition": takes a boolean instead of a condition. False by default.
+
+#### `show_reason`
+An optional key that, if defined, will append its contents to the end of a response displayed because of `show_always` or `show_condition`. Empty by default.
 
 Example:
 ```json
@@ -1344,6 +1353,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood')", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc)", ">", "5" ] }`|
 | has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_trait('FEEBLE') ? 100 : 15" ] }`|
+| sum_traits_of_category(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return sum of all positive, negative, or all mutation in a mutation tree (not one character has). Argument is category id.<br/><br/>Optional kwargs:<br/> `type`: `s`/`v` - should it be only positive (points >= 0), only negative(points <= 0), or all traits altogether; possible values are `POSITIVE`, `NEGATIVE` and `ALL`(default).<br/><br/> Example:<br/>`"condition": { "math": [ "u_sum_traits_of_category('RAT') < u_sum_traits_of_category('RAT', 'type': 'POSITIVE')" ] }`|
+| u_sum_traits_of_category_char_has(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return sum of all positive, negative, or all mutation in a mutation tree talker has at this moment. Argument is category id.<br/><br/>Optional kwargs:<br/> `type`: `s`/`v` - should it be only positive (points >= 0), only negative(points <= 0), or all traits altogether; possible values are `POSITIVE`, `NEGATIVE` and `ALL`(default).<br/><br/> Example:<br/>`"condition": { "math": [ "u_sum_traits_of_category_char_has('RAT') < u_sum_traits_of_category_char_has('RAT', 'type': 'POSITIVE')" ] }`|
 | has_proficiency(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a proficiency. Meant to be used as condition for ternaries. Argument is proficiency ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_proficiency('prof_intro_biology') ? 100 : 15" ] }`|
 | has_var(`v`)    |  ✅   |   ❌  | g  | Check whether the variable is defined. Meant to be used as condition for ternaries.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "has_var(fancy_var) ? fancy_var : 15" ] }`|
 | hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special values `ALL`, `ALL_MAJOR`, `ALL_MINOR`, get hp sum of all/major/minor bodyparts or set hp of all/major/minor bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
@@ -1382,6 +1393,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear()", "<", "2" ] }`|
 | npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust()", "=", "2" ] }`|
 | npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value()", "+=", "2" ] }`|
+| weight()    |  ✅   |  ❌   | u, n  | Return creature or item weight, in miligrams. <br/><br/>Example:<br/> `{ "math": [ "u_weight()", "<", "1000000" ] }`|
+| volume()    |  ✅   |  ❌   | u, n  | Return creature or item volume, in mililiters. <br/><br/>Example:<br/> `{ "math": [ "u_volume()", "<", "1000" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | vision_range()    |  ✅   |   ❌  | u, n  | Return the character's or monsters visual range, adjusted by their mutations, effects, and other issues.<br/><br/>Example:<br/> `"{ "math": [ "n_vision_range()", "<", "30"] }`|
@@ -1389,7 +1402,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level()", "<", "1" ] }`|
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
-| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
+| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily()", ">", "1000" ] }`<br/> `{ "math": [ "foo", "=", "get_calories_daily('type':'gained', 'day':'1')" ] }`|
 
 #### List of Character and item aspects
@@ -1434,7 +1447,7 @@ These can be read or written to with `val()`.
 | `stim` | ✅ | Current stim level. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`perception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |
-| `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`pereception_bonus` | ✅ | Bonus attributes |
+| `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`perception_bonus` | ✅ | Bonus attributes |
 | `thirst` | ✅ | Current thirst. |
 | `volume` | ❌ | Current volume in mL. Only works for monsters |
 | `weight` | ❌ | Current weight in mg. |
