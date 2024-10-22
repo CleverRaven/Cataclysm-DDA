@@ -143,7 +143,7 @@
           {
             "if": {
               "and": [
-                { "math": [ "rand(1)", "==", "1" ] },
+                { "math": [ "rand(2)", "==", "2" ] },
                 { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
               ]
             },
