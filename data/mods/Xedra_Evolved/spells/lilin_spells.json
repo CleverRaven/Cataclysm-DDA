@@ -3,7 +3,7 @@
     "id": "lilin_drain_ruach_melee_spell",
     "type": "SPELL",
     "name": "Essence Drain",
-    "description": "Touch your victim and drain away a part of their ruach to fuel you. It only works on living creatures, and animals provide barely any ruach compared to humans.",
+    "description": "Touch your victim and drain away a part of their ruach to fuel you.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
