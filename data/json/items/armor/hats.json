@@ -212,10 +212,22 @@
     "weight": "733 g",
     "volume": "1500 ml",
     "material_thickness": 0.2,
-    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 60,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
     ]
   },
   {
@@ -471,6 +483,44 @@
     ]
   },
   {
+    "id": "hat_fanny",
+    "type": "ARMOR",
+    "name": { "str": "fanny cap" },
+    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
+    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players. This one has a fanny pack sewn to it to provide some storage.",
+    "weight": "288 g",
+    "volume": "1550 ml",
+    "price": "25 USD",
+    "price_postapoc": "1 USD 50 cent",
+    "material": [ "cotton", "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "flags": [ "SUN_GLASSES" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "volume_encumber_modifier": 0.6,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "1 L",
+        "moves": 80
+      }
+    ]
+  },
+  {
     "id": "hat_chef",
     "type": "ARMOR",
     "name": { "str": "toque" },
@@ -601,6 +651,47 @@
         "coverage": 100,
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
+  },
+  {
+    "id": "hat_fur_pockets",
+    "type": "ARMOR",
+    "name": { "str": "fur hat with pockets" },
+    "description": "A hat made from the pelts of animals.  Extremely warm. This one has a small pocket sewn onto each of the ear flaps to hold small items.",
+    "weight": "266 g",
+    "volume": "750 ml",
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "fur" ],
+    "symbol": "[",
+    "looks_like": "hat_knit",
+    "color": "brown",
+    "warmth": 60,
+    "material_thickness": 0.3,
+    "environmental_protection": 2,
+    "armor": [
+      {
+        "volume_encumber_modifier": 0.6,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "63 mm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "63 mm",
+        "moves": 50
       }
     ]
   },
@@ -1167,7 +1258,12 @@
     "warmth": 2,
     "material_thickness": 0.1,
     "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
     ]
   },
   {
@@ -1186,7 +1282,12 @@
     "warmth": 3,
     "material_thickness": 0.2,
     "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
     ]
   },
   {
@@ -1245,7 +1346,10 @@
     "type": "ARMOR",
     "name": { "str": "French maid hat" },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
-    "proportional": { "weight": 1.5, "volume": 1.5 }
+    "proportional": {
+      "weight": 1.5,
+      "volume": 1.5
+    }
   },
   {
     "id": "maid_hat_xs",
@@ -1253,7 +1357,10 @@
     "type": "ARMOR",
     "name": { "str": "French maid hat" },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
-    "proportional": { "weight": 0.5, "volume": 0.5 }
+    "proportional": {
+      "weight": 0.5,
+      "volume": 0.5
+    }
   },
   {
     "id": "porkpie",
