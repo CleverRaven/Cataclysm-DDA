@@ -41,13 +41,10 @@ constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
         {
             if constexpr( at_runtime )
             {
-                debugmsg( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) );
-                static R null_R{};
-                return null_R;
+                throw math::runtime_error( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) );
             } else
             {
-                throw std::invalid_argument( string_format( "Expected %s, got %s", _str_type_of( C{} ),
-                                             _str_type_of( v ) ) );
+                throw math::syntax_error( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) );
             }
         },
     },
@@ -78,8 +75,7 @@ double diag_value::dbl( dialogue const &d ) const
             if( std::optional<double> ret = svtod( v ); ret ) {
                 return *ret;
             }
-            debugmsg( R"(Could not convert string "%s" to double)", v );
-            return 0.0;
+            throw math::runtime_error( R"(Could not convert string "%s" to double)", v );
         },
         [&d]( var_info const & v )
         {
@@ -87,18 +83,17 @@ double diag_value::dbl( dialogue const &d ) const
             if( std::optional<double> ret = svtod( val ); ret ) {
                 return *ret;
             }
-            debugmsg( R"(Could not convert variable "%s" with value "%s" to double)", v.name, val );
-            return 0.0;
+            throw math::runtime_error( R"(Could not convert variable "%s" with value "%s" to double)", v.name,
+                                       val );
         },
-        [&d]( math_exp const & v )
+        [&d]( math_exp const & v ) -> double
         {
             // FIXME: maybe re-constify eval paths?
             return v.eval( const_cast<dialogue &>( d ) );
         },
-        []( diag_array const & )
+        []( diag_array const & ) -> double
         {
-            debugmsg( R"(Cannot directly convert array to doubles)" );
-            return 0.0;
+            throw math::runtime_error( R"(Cannot directly convert array to doubles)" );
         },
     },
     data );
@@ -137,7 +132,7 @@ std::string diag_value::str( dialogue const &d ) const
         },
         []( diag_array const & )
         {
-            debugmsg( R"(Cannot directly convert array to strings)" );
+            throw math::runtime_error( R"(Cannot directly convert array to strings)" );
             return std::string{};
         },
     },

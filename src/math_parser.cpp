@@ -26,6 +26,7 @@
 #include "math_parser_func.h"
 #include "math_parser_impl.h"
 #include "math_parser_jmath.h"
+#include "math_parser_type.h"
 #include "string_formatter.h"
 #include "type_id.h"
 
@@ -79,9 +80,8 @@ std::optional<scoped_diag_proto> _get_dialogue_func( std::string_view token )
     auto dfe = cnt_eval.find( scoped );
     if( dfe != cnt_eval.end() ) {
         if( dfe->second.scopes.find( scope ) == std::string_view::npos ) {
-            throw std::invalid_argument( string_format(
-                                             "Scope %c is not valid for dialogue function %s() (valid scopes: %s)",
-                                             scope, scoped, dfe->second.scopes ) );
+            throw math::syntax_error( "Scope %c is not valid for dialogue function %s() (valid scopes: %s)",
+                                      scope, scoped, dfe->second.scopes );
         }
 
         return { { scoped, &dfe->second, scope } };
@@ -143,10 +143,9 @@ struct parse_state {
             ( expected != expect::operand ||
               ( alias != expect::lparen && alias != expect::lbracket ) ) &&
             ( expected != expect::oper || alias != expect::eof ) ) {
-            throw std::invalid_argument( string_format(
-                                             "Expected %s, got %s",
-                                             expect_to_string( expected ),
-                                             expect_to_string( next ) ) );
+            throw math::syntax_error( "Expected %s, got %s",
+                                      expect_to_string( expected ),
+                                      expect_to_string( next ) );
         }
     }
     void set( expect current, bool unary_ok = false ) {
@@ -188,12 +187,10 @@ std::vector<double> _eval_params( std::vector<thingie> const &params, dialogue &
 constexpr void _validate_operand( thingie const &thing, std::string_view symbol )
 {
     if( std::holds_alternative<std::string>( thing.data ) ) {
-        throw std::invalid_argument( string_format(
-                                         R"(Operator "%s" does not support string operands)", symbol ) );
+        throw math::syntax_error( R"(Operator "%s" does not support string operands)", symbol );
     }
     if( std::holds_alternative<array>( thing.data ) ) {
-        throw std::invalid_argument( string_format(
-                                         R"(Operator "%s" does not support array operands)", symbol ) );
+        throw math::syntax_error( R"(Operator "%s" does not support array operands)", symbol );
     }
 }
 
@@ -201,7 +198,7 @@ void _validate_unused_kwargs( diag_kwargs const &kwargs )
 {
     for( diag_kwargs::value_type const &v : kwargs ) {
         if( !v.second.was_used() ) {
-            throw std::invalid_argument( string_format( R"(Unused kwarg "%s")", v.first ) );
+            throw math::syntax_error( R"(Unused kwarg "%s")", v.first );
         }
     }
 }
@@ -233,7 +230,8 @@ double var::eval( dialogue &d ) const
     if( std::optional<double> ret = svtod( str ); ret ) {
         return *ret;
     }
-    debugmsg( R"(failed to convert variable "%s" with value "%s" to a number)", varinfo.name, str );
+    throw math::runtime_error( R"(failed to convert variable "%s" with value "%s" to a number)",
+                               varinfo.name, str );
     return 0;
 }
 
@@ -283,7 +281,7 @@ double ass_oper::eval( dialogue &d ) const
         },
         []( auto &/* v */ )
         {
-            debugmsg( "Unexpected assignment called on eval tree" );
+            throw math::internal_error( "Unexpected assignment called on eval tree" );
         },
     },
     lhs->data );
@@ -307,7 +305,7 @@ class math_exp::math_exp_impl
             } );
             try {
                 _parse( str );
-            } catch( std::invalid_argument const &ex ) {
+            } catch( math::syntax_error const &ex ) {
                 if( handle_errors ) {
                     debugmsg( error( str, ex.what() ) );
                     ops = {};
@@ -317,7 +315,7 @@ class math_exp::math_exp_impl
                     return false;
                 }
 
-                throw std::invalid_argument( error( str, ex.what() ) );
+                throw math::syntax_error( error( str, ex.what() ) );
             }
             return true;
         }
@@ -458,10 +456,10 @@ void math_exp::math_exp_impl::_parse( std::string_view str )
     state.validate( parse_state::expect::eof );
     while( !ops.empty() ) {
         if( std::holds_alternative<paren>( ops.top() ) && std::get<paren>( ops.top() ) == paren::left ) {
-            throw std::invalid_argument( "Unterminated left paranthesis" );
+            throw math::syntax_error( "Unterminated left paranthesis" );
         }
         if( std::holds_alternative<paren>( ops.top() ) && std::get<paren>( ops.top() ) == paren::left_sq ) {
-            throw std::invalid_argument( "Unterminated left bracket" );
+            throw math::syntax_error( "Unterminated left bracket" );
         }
         new_oper();
     }
@@ -469,7 +467,7 @@ void math_exp::math_exp_impl::_parse( std::string_view str )
     tree = _resolve_proto( output.top() );
 
     if( output.size() != 1 ) {
-        throw std::invalid_argument( "Invalid expression.  That's all we know.  Blame andrei." );
+        throw math::internal_error( "Invalid expression.  That's all we know.  Blame andrei." );
     }
     output.pop();
 }
@@ -480,7 +478,7 @@ void math_exp::math_exp_impl::parse_string( std::string_view token, std::string_
         state.validate( parse_state::expect::operand );
         maybe_first_argument();
         if( arity.empty() || !arity.top().stringy ) {
-            throw std::invalid_argument( "String arguments can only be used in dialogue functions" );
+            throw math::syntax_error( "String arguments can only be used in dialogue functions" );
         }
         state.instring = true;
         state.strpos = token;
@@ -540,7 +538,7 @@ void math_exp::math_exp_impl::parse_comma()
 {
     state.validate( parse_state::expect::oper );
     if( arity.empty() || !arity.top().allows_comma() ) {
-        throw std::invalid_argument( "Misplaced comma" );
+        throw math::syntax_error( "Misplaced comma" );
     }
     while( ops.top() > paren::left ) {
         new_oper();
@@ -567,7 +565,7 @@ void math_exp::math_exp_impl::parse_rparen()
     }
     if( ops.empty() || !std::holds_alternative<paren>( ops.top() ) ||
         std::get<paren>( ops.top() ) != paren::left ) {
-        throw std::invalid_argument( "Misplaced right parenthesis" );
+        throw math::syntax_error( "Misplaced right parenthesis" );
     }
     ops.pop();
     new_func();
@@ -580,7 +578,7 @@ void math_exp::math_exp_impl::parse_lbracket()
 {
     state.validate( parse_state::expect::lbracket );
     if( arity.empty() || !arity.top().stringy ) {
-        throw std::invalid_argument( "Arrays can only be used as arguments for dialogue functions" );
+        throw math::syntax_error( "Arrays can only be used as arguments for dialogue functions" );
     }
     arity.emplace( std::string_view{}, 0, arity_t::type_t::array,
                    !arity.empty() && arity.top().stringy );
@@ -592,7 +590,7 @@ void math_exp::math_exp_impl::parse_rbracket()
 {
     state.validate( parse_state::expect::rbracket );
     if( arity.empty() || arity.top().type != arity_t::type_t::array ) {
-        throw std::invalid_argument( "Misplaced right bracket" );
+        throw math::syntax_error( "Misplaced right bracket" );
     }
     while( !ops.empty() && ops.top() > paren::left_sq ) {
         new_oper();
@@ -614,12 +612,11 @@ thingie math_exp::math_exp_impl::_resolve_proto( thingie &thing, bool assignment
         last_token = proto.token;
 
         if( !assignment && proto.f->fe == nullptr ) {
-            throw std::invalid_argument(
-                string_format( "Function prototype %s() cannot be evaluated", proto.token ) );
+            throw math::syntax_error( "Function prototype %s() cannot be evaluated", proto.token );
         }
         if( assignment && proto.f->fa == nullptr ) {
-            throw std::invalid_argument(
-                string_format( "Function prototype %s() cannot be used as an assignment target", proto.token ) );
+            throw math::syntax_error( "Function prototype %s() cannot be used as an assignment target",
+                                      proto.token );
         }
 
         func_diag::eval_f fe =
@@ -642,12 +639,10 @@ void math_exp::math_exp_impl::new_func()
         std::vector<thingie>::size_type const nparams = arity.top().current;
         if( arity.top().expected >= 0 ) {
             if( arity.top().current < arity.top().expected ) {
-                throw std::invalid_argument(
-                    string_format( "Not enough arguments for function %s()", arity.top().sym ) );
+                throw math::syntax_error( "Not enough arguments for function %s()", arity.top().sym );
             }
             if( arity.top().current > arity.top().expected ) {
-                throw std::invalid_argument(
-                    string_format( "Too many arguments for function %s()", arity.top().sym ) );
+                throw math::syntax_error( "Too many arguments for function %s()", arity.top().sym );
             }
         }
 
@@ -655,8 +650,7 @@ void math_exp::math_exp_impl::new_func()
         diag_kwargs kwargs;
         for( std::vector<kwarg>::size_type i = 0; i < arity.top().nkwargs; i++ ) {
             if( !std::holds_alternative<kwarg>( output.top().data ) ) {
-                throw std::invalid_argument(
-                    "All positional arguments must precede keyword-value pairs" );
+                throw math::syntax_error( "All positional arguments must precede keyword-value pairs" );
             }
             kwarg &kw = std::get<kwarg>( output.top().data );
             kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
@@ -682,7 +676,7 @@ void math_exp::math_exp_impl::new_func()
             },
             []( auto /* v */ )
             {
-                throw std::invalid_argument( "Internal func error.  That's all we know." );
+                throw math::internal_error( "Internal func error.  That's all we know." );
             },
         },
         ops.top() );
@@ -741,10 +735,10 @@ std::vector<diag_value> math_exp::math_exp_impl::_get_diag_vals( thingie &thing 
 void math_exp::math_exp_impl::new_kwarg( thingie &lhs, thingie &rhs )
 {
     if( arity.top().type != arity_t::type_t::func || !arity.top().stringy ) {
-        throw std::invalid_argument( "kwargs are not supported in this scope" );
+        throw math::syntax_error( "kwargs are not supported in this scope" );
     }
     if( !std::holds_alternative<std::string>( lhs.data ) ) {
-        throw std::invalid_argument( "kwarg key must be a string" );
+        throw math::syntax_error( "kwarg key must be a string" );
     }
     output.emplace( std::in_place_type_t<kwarg>(), std::get<std::string>( lhs.data ), rhs );
     arity.top().current--;
@@ -786,7 +780,7 @@ void math_exp::math_exp_impl::new_oper()
             thingie lhs = _resolve_proto( output.top() );
             output.pop();
             if( v->symbol == "?" ) {
-                throw std::invalid_argument( "Unterminated ternary" );
+                throw math::syntax_error( "Unterminated ternary" );
             }
             if( v->symbol == ":" ) {
                 std::string_view top_sym =
@@ -801,7 +795,7 @@ void math_exp::math_exp_impl::new_oper()
                     new_kwarg( lhs, rhs );
 
                 } else {
-                    throw std::invalid_argument( "Misplaced colon" );
+                    throw math::syntax_error( "Misplaced colon" );
                 }
             } else {
                 _validate_operand( lhs, v->symbol );
@@ -840,10 +834,10 @@ void math_exp::math_exp_impl::new_oper()
             }
 
             if( !is_assign_target( lhs ) ) {
-                throw std::invalid_argument( "lhs of assignment operator must be an assign target" );
+                throw math::syntax_error( "lhs of assignment operator must be an assign target" );
             }
             if( !output.empty() || !arity.empty() ) {
-                throw std::invalid_argument( "misplaced assignment operator" );
+                throw math::syntax_error( "misplaced assignment operator" );
             }
             type = math_type_t::assign;
             output.emplace( std::in_place_type_t<ass_oper>(), lhs, mhs, rhs, v->f );
@@ -851,7 +845,7 @@ void math_exp::math_exp_impl::new_oper()
         []( auto /* v */ )
         {
             // we should never get here due to paren validation
-            throw std::invalid_argument( "Internal oper error.  That's all we know." );
+            throw math::internal_error( "Internal oper error.  That's all we know." );
         }
     },
     op );
@@ -874,7 +868,7 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
                 type = var_type::var;
                 break;
             default:
-                debugmsg( "Unknown scope %c in variable %s", str[0], str );
+                throw math::syntax_error( "Unknown scope %c in variable %s", str[0], str );
         }
     } else if( str.size() > 1 && str[0] == '_' ) {
         type = var_type::context;
@@ -914,8 +908,7 @@ void math_exp::math_exp_impl::validate_string( std::string_view str, std::string
     if( pos != std::string_view::npos ) {
         last_token.remove_prefix( pos + ( label == "string" ? 1 : 0 ) );
         // NOLINTNEXTLINE(cata-translate-string-literal): debug message
-        throw std::invalid_argument( string_format( R"(Stray " %c " inside %s operand "%s")",
-                                     str[pos], label, str ) );
+        throw math::syntax_error( R"(Stray " %c " inside %s operand "%s")", str[pos], label, str );
     }
 }
 

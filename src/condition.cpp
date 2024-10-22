@@ -52,6 +52,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
+#include "math_parser_type.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -584,8 +585,11 @@ void finalize_conditions()
         try {
             math.exp->parse( math.str, false );
             math._validate_type();
-        } catch( std::invalid_argument const &ex ) {
+        } catch( math::syntax_error const &ex ) {
             math.jo.throw_error_at( "math", ex.what() );
+        } catch( math::internal_error const &ex ) {
+            math.jo.throw_error_at( "math",
+                                    string_format( "Fatal math error. Please report this bug!\n%s", ex.what() ) );
         }
         dfr.pop();
     }
@@ -2250,7 +2254,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
 
     } else if( checked_value == "allies" ) {
         if( is_npc ) {
-            throw std::invalid_argument( "Can't get allies count for NPCs" );
+            throw math::syntax_error( "Can't get allies count for NPCs" );
         }
         return []( dialogue const & ) {
             return static_cast<double>( g->allies().size() );
@@ -2296,7 +2300,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
         };
     }
 
-    throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 namespace
@@ -2380,18 +2384,17 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
             d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
         };
     }
-    throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 void deferred_math::_validate_type() const
 {
     math_type_t exp_type = exp->get_type();
     if( exp_type == math_type_t::assign && type != math_type_t::assign ) {
-        jo.throw_error(
-            R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
+        jo.throw_error_at( "math",
+                           R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
     } else if( exp_type != math_type_t::assign && type == math_type_t::assign ) {
-        jo.throw_error(
-            R"(Eval statement in assignment context has no effect)" );
+        jo.throw_error_at( "math", R"(Eval statement in assignment context has no effect)" );
     }
 }
 
@@ -2407,7 +2410,16 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, math_ty
 
 double eoc_math::act( dialogue &d ) const
 {
-    return exp->eval( d );
+    try {
+        return exp->eval( d );
+    } catch( math::runtime_error const &re ) {
+        debugmsg( "Math runtime error:\n%s\n\n%s", re.what(), d.get_callstack() );
+    } catch( math::internal_error const &ie ) {
+        debugmsg( "Fatal math error. Please report this bug! Do not continue playing:%s\n\n%s", ie.what(),
+                  d.get_callstack() );
+    }
+
+    return 0;
 }
 
 static const

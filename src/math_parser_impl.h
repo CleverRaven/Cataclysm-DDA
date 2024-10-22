@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "debug.h"
 #include "dialogue_helpers.h"
 #include "math_parser_diag.h"
 #include "math_parser_func.h"
@@ -108,8 +107,7 @@ struct func_diag {
         if( fe ) {
             return fe( d );
         }
-        debugmsg( "Unexpected eval called on function that cannot evaluate" );
-        return 0;
+        throw math::internal_error( "Unexpected eval called on function that cannot evaluate" );
     }
 
     void assign( dialogue &d, double val ) const {
@@ -117,7 +115,7 @@ struct func_diag {
             fa( d, val );
             return;
         }
-        debugmsg( "Unexpected assign called on function that cannot assign" );
+        throw math::internal_error( "Unexpected assign called on function that cannot assign" );
     }
 
     eval_f fe;
@@ -177,6 +175,13 @@ struct thingie {
     impl_t data;
 };
 
+template <typename V>
+using v_has_eval_t = decltype( std::declval<V>().eval( std::declval<dialogue &>() ) );
+template <typename V, typename = void>
+constexpr bool v_has_eval = false;
+template <typename V>
+constexpr bool v_has_eval<V, std::void_t<v_has_eval_t<V>>> = true;
+
 constexpr double thingie::eval( dialogue &d ) const
 {
     return std::visit( overloaded{
@@ -184,30 +189,15 @@ constexpr double thingie::eval( dialogue &d ) const
         {
             return v;
         },
-        // NOLINTNEXTLINE(cata-use-string_view)
-        []( std::string const & v )
-        {
-            debugmsg( "Unexpected string operand %s", v );
-            return 0.0;
-        },
-        []( kwarg const & v )
-        {
-            debugmsg( "Unexpected kwarg %s", v.key );
-            return 0.0;
-        },
-        []( array const & /* v */ )
-        {
-            debugmsg( "Unexpected array" );
-            return 0.0;
-        },
-        []( func_diag_proto const & /* v */ )
-        {
-            debugmsg( "Unexpected function proto" );
-            return 0.0;
-        },
         [&d]( auto const & v ) -> double
         {
-            return v.eval( d );
+            if constexpr( v_has_eval<decltype( v )> )
+            {
+                return v.eval( d );
+            } else
+            {
+                throw math::internal_error( "math called eval() on node without eval()" );
+            }
         },
     },
     data );
