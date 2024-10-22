@@ -6730,6 +6730,7 @@
         [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "butter", 1 ],
+        [ "raw_butter", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
         [ "bacon", 1 ],
@@ -9677,7 +9678,7 @@
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ]
       ],
-      [ [ "butter", 1 ] ],
+      [ [ "butter", 1 ], [ "raw_butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],
     "charges": 6
