@@ -243,7 +243,14 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_diag_(1?'a':1:'b':2)" ) ); // no kwargs in ternaries
         CHECK_FALSE( testexp.parse( "sin('1':'2')" ) ); // no kwargs in math functions (yet?)
         CHECK( testexp.parse( "_test_str_len_('fail')" ) );  // expected array at runtime
-        CHECK( testexp.eval( d ) == 0 );
+        bool expected_array = false;
+        try {
+            testexp.eval( d );
+        } catch( math::runtime_error const &ex ) {
+            std::string_view what( ex.what() );
+            expected_array = what.find( "Expected array" ) != std::string_view::npos;
+        }
+        CHECK( expected_array );
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
         CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
@@ -260,10 +267,6 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_diag_('1':0=0?1:2)" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':a=2)" ) );
     } );
-
-    // make sure there were no bad error messages
-    CHECK( dmsg.find( "Unexpected" ) == std::string::npos );
-    CHECK( dmsg.find( "That's all we know" ) == std::string::npos );
 }
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive

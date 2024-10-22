@@ -52,6 +52,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
+#include "math_parser_type.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -608,12 +609,12 @@ void finalize_conditions()
         deferred_math &math = dfr.front();
         try {
             math.exp->parse( math.str, false );
-            math._validate_type();
-        } catch( std::invalid_argument const &ex ) {
+        } catch( math::exception const &ex ) {
             JsonObject jo{ std::move( math.jo ) };
             clear_deferred_math();
             jo.throw_error_at( "math", ex.what() );
         }
+        math._validate_type();
         dfr.pop();
     }
 }
@@ -2344,7 +2345,7 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
 
     } else if( checked_value == "allies" ) {
         if( is_npc ) {
-            throw std::invalid_argument( "Can't get allies count for NPCs" );
+            throw math::syntax_error( "Can't get allies count for NPCs" );
         }
         return []( const_dialogue const & /* d */ ) {
             return static_cast<double>( g->allies().size() );
@@ -2390,7 +2391,7 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
         };
     }
 
-    throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 namespace
@@ -2474,18 +2475,17 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
             d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
         };
     }
-    throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 void deferred_math::_validate_type() const
 {
     math_type_t exp_type = exp->get_type();
     if( exp_type == math_type_t::assign && type != math_type_t::assign ) {
-        jo.throw_error(
-            R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
+        jo.throw_error_at( "math",
+                           R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
     } else if( exp_type != math_type_t::assign && type == math_type_t::assign ) {
-        jo.throw_error(
-            R"(Eval statement in assignment context has no effect)" );
+        jo.throw_error_at( "math", R"(Eval statement in assignment context has no effect)" );
     }
 }
 
@@ -2499,15 +2499,20 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, math_ty
     exp = defer_math( jo, combined, type_ );
 }
 
-double eoc_math::act( dialogue &d ) const
+template<typename D>
+double eoc_math::act( D &d ) const
 {
-    return exp->eval( d );
+    try {
+        return exp->eval( d );
+    } catch( math::exception const &re ) {
+        debugmsg( "%s\n\n%s", re.what(), d.get_callstack() );
+    }
+
+    return 0;
 }
 
-double eoc_math::act( const_dialogue const &d ) const
-{
-    return exp->eval( d );
-}
+template double eoc_math::act( dialogue &d ) const;
+template double eoc_math::act( const_dialogue const &d ) const;
 
 static const
 std::vector<condition_parser>
