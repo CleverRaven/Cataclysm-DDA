@@ -131,6 +131,7 @@ static const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
 static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
 static const npc_class_id NC_COWBOY( "NC_COWBOY" );
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TRADER( "NC_TRADER" );
 
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
@@ -317,7 +318,9 @@ void npc_template::load( const JsonObject &jsobj, const std::string_view src )
     if( jsobj.has_string( "class" ) ) {
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
-
+    if( jsobj.has_string( "temp_suffix" ) ) {
+        jsobj.read( "temp_suffix", tem.temp_suffix );
+    }
     guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
     guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
@@ -522,8 +525,10 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
         name = tem.name_unique.translated();
     }
     if( !tem.name_suffix.empty() ) {
-        //~ %1$s: npc name, %2$s: name suffix
-        name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
+        play_name_suffix = tem.name_suffix.translated();
+    }
+    if( !tem.temp_suffix.empty() ) {
+        custom_profession = tem.temp_suffix.translated();
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );
@@ -556,15 +561,14 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
+    if( type.is_null() || type == NC_NONE ) {
+        Character::randomize( false );
+        return;
+    }
 
     set_wielded_item( item( "null", calendar::turn_zero ) );
     inv->clear();
-    personality.aggression = rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    personality.bravery    = rng( -3, NPC_PERSONALITY_MAX );
-    personality.collector  = rng( -1, NPC_PERSONALITY_MAX );
-    // Normal distribution. Mean = 0, stddev = 3, clamp at NPC_PERSONALITY_MIN and NPC_PERSONALITY_MAX. Rounded to return integer value.
-    personality.altruism   = std::round( std::clamp( normal_roll( 0, 3 ),
-                                         static_cast<double>( NPC_PERSONALITY_MIN ), static_cast<double>( NPC_PERSONALITY_MAX ) ) );
+    randomize_personality();
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
@@ -608,8 +612,6 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
-    } else if( type.is_null() ) {
-        myclass = npc_class::random_common();
     } else {
         myclass = type;
     }
@@ -639,25 +641,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         set_skill_level( skill.ident(), level );
     }
 
-    const int cataclysm_days = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-    const int level_cap = get_option<int>( "EXTRA_NPC_SKILL_LEVEL_CAP" );
-    const SkillLevelMap &skills_map = get_all_skills();
-    // Exp actually multiplied by 100 in Character::practice
-    const int min_exp = get_option<int>( "MIN_CATCHUP_EXP_PER_POST_CATA_DAY" );
-    const int max_exp = get_option<int>( "MAX_CATCHUP_EXP_PER_POST_CATA_DAY" );
-
-    for( int i = 0; i < cataclysm_days; i++ ) {
-        const int npc_exp_gained = rng( min_exp, max_exp );
-        const std::pair<const skill_id, SkillLevel> &pair = random_entry( skills_map );
-
-        // This resets focus to equilibrium before every practice, so NPCs with bonus learning/focus
-        // will have that reflected by the *actual* gained exp.
-        mod_focus( calc_focus_equilibrium( true ) - get_focus() );
-
-        practice( pair.first, npc_exp_gained, level_cap, false, true );
-    }
-
-
+    catchup_skills();
     set_body();
     recalc_hp();
     int days_since_cata = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
@@ -721,6 +705,27 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     effect_on_conditions::load_new_character( *this );
 }
 
+void npc::catchup_skills()
+{
+    const int cataclysm_days = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int level_cap = get_option<int>( "EXTRA_NPC_SKILL_LEVEL_CAP" );
+    const SkillLevelMap &skills_map = get_all_skills();
+    // Exp actually multiplied by 100 in Character::practice
+    const int min_exp = get_option<int>( "MIN_CATCHUP_EXP_PER_POST_CATA_DAY" );
+    const int max_exp = get_option<int>( "MAX_CATCHUP_EXP_PER_POST_CATA_DAY" );
+
+    for( int i = 0; i < cataclysm_days; i++ ) {
+        const int npc_exp_gained = rng( min_exp, max_exp );
+        const std::pair<const skill_id, SkillLevel> &pair = random_entry( skills_map );
+
+        // This resets focus to equilibrium before every practice, so NPCs with bonus learning/focus
+        // will have that reflected by the *actual* gained exp.
+        mod_focus( calc_focus_equilibrium( true ) - get_focus() );
+
+        practice( pair.first, npc_exp_gained, level_cap, false, true );
+    }
+}
+
 void npc::clear_personality_traits()
 {
     for( const trait_id &trait : get_mutations() ) {
@@ -745,6 +750,16 @@ void npc::generate_personality_traits()
             }
         }
     }
+}
+
+void npc::randomize_personality()
+{
+    personality.aggression = rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.bravery = rng( -3, NPC_PERSONALITY_MAX );
+    personality.collector = rng( -1, NPC_PERSONALITY_MAX );
+    // Normal distribution. Mean = 0, stddev = 3, clamp at NPC_PERSONALITY_MIN and NPC_PERSONALITY_MAX. Rounded to return integer value.
+    personality.altruism = std::round( std::clamp( normal_roll( 0, 3 ),
+                                       static_cast<double>( NPC_PERSONALITY_MIN ), static_cast<double>( NPC_PERSONALITY_MAX ) ) );
 }
 
 void npc::learn_ma_styles_from_traits()
@@ -3770,13 +3785,23 @@ std::string npc::describe_mission() const
     } // switch (mission)
 }
 
+std::string npc::display_name( bool possessive ) const
+{
+    const std::string profession = disp_profession();
+    if( profession.empty() ) {
+        return possessive ? string_format( _( "%1$s's" ), get_name() ) : get_name();
+    }
+    return possessive ? string_format( _( "%1$s, %2$s's" ), get_name(),
+                                       profession ) : string_format( _( "%1$s, %2$s" ), get_name(), profession );
+}
+
 std::string npc::name_and_activity() const
 {
     if( current_activity_id ) {
         //~ %1$s - npc name, %2$s - npc current activity name.
-        return string_format( _( "%1$s (%2$s)" ), get_name(), get_current_activity() );
+        return string_format( _( "%1$s (%2$s)" ), disp_name(), get_current_activity() );
     } else {
-        return get_name();
+        return disp_name();
     }
 }
 

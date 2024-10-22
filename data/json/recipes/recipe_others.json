@@ -375,11 +375,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 20, "LIST" ] ]
-    ]
+    "using": [ [ "steel_chunk_any", 1 ] ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_short", 2, "LIST" ], [ "filament", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1568,7 +1565,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
-      [ [ "metal_tank_little", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
@@ -1585,12 +1582,11 @@
     "autolearn": true,
     "components": [
       [
-        [ "splinter", 40 ],
-        [ "2x4", 6 ],
-        [ "stick", 8 ],
-        [ "bone_any", 40, "LIST" ],
-        [ "skewer_bone", 1000 ],
-        [ "pine_bough", 20 ],
+        [ "splinter", 200 ],
+        [ "2x4", 12 ],
+        [ "stick", 20 ],
+        [ "bone_any", 156, "LIST" ],
+        [ "skewer_bone", 2000 ],
         [ "log", 1 ]
       ],
       [ [ "char_kiln", 1 ] ]

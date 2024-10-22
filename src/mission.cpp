@@ -334,6 +334,8 @@ void mission::fail()
     if( player_character.getID() == player_id ) {
         player_character.on_mission_finished( *this );
     }
+    // Tracks completion/failure
+    deadline = calendar::turn;
 
     type->fail( this );
 }
@@ -459,6 +461,9 @@ void mission::wrap_up()
             //Suppress warnings
             break;
     }
+
+    // Tracks completion/failure
+    deadline = calendar::turn;
 
     type->end( this );
 }

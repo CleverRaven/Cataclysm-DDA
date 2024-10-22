@@ -314,7 +314,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
-        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
+        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() &&
+            get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
             set_var( "zombie_form", type->source_monster->zombify_into.c_str() );
         }
     }
@@ -627,7 +628,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
-    if( !mt->zombify_into.is_empty() ) {
+    if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
         result.set_var( "zombie_form", mt->zombify_into.c_str() );
     }
 
@@ -1714,7 +1715,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
@@ -2400,10 +2401,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                        bool /* debug */ ) const
 {
     if( parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
-        info.emplace_back( "BASE", string_format( _( "Origin: %s" ), enumerate_as_string( type->src,
-        []( const std::pair<itype_id, mod_id> &source ) {
-            return string_format( "'%s'", source.second->name() );
-        }, enumeration_conjunction::arrow ) ) );
+        info.emplace_back( "BASE", get_origin( type->src ) );
         insert_separation_line( info );
     }
 
@@ -10874,15 +10872,12 @@ bool item::uses_energy() const
 
 units::energy item::energy_remaining( const Character *carrier ) const
 {
-    if( !uses_energy() ) {
-        return 0_kJ;
-    }
-    units::energy ret = 0_kJ;
+    return energy_remaining( carrier, false );
+}
 
-    // Future energy based batteries
-    if( is_vehicle_battery() ) {
-        ret += energy;
-    }
+units::energy item::energy_remaining( const Character *carrier, bool ignoreExternalSources ) const
+{
+    units::energy ret = 0_kJ;
 
     // Magazine in the item
     const item *mag = magazine_current();
@@ -10890,15 +10885,23 @@ units::energy item::energy_remaining( const Character *carrier ) const
         ret += mag->energy_remaining( carrier );
     }
 
-    // Power from bionic
-    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-        ret += carrier->get_power_level();
-    }
+    if( !ignoreExternalSources ) {
 
-    // Extra power from UPS
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        ret += carrier->available_ups();
-    }
+        // Future energy based batteries
+        if( is_vehicle_battery() ) {
+            ret += energy;
+        }
+
+        // Power from bionic
+        if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+            ret += carrier->get_power_level();
+        }
+
+        // Extra power from UPS
+        if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+            ret += carrier->available_ups();
+        }
+    };
 
     // Battery(ammo) contained within
     if( is_magazine() ) {
@@ -13264,6 +13267,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+        get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) &&
         !mon_human->zombify_into.is_empty() ) {
         set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }

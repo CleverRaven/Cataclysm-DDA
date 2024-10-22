@@ -1852,6 +1852,8 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 5, true, 'f', "%s: %d", _( "Sleepiness" ), you.get_sleepiness() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
     smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
+    smenu.addentry( 10, true, 'W', "%s: %d", _( "Weariness tracker" ),
+                    you.activity_history.debug_get_tracker() );
     smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );
     smenu.addentry( 9, true, 'e', _( "Empty stomach and guts" ) );
 
@@ -1911,6 +1913,12 @@ static void character_edit_needs_menu( Character &you )
             if( query_yn( _( "Reset weariness?  Currently: %d" ),
                           you.weariness() ) ) {
                 you.activity_history.weary_clear();
+            }
+            break;
+        case 10:
+            if( query_int( value, _( "Set weariness tracker to?  Currently: %d" ),
+                           you.activity_history.debug_get_tracker() ) ) {
+                you.activity_history.debug_set_tracker( value );
             }
             break;
         case 8:
@@ -3083,6 +3091,7 @@ static void display_talk_topic()
     if( npc_count > 0 ) {
         for( npc *n : visible_npcs ) {
             npc_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, n->disp_name() );
+            menu_ind++;
         }
         npc_menu.query();
         if( npc_menu.ret >= 0 && npc_menu.ret < npc_count ) {
@@ -3091,7 +3100,7 @@ static void display_talk_topic()
             std::sort( dialogue_ids.begin(), dialogue_ids.end(), localized_compare );
             uilist talk_topic_menu;
             talk_topic_menu.text = _( "Choose talk topic to display:" );
-            int menu_ind = 0;
+            menu_ind = 0;
             for( auto &elem : dialogue_ids ) {
                 talk_topic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
                 ++menu_ind;
@@ -4073,9 +4082,9 @@ void debug()
             if( query_yn( _( "Are you sure you want to crash the game?" ) ) ) {
                 if( query_yn( _( "Are you REALLY sure you want to crash the game?" ) ) ) {
                     static_cast<void>( raise( SIGSEGV ) );
-                    break;
                 };
             }
+            break;
         case debug_menu_index::ACTIVATE_EOC: {
             run_eoc_menu();
         }

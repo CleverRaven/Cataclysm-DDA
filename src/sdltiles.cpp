@@ -3522,8 +3522,9 @@ static void CheckMessages()
         try_sdl_update();
     }
     if( quit ) {
-        catacurses::endwin();
-        exit( 0 );
+        if( g->uquit != quit_status::QUIT_EXIT_PENDING ) {
+            g->uquit = quit_status::QUIT_EXIT;
+        }
     }
 }
 
@@ -3680,7 +3681,7 @@ void catacurses::init_interface()
             ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
             fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                           /*precheck=*/true, /*force=*/false,
-                                          /*pump_events=*/true );
+                                          /*pump_events=*/true, /*terrain=*/false );
         } catch( const std::exception &err ) {
             dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
             // use_tiles is the cached value of the USE_TILES option.
@@ -3695,7 +3696,7 @@ void catacurses::init_interface()
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
         closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                         /*precheck=*/true, /*force=*/false,
-                                        /*pump_events=*/true );
+                                        /*pump_events=*/true, /*terrain=*/false );
         tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
@@ -3710,7 +3711,7 @@ void catacurses::init_interface()
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/true, /*force=*/false,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3755,11 +3756,11 @@ void load_tileset()
     }
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                     /*precheck=*/false, /*force=*/false,
-                                    /*pump_events=*/true );
+                                    /*pump_events=*/true, /*terrain=*/false );
     if( use_far_tiles ) {
         fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                       /*precheck=*/false, /*force=*/false,
-                                      /*pump_events=*/true );
+                                      /*pump_events=*/true, /*terrain=*/false );
     }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
@@ -3767,7 +3768,7 @@ void load_tileset()
     if( overmap_tilecontext ) {
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/false,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     }
 }

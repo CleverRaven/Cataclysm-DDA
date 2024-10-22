@@ -179,6 +179,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "kcal": true,                               // If true, activated mutation consumes `cost` kcal. (default: false).
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
+  "mana": true,                               // If true, activated mutation consumes `cost` mana. (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
@@ -285,7 +286,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `threshreq`       | Nothing | This is a dedicated prerequisite slot for threshold mutations, and functions identically to `prereq` and `prereq2`.                                         |
 | `cancels`         | Nothing | Trait IDs defined in this array will be forcibly removed from the character when trait is mutated.                                                          |
 | `changes_to`      | Nothing | Used for defining mutation lines with defined steps. This trait can further mutate into any other trait defined in this list.                               |
-| `leads_to`        | Nothing | Mutations that add onto this one without removing it. Effectively a reverse of the `prereqs` tag.  Also prevents type conflicts with this trait!                                                    |
+| `leads_to`        | Nothing | Mutations that add onto this one without removing it. Effectively a reverse of the `prereqs` tag.  Also prevents type conflicts with this trait!            |
 | `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
 | `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
 | `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
@@ -301,7 +302,8 @@ These fields are optional, but are very frequently used in mutations and their c
 | `cost`            | 0       | For active mutations, this value is the cost to activate them. At least one of the following three values will need to be `true` for this to function.      |
 | `kcal`            | false   | If true, this active mutation will consume `cost` kcal during activation or upkeep.                                                                         |
 | `thirst`          | false   | If true, this active mutation will consume `cost` thirst during activation or upkeep.                                                                       |
-| `sleepiness`         | false   | If true, this active mutation will consume `cost` sleepiness during activation or upkeep.                                                                      |
+| `sleepiness`      | false   | If true, this active mutation will consume `cost` sleepiness during activation or upkeep.                                                                   |
+| `mana`            | false   | If true, this active mutation will consume `cost` mana during activation or upkeep. Can used by magic mods.                                                 |
 | `enchantments`    | Nothing | A list of enchantments granted by this mutation. Can either be string IDs of a defined enchantment, or an inline definition.                                |
 
 ### Optional Fields

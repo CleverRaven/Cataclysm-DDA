@@ -783,9 +783,11 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID(),
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void catchup_skills();
         void apply_ownership_to_inv();
         void clear_personality_traits();
         void generate_personality_traits();
+        void randomize_personality();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
@@ -837,6 +839,7 @@ class npc : public Character
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
+        std::string display_name( bool possessive = false ) const;
         std::string name_and_activity() const;
         std::string name_and_maybe_activity() const override;
         /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
@@ -1461,6 +1464,7 @@ class npc_template
         dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;
+        translation temp_suffix;
         enum class gender : int {
             random,
             male,

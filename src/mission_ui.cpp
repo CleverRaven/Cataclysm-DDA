@@ -284,10 +284,8 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
-        ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
         if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
-            // There's no point in displaying this for a completed/failed mission.
-            // @ TODO: But displaying when you completed it would be useful.
+            ImGui::TextWrapped( _( "Deadline: %s" ), to_string( deadline ).c_str() );
             const time_duration remaining = deadline - calendar::turn;
             std::string remaining_time;
             if( remaining <= 0_turns ) {
@@ -298,6 +296,24 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
                 remaining_time = to_string_approx( remaining );
             }
             ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
+        } else {
+            const time_duration time_in_past = calendar::turn - deadline;
+            std::string time_in_past_string;
+            if( get_player_character().has_watch() ) {
+                time_in_past_string = to_string( time_in_past );
+            } else {
+                time_in_past_string = to_string_approx( time_in_past );
+            }
+            if( deadline != calendar::turn_zero ) {
+                if( selected_tab == mission_ui_tab_enum::COMPLETED ) {
+                    cataimgui::draw_colored_text( string_format( _( "Completed: %s" ),
+                                                  to_string( deadline ) ), c_green );
+                } else if( selected_tab == mission_ui_tab_enum::FAILED ) {
+                    cataimgui::draw_colored_text( string_format( _( "Failed at: %s" ),
+                                                  to_string( deadline ).c_str() ), c_red );
+                }
+                cataimgui::draw_colored_text( string_format( _( "%s ago" ), time_in_past_string ), c_unset );
+            }
         }
     }
     if( miss->has_target() ) {

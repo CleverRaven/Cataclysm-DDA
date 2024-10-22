@@ -112,6 +112,7 @@
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
@@ -683,6 +684,50 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
+}
+
+void bash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    avatar *player = who.as_avatar();
+    if( player == nullptr ) {
+        debugmsg( "An NPC (%s) has been assigned ACT_BASH", who.get_name() );
+        who.cancel_activity();
+        return;
+    }
+    while( who.get_moves() > 0 ) {
+        avatar::smash_result res = player->smash( target );
+        if( !res.did_smash ) {
+            add_msg( m_info, _( "Something got in the way of smashing." ) );
+            who.cancel_activity();
+            return;
+        }
+        if( res.success ) {
+            who.cancel_activity();
+            return;
+        }
+        if( res.resistance < 0 || res.skill < res.resistance ) {
+            add_msg( m_info, _( "You're no longer able to make progress smashing here." ) );
+            who.cancel_activity();
+            return;
+        }
+    }
+}
+
+void bash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsin )
+{
+    bash_activity_actor actor( tripoint_bub_ms_zero );
+
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+
+    return actor.clone();
 }
 
 void gunmod_remove_activity_actor::start( player_activity &act, Character & )
@@ -2388,48 +2433,49 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( target->made_of_from_type( phase_id::SOLID ) ) {
-            // Spill out any invalid contents first
-            target.overflow();
+        if( !target->made_of_from_type( phase_id::SOLID ) ) {
+            continue;
+        }
+        // Spill out any invalid contents first
+        target.overflow();
 
-            item &leftovers = *target;
-            // Make a copy to be put in the destination location
-            item newit = leftovers;
+        item &leftovers = *target;
+        // Make a copy to be put in the destination location
+        item newit = leftovers;
 
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
+        if( newit.is_owned_by( who, true ) ) {
+            newit.set_owner( who );
+        } else {
+            continue;
+        }
 
-            // Handle charges, quantity == 0 means move all
-            if( quantity != 0 && newit.count_by_charges() ) {
-                newit.charges = std::min( newit.charges, quantity );
-                leftovers.charges -= quantity;
-            } else {
-                leftovers.charges = 0;
-            }
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            newit.charges = std::min( newit.charges, quantity );
+            leftovers.charges -= quantity;
+        } else {
+            leftovers.charges = 0;
+        }
 
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            const tripoint_bub_ms src = target.pos_bub();
-            const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            // Yuck, I'm sticking weariness scaling based on activity level here
-            const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
-                        dest );
-                if( hauling_mode ) {
-                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
-                }
+        // This is for hauling across zlevels, remove when going up and down stairs
+        // is no longer teleportation
+        const tripoint_bub_ms src = target.pos_bub();
+        const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
+        // Yuck, I'm sticking weariness scaling based on activity level here
+        const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
+        who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance / weary_mult );
+        if( to_vehicle ) {
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+        } else {
+            std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                    dest );
+            if( hauling_mode ) {
+                who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
             }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
+        }
+        // If we picked up a whole stack, remove the leftover item
+        if( leftovers.charges <= 0 ) {
+            target.remove_item();
         }
     }
 
@@ -8158,6 +8204,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { ACT_AIM, &aim_activity_actor::deserialize },
     { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
+    { ACT_BASH, &bash_activity_actor::deserialize },
     { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },

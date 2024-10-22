@@ -178,8 +178,8 @@ class wish_mutate_callback: public uilist_callback
 
             ImGui::TableSetColumnIndex( 2 );
 
-            if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < vTraits.size() ) {
-                const mutation_branch &mdata = vTraits[menu->hovered].obj();
+            if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < vTraits.size() ) {
+                const mutation_branch &mdata = vTraits[menu->previewing].obj();
 
                 ImGui::TextUnformatted( mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
                 ImGui::NewLine();
@@ -677,7 +677,7 @@ class wish_monster_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->hovered;
+                const int entnum = menu->previewing;
                 const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
                 if( entnum != lastent ) {
                     lastent = entnum;
@@ -760,8 +760,9 @@ void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
         }
         const mongroup_id selected_group( possible_groups[selected] );
         new_group.type = selected_group;
-        int new_value = 0;
+        int new_value = new_group.population; // default value if query declined
         query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        new_group.population = new_value;
         overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
         there.debug_force_add_group( new_group );
         return; // Don't go to adding individual monsters, they'll override the values we just set
@@ -997,7 +998,7 @@ class wish_item_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->hovered;
+                const int entnum = menu->previewing;
                 if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
                     item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
 

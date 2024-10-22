@@ -162,11 +162,12 @@ struct vpslot_toolkit {
 
 struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
-    std::string post_terrain;
-    std::string post_furniture;
-    std::string post_field;
-    int post_field_intensity = 0;
-    time_duration post_field_age = 0_turns;
+    std::optional<ter_str_id> post_terrain;
+    std::optional<furn_str_id> post_furniture;
+    std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
+    int post_field_intensity;
+    time_duration post_field_age;
 };
 
 struct vp_control_req {
