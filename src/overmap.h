@@ -537,6 +537,9 @@ class overmap
         std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
+        om_direction::type find_dir_nearest_ocean_origin() const;
+        om_direction::type find_dir_random_ocean_origin() const;
+        int find_dist_ocean_origin( const om_direction::type &dir ) const;
 
         // DEBUG ONLY!
         void debug_force_add_group( const mongroup &group );

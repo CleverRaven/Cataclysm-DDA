@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ocean_surface" ],
+    "om_terrain": "ocean_surface",
     "object": { "fill_ter": "t_swater_dp" }
   },
   {

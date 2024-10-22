@@ -49,6 +49,9 @@ class start_location
         omt_types_parameters random_target() const;
         const std::set<std::string> &flags() const;
 
+        // Alter search location based on start location setting, returns true if the overmap and map buffers need resetting
+        bool offset_search_location( point_abs_om &origin ) const;
+
         /**
          * Find a suitable start location on the overmap.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
@@ -108,6 +111,10 @@ class start_location
         /** @returns whether the start location at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
     private:
+        int ocean_offset = INT_MAX;
+        // Refers to an om_direction::type
+        int ocean_dir = -1;
+        bool ocean_dir_random = false;
         translation _name;
         std::vector<omt_types_parameters> _locations;
         std::set<std::string> _flags;
