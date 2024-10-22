@@ -1034,7 +1034,8 @@
         [ "honey_mustard", 1 ],
         [ "horseradish", 1 ],
         [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
+        [ "butter", 1 ],
+        [ "raw_butter"]
       ]
     ]
   },
