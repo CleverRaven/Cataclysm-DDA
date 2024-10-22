@@ -160,6 +160,7 @@
         " ##.Id-dI..^.Id#s##ww##s",
         "  ##############ssssssss"
       ],
+      "palettes": [ "standard_domestic_carpet_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "$": "t_region_shrub_decorative",
@@ -167,7 +168,7 @@
         "|": "t_wall_w",
         "w": "t_window",
         "s": "t_concrete",
-        "U": "t_carpet_red",
+        "U": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "+": "t_door_c",
         "D": "t_door_locked",
         "4": "t_gutter_downspout"

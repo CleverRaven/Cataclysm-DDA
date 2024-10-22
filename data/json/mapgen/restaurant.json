@@ -572,6 +572,7 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss"
       ],
+      "palettes": [ "standard_domestic_carpet_palette" ],
       "terrain": {
         "#": "t_linoleum_white",
         "&": "t_linoleum_white",
@@ -579,7 +580,7 @@
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall_y",
-        ".": "t_carpet_green",
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "C": "t_curtains",
         "D": "t_door_locked",
         "F": "t_linoleum_white",
