@@ -1405,8 +1405,8 @@ TEST_CASE( "prying", "[activity][prying]" )
             const time_duration prying_time = prying_activity_actor::prying_time(
                                                   *ter_test_t_prying3->prying, prying_tool, dummy );
 
-            THEN( "prying time is 32 seconds" ) {
-                CHECK( prying_time == 32_seconds );
+            THEN( "prying time is 30 seconds" ) {
+                CHECK( prying_time == 30_seconds );
             }
         }
     }
