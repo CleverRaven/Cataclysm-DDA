@@ -90,16 +90,14 @@ std::unique_ptr<cataimgui::client> imclient;
 
 #if defined(__ANDROID__)
 #include <jni.h>
+#endif
 
+#if defined(__IPHONEOS__) || (__ANDROID__)
 #include "action.h"
 #include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "worldfactory.h"
-#endif
-
-#if defined(__IPHONEOS__)
 #include "worldfactory.h"
 #endif
 
@@ -263,7 +261,7 @@ static void WinCreate()
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(EMSCRIPTEN)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
@@ -283,7 +281,7 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || (__IPHONEOS__)
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
 #endif
@@ -324,7 +322,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -341,7 +339,7 @@ static void WinCreate()
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
     int renderer_id = -1;
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     std::string renderer_name;
     if( software_renderer ) {
@@ -2594,7 +2592,7 @@ void android_vibrate()
 }
 #endif
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 static bool window_focus = false;
 static bool text_input_active_when_regaining_focus = false;
 #endif
@@ -3602,7 +3600,7 @@ static void init_term_size_and_scaling_factor()
     scaling_factor = 1;
     point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 
     if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
         scaling_factor = 2;
