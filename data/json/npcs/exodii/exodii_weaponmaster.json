@@ -35,7 +35,7 @@
       { "group": "EXODII_Shop_Guns_Tier3", "rigid": true, "trust": 20, "strict": true }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
-    "weapon_override": "EMPTY_GROUP",
+    "weapon_override": "brogyeki_weapon_override",
     "worn_override": "EMPTY_GROUP",
     "skills": [
       {
@@ -50,6 +50,12 @@
       { "skill": "unarmed", "bonus": { "rng": [ 4, 7 ] } },
       { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "brogyeki_weapon_override",
+    "entries": [ { "item": "brogyeki", "charges": 2 } ]
   },
   {
     "type": "mutation",
