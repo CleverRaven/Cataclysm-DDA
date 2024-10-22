@@ -256,6 +256,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "a+b = c" ) );
         CHECK_FALSE( testexp.parse( "a = b = c" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_([a=b])" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_([a=+])" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':0=0?1:2)" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':a=2)" ) );
     } );
