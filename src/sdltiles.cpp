@@ -339,7 +339,7 @@ static void WinCreate()
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
     int renderer_id = -1;
-#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
+#if !defined(__ANDROID__)
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     std::string renderer_name;
     if( software_renderer ) {
