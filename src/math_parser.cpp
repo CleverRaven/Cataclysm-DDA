@@ -137,7 +137,7 @@ struct parse_state {
 
     void validate( expect next ) const {
         if( ( previous == expect::lparen && next == expect::rparen ) ||
-            ( previous == expect::operand && next == expect::rbracket ) ) {
+            ( previous == expect::operand && next == expect::rbracket && allows_prefix_unary ) ) {
             return;
         }
         expect const alias =
