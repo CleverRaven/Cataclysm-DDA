@@ -4,9 +4,30 @@
     "id": "THRESH_LILIN",
     "name": { "str": "One with the Night" },
     "points": 0,
-    "description": "You have ascended in power and can rival the mighty night-creatures of old.",
+    "description": "You have ascended in power and can rival the mighty night-creatures of old.  The night is your home, now, out of the light of the sun.",
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "An umbrella cannot protect you because this is a mystical weakness.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "INTELLIGENCE", "add": -1 },
+          { "value": "PERCEPTION", "add": -1 }
+        ]
+      },
+      {
+        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "values": [
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "INTELLIGENCE", "add": -1 },
+          { "value": "PERCEPTION", "add": -1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -198,21 +219,21 @@
     "id": "LILIN_UNARMED_EXTRA_DAMAGE",
     "name": { "//~": "This is a reference to Proverbs 30:15", "str": "Alukah's Daughter" },
     "description": "You can drain essence from your targets with your unarmed attacks.  Not well enough to absorb their ruach, should they have any, but enough to cause additional damage at night.  This damage is strongest during the half to full moon and weakest during the new moon.  It functions only slightly during the day.",
-    "points": 2,
+    "points": 3,
     "purifiable": false,
     "player_display": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_STRENGTH" ],
     "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
     "category": [ "LILIN" ],
-    "//": "Use a more appropriate damage type once enchantments support custom damage types",
+    "//": "Use a more appropriate damage type once enchantments support custom damage types. Also, a light level check wound be better than is_day/is_outside",
     "enchantments": [
       {
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
-            { "not": "is_day" },
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
             {
-              "or": [ { "math": [ "moon_phase() == 2" ] }, { "math": [ "moon_phase() == 3" ] }, { "math": [ "moon_phase() == 4" ] } ]
+              "or": [ { "math": [ "moon_phase() == 3" ] }, { "math": [ "moon_phase() == 4" ] }, { "math": [ "moon_phase() == 5" ] } ]
             }
           ]
         },
@@ -229,10 +250,10 @@
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
-            { "not": "is_day" },
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
             {
               "or": [
-                { "math": [ "moon_phase() == 5" ] },
+                { "math": [ "moon_phase() == 2" ] },
                 { "math": [ "moon_phase() == 6" ] },
                 { "math": [ "moon_phase() == 7" ] },
                 { "math": [ "moon_phase() == 1" ] }
@@ -250,11 +271,11 @@
         ]
       },
       {
-        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": "is_day" }, { "math": [ "moon_phase() == 8" ] } ] },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] }, { "math": [ "moon_phase() == 8" ] } ] },
         "values": [ { "value": "ITEM_DAMAGE_BIO", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
       },
       {
-        "condition": { "and": [ { "not": "u_has_weapon" }, "is_day" ] },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] }, ] },
         "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 1 } ]
       }
     ]
@@ -299,9 +320,9 @@
     "id": "LILIN_NIGHT_VISION",
     "name": { "str": "Strigine Gaze" },
     "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
-    "points": 2,
+    "points": 3,
     "purifiable": false,
-    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION", "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
     "prereqs2": [ "LILIN_THE_EVIL_EYE" ],
     "category": [ "LILIN" ],
     "enchantments": [
@@ -332,6 +353,57 @@
       {
         "condition": "ALWAYS",
         "values": [ { "value": "LEARNING_FOCUS", "add": { "math": [ "5 + clamp( (u_vitamin('lilin_ruach_vitamin') / 100 ), 0, 10) + clamp( ( (u_vitamin('lilin_ruach_vitamin') - 1000) / 250 ), 0, 10) +  clamp( ( (u_vitamin('lilin_ruach_vitamin') - 3000) / 500 ), 0, 10)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_STEALTH_MODIFIER_IN_DARKNESS",
+    "name": { "//~": "This is a reference to Psalms 91:6", "str": "The Pestilence that Stalks in Darkness" },
+    "description": "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.",
+    "points": 3,
+    "purifiable": false,
+    "prereqs": [ "LILIN_AVOID_SLEEP" ],
+    "category": [ "LILIN" ],
+    "//": "A light level check would be better than is_day/is_outside",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
+            {
+              "or": [ { "math": [ "moon_phase() ==6" ] }, { "math": [ "moon_phase() == 2" ] } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": 20
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
+            {
+              "or": [
+                { "math": [ "moon_phase() == 7" ] },
+                { "math": [ "moon_phase() == 1" ] }
+              ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER", "add": 35
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": { "and": [ "is_day", "u_is_outside" ] }, { "math": [ "moon_phase() == 0" ] } ] },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
       }
     ]
   },
