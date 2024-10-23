@@ -2274,11 +2274,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( locThisItem.get_item()->type->has_use() &&
                         !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
-                        avatar_action::use_item( u, locThisItem );
+                        avatar_action::use_item( locThisItem );
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
                     } else if( locThisItem.get_item()->has_relic_activation() ) {
-                        avatar_action::use_item( u, locThisItem );
+                        avatar_action::use_item( locThisItem );
                     } else {
                         add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
                         break;
@@ -2288,9 +2288,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 }
                 case 'E':
                     if( !locThisItem.get_item()->is_container() ) {
-                        avatar_action::eat( u, locThisItem );
+                        avatar_action::eat( locThisItem );
                     } else {
-                        avatar_action::eat_or_use( u, game_menus::inv::consume( locThisItem ) );
+                        avatar_action::eat_or_use( game_menus::inv::consume( locThisItem ) );
                     }
                     break;
                 case 'W': {
@@ -2313,7 +2313,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 't': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    avatar_action::plthrow( u, locThisItem );
+                    avatar_action::plthrow( locThisItem );
                     handler.handle_by( u );
                     break;
                 }
@@ -2336,7 +2336,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     reload( locThisItem, true );
                     break;
                 case 'm':
-                    avatar_action::mend( u, locThisItem );
+                    avatar_action::mend( locThisItem );
                     break;
                 case 'R':
                     u.read( locThisItem );
@@ -4911,7 +4911,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 break;
             }
             if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, u.pos_bub() ) && force_remaining == 0 ) {
-                avatar_action::swim( m, u, u.pos() );
+                avatar_action::swim( u.pos() );
             } else {
                 u.setpos( traj[i] );
             }
@@ -6226,7 +6226,7 @@ void game::peek( const tripoint_bub_ms &p )
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         item_location loc;
-        avatar_action::plthrow( u, loc, p );
+        avatar_action::plthrow( loc, p );
     }
     m.invalidate_map_cache( p.z() );
     m.invalidate_visibility_cache();
@@ -8235,7 +8235,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u );
+        avatar_action::fire_wielded_weapon();
     }
     reenter_fullscreen();
 }
