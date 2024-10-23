@@ -66,7 +66,7 @@
     "visibility": 9,
     "ugliness": 7,
     "mixed_effect": true,
-    "description": "Your entire body is covered by a rectangle frame, that has numerous supportive arms and manipulators, with decent stability.  Price for this is that the weight of entire frame is enormous, which causes user to either use dedicated tracked treads to move around, or stay immovable for a large amount of time.",
+    "description": "Your entire body is covered by a rectangular frame, that has numerous supporting arms and manipulators, with decent stability.  The price of this is that the weight of the entire frame is enormous, which causes the user to either use dedicated tracked treads to move around, or stay immobile for a large amount of time.",
     "//": "while it can be handled via limbs and stuff, player have no way to obtain this frame (yet? ever? time will tell) so just enchantments",
     "valid": false,
     "purifiable": false,
