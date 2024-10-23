@@ -191,7 +191,7 @@
     "copy-from": "spacebar",
     "type": "widget",
     "id": "spacebar",
-    "extend": { "widgets": [ "xe_spacebar_mana_numbers_block", "xe_spacebar_mana_bar_block", "vampire_blood_levels" ] }
+    "extend": { "widgets": [ "xe_spacebar_mana_numbers_block", "xe_spacebar_mana_bar_block", "vampire_blood_levels", "spacebar_ruach_counter_block" ] }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
