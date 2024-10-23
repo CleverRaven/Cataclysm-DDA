@@ -61,6 +61,52 @@
     "base_casting_time": 150
   },
   {
+    "id": "lilin_evil_eye_spell",
+    "type": "SPELL",
+    "name": "The Evil Eye",
+    "description": "Curse a single nearby target with misfortune.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_FAIL" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_EVIL_EYE",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 25
+  },
+  {
+    "id": "lilin_evil_eye_spell_real",
+    "type": "SPELL",
+    "name": "The Evil Eye Real",
+    "description": "The actual spell that levies the evil eye.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_evil_eye",
+    "shape": "blast",
+    "min_range": 6,
+    "max_range": 6,
+    "min_duration": {
+      "math": [
+        "1000 + ( (u_vitamin('lilin_ruach_vitamin') * 8) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "5000 + ( (u_vitamin('lilin_ruach_vitamin') * 19) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
+      ]
+    },
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
     "id": "lilin_aoe_daze_spell",
     "type": "SPELL",
     "name": "Cry of the Night-bird",
@@ -85,7 +131,7 @@
     "description": "The actual Cry of the Night-bird that applies the effect.  It's a bug if you have it.",
     "message": "",
     "valid_targets": [ "ally", "hostile" ],
-    "flags": [ "SILENT", "NO_FAIL", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
@@ -94,6 +140,8 @@
     "shape": "blast",
     "min_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
     "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 5) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 12) * (u_has_trait('THRESH_LILIN') + 1)" ] },
     "energy_source": "NONE",
     "base_energy_cost": 0,
     "base_casting_time": 50,

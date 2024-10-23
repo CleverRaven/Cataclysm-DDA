@@ -217,9 +217,20 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LILIN_AOE_DAZE",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "50" ] },
+    "id": "EOC_LILIN_EVIL_EYE",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
     "effect": [
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
+      { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } }
+    ],
+    "false_effect": { "u_message": "You don't have enough ruach for your malice to affect your target.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_AOE_DAZE",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "160" ] },
+    "effect": [
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "160" ] },
       { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } },
       { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 }
     ],

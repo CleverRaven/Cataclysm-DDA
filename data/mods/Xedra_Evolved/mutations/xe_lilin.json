@@ -81,10 +81,21 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_THE_EVIL_EYE",
+    "name": { "str": "The Evil Eye" },
+    "points": 2,
+    "description": "With a baleful gaze and a heart full of malice, curse a single target with misfortune.",
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_evil_eye_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_AOE_DAZE",
     "name": { "str": "Cry of the Night-Bird" },
-    "points": 2,
+    "points": 3,
     "description": "Let out a piercing cry, disorienting both enemies and allies nearby.",
+    "prereqs": [ "LILIN_THE_EVIL_EYE" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_aoe_daze_spell", 1 ] ]
   },
@@ -289,6 +300,7 @@
     "points": 2,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION", "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "prereqs2": [ "LILIN_THE_EVIL_EYE" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
