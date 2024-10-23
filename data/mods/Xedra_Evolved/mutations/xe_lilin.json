@@ -278,6 +278,7 @@
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" ],
+    "prereqs2": [  ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_speed_dodge_boost_spell", 1 ] ]
   },
