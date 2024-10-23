@@ -561,10 +561,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( waste_moves ) {
             you.mod_moves( -you.get_speed() );
         }
-    } else if( m.ter( dest_loc ) == ter_t_door_bar_locked ) {
+    } else if( const ter_id &t = m.ter( dest_loc ); t == ter_t_door_bar_locked ) {
         add_msg( _( "You rattle the bars but the door is locked!" ) );
     } else if( const std::unordered_set<ter_str_id> locked_doors = { ter_t_door_locked, ter_t_door_locked_peep, ter_t_door_locked_alarm, ter_t_door_locked_interior };
-               locked_doors.find( m.ter( dest_loc ).id() ) != locked_doors.end() ) {
+               locked_doors.find( t.id() ) != locked_doors.end() ) {
         // Don't drain move points for learning something you could learn just by looking
         add_msg( _( "That door is locked!" ) );
     }

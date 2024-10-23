@@ -1178,8 +1178,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == ter_t_trunk ||
-            here.ter( src_loc ) == ter_t_stump ) {
+        const ter_id &t = here.ter( src_loc );
+        if( t == ter_t_trunk || t == ter_t_stump || here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {

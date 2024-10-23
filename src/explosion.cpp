@@ -707,8 +707,9 @@ void emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p ) == ter_t_card_science || here.ter( p ) == ter_t_card_military ||
-        here.ter( p ) == ter_t_card_industrial ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_card_science || t == ter_t_card_military ||
+        t == ter_t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -720,11 +721,9 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "The nearby doors slide open!" ) );
             }
-            for( int i = -3; i <= 3; i++ ) {
-                for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p + tripoint( i, j, 0 ) ) == ter_t_door_metal_locked ) {
-                        here.ter_set( p + tripoint( i, j, 0 ), ter_t_floor );
-                    }
+            for( const tripoint &pos : here.points_in_radius( p, 3 ) ) {
+                if( here.ter( pos ) == ter_t_door_metal_locked ) {
+                    here.ter_set( pos, ter_t_floor );
                 }
             }
         }
