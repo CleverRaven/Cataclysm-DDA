@@ -3681,6 +3681,12 @@ bool map::is_flammable( const tripoint &p )
 
 bool map::is_flammable( const tripoint_bub_ms &p )
 {
+    // No fires on water tiles regardless of other factors
+    if( has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ||
+        has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ) {
+        return false;
+    }
+
     if( has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ) {
         return true;
     }

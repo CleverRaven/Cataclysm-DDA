@@ -781,13 +781,13 @@
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
     "copy-from": "BEAUTIFUL",
-    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",

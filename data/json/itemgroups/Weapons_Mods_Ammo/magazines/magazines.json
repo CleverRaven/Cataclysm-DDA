@@ -59,9 +59,6 @@
       { "item": "ppq9mag_10rd", "prob": 1, "charges": [ 0, 10 ] },
       { "item": "ppq9mag_15rd", "prob": 1, "charges": [ 0, 15 ] },
       { "item": "ppq9mag_17rd", "prob": 1, "charges": [ 0, 17 ] },
-      { "item": "ppq40mag_10rd", "prob": 1, "charges": [ 0, 10 ] },
-      { "item": "ppq40mag_12rd", "prob": 1, "charges": [ 0, 12 ] },
-      { "item": "ppq40mag_14rd", "prob": 1, "charges": [ 0, 14 ] },
       { "item": "ppq45mag", "prob": 1, "charges": [ 0, 12 ] }
     ]
   },
