@@ -904,6 +904,7 @@
     "name": [ "Evil Eye" ],
     "desc": [ "Something is definitely wrong." ],
     "rating": "bad",
+    "immune_flags": [ "EVIL_EYE_IMMUNE", "EVIL_EYE_IMMUNE_MONSTER" ],
     "show_in_info": true,
     "max_intensity": 5,
     "show_intensity": false,

@@ -86,7 +86,8 @@
     "points": 2,
     "description": "With a baleful gaze and a heart full of malice, curse a single target with misfortune.",
     "category": [ "LILIN" ],
-    "spells_learned": [ [ "lilin_evil_eye_spell", 1 ] ]
+    "spells_learned": [ [ "lilin_evil_eye_spell", 1 ] ],
+    "flags": [ "EVIL_EYE_IMMUNE" ]
   },
   {
     "type": "mutation",
