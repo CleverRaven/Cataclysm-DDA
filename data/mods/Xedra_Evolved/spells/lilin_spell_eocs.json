@@ -217,6 +217,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LILIN_AOE_DAZE",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "50" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } },
+      { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 }
+    ],
+    "false_effect": { "u_message": "You don't have enough ruach to let out the night-cry!", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_AVOID_SLEEP",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180" ] },
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180" ] },
+      { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
+      {
+        "if": { "math": [ "u_val('sleepiness')", "<", "0" ] },
+        "then": { "math": [ "u_val('sleepiness')", "=", "0" ] }
+      },
+      { "math": [ "u_val('sleep_deprivation')", "=", "0" ] },
+      { "u_message": "As a cool breeze on your skin, you feel much more awake.", "type": "good" }
+    ],
+    "false_effect": [ { "npc_message": "You don't have enough ruach to spare any to alleviate your tiredness.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG",
     "condition": { "math": [ "magic_weather_dense_fog", "!=", "1" ] },
     "effect": [

@@ -2460,5 +2460,15 @@
       { "limb_score": "vision", "modifier": 1.5 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_aoe_daze",
+    "name": [ "Disoriented" ],
+    "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -10 ], "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true
   }
 ]

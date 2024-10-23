@@ -81,6 +81,15 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_AOE_DAZE",
+    "name": { "str": "Cry of the Night-Bird" },
+    "points": 2,
+    "description": "Let out a piercing cry, disorienting both enemies and allies nearby.",
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_aoe_daze_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_TURN_INTO_OWL",
     "name": { "str": "On Silent Wings" },
     "points": 8,
@@ -90,9 +99,30 @@
     "active": true,
     "activated_is_setup": true,
     "prereqs": [ "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
+    "prereqs2": [ "LILIN_AVOID_SLEEP" ],
     "category": [ "LILIN" ],
     "activated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_SLEEP_EASY_DURING_DAY",
+    "name": { "//~": "This is a reference to Genesis 1:5", "str": "And There Was Evening" },
+    "points": 2,
+    "description": "You were born to walk the night, and have a much easier time sleeping during the day.",
+    "category": [ "LILIN" ],
+    "enchantments": [ { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_AVOID_SLEEP",
+    "name": { "//~": "This is a reference to Psalms 121:4", "str": "Neither Sleep Nor Slumber" },
+    "points": 4,
+    "description": "While sleep is restful, the ruach you gain fills you with more energy than even a good night's rest.  You may spend ruach to alleviate your sleepiness.",
+    "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "category": [ "LILIN" ],
+    "active": true,
+    "spells_learned": [ [ "lilin_avoid_sleep_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -258,7 +288,7 @@
     "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
     "points": 2,
     "purifiable": false,
-    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION", "LILIN_SLEEP_EASY_DURING_DAY" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
@@ -319,13 +349,8 @@
     "points": 8,
     "starting_trait": false,
     "purifiable": false,
-    "prereqs": [
-      "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
-      "LILIN_UNARMED_EXTRA_DAMAGE",
-      "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
-      "LILIN_SPEED_DODGE_BOOST"
-    ],
-    "prereqs2": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION", "LILIN_NIGHT_VISION" ],
+    "prereqs": [ "LILIN_UNARMED_EXTRA_DAMAGE", "LILIN_SPEED_DODGE_BOOST" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
