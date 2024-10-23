@@ -164,7 +164,7 @@
     "harvest": "beaver_with_skull",
     "dissect": "dissect_mouse_sample_small",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "reproduction": { "baby_type": { "baby_monster": "mon_beaver_kit" }, "baby_count": 4, "baby_timer": 142 },
+    "reproduction": { "baby_type": { "baby_monster_group": "REPRODUCTION_MUT_BEAVER" }, "baby_count": 4, "baby_timer": 142 },
     "//": "128 days gestation period + 14 days average to wean the young.",
     "baby_flags": [ "SPRING" ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],

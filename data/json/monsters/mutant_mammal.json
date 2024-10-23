@@ -68,6 +68,7 @@
     "melee_dice": 2,
     "harvest": "mutant_mammal_fur",
     "dissect": "dissect_mouse_sample_large",
+    "reproduction": { "baby_type": { "baby_monster": "mon_beaver_mutant_huge_kit" }, "baby_count": 4, "baby_timer": 142 },
     "armor": { "bash": 6, "cut": 4 },
     "proportional": { "volume": 2.5, "weight": 2.5 },
     "extend": { "anger_triggers": [ "HURT" ] },
@@ -93,7 +94,7 @@
     "color": "blue",
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_flying_rodent_small",
-    "reproduction": { "baby_type": { "baby_monster": "mon_beaver_kit" }, "baby_count": 4, "baby_timer": 142 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_beaver_mutant_avian_kit" }, "baby_count": 4, "baby_timer": 142 },
     "delete": { "flags": [ "WATER_CAMOUFLAGE" ] }
   },
   {
