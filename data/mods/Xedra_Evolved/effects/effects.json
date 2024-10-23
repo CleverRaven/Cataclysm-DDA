@@ -2284,19 +2284,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_sleep_aid",
-    "name": [ "Promises of easy sleep" ],
-    "desc": [ "You feel as if you could fall asleep anywhere, but you do not feel more tired than you are." ],
-    "apply_message": "You suddenly feel that falling asleep would be incredibly easy.",
-    "remove_message": "Your ability to sleep returns to its regular state.",
-    "rating": "good",
-    "max_duration": "1 minutes",
-    "show_intensity": false,
-    "max_intensity": 1,
-    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": 999 } ] } ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_sleep_shield",
     "name": [ "Undisrupted sleep" ],
     "desc": [ "Sleep well.  Nothing but you can disrupt your sleep." ],
@@ -2306,8 +2293,7 @@
     "max_duration": "2 seconds",
     "show_intensity": false,
     "max_intensity": 1,
-    "//": "using the hedge magic effect allows to prevent duplication.",
-    "flags": [ "INVISIBLE", "ETHEREAL" ],
-    "ench_effects": [ { "effect": "incorporeal", "intensity": 1 }, { "effect": "effect_hedge_no_nightmares", "intensity": 1 } ]
+    "flags": [ "INVISIBLE", "ETHEREAL", "PAIN_IMMUNE", "BLIND", "DEAF" ],
+    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": 9999 } ] } ]
   }
 ]

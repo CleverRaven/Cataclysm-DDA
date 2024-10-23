@@ -1372,7 +1372,7 @@
     "warmth": 70,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARM", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARMCLOCK", "OUTER" ],
     "relic_data": { "passive_effects": [ { "id": "ench_sevenoclock_coat" } ] }
   }
 ]

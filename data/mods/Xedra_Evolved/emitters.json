@@ -19,12 +19,5 @@
     "field": "fd_hot_air4",
     "intensity": 3,
     "qty": 100
-  },
-  {
-    "id": "emit_sleep_aid",
-    "type": "emit",
-    "field": "fd_sleep_aid",
-    "intensity": 3,
-    "qty": 100
   }
 ]
