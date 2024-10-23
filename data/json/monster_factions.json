@@ -54,7 +54,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "aquatic_predator", "kraken", "fish_large", "fish_mutant_passive" ]
+    "hate": [ "aquatic_predator", "kraken", "fish_large", "fish_mutant_passive", "beaver" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -280,6 +280,12 @@
     "name": "herbivore_domestic",
     "base_faction": "herbivore",
     "by_mood": [ "herbivore" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "beaver",
+    "base_faction": "herbivore",
+    "by_mood": [ "herbivore", "zombie_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
