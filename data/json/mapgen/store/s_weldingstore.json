@@ -5,7 +5,7 @@
     "om_terrain": [ "s_weldingstore" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_concrete",
       "rows": [
         ",____;____;____---ccccc$",
         "%____;____;____---ccccc$",
@@ -13,26 +13,26 @@
         ",____;____;____---ccccc$",
         ",____;____;____---ccccc$",
         ",-----------------ccccc$",
-        "%#oo###ooo##oo##+#ccccc$",
+        "%#oo###ooo##oo##*#ccccc$",
         ",#sssssfffssss   #ccccc$",
         ",#               #ccccc$",
         ",#               occccc$",
         ",of sss   sss    occccc$",
         ",#f sss   sss    #ccccc$",
         ",#f              #ccccc$",
-        "%#f              +ccccc$",
-        ",of         ddddD#fffcc$",
-        ",#  pppp    d h  #fffcc$",
-        ",#  ppppSSSSdy   #$$$£$$",
-        ",###############+#CCCcc$",
+        "%#f              *ccccc$",
+        ",of         ddHdD#FFFcc$",
+        ",#  pppp    d h  #FFFcc$",
+        ",#  ppppSSSSd    #$$$£$$",
+        ",#||||||||||||||+#CCCcc$",
         "[#l b#fffffrrrrr #CCccc$",
-        ",#l b#fff        #Ccccg$",
-        ",#l  +           +ccccg$",
-        ",#################$$$$$$",
+        ",#l b#fff        #Ccccc$",
+        ",#l  +           *cccgg$",
+        ",######oo####oo###$$$$$$",
         ",,,,,,,,%,,,[,4,,%,,,,,,",
         "%,[,,%,,,,,,,,,[,,,,,,,,"
       ],
-      "palettes": [ "welding_store_palette" ]
+      "palettes": [ "welding_store_palette", "parametrized_walls_palette" ]
     }
   },
   {
@@ -41,7 +41,7 @@
     "om_terrain": [ "s_weldingstore_roof" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
         "                        ",
