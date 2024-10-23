@@ -315,7 +315,7 @@
       },
       {
         "condition": { "and": [ "u_is_outside", { "not": "is_day" } ] },
-        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception') / 5" ] } } ]
+        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + (u_val('perception') / 5)" ] } } ]
       }
     ]
   },
@@ -374,6 +374,19 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_READ_CRAFT_IN_DARKNESS",
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
+    "description": "You have adapted so well to the night that it doesn't hinder your actions at all.  You can read and craft in any light levels.",
+    "points": 4,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_NIGHT_VISION" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT",
     "name": { "str": "The Night-Hunter" },
     "description": "You are at home in the night, and your prowess is heightened while the moon is up as long as you have any ruach within you.",
@@ -381,7 +394,7 @@
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_UNARMED_EXTRA_DAMAGE", "LILIN_SPEED_DODGE_BOOST" ],
-    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
