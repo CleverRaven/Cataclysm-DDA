@@ -195,7 +195,7 @@
     "zombify_into": "",
     "anger_triggers": [  ],
     "extend": { "flags": [ "NO_BREED", "SMALL_HIDER" ], "fear_triggers": [ "PLAYER_CLOSE" ] },
-    "delete": { "flags": [ "CORNERED_FIGHTER" ], "special_attacks": [ { "type": "bite" } ] }
+    "delete": { "flags": [ "CORNERED_FIGHTER" ], "special_attacks": [ "bite" ] }
   },
   {
     "id": "mon_black_rat",
