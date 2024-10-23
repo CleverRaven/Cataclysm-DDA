@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "Dr. Brain" },
     "description": "An ordinary-looking scientist lost amid the carnage, were it not for the bloodshot eyes, the enlarged cranium, and the fact that the zombies ignore them.  Bits of paper and chemistry equipment lazily float in the air near them.",
-    "copy-from": "mon_feral_psion_default"
+    "copy-from": "mon_feral_psion_default",
     "//": "This is supposed to be a rare boss kind of monster, with both telepathic and telekinetic abililites, but no tougher than a normal zombie.",
     "default_faction": "science",
     "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
@@ -43,13 +43,13 @@
           "dodgeable": false,
           "uncanny_dodgeable": true,
           "blockable": false,
-          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },      
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
-          "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",      
+          "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
           "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
           "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
           "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
-          "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."    
+          "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
         },
         {
           "id": "smash",
@@ -63,16 +63,16 @@
           "dodgeable": false,
           "uncanny_dodgeable": true,
           "blockable": false,
-          "effects_require_dmg": false,     
+          "effects_require_dmg": false,
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
           "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
-          "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",         
+          "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
-          "miss_msg_npc": "%s stares at <npcname> but nothing happens!"  
+          "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
         },
         {
-          "id": "psi_drbrain_momentum_alteration",    
-          "type": "spell",   
+          "id": "psi_drbrain_momentum_alteration",
+          "type": "spell",
           "spell_data": { "id": "telekinetic_momentum_monster" },
           "cooldown": 1,
           "condition": {
@@ -100,7 +100,7 @@
     "type": "MONSTER",
     "name": "feral security guard, Ψ Division",
     "description": "A security guard gone feral, or so you thought.  As you look closer, you notice the relatively-normal appearance, the clear eyes, and the patch on their uniform with a Ψ shape in front of the logo of XEDRA.  The zombies around them ignore them as they move smoothly and purposefully through the ruins.",
-    "copy-from": "mon_feral_psion_default"
+    "copy-from": "mon_feral_psion_default",
     "default_faction": "science",
     "proportional": { "speed": 1.1 },
     "relative": { "melee_skill": 3, "melee_dice": 1, "dodge": 4 },

@@ -2,12 +2,9 @@
   {
     "id": "mon_feral_psion_default",
     "type": "MONSTER",
-    "copy-from": "mon_feral_human_pipe"
-    "//": "interstitial copy-from to edit flags and special attacks appropriately"
-    "special_attacks": [
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "copy-from": "mon_feral_human_pipe",
+    "//": "interstitial copy-from to edit flags and special attacks appropriately",
+    "special_attacks": [ [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -172,7 +169,7 @@
           "no_dmg_msg_u": "%1$s blurs as they explode into motion!",
           "no_dmg_msg_npc": "%1$s blurs as they explode into motion!"
         }
-       ],
+      ],
       "flags": [ "STUN_IMMUNE", "NO_BREATHE" ]
     }
   },
@@ -182,16 +179,13 @@
     "name": "feral seer",
     "description": "This feral human completely lacks the crazed look most of their compatriots have.  Instead, they fix their bloodshot eyes straight at you, seeming to gaze right into your soul, and raise their weapon.",
     "copy-from": "mon_feral_psion_default",
-    "relative": { "melee_skill": 1, "dodge": 4,"vision_night": 7 },
+    "relative": { "melee_skill": 1, "dodge": 4, "vision_night": 7 },
     "color": "dark_gray",
     "symbol": "@",
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "upgrades": { "half_life": 45, "into": "mon_feral_human_clair2" },
-    "extend": {
-      "special_attacks": [ { "id": "feral_weapon_pipe" } ],
-      "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ]
-    }
+    "extend": { "special_attacks": [ { "id": "feral_weapon_pipe" } ], "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ] }
   },
   {
     "id": "mon_feral_human_clair2",
@@ -742,7 +736,7 @@
     "type": "MONSTER",
     "name": "feral PKer",
     "description": "Though they still have a maniacal expression, this feral human is distinguished by the rocks floating in the around around them.",
-    "copy-from": "mon_feral_psion_default",   
+    "copy-from": "mon_feral_psion_default",
     "color": "yellow",
     "symbol": "@",
     "death_drops": "feral_humans_death_drops_telekin",
@@ -816,7 +810,7 @@
     "type": "MONSTER",
     "name": "feral mindhand",
     "description": "This feral human moves quickly across uneven terrain and, when you look more closely, you see that they are floating just above the ground.  The air around them is distorted strangely, like looking through the surface of water.",
-    "copy-from": "mon_feral_psion_default",   
+    "copy-from": "mon_feral_psion_default",
     "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
     "color": "yellow",
     "symbol": "@",
@@ -899,13 +893,14 @@
         [ "PULL_METAL_WEAPON", 10 ]
       ],
       "flags": [ "CLIMBS", "PUSH_VEH", "PUSH_MON" ]
+    }
   },
   {
     "id": "mon_feral_human_telekin3",
     "type": "MONSTER",
     "name": "unstoppable force",
     "description": "Hovering half a meter off the ground, this feral human is surrounded by a whirling cloud of rock, dust, splintered wood, and various household objects.  As they move, the ground occasionally shakes.",
-    "copy-from": "mon_feral_psion_default",   
+    "copy-from": "mon_feral_psion_default",
     "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
     "color": "yellow",
     "symbol": "@",
@@ -932,7 +927,7 @@
           "id": "mon_telekinetic3_mindhammer",
           "cooldown": { "math": [ "6 + rand(12)" ] },
           "move_cost": 80,
-          "accuracy": 9
+          "accuracy": 9,
           "range": 11,
           "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 35 } ],
           "dodgeable": false,
@@ -946,14 +941,14 @@
           "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
           "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
         },
-        { 
+        {
           "id": "smash",
           "move_cost": 80,
           "cooldown": { "math": [ "4 + rand(8)" ] },
           "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25, "armor_penetration": 10 } ],
           "hitsize_min": 12,
-          "accuracy": 9
-          "range": 11,    
+          "accuracy": 9,
+          "range": 11,
           "throw_strength": 50,
           "dodgeable": false,
           "uncanny_dodgeable": true,
@@ -1001,7 +996,7 @@
           "spell_data": { "id": "telekinetic_earthshaker_monster", "min_level": 5 },
           "cooldown": { "math": [ "15 + rand(30)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "%1$s closes their eyes and the ground shakes!" 
+          "monster_message": "%1$s closes their eyes and the ground shakes!"
         },
         [ "PULL_METAL_WEAPON", 5 ]
       ],
@@ -1013,7 +1008,7 @@
     "type": "MONSTER",
     "name": "feral esper",
     "description": "This feral human lacks the crazed look most of their kind have.  Instead, their gaze is unfocused, as though listening to voices only they can hear.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 2 },
     "//": "Additional dodge due to reading the player's mind",
     "color": "white",
@@ -1069,10 +1064,10 @@
         {
           "id": "psi_telepath2_scream",
           "type": "spell",
-          "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 }, 
+          "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
           "cooldown": { "math": [ "8 + rand(16)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "A roar fills %3$s's mind and the world is blotted out!"  
+          "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
         },
         {
           "id": "psi_telepath2_blast",
@@ -1099,7 +1094,7 @@
     "type": "MONSTER",
     "name": { "str": "instiller of nightmares", "str_pl": "instillers of nightmares" },
     "description": "Just another feral, with the typical bloodshot eyes and intense expression.  You have only a moment to think that before your heart starts racing in your chest and the hair stands up on the back of your neck as every instinct screams at you to run.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 4 },
     "color": "white",
     "symbol": "@",
@@ -1155,7 +1150,7 @@
     "type": "MONSTER",
     "name": "feral jumper",
     "description": "What was once empty air suddenly contains this feral human.  They have the same crazed expression as their fellows, but their gaze is focused on more distant locations.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 2 },
     "color": "blue",
     "symbol": "@",
@@ -1190,7 +1185,7 @@
     "type": "MONSTER",
     "name": "feral slider",
     "description": "Every time you blink, this feral human is in a different place.  They are always in motion without actually crossing the intervening space.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 4 },
     "color": "blue",
     "symbol": "@",
@@ -1231,7 +1226,7 @@
           "max_range": 12,
           "message": "%1$s vanishes and reappears elsewhere!",
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
-        }      
+        }
       ],
       "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]
     }
@@ -1241,7 +1236,7 @@
     "type": "MONSTER",
     "name": "ephemeral riftwalker",
     "description": "This feral barely seems to exist in the real world.  They constantly vanish and reappear, weird light and strange mist following in their wake.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "relative": { "dodge": 6 },
     "color": "blue",
     "symbol": "@",
@@ -1306,7 +1301,7 @@
     "type": "MONSTER",
     "name": "feral mender",
     "description": "Other than the intense expression, this feral human looks to be the picture of health.  They could have starred in a healthcare advertisement before the Cataclysm.  Only the jagged bit of wood clutched like a club indicates something is wrong.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.2 },
     "//": "HP and regeneration due to vitakinetic powers",
     "material": [ "flesh" ],
@@ -1351,7 +1346,7 @@
     "type": "MONSTER",
     "name": "feral regenerator",
     "description": "This feral human doesn't even have bloodshot eyes.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
-    "copy-from": "mon_feral_psion_default", 
+    "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.45 },
     "color": "green",
     "symbol": "@",
