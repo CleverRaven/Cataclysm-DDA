@@ -1,0 +1,288 @@
+[
+  {
+    "type": "snippet",
+    "category": "<eye_descriptor>",
+    "text": [
+      { "id": "eye_descriptor1", "text": "doleful" },
+      { "id": "eye_descriptor2", "text": "piercing" },
+      { "id": "eye_descriptor3", "text": "stern" },
+      { "id": "eye_descriptor4", "text": "solemn" },
+      { "id": "eye_descriptor5", "text": "expressive" },
+      { "id": "eye_descriptor6", "text": "soft" },
+      { "id": "eye_descriptor7", "text": "large" },
+      { "id": "eye_descriptor8", "text": "piggish" },
+      { "id": "eye_descriptor9", "text": "rounded" },
+      { "id": "eye_descriptor10", "text": "calculating" },
+      { "id": "eye_descriptor11", "text": "expressionless" },
+      { "id": "eye_descriptor12", "text": "nervous " },
+      { "id": "eye_descriptor13", "text": "narrowed" },
+      { "id": "eye_descriptor14", "text": "suspicious" },
+      { "id": "eye_descriptor15", "text": "anxious" },
+      { "id": "eye_descriptor16", "text": "sad" },
+      { "id": "eye_descriptor17", "text": "downcast" },
+      { "id": "eye_descriptor18", "text": "hawkish" },
+      { "id": "eye_descriptor19", "text": "staring" },
+      { "id": "eye_descriptor20", "text": "confused" },
+      { "id": "eye_descriptor21", "text": "wary" },
+      { "id": "eye_descriptor22", "text": "unfocused" },
+      { "id": "eye_descriptor23", "text": "slanted" },
+      { "id": "eye_descriptor24", "text": "almond-shaped" },
+      { "id": "eye_descriptor25", "text": "welcoming" },
+      { "id": "eye_descriptor26", "text": "friendly-looking" },
+      { "id": "eye_descriptor27", "text": "contemplative" },
+      { "id": "eye_descriptor28", "text": "owlish" },
+      { "id": "eye_descriptor29", "text": "shimmering" },
+      { "id": "eye_descriptor30", "text": "stunning" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<eye_color>",
+    "text": [
+      { "id": "eye_color1", "text": "honey-coloured" },
+      { "id": "eye_color2", "text": "amber" },
+      { "id": "eye_color3", "text": "jade-green" },
+      { "id": "eye_color4", "text": "emerald-green" },
+      { "id": "eye_color5", "text": "hazel" },
+      { "id": "eye_color6", "text": "oceanic-blue" },
+      { "id": "eye_color7", "text": "baby-blue" },
+      { "id": "eye_color8", "text": "deep-blue" },
+      { "id": "eye_color9", "text": "light-blue" },
+      { "id": "eye_color10", "text": "storm-grey" },
+      { "id": "eye_color11", "text": "light-grey" },
+      { "id": "eye_color12", "text": "violet" },
+      { "id": "eye_color13", "text": "light-brown" },
+      { "id": "eye_color14", "text": "deep-brown" },
+      { "id": "eye_color15", "text": "mahogany-brown" },
+      { "id": "eye_color16", "text": "chestnut-brown" },
+      { "id": "eye_color17", "text": "copper-brown" },
+      { "id": "eye_color18", "text": "slate-gray" },
+      { "id": "eye_color19", "text": "sea-green" },
+      { "id": "eye_color20", "text": "forest-green" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<eye_description>",
+    "text": [
+      { "id": "eye_description1", "text": "regarding the viewer with <eye_descriptor>, <eye_color> eyes", "weight": 341 },
+      {
+        "id": "eye_description2",
+        "text": "looking slightly past the camera with <eye_descriptor>, <eye_color> eyes",
+        "weight": 341
+      },
+      {
+        "id": "eye_description3",
+        "text": "looking up at you from this photo with <eye_descriptor>, <eye_color> eyes",
+        "weight": 341
+      },
+      {
+        "id": "eye_description4",
+        "text": "gazing from this photo with <eye_descriptor>, <eye_color> eyes framed behind wire-rimmed glasses",
+        "weight": 167
+      },
+      {
+        "id": "eye_description5",
+        "text": "surveying the viewer with <eye_descriptor>, <eye_color> eyes shielded by a pair of expensive-looking glasses",
+        "weight": 167
+      },
+      {
+        "id": "eye_description6",
+        "text": "meeting your gaze with a solitary, <eye_descriptor>, <eye_color> eye; it's counterpart milky-white and staring.",
+        "weight": 8
+      },
+      { "id": "eye_description7", "text": "staring out of this photo with milky-white eyes", "weight": 8 },
+      {
+        "id": "eye_description8",
+        "text": "regarding the camera with <eye_descriptor> eyes: one <eye_color> and its partner <eye_color>",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hair_descriptor>",
+    "text": [
+      { "id": "hair_descriptor1", "text": "unruly, curled mess" },
+      { "id": "hair_descriptor2", "text": "voluminous mane" },
+      { "id": "hair_descriptor3", "text": "greasy shock" },
+      { "id": "hair_descriptor4", "text": "springy helmet" },
+      { "id": "hair_descriptor5", "text": "jungle-like sprawl" },
+      { "id": "hair_descriptor6", "text": "sparce field" },
+      { "id": "hair_descriptor7", "text": "groomed expanse" },
+      { "id": "hair_descriptor8", "text": "lush sprawl" },
+      { "id": "hair_descriptor9", "text": "unkempt tangle" },
+      { "id": "hair_descriptor10", "text": "mussed catastrophe" },
+      { "id": "hair_descriptor11", "text": "messy dome" },
+      { "id": "hair_descriptor12", "text": "limp, stringy head" },
+      { "id": "hair_descriptor13", "text": "casual flourish" },
+      { "id": "hair_descriptor14", "text": "fluffy mane" },
+      { "id": "hair_descriptor15", "text": "tangle-laced head" },
+      { "id": "hair_descriptor16", "text": "visibly balding scalp" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hair_color>",
+    "text": [
+      { "id": "hair_color1", "text": "dirty blond" },
+      { "id": "hair_color2", "text": "platinum-blond" },
+      { "id": "hair_color3", "text": "copper-red" },
+      { "id": "hair_color4", "text": "auburn" },
+      { "id": "hair_color5", "text": "ginger" },
+      { "id": "hair_color6", "text": "gloss-black" },
+      { "id": "hair_color7", "text": "raven-black" },
+      { "id": "hair_color8", "text": "jet-black" },
+      { "id": "hair_color9", "text": "honey-brown" },
+      { "id": "hair_color10", "text": "chestnut-brown" },
+      { "id": "hair_color11", "text": "chocolate-brown" },
+      { "id": "hair_color12", "text": "dark-brown" },
+      { "id": "hair_color13", "text": "grey" },
+      { "id": "hair_color14", "text": "salt and pepper" },
+      { "id": "hair_color15", "text": "russet" },
+      { "id": "hair_color16", "text": "strawberry-blonde" },
+      { "id": "hair_color17", "text": "mousy-brown" },
+      { "id": "hair_color18", "text": "golden-blonde" },
+      { "id": "hair_color19", "text": "caramel" },
+      { "id": "hair_color20", "text": "mahogany" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hair_descriptor>",
+    "text": [
+      {
+        "id": "hair_description1",
+        "text": "<hair_descriptor> of <hair_color> hair hangs in kirtans about the face and neck, casting eyes and features into shadows"
+      },
+      {
+        "id": "hair_description2",
+        "text": "<hair_descriptor> of <hair_color> hair looks, evidently, hastily combed into shape, with a solitary strand dividing the face from forehead to nose"
+      },
+      { "id": "hair_description3", "text": "<hair_descriptor> of <hair_color> hair sits pulled back into a ponytail" },
+      {
+        "id": "hair_description4",
+        "text": "<hair_descriptor> of <hair_colour> sits festooned with streaks of <colour> highlights"
+      },
+      {
+        "id": "hair_description5",
+        "text": "mostly <hair_colour>, <hair_descriptor> of hair is a playing field of dyes and highlights, suffused with streaks of <colour>, <colour>, and <color>"
+      },
+      {
+        "id": "hair_description6",
+        "text": "<hair_color>, <hair_descriptor> of hair looks, clearly, to have not been the concern of aesthetics: tousled and mussed as it is in ways that would make any bad license photo blush"
+      },
+      {
+        "id": "hair_description7",
+        "text": "<hair_descriptor> of <hair_color> sits tidily combed, with a part down the middle"
+      },
+      {
+        "id": "hair_description8",
+        "text": "<hair_descriptor> of hair rises in an arched, <hair_color> crest from forehead to neck: a mohawk that would make any rooster shed a tear of pride"
+      },
+      {
+        "id": "hair_description9",
+        "text": "<hair_descriptor> of <hair_color> sits artfully braided into an intricate pattern, with small wisps escaping to soften the face"
+      },
+      {
+        "id": "hair_description10",
+        "text": "close-cropped, <hair_descriptor> of <hair_color> gradually fades at the temples"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<limb_descriptor>",
+    "text": [
+      { "id": "limb_descriptor1", "text": "flabby" },
+      { "id": "limb_descriptor2", "text": "pudgy" },
+      { "id": "limb_descriptor3", "text": "chubby" },
+      { "id": "limb_descriptor4", "text": "soft" },
+      { "id": "limb_descriptor5", "text": "plush" },
+      { "id": "limb_descriptor6", "text": "stout" },
+      { "id": "limb_descriptor7", "text": "plump" },
+      { "id": "limb_descriptor8", "text": "toned" },
+      { "id": "limb_descriptor9", "text": "defined" },
+      { "id": "limb_descriptor10", "text": "fit" },
+      { "id": "limb_descriptor11", "text": "athletic" },
+      { "id": "limb_descriptor12", "text": "lanky" },
+      { "id": "limb_descriptor13", "text": "slim" },
+      { "id": "limb_descriptor14", "text": "slender" },
+      { "id": "limb_descriptor15", "text": "twig-like" },
+      { "id": "limb_descriptor16", "text": "noodle-thick" },
+      { "id": "limb_descriptor17", "text": "serpentine" },
+      { "id": "limb_descriptor18", "text": "strong" },
+      { "id": "limb_descriptor19", "text": "freckled" },
+      { "id": "limb_descriptor20", "text": "bruise-marked" },
+      { "id": "limb_descriptor21", "text": "heavily-scarred" },
+      { "id": "limb_descriptor22", "text": "burn-marked" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<caucasian_tone>",
+    "text": [
+      { "id": "caucasian_color1", "text": "pale" },
+      { "id": "caucasian_color2", "text": "pallid" },
+      { "id": "caucasian_color3", "text": "fair" },
+      { "id": "caucasian_color4", "text": "ivory" },
+      { "id": "caucasian_color5", "text": "porcelain" },
+      { "id": "caucasian_color6", "text": "alabaster" },
+      { "id": "caucasian_color7", "text": "cream" },
+      { "id": "caucasian_color8", "text": "peach" },
+      { "id": "caucasian_color9", "text": "rosy" },
+      { "id": "caucasian_color10", "text": "ruddy" },
+      { "id": "caucasian_color11", "text": "flushed" },
+      { "id": "caucasian_color12", "text": "sallow" },
+      { "id": "caucasian_color13", "text": "ashen" },
+      { "id": "caucasian_color14", "text": "pasty" },
+      { "id": "caucasian_color15", "text": "milky" },
+      { "id": "caucasian_color16", "text": "olive" },
+      { "id": "caucasian_color17", "text": "sun-kissed" },
+      { "id": "caucasian_color18", "text": "freckled" },
+      { "id": "caucasian_color19", "text": "weathered" },
+      { "id": "caucasian_color20", "text": "tanned" },
+      { "id": "caucasian_color21", "text": "light" },
+      { "id": "caucasian_color22", "text": "pinkish" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "general_subject_photos",
+    "//": "These are meant to be pictures assigned to spawn in complement with lab mutation test reports, depicting subjects pre-mutation. Each photo must be tied to a respective mutagen log.",
+    "text": [
+      {
+        "id": "general_hf15_photo",
+        "text": "This appears to be a high-resolution photo of a, rather mousy, middle-aged woman <eye_description>.  Her <hair_description>.  Framed by a utilitarian grey wall, the scene's clinical white lighting spotlights both the woman's features as well as her vaguely disconcerted countenance.  Arms crossed, she sits upon a steel folding chair, her appearance less than complemented by the orange jumpsuit hanging, sack-like, off her spare frame.  Short-sleeved, the garment reveals her <caucasian_color>, <limb_descriptor> limbs: with one knee folded across the other."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "hf15_mutation_photos",
+    "//": "This is a snippet category designed to spawn along with a subject’s particular test report and depicts mutated features of their anatomy. Full body descriptions, details of eye, hair, or skin colour, should be avoided so as to not conflict with the description generated by the general subject photos category.",
+    "//2": "This category describes mutations of subject HF15, as described in test report PE039/HF15-001.",
+    "text": [
+      {
+        "id": "hf15_mut_photo1",
+        "text": "This high-resolution photograph depicts the underside of somebody’s wrist: swell of the palm, pronounced knobs of the radius and ulna bones, and the start of a petite forearm.  Like a blue mountain range, the individual’s radial artery snakes across the view, banked by reddened skin that, in appearance, makes you think of the Martian surface.  Speckled with dried blood and scratch marks, blisters pockmark the expanse, though, from some, strands of bluish grey fuzz emanate.  Your eye, however, is predominantly drawn to the 4 long feathers that sprout at the joint.  Hanging limply, the plumage is bedraggled, with separating filaments and a faded blue colour reminiscent of molded carpet."
+      },
+      {
+        "id": "hf15_mut_photo2",
+        "text": "This is an extremely cropped picture of somebody’s eye socket, with the eyeball caught in mid-squint.  A sliver of black pupil and coloured iris can be seen, offset by ragged tufts of small, downy grey feathers that have, evidently, sprouted about the orbit.  A line of bristle-like feathers has ripped through the eyebrow, with deposits of dried blood flakes, hair, and scraps of skin speckling the eyelid.  Beside the lid, starting from the eye’s leftward corner, three perpendicular red trenches gouge the skin, scoring bloody, cartilage-littered lines through the feathers and winding through darkened, waterlogged flesh."
+      },
+      {
+        "id": "hf15_mut_photo3",
+        "text": "This is a high-fidelity photograph depicting a broad patch of somebody’s skin, considering the smooth slope of muscle beneath, likely of the shoulder or bicep.  The flesh is marred by inflamed, red bands that encircle blister-like growths — the scarlet welts and cancerous protuberances making your own skin tingle.  Scattered across the irritated epidermis, you can see examples where these blisters have burst: stubby tubes of cartilage stretching from the red wells and, on occasion, small, underdeveloped feathers emerging in blue tufts from the bloody wreckage."
+      },
+      {
+        "id": "hf15_mut_photo4",
+        "text": "This photograph depicts a solitary, short feather laid out upon a steel surface.  Shaded a muted, almost bedraggled shade of blue and grey, the quill looks almost wilted, with a limp, blood-tipped shaft and spaced-out, hair follicle-like rachis.  Whatever animal this feather came from, it seems safe to bet that it wasn’t a particularly healthy specimen."
+      },
+      {
+        "id": "hf15_mut_photo5",
+        "text": "A jungle of hair fills this photograph, although perhaps it would be more apt to describe it as one in process of deforestation.  Large patches of this individual’s locks are missing, revealing their splotchy scalp that, at first glance, appears inundated with blister-like protuberances.  If nothing else, the person was certainly persistent, for portions of skin have been scratched away, releasing blood that has clumped about their tresses.  Shades of blue peer from the bloody mess: downy wisps emerging from the sores and standing out like muted, listless beacons among the tattered follicles."
+      }
+    ]
+  }
+]

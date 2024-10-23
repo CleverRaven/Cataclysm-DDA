@@ -150,7 +150,39 @@
     "type": "GENERIC",
     "id": "lab_file_mutation_testing",
     "name": { "str_sp": "production tests" },
-    "description": "Accompanying document, that describes tests performed on different subjects.",
+    "conditional_names": [
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
+        "value": "mutation_testing_1",
+        "name": { "str_sp": "Report PE039/HF15-001" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
+        "value": "mutation_testing_2",
+        "name": { "str_sp": "Report PE065/HM25-002" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
+        "value": "mutation_testing_5",
+        "name": { "str_sp": "Report PE026/HM09-005" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
+        "value": "mutation_testing_8",
+        "name": { "str_sp": "Report PE012/HM33-008" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
+        "value": "mutation_testing_9",
+        "name": { "str_sp": "Report PE012/HF23-009" }
+      }
+    ],
+    "description": "An accompanying document, that describes tests performed on different subjects.",
     "expand_snippets": true,
     "variants": [
       {
@@ -162,6 +194,29 @@
       }
     ],
     "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_subject_general_photo",
+    "copy-from": "file",
+    "name": { "str": "photograph" },
+    "description": "A large, high-resolution photograph of somebody about to not have a particularly swanky time in XEDRA fun land.",
+    "snippet_category": "general_subject_photos"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_subject_mutation_photo",
+    "copy-from": "file",
+    "name": { "str": "photograph" },
+    "description": "A large, high-resolution photograph of somebody not having a particularly swanky time in XEDRA fun land.",
+    "variants": [
+      {
+        "id": "subject_mutation_photo_hf15",
+        "name": { "str": "photograph" },
+        "description": "<hf15_mutation_photos>",
+        "expand_snippets": true
+      }
+    ]
   },
   {
     "type": "GENERIC",
