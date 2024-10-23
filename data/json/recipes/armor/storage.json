@@ -188,6 +188,54 @@
     ]
   },
   {
+    "result": "hat_fanny",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": { "time": "5 m" },
+    "qualities": [
+      {
+        "id": "SEW",
+        "level": 1
+      },
+      {
+        "id": "CUT",
+        "level": 1
+      }
+    ],
+    "components": [
+      [ [ "filament", 20, "LIST" ] ],
+      [ [ "hat_ball", 1 ] ],
+      [ [ "fanny", 1 ] ]
+    ]
+  },
+  {
+    "result": "hat_fur_pockets",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "2 h",
+    "autolearn": true,
+    "using": [
+      [ "tailoring_fur_patchwork", 1 ],
+      [ "tailoring_fur_small", 1 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_millinery" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" }
+    ]
+  },
+  {
     "result": "dump_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
