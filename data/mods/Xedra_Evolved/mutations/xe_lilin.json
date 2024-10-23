@@ -321,12 +321,29 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_GAIN_MORE_FOCUS",
+    "name": { "str": "Owl's Wisdom" },
+    "description": "The owl is a symbol of wisdom in culture after culture, and you are the heir to that wisdom.  You find it easier to learn things, and even easier the more ruach you're holding on to.",
+    "points": 1,
+    "purifiable": false,
+    "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "LEARNING_FOCUS", "add": { "math": [ "5 + clamp( (u_vitamin('lilin_ruach_vitamin') / 100 ), 0, 10) + clamp( ( (u_vitamin('lilin_ruach_vitamin') - 1000) / 250 ), 0, 10) +  clamp( ( (u_vitamin('lilin_ruach_vitamin') - 3000) / 500 ), 0, 10)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_HOLD_MORE_RUACH",
     "name": { "str": "Ruach Spring" },
     "description": "Your powers have expanded and you are now capable of holding more ruach.",
     "points": 2,
     "starting_trait": false,
     "purifiable": false,
+    "prereqs": [ "LILIN_GAIN_MORE_FOCUS" ],
     "changes_to": [ "LILIN_HOLD_MORE_RUACH_2" ],
     "category": [ "LILIN" ]
   },
