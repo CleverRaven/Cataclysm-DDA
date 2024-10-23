@@ -96,7 +96,8 @@
     "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
     "energy_source": "NONE",
     "base_energy_cost": 0,
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
   },
   {
     "id": "lilin_avoid_sleep_spell",
