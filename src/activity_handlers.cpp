@@ -1921,7 +1921,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     if( !here.is_flammable( where ) ) {
         try_fuel_fire( *act, *you, true );
         if( !here.is_flammable( where ) ) {
-            you->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, where ) ||
+                here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, where ) ) {
+                you->add_msg_if_player( m_info, _( "You can't light a fire on water." ) );
+            } else {
+                you->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            }
             you->cancel_activity();
             return;
         }

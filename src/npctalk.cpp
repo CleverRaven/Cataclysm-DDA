@@ -6530,6 +6530,8 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
                     max_hit = guy.get_max_hitsize_bodypart()->hit_size;
                 }
                 bp = guy.select_body_part( min_hit, max_hit, can_attack_high, hit_roll );
+            } else {
+                bp = bodypart_id( bp_str );
             }
         }
 
