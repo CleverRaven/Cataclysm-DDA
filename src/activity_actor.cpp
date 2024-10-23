@@ -5941,23 +5941,21 @@ void prying_activity_actor::handle_prying( Character &who )
     };
 
     auto handle_failure = [&]( const pry_data & pdata ) -> void {
-        if( !pdata.breakable )
+        if( pdata.breakable )
         {
-            return;
-        }
+            int difficulty = pdata.difficulty;
+            difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        int difficulty = pdata.difficulty;
-        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+            /** @EFFECT_MECHANICS reduces chance of breaking when prying */
+            const int dice_mech = dice( 2,
+                                        static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
+            /** @ARM_STR reduces chance of breaking when prying */
+            const int dice_str = dice( 2, who.get_arm_str() );
 
-        /** @EFFECT_MECHANICS reduces chance of breaking when prying */
-        const int dice_mech = dice( 2, static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
-        /** @ARM_STR reduces chance of breaking when prying */
-        const int dice_str = dice( 2, who.get_arm_str() );
-
-        if( dice( 4, difficulty ) > dice_mech + dice_str )
-        {
-            // bash will always succeed
-            here.bash( target, 0, false, true );
+            if( dice( 4, difficulty ) > dice_mech + dice_str ) {
+                // bash will always succeed
+                here.bash( target, 0, false, true );
+            }
         }
 
         if( !data->prying_data().failure.empty() )
