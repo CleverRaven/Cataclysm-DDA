@@ -5135,6 +5135,39 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "tankard_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "steel tankard" },
+    "//1": "https://www.kultofathena.com/product/stainless-steel-tankard/",
+    "description": "While not as historic as one may think, it's considered a finer luxury in these trying times.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "melee_damage": { "bash": 1 },
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "pillbox",
     "type": "GENERIC",
     "category": "container",

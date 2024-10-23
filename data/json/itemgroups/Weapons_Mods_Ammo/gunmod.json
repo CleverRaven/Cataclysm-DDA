@@ -166,7 +166,7 @@
   {
     "type": "item_group",
     "id": "c96_mods",
-    "//": "Default possible mods for the C96 and M714.",
+    "//": "Default possible mods for the C96.",
     "subtype": "distribution",
     "entries": [ { "item": "stock_mauser", "prob": 40 } ]
   },

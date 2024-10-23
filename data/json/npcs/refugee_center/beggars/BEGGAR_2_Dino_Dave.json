@@ -5,7 +5,7 @@
     "//": "Schizophrenic beggar in the refugee center.",
     "name_unique": "Dino Dave",
     "gender": "male",
-    "name_suffix": "beggar",
+    "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_2",
     "attitude": 0,
     "mission": 7,

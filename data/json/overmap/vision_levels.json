@@ -60,12 +60,12 @@
   },
   {
     "id": "isolated_electronics",
-    "//": "appliances, machineries visible outside",
+    "//": "power infrastructure, etc",
     "type": "oter_vision",
     "levels": [
-      { "name": "appliances", "sym": "&", "color": "light_gray" },
-      { "name": "deployed appliances", "sym": "A", "color": "light_gray" },
-      { "name": "deployed appliances", "sym": "A", "color": "light_gray" }
+      { "name": "infrastructure", "sym": "&", "color": "light_gray" },
+      { "name": "electrical infrastructure", "sym": "A", "color": "light_gray" },
+      { "name": "electrical infrastructure", "sym": "A", "color": "light_gray" }
     ]
   },
   {

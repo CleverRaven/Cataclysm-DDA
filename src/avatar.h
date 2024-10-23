@@ -156,6 +156,7 @@ class avatar : public Character
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        std::string display_name( bool possessive = false, bool capitalize_first = false ) const;
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
