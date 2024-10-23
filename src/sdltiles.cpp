@@ -90,7 +90,9 @@ std::unique_ptr<cataimgui::client> imclient;
 
 #if defined(__ANDROID__)
 #include <jni.h>
+#endif
 
+#if defined(__IPHONEOS__) || (__ANDROID__)
 #include "action.h"
 #include "inventory.h"
 #include "map.h"
@@ -178,6 +180,16 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
 #endif
 
+#if defined(__IPHONEOS__)
+#if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
+    SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
+#endif
+
+#if defined(SDL_HINT_TOUCH_MOUSE_EVENTS)
+    SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
+#endif
+#endif
+
 #if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
     // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
     // broken implementation on Windows which does not show.
@@ -249,7 +261,7 @@ static void WinCreate()
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(EMSCRIPTEN)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
@@ -269,7 +281,7 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || (__IPHONEOS__)
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
 #endif
@@ -310,7 +322,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -388,13 +400,15 @@ static void WinCreate()
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                               fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
     }
+#endif
 
+#if defined(__ANDROID__)
     // Load virtual joystick texture
     touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
 #endif
@@ -482,7 +496,9 @@ extern "C" {
     }
 
 } // "C"
+#endif
 
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
 {
     // If the display buffer aspect ratio is wider than the display,
@@ -491,9 +507,11 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     SDL_Rect dstrect;
     float DisplayBufferAspect = DisplayBufferWidth / static_cast<float>( DisplayBufferHeight );
     float WindowHeightLessShortcuts = static_cast<float>( WindowHeight );
+#if defined(__ANDROID__)
     if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
         WindowHeightLessShortcuts -= get_option<int>( "ANDROID_SHORTCUT_HEIGHT" );
     }
+#endif
     float WindowAspect = WindowWidth / static_cast<float>( WindowHeightLessShortcuts );
     if( WindowAspect < DisplayBufferAspect ) {
         dstrect.x = 0;
@@ -520,7 +538,6 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     }
     return dstrect;
 }
-
 #endif
 
 void refresh_display()
@@ -536,7 +553,7 @@ void refresh_display()
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
     ClearScreen();
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
@@ -2580,7 +2597,7 @@ void android_vibrate()
 }
 #endif
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 static bool window_focus = false;
 static bool text_input_active_when_regaining_focus = false;
 #endif
@@ -2591,7 +2608,7 @@ void StartTextInput()
     if( SDL_IsTextInputActive() == SDL_TRUE ) {
         return;
     }
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StartTextInput();
 #else
     if( window_focus ) {
@@ -2604,7 +2621,7 @@ void StartTextInput()
 
 void StopTextInput()
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StopTextInput();
 #else
     if( window_focus ) {
@@ -2930,6 +2947,12 @@ static void CheckMessages()
     }
 #endif
 
+#if defined(IOS_KEYBOARD)
+    if( !SDL_IsTextInputActive() ) {
+        StartTextInput();
+    }
+#endif
+
     last_input = input_event();
 
     std::optional<point> resize_dims;
@@ -2940,7 +2963,7 @@ static void CheckMessages()
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
                 switch( ev.window.event ) {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                     // SDL will send a focus lost event whenever the app loses focus (eg. lock screen, switch app focus etc.)
                     // If we detect it and the game seems in a saveable state, try and do a quicksave. This is a bit dodgy
                     // as the player could be ANYWHERE doing ANYTHING (a sub-menu, interacting with an NPC/computer etc.)
@@ -3012,6 +3035,40 @@ static void CheckMessages()
                         break;
                 }
                 break;
+#if defined(__IPHONEOS__)
+            case SDL_APP_WILLENTERBACKGROUND:
+                if( world_generator &&
+                    world_generator->active_world &&
+                    g && g->uquit == QUIT_NO &&
+                    !std::uncaught_exception() ) {
+                    g->quicksave();
+                }
+                if( SDL_IsTextInputActive() ) {
+                    // TODO: Abstract common method with above usage
+                    text_input_active_when_regaining_focus = true;
+                    // Stop text input to not intefere with other programs
+                    SDL_StopTextInput();
+                    // Clear uncommited IME text. TODO: commit IME text instead.
+                    last_input = input_event();
+                    last_input.type = input_event_t::keyboard_char;
+                    last_input.edit.clear();
+                    last_input.edit_refresh = true;
+                    text_refresh = true;
+                } else {
+                    text_input_active_when_regaining_focus = false;
+                }
+                break;
+            case SDL_APP_DIDENTERBACKGROUND:
+                window_focus = false;
+                break;
+            case SDL_APP_DIDENTERFOREGROUND:
+                window_focus = true;
+                // Restore text input status
+                if( text_input_active_when_regaining_focus ) {
+                    SDL_StartTextInput();
+                }
+                break;
+#endif
             case SDL_RENDER_TARGETS_RESET:
                 render_target_reset = true;
                 break;
@@ -3029,7 +3086,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3087,7 +3144,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3549,7 +3606,7 @@ static void init_term_size_and_scaling_factor()
     scaling_factor = 1;
     point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 
     if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
         scaling_factor = 2;
@@ -3826,7 +3883,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         StartTextInput();
     } else {

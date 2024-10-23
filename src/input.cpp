@@ -62,7 +62,7 @@ bool is_mouse_enabled()
 
 bool is_keycode_mode_supported()
 {
-#if defined(TILES) && !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if defined(TILES) && !defined(__ANDROID__) && !(defined(__IPHONEOS__))
     return keycode_mode;
 #else
     return false;
