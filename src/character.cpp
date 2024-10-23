@@ -840,17 +840,24 @@ creature_size Character::get_size() const
 
 std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
-    if( !possessive ) {
-        if( is_avatar() ) {
-            return capitalize_first ? _( "You" ) : _( "you" );
-        }
-        return get_name();
-    } else {
-        if( is_avatar() ) {
-            return capitalize_first ? _( "Your" ) : _( "your" );
-        }
-        return string_format( _( "%s's" ), get_name() );
+    return is_avatar() ? as_avatar()->display_name( possessive,
+            capitalize_first ) : as_npc()->display_name( possessive );
+}
+
+std::string Character::disp_profession() const
+{
+    if( !custom_profession.empty() ) {
+        return custom_profession;
     }
+    if( is_npc() && as_npc()->myclass != npc_class_id::NULL_ID() ) {
+        if( play_name_suffix ) {
+            return play_name_suffix.value();
+        }
+    }
+    if( prof != nullptr && prof != profession::generic() ) {
+        return prof->gender_appropriate_name( male );
+    }
+    return "";
 }
 
 std::string Character::name_and_maybe_activity() const

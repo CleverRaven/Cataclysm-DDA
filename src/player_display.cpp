@@ -1083,24 +1083,19 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     werase( w_tip );
 
     // Print name and header
-    if( you.custom_profession.empty() ) {
-        if( you.crossed_threshold() ) {
-            //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
-                       you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
-            // Regular person. Nothing interesting.
-            //~ player info window: 1s - name, 2s - gender '|' - field separator.
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.get_name(),
-                       you.male ? _( "Male" ) : _( "Female" ) );
-        } else {
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
-                       you.male ? _( "Male" ) : _( "Female" ),
-                       you.prof->gender_appropriate_name( you.male ) );
-        }
-    } else {
+    if( you.crossed_threshold() ) {
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.get_name(),
-                   you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
+                   you.male ? _( "Male" ) : _( "Female" ), race );
+    } else {
+        std::string profession = you.disp_profession();
+        if( !profession.empty() ) {
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s " ), you.get_name(),
+                       you.male ? _( "Male" ) : _( "Female" ), profession );
+        } else {
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s " ), you.get_name(),
+                       you.male ? _( "Male" ) : _( "Female" ) );
+        }
     }
 
     const auto btn_color = [&tip_btn_highlight]( const int btn_to_draw ) {
