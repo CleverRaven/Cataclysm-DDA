@@ -452,7 +452,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "100 L",
-        "max_contains_weight": "100 kg",
+        "max_contains_weight": "200 kg",
         "max_item_length": "200 cm",
         "moves": 400
       }
