@@ -1,0 +1,7 @@
+[
+  {
+    "type": "palette",
+    "id": "welding_store_palette",
+    "terrain": { "c": "t_thconc_floor", "o": "t_window", "s": "t_concrete" }
+  }
+]
