@@ -82,7 +82,7 @@
     "copy-from": "mon_beaver_kit",
     "hp": 4,
     "harvest": "mutant_animal_noskin",
-    "upgrades": { "age_grow": 700, "into": "mon_beaver_mutant_huge" },
+    "upgrades": { "age_grow": 730, "into": "mon_beaver_mutant_huge" },
     "proportional": { "volume": 2.5, "weight": 2.5 }
   },
   {
@@ -105,7 +105,7 @@
     "copy-from": "mon_beaver_kit",
     "harvest": "mutant_animal_noskin",
     "dissect": "dissect_flying_rodent_small",
-    "upgrades": { "age_grow": 700, "into": "mon_beaver_mutant_avian" }
+    "upgrades": { "age_grow": 730, "into": "mon_beaver_mutant_avian" }
   },
   {
     "id": "mon_coyote_mutant_shark",

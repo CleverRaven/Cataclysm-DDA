@@ -190,7 +190,7 @@
     "dodge": 3,
     "harvest": "mammal_tiny",
     "dissect": "dissect_mouse_sample_single",
-    "upgrades": { "age_grow": 700, "into": "mon_beaver" },
+    "upgrades": { "age_grow": 730, "into": "mon_beaver" },
     "//": "2 years to reach independence.",
     "zombify_into": "",
     "anger_triggers": [  ],
