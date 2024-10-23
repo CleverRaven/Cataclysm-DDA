@@ -94,7 +94,13 @@
           { "u_mutate": 0 },
           { "math": [ "u_vitamin('mutagen_lilin')", "-=", "2500" ] },
           { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-          { "math": [ "u_lilin_new_power_delay_timer", "+=", "86400" ] },
+          {
+            "math": [
+              "u_lilin_new_power_delay_timer",
+              "=",
+              "min( (rand(86400) + (u_sum_traits_of_category_char_has('LILIN') * 1200),604800)"
+            ]
+          },
           { "u_add_effect": "effect_gained_lilin_power", "duration": { "math": [ "u_lilin_new_power_delay_timer" ] } },
           { "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "=", "0" ] },
           { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "=", "1" ] }
