@@ -147,6 +147,30 @@ void scenario::load( const JsonObject &jo, const std::string_view )
                                  ;
 
         reset_calendar();
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "allowed_locs" ) ) {
+                for( JsonValue jval : tmp.get_array( "allowed_locs" ) ) {
+                    _allowed_locs.emplace_back( jval.get_string() );
+                }
+            }
+        }
+
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "allowed_locs" ) ) {
+                for( JsonValue jval : tmp.get_array( "allowed_locs" ) ) {
+                    start_location_id disallowed_loc_id( jval.get_string() );
+                    auto iter = std::find( _allowed_locs.begin(), _allowed_locs.end(), disallowed_loc_id );
+                    if( iter != _allowed_locs.end() ) {
+                        _allowed_locs.erase( iter );
+                    }
+                }
+            }
+        }
     }
 
     if( jo.has_string( "vehicle" ) ) {
