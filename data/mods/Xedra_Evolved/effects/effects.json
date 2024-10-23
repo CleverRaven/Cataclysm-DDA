@@ -2468,7 +2468,8 @@
     "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": { "speed_mod": [ -10 ], "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
-    "show_in_info": true
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.15 } ] } ]
   }
 ]
