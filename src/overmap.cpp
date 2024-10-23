@@ -6896,6 +6896,23 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         }
     }
 
+    // Don't spawn monster areas over locations designated as safe.
+    // We're using the maximum radius rather than the generated one, as the latter hasn't been
+    // produced yet, and it also provides some extra breathing room margin in most cases.
+    const overmap_special_spawns &spawns = special.get_monster_spawns();
+    if( spawns.group ) {
+        for( int x = p.x() - spawns.radius.max; x < p.x() + spawns.radius.max; x++ ) {
+            for( int y = p.y() - spawns.radius.max; y < p.y() + spawns.radius.max; y++ ) {
+                if( overmap_buffer.overmap_special_at( {x, y, p.z()} ).has_value() &&
+                    overmap_buffer.overmap_special_at( { x, y, p.z()} ).value().obj().has_flag( "SAFE_AT_WORLDGEN" ) ) {
+                    add_msg( "Rejected map special due to Safe overlap, %s, clashing with %s", special.id.c_str(),
+                             overmap_buffer.overmap_special_at( { x, y, p.z() } ).value().c_str() );
+                    return false;
+                }
+            }
+        }
+    }
+
     const std::vector<overmap_special_locations> fixed_terrains = special.required_locations();
 
     return std::all_of( fixed_terrains.begin(), fixed_terrains.end(),
