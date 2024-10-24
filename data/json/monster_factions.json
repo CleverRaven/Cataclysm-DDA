@@ -326,7 +326,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "pig",
-    "base_faction": "herbivore"
+    "base_faction": "herbivore",
+    "neutral": [ "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
