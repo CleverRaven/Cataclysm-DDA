@@ -10,10 +10,11 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "debug.h"
 #include "dialogue_helpers.h"
 #include "math_parser_diag.h"
 #include "math_parser_func.h"
+#include "math_parser_type.h"
+#include "type_id.h"
 
 struct binary_op {
     enum class associativity {
@@ -25,6 +26,7 @@ struct binary_op {
     associativity assoc;
     using f_t = double ( * )( double, double );
     f_t f = nullptr;
+    math_type_t type = math_type_t::ret;
 };
 using pbin_op = binary_op const *;
 struct unary_op {
@@ -32,6 +34,14 @@ struct unary_op {
     binary_op::f_t f;
 };
 using punary_op = unary_op const *;
+
+struct ass_op {
+    std::string_view symbol;
+    bool needs_mhs;
+    binary_op::f_t f;
+    bool unaryone = false; // FIXME: hack...
+};
+using pass_op = ass_op const *;
 
 constexpr bool operator>( binary_op const &lhs, binary_op const &rhs )
 {
@@ -45,13 +55,9 @@ enum class paren {
     right,
 };
 
-struct scoped_diag_eval {
-    pdiag_func_eval df{};
-    char scope = 'g';
-};
-
-struct scoped_diag_ass {
-    pdiag_func_ass df{};
+struct scoped_diag_proto {
+    std::string_view token;
+    pdiag_func df{};
     char scope = 'g';
 };
 
@@ -81,31 +87,41 @@ struct func_jmath {
     jmath_func_id id;
 };
 
-struct func_diag_eval {
+struct func_diag_proto {
+    std::string_view token;
+    char scope = 'g';
+    pdiag_func f{};
+    std::vector<thingie> args;
+    diag_kwargs kwargs;
+
+    explicit func_diag_proto( std::string_view token_, char scope_, pdiag_func f_,
+                              std::vector<thingie> &args_, diag_kwargs &kwargs_ )
+        : token( token_ ), scope( scope_ ), f( f_ ), args( args_ ), kwargs( kwargs_ ) {}
+};
+struct func_diag {
     using eval_f = std::function<double( dialogue & )>;
-    explicit func_diag_eval( eval_f &&f_ ) : f( f_ ) {}
+    using ass_f = std::function<void( dialogue &, double )>;
+    explicit func_diag( eval_f &fe_, ass_f &fa_ ) : fe( fe_ ), fa( fa_ ) {}
 
     double eval( dialogue &d ) const {
-        return f( d );
-    }
-
-    eval_f f;
-};
-struct func_diag_ass {
-    using ass_f = std::function<void( dialogue &, double )>;
-    explicit func_diag_ass( ass_f &&f_ ) : f( f_ ) {}
-
-    static double eval( dialogue &/* d */ )  {
-        debugmsg( "eval() called on assignment function" );
-        return 0;
+        if( fe ) {
+            return fe( d );
+        }
+        throw math::internal_error( "Unexpected eval called on function that cannot evaluate" );
     }
 
     void assign( dialogue &d, double val ) const {
-        f( d, val );
+        if( fa ) {
+            fa( d, val );
+            return;
+        }
+        throw math::internal_error( "Unexpected assign called on function that cannot assign" );
     }
 
-    ass_f f;
+    eval_f fe;
+    ass_f fa;
 };
+
 struct var {
     template<class... Args>
     explicit var( Args &&... args ) : varinfo( std::forward<Args>( args )... ) {}
@@ -133,6 +149,17 @@ struct ternary {
 
     double eval( dialogue &d ) const;
 };
+
+struct ass_oper {
+    ass_oper() = default;
+    explicit ass_oper( thingie lhs_, thingie mhs_, thingie rhs_, binary_op::f_t op_ );
+    std::shared_ptr<thingie> lhs;
+    std::shared_ptr<thingie> mhs;
+    std::shared_ptr<thingie> rhs;
+    binary_op::f_t op{};
+
+    double eval( dialogue &d ) const;
+};
 struct thingie {
     thingie() = default;
     template <class U>
@@ -144,9 +171,16 @@ struct thingie {
     constexpr double eval( dialogue &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var, kwarg, ternary, array>;
+        std::variant<double, std::string, oper, ass_oper, func, func_jmath, func_diag, func_diag_proto, var, kwarg, ternary, array>;
     impl_t data;
 };
+
+template <typename V>
+using v_has_eval_t = decltype( std::declval<V>().eval( std::declval<dialogue &>() ) );
+template <typename V, typename = void>
+constexpr bool v_has_eval = false;
+template <typename V>
+constexpr bool v_has_eval<V, std::void_t<v_has_eval_t<V>>> = true;
 
 constexpr double thingie::eval( dialogue &d ) const
 {
@@ -155,32 +189,22 @@ constexpr double thingie::eval( dialogue &d ) const
         {
             return v;
         },
-        // NOLINTNEXTLINE(cata-use-string_view)
-        []( std::string const & v )
-        {
-            debugmsg( "Unexpected string operand %s", v );
-            return 0.0;
-        },
-        []( kwarg const & v )
-        {
-            debugmsg( "Unexpected kwarg %s", v.key );
-            return 0.0;
-        },
-        []( array const & /* v */ )
-        {
-            debugmsg( "Unexpected array" );
-            return 0.0;
-        },
         [&d]( auto const & v ) -> double
         {
-            return v.eval( d );
+            if constexpr( v_has_eval<decltype( v )> )
+            {
+                return v.eval( d );
+            } else
+            {
+                throw math::internal_error( "math called eval() on node without eval()" );
+            }
         },
     },
     data );
 }
 
 using op_t =
-    std::variant<pbin_op, punary_op, pmath_func, jmath_func_id, scoped_diag_eval, scoped_diag_ass, paren>;
+    std::variant<pbin_op, punary_op, pass_op, pmath_func, jmath_func_id, scoped_diag_proto, paren>;
 
 constexpr bool operator>( op_t const &lhs, binary_op const &rhs )
 {
@@ -272,15 +296,17 @@ inline double b_neg( double /* zero */, double r )
 
 } // namespace math_opers
 
-constexpr std::array<binary_op, 15> binary_ops{
+constexpr binary_op assignment_op{ "", -10, binary_op::associativity::left };
+
+constexpr std::array<binary_op, 14> binary_ops{
     binary_op{ "?", 0, binary_op::associativity::right },
     binary_op{ ":", 0, binary_op::associativity::right },
     binary_op{ "<", 1, binary_op::associativity::left, math_opers::lt },
-    binary_op{ "<=", 1, binary_op::associativity::left, math_opers::lte },
-    binary_op{ ">", 1, binary_op::associativity::left, math_opers::gt },
-    binary_op{ ">=", 1, binary_op::associativity::left, math_opers::gte },
-    binary_op{ "==", 1, binary_op::associativity::left, math_opers::eq },
-    binary_op{ "!=", 1, binary_op::associativity::left, math_opers::neq },
+    binary_op{ "<=", 1, binary_op::associativity::left, math_opers::lte, math_type_t::compare },
+    binary_op{ ">", 1, binary_op::associativity::left, math_opers::gt, math_type_t::compare },
+    binary_op{ ">=", 1, binary_op::associativity::left, math_opers::gte, math_type_t::compare },
+    binary_op{ "==", 1, binary_op::associativity::left, math_opers::eq, math_type_t::compare },
+    binary_op{ "!=", 1, binary_op::associativity::left, math_opers::neq, math_type_t::compare },
     binary_op{ "+", 2, binary_op::associativity::left, math_opers::add },
     binary_op{ "-", 2, binary_op::associativity::left, math_opers::sub },
     binary_op{ "*", 3, binary_op::associativity::left, math_opers::mul },
@@ -293,6 +319,17 @@ constexpr std::array<unary_op, 3> prefix_unary_ops{
     unary_op{ "+", math_opers::pos },
     unary_op{ "-", math_opers::neg },
     unary_op{ "!", math_opers::b_neg },
+};
+
+constexpr std::array<ass_op, 8> ass_ops{
+    ass_op{ "=", false, math_opers::add },
+    ass_op{ "+=", true, math_opers::add },
+    ass_op{ "-=", true, math_opers::sub },
+    ass_op{ "*=", true, math_opers::mul },
+    ass_op{ "/=", true, math_opers::div },
+    ass_op{ "%=", true, math_opers::mod },
+    ass_op{ "++", true, math_opers::add, true },
+    ass_op{ "--", true, math_opers::sub, true },
 };
 
 #endif // CATA_SRC_MATH_PARSER_IMPL_H

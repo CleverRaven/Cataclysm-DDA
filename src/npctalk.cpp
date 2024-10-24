@@ -5418,7 +5418,7 @@ talk_effect_fun_t::func f_math( const JsonObject &jo, std::string_view member,
                                 const std::string_view )
 {
     eoc_math math;
-    math.from_json( jo, member, eoc_math::type_t::assign );
+    math.from_json( jo, member, math_type_t::assign );
     return [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
