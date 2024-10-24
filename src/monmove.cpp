@@ -1140,7 +1140,7 @@ void monster::move()
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
                 // TODO: Remove z-level stair bullshit teleport after aligning all stairs
-                if( !can_z_move &&
+                if( !can_z_move && pos().xy() != candidate.xy() &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
                     const tripoint upper = candidate.z > posz() ? candidate : pos();
