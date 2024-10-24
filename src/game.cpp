@@ -6970,13 +6970,13 @@ void game::zones_manager()
                 }
                 tripoint_abs_ms first_abs =
                     m.getglobal(
-                        tripoint(
+                        tripoint_bub_ms(
                             std::min( first.position->x, second.position->x ),
                             std::min( first.position->y, second.position->y ),
                             std::min( first.position->z, second.position->z ) ) );
                 tripoint_abs_ms second_abs =
                     m.getglobal(
-                        tripoint(
+                        tripoint_bub_ms(
                             std::max( first.position->x, second.position->x ),
                             std::max( first.position->y, second.position->y ),
                             std::max( first.position->z, second.position->z ) ) );
@@ -10641,7 +10641,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
+    const int mcost = m.combined_movecost( u.pos_bub(), tripoint_bub_ms( dest_loc ), grabbed_vehicle,
+                                           modifier,
                                            via_ramp );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
