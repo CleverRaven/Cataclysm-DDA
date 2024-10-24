@@ -1446,6 +1446,15 @@ struct itype {
         */
         float insulation_factor = 1.0f;
 
+        /** Flat damage reduction (increase if negative) on fall (some logic may apply). */
+        int fall_damage_reduction = 0;
+
+        /** Multiplicative damage reduction on fall (some logic may apply). */
+        float fall_damage_reduction_multiplicative = 1.0f;
+
+        /** Flat damage reduction on fall when strength of fall allows breaking of furniture. */
+        int fall_damage_reduction_on_breaking = 0;
+
         /**
         * Efficiency of solar energy conversion for solarpacks.
         */
