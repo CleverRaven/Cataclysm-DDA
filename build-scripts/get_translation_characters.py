@@ -28,19 +28,46 @@ def main():
 def print_func(language):
     print(f"static void AddGlyphRangesFromCLDRFor{language.upper()}("
           "ImFontGlyphRangesBuilder *b) {{")
-    print('\n'.join([print_add_char(c)
-                     for c in alphabets.ALPHABETS_BY_LANG_MAP[language]]))
-    print('\n'.join([print_add_char(c.upper())
-                     for c in alphabets.ALPHABETS_BY_LANG_MAP[language]]))
-    print('\n'.join([print_add_char(c)
-                     for c in alphabets.NUMBERS_BY_LANG_MAP[language]]))
-    print('\n'.join([print_add_char(c)
-                     for c in alphabets.PUNCTUATION_BY_LANG_MAP[language]]))
+    # All of the glyphs used this language
+    chars = []
+    for c in alphabets.ALPHABETS_BY_LANG_MAP[language]:
+        for g in c:
+            chars.append(ord(g))
+    for c in alphabets.ALPHABETS_BY_LANG_MAP[language]:
+        for g in c.upper():
+            chars.append(ord(g))
+    for c in alphabets.NUMBERS_BY_LANG_MAP[language]:
+        for g in c:
+            chars.append(ord(g))
+    for c in alphabets.PUNCTUATION_BY_LANG_MAP[language]:
+        for g in c:
+            chars.append(ord(g))
+    # Sort and remove duplicates, so we can detect sequences
+    chars = sorted(list(set(chars)))
+
+    # Detect if this character is just one greater than the last character,
+    # and so could be added with a for loop instead
+    last_char = chars[0]
+    output = [[last_char, 1]]
+    for char in chars[1:]:
+        if char - last_char == 1:
+            output[-1][1] += 1
+        else:
+            output.append([char, 1])
+        last_char = char
+
+    for char, length in output:
+        if length == 1:
+            print(f"    b->AddChar({hex(char)});")
+        # Don't add a for loop if it's neutral or requires more lines
+        elif length < 4:
+            for i in range(length):
+                print(f"    b->AddChar({hex(char + i)});")
+        else:
+            print(f"    for(int i = 0; i < {length}; ++i)" + " {\n" +
+                  f"        b->AddChar({hex(char)} + i);" + "\n" +
+                  "    }")
     print("}\n")
-
-
-def print_add_char(c):
-    return '\n'.join([f"b->AddChar({hex(ord(c))});" for c in c])
 
 
 if __name__ == '__main__':
