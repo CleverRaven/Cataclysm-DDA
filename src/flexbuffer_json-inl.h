@@ -940,6 +940,19 @@ inline std::vector<std::string> JsonObject::get_as_string_array( const std::stri
     }
     return ret;
 }
+inline std::set<std::string> JsonObject::get_as_string_set( const std::string &name ) const
+{
+    std::set<std::string> ret;
+    if( has_array( name ) ) {
+        JsonArray ja = get_array( name );
+        for( JsonValue jv : get_array( name ) ) {
+            ret.insert( jv );
+        }
+    } else if( has_string( name ) ) {
+        ret.insert( get_string( name ) );
+    }
+    return ret;
+}
 
 inline bool JsonObject::has_member( const std::string_view key ) const
 {
