@@ -188,6 +188,7 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         "o": "t_window_no_curtains_open",
         "+": "t_door_c",
@@ -207,8 +208,8 @@
         "É": "t_linoleum_gray",
         "D": "t_door_locked",
         " ": "t_region_groundcover_urban",
-        "_": "t_carpet_red",
-        "I": "t_carpet_red",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "I": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "s": "t_concrete",
         "|": "t_brick_wall",
         "4": "t_gutter_downspout"
@@ -362,6 +363,7 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         "o": "t_window_no_curtains_open",
         "+": "t_door_c",
@@ -370,11 +372,11 @@
         "D": "t_door_metal_c",
         "S": "t_region_shrub_decorative",
         " ": "t_region_groundcover_urban",
-        "c": "t_carpet_purple",
-        "b": "t_carpet_purple",
-        "{": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "@": "t_carpet_purple",
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "b": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "{": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "s": "t_concrete",
         "Á": "t_concrete",
         "|": "t_wall_p",

@@ -33,12 +33,13 @@
         "..-----------X|hLLB,s|..",
         "....4ooooooooo--------.."
       ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         ",": "t_floor",
-        "_": "t_carpet_green",
-        "t": "t_carpet_green",
-        "r": "t_carpet_green",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "|": "t_wall_r",
         "-": "t_wall_r",
         "X": "t_door_metal_pickable",
@@ -133,12 +134,13 @@
         "..-----------X|hLLB,s|..",
         "....4ooooooooo--------.."
       ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         ",": "t_floor",
-        "_": "t_carpet_green",
-        "t": "t_carpet_green",
-        "r": "t_carpet_green",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "|": "t_wall_r",
         "-": "t_wall_r",
         "X": "t_door_metal_pickable",

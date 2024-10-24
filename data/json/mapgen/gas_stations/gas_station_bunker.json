@@ -329,6 +329,7 @@
         "|gg|hhc...chh|gg|   ||||",
         "|||||||||||||||||       "
       ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         " ": "t_rock",
         ".": "t_thconc_floor",
@@ -337,10 +338,10 @@
         "c": "t_wall_glass",
         "d": "t_door_glass_c",
         "e": "t_door_metal_c",
-        "_": "t_carpet_red",
-        "g": "t_carpet_red",
-        "h": "t_carpet_red",
-        "i": "t_carpet_red",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "g": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "i": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "q": "t_sewage_pipe",
         ",": "t_linoleum_gray",
         "t": "t_linoleum_gray",

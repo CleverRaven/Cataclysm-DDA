@@ -163,13 +163,13 @@
         "------------------------",
         "------------------------"
       ],
-      "palettes": [ "house_w_foundation_palette" ],
+      "palettes": [ "house_w_foundation_palette", "parametrized_carpets_palette" ],
       "terrain": {
-        "_": "t_carpet_red",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "#": "t_brick_wall",
-        "H": "t_carpet_red",
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "s": "t_screened_porch_wall",
-        "R": "t_carpet_red",
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "u": "t_door_glass_c"
       },
       "furniture": { "8": "f_counter" },
