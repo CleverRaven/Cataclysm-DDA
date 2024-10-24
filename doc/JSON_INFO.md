@@ -5196,11 +5196,11 @@ oxytorch: {
 ```
 
 #### `prying`
-(Optional) Data for using with pyring tools
+(Optional) Data for using with prying tools
 ```cpp
 "prying": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
-    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "duration": "1 seconds", // (optional) time required for prying, default is 1 second
     "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
     "byproducts": [ // (optional) list of items that will be spawned when finished successfully
         {

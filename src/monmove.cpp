@@ -1130,7 +1130,7 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
+                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                               !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;

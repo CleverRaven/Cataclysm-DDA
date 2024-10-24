@@ -3603,7 +3603,7 @@ class jmapgen_variable : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            queued_points[name] = dat.m.getglobal( tripoint( x.val, y.val,
+            queued_points[name] = dat.m.getglobal( tripoint_bub_ms( int( x.val ), int( y.val ),
                                                    dat.zlevel() + z.get() ) );
         }
 };
@@ -5813,7 +5813,7 @@ void map::draw_lab( mapgendata &dat )
                     // Rotated maps cannot handle borders and have to be caught in code.
                     // We determine if a border isn't handled by checking the east-facing
                     // border space where the door normally is -- it should be a wall or door.
-                    tripoint east_border( 23, 11, abs_sub.z() );
+                    tripoint_bub_ms east_border( 23, 11, abs_sub.z() );
                     if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
                         !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
@@ -5825,32 +5825,32 @@ void map::draw_lab( mapgendata &dat )
                         ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass :
                                              ter_t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
-                            ter_set( point( 23, i ), rw_type );
-                            furn_set( point( 23, i ), furn_str_id::NULL_ID() );
-                            i_clear( tripoint( 23, i, dat.zlevel() ) );
+                            ter_set( point_bub_ms( 23, i ), rw_type );
+                            furn_set( point_bub_ms( 23, i ), furn_str_id::NULL_ID() );
+                            i_clear( tripoint_bub_ms( 23, i, dat.zlevel() ) );
 
-                            ter_set( point( i, 23 ), bw_type );
-                            furn_set( point( i, 23 ), furn_str_id::NULL_ID() );
-                            i_clear( tripoint( i, 23, dat.zlevel() ) );
+                            ter_set( point_bub_ms( i, 23 ), bw_type );
+                            furn_set( point_bub_ms( i, 23 ), furn_str_id::NULL_ID() );
+                            i_clear( tripoint_bub_ms( i, 23, dat.zlevel() ) );
 
                             if( lw == 2 ) {
-                                ter_set( point( 0, i ), lw_type );
-                                furn_set( point( 0, i ), furn_str_id::NULL_ID() );
-                                i_clear( tripoint( 0, i, dat.zlevel() ) );
+                                ter_set( point_bub_ms( 0, i ), lw_type );
+                                furn_set( point_bub_ms( 0, i ), furn_str_id::NULL_ID() );
+                                i_clear( tripoint_bub_ms( 0, i, dat.zlevel() ) );
                             }
                             if( tw == 2 ) {
-                                ter_set( point( i, 0 ), tw_type );
-                                furn_set( point( i, 0 ), furn_str_id::NULL_ID() );
-                                i_clear( tripoint( i, 0, dat.zlevel() ) );
+                                ter_set( point_bub_ms( i, 0 ), tw_type );
+                                furn_set( point_bub_ms( i, 0 ), furn_str_id::NULL_ID() );
+                                i_clear( tripoint_bub_ms( i, 0, dat.zlevel() ) );
                             }
                         }
                         if( rw != 2 ) {
-                            ter_set( point( 23, 11 ), ter_t_door_metal_c );
-                            ter_set( point( 23, 12 ), ter_t_door_metal_c );
+                            ter_set( point_bub_ms( 23, 11 ), ter_t_door_metal_c );
+                            ter_set( point_bub_ms( 23, 12 ), ter_t_door_metal_c );
                         }
                         if( bw != 2 ) {
-                            ter_set( point( 11, 23 ), ter_t_door_metal_c );
-                            ter_set( point( 12, 23 ), ter_t_door_metal_c );
+                            ter_set( point_bub_ms( 11, 23 ), ter_t_door_metal_c );
+                            ter_set( point_bub_ms( 12, 23 ), ter_t_door_metal_c );
                         }
                     }
 
@@ -6329,7 +6329,7 @@ void map::draw_lab( mapgendata &dat )
             // Rotated maps cannot handle borders and have to be caught in code.
             // We determine if a border isn't handled by checking the east-facing
             // border space where the door normally is -- it should be a wall or door.
-            tripoint east_border( 23, 11, abs_sub.z() );
+            tripoint_bub_ms east_border( 23, 11, abs_sub.z() );
             if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
                 !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
@@ -6338,32 +6338,32 @@ void map::draw_lab( mapgendata &dat )
                 ter_str_id rw_type = tower_lab && rw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
                 ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
                 for( int i = 0; i < SEEX * 2; i++ ) {
-                    ter_set( point( 23, i ), rw_type );
-                    furn_set( point( 23, i ), furn_str_id::NULL_ID() );
-                    i_clear( tripoint( 23, i, dat.zlevel() ) );
+                    ter_set( point_bub_ms( 23, i ), rw_type );
+                    furn_set( point_bub_ms( 23, i ), furn_str_id::NULL_ID() );
+                    i_clear( tripoint_bub_ms( 23, i, dat.zlevel() ) );
 
-                    ter_set( point( i, 23 ), bw_type );
-                    furn_set( point( i, 23 ), furn_str_id::NULL_ID() );
-                    i_clear( tripoint( i, 23, dat.zlevel() ) );
+                    ter_set( point_bub_ms( i, 23 ), bw_type );
+                    furn_set( point_bub_ms( i, 23 ), furn_str_id::NULL_ID() );
+                    i_clear( tripoint_bub_ms( i, 23, dat.zlevel() ) );
 
                     if( lw == 2 ) {
-                        ter_set( point( 0, i ), lw_type );
-                        furn_set( point( 0, i ), furn_str_id::NULL_ID() );
-                        i_clear( tripoint( 0, i, dat.zlevel() ) );
+                        ter_set( point_bub_ms( 0, i ), lw_type );
+                        furn_set( point_bub_ms( 0, i ), furn_str_id::NULL_ID() );
+                        i_clear( tripoint_bub_ms( 0, i, dat.zlevel() ) );
                     }
                     if( tw == 2 ) {
-                        ter_set( point( i, 0 ), tw_type );
-                        furn_set( point( i, 0 ), furn_str_id::NULL_ID() );
-                        i_clear( tripoint( i, 0, dat.zlevel() ) );
+                        ter_set( point_bub_ms( i, 0 ), tw_type );
+                        furn_set( point_bub_ms( i, 0 ), furn_str_id::NULL_ID() );
+                        i_clear( tripoint_bub_ms( i, 0, dat.zlevel() ) );
                     }
                 }
                 if( rw != 2 ) {
-                    ter_set( point( 23, 11 ), ter_t_door_metal_c );
-                    ter_set( point( 23, 12 ), ter_t_door_metal_c );
+                    ter_set( point_bub_ms( 23, 11 ), ter_t_door_metal_c );
+                    ter_set( point_bub_ms( 23, 12 ), ter_t_door_metal_c );
                 }
                 if( bw != 2 ) {
-                    ter_set( point( 11, 23 ), ter_t_door_metal_c );
-                    ter_set( point( 12, 23 ), ter_t_door_metal_c );
+                    ter_set( point_bub_ms( 11, 23 ), ter_t_door_metal_c );
+                    ter_set( point_bub_ms( 12, 23 ), ter_t_door_metal_c );
                 }
             }
         } else { // then no json maps for lab_finale_1level were found
@@ -6768,7 +6768,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
     // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
     if( lootable &&
         !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
-        bash( p.raw(), 9999 );
+        bash( p, 9999 );
         for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {
                 spawn_item( loc, "glass_shard", rng( 1, 25 ) );

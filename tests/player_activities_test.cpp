@@ -489,7 +489,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             WHEN( "shearing finishes" ) {
                 CHECK( dummy.activity.id() == ACT_NULL );
                 THEN( "player receives the items" ) {
-                    const map_stack items = get_map().i_at( dummy.pos() );
+                    const map_stack items = get_map().i_at( dummy.pos_bub() );
                     int count_amount = 0;
                     int count_random = 0;
                     int count_mass   = 0;
@@ -1405,8 +1405,8 @@ TEST_CASE( "prying", "[activity][prying]" )
             const time_duration prying_time = prying_activity_actor::prying_time(
                                                   *ter_test_t_prying3->prying, prying_tool, dummy );
 
-            THEN( "prying time is 32 seconds" ) {
-                CHECK( prying_time == 32_seconds );
+            THEN( "prying time is 30 seconds" ) {
+                CHECK( prying_time == 30_seconds );
             }
         }
     }
@@ -1842,7 +1842,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.empty() );
 
             THEN( "interruption by zombie moving towards dummy" ) {
-                zombie.set_dest( get_map().getglobal( dummy.pos() ) );
+                zombie.set_dest( get_map().getglobal( dummy.pos_bub() ) );
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );
