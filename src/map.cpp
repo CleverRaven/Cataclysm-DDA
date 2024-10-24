@@ -2093,7 +2093,7 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 {
     std::map<tripoint_bub_ms, furn_id> tmp_override;
 
-    for( const auto element : override ) {
+    for( const auto &element : override ) {
         tmp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
@@ -2165,11 +2165,11 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
     std::map<tripoint_bub_ms, ter_id> temp_override;
     std::map<tripoint_bub_ms, furn_id> temp_override_f;
 
-    for( const auto element : override ) {
+    for( const auto &element : override ) {
         temp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
-    for( const auto element : override_f ) {
+    for( const auto &element : override_f ) {
         temp_override_f.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
