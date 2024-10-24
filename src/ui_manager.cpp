@@ -473,9 +473,9 @@ void ui_adaptor::redraw_invalidated( )
 
     // if any ImGui window needed to calculate the size of its contents,
     //  it needs an extra frame to draw. We do that here.
-    if( imclient->auto_size_frame_active() ) {
-        redraw_invalidated();
-    }
+    // if( imclient->auto_size_frame_active() ) {
+    //     redraw_invalidated();
+    // }
 }
 
 void ui_adaptor::screen_resized()
