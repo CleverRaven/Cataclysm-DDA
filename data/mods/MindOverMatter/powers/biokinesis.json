@@ -166,8 +166,8 @@
   {
     "id": "biokin_dash_real",
     "type": "SPELL",
-    "name": "[Ψ]Burst of Speed Real",
-    "description": "The actual effect that causes the burst of speed.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Burst of Speed Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the burst of speed.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "ally", "hostile" ],
@@ -465,8 +465,11 @@
   {
     "id": "biokin_sealed_remove_climate",
     "type": "SPELL",
-    "name": "[Ψ]Sealed System Cancel Temperature Adaptability",
-    "description": "The part of Sealed System that cancels Temperature Adaptability.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Sealed System Cancel Temperature Adaptability", "//~": "NO_I18N" },
+    "description": {
+      "str": "The part of Sealed System that cancels Temperature Adaptability.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -479,8 +482,8 @@
   {
     "id": "biokin_sealed_remove_breathe_skin",
     "type": "SPELL",
-    "name": "[Ψ]Sealed System Cancel Oxygen Absorption",
-    "description": "The part of Sealed System that cancels Oxygen Absorption.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Sealed System Cancel Oxygen Absorption", "//~": "NO_I18N" },
+    "description": { "str": "The part of Sealed System that cancels Oxygen Absorption.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -626,8 +629,11 @@
   {
     "id": "biokin_hurricane_blows_2",
     "type": "SPELL",
-    "name": "[Ψ]Hurricane Blows 2",
-    "description": "Makes sure the extra effects of Hurricane Blows last through the power's duration.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Hurricane Blows 2", "//~": "NO_I18N" },
+    "description": {
+      "str": "Makes sure the extra effects of Hurricane Blows last through the power's duration.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],

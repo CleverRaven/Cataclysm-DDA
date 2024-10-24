@@ -19,8 +19,8 @@
   {
     "id": "alien_meadow_roots_trigger_spell",
     "type": "SPELL",
-    "name": "Summon Alien Trap Enemies",
-    "description": "This spell summons hostile alien predators when the trap tree detects movement.",
+    "name": { "str": "Summon Alien Trap Enemies", "//~": "NO_I18N" },
+    "description": { "str": "This spell summons hostile alien predators when the trap tree detects movement.", "//~": "NO_I18N" },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ALIEN_TRAP_TREE_FIND_TREE",
     "shape": "blast",
