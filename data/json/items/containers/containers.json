@@ -467,7 +467,7 @@
     "category": "container",
     "name": { "str": "reinforced body bag" },
     "looks_like": "bag_canvas",
-    "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Originally intended to hold a dead body, this one has been modified for greater support along one of the ends for use transporting numerous smaller goods that distribute their mass differently.",
+    "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Originally intended to hold a dead body, this one has been modified for greater support along one of the ends for use transporting numerous smaller goods that distribute their mass differently.  This includes several additional plastic sheets layering the 'bottom' portion, as well as added fasteners and buttons along the length of the zipper.",
     "ascii_picture": "bag_body_bag",
     "weight": "1221 g",
     "volume": "5500 ml",
