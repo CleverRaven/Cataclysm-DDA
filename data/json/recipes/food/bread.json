@@ -227,6 +227,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "PBJ_Toast",
     "copy-from": "buttered_toast",
-    "components": [ [ [ "jam_fruit", 1 ] ], [ [ "butter", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ], [ [ "toast", 1 ] ] ]
+    "components": [
+      [ [ "jam_fruit", 1 ] ],
+      [ [ "butter", 1 ], [ "raw_butter", 1 ] ],
+      [ [ "any_peanutbutter", 1, "LIST" ] ],
+      [ [ "toast", 1 ] ]
+    ]
   }
 ]
