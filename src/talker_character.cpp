@@ -1169,8 +1169,8 @@ std::string talker_character_const::proficiency_training_text( const talker &stu
 
     const int cost = calc_proficiency_training_cost( *me_chr_const, *pupil, proficiency );
     const std::string name = proficiency->name();
-    const float pct_before = current_time / time_needed * 100;
-    const float pct_after = ( current_time + 15_minutes ) / time_needed * 100;
+    const float pct_before = current_time * 100.0f / time_needed;
+    const float pct_after = ( current_time + 15_minutes ) * 100.0f / time_needed;
     const std::string after_str = pct_after >= 100.0f ? pgettext( "NPC training: proficiency learned",
                                   "done" ) : string_format( "%2.0f%%", pct_after );
 

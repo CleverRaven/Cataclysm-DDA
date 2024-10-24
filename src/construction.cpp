@@ -80,6 +80,8 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 
 static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
+static const construction_category_id construction_category_DECONSTRUCT( "DECONSTRUCT" );
+static const construction_category_id construction_category_DECORATE( "DECORATE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
@@ -2556,40 +2558,69 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         total_builds[build.id] += count;
         std::string build_pre_ter = build.pre_terrain;
         while( !build_pre_ter.empty() ) {
-            for( const construction &pre_build : constructions ) {
-                if( pre_build.category == construction_category_REPAIR ) {
-                    continue;
-                }
-                if( ( pre_build.post_terrain.empty() ||
-                      ( !pre_build.post_is_furniture &&
-                        ter_id( pre_build.post_terrain ) != base_ter ) ) &&
-                    ( pre_build.pre_terrain.empty() ||
-                      ( pre_build.post_is_furniture &&
-                        ter_id( pre_build.pre_terrain ) == base_ter ) ) &&
-                    pre_build.post_terrain == build_pre_ter &&
-                    pre_build.pre_terrain != build.post_terrain ) {
-                    if( total_builds.find( pre_build.id ) == total_builds.end() ) {
-                        total_builds[pre_build.id] = 0;
+            bool found_pre = false;
+            // only consider DECORATE constructions if there's no other way to build the target
+            // this will allow painting walls, but will skip un-painting walls as a way to make a wall
+            for( bool allow_decorate : {
+                     false, true
+                 } ) {
+                for( const construction &pre_build : constructions ) {
+                    if( ( pre_build.category == construction_category_DECORATE ) != allow_decorate ) {
+                        continue;
                     }
-                    total_builds[pre_build.id] += count;
-                    build_pre_ter = pre_build.pre_terrain;
+                    if( pre_build.category == construction_category_REPAIR ) {
+                        continue;
+                    }
+                    if( ( pre_build.post_terrain.empty() ||
+                          ( !pre_build.post_is_furniture &&
+                            ter_id( pre_build.post_terrain ) != base_ter ) ) &&
+                        ( pre_build.pre_terrain.empty() ||
+                          ( pre_build.post_is_furniture &&
+                            ter_id( pre_build.pre_terrain ) == base_ter ) ) &&
+                        pre_build.post_terrain == build_pre_ter &&
+                        pre_build.pre_terrain != build.post_terrain ) {
+                        if( total_builds.find( pre_build.id ) == total_builds.end() ) {
+                            total_builds[pre_build.id] = 0;
+                        }
+                        total_builds[pre_build.id] += count;
+                        build_pre_ter = pre_build.pre_terrain;
+                        found_pre = true;
+                        break;
+                    }
+                }
+                if( found_pre ) {
                     break;
                 }
             }
-            break;
+            if( !found_pre ) {
+                break;
+            }
         }
     };
 
     // go through the list of terrains and add their constructions and any pre-constructions
     // to the map of total builds
     for( const auto &ter_data : changed_ids.first ) {
-        for( const construction &build : constructions ) {
-            if( build.post_terrain.empty() || build.post_is_furniture ||
-                build.category == construction_category_REPAIR ) {
-                continue;
+        bool found = false;
+        // only consider DECORATE constructions if there's no other way to build the target
+        // this will allow painting walls, but will skip un-painting walls as a way to make a wall
+        for( bool allow_decorate : {
+                 false, true
+             } ) {
+            for( const construction &build : constructions ) {
+                if( build.post_terrain.empty() || build.post_is_furniture ||
+                    build.category == construction_category_REPAIR ||
+                    build.category == construction_category_DECONSTRUCT ||
+                    ( build.category == construction_category_DECORATE ) != allow_decorate ) {
+                    continue;
+                }
+                if( ter_id( build.post_terrain ) == ter_data.first ) {
+                    add_builds( build, ter_data.second );
+                    found = true;
+                    break;
+                }
             }
-            if( ter_id( build.post_terrain ) == ter_data.first ) {
-                add_builds( build, ter_data.second );
+            if( found ) {
                 break;
             }
         }

@@ -130,7 +130,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
             for( int p : wheel_indices ) {
                 const tripoint_bub_ms wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
                 const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-                mc += str_req / wheel_indices.size() * mapcost;
+                mc += str_req * mapcost / wheel_indices.size();
             }
             //set strength check threshold
             //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
