@@ -1086,7 +1086,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 if( vpi.has_flag( "SHARP" ) ) {
                     vp.blood += 100 + 5 * dam;
                 } else if( dam > rng( 10, 30 ) ) {
-                    vp.blood += 50 + dam / 2 * 5;
+                    vp.blood += 50 + dam * 5 / 2;
                 }
 
                 check_environmental_effects = true;
@@ -1340,7 +1340,7 @@ bool vehicle::check_is_heli_landed()
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
     if( global_pos3().z == 0 ||
-        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, global_pos3() ) ) {
+        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub() ) ) {
         is_flying = false;
         return true;
     }

@@ -12,6 +12,7 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "mtype.h"
 #include "enums.h"
@@ -586,7 +587,7 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
             case scope_mod: {
                 const mod_id target_mod_id( filter_str );
                 for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( spellIt->get_src() == target_mod_id
+                    if( get_mod_base_id_from_src( spellIt->get_src() ) == target_mod_id
                         && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
                       ) {
@@ -962,10 +963,23 @@ std::function<double( dialogue & )> pain_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> pain_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
-        d.actor( beta )->set_pain( val );
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), format_value]( dialogue const & d, double val ) {
+
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            d.actor( beta )->mod_pain( val );
+        } else if( format == "raw" ) {
+            d.actor( beta )->set_pain( val );
+        } else {
+            debugmsg( R"(Unknown assigning type "%s" for pain())", format );
+        }
     };
 }
 
@@ -1672,7 +1686,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
             if( d.actor( beta )->get_character() ) {
                 return d.actor( beta )->get_stored_kcal();
             }
-            item_location *it = d.actor( beta )->get_item();
+            item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
             if( it && *it ) {
                 npc dummy;
                 return dummy.compute_effective_nutrients( *it->get_item() ).kcal();
@@ -1695,6 +1709,38 @@ std::function<void( dialogue &, double )> calories_ass( char scope,
         int current_kcal = d.actor( beta )->get_stored_kcal();
         int difference = val - current_kcal;
         return d.actor( beta )->mod_stored_kcal( difference, ignore_weariness );
+    };
+}
+
+std::function<double( dialogue & )> weight_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() || d.actor( beta )->get_monster() ) {
+            return d.actor( beta )->get_weight();
+        }
+        item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
+        if( it && *it ) {
+            return static_cast<int>( to_milligram( it->get_item()->weight() ) );
+        }
+        debugmsg( "For weight(), talker is not character nor item" );
+        return 0;
+    };
+}
+
+std::function<double( dialogue & )> volume_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() || d.actor( beta )->get_monster() ) {
+            return d.actor( beta )->get_volume();
+        }
+        item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
+        if( it && *it ) {
+            return to_milliliter( it->get_item()->volume() );
+        }
+        debugmsg( "For volume(), talker is not character nor item" );
+        return 0;
     };
 }
 
@@ -1879,6 +1925,8 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "calories", { "un", 0, calories_eval } },
+    { "weight", { "un", 0, weight_eval } },
+    { "volume", { "un", 0, volume_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
     { "climate_control_str_heat", { "un", 0, climate_control_str_heat_eval } },

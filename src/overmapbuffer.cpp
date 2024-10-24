@@ -1534,7 +1534,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
-        return ter_name;
+        return ter_name + "\n" + get_origin( oter->get_type_id()->src );
     }
 
     const struct city &closest_city = *closest_cref.city;
@@ -1572,12 +1572,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         }
     }
 
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( oter->get_type_id().obj().src,
-    []( const std::pair<oter_type_str_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    format_string += "\n" + string_format( _( "Origin: %s" ), mod_src );
+    format_string += "\n" + get_origin( oter->get_type_id()->src );
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
@@ -1685,6 +1680,15 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
         }
     }
     return true;
+}
+
+bool overmapbuffer::is_in_city( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_pos;
+    tripoint_om_omt potential_city_tile;
+    std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( p );
+    overmap &target_overmap = get( overmap_pos );
+    return target_overmap.is_in_city( potential_city_tile );
 }
 
 std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(

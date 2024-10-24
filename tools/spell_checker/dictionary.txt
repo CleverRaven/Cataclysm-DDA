@@ -1789,6 +1789,8 @@ EOCs
 EOD
 eolocanth
 eolocanths
+eolambia
+eolambias
 eoraptor
 eoraptors
 EPA
@@ -3414,6 +3416,8 @@ Likvidator
 Likvidators
 lil
 Lila
+lilin
+Lilit
 lilypad
 Lima
 limbed
@@ -5202,6 +5206,7 @@ RPK
 RTG
 RTGs
 Ru
+ruach
 Rubaiyat
 rubbles
 Rubik

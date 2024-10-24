@@ -586,6 +586,9 @@ class Character : public Creature, public visitable
 
         const profession *prof;
         std::set<const profession *> hobbies;
+        void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
+
 
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint_rel_ms grab_point;
@@ -739,11 +742,13 @@ class Character : public Creature, public visitable
         /** Recalculate size class of character **/
         void recalculate_size();
 
-        /** Returns either "you" or the player's name. capitalize_first assumes
-            that the character's name is already upper case and uses it only for
-            possessive "your" and "you"
+        /** Displays character name with a npc_class/profession suffix
         **/
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        /** Returns the player's profession or an NPC's suffix if they have one
+        * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
+        **/
+        std::string disp_profession() const;
         virtual std::string name_and_maybe_activity() const;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
@@ -773,6 +778,7 @@ class Character : public Creature, public visitable
 
         //returns character's profession
         const profession *get_profession() const;
+        void add_profession_items();
         //returns the hobbies
         std::set<const profession *> get_hobbies() const;
 
@@ -1112,8 +1118,6 @@ class Character : public Creature, public visitable
         int blocks_left;
 
         double recoil = MAX_RECOIL;
-
-        std::string custom_profession;
 
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
@@ -2421,6 +2425,9 @@ class Character : public Creature, public visitable
         std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
 
         // --------------- Skill Stuff ---------------
+
+        //sets all skills to 0 so that they're guaranteed to be in the map
+        void zero_all_skills();
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
@@ -2702,6 +2709,11 @@ class Character : public Creature, public visitable
         std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
         std::optional<std::string> play_name;
+        // In-game name suffix, either a profession or npc class, variable
+        std::optional<std::string> play_name_suffix;
+        // In-game customized suffix, set by player OR temp professison for NPC
+        std::string custom_profession;
+
         bool male = false;
 
         std::vector<effect_on_condition_id> death_eocs;
@@ -2759,7 +2771,8 @@ class Character : public Creature, public visitable
 
         int avg_nat_bpm;
         void randomize_heartrate();
-
+        void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }

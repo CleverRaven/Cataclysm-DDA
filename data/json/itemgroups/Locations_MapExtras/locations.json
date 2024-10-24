@@ -1142,7 +1142,8 @@
       { "item": "dao", "prob": 3, "damage": [ 2, 4 ] },
       { "item": "sword_xiphos", "prob": 4, "damage": [ 2, 4 ] },
       { "item": "khopesh", "prob": 4, "damage": [ 2, 4 ] },
-      { "item": "spear_dory", "prob": 3, "damage": [ 2, 4 ] }
+      { "item": "spear_dory", "prob": 3, "damage": [ 2, 4 ] },
+      { "item": "pike_bronze", "prob": 3, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -2358,7 +2359,6 @@
     "type": "item_group",
     "id": "vault",
     "items": [
-      { "group": "schematics", "prob": 5 },
       { "item": "money_strap_ten", "prob": 50, "count": [ 1, 9 ] },
       { "item": "money_strap_twenty", "prob": 50, "count": [ 1, 9 ] },
       { "item": "money_strap_fifty", "prob": 50, "count": [ 1, 9 ] },
@@ -2371,8 +2371,6 @@
       { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
       { "item": "money_bundle_hundred", "prob": 10, "count": [ 1, 2 ] },
       { "group": "coins", "prob": 2, "count": [ 1, 10 ] },
-      [ "recipe_caseless", 5 ],
-      [ "recipe_labchem", 5 ],
       [ "file", 20 ],
       [ "platinum_small", 10 ],
       [ "gold_small", 10 ],
@@ -2381,7 +2379,6 @@
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],
       [ "platinum_watch", 1 ],
-      [ "survnote", 3 ],
       [ "gold_ring", 10 ],
       [ "diamond_ring", 10 ],
       [ "gold_bracelet", 12 ],
@@ -2400,8 +2397,6 @@
       [ "crown_golden", 5 ],
       [ "diamond_dental_grill", 5 ],
       [ "gold_dental_grill", 5 ],
-      [ "standard_template_construct", 4 ],
-      [ "standard_template_construct_combat_exoskeleton", 4 ],
       [ "briefcase", 4 ],
       [ "small_relic", 3 ],
       [ "holy_symbol", 3 ],

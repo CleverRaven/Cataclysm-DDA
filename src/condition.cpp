@@ -91,12 +91,16 @@ static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHO
 namespace
 {
 struct deferred_math {
+    JsonObject jo;
     std::string str;
     bool assignment;
     std::shared_ptr<math_exp> exp;
 
-    deferred_math( std::string_view str_, bool ass_ ) : str( str_ ), assignment( ass_ ),
-        exp( std::make_shared<math_exp>() ) {}
+    deferred_math( JsonObject const &jo_, std::string_view str_, bool ass_ )
+        : jo( jo_ ), str( str_ ), assignment( ass_ ), exp( std::make_shared<math_exp>() ) {
+
+        jo.allow_omitted_members();
+    }
 };
 
 struct condition_parser {
@@ -146,9 +150,9 @@ std::queue<deferred_math> &get_deferred_math()
     return dfr_math;
 }
 
-std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
+std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view str, bool ass )
 {
-    get_deferred_math().emplace( str, ass );
+    get_deferred_math().emplace( jo, str, ass );
     return get_deferred_math().back().exp;
 }
 
@@ -574,7 +578,11 @@ void finalize_conditions()
     std::queue<deferred_math> &dfr = get_deferred_math();
     while( !dfr.empty() ) {
         deferred_math &math = dfr.front();
-        math.exp->parse( math.str, math.assignment );
+        try {
+            math.exp->parse( math.str, math.assignment, false );
+        } catch( std::invalid_argument const &ex ) {
+            math.jo.throw_error_at( "math", ex.what() );
+        }
         dfr.pop();
     }
 }
@@ -1558,11 +1566,22 @@ conditional_t::func f_has_weapon( bool is_npc )
     };
 }
 
+conditional_t::func f_is_controlling_vehicle( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos() ) ) {
+            return actor->is_in_control_of( vp->vehicle() );
+        }
+        return false;
+    };
+}
+
 conditional_t::func f_is_driving( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
-        if( const optional_vpart_position vp = get_map().veh_at( actor->pos() ) ) {
+        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos() ) ) {
             return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -1741,10 +1760,15 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
 {
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [target]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
-        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
-        return c && c.get_distance_from_bounds() <= 0;
+        tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
+                                          target.evaluate( d ) ) ) );
+
+        // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
+        if( target_pos.z() < -1 ) {
+            return false;
+        }
+
+        return overmap_buffer.is_in_city( target_pos );
     };
 }
 
@@ -2210,8 +2234,6 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "strength_bonus", &talker::get_str_bonus },
     { "strength", &talker::str_cur },
     { "thirst", &talker::get_thirst },
-    { "volume", &talker::get_volume },
-    { "weight", &talker::get_weight },
     { "count", &talker::get_count }
 };
 } // namespace
@@ -2402,7 +2424,7 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t 
             return;
         }
     } else if( objects.size() == 3 ) {
-        rhs = defer_math( objects.get_string( 2 ), false );
+        rhs = defer_math( jo, objects.get_string( 2 ), false );
         if( oper == "=" ) {
             action = oper::assign;
         } else if( oper == "+=" ) {
@@ -2434,9 +2456,9 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t 
     }
     _validate_type( objects, type_ );
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
-    lhs = defer_math( objects.get_string( 0 ), lhs_assign );
+    lhs = defer_math( jo, objects.get_string( 0 ), lhs_assign );
     if( action >= oper::plus_assign && action <= oper::decrease ) {
-        mhs = defer_math( objects.get_string( 0 ), false );
+        mhs = defer_math( jo, objects.get_string( 0 ), false );
     }
 }
 
@@ -2611,6 +2633,7 @@ parsers_simple = {
     {"u_can_stow_weapon", "npc_can_stow_weapon", &conditional_fun::f_can_stow_weapon },
     {"u_can_drop_weapon", "npc_can_drop_weapon", &conditional_fun::f_can_drop_weapon },
     {"u_has_weapon", "npc_has_weapon", &conditional_fun::f_has_weapon },
+    {"u_controlling_vehicle", "npc_controlling_vehicle", &conditional_fun::f_is_controlling_vehicle },
     {"u_driving", "npc_driving", &conditional_fun::f_is_driving },
     {"u_has_activity", "npc_has_activity", &conditional_fun::f_has_activity },
     {"u_is_riding", "npc_is_riding", &conditional_fun::f_is_riding },

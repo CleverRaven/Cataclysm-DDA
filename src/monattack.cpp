@@ -319,11 +319,11 @@ bool mattack::eat_crop( monster *z )
             target = p;
         }
         if( target ) {
-            if( z->amount_eaten <= z->stomach_size ) {
+            if( !z->has_fully_eaten() ) {
                 add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.furnname( p ) );
                 here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
                 here.i_clear( *target );
-                z->amount_eaten += 350;
+                z->mod_amount_eaten( 350 );
                 return true;
             }
         }
@@ -337,18 +337,18 @@ bool mattack::eat_crop( monster *z )
                 !item.has_flag( flag_CATTLE ) ) {
                 continue;
             }
-            if( z->amount_eaten <= z->stomach_size ) {
+            if( !z->has_fully_eaten() ) {
                 //Check for stomach size 0 so as to not break creatures which haven't
                 //been given a stomach size yet.
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     int kcal = item.get_comestible()->default_nutrition.kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
                     int kcal = item.get_comestible()->default_nutrition.kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -394,7 +394,7 @@ bool mattack::absorb_items( monster *z )
     std::vector<material_id> absorb_material = z->get_absorb_material();
     std::vector<material_id> no_absorb_material = z->get_no_absorb_material();
 
-    for( item &elem : here.i_at( z->pos() ) ) {
+    for( item &elem : here.i_at( z->pos_bub() ) ) {
         bool any_materials_match = false;
 
         // there is no whitelist or blacklist so allow anything.
@@ -492,16 +492,16 @@ bool mattack::eat_food( monster *z )
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_type.baby_egg != item.type->get_id() && ( z->amount_eaten <= z->stomach_size ) ) {
+            if( z->type->baby_type.baby_egg != item.type->get_id() && ( !z->has_fully_eaten() ) ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     int kcal = item.get_comestible()->default_nutrition.kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
                     int kcal = item.get_comestible()->default_nutrition.kcal();
-                    z->amount_eaten += kcal;
+                    z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -524,14 +524,14 @@ bool mattack::eat_carrion( monster *z )
         for( item &item : items ) {
             //TODO: Completely eaten corpses should leave bones and other inedibles.
             if( item.has_flag( flag_CORPSE ) && item.damage() < item.max_damage() &&
-                z->amount_eaten < z->stomach_size &&
+                !z->has_fully_eaten() &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
                 item.mod_damage( 700 );
                 if( item.damage() >= item.max_damage() && item.can_revive() ) {
                     item.set_flag( flag_PULPED );
                 }
-                z->amount_eaten += 100;
+                z->mod_amount_eaten( 100 );
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
                 return true;
             }
@@ -551,24 +551,24 @@ bool mattack::graze( monster *z )
         }
         if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
             !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
-            ( z->amount_eaten <= z->stomach_size ) ) {
+            ( !z->has_fully_eaten() ) ) {
             here.furn_set( p, furn_str_id::NULL_ID() );
-            z->amount_eaten += 50;
+            z->mod_amount_eaten( 50 );
             //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
             return true;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) &&
             !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
-            ( z->amount_eaten <= z->stomach_size ) ) {
+            ( !z->has_fully_eaten() ) ) {
             add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.tername( p ) );
             here.ter_set( p, ter_t_dirt );
-            z->amount_eaten += 174;
+            z->mod_amount_eaten( 174 );
             //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
             return true;
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && z->amount_eaten < z->stomach_size ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && !z->has_fully_eaten() ) {
             here.ter_set( p, here.get_ter_transforms_into( p ) );
-            z->amount_eaten += 70;
+            z->mod_amount_eaten( 70 );
             //Calorie amount is based on the "grass" dummy item, as with the grazer mutation.
             return true;
         }
@@ -585,12 +585,12 @@ bool mattack::browse( monster *z )
         if( z->friendly && rl_dist( get_player_character().pos_bub(), p ) <= 2 ) {
             continue;
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && ( z->amount_eaten <= z->stomach_size ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && ( !z->has_fully_eaten() ) ) {
             const harvest_id harvest = here.get_harvest( p );
             if( !harvest.is_null() || !harvest->empty() ) {
                 add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
                 here.ter_set( p, here.get_ter_transforms_into( p ) );
-                z->amount_eaten += 174;
+                z->mod_amount_eaten( 174 );
                 //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
                 return true;
             }
@@ -836,9 +836,9 @@ bool mattack::shockstorm( monster *z )
     bool seen = player_character.sees( *z );
     map &here = get_map();
 
-    bool can_attack = z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12;
-    std::vector<tripoint> path = here.find_clear_path( z->pos(), target->pos() );
-    for( const tripoint &point : path ) {
+    bool can_attack = z->sees( *target ) && rl_dist( z->pos_bub(), target->pos_bub() ) <= 12;
+    std::vector<tripoint_bub_ms> path = here.find_clear_path( z->pos_bub(), target->pos_bub() );
+    for( const tripoint_bub_ms &point : path ) {
         if( here.impassable( point ) &&
             !( here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, point ) ||
                here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, point ) ) ) {
@@ -2416,15 +2416,15 @@ bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
     Character *target = nullptr;
-    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
+    tripoint_bub_ms tmp_pos( z->pos_bub() + point( 12, 12 ) );
     map &here = get_map();
     for( Creature *critter : here.get_creatures_in_radius( z->pos_bub(), 6 ) ) {
         Character *tmp_player = dynamic_cast<Character *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
-            here.clear_path( z->pos(), tmp_player->pos(), 10, 0,
+            here.clear_path( z->pos_bub(), tmp_player->pos_bub(), 10, 0,
                              100 ) ) { // no need to scan players we can't reach
-            if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
-                tmp_pos = tmp_player->pos();
+            if( rl_dist( z->pos_bub(), tmp_player->pos_bub() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
+                tmp_pos = tmp_player->pos_bub();
                 target = tmp_player;
                 found_target = true;
             }
@@ -2469,14 +2469,14 @@ bool mattack::nurse_assist( monster *z )
     bool found_target = false;
     Character *target = nullptr;
     map &here = get_map();
-    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
+    tripoint_bub_ms tmp_pos( z->pos_bub() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos_bub(), 6 ) ) {
         Character *tmp_player = dynamic_cast<Character *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
-            here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
-            if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
-                tmp_pos = tmp_player->pos();
+            here.clear_path( z->pos_bub(), tmp_player->pos_bub(), 10, 0, 100 ) ) {
+            if( rl_dist( z->pos_bub(), tmp_player->pos_bub() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
+                tmp_pos = tmp_player->pos_bub();
                 target = tmp_player;
                 found_target = true;
             }
@@ -2524,15 +2524,15 @@ bool mattack::nurse_operate( monster *z )
     bool found_target = false;
     Character *target = nullptr;
     map &here = get_map();
-    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
+    tripoint_bub_ms tmp_pos( z->pos_bub() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos_bub(), 6 ) ) {
         Character *tmp_player = dynamic_cast< Character *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
-            here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
+            here.clear_path( z->pos_bub(), tmp_player->pos_bub(), 10, 0, 100 ) ) {
             if( tmp_player->has_any_bionic() ) {
-                if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
-                    tmp_pos = tmp_player->pos();
+                if( rl_dist( z->pos_bub(), tmp_player->pos_bub() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
+                    tmp_pos = tmp_player->pos_bub();
                     target = tmp_player;
                     found_target = true;
                 }
