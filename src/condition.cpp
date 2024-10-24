@@ -1760,10 +1760,15 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
 {
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [target]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
-        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
-        return c && c.get_distance_from_bounds() <= 0;
+        tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
+                                          target.evaluate( d ) ) ) );
+
+        // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
+        if( target_pos.z() < -1 ) {
+            return false;
+        }
+
+        return overmap_buffer.is_in_city( target_pos );
     };
 }
 
