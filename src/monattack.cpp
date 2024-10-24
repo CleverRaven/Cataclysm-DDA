@@ -342,12 +342,12 @@ bool mattack::eat_crop( monster *z )
                 //been given a stomach size yet.
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    int kcal = default_character_compute_effective_nutrients( item ).kcal();
                     z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    int kcal = default_character_compute_effective_nutrients( item ).kcal();
                     z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
@@ -495,12 +495,12 @@ bool mattack::eat_food( monster *z )
             if( z->type->baby_type.baby_egg != item.type->get_id() && ( !z->has_fully_eaten() ) ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    int kcal = default_character_compute_effective_nutrients( item ).kcal();
                     z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    int kcal = default_character_compute_effective_nutrients( item ).kcal();
                     z->mod_amount_eaten( kcal );
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );

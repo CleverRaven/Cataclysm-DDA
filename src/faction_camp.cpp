@@ -5793,7 +5793,7 @@ bool basecamp::distribute_food( bool player_command )
         if( it.rotten() ) {
             return false;
         }
-        nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
+        nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();
         // Do this multiplication separately to make sure we're using the *= operator with double argument..
         from_it *= rot_multip( it, container );
         // Can distribute COMESTIBLE type items with 0kcal, if they have vitamins and player selected option to do so
