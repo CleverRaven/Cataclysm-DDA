@@ -4,6 +4,7 @@
 # creates ImGui glyph ranges for each locale, so that every locale can
 # have properly rendered text.
 
+import itertools
 import sys
 from cldr_language_helpers import alphabets
 
@@ -14,6 +15,28 @@ def main():
           "el es fr hu id is it ja ko nb nl pl pt ru sr tr uk_UA zh_Hans "
           "zh_Hant > src/cldr/imgui-glyph-ranges.cpp\n")
     print("// NOLINTBEGIN(cata-static-declarations,readability-function-size)")
+    print("")
+    print("#if defined(__GNUC__) or defined(__clang__)")
+    print("#define NOINLINE __attribute__ ((noinline))")
+    print("#else")
+    print("#define NOINLINE __declspec(noinline)")
+    print("#endif")
+    print("#if defined(__clang__)")
+    print("#define NOUNROLL _Pragma(\"clang loop unroll(disable)\")")
+    print("#elif defined(__GNUC__)")
+    print("#define NOUNROLL #pragma GCC unroll 0")
+    print("#else")
+    print("#define NOUNROLL")
+    print("#endif")
+    print("")
+    print("static NOINLINE void AddGlyphs( ImFontGlyphRangesBuilder *b, "
+          "ImWchar const *glyphp, ImWchar const *end) {")
+    print("  NOUNROLL")
+    print("  for( ; glyphp != end; ++glyphp ) {")
+    print("    b->AddChar(*glyphp);")
+    print("  }")
+    print("}")
+    print("")
     try:
         for language in sys.argv[1:]:
             print_func(language)
@@ -25,22 +48,39 @@ def main():
         return 1
 
 
+def chunks(xs, n):
+    n = max(1, n)
+    return (xs[i:i + n] for i in range(0, len(xs), n))
+
+
 def print_func(language):
     print(f"static void AddGlyphRangesFromCLDRFor{language.upper()}("
-          "ImFontGlyphRangesBuilder *b) {{")
-    print('\n'.join([print_add_char(c)
-                     for c in alphabets.ALPHABETS_BY_LANG_MAP[language]]))
-    print('\n'.join([print_add_char(c.upper())
-                     for c in alphabets.ALPHABETS_BY_LANG_MAP[language]]))
-    print('\n'.join([print_add_char(c)
-                     for c in alphabets.NUMBERS_BY_LANG_MAP[language]]))
-    print('\n'.join([print_add_char(c)
-                     for c in alphabets.PUNCTUATION_BY_LANG_MAP[language]]))
-    print("}\n")
+          "ImFontGlyphRangesBuilder *b) {")
+    # All of the glyphs used this language
+    chars = []
+    for c in alphabets.ALPHABETS_BY_LANG_MAP[language]:
+        for g in c:
+            chars.append(ord(g))
+    for c in alphabets.ALPHABETS_BY_LANG_MAP[language]:
+        for g in c.upper():
+            chars.append(ord(g))
+    for c in alphabets.NUMBERS_BY_LANG_MAP[language]:
+        for g in c:
+            chars.append(ord(g))
+    for c in alphabets.PUNCTUATION_BY_LANG_MAP[language]:
+        for g in c:
+            chars.append(ord(g))
+    # Sort and remove duplicates, so we can detect sequences
+    chars = [hex(c) for c in sorted(list(set(chars)))]
 
-
-def print_add_char(c):
-    return '\n'.join([f"b->AddChar({hex(ord(c))});" for c in c])
+    print("  static constexpr ImWchar glyphs[] = {")
+    char_chunks = list(chunks(chars, 16))
+    for cs in itertools.islice(char_chunks, len(char_chunks) - 1):
+        print(", ".join(cs) + ",")
+    print(", ".join(char_chunks[-1]))
+    print("  };")
+    print("  AddGlyphs(b, glyphs, glyphs + std::extent_v<decltype(glyphs)>);")
+    print("}")
 
 
 if __name__ == '__main__':
