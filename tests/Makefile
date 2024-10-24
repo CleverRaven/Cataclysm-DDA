@@ -56,6 +56,13 @@ tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)
+ifeq ($(SPLIT_DEBUG), 1)
+  ifneq ($(NATIVE), osx)
+    ifneq ($(LTO), 1)
+	cd .. && dwp --exec tests/$(TEST_TARGET) -o tests/$(TEST_TARGET).dwp
+    endif
+  endif
+endif
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
@@ -84,7 +91,7 @@ $(shell mkdir -p $(ODIR))
 
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(CXX_OFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
 $(ODIR)/%.inc: %.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
