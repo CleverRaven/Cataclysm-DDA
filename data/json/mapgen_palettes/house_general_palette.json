@@ -345,21 +345,6 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_carpet_palette_nest",
-    "//": "Use to randomly assign carpet colors (for use in carpets that only occur in nested mapgen)",
-    "parameters": {
-      "carpet_color_type": {
-        "type": "ter_str_id",
-        "scope": "nest",
-        "default": {
-          "distribution": [ [ "t_carpet_red", 1 ], [ "t_carpet_green", 1 ], [ "t_carpet_purple", 1 ], [ "t_carpet_yellow", 1 ] ]
-        }
-      }
-    },
-    "terrain": { "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" } }
-  },
-  {
-    "type": "palette",
     "id": "standard_domestic_lino_kitchen",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray/white linoleum flooring under kitchen furniture",
     "parameters": {
