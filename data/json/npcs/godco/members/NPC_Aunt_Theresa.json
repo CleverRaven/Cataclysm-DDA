@@ -84,7 +84,7 @@
         "topic": "TALK_GODCO_Theresa_Anger"
       },
       {
-        "text": "I'm afraid I can't talk right now.",
+        "text": "<end_talking_leave>",
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
@@ -114,7 +114,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_Firstmeet",
     "dynamic_line": "It is nice to meet you as well.  I reckon you got some questions about our group.",
-    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -157,7 +157,7 @@
         "effect": [ { "u_spawn_item": "quilt" } ],
         "topic": "TALK_GODCO_Theresa_Knit_Done"
       },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -166,7 +166,7 @@
     "dynamic_line": "We're doing better than most, to put it mildly.  There's a reason for that, as for everything.  Say, have I told you about my husband?  I'm sorry if I already have, my memory's not what it used to be.",
     "responses": [
       { "text": "Tell me about your husband.", "topic": "TALK_GODCO_Theresa_Husband" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -176,7 +176,7 @@
     "responses": [
       { "text": "So, he founded the community?", "topic": "TALK_GODCO_Theresa_Community" },
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Theresa_Vision" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -185,7 +185,7 @@
     "dynamic_line": "That's right.  He wanted something to return for the guidance he received when he was at the lowest point of his life.  He created a charity group which, over the years, became what's now known as the New England Church Community.  He lead them for many decades, until his death a few years before his prophecy was fulfilled.  Now, our niece Helena leads the community.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Theresa_Vision" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,20 +194,20 @@
     "dynamic_line": "He was a man of many secrets.  It would've been too personal to share, I'm afraid.  On the other hand, there was a prophecy he was quite vocal about.  In a way, he predicted <the_cataclysm> long before the first warning signs appeared.  Thanks to him, we had the foresight to prepare.  Oh what a great man he was…",
     "responses": [
       { "text": "So, he founded the community?", "topic": "TALK_GODCO_Theresa_Community" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_Story",
     "dynamic_line": "Oh you don't have the time for that, do you now?  It's a long, long tale, thank goodness.  I'm grateful, for I was blessed with a full life.",
-    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_Help",
     "dynamic_line": "That's very sweet of you <granny_name_g>, but there's nothing I could possibly want from this mortal world.  My life is now complete, I believe.",
-    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -215,7 +215,7 @@
     "dynamic_line": "Yes, I knit and sew in my spare time.  Its' helped keep my hands in good shape over the years.",
     "responses": [
       { "text": "Could you make something for me?", "topic": "TALK_GODCO_Theresa_Knit_Something" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -255,7 +255,7 @@
       },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Theresa_Knit_Time" },
       { "text": "I've changed my mind.  How're you feeling?", "topic": "TALK_GODCO_Theresa_2" },
-      { "text": "I've changed my mind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -276,7 +276,7 @@
     "dynamic_line": "I've grown tired, <granny_name_g>.  I haven't left here since we came, and things outside are getting worse each day.  All my old aches and pains have come back too; I can't see too good, and my muscles are always sore.  I don't like where my niece is going either; she's ever more fanatical, and taking my dear husband's prophecy to the extreme.  I'm content with my life, though.  I've lived long and prospered by the grace of the Lord.",
     "responses": [
       { "text": "Is there anything I can do to help?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
