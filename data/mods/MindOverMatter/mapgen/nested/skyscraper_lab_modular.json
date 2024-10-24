@@ -169,7 +169,7 @@
         "dxdx&..y"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "phavian_skyscraper_office_room_palette", "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         "t": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -208,7 +208,7 @@
         "y..&xdxd"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "phavian_skyscraper_office_room_palette", "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         "t": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -1677,7 +1677,7 @@
         ".t.?",
         "y..?"
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette", "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": {
         "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -1711,7 +1711,7 @@
         ".mtm",
         "...."
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette", "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": {
         "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -1744,7 +1744,7 @@
         "...?",
         ".???"
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette", "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": {
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -1776,7 +1776,7 @@
         ".mm.",
         "...."
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette", "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": {
         "t": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },

@@ -91,7 +91,7 @@
         "  BB  ",
         "E    T"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -125,7 +125,7 @@
         "   h  ",
         "C    T"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -184,7 +184,7 @@
         "  BB  ",
         "E    T"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",

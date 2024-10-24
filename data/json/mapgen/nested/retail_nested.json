@@ -90,7 +90,7 @@
         "  A      ",
         "  VVV    "
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -225,7 +225,7 @@
         "  A A    ",
         "y MMMM  y"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_linoleum_white",
         "G": "t_linoleum_white",
@@ -304,7 +304,7 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "G": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -376,7 +376,7 @@
         "MMMM?M   ",
         "Y   S   Y"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "B": "t_floor",
@@ -452,7 +452,7 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "palettes": [ "standard_domestic_carpet_palette_nest" ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "G": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
