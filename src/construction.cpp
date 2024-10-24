@@ -1720,14 +1720,14 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     here.add_vehicle_to_cache( veh );
 }
 
-void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
+void construct::done_wiring( const tripoint_bub_ms &p, Character &who )
 {
     get_map().partial_con_remove( p );
 
-    place_appliance( p, vpart_from_item( itype_wall_wiring ) );
+    place_appliance( p, vpart_from_item( itype_wall_wiring ), who );
 }
 
-void construct::done_appliance( const tripoint_bub_ms &p, Character & )
+void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
 {
     map &here = get_map();
 
@@ -1748,7 +1748,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
-    place_appliance( p, vpart, base );
+    place_appliance( p, vpart, who, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
