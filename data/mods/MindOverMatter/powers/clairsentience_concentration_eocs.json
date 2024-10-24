@@ -48,8 +48,7 @@
     "condition": { "u_has_effect": "effect_clair_night_eyes" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -112,8 +111,7 @@
     "condition": { "u_has_effect": "effect_clair_speed_reader" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -172,8 +170,7 @@
     "condition": { "u_has_effect": "effect_clair_see_auras" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -232,8 +229,7 @@
     "condition": { "u_has_effect": "effect_clair_premonition" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -259,7 +255,10 @@
     "id": "EOC_CLAIR_RANGED_ENHANCE_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_clair_ranged_enhance" } },
     "effect": [
-      { "u_message": "Distances seem to narrow and your enemies' movements seem to slow.", "type": "good" },
+      {
+        "u_message": "Distances seem to narrow and your enemies' movements seem to slow as their vulnerabilities are laid bare.",
+        "type": "good"
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_ranged_enhance", "duration": "PERMANENT" },
       {
@@ -292,8 +291,7 @@
     "condition": { "u_has_effect": "effect_clair_ranged_enhance" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -352,8 +350,7 @@
     "condition": { "u_has_effect": "effect_clair_dodge" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -436,8 +433,7 @@
     "condition": { "u_has_effect": "effect_clair_craft_bonus" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -496,8 +492,7 @@
     "condition": { "u_has_effect": "effect_clair_clear_sight" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "8" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(8)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -562,8 +557,7 @@
     "condition": { "u_has_effect": "effect_clair_group_tactics_self" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "9" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(9)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

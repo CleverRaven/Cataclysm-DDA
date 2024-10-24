@@ -75,7 +75,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( get_player_view().sees( source->pos() ) ) {
+    if( get_player_view().sees( source->pos_bub() ) ) {
         const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
@@ -139,7 +139,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         projectile_attack( prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( get_player_view().sees( m.pos() ) ) {
+    if( get_player_view().sees( m.pos_bub() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }

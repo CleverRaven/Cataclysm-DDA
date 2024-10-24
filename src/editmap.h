@@ -58,6 +58,7 @@ class editmap
         template<typename T_t>
         void edit_feature();
         void edit_fld();
+        void edit_rads() const;
         void edit_itm();
         void edit_critter( Creature &critter );
         void edit_mapgen();

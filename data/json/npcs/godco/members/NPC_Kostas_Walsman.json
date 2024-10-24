@@ -319,7 +319,7 @@
     "dynamic_line": "You think you're so tough <name_b>?  I'm not taking Jeremiah on, certainly not when his representitive is so barbaric.  I don't know how he got such a violent individual like yourself to do this, but I hope he can find someone else in the future.",
     "responses": [
       {
-        "text": "Fuck you then, you judgemental <name_b>.",
+        "text": "Fuck you then, you judgmental <name_b>.",
         "effect": { "npc_add_effect": "failed_persuade", "duration": "PERMANENT" },
         "topic": "TALK_DONE"
       }

@@ -756,7 +756,7 @@
   {
     "type": "overmap_terrain",
     "id": "natural_spring",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "pond_field",
     "name": "natural spring",
     "sym": "o",
     "color": "blue"

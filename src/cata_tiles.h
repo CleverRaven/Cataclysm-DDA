@@ -280,7 +280,7 @@ class tileset_cache
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
                 const SDL_Renderer_Ptr &renderer, bool precheck,
-                bool force, bool pump_events );
+                bool force, bool pump_events, bool terrain );
     private:
         class loader;
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
@@ -379,8 +379,10 @@ class tileset_cache::loader
          * @param pump_events Handle window events and refresh the screen when necessary.
          *        Please ensure that the tileset is not accessed when this method is
          *        executing if you set it to true.
+         * @param terrain If true, this will be an overmap/terrain tileset
          */
-        void load( const std::string &tileset_id, bool precheck, bool pump_events = false );
+        void load( const std::string &tileset_id, bool precheck, bool pump_events = false,
+                   bool terrain = false );
 };
 
 enum class text_alignment : int {
@@ -682,10 +684,11 @@ class cata_tiles
          * @param pump_events Handle window events and refresh the screen when necessary.
          *        Please ensure that the tileset is not accessed when this method is
          *        executing if you set it to true.
+         * @param terrain If true, this will be an overmap/terrain tileset
          * @throw std::exception On any error.
          */
         void load_tileset( const std::string &tileset_id, bool precheck = false,
-                           bool force = false, bool pump_events = false );
+                           bool force = false, bool pump_events = false, bool terrain = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.

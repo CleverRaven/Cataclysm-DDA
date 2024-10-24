@@ -1648,39 +1648,28 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         };
 
         if( all_sliders_drawn && y <= content_height ) {
-            // Finish button
-            nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            nc_color acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            std::string btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                                 colorize( ctxt.get_desc( "FINALIZE", 1U ), acc_clr2 ),
-                                                 colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
-            const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
-            print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( static_cast<int>( wg_sliders.size() + 1 ),
-                             inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
-            // Reset button
-            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                     colorize( ctxt.get_desc( "RESET", 1U ), acc_clr2 ),
-                                     colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
-            const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
-            print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( static_cast<int>( wg_sliders.size() + 2 ),
-                             inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
-            // Randomize button
-            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                     colorize( ctxt.get_desc( "RANDOMIZE", 1U ), acc_clr2 ),
-                                     colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
-            const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
-            print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( static_cast<int>( wg_sliders.size() + 3 ),
-                             inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            int opt_num = wg_sliders.size() + 1;
+            nc_color acc_clr;
+            nc_color acc_clr2;
+            nc_color base_clr;
+            std::string btn_txt;
+            auto add_button = [&]( const char *action, const char *label, int x ) {
+                const bool hi = sel_opt == opt_num;
+                acc_clr = get_clr( c_yellow, hi );
+                acc_clr2 = get_clr( c_light_green, hi );
+                base_clr = get_clr( c_white, hi );
+                btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                         colorize( ctxt.get_desc( action,     1U ), acc_clr2 ),
+                                         colorize( "][", acc_clr ), label, colorize( "]", acc_clr ) );
+                const point pos( x - utf8_width( btn_txt, true ) / 2, y );
+                print_colored_text( w_confirmation, pos, base_clr, base_clr, btn_txt );
+                btn_map.emplace( opt_num ++,
+                                 inclusive_rectangle<point>( pos, pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            };
+            add_button( "FINALIZE", _( "Finish" ), win_width / 4 );
+            add_button( "RESET", _( "Reset" ), win_width / 2 );
+            add_button( "RANDOMIZE", _( "Randomize" ), win_width * 3 / 4 );
+            y++;
         }
 
         // Content scrollbar
@@ -1771,12 +1760,15 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "FINALIZE" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 1;
+            ui_manager::redraw();
         } else if( action == "RESET" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 2;
+            ui_manager::redraw();
         } else if( action == "RANDOMIZE" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 3;
+            // no confirmation prompt, no need to redraw the ui
         }
 
         // Handle other inputs

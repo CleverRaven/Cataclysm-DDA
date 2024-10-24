@@ -165,7 +165,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Story",
-    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgement of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
+    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgment of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Helena_Uncle" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },

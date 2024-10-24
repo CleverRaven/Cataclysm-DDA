@@ -22,45 +22,45 @@ double iso_tangent( double distance, const units::angle &vertex )
     return tan( vertex / 2 )  * distance * 2;
 }
 
-void bresenham( const point &p1, const point &p2, int t,
-                const std::function<bool( const point & )> &interact )
+void bresenham( const point_bub_ms &p1, const point_bub_ms &p2, int t,
+                const std::function<bool( const point_bub_ms & )> &interact )
 {
     // The slope components.
-    const point d = p2 - p1;
+    const point_rel_ms d = p2 - p1;
     // Signs of slope values.
-    const point s( ( d.x == 0 ) ? 0 : sgn( d.x ), ( d.y == 0 ) ? 0 : sgn( d.y ) );
+    const point s( ( d.x() == 0 ) ? 0 : sgn( d.x() ), ( d.y() == 0 ) ? 0 : sgn( d.y() ) );
     // Absolute values of slopes x2 to avoid rounding errors.
-    const point a = d.abs() * 2;
+    const point a = d.raw().abs() * 2;
 
-    point cur = p1;
+    point_bub_ms cur = p1;
 
     if( a.x == a.y ) {
-        while( cur.x != p2.x ) {
-            cur.y += s.y;
-            cur.x += s.x;
+        while( cur.x() != p2.x() ) {
+            cur.y() += s.y;
+            cur.x() += s.x;
             if( !interact( cur ) ) {
                 break;
             }
         }
     } else if( a.x > a.y ) {
-        while( cur.x != p2.x ) {
+        while( cur.x() != p2.x() ) {
             if( t > 0 ) {
-                cur.y += s.y;
+                cur.y() += s.y;
                 t -= a.x;
             }
-            cur.x += s.x;
+            cur.x() += s.x;
             t += a.y;
             if( !interact( cur ) ) {
                 break;
             }
         }
     } else {
-        while( cur.y != p2.y ) {
+        while( cur.y() != p2.y() ) {
             if( t > 0 ) {
-                cur.x += s.x;
+                cur.x() += s.x;
                 t -= a.y;
             }
-            cur.y += s.y;
+            cur.y() += s.y;
             t += a.x;
             if( !interact( cur ) ) {
                 break;
@@ -69,47 +69,47 @@ void bresenham( const point &p1, const point &p2, int t,
     }
 }
 
-void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
-                const std::function<bool( const tripoint & )> &interact )
+void bresenham( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2, int t, int t2,
+                const std::function<bool( const tripoint_bub_ms & )> &interact )
 {
     // The slope components.
-    const tripoint d( -loc1 + loc2 );
+    const tripoint_rel_ms d( loc2 - loc1 );
     // The signs of the slopes.
-    const tripoint s( ( d.x == 0 ? 0 : sgn( d.x ) ), ( d.y == 0 ? 0 : sgn( d.y ) ),
-                      ( d.z == 0 ? 0 : sgn( d.z ) ) );
+    const tripoint s( ( d.x() == 0 ? 0 : sgn( d.x() ) ), ( d.y() == 0 ? 0 : sgn( d.y() ) ),
+                      ( d.z() == 0 ? 0 : sgn( d.z() ) ) );
     // Absolute values of slope components, x2 to avoid rounding errors.
-    const tripoint a( std::abs( d.x ) * 2, std::abs( d.y ) * 2, std::abs( d.z ) * 2 );
+    const tripoint a( std::abs( d.x() ) * 2, std::abs( d.y() ) * 2, std::abs( d.z() ) * 2 );
 
-    tripoint cur( loc1 );
+    tripoint_bub_ms cur( loc1 );
 
     if( a.z == 0 ) {
         if( a.x == a.y ) {
-            while( cur.x != loc2.x ) {
-                cur.y += s.y;
-                cur.x += s.x;
+            while( cur.x() != loc2.x() ) {
+                cur.y() += s.y;
+                cur.x() += s.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x > a.y ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t -= a.x;
                 }
-                cur.x += s.x;
+                cur.x() += s.x;
                 t += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else {
-            while( cur.y != loc2.y ) {
+            while( cur.y() != loc2.y() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.y;
                 }
-                cur.y += s.y;
+                cur.y() += s.y;
                 t += a.x;
                 if( !interact( cur ) ) {
                     break;
@@ -118,25 +118,23 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
         }
     } else {
         if( a.x == a.y && a.y == a.z ) {
-            while( cur.x != loc2.x ) {
-                cur.z += s.z;
-                cur.y += s.y;
-                cur.x += s.x;
+            while( cur.x() != loc2.x() ) {
+                cur += s;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( ( a.z > a.x ) && ( a.z > a.y ) ) {
-            while( cur.z != loc2.z ) {
+            while( cur.z() != loc2.z() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.z;
                 }
                 if( t2 > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t2 -= a.z;
                 }
-                cur.z += s.z;
+                cur.z() += s.z;
                 t += a.x;
                 t2 += a.y;
                 if( !interact( cur ) ) {
@@ -144,55 +142,55 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else if( a.x == a.y ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.z += s.z;
+                    cur.z() += s.z;
                     t -= a.x;
                 }
-                cur.y += s.y;
-                cur.x += s.x;
+                cur.y() += s.y;
+                cur.x() += s.x;
                 t += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x == a.z ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t -= a.x;
                 }
-                cur.z += s.z;
-                cur.x += s.x;
+                cur.z() += s.z;
+                cur.x() += s.x;
                 t += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.y == a.z ) {
-            while( cur.y != loc2.y ) {
+            while( cur.y() != loc2.y() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.z;
                 }
-                cur.y += s.y;
-                cur.z += s.z;
+                cur.y() += s.y;
+                cur.z() += s.z;
                 t += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x > a.y ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t -= a.x;
                 }
                 if( t2 > 0 ) {
-                    cur.z += s.z;
+                    cur.z() += s.z;
                     t2 -= a.x;
                 }
-                cur.x += s.x;
+                cur.x() += s.x;
                 t += a.y;
                 t2 += a.z;
                 if( !interact( cur ) ) {
@@ -200,16 +198,16 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else { //dy > dx >= dz
-            while( cur.y != loc2.y ) {
+            while( cur.y() != loc2.y() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.y;
                 }
                 if( t2 > 0 ) {
-                    cur.z += s.z;
+                    cur.z() += s.z;
                     t2 -= a.y;
                 }
-                cur.y += s.y;
+                cur.y() += s.y;
                 t += a.x;
                 t2 += a.z;
                 if( !interact( cur ) ) {
@@ -231,8 +229,8 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
         line.push_back( p1 );
     } else {
         line.reserve( numCells );
-        bresenham( p1, p2, t, [&line]( const point & new_point ) {
-            line.push_back( new_point );
+        bresenham( point_bub_ms( p1 ), point_bub_ms( p2 ), t, [&line]( const point_bub_ms & new_point ) {
+            line.push_back( new_point.raw() );
             return true;
         } );
     }
@@ -248,8 +246,9 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
         line.push_back( loc1 );
     } else {
         line.reserve( numCells );
-        bresenham( loc1, loc2, t, t2, [&line]( const tripoint & new_point ) {
-            line.push_back( new_point );
+        bresenham( tripoint_bub_ms( loc1 ), tripoint_bub_ms( loc2 ), t,
+        t2, [&line]( const tripoint_bub_ms & new_point ) {
+            line.push_back( new_point.raw() );
             return true;
         } );
     }

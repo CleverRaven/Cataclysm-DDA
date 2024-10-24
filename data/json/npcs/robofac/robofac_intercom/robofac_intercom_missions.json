@@ -163,7 +163,7 @@
         },
         "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS_NoneAvailable"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
   {
@@ -1087,8 +1087,7 @@
     "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
-    "deadline_low": 20,
-    "deadline_high": 20,
+    "deadline": [ "20 days", "20 days" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {
       "describe": ".",

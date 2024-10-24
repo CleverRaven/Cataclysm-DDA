@@ -34,6 +34,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_KCAL_COST",
+    "effect": [ { "math": [ "u_calories()", "-=", "psionics_kcal_cost(u_latest_channeled_power_difficulty)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -173,6 +178,39 @@
       { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "4" ] },
       { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "4" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PSYCHIC_VAMPIRE_TELEPATHY",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" },
+        { "math": [ "_success", "==", "true" ] },
+        { "or": [ { "compare_string": [ "telepathic_blast", { "context_val": "spell" } ] } ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "+=", "rand(2) + 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PSYCHIC_VAMPIRE_VITAKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" },
+        { "math": [ "_success", "==", "true" ] },
+        {
+          "or": [
+            { "compare_string": [ "vita_hurt_touch", { "context_val": "spell" } ] },
+            { "compare_string": [ "vita_attack_touch", { "context_val": "spell" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",

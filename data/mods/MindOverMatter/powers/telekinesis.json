@@ -532,7 +532,6 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "extra_effects": [ { "id": "tele_mindhammer_bash", "hit_self": false, "max_level": 20 } ],
     "damage_type": "psi_telekinetic_damage",
     "effect": "attack",
     "shape": "blast",
@@ -546,6 +545,8 @@
         "( (u_spell_level('telekinetic_hammer') * 3.5) + 55) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "min_bash_scaling": 1,
+    "max_bash_scaling": 1,
     "min_range": {
       "math": [
         "min( (( (u_spell_level('telekinetic_hammer') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
@@ -603,7 +604,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -676,7 +677,7 @@
     "description": "A burst of telekinetic force shatters the terrain at the target location, as well as anything caught inside.",
     "message": "You indiscriminately blast your targets!",
     "teachable": false,
-    "valid_targets": [ "ally", "hostile", "ground" ],
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [
@@ -693,8 +694,8 @@
     ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "bash",
-    "extra_effects": [ { "id": "tele_explosion_damage", "hit_self": false, "max_level": 20 } ],
+    "effect": "attack",
+    "damage_type": "psi_telekinetic_damage",
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -706,6 +707,8 @@
         "( (u_spell_level('telekinetic_explosion') * 7.5) + 99) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "min_bash_scaling": 1,
+    "max_bash_scaling": 1,
     "min_range": {
       "math": [
         "min( (( (u_spell_level('telekinetic_explosion') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"

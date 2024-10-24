@@ -43,6 +43,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "arc_furnace",
+    "looks_like": "f_arc_furnace",
+    "symbol": "U",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Needs to be placed and plugged into a power source.",
+    "color": "blue",
+    "name": { "str": "disconnected arc furnace" },
+    "material": [ "budget_steel" ],
+    "longest_side": "200 cm",
+    "volume": "400 L",
+    "weight": "1024 kg"
+  },
+  {
+    "type": "GENERIC",
     "id": "drill_press",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -390,5 +403,21 @@
     "price_postapoc": "20 USD",
     "symbol": "&",
     "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "glassblowers_crucible",
+    "name": { "str": "disconnected glassblower's crucible" },
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
+    "//": "Loosely based off Jen-Ken Kiln - Crucible 1813, but homemade",
+    "weight": "50 kg",
+    "material": [ "steel", "clay" ],
+    "volume": "62500 ml",
+    "longest_side": "100 cm",
+    "price": "2179 USD",
+    "price_postapoc": "25 USD",
+    "symbol": "o",
+    "color": "brown"
   }
 ]

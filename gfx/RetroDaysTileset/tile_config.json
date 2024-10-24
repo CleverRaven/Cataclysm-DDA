@@ -3216,7 +3216,7 @@
         { "id": [ "pot_xlhelmet", "pot_helmet" ], "fg": 1539, "rotates": false },
         { "id": "potato_baked", "fg": 1757, "rotates": false },
         {
-          "id": [ "potato", "irradiated_potato", "kiwi", "irradiated_kiwi", "egg_bird" ],
+          "id": [ "potato", "irradiated_potato", "kiwi", "irradiated_kiwi", "egg_chicken" ],
           "fg": 1758,
           "rotates": false
         },

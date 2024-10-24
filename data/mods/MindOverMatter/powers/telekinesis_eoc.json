@@ -50,7 +50,7 @@
         "math": [
           "u_weight_ratio",
           "=",
-          "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_val('weight') / 1000000)"
+          "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_weight() / 1000000)"
         ]
       },
       { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
@@ -90,7 +90,7 @@
         "math": [
           "u_weight_ratio",
           "=",
-          "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_val('weight') / 1000000)"
+          "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_weight() / 1000000)"
         ]
       },
       { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
@@ -150,7 +150,7 @@
         "math": [
           "u_weight_ratio",
           "=",
-          "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_val('weight') / 1000000)"
+          "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_weight() / 1000000)"
         ]
       },
       { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
@@ -180,7 +180,7 @@
         "math": [
           "u_weight_ratio",
           "=",
-          "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_val('weight') / 1000000)"
+          "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_weight() / 1000000)"
         ]
       },
       { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },

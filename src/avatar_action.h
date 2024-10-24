@@ -39,9 +39,6 @@ inline bool move( avatar &you, map &m, const point &d )
     return move( you, m, tripoint( d, 0 ) );
 }
 
-// Handle moving from a ramp
-bool ramp_move( avatar &you, map &m, const tripoint &dest );
-
 /** Handles swimming by the player. Called by avatar_action::move(). */
 void swim( map &m, avatar &you, const tripoint &p );
 
@@ -76,7 +73,10 @@ bool fire_turret_manual( avatar &you, map &m, turret_data &turret );
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
               const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
-
+/**
+ * Opens up a menu to Unload a container, gun, or tool
+ * If it's a gun, some gunmods can also be loaded
+ */
 void unload( avatar &you );
 
 // Use item; also tries E,R,W  'a'

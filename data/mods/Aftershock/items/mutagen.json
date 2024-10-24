@@ -10,7 +10,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the mi-go mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_migo", 450, 550 ] ]
     }
@@ -24,7 +24,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mi-go mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_migo", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -39,7 +39,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the mastodon mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_mastodon", 450, 550 ] ]
     }
@@ -53,7 +53,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mastodon mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_mastodon", 175 ], [ "mutagen", 125 ] ]
     }
   }

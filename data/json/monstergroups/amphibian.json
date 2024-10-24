@@ -5,43 +5,37 @@
     "default": "mon_peeper_tadpole",
     "monsters": [
       { "monster": "mon_leo_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       {
         "monster": "mon_bullfrog_tadpole",
         "weight": 100,
         "pack_size": [ 6, 12 ],
         "conditions": [ "SPRING", "SUMMER" ]
       },
-      { "monster": "mon_strange_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_fowler_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_foul_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       {
         "monster": "mon_freedom_tadpole",
         "weight": 100,
         "pack_size": [ 6, 12 ],
         "conditions": [ "SPRING", "SUMMER" ]
       },
-      { "monster": "mon_odd_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_peeper_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_vocal_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_gray_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_shift_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_mink_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_tail_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       {
         "monster": "mon_pickerel_tadpole",
         "weight": 100,
         "pack_size": [ 6, 12 ],
         "conditions": [ "SPRING", "SUMMER" ]
       },
-      { "monster": "mon_palette_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_green_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_wood_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_spade_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
     ]
   },
   {
@@ -50,17 +44,11 @@
     "default": "mon_leo_tadpole",
     "monsters": [
       { "monster": "mon_leo_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_bullfrog_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_strange_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_fowler_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_foul_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_freedom_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_odd_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_mink_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_tail_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_pickerel_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_palette_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_green_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
@@ -74,16 +62,13 @@
     "default": "mon_bullfrog_tadpole",
     "monsters": [
       { "monster": "mon_leo_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       {
         "monster": "mon_bullfrog_tadpole",
         "weight": 100,
         "pack_size": [ 6, 12 ],
         "conditions": [ "SPRING", "SUMMER" ]
       },
-      { "monster": "mon_strange_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_mink_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_tail_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_green_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
@@ -95,38 +80,32 @@
     "default": "mon_bullfrog_tadpole",
     "monsters": [
       { "monster": "mon_leo_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_pattern_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       {
         "monster": "mon_bullfrog_tadpole",
         "weight": 60,
         "pack_size": [ 6, 12 ],
         "conditions": [ "SPRING", "SUMMER" ]
       },
-      { "monster": "mon_strange_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_fowler_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_foul_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_freedom_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_odd_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_peeper_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_vocal_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_gray_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_shift_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_mink_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_tail_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       {
         "monster": "mon_pickerel_tadpole",
         "weight": 100,
         "pack_size": [ 6, 12 ],
         "conditions": [ "SPRING", "SUMMER" ]
       },
-      { "monster": "mon_palette_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_green_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_wood_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_spade_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
       { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
     ]
   },
   {
@@ -930,7 +909,47 @@
     "name": "GROUP_TADPOLE_LEO",
     "type": "monstergroup",
     "default": "mon_leo_frog",
-    "monsters": [ { "monster": "mon_leo_frog", "weight": 99 }, { "monster": "mon_leo_worm", "weight": 1 } ]
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 90 },
+      { "monster": "mon_pattern_frog", "weight": 9 },
+      { "monster": "mon_leo_worm", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLE_BULLFROG",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_frog",
+    "monsters": [ { "monster": "mon_bullfrog_frog", "weight": 90 }, { "monster": "mon_strange_frog", "weight": 10 } ]
+  },
+  {
+    "name": "GROUP_TADPOLE_FOWLER",
+    "type": "monstergroup",
+    "default": "mon_fowler_toad",
+    "monsters": [ { "monster": "mon_fowler_toad", "weight": 90 }, { "monster": "mon_foul_toad", "weight": 10 } ]
+  },
+  {
+    "name": "GROUP_TADPOLE_FREEDOM",
+    "type": "monstergroup",
+    "default": "mon_freedom_toad",
+    "monsters": [ { "monster": "mon_freedom_toad", "weight": 90 }, { "monster": "mon_odd_toad", "weight": 10 } ]
+  },
+  {
+    "name": "GROUP_TADPOLE_PEEPER",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [ { "monster": "mon_peeper_frog", "weight": 90 }, { "monster": "mon_vocal_frog", "weight": 10 } ]
+  },
+  {
+    "name": "GROUP_TADPOLE_GRAY",
+    "type": "monstergroup",
+    "default": "mon_gray_frog",
+    "monsters": [ { "monster": "mon_gray_frog", "weight": 90 }, { "monster": "mon_shift_frog", "weight": 10 } ]
+  },
+  {
+    "name": "GROUP_TADPOLE_PICKEREL",
+    "type": "monstergroup",
+    "default": "mon_pickerel_frog",
+    "monsters": [ { "monster": "mon_pickerel_frog", "weight": 90 }, { "monster": "mon_palette_frog", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_GREEN",
@@ -943,6 +962,12 @@
     "type": "monstergroup",
     "default": "mon_wood_frog",
     "monsters": [ { "monster": "mon_wood_frog", "weight": 99 }, { "monster": "mon_wood_worm", "weight": 1 } ]
+  },
+  {
+    "name": "GROUP_BIGTAD_VOCAL",
+    "type": "monstergroup",
+    "default": "mon_jumbo_bigfrog",
+    "monsters": [ { "monster": "mon_jumbo_bigfrog", "weight": 50 }, { "monster": "mon_vocal_bigfrog", "weight": 50 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_PATTERN",

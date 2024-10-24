@@ -25,7 +25,7 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 9, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "deck_of_cards", "prob": 2 },
@@ -207,9 +207,9 @@
     "type": "item_group",
     "id": "pawn_guns",
     "items": [
-      { "group": "guns_common", "prob": 100 },
-      { "group": "guns_rare", "prob": 10 },
-      { "group": "guns_obscure", "prob": 1 }
+      { "group": "guns_common_display", "prob": 100 },
+      { "group": "guns_display_pieces", "prob": 1 },
+      { "group": "guns_collectible", "prob": 1 }
     ]
   },
   {
@@ -345,7 +345,7 @@
       { "item": "rad_monitor", "prob": 1, "charges": [ 0, 50 ] },
       [ "UPS_OFF", 5 ],
       { "item": "tazer", "prob": 3, "charges": [ 0, 100 ] },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 12, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       [ "deck_of_cards", 2 ],
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
@@ -895,7 +895,7 @@
       { "item": "folded_bicycle", "prob": 3 },
       { "item": "sunglasses", "prob": 25 },
       { "item": "cowboy_hat", "prob": 25 },
-      { "item": "mp3", "prob": 35, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "wolfsuit", "prob": 5 },
       { "item": "dinosuit", "prob": 5 },
       { "item": "gum", "prob": 10, "count": 10 },
@@ -1464,7 +1464,7 @@
     "items": [
       { "item": "radio", "prob": 30, "charges": [ 0, 100 ] },
       [ "cotton_patchwork", 30 ],
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ],
       [ "jack", 60 ],
@@ -1736,7 +1736,7 @@
       { "item": "cell_phone", "prob": 11, "charges": 150 },
       { "item": "smart_phone", "prob": 85, "charges": 120 },
       { "item": "waterproof_smart_phone_case", "prob": 40 },
-      { "item": "mp3", "prob": 65, "charges": 100 },
+      { "item": "mp3", "prob": 45, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
       { "group": "toy_makerspace_kit", "prob": 25 },
       { "group": "toy_robot_kit", "prob": 25 },
@@ -1884,7 +1884,7 @@
     "id": "ic_merch",
     "//": "for cs_internet_cafe",
     "items": [
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "mag_computer", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
       [ "radio", 20 ],

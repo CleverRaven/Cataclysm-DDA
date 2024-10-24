@@ -141,7 +141,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some aspirin.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
@@ -164,7 +164,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some ibuprofen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 216 ] ]
@@ -187,7 +187,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some naproxen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 18000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 432 ] ]
@@ -210,7 +210,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some acetaminophen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_acetaminophen", "duration": 9000 } ]
     }
   },
@@ -230,7 +230,7 @@
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take some metaprolol." },
+    "use_action": { "type": "consume_drug", "activation_message": "You take some %s." },
     "vitamins": [ [ "vit_betablocker", 864 ] ]
   },
   {
@@ -296,7 +296,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing tobacco" },
-    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite amongst baseball players, cowboys, and other macho types.",
+    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite among baseball players, cowboys, and other macho types.",
     "weight": "4 g",
     "volume": "4 ml",
     "price": "33 cent",
@@ -436,7 +436,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some codeine.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill2", "duration": 1080 }, { "id": "cough_suppress", "duration": 1000 } ]
     }
   },
@@ -1468,7 +1468,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some oxycodone.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },
@@ -1525,7 +1525,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some poppy painkiller.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill2", "duration": 1080 } ]
     }
   },
@@ -1770,7 +1770,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some tramadol.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill_l", "duration": 27000 } ]
     }
   },

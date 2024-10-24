@@ -496,7 +496,7 @@
     "id": "novel_spy",
     "type": "BOOK",
     "name": { "str": "spy novel" },
-    "description": "A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!",
+    "description": "A tale of intrigue and espionage among Nazis, no, Commies, no, Iraqis!",
     "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "18 m",

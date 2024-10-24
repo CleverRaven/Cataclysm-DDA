@@ -618,6 +618,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_PSION_AWAKENING_DISTANT",
     "global": true,
+    "run_for_npcs": true,
     "recurrence": [ "5 minutes", "10 minutes" ],
     "condition": {
       "and": [
@@ -651,7 +652,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_PSION_AWAKENING_MEDIUM",
     "global": true,
-    "recurrence": [ "2 minutes", "5 minutes" ],
+    "run_for_npcs": true,
+    "recurrence": [ "1 minutes", "2 minutes" ],
     "condition": {
       "and": [
         "u_is_outside",
@@ -684,7 +686,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_PSION_AWAKENING_CLOSE",
     "global": true,
-    "recurrence": [ "1 minutes", "2 minutes" ],
+    "run_for_npcs": true,
+    "recurrence": [ "2 minutes", "5 minutes" ],
     "condition": {
       "and": [
         "u_is_outside",

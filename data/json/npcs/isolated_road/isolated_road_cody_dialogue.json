@@ -261,14 +261,14 @@
         "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
         "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH" }
       },
-      { "text": "I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_BLACKSMITH_RESTOCK",
     "type": "talk_topic",
     "dynamic_line": "With how the things are goin'? <interval>.",
-    "responses": [ { "text": "I'll leave you to your work then.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I'll leave you to your work then.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_BLACKSMITH_ABOUT",

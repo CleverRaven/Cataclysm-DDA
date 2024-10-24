@@ -16,7 +16,7 @@ static void place_obstacle( map &m, const std::vector<tripoint_bub_ms> &places )
     m.set_transparency_cache_dirty( 0 );
     m.build_map_cache( 0 );
     for( const tripoint_bub_ms &p : places ) {
-        REQUIRE( !m.is_transparent( p.raw() ) );
+        REQUIRE( !m.is_transparent( p ) );
     }
 }
 

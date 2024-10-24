@@ -196,7 +196,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done"
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -246,8 +246,8 @@
           "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_heard_about_chris" } ] } ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -273,8 +273,8 @@
     "id": "TALK_ISHERWOOD_CHRIS_WANTS",
     "dynamic_line": "My family is convinced that if we stay here, we'll be able to weather this catastrophe.  Since technology has failed, they've doubled down on older traditions.  I think we need to get out there and find some answers before settling on a path.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -283,8 +283,8 @@
     "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field.  I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while…",
     "responses": [
       { "text": "What did you find?", "topic": "TALK_ISHERWOOD_CHRIS_MIGO_BASE" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -309,8 +309,8 @@
         "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -318,8 +318,8 @@
     "id": "TALK_ISHERWOOD_CHRIS_LAND",
     "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around, never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever, there are big planet wide changes occurring.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -350,7 +350,7 @@
       },
       { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued", "!=", "1" ] } ] }
       }
@@ -375,8 +375,8 @@
         "text": "Yeah, I think we should work together on this.  Do you mind if I take the lead?  I've probably got more experience.",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -386,8 +386,8 @@
     "responses": [
       { "text": "Trust me.  See you in a bit.", "topic": "TALK_DONE" },
       { "text": "If you insist, yeah, we could team up.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -403,8 +403,8 @@
         "text": "It's all right.  We've got this, you get things ready for when we return with Barry.",
         "topic": "TALK_DONE"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -429,8 +429,8 @@
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -447,9 +447,9 @@
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       {
-        "text": "Well, I guess it's just us.  Let's go.",
+        "text": "Well, I guess it's just us.  <lets_go>",
         "effect": [
           { "math": [ "isherwood_family_coming", "=", "0" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
@@ -475,7 +475,7 @@
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       {
         "text": "All right.  Let's kick some alien butt.",
         "effect": [
@@ -509,7 +509,7 @@
         "text": "Is there anyone else around here that could help us?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_DONE" }
     ]
   },
@@ -557,8 +557,8 @@
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -566,8 +566,8 @@
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel",
     "dynamic_line": "*looks crestfallen for a moment, then straightens up.  \"All right.  Yeah, maybe better not to put them at risk I guess.  So we're back to going in without them.  Maybe that's better, I don't want to lose anyone else.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -613,8 +613,8 @@
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -631,8 +631,8 @@
         "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
         "topic": "TALK_DONE"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -683,8 +683,8 @@
         "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": true },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done"
       },
-      { "text": "That's all for now.  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "That's all for now.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "That's all for now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -704,7 +704,7 @@
       "relevant_genders": [ "u" ]
     },
     "responses": [
-      { "text": "Sorry.  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "Sorry.  <done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'm sorry.  I'm going to go take care of a few more things.", "topic": "TALK_DONE" }
     ]
   },
@@ -713,7 +713,7 @@
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall",
     "dynamic_line": "Good idea.  A sandbag wall would be easy enough, we've had to do those a few times when we've had flooding and everyone knows the drill.  Back then we just grabbed supplies from the hardware store, though.  Maybe you'd be able to make a run for those?  Something like 20 canvas bags would probably do it.  We can fill them up in advance and toss them out of the truck to get a decent barricade.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       {
         "text": "I think this is going to take too long, honestly.  Let's just stick with the truck.",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel"
@@ -743,8 +743,8 @@
         "text": "Don't worry, I know what I'm doing.  I've taken a look at these sorts of towers before, and I know that the structure itself is pretty solid.  If we tune it right, then the tower won't fall over.",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb_Luke"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -782,8 +782,8 @@
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -868,7 +868,7 @@
       },
       {
         "id": "pants_grey",
-        "name": { "str": "grey pants", "str_pl": "pairs of grey pants" },
+        "name": { "str": "gray pants", "str_pl": "pairs of gray pants" },
         "description": "A set of storm gray pants speckled with dark stains so deeply assimilated into the fabric that they're nigh-irremovable.  You vehemently hope that they're just the mortal remains of some spilled beverage.",
         "color": "dark_gray",
         "weight": 10
@@ -939,7 +939,7 @@
       {
         "id": "pants_pebble ",
         "name": { "str": "pebble-khaki pants", "str_pl": "pairs of pebble-khaki pants" },
-        "description": "A pair of comfortable pants dyed pebble-khaki, a type of hue consisting of muted greys and browns.",
+        "description": "A pair of comfortable pants dyed pebble-khaki, a type of hue consisting of muted grays and browns.",
         "color": "dark_gray",
         "weight": 8
       },
@@ -981,7 +981,7 @@
       {
         "id": "pants_ecru",
         "name": { "str": "ecru pants", "str_pl": "pairs of ecru pants" },
-        "description": "A pair of moderately warm and comfortable ecru pants dyed a pale, greyish yellow color.",
+        "description": "A pair of moderately warm and comfortable ecru pants dyed a pale, grayish yellow color.",
         "color": "light_gray",
         "weight": 6
       },

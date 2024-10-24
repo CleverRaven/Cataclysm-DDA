@@ -36,7 +36,7 @@
   {
     "id": "feral_rad_mage_summon_spell",
     "type": "SPELL",
-    "name": "Summon Zombie ",
+    "name": "Summon Zombie",
     "description": "A spell for the feral rad mage to summon a zombie.  It's a bug if you have this.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "WONDER", "NO_PROJECTILE" ],
@@ -76,7 +76,7 @@
   {
     "id": "feral_animist_summon_zombie",
     "type": "SPELL",
-    "name": "Summon Zombie ",
+    "name": "Summon Zombie",
     "description": "A spell for the feral rad mage to summon a normal zombie.  It's a bug if you have this.",
     "valid_targets": [ "ground" ],
     "flags": [ "HOSTILE_SUMMON", "LOUD", "NO_PROJECTILE" ],
@@ -221,5 +221,34 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_wolf_feral_druid"
+  },
+  {
+    "id": "feral_stormshaper_summon_stormhammer_spell",
+    "type": "SPELL",
+    "name": { "str": "Call Stormhammer Monster", "//~": "NO_I18N" },
+    "description": "Summon a stormhammer by effect.  You should never see this.",
+    "valid_targets": [ "self" ],
+    "max_level": 20,
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_feral_stormshaper_stormhammer",
+    "extra_effects": [ { "id": "feral_stormshaper_summon_stormhammer_spell_internal_cooldown", "hit_self": true } ],
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  },
+  {
+    "id": "feral_stormshaper_summon_stormhammer_spell_internal_cooldown",
+    "type": "SPELL",
+    "name": { "str": "Call Stormhammer Monster Cooldown", "//~": "NO_I18N" },
+    "description": "Designed to make any future stormhammers have a much longer cooldown than the first one so that dispelling them is tactically advantageous.  You shouldn't see this.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "NO_LEGS", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_feral_stormshaper_stormhammer_cooldown",
+    "min_duration": 12000,
+    "max_duration": 36000
   }
 ]

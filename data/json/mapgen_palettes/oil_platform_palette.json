@@ -281,8 +281,8 @@
     "id": "lubricant",
     "type": "item_group",
     "items": [
-      { "item": "motor_oil", "container-item": "metal_tank", "charges-min": 2000, "charges-max": 60000, "prob": 50 },
-      { "item": "motor_oil", "container-item": "jerrycan_big", "charges-min": 0, "charges-max": 20000, "prob": 30 },
+      { "item": "motor_oil", "container-item": "metal_tank", "charges": [ 2000, 60000 ], "prob": 50 },
+      { "item": "motor_oil", "container-item": "jerrycan_big", "charges": [ 0, 20000 ], "prob": 30 },
       { "item": "metal_tank", "prob": 20 }
     ]
   },
@@ -290,7 +290,7 @@
     "id": "oil_drums",
     "type": "item_group",
     "items": [
-      { "item": "crude_oil", "container-item": "55gal_drum", "charges-min": 180000, "charges-max": 200000, "prob": 60 },
+      { "item": "crude_oil", "container-item": "55gal_drum", "charges": [ 180000, 200000 ], "prob": 60 },
       { "item": "55gal_drum", "prob": 30 }
     ]
   }

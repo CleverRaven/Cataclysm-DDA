@@ -461,15 +461,16 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         const int prev_HP = mon.get_hp();
         shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
-        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
-            break;
-        }
         if( other_checks ) {
             other_check_success += other_checks( *shooter, mon );
+        }
+        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
+            break;
         }
         mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
+    CAPTURE( damage.n() );
     CAPTURE( gun_type );
     CAPTURE( mods );
     CAPTURE( ammo_type );

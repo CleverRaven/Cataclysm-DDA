@@ -109,8 +109,8 @@
     "type": "effect_on_condition",
     "id": "EOC_variable_weight_volume_test1",
     "effect": [
-      { "math": [ "u_weight_test", "=", "u_val('weight')" ] },
-      { "math": [ "u_volume_test", "=", "u_val('volume')" ] },
+      { "math": [ "u_weight_test", "=", "u_weight()" ] },
+      { "math": [ "u_volume_test", "=", "u_volume()" ] },
       { "u_message": "<u_name> weight: <u_val:weight_test> volume: <u_val:volume_test>" }
     ]
   },
@@ -118,8 +118,8 @@
     "type": "effect_on_condition",
     "id": "EOC_variable_weight_volume_test2",
     "effect": [
-      { "math": [ "u_weight_test", "=", "n_val('weight')" ] },
-      { "math": [ "u_volume_test", "=", "n_val('volume')" ] },
+      { "math": [ "u_weight_test", "=", "n_weight()" ] },
+      { "math": [ "u_volume_test", "=", "n_volume()" ] },
       { "u_message": "<npc_name> weight: <u_val:weight_test> volume: <u_val:volume_test>" }
     ]
   },

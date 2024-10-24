@@ -383,7 +383,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
       {
-        "u_message": "Use of your powers has led to an insight.  You could block the pain signals in your body entire for a short time, letting you fight on through hideous wounds, if you can figure out the technique.",
+        "u_message": "Use of your powers has led to an insight.  You could block the pain signals in your body entirely for a short time, letting you fight on through hideous wounds, if you can figure out the technique.",
         "popup": true
       }
     ]

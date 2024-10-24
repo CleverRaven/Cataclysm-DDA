@@ -1558,7 +1558,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a toothbrush moustache.",
+        "text": "Get a toothbrush mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -1638,7 +1638,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a moustache.",
+        "text": "Get a mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -1677,7 +1677,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a walrus moustache.",
+        "text": "Get a walrus mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -1965,7 +1965,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a handlebar moustache.",
+        "text": "Get a handlebar mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -2241,7 +2241,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a toothbrush moustache.",
+        "text": "Get a toothbrush mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
@@ -2273,7 +2273,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a moustache.",
+        "text": "Get a mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
@@ -2289,7 +2289,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a walrus moustache.",
+        "text": "Get a walrus mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
@@ -2433,7 +2433,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a handlebar moustache.",
+        "text": "Get a handlebar mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },

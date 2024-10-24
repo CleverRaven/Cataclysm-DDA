@@ -100,7 +100,7 @@
     "skills_required": [ "electronics", 2 ],
     "time": "120 m",
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
@@ -108,7 +108,7 @@
       [ [ "cable", 10 ] ],
       [ [ "amplifier", 1 ] ]
     ],
-    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
+    "byproducts": [ [ "sheet_nylon_patchwork", 6 ], [ "scrap_nylon", 2 ] ]
   },
   {
     "result": "gold_ring",

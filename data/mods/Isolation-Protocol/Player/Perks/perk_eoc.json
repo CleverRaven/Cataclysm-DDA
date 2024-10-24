@@ -96,11 +96,11 @@
       { "math": [ "u_val('power')", "+=", "1.75 * 1000000" ] },
       { "if": { "npc_has_flag": "PUSH_VEH" }, "then": { "math": [ "u_val('power')", "+=", "50 * 1000000" ] } },
       {
-        "if": { "npc_has_flag": "CORNERED_FIGHTER " },
+        "if": { "npc_has_flag": "CORNERED_FIGHTER" },
         "then": { "math": [ "u_val('power')", "+=", "0.5 * 1000000" ] }
       },
       {
-        "if": { "npc_has_flag": "PRIORITIZE_TARGETS  " },
+        "if": { "npc_has_flag": "PRIORITIZE_TARGETS" },
         "then": { "math": [ "u_val('power')", "+=", "15 * 1000000" ] }
       },
       { "if": { "npc_has_flag": "DROPS_AMMO" }, "then": { "math": [ "u_val('power')", "+=", "35 * 1000000" ] } },

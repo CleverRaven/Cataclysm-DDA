@@ -517,7 +517,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_molebot",
-      "friendly_msg": "The demining bot whirrs and tunnels into the ground.",
+      "friendly_msg": "The demining bot whirs and tunnels into the ground.",
       "hostile_msg": "The demining bot spins out of control and lunges at you.  Make way!",
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
@@ -652,7 +652,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_dispatch",
-      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "friendly_msg": "The dispatch whirs onto its legs and searches for a target.",
       "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
       "difficulty": 1,
       "moves": 300,
@@ -677,7 +677,7 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_dispatch_military",
-      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "friendly_msg": "The dispatch whirs onto its legs and searches for a target.",
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,

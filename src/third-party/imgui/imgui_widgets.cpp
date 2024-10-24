@@ -5014,7 +5014,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         {
             ImU32 col = GetColorU32(is_displaying_hint ? ImGuiCol_TextDisabled : ImGuiCol_Text);
 
-            if(GImGui->IO.PreEditText && !is_multiline)
+            if (GImGui->IO.PreEditText[0] != '\0' && !is_multiline)
             {
                 const char *preEditTextEnd = GImGui->IO.PreEditText + strlen(GImGui->IO.PreEditText);
                 ImWchar wcharBuf[255] = { 0 };

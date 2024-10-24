@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -2179,7 +2180,7 @@ void inventory_selector::add_nearby_items( int radius )
 void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint &target )
 {
     map_stack items = remote_map->i_at( target );
-    const std::string name = to_upper_case( remote_map->name( target ) );
+    const std::string name = to_upper_case( remote_map->name( tripoint_omt_ms( target ) ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
         return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
@@ -4014,6 +4015,12 @@ drop_locations inventory_drop_selector::execute()
 
         const inventory_input input = get_input();
         if( input.action == "CONFIRM" ) {
+            for( drop_location &stuff : to_use ) {
+                if( !avatar_action::check_stealing( get_player_character(), *stuff.first ) ) {
+                    return drop_locations();
+                }
+            }
+
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
@@ -4510,6 +4517,10 @@ std::pair<item_location, bool> unload_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &highlighted = get_active_column().get_highlighted();
             if( highlighted && highlighted.is_selectable() ) {
+                item to_unload = *highlighted.any_item();
+                if( !avatar_action::check_stealing( get_player_character(), to_unload ) ) {
+                    return { item_location(), uistate.unload_auto_contain };
+                }
                 return { highlighted.any_item(), uistate.unload_auto_contain };
             }
         } else if( input.action == "CONTAIN_MODE" ) {

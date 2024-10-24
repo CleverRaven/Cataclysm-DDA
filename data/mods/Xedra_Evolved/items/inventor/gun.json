@@ -45,8 +45,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -108,8 +107,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -171,8 +169,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -259,16 +256,7 @@
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [
-      "TRADER_AVOID",
-      "PADDED",
-      "BELTED",
-      "OVERSIZE",
-      "WATER_FRIENDLY",
-      "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bio_warhead",
@@ -306,7 +294,7 @@
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -383,16 +371,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -425,7 +404,7 @@
     "range": 1,
     "ammo": "battery",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ] },
+    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
@@ -717,8 +696,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "ELECTRONIC",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -745,7 +723,7 @@
     "color": "blue",
     "charges_per_use": 50,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {

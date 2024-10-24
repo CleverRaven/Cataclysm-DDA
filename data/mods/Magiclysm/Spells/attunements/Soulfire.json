@@ -5,7 +5,7 @@
     "name": "Burn at Both Ends",
     "description": "A candle burns the most brightly at both ends, and yet it burns twice as fast.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",

@@ -3065,7 +3065,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
-    "components": [ [ [ "charcoal", 10000 ] ], [ [ "char_kiln", 1 ] ] ]
+    "components": [ [ [ "charcoal", 5000 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -5089,7 +5089,7 @@
     "time": "5 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "sheet_nylon", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "wearable_light",
@@ -7294,9 +7294,9 @@
     "result": "skull_llama",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "bone", 35 ] ] ],
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

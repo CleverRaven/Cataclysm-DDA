@@ -233,7 +233,12 @@
           "bg": 7751,
           "rotates": true
         },
-        { "id": "apartments_con_tower_015", "fg": [ 258, 256, 257, 259 ], "bg": 7751, "rotates": true },
+        {
+          "id": [ "apartments_con_tower_015", "apartments_con_tower_115" ],
+          "fg": [ 258, 256, 257, 259 ],
+          "bg": 7751,
+          "rotates": true
+        },
         { "id": "apartments_mod_tower_110", "fg": [ 302, 300, 301, 303 ], "bg": 7523, "rotates": true },
         {
           "id": [ "apartments_mod_tower_111", "apartments_mod_tower_112", "apartments_mod_tower_113" ],

@@ -126,7 +126,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_vehicles();
     set_time_to_day();
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &character = get_player_character();
     character.toggle_trait( trait_DEBUG_CNF );
     const item backpack( "backpack" );
@@ -205,7 +205,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     clear_vehicles();
     set_time( midday );
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     const int water_charges = 8;
     Character &character = get_player_character();
     const item backpack( "backpack" );

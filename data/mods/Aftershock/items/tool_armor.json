@@ -20,8 +20,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "afs_heavy_suit_battery_cell"
       }
     ],
     "use_action": {

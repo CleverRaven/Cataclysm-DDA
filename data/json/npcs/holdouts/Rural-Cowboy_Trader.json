@@ -86,7 +86,10 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYT_FOLLOW",
     "dynamic_line": "You seem like a decent sort, but I'm not really looking for company right now.  Think I'm better off on my own.",
-    "responses": [ { "text": "If you think so.", "topic": "TALK_NONE" }, { "text": "Fair enough.  Goodbye.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "If you think so.", "topic": "TALK_NONE" },
+      { "text": "Fair enough.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "MISSION_COWBOYT_SHOTGUN",

@@ -98,8 +98,8 @@
           ]
         }
       },
-      { "text": "Never mind.", "topic": "TALK_NONE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -127,8 +127,8 @@
         "topic": "TALK_RANCH_DOCTOR_BIONICS_DUNNO",
         "condition": { "not": { "u_has_bionics": "ANY" } }
       },
-      { "text": "Never mind.", "topic": "TALK_NONE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -139,7 +139,7 @@
       "yes": "Curious.  Sorry, i have no idea how it works, and i'd be afraid to even touch this parts.",
       "no": "Are you all right?  Sci-fi bionic by robots in a stone castle?  I have some antipsychotics, if it helps."
     },
-    "responses": [ { "text": "I've got to go…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_RANCH_DOCTOR_SUPPLIES",
@@ -151,15 +151,15 @@
         "topic": "TALK_DONE",
         "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "no" } ]
       },
-      { "text": "Never mind.", "topic": "TALK_NONE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC_DELIVERED",
     "type": "talk_topic",
     "dynamic_line": "Thanks, this will help a lot.",
-    "responses": [ { "text": "Glad to help.", "topic": "TALK_NONE" }, { "text": "I've got to go…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Glad to help.", "topic": "TALK_NONE" }, { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_RANCH_DOCTOR_SUPPLIES",

@@ -98,5 +98,22 @@
         { "case": 16, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_03" }, "targeted": true } ] }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_INVISIBILITY_MELEE_CHARACTER",
+    "//": "This will not prevent invisibility from being removed if you use your psi on someone in melee range, but that is intended--the rippling light distortion from quick movement is what gives you away, and psi doesn't require body movements",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "u_has_effect": "effect_photokin_invisibility" },
+    "effect": [ { "u_lose_effect": "effect_photokin_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_INVISIBILITY_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "u_has_effect": "effect_photokin_invisibility" },
+    "effect": [ { "u_lose_effect": "effect_photokin_invisibility" } ]
   }
 ]

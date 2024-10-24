@@ -761,6 +761,7 @@
       { "item": "winter_jacket_army", "prob": 20 },
       { "item": "winter_gloves_army", "prob": 20 },
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 70 },
+      { "group": "eod_armor", "prob": 15 },
       { "group": "ammo_pocket_batteries_full", "prob": 40 },
       { "item": "radio", "prob": 10, "charges": [ 10, 95 ] },
       { "item": "boots_combat", "prob": 50 },

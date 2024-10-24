@@ -105,9 +105,6 @@ class avatar : public Character
         bool create( character_type type, const std::string &tempname = "" );
         // initialize avatar and avatar mocks
         void initialize( character_type type );
-        void add_profession_items();
-        void randomize( bool random_scenario, bool play_now = false );
-        void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
@@ -159,6 +156,7 @@ class avatar : public Character
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        std::string display_name( bool possessive = false, bool capitalize_first = false ) const;
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -234,6 +232,15 @@ class avatar : public Character
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
+
+        /** smash a map feature */
+        struct smash_result {
+            int skill;
+            int resistance;
+            bool did_smash;
+            bool success;
+        };
+        smash_result smash( tripoint_bub_ms &smashp );
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
@@ -363,8 +370,6 @@ class avatar : public Character
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
-        void randomize_hobbies();
-        void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
 

@@ -26,6 +26,7 @@ enum class widget_var : int {
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     sleepiness,        // Current sleepiness, integer
     health,         // Current hidden health value, -200 to +200
+    daily_health,   // Current daily health value, -200 to +200
     mana,           // Current available mana, integer
     max_mana,       // Current maximum mana, integer
     power_percentage, // Bionic power, relative to capacity

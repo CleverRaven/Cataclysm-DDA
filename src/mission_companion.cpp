@@ -212,7 +212,6 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Camp_Recruiting: return "Camp_Recruiting";
         case mission_kind::Camp_Scouting: return "Camp_Scouting";
         case mission_kind::Camp_Combat_Patrol: return "Camp_Combat_Patrol";
-        case mission_kind::Camp_Chop_Shop: return "Camp_Chop_Shop";
         case mission_kind::Camp_Plow: return "Camp_Plow";
         case mission_kind::Camp_Plant: return "Camp_Plant";
         case mission_kind::Camp_Harvest: return "Camp_Harvest";
@@ -367,11 +366,6 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         {
             "Camp_Combat Patrol",
             to_translation( "Patrolling the region.\n" )
-        },
-        {
-            //  Obsolete entry
-            "Camp_Chop_Shop",
-            to_translation( "Working at the chop shop…\n" )
         },
         {
             "Camp_Plow",
@@ -538,8 +532,6 @@ void mission_id::deserialize( const JsonValue &val )
                    camp_upgrade_expansion_npc_string ) { // blueprint + id + dir
             id = Camp_Upgrade;
             parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
-        } else if( st == "_faction_exp_chop_shop_" ) {        // id + dir
-            id = Camp_Chop_Shop;
         } else if( st == "_faction_exp_kitchen_cooking_" ||   // id + dir
                    st == "_faction_exp_blacksmith_crafting_" ||
                    st == "_faction_exp_farm_crafting_" ) {
@@ -1277,7 +1269,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:
@@ -1590,7 +1581,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
         }
@@ -1630,7 +1621,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     player_character.use_amount( itype_FMCNote, limiting_number );
 
     //Plant the actual seeds
-    for( const tripoint_omt_ms &plot : bay.omt_points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
@@ -1662,7 +1653,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
@@ -1709,7 +1700,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.furn( plot ) == furn_f_plant_harvest ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = bay.i_at( plot );
@@ -2628,8 +2619,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         // get non-assigned visible followers
         if( player_character.posz() == guy->posz() && !guy->has_companion_mission() &&
             !guy->is_travelling() &&
-            ( rl_dist( player_character.pos(), guy->pos() ) <= SEEX * 2 ) &&
-            player_character.sees( guy->pos() ) ) {
+            ( rl_dist( player_character.pos_bub(), guy->pos_bub() ) <= SEEX * 2 ) &&
+            player_character.sees( guy->pos_bub() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
             basecamp *player_camp = *bcp;
@@ -2807,7 +2798,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     bay.load( site, false );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
-    for( const tripoint_omt_ms &p : bay.omt_points_on_zlevel() ) {
+    for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
         const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };

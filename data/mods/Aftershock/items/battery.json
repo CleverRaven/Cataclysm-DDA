@@ -1,0 +1,23 @@
+[
+  {
+    "id": "afs_heavy_suit_battery_cell",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "suit battery", "str_pl": "suit batteries" },
+    "description": "A heavy battery cell, compatible with most industrial equipment but purposefully designed to power EVA suits  It's a bit too big to fit in most portable tools.",
+    "ascii_picture": "heavy_plus_battery_cell",
+    "weight": "880 g",
+    "volume": "900 ml",
+    "longest_side": "113 mm",
+    "price": "200 USD",
+    "price_postapoc": "200 USD",
+    "material": [ { "type": "budget_steel", "portion": 99 }, { "type": "plastic", "portion": 1 } ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "capacity": 1000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
+  }
+]

@@ -505,6 +505,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "ZOMBIFY_INTO_ENABLED",
+    "info": "Enables the functionality of the \"zombify_into\" JSON field in monster definitions.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "DESCRIBE_MUSIC_FREQUENCY",
     "info": "Determines frequency (in minutes) of displaying music description in sidebar when listening to MP3-players and the like.",
     "stype": "int",

@@ -65,6 +65,16 @@ void activity_tracker::weary_clear()
     low_activity_ticks = 0.0f;
 }
 
+int activity_tracker::debug_get_tracker() const
+{
+    return tracker;
+}
+
+void activity_tracker::debug_set_tracker( int new_tracker )
+{
+    tracker = new_tracker;
+}
+
 void activity_tracker::set_intake( int ncal )
 {
     intake = ncal;

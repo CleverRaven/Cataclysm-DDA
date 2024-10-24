@@ -37,7 +37,7 @@
     "id": "MILITIA_MERCHANT_misc",
     "subtype": "collection",
     "items": [
-      { "item": "jerky", "count-min": 3, "count-max": 8, "prob": 30 },
+      { "item": "jerky", "count": [ 3, 8 ], "prob": 30 },
       { "group": "tools_general", "prob": 80, "count": [ 1, 3 ] },
       { "group": "tools_home", "prob": 80, "count": [ 1, 3 ] },
       { "group": "tools_carpentry", "prob": 30, "count": [ 1, 3 ] },

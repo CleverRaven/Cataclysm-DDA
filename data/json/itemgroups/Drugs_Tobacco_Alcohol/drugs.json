@@ -267,6 +267,7 @@
     "//": "Drugs stocked by a pharmacy including prescription medications",
     "items": [
       { "group": "drugs_analgesic", "prob": 100 },
+      { "group": "drugs_emergency", "prob": 100 },
       { "group": "drugs_heal_simple", "prob": 100 },
       { "group": "drugs_misc", "prob": 100 },
       { "group": "drugs_rare", "prob": 100 }

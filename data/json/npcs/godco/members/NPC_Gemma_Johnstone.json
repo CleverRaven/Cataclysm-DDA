@@ -12,6 +12,7 @@
       "TALK_GODCO_Gemma_Joinee"
     ],
     "responses": [
+      { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Gemma_Story",

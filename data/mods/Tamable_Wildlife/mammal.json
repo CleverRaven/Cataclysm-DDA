@@ -3,7 +3,6 @@
     "id": "mon_bat",
     "type": "MONSTER",
     "copy-from": "mon_bat",
-    "name": { "str": "bat" },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It flies around your legs and seems friendly.",
@@ -15,7 +14,6 @@
     "id": "mon_bear_cub",
     "type": "MONSTER",
     "copy-from": "mon_bear_cub",
-    "name": { "str": "black bear cub" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -27,14 +25,12 @@
     "id": "mon_bear",
     "type": "MONSTER",
     "copy-from": "mon_bear",
-    "name": { "str": "black bear" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_beaver",
     "type": "MONSTER",
     "copy-from": "mon_beaver",
-    "name": { "str": "beaver" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -46,7 +42,6 @@
     "id": "mon_black_rat",
     "type": "MONSTER",
     "copy-from": "mon_black_rat",
-    "name": { "str": "black rat" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -58,7 +53,6 @@
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
     "copy-from": "mon_boar_wild_piglet",
-    "name": { "str": "wild boar piglet" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -70,7 +64,6 @@
     "id": "mon_boar_wild",
     "type": "MONSTER",
     "copy-from": "mon_boar_wild",
-    "name": { "str": "wild boar" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -82,7 +75,6 @@
     "id": "mon_bobcat",
     "type": "MONSTER",
     "copy-from": "mon_bobcat",
-    "name": { "str": "bobcat" },
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
@@ -94,7 +86,6 @@
     "id": "mon_chipmunk",
     "type": "MONSTER",
     "copy-from": "mon_chipmunk",
-    "name": { "str": "chipmunk" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -106,7 +97,6 @@
     "id": "mon_cougar_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cougar_kitten",
-    "name": { "str": "cougar kitten" },
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to tolerate you!  Or maybe it just won't eat you for now.  This is not a housecat.",
@@ -118,14 +108,12 @@
     "id": "mon_cougar",
     "type": "MONSTER",
     "copy-from": "mon_cougar",
-    "name": { "str": "cougar" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_deer_fawn",
-    "name": { "str": "fawn" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -137,14 +125,12 @@
     "id": "mon_deer",
     "type": "MONSTER",
     "copy-from": "mon_deer",
-    "name": { "str_sp": "deer" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_fox_gray",
     "type": "MONSTER",
     "copy-from": "mon_fox_gray",
-    "name": { "str": "fox", "str_pl": "foxes" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -156,7 +142,6 @@
     "id": "mon_fox_red",
     "type": "MONSTER",
     "copy-from": "mon_fox_red",
-    "name": { "str": "fox", "str_pl": "foxes" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -168,7 +153,6 @@
     "id": "mon_groundhog",
     "type": "MONSTER",
     "copy-from": "mon_groundhog",
-    "name": { "str": "groundhog" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -180,7 +164,6 @@
     "id": "mon_hare",
     "type": "MONSTER",
     "copy-from": "mon_hare",
-    "name": { "str": "jackrabbit" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -192,7 +175,6 @@
     "id": "mon_lemming",
     "type": "MONSTER",
     "copy-from": "mon_lemming",
-    "name": { "str": "lemming" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -204,7 +186,6 @@
     "id": "mon_mink",
     "type": "MONSTER",
     "copy-from": "mon_mink",
-    "name": { "str": "mink" },
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with these creatures.",
@@ -216,7 +197,6 @@
     "id": "mon_moose",
     "type": "MONSTER",
     "copy-from": "mon_moose",
-    "name": { "str_sp": "moose" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -229,7 +209,6 @@
     "id": "mon_muskrat",
     "type": "MONSTER",
     "copy-from": "mon_muskrat",
-    "name": { "str": "muskrat" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -241,7 +220,6 @@
     "id": "mon_opossum",
     "type": "MONSTER",
     "copy-from": "mon_opossum",
-    "name": { "str": "opossum" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -253,7 +231,6 @@
     "id": "mon_skunk",
     "type": "MONSTER",
     "copy-from": "mon_skunk",
-    "name": { "str": "skunk" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -265,7 +242,6 @@
     "id": "mon_otter",
     "type": "MONSTER",
     "copy-from": "mon_otter",
-    "name": { "str": "otter" },
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with these creatures.",
@@ -277,7 +253,6 @@
     "id": "mon_raccoon",
     "type": "MONSTER",
     "copy-from": "mon_raccoon",
-    "name": { "str": "raccoon" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -288,7 +263,6 @@
     "id": "mon_sewer_rat",
     "type": "MONSTER",
     "copy-from": "mon_sewer_rat",
-    "name": { "str": "sewer rat" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -300,7 +274,6 @@
     "id": "mon_sheep_lamb",
     "type": "MONSTER",
     "copy-from": "mon_sheep_lamb",
-    "name": { "str": "lamb" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -311,7 +284,6 @@
     "id": "mon_goat_kid",
     "type": "MONSTER",
     "copy-from": "mon_goat_kid",
-    "name": { "ctxt": "goat", "str": "kid" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -322,7 +294,6 @@
     "id": "mon_squirrel",
     "type": "MONSTER",
     "copy-from": "mon_squirrel",
-    "name": { "str": "squirrel" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -334,7 +305,6 @@
     "id": "mon_squirrel_red",
     "type": "MONSTER",
     "copy-from": "mon_squirrel_red",
-    "name": { "str": "squirrel" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -346,7 +316,6 @@
     "id": "mon_weasel",
     "type": "MONSTER",
     "copy-from": "mon_weasel",
-    "name": { "str": "weasel" },
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with these creatures.",
@@ -358,14 +327,12 @@
     "id": "mon_wolf",
     "type": "MONSTER",
     "copy-from": "mon_wolf",
-    "name": { "str": "wolf", "str_pl": "wolves" },
     "extend": { "flags": [ "CANPLAY", "DOGFOOD", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_wolf_pup",
     "type": "MONSTER",
     "copy-from": "mon_wolf_pup",
-    "name": { "str": "wolf puppy", "str_pl": "wolf puppies" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -378,14 +345,12 @@
     "id": "mon_reindeer",
     "type": "MONSTER",
     "copy-from": "mon_reindeer",
-    "name": { "str_sp": "reindeer" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_tusked_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_tusked_moose_calf",
-    "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -393,7 +358,6 @@
     "id": "mon_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_moose_calf",
-    "name": { "str": "moose calf", "str_pl": "moose calves" },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -401,7 +365,6 @@
     "id": "mon_reindeer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_reindeer_fawn",
-    "name": { "str": "Reindeer fawn" },
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",

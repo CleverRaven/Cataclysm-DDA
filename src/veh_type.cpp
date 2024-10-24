@@ -432,11 +432,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         JsonObject jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
-        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
-        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
+        if( jttd.has_string( "post_field" ) ) {
+            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
+            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
+            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
+        }
     }
 }
 
@@ -949,6 +951,12 @@ void vpart_info::check() const
             debugmsg( "Invalid damage_reduction type \"%s\" for vehicle part %s", dt.first.c_str(),
                       id.c_str() );
         }
+    }
+    if( !!transform_terrain_info && !( transform_terrain_info->post_terrain ||
+                                       transform_terrain_info->post_furniture ||
+                                       transform_terrain_info->post_field ) ) {
+        debugmsg( "transform_terrain_info must contain at least one of post_terrain, post_furniture and post_field for vehicle part %s",
+                  id.c_str() );
     }
 }
 
@@ -1697,10 +1705,10 @@ void vpart_category::reset()
 void vpart_migration::load( const JsonObject &jo )
 {
     vpart_migration migration;
-    mandatory( jo, /* was_loaded = */ true, "from", migration.part_id_old );
-    mandatory( jo, /* was_loaded = */ true, "to", migration.part_id_new );
-    optional( jo, /* was_loaded = */ true, "variant", migration.variant );
-    optional( jo, /* was_loaded = */ true, "add_veh_tools", migration.add_veh_tools );
+    mandatory( jo, false, "from", migration.part_id_old );
+    mandatory( jo, false, "to", migration.part_id_new );
+    optional( jo, false, "variant", migration.variant );
+    optional( jo, false, "add_veh_tools", migration.add_veh_tools );
     vpart_migrations.emplace( migration.part_id_old, migration );
 }
 

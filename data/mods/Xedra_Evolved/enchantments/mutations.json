@@ -30,7 +30,7 @@
     "type": "enchantment",
     "id": "EATER_SIXTH_SENSE",
     "condition": "ALWAYS",
-    "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
+    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "u_spell_count('school': 'EATER')" ] } } ]
   },
   {
     "type": "enchantment",

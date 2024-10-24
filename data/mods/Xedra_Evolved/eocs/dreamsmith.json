@@ -97,7 +97,8 @@
           "dreamforged_picklocks",
           "dreamforged_scalpel",
           "dreamforged_e_tool",
-          "dreamforged_ax"
+          "dreamforged_ax",
+          "dreamforged_nail"
         ],
         "type": "recipe",
         "true_eocs": {

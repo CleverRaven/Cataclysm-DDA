@@ -1128,6 +1128,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_smashes_tile:
         case event_type::character_starts_activity:
         case event_type::character_takes_damage:
+        case event_type::monster_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_attempt_to_fall_asleep:
         case event_type::character_falls_asleep:

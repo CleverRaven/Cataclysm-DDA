@@ -674,7 +674,7 @@
         "search_range": 1000,
         "min_distance": 3
       },
-      "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
+      "update_mapgen": { "place_items": [ { "item": "fertility_supplements", "x": 15, "y": 15 } ] }
     },
     "end": {
       "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ],
@@ -1291,8 +1291,8 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Purge the heretics.",
-      "offer": "Blasphemy, heresy, the righteous judgement of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
-      "accepted": "Righteous judgement shall come!",
+      "offer": "Blasphemy, heresy, the righteous judgment of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
+      "accepted": "Righteous judgment shall come!",
       "rejected": "Are you standing with them?",
       "advice": "Attack at night to surprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",
       "inquire": "Are the heretics purged?",
@@ -1389,5 +1389,12 @@
       "success_lie": "If you see this, it's a bug.",
       "failure": "Of course, you have no evidence."
     }
+  },
+  {
+    "type": "item_group",
+    "id": "fertility_supplements",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "fert_supplement", "container-item": "null", "count": 25 } ]
   }
 ]

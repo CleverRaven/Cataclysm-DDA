@@ -1213,7 +1213,7 @@
       { "item": "gum", "prob": 30, "count": [ 1, 10 ] },
       [ "glass", 20 ],
       [ "bandana", 10 ],
-      { "item": "mp3", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 5, "charges": [ 0, -1 ] },

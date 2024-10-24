@@ -1994,7 +1994,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>52</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -2810,26 +2810,41 @@ TEST_CASE( "pocket_info_for_a_multi-pocket_item", "[iteminfo][pocket][multiple]"
 {
     clear_avatar();
 
-    item test_belt( "test_tool_belt" );
+    item test_belt( "test_tool_belt_pocket_mix" );
     std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
 
     override_option opt_vol( "VOLUME_UNITS", "l" );
     override_option opt_weight( "USE_METRIC_WEIGHTS", "kg" );
     override_option opt_dist( "DISTANCE_UNITS", "metric" );
 
-    // When two pockets have the same attributes, they are combined with a heading like:
+    // When multiple pockets have the same attributes, they are combined headings like:
     //
-    //  2 Pockets with capacity:
+    //  Pockets 1, 2, and 3
     //  Volume: ...  Weight: ...
     //
     // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
     CHECK( item_info_str( test_belt, pockets ) ==
            "--\n"
            "<color_c_white>Total capacity</color>:\n"
-           "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"
+           "Volume: <color_c_yellow>7.00</color> L  Weight: <color_c_yellow>9.00</color> kg\n"
            "--\n"
-           "<color_c_white>4 pockets</color> with capacity:\n"
-           "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.20</color> kg\n"
+           "<color_c_white>Pocket 1</color>\n"
+           "Volume: <color_c_yellow>1.00</color> L  Weight: <color_c_yellow>1.50</color> kg\n"
+           "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>40</color> cm\n"
+           "Base moves to remove item: <color_c_yellow>100</color>\n"
+           "--\n"
+           "<color_c_white>Pockets 2 and 3</color>\n"
+           "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.50</color> kg\n"
+           "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>70</color> cm\n"
+           "Minimum item volume: <color_c_yellow>0.050</color> L\n"
+           "Base moves to remove item: <color_c_yellow>50</color>\n"
+           "This is a <color_c_cyan>holster</color>, it only holds <color_c_cyan>one item at a time</color>.\n"
+           "<color_c_white>Restrictions</color>:\n"
+           "* Item must clip onto a belt loop\n"
+           "* <color_c_white>or</color> Item must fit in a sheath\n"
+           "--\n"
+           "<color_c_white>Pockets 4, 5, and 6</color>\n"
+           "Volume: <color_c_yellow>1.00</color> L  Weight: <color_c_yellow>1.50</color> kg\n"
            "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>70</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050</color> L\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n"

@@ -58,6 +58,7 @@
         "f": "t_linoleum_white",
         "l": "t_linoleum_white",
         "w": "t_linoleum_white",
+        "x": "t_linoleum_white",
         "+": "t_door_c",
         "3": [ "t_door_locked", "t_door_locked_alarm" ],
         "I": "t_door_locked_interior",

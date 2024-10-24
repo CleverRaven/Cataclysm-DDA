@@ -127,5 +127,20 @@
         }
       ]
     }
+  },
+  {
+    "copy-from": "armguard_larmor",
+    "type": "TOOL_ARMOR",
+    "id": "mbracer_blinding_strike",
+    "price_postapoc": "1850 USD",
+    "name": { "str_sp": "bracers of the blinding strike" },
+    "description": "A pair of light leather bracers with inlays of mithril looking like vines with tiny, leaf-shaped leaves branching off of the vines.  It slightly increases your attack speed at all times, and you may activate it to greatly increase your attack speed for a short time.",
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "8 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "multiply": -0.15 } ] } ]
+    },
+    "use_action": { "type": "cast_spell", "spell_id": "mbracer_blinding_strike_spell", "no_fail": true, "level": 0, "need_worn": true }
   }
 ]

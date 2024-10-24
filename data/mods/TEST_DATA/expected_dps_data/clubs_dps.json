@@ -3,7 +3,6 @@
     "type": "test_data",
     "//": "expected value around 24 but most aren't dedicated weapons",
     "expected_dps": {
-      "wire_barbed_baseball": 5.68,
       "rock": 6.0,
       "art_club": 6.99,
       "club_wooden": 6.99,

@@ -8,6 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "types": [ "HERITAGE" ],
     "vitamin_rates": [
       [ "mutagen", 1 ],
       [ "mutagen_alpha", 1 ],

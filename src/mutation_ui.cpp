@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "input_context.h"
 #include "inventory.h"
+#include "magic.h"
 #include "mutation.h"
 #include "output.h"
 #include "popup.h"
@@ -308,7 +309,7 @@ void avatar::power_mutations()
                 }
                 if( md.thirst ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " thirst" );
@@ -316,10 +317,14 @@ void avatar::power_mutations()
                 }
                 if( md.sleepiness ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " sleepiness" );
+                }
+                if( md.mana ) {
+                    resource_unit += _( " mana" );
+                    number_of_resource++;
                 }
                 mut_desc += mutation_name( md.id );
                 if( md.cost > 0 && md.cooldown > 0_turns ) {
@@ -434,7 +439,8 @@ void avatar::power_mutations()
                                 exit = true;
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                       ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
+                                       ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
+                                       ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
                                 add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
                                 // Reset menu in advance
                                 ui.reset();
@@ -446,8 +452,8 @@ void avatar::power_mutations()
                             }
                         } else {
                             popup( _( "You cannot activate %1$s!  To read a description of "
-                                      "%1$s, press '!', then '%2$c'." ),
-                                   mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                      "%1$s, press '%2$s', then '%3$c'." ),
+                                   mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ), my_mutations[mut_id].key );
                         }
                         break;
                     }
@@ -607,7 +613,8 @@ void avatar::power_mutations()
                                     exit = true;
                                 } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                           ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
+                                           ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
+                                           ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
                                     add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
                                     // Reset menu in advance
                                     ui.reset();
@@ -619,8 +626,8 @@ void avatar::power_mutations()
                                 }
                             } else {
                                 popup( _( "You cannot activate %1$s!  To read a description of "
-                                          "%1$s, press '!', then '%2$c'." ),
-                                       mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                          "%1$s, press '%2$s'." ),
+                                       mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
                             }
                             break;
                         }
