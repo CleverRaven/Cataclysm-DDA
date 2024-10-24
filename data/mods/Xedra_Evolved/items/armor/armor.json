@@ -1321,5 +1321,58 @@
     ],
     "melee_damage": { "bash": 4 },
     "relic_data": { "passive_effects": [ { "id": "ench_verdant_boots" } ] }
+  },
+  {
+    "id": "sevenoclock_coat",
+    "type": "ARMOR",
+    "name": { "str": "coat of the timely sleeper" },
+    "description": "A old-fashioned padded coat with deep pockets.  As you touch it, you feel that this coat could allow you to fall asleep whenever and wherever you want.",
+    "weight": "1340 g",
+    "volume": "6750 ml",
+    "price": "14000 USD",
+    "price_postapoc": "70 USD 50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "coat_rain",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 11 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 70,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARMCLOCK", "OUTER" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_sevenoclock_coat" } ] }
   }
 ]
