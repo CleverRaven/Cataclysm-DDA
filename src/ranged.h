@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "creature.h"
+
 #include "point.h"
 
 class aim_activity_actor;
