@@ -55,7 +55,7 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
 }
 
 bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const std::optional<item> &base )
+                      const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -63,7 +63,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
+        debugmsg( "error constructing appliance" );
         return false;
     }
 
@@ -123,6 +123,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
         orient_part( veh, vpinfo, partnum );
     }
+    veh->set_owner( owner );
     return true;
 }
 
