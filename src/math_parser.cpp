@@ -271,11 +271,11 @@ double func_jmath::eval( const_dialogue const &d ) const
 
 double var::eval( const_dialogue const &d ) const
 {
-    std::string const str = read_var_value( varinfo, d );
-    if( str.empty() ) {
+    std::optional<std::string> const str = read_var_value( varinfo, d );
+    if( !str ) {
         return 0;
     }
-    if( std::optional<double> ret = svtod( str ); ret ) {
+    if( std::optional<double> ret = svtod( *str ); ret ) {
         return *ret;
     }
     throw math::runtime_error( R"(failed to convert variable "%s" with value "%s" to a number)",

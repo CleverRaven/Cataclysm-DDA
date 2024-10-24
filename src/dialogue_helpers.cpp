@@ -5,8 +5,9 @@
 #include "dialogue.h"
 #include "rng.h"
 #include "talker.h"
+#include "math_parser_diag_value.h"
 
-std::optional<std::string> maybe_read_var_value( const var_info &info, const_dialogue const &d )
+std::optional<std::string> read_var_value( const var_info &info, const_dialogue const &d )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -20,17 +21,12 @@ std::optional<std::string> maybe_read_var_value( const var_info &info, const_dia
             return d.const_actor( true )->maybe_get_value( info.name );
         case var_type::var: {
             std::optional<std::string> const var_val = d.maybe_get_value( info.name );
-            return var_val ? maybe_read_var_value( process_variable( *var_val ), d ) : std::nullopt;
+            return var_val ? read_var_value( process_variable( *var_val ), d ) : std::nullopt;
         }
         case var_type::last:
             return std::nullopt;
     }
     return std::nullopt;
-}
-
-std::string read_var_value( const var_info &info, const_dialogue const &d )
-{
-    return maybe_read_var_value( info, d ).value_or( std::string{} );
 }
 
 var_info process_variable( const std::string &type )
@@ -62,9 +58,9 @@ std::string str_or_var::evaluate( const_dialogue const &d ) const
         return str_val.value();
     }
     if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            return val;
+        std::optional<std::string> val = read_var_value( var_val.value(), d );
+        if( val ) {
+            return *val;
         }
         if( default_val.has_value() ) {
             return default_val.value();
@@ -85,9 +81,9 @@ std::string translation_or_var::evaluate( const_dialogue const &d ) const
         return str_val.value().translated();
     }
     if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            return val;
+        std::optional<std::string> val = read_var_value( var_val.value(), d );
+        if( val ) {
+            return *val;
         }
         if( default_val.has_value() ) {
             return default_val.value().translated();
@@ -111,9 +107,9 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
         return dbl_val.value();
     }
     if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            return std::stof( val );
+        std::optional<std::string> val = read_var_value( var_val.value(), d );
+        if( val ) {
+            return std::stof( *val );
         }
         if( default_val.has_value() ) {
             return default_val.value();
@@ -141,11 +137,9 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
         return dur_val.value();
     }
     if( var_val.has_value() ) {
-        std::string val = read_var_value( var_val.value(), d );
-        if( !val.empty() ) {
-            time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stof( val ) );
-            return ret_val;
+        std::optional<std::string> val = read_var_value( var_val.value(), d );
+        if( val ) {
+            return time_duration::from_turns( std::stof( *val ) );
         }
         if( default_val.has_value() ) {
             return default_val.value();

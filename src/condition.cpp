@@ -54,6 +54,7 @@
 #include "math_parser_type.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "math_parser_diag_value.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -378,9 +379,9 @@ str_translation_or_var get_str_translation_or_var(
 
 tripoint_abs_ms get_tripoint_ms_from_var( var_info const &var, const_dialogue const &d )
 {
-    std::string value = read_var_value( var, d );
-    if( !value.empty() ) {
-        return tripoint_abs_ms{ tripoint::from_string( value ) };
+    std::optional<std::string> value = read_var_value( var, d );
+    if( value ) {
+        return tripoint_abs_ms{ tripoint::from_string( *value ) };
     }
     return {};
 }
