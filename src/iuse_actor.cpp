@@ -1107,6 +1107,23 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     }
 
     map &here = get_map();
+
+    tripoint_bub_ms where = pnt;
+    tripoint_bub_ms below = pnt + tripoint_below;
+    while( here.valid_move( where, below, false, true ) ) {
+        where += tripoint_below;
+        below += tripoint_below;
+    }
+
+    const int height = pnt.z() - where.z();
+    if( height > 1 && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pnt ) ) {
+        if( !query_yn(
+                _( "Deploying %s there will make it fall down %i stories.  Do you still want to deploy it?" ),
+                it.tname(), height ) ) {
+            return ret_val<tripoint>::make_failure( pos );
+        }
+    }
+
     optional_vpart_position veh_there = here.veh_at( pnt );
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
@@ -1165,6 +1182,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     }
 
     get_map().furn_set( suitable.value(), furn_type );
+    get_map().drop_furniture( tripoint_bub_ms( suitable.value() ) );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
