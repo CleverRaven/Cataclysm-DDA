@@ -285,7 +285,8 @@
     "type": "MONSTER_FACTION",
     "name": "beaver",
     "base_faction": "herbivore",
-    "by_mood": [ "herbivore", "zombie_aquatic" ]
+    "neutral": [ "herbivore" ],
+    "by_mood": [ "zombie_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
