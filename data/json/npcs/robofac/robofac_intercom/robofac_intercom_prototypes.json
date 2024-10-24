@@ -1135,7 +1135,7 @@
     "dynamic_line": "Have you, now?  We are pleased to hear.  However, we still believe that approaching with an excess of wariness is a wise choice.  We feel that it would behoove us to understand more about this group before we approach directly, and so for the time being, understanding more about their general-use technology is our preferred course of action."
   },
   {
-    "id": [ "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED", "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED_1" ],
+    "id": [ "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED" ],
     "//": "creating EXODII barrel",
     "type": "talk_topic",
     "dynamic_line": "Brilliant!!  Just brilliant.  Thank you very much.  Please contact us again in three days.  Thank you!\"\n\nThe voice abruptly disconnects.  When the intercom comes back on, it's the original voice again.  \"Was there anything else?",
@@ -1158,7 +1158,11 @@
     "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED_1",
     "//": "this is a half-truth. while the Hub does have an interest in understanding or reversing the Cataclysm, their primary intent here is specifically to understand the Exodii better.",
     "type": "talk_topic",
-    "dynamic_line": "The Cataclysm has illuminated hitherto unknown facts about our universe.  The opportunity to research - and perhaps understand - technology from not only another world, but another dimension entirely, is an exceptionally promising field of study.  Now more than ever is our continued delving into this field of study paramount; while our focus has shifted rather abruptly, we believe that if there is ever any chance of understanding or even reversing <the_cataclysm>, it would come from studies like this."
+    "dynamic_line": "The Cataclysm has illuminated hitherto unknown facts about our universe.  The opportunity to research - and perhaps understand - technology from not only another world, but another dimension entirely, is an exceptionally promising field of study.  Now more than ever is our continued delving into this field of study paramount; while our focus has shifted rather abruptly, we believe that if there is ever any chance of understanding or even reversing <the_cataclysm>, it would come from studies like this.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE",
