@@ -3357,7 +3357,7 @@
     "time": "40 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ "sewing_kevlar", 400 ],
+    "using": [ [ "sewing_kevlar", 400 ] ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "bag_body_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "button_steel", 8 ], [ "button_plastic", 8 ] ] ],
