@@ -452,7 +452,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "100 L",
-        "max_contains_weight": "200 kg",
+        "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
         "moves": 400
       }
@@ -460,6 +460,34 @@
     "color": "dark_gray",
     "flags": [ "NO_SALVAGE" ],
     "//2": "Based on https://www.amazon.com/dp/B0BYPB5DMW"
+  },
+  {
+    "id": "bag_r_body_bag",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reinforced body bag" },
+    "looks_like": "bag_canvas",
+    "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Originally intended to hold a dead body, this one has been modified for greater support along one of the ends for use transporting numerous smaller goods that distribute their mass differently.",
+    "ascii_picture": "bag_body_bag",
+    "weight": "1221 g",
+    "volume": "5500 ml",
+    "price": "30 USD",
+    "price_postapoc": "15 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "200 kg",
+        "max_item_length": "200 cm",
+        "moves": 400
+      }
+    ],
+    "color": "dark_green",
+    "flags": [ "NO_SALVAGE" ],
+    "//1": "Based on https://www.amazon.com/Dynarex-Post-Mortem-Adult-Inch/dp/B00U1HAZAW with modifications for transport of smaller less uniform objects."
   },
   {
     "id": "heavy_punching_bag_sack",
