@@ -8,9 +8,21 @@
 #include <string_view>
 #include <vector>
 
-struct diag_value;
-struct deref_diag_value;
-using diag_kwargs = std::map<std::string, deref_diag_value>;
+#include "math_parser_diag_value.h"
+
+struct diag_kwargs {
+    using impl_t = std::map<std::string, deref_diag_value>;
+
+    impl_t kwargs;
+
+    template<typename T = std::monostate>
+    diag_value kwarg_or( std::string const &key, T const &default_value = {} ) const {
+        if( auto it = kwargs.find( key ); it != kwargs.end() ) {
+            return *( it->second );
+        }
+        return diag_value{ default_value };
+    }
+};
 
 struct dialogue;
 struct dialogue_func {
