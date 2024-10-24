@@ -320,6 +320,7 @@
         "sss|------------------|_"
       ],
       "fill_ter": "t_linoleum_white",
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         " ": "t_linoleum_white",
         "*": "t_thconc_floor",
@@ -415,7 +416,7 @@
         "---...............&...- ",
         "-.....................- ",
         "-.....................- ",
-        "-g....................- ",
+        "-=....................- ",
         "-.....................- ",
         "-.....................- ",
         "----..................- ",
@@ -508,9 +509,9 @@
         { "item": "cash_register_random", "x": 17, "y": 5, "chance": 100 }
       ],
       "place_monsters": [
-        { "monster": "G=OUP_G=OCE=Y", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
-        { "monster": "G=OUP_PLAGUE_=OACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 },
-        { "monster": "G=OUP_=OACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }
+        { "monster": "GROUP_GROCERY", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_PLAGUE_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 },
+        { "monster": "GROUP_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }
       ],
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }
@@ -623,9 +624,9 @@
         ]
       },
       "place_monsters": [
-        { "monster": "G=OUP_G=OCE=Y", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
-        { "monster": "G=OUP_PLAGUE_=OACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 },
-        { "monster": "G=OUP_=OACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }
+        { "monster": "GROUP_GROCERY", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_PLAGUE_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 },
+        { "monster": "GROUP_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }
       ],
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } },
       "nested": {
@@ -709,9 +710,9 @@
         { "item": "cash_register_random_ransacked", "x": 17, "y": 5, "chance": 100 }
       ],
       "place_monsters": [
-        { "monster": "G=OUP_G=OCE=Y", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
-        { "monster": "G=OUP_PLAGUE_=OACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 },
-        { "monster": "G=OUP_=OACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }
+        { "monster": "GROUP_GROCERY", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_PLAGUE_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 },
+        { "monster": "GROUP_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }
       ],
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }

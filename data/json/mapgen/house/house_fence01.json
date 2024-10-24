@@ -75,7 +75,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_palette" ],
       "furniture": { "!": "f_desk", "$": "f_wardrobe", "%": "f_dresser", "&": "f_mannequin", "~": "f_sink" }
     }
   },
@@ -112,7 +112,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "~": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "H": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -162,7 +162,8 @@
         "standard_domestic_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_lino_kitchen",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "terrain": {
         "?": "t_door_metal_locked",
