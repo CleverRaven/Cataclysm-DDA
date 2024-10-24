@@ -222,7 +222,7 @@ construction_id blueprint_options::get_final_construction(
         }
         const construction &con_next = list_constructions[i];
         if( con.group == con_next.group &&
-            con.post_terrain == con_next.pre_terrain ) {
+            ( con_next.pre_terrain.find( con.post_terrain ) != con_next.pre_terrain.end() ) ) {
             skip_index.insert( idx );
             return get_final_construction( list_constructions, construction_id( i ), skip_index );
         }
