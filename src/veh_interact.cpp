@@ -174,14 +174,14 @@ player_activity veh_interact::serialize_activity()
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    const point q = veh->coord_translate( pt ? pt->mount : veh->part( 0 ).mount );
+    const point_rel_ms q = veh->coord_translate( pt ? pt->mount : veh->part( 0 ).mount );
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint &p : veh->get_points( true ) ) {
         res.coord_set.insert( here.getglobal( p ).raw() );
     }
-    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );   // values[0]
-    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );   // values[1]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );   // values[0]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );   // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
@@ -850,7 +850,7 @@ bool veh_interact::update_part_requirements()
             const vehicle_part &vp = veh->part( p );
             if( !vp.info().has_flag( "TRACKED" ) ) {
                 // tracked parts don't contribute to axle complexity
-                axles.insert( vp.mount.x );
+                axles.insert( vp.mount.x() );
             }
         }
 
@@ -1123,7 +1123,7 @@ void veh_interact::do_repair()
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repairable_part();
         if( most_repairable && most_repairable->is_repairable() ) {
-            move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
+            move_cursor( ( most_repairable->mount.raw() + dd ).rotate( 3 ) );
             return;
         }
     }
@@ -1659,7 +1659,7 @@ void veh_interact::overview( const overview_enable_t &enable,
         }
 
         if( overview_pos >= 0 && static_cast<size_t>( overview_pos ) < overview_opts.size() ) {
-            move_cursor( ( overview_opts[overview_pos].part->mount + dd ).rotate( 3 ) );
+            move_cursor( ( overview_opts[overview_pos].part->mount.raw() + dd ).rotate( 3 ) );
         }
 
         if( overview_pos >= 0 && static_cast<size_t>( overview_pos ) < overview_opts.size() &&
@@ -2363,7 +2363,7 @@ void veh_interact::display_veh()
     for( const int structural_part_idx : veh->all_parts_at_location( "structure" ) ) {
         const vehicle_part &vp = veh->part( structural_part_idx );
         const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
-        const point q = ( vp.mount + dd ).rotate( 3 );
+        const point q = ( vp.mount.raw() + dd ).rotate( 3 );
 
         if( q != point_zero ) { // cursor is not on this part
             mvwputch( w_disp, h_size + q, vd.color, vd.symbol_curses );
@@ -3355,7 +3355,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             // Save these values now so they aren't lost when parts or vehicles are destroyed.
-            const point part_mount = vp->mount;
+            const point_rel_ms part_mount = vp->mount;
             const tripoint_bub_ms part_pos = veh.bub_part_pos( *vp );
 
             veh.unlink_cables( part_mount, you,
