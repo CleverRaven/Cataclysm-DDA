@@ -40,13 +40,11 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     }
     const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos_bub() ) );
     if( grabbed_vehicle == veh_under_player ) {
-        // TODO: Fix when unary operation available
-        u.grab_point = tripoint_rel_ms_zero - dp;
+        u.grab_point = - dp;
         return false;
     }
 
-    // TODO: Fix when unary operation available
-    tripoint_rel_ms dp_veh = tripoint_rel_ms_zero - u.grab_point;
+    tripoint_rel_ms dp_veh = - u.grab_point;
     const tripoint_rel_ms prev_grab = u.grab_point;
     tripoint_rel_ms next_grab = u.grab_point;
     const tileray initial_veh_face = grabbed_vehicle->face;
@@ -63,8 +61,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         pushing = true;
     } else if( std::abs( dp.x() + dp_veh.x() ) != 2 && std::abs( dp.y() + dp_veh.y() ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
-        // TODO: Fix when unary operation available
-        u.grab_point = tripoint_rel_ms_zero - ( dp + dp_veh );
+        u.grab_point = - ( dp + dp_veh );
         return false;
     } else if( ( dp.x() == prev_grab.x() || dp.y() == prev_grab.y() ) &&
                next_grab.x() != 0 && next_grab.y() != 0 ) {
@@ -73,13 +70,11 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         dp_veh.x() = dp.x() == -dp_veh.x() ? 0 : dp_veh.x();
         dp_veh.y() = dp.y() == -dp_veh.y() ? 0 : dp_veh.y();
 
-        // TODO: Fix when unary operation available
-        next_grab = tripoint_rel_ms_zero - dp_veh;
+        next_grab = - dp_veh;
         zigzag = true;
     } else {
         // We are pulling the vehicle
-        // TODO: Fix when unary operation available
-        next_grab = tripoint_rel_ms_zero - dp;
+        next_grab = - dp;
         pulling = true;
     }
 
@@ -276,10 +271,8 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     // Try to place the vehicle in the position player just left rather than "flattening" the zig-zag
     tripoint_rel_ms final_dp_veh = get_move_dir( dp_veh, next_grab );
     if( final_dp_veh == tripoint_rel_ms_min && zigzag ) {
-        // TODO: Fix when unary operation available
-        final_dp_veh = get_move_dir( tripoint_rel_ms_zero - prev_grab, tripoint_rel_ms_zero - dp );
-        // TODO: Fix when unary operation available
-        next_grab = tripoint_rel_ms_zero - dp;
+        final_dp_veh = get_move_dir( - prev_grab, - dp );
+        next_grab = - dp;
     }
 
     if( final_dp_veh == tripoint_rel_ms_min ) {
