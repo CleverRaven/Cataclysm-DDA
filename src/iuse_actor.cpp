@@ -1215,7 +1215,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
 
     it.spill_contents( suitable.value() );
     if( !place_appliance( tripoint_bub_ms( suitable.value() ),
-                          vpart_appliance_from_item( appliance_base ), it ) ) {
+                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
         // failed to place somehow, cancel!!
         return 0;
     }
