@@ -1416,7 +1416,7 @@
     "type": "keybinding",
     "id": "TOGGLE_UNLOAD_RAS_WEAPON",
     "category": "TARGET",
-    "name": "Whether to unload your bow etc. after canceling a shot",
+    "name": "Whether to unload your bow etc after canceling a shot",
     "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
