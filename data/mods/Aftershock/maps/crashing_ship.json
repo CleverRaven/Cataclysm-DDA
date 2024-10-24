@@ -12,7 +12,7 @@
     "//4": "Corridor (Center): Access to the various rooms, hallways are sealed due to breaches on either end of the ship.",
     "//5": "Shuttle Bay (Bottom Left): Berthing for small shuttles.",
     "//6": "Launch Bay (Bottom Center): A long launch bay with a ramp for ground vehicles to embark/disembark.",
-    "//7": "Vehicle Bay (Bottom Right): Escape pod bays are near the central coridor. Storage for ground vehicles.",
+    "//7": "Vehicle Bay (Bottom Right): Escape pod bays are near the central corridor. Storage for ground vehicles.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
