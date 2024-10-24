@@ -4,9 +4,30 @@
     "id": "THRESH_LILIN",
     "name": { "str": "One with the Night" },
     "points": 0,
-    "description": "You have ascended in power and can rival the mighty night-creatures of old.",
+    "description": "You have ascended in power and can rival the mighty night-creatures of old.  The night is your home, now, out of the light of the sun.",
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "An umbrella cannot protect you because this is a mystical weakness.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "INTELLIGENCE", "add": -1 },
+          { "value": "PERCEPTION", "add": -1 }
+        ]
+      },
+      {
+        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "values": [
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "INTELLIGENCE", "add": -1 },
+          { "value": "PERCEPTION", "add": -1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -81,6 +102,27 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_THE_EVIL_EYE",
+    "name": { "str": "The Evil Eye" },
+    "points": 2,
+    "description": "With a baleful gaze and a heart full of malice, curse a single target with misfortune.",
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_evil_eye_spell", 1 ] ],
+    "flags": [ "EVIL_EYE_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_AOE_DAZE",
+    "name": { "str": "Cry of the Night-Bird" },
+    "points": 3,
+    "description": "Let out a piercing cry, disorienting both enemies and allies nearby.",
+    "prereqs": [ "LILIN_THE_EVIL_EYE" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_aoe_daze_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_TURN_INTO_OWL",
     "name": { "str": "On Silent Wings" },
     "points": 8,
@@ -90,9 +132,30 @@
     "active": true,
     "activated_is_setup": true,
     "prereqs": [ "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
+    "prereqs2": [ "LILIN_AVOID_SLEEP" ],
     "category": [ "LILIN" ],
     "activated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_SLEEP_EASY_DURING_DAY",
+    "name": { "//~": "This is a reference to Genesis 1:5", "str": "And There Was Evening" },
+    "points": 2,
+    "description": "You were born to walk the night, and have a much easier time sleeping during the day.",
+    "category": [ "LILIN" ],
+    "enchantments": [ { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_AVOID_SLEEP",
+    "name": { "//~": "This is a reference to Psalms 121:4", "str": "Neither Sleep Nor Slumber" },
+    "points": 4,
+    "description": "While sleep is restful, the ruach you gain fills you with more energy than even a good night's rest.  You may spend ruach to alleviate your sleepiness.",
+    "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "category": [ "LILIN" ],
+    "active": true,
+    "spells_learned": [ [ "lilin_avoid_sleep_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -156,21 +219,21 @@
     "id": "LILIN_UNARMED_EXTRA_DAMAGE",
     "name": { "//~": "This is a reference to Proverbs 30:15", "str": "Alukah's Daughter" },
     "description": "You can drain essence from your targets with your unarmed attacks.  Not well enough to absorb their ruach, should they have any, but enough to cause additional damage at night.  This damage is strongest during the half to full moon and weakest during the new moon.  It functions only slightly during the day.",
-    "points": 2,
+    "points": 3,
     "purifiable": false,
     "player_display": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_STRENGTH" ],
     "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
     "category": [ "LILIN" ],
-    "//": "Use a more appropriate damage type once enchantments support custom damage types",
+    "//": "Use a more appropriate damage type once enchantments support custom damage types. Also, a light level check wound be better than is_day/is_outside",
     "enchantments": [
       {
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
-            { "not": "is_day" },
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
             {
-              "or": [ { "math": [ "moon_phase() == 2" ] }, { "math": [ "moon_phase() == 3" ] }, { "math": [ "moon_phase() == 4" ] } ]
+              "or": [ { "math": [ "moon_phase() == 3" ] }, { "math": [ "moon_phase() == 4" ] }, { "math": [ "moon_phase() == 5" ] } ]
             }
           ]
         },
@@ -187,10 +250,10 @@
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
-            { "not": "is_day" },
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
             {
               "or": [
-                { "math": [ "moon_phase() == 5" ] },
+                { "math": [ "moon_phase() == 2" ] },
                 { "math": [ "moon_phase() == 6" ] },
                 { "math": [ "moon_phase() == 7" ] },
                 { "math": [ "moon_phase() == 1" ] }
@@ -208,11 +271,11 @@
         ]
       },
       {
-        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": "is_day" }, { "math": [ "moon_phase() == 8" ] } ] },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] }, { "math": [ "moon_phase() == 8" ] } ] },
         "values": [ { "value": "ITEM_DAMAGE_BIO", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
       },
       {
-        "condition": { "and": [ { "not": "u_has_weapon" }, "is_day" ] },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] }, ] },
         "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 1 } ]
       }
     ]
@@ -237,6 +300,7 @@
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" ],
+    "prereqs2": [  ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_speed_dodge_boost_spell", 1 ] ]
   },
@@ -256,9 +320,10 @@
     "id": "LILIN_NIGHT_VISION",
     "name": { "str": "Strigine Gaze" },
     "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
-    "points": 2,
+    "points": 3,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
+    "prereqs2": [ "LILIN_THE_EVIL_EYE" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
@@ -268,6 +333,94 @@
       {
         "condition": { "not": "u_is_outside" },
         "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.75" ] } } ]
+      },
+      {
+        "condition": { "and": [ "u_is_outside", { "not": "is_day" } ] },
+        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + (u_val('perception') / 5)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_GAIN_MORE_FOCUS",
+    "name": { "str": "Owl's Wisdom" },
+    "description": "The owl is a symbol of wisdom in culture after culture, and you are the heir to that wisdom.  You find it easier to learn things, and even easier the more ruach you're holding on to.",
+    "points": 1,
+    "purifiable": false,
+    "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "LEARNING_FOCUS", "add": { "math": [ "5 + clamp( (u_vitamin('lilin_ruach_vitamin') / 100 ), 0, 10) + clamp( ( (u_vitamin('lilin_ruach_vitamin') - 1000) / 250 ), 0, 10) +  clamp( ( (u_vitamin('lilin_ruach_vitamin') - 3000) / 500 ), 0, 10)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_STEALTH_MODIFIER_IN_DARKNESS",
+    "name": { "//~": "This is a reference to Psalms 91:6", "str": "The Pestilence that Stalks in Darkness" },
+    "description": "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.",
+    "points": 3,
+    "purifiable": false,
+    "prereqs": [ "LILIN_AVOID_SLEEP" ],
+    "category": [ "LILIN" ],
+    "//": "A light level check would be better than is_day/is_outside",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
+            {
+              "or": [ { "math": [ "moon_phase() ==6" ] }, { "math": [ "moon_phase() == 2" ] } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": 20
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "and": [ "is_day", "u_is_outside" ] },
+            {
+              "or": [
+                { "math": [ "moon_phase() == 7" ] },
+                { "math": [ "moon_phase() == 1" ] }
+              ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER", "add": 35
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": { "and": [ "is_day", "u_is_outside" ] }, { "math": [ "moon_phase() == 0" ] } ] },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_RESIST_COLD",
+    "name": { "//~": "This is a reference to Psalm 147:17", "str": "Stand Before the Cold" },
+    "description": "As a hunter in the night, you are well-conditioned to the cold after the sun goes down.  You are resistant to chill temperatures, and more so the more ruach you have.",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs2": [  ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": { "math": [ "15 + (u_vitamin('lilin_ruach_vitamin') / 100)" ] } } ]
       }
     ]
   },
@@ -279,6 +432,7 @@
     "points": 2,
     "starting_trait": false,
     "purifiable": false,
+    "prereqs": [ "LILIN_GAIN_MORE_FOCUS" ],
     "changes_to": [ "LILIN_HOLD_MORE_RUACH_2" ],
     "category": [ "LILIN" ]
   },
@@ -309,19 +463,27 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_READ_CRAFT_IN_DARKNESS",
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
+    "description": "You have adapted so well to the night that it doesn't hinder your actions at all.  You can read and craft in any light levels.",
+    "points": 4,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_NIGHT_VISION" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT",
     "name": { "str": "The Night-Hunter" },
     "description": "You are at home in the night, and your prowess is heightened while the moon is up as long as you have any ruach within you.",
     "points": 8,
     "starting_trait": false,
     "purifiable": false,
-    "prereqs": [
-      "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
-      "LILIN_UNARMED_EXTRA_DAMAGE",
-      "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
-      "LILIN_SPEED_DODGE_BOOST"
-    ],
-    "prereqs2": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION", "LILIN_NIGHT_VISION" ],
+    "prereqs": [ "LILIN_UNARMED_EXTRA_DAMAGE", "LILIN_SPEED_DODGE_BOOST" ],
+    "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
