@@ -3537,7 +3537,7 @@
     "volume": "2500 ml",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "brown",
     "warmth": 50,
