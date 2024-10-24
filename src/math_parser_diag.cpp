@@ -963,10 +963,23 @@ std::function<double( dialogue & )> pain_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> pain_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
-        d.actor( beta )->set_pain( val );
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), format_value]( dialogue const & d, double val ) {
+
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            d.actor( beta )->mod_pain( val );
+        } else if( format == "raw" ) {
+            d.actor( beta )->set_pain( val );
+        } else {
+            debugmsg( R"(Unknown assigning type "%s" for pain())", format );
+        }
     };
 }
 
