@@ -1,0 +1,64 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_yrax_pyramid_wall",
+    "name": "golden wall",
+    "description": "An amazingly durable, impregnable wall, appearing to be made of gold, stands before you, forming the outer shell of a small pyramid.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow_white",
+    "move_cost": 0,
+    "coverage": 100,
+    "looks_like": "t_concrete_wall",
+    "roof": "t_floor_yrax",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_yrax",
+    "name": "golden floor",
+    "description": "A golden plate with no distinguishing features.",
+    "symbol": "~",
+    "color": "yellow_white",
+    "move_cost": 1,
+    "roof": "t_yrax_roof",
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD", "NOCOLLIDE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_yrax_roof",
+    "name": "golden roof",
+    "description": "Under the right light, you can see asymmetric patterns in this roofing.",
+    "symbol": "~",
+    "color": "yellow_white",
+    "move_cost": 2,
+    "looks_like": "t_floor_yrax",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_yrax_cage",
+    "name": "golden cage",
+    "description": "I m not sure should player be able to see it or not.",
+    "symbol": "~",
+    "color": "yellow_white",
+    "move_cost": 2,
+    "looks_like": "t_floor_yrax",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "WALL", "NO_SCENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_yrax_hole",
+    "name": "blown out hole",
+    "description": "An open hole in the golden wall, large enough for you to crawl through, with some sharp edges.",
+    "symbol": "O",
+    "color": "yellow_white",
+    "move_cost": 4,
+    "roof": "t_yrax_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "SHARP", "SUPPORTS_ROOF" ]
+  }
+]

@@ -3,6 +3,96 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_golden_monoliths_map",
-    "object": { "place_monster": [ { "monster": "mon_golden_monolith", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 7 ] } ] }
+    "object": {
+      "place_monster": [
+        {
+          "monster": "mon_golden_monolith",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 5, 7 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "yrax_pyramid_cage_1",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ...           ",
+        "          .#.           ",
+        "          .,.           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_yrax_pyramid_wall",
+        ",": "t_yrax_exposed_wall",
+        "#": "t_yrax_cage"
+      },
+      "place_nested": [
+        {
+          "chunks": [ "yrax_pyramid_cage_1_roof" ],
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "yrax_pyramid_cage_1_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ...           ",
+        "          ...           ",
+        "          ...           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_yrax_roof" }
+    }
   }
 ]

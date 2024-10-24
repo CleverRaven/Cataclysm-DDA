@@ -27,6 +27,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "fault.h"
 #include "field_type.h"
@@ -81,12 +82,14 @@ static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" )
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_bot_yrax_trifacet( "bot_yrax_trifacet" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_ZOMBIE_YRAX_STUDY("GROUP_ZOMBIE_YRAX_STUDY");
 
 static const species_id species_ROBOT( "ROBOT" );
 
@@ -94,8 +97,13 @@ static const ter_str_id ter_t_card_industrial( "t_card_industrial" );
 static const ter_str_id ter_t_card_military( "t_card_military" );
 static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
 static const ter_str_id ter_t_card_science( "t_card_science" );
+static const ter_str_id ter_t_yrax_exposed_wall("t_yrax_exposed_wall");
+static const ter_str_id ter_t_yrax_hole("t_yrax_hole");
+static const ter_str_id ter_t_floor_yrax("t_floor_yrax");
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
+
+static const effect_on_condition_id EOC_CAUSE_EARLY_PORTAL_STORM( "EOC_CAUSE_EARLY_PORTAL_STORM" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -732,6 +740,37 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "Nothing happens." ) );
             }
+        }
+    }
+    if (here.ter(p) == ter_t_yrax_exposed_wall) {
+        here.ter_set(p, ter_t_yrax_hole);
+        here.ter_set(p + tripoint(0, -1, 0), ter_t_floor_yrax);
+        if (sight) {
+            add_msg(_("Wall explodes with green light."));
+        }
+        int rn = rng(1, 100);
+        if (rn < 10) {
+            //should spawn item 1 tile north
+            here.spawn_item(p + tripoint(0, -1, 0), itype_bot_yrax_trifacet, 1, 0, calendar::turn);
+        }
+        if (rn > 9 && rn < 20) {
+            //should spawn item 1 tile north
+            int moncount = 1;
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup(GROUP_ZOMBIE_YRAX_STUDY,&moncount);
+            for (const MonsterGroupResult& mgr : spawn_details) {
+                g->place_critter_at(mgr.name, p + tripoint(0, -1, 0));
+            }
+        }
+        if (rn > 19 && rn < 40) {
+            here.trap_set(p + tripoint(0, -1, 0), tr_portal);
+        }
+        if (rn > 39 && rn < 60) {
+            here.add_field(p + tripoint(0, -1, 0), fd_fatigue, 3);
+        }
+        if (rn > 59 ) {
+                dialogue d(get_talker_for(player_character), get_talker_for(player_character));
+                EOC_CAUSE_EARLY_PORTAL_STORM->activate(d);
         }
     }
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
