@@ -7702,8 +7702,8 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
                 mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
             }
 
-            const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
-                                        it->type->tool->power_draw ) / 1000;
+            const int all_charges = charges_to_start + mealtime * units::to_watt(
+                                        it->type->tool->power_draw ) / 1000 / 1000;
 
             if( it->ammo_remaining( p, true ) < all_charges ) {
 
