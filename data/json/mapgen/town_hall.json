@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "town_hall_palette",
+    "palettes": [ "parametrized_carpets_palette" ],
     "terrain": {
       "*": "t_open_air",
       "~": "t_open_air_rooved",
@@ -16,7 +17,7 @@
       "i": "t_linoleum_white",
       "'": "t_thconc_floor",
       "z": "t_flat_roof",
-      "_": "t_carpet_red",
+      "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
       "3": "t_sidewalk",
       "e": "t_linoleum_white",
       "(": "t_linoleum_white",

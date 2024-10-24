@@ -572,7 +572,7 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss"
       ],
-      "palettes": [ "standard_domestic_carpet_palette" ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         "#": "t_linoleum_white",
         "&": "t_linoleum_white",

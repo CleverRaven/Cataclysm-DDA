@@ -32,7 +32,7 @@
         "......~~~~~UU~UU~~......",
         "......~~~~~~~~~~~~......"
       ],
-      "palettes": [ "standard_domestic_carpet_palette" ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         " ": "t_floor",
         "#": "t_thconc_floor",

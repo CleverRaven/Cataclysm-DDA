@@ -32,7 +32,7 @@
         "**0*********************",
         "                        "
       ],
-      "palettes": [ "standard_domestic_carpet_palette" ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         "7": "t_region_tree_shade",
         " ": "t_region_groundcover_urban",
