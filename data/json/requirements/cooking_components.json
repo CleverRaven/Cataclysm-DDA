@@ -94,7 +94,8 @@
         [ "egg_coot", 1 ],
         [ "egg_cormorant", 1 ],
         [ "egg_moorhen", 1 ],
-        [ "egg_grebe", 1 ]
+        [ "egg_grebe", 1 ],
+        [ "egg_guinea_fowl", 1 ]
       ]
     ]
   },
@@ -118,20 +119,13 @@
     "components": [
       [
         [ "egg_leo_frog", 1 ],
-        [ "egg_pattern_frog", 1 ],
         [ "egg_bullfrog_frog", 1 ],
-        [ "egg_strange_frog", 1 ],
         [ "egg_fowler_toad", 1 ],
-        [ "egg_foul_toad", 1 ],
         [ "egg_freedom_toad", 1 ],
-        [ "egg_odd_toad", 1 ],
         [ "egg_peeper_frog", 1 ],
-        [ "egg_vocal_frog", 1 ],
         [ "egg_gray_frog", 1 ],
-        [ "egg_shift_frog", 1 ],
         [ "egg_mink_frog", 1 ],
         [ "egg_pickerel_frog", 1 ],
-        [ "egg_palette_frog", 1 ],
         [ "egg_green_frog", 1 ],
         [ "egg_wood_frog", 1 ],
         [ "egg_spade_frog", 1 ]
@@ -1040,7 +1034,8 @@
         [ "honey_mustard", 1 ],
         [ "horseradish", 1 ],
         [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
+        [ "butter", 1 ],
+        [ "raw_butter", 1 ]
       ]
     ]
   },

@@ -29,7 +29,7 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_ILL_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_ILL_1_HIRE" },
       { "text": "What's wrong?", "topic": "TALK_RANCH_ILL_1_SICK" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -63,6 +63,6 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_SICKLY_LABORER_ANESTHETIC_FOR_DOCTOR",
     "dynamic_line": "What could I possibly have that could help?",
-    "responses": [ { "text": "Never mind.", "topic": "TALK_RANCH_ILL_1" } ]
+    "responses": [ { "text": "<end_talking_nevermind>", "topic": "TALK_RANCH_ILL_1" } ]
   }
 ]

@@ -272,7 +272,7 @@ class math_exp::math_exp_impl
         math_exp_impl() = default;
         explicit math_exp_impl( thingie &&t ): tree( t ) {}
 
-        bool parse( std::string_view str, bool assignment ) {
+        bool parse( std::string_view str, bool assignment, bool handle_errors ) {
             if( str.empty() ) {
                 return false;
             }
@@ -283,12 +283,16 @@ class math_exp::math_exp_impl
             try {
                 _parse( str, assignment );
             } catch( std::invalid_argument const &ex ) {
-                error( str, ex.what() );
-                ops = {};
-                output = {};
-                arity = {};
-                tree = thingie { 0.0 };
-                return false;
+                if( handle_errors ) {
+                    debugmsg( error( str, ex.what() ) );
+                    ops = {};
+                    output = {};
+                    arity = {};
+                    tree = thingie { 0.0 };
+                    return false;
+                }
+
+                throw std::invalid_argument( error( str, ex.what() ) );
             }
             return true;
         }
@@ -357,7 +361,7 @@ class math_exp::math_exp_impl
         void new_ternary( thingie &lhs, thingie &rhs );
         void new_array();
         void maybe_first_argument();
-        void error( std::string_view str, std::string_view what );
+        std::string error( std::string_view str, std::string_view what );
         void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
         static std::vector<diag_value> _get_diag_vals( std::vector<thingie> &params );
         static diag_value _get_diag_value( thingie &param );
@@ -796,7 +800,7 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
     output.emplace( std::in_place_type_t<var>(), type, "npctalk_var_" + std::string{ scoped } );
 }
 
-void math_exp::math_exp_impl::error( std::string_view str, std::string_view what )
+std::string math_exp::math_exp_impl::error( std::string_view str, std::string_view what )
 {
     std::ptrdiff_t offset =
         std::max<std::ptrdiff_t>( 0, last_token.data() - str.data() );
@@ -815,7 +819,8 @@ void math_exp::math_exp_impl::error( std::string_view str, std::string_view what
     }
 
     offset = std::max<std::ptrdiff_t>( 0, offset - 1 );
-    debugmsg( "%s\n\n%.80s\n%*s▲▲▲\n", mess, str, offset, " " );
+    // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+    return string_format( "\n%s\n\n%.80s\n%*s▲▲▲\n", mess, str, offset, " " );
 }
 
 void math_exp::math_exp_impl::validate_string( std::string_view str, std::string_view label,
@@ -835,10 +840,10 @@ math_exp::math_exp( math_exp_impl impl_ )
 {
 }
 
-bool math_exp::parse( std::string_view str, bool assignment )
+bool math_exp::parse( std::string_view str, bool assignment, bool handle_errors )
 {
     impl = std::make_unique<math_exp_impl>();
-    return impl->parse( str, assignment );
+    return impl->parse( str, assignment, handle_errors );
 }
 
 math_exp::math_exp( math_exp const &other ) :

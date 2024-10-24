@@ -1937,7 +1937,7 @@
     "id": "t_concrete_wall_rope",
     "name": "concrete wall with ropes",
     "looks_like": "t_rock",
-    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.  Used to train parkour.",
+    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 10,
@@ -2321,17 +2321,7 @@
     "roof": "t_wood_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "SUPPORTS_ROOF",
-      "WALL",
-      "NO_SCENT",
-      "AUTO_WALL_SYMBOL",
-      "MINEABLE",
-      "BLOCK_WIND",
-      "WIRED_WALL"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 60,
       "str_max": 180,

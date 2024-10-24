@@ -735,6 +735,7 @@
       { "item": "mring_protection_6", "prob": 10 },
       { "item": "storage_ring_greater", "prob": 10 },
       { "item": "mring_fire_protection", "prob": 10 },
+      { "item": "mring_sustenance", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -888,7 +889,11 @@
     "type": "item_group",
     "//": "greater enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_blinding_strike", "prob": 10 },
+      { "item": "mbracer_defense_greater", "prob": 10 },
+      { "item": "mbracer_lightning_greater", "prob": 10 }
+    ]
   },
   {
     "id": "enchanted_bracelets",
@@ -1522,7 +1527,8 @@
           { "item": "spell_scroll_druid_bearmantle", "prob": 75 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
           { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
-          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
+          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 },
+          { "item": "spell_scroll_druid_goodberry", "prob": 85 }
         ],
         "prob": 35
       },

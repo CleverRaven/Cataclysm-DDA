@@ -24,7 +24,6 @@
 #include "character.h"
 #include "colony.h"
 #include "coordinate_constants.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -175,12 +174,12 @@ void map::process_fields()
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 if( field_cache[ x + y * MAPSIZE ] ) {
-                    submap *const current_submap = get_submap_at_grid( { x, y, z } );
+                    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm{ x, y, z } );
                     if( current_submap == nullptr ) {
                         debugmsg( "Tried to process field at (%d,%d,%d) but the submap is not loaded", x, y, z );
                         continue;
                     }
-                    process_fields_in_submap( current_submap, tripoint( x, y, z ) );
+                    process_fields_in_submap( current_submap, { x, y, z } );
                     if( current_submap->field_count == 0 ) {
                         field_cache[ x + y * MAPSIZE ] = false;
                     }
@@ -470,18 +469,18 @@ This is the general update function for field effects. This should only be calle
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
 void map::process_fields_in_submap( submap *const current_submap,
-                                    const tripoint &submap )
+                                    const tripoint_bub_sm &submap )
 {
-    const oter_id &om_ter = overmap_buffer.ter( tripoint_abs_omt( sm_to_omt_copy(
-                                abs_sub.raw() + submap ) ) );
+    const oter_id &om_ter = overmap_buffer.ter( coords::project_to<coords::omt>(
+                                abs_sub + rebase_rel( submap ) ) );
     Character &player_character = get_player_character();
-    scent_block sblk( submap, get_scent() );
+    scent_block sblk( submap.raw(), get_scent() );
 
     // Initialize the map tile wrapper
     maptile map_tile( current_submap, point_sm_ms_zero );
     int &locx = map_tile.pos_.x();
     int &locy = map_tile.pos_.y();
-    const point sm_offset = sm_to_ms_copy( submap.xy() );
+    const point_bub_ms sm_offset = coords::project_to<coords::ms>( submap.xy() );
 
     field_proc_data pd{
         sblk,
@@ -498,7 +497,7 @@ void map::process_fields_in_submap( submap *const current_submap,
         for( locy = 0; locy < SEEY; locy++ ) {
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = current_submap->get_field( {static_cast<int>( locx ), static_cast<int>( locy )} );
+            field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
 
             // when displayed_field_type == fd_null it means that `curfield` has no fields inside
             // avoids instantiating (relatively) expensive map iterator
@@ -507,7 +506,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             // This is a translation from local coordinates to submap coordinates.
-            const tripoint_sm_ms p = tripoint_sm_ms( map_tile.pos() + sm_offset, submap.z );
+            const tripoint_bub_ms p{sm_offset + rebase_rel( map_tile.pos() ), submap.z()};
 
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
@@ -519,7 +518,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                 // The field might have been killed by processing a neighbor field
                 if( prev_intensity == 0 ) {
-                    on_field_modified( p.raw(), *pd.cur_fd_type );
+                    on_field_modified( p, *pd.cur_fd_type );
                     --current_submap->field_count;
                     curfield.remove_field( it++ );
                     continue;
@@ -529,7 +528,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur.get_field_age() == 0_turns ) {
                     cur.do_decay();
                     if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
-                        on_field_modified( p.raw(), *pd.cur_fd_type );
+                        on_field_modified( p, *pd.cur_fd_type );
                     }
                     it++;
                     continue;
@@ -541,7 +540,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                 cur.do_decay();
                 if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
-                    on_field_modified( p.raw(), *pd.cur_fd_type );
+                    on_field_modified( p, *pd.cur_fd_type );
                 }
                 it++;
             }
@@ -1498,7 +1497,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( Character &you )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( you.pos() );
+    field &curfield = get_field( you.pos_bub() );
     // Are we inside?
     bool inside = false;
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
@@ -2164,9 +2163,9 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         }
     }
 
-    const maptile remove_tile = maptile_at( removepoint.raw() );
-    const maptile remove_tile2 = maptile_at( removepoint2.raw() );
-    const maptile remove_tile3 = maptile_at( removepoint3.raw() );
+    const maptile remove_tile = maptile_at( removepoint );
+    const maptile remove_tile2 = maptile_at( removepoint2 );
+    const maptile remove_tile3 = maptile_at( removepoint3 );
     return std::make_tuple( remove_tile, remove_tile2, remove_tile3 );
 }
 
@@ -2349,5 +2348,5 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
 
 const field_type_str_id &map::get_applicable_electricity_field( const tripoint_bub_ms &p ) const
 {
-    return is_transparent( p.raw() ) ? fd_electricity : fd_electricity_unlit;
+    return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
 }

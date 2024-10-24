@@ -28,7 +28,7 @@
       },
       { "text": "What are you doing here?", "topic": "TALK_RANCH_WOODCUTTER_JOB" },
       { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_WOODCUTTER_HIRE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -85,8 +85,8 @@
         ],
         "condition": { "u_has_items": { "item": "FMCNote", "count": 4800 } }
       },
-      { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
-      { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }
+      { "text": "<end_talking_later>", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
+      { "text": "<end_talking_later> <end_talking_bye>", "topic": "TALK_RANCH_WOODCUTTER" }
     ]
   }
 ]

@@ -1852,7 +1852,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "2 h",
-    "charges": 3,
+    "charges": 6,
     "autolearn": true,
     "batch_time_factors": [ 75, 2 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
@@ -6730,6 +6730,7 @@
         [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "butter", 1 ],
+        [ "raw_butter", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
         [ "bacon", 1 ],
@@ -9677,7 +9678,7 @@
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ]
       ],
-      [ [ "butter", 1 ] ],
+      [ [ "butter", 1 ], [ "raw_butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ],
     "charges": 6

@@ -142,6 +142,32 @@ class autodrive_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class bash_activity_actor : public activity_actor
+{
+    private:
+        tripoint_bub_ms target;
+
+    public:
+        explicit bash_activity_actor( const tripoint_bub_ms &where ) : target( where ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BASH" );
+        };
+
+        void start( player_activity &, Character & ) override {}
+        void canceled( player_activity &, Character & ) override {}
+        void finish( player_activity &, Character & ) override {}
+
+        void do_turn( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class gunmod_remove_activity_actor : public activity_actor
 {
     private:
@@ -869,7 +895,7 @@ class try_sleep_activity_actor : public activity_actor
 class safecracking_activity_actor : public activity_actor
 {
     public:
-        explicit safecracking_activity_actor( const tripoint &safe ) : safe( safe ) {};
+        explicit safecracking_activity_actor( const tripoint_bub_ms &safe ) : safe( safe ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_CRACKING" );
@@ -889,7 +915,7 @@ class safecracking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint safe;
+        tripoint_bub_ms safe;
         int exp_step = 0;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -986,7 +1012,7 @@ class workout_activity_actor : public activity_actor
         int elapsed = 0;
 
     public:
-        explicit workout_activity_actor( const tripoint &loc ) : location( loc ) {}
+        explicit workout_activity_actor( const tripoint_bub_ms &loc ) : location( loc ) {}
 
         // can assume different sub-activities
         activity_id get_type() const override {
@@ -1120,7 +1146,7 @@ class stash_activity_actor: public activity_actor
 class harvest_activity_actor : public activity_actor
 {
     public:
-        explicit harvest_activity_actor( const tripoint &target,
+        explicit harvest_activity_actor( const tripoint_bub_ms &target,
                                          bool auto_forage = false ) :
             target( target ), auto_forage( auto_forage ) {};
 
@@ -1140,7 +1166,7 @@ class harvest_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         bool exam_furn = false;
         bool nectar = false;
         bool auto_forage = false;

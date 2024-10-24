@@ -86,6 +86,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "sleepiness";
         case widget_var::health:
             return "health";
+        case widget_var::daily_health:
+            return "daily_health";
         case widget_var::weariness_level:
             return "weariness_level";
         case widget_var::mana:
@@ -607,6 +609,10 @@ void widget::set_default_var_range( const avatar &ava )
             // Small range of normal health that won't be color-coded
             _var_norm = std::make_pair( -10, 10 );
             break;
+        case widget_var::daily_health:
+            _var_min = -200;
+            _var_max = 200;
+            break;
         case widget_var::mana:
             _var_min = 0;
             _var_max = ava.magic->max_mana( ava );
@@ -819,6 +825,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::health:
             value = ava.get_lifestyle();
+            break;
+        case widget_var::daily_health:
+            value = ava.get_daily_health();
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();

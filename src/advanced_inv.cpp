@@ -1329,8 +1329,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
     // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
     if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) &&
         changeSquare != AIM_CONTAINER && changeSquare != AIM_PARENT ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
-            spane.get_area() != changeSquare ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( spane.get_area() == AIM_CONTAINER ) {
                 spane.container = item_location::nowhere;
@@ -1338,14 +1337,17 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                 // Update dpane to show items removed from the spane.
                 dpane.recalc = true;
             }
-            if( dpane.get_area() == changeSquare ) {
-                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
-                spane.recalc = true;
-            } else if( spane.get_area() == dpane.get_area() ) {
+            if( spane.get_area() == dpane.get_area() ) {
                 // swap the `in_vehicle` element of each pane if "one in, one out"
                 spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
                 dpane.set_area( squares[dpane.get_area()], !dpane.in_vehicle() );
                 recalc = true;
+            } else if( dpane.get_area() == changeSquare ) {
+                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
+                spane.recalc = true;
+            } else {
+                spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+                spane.recalc = true;
             }
         } else {
             swap_panes();
@@ -2077,9 +2079,9 @@ void query_destination_callback::draw_squares( const uilist *menu )
     ImGui::NewLine();
     cata_assert( menu->entries.size() >= 9 );
     int sel = 0;
-    if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < menu->entries.size() ) {
+    if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < menu->entries.size() ) {
         sel = _adv_inv.screen_relative_location(
-                  static_cast <aim_location>( menu->hovered + 1 ) );
+                  static_cast <aim_location>( menu->previewing + 1 ) );
     }
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
@@ -2304,7 +2306,7 @@ void advanced_inventory::draw_minimap()
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     Character &player_character = get_player_character();
     // draw the 3x3 tiles centered around player
-    get_map().draw( minimap, player_character.pos() );
+    get_map().draw( minimap, player_character.pos_bub() );
     for( const side s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {

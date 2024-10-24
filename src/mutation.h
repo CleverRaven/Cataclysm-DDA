@@ -17,6 +17,7 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "sleep.h"
@@ -208,6 +209,7 @@ struct mutation_branch {
         bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait

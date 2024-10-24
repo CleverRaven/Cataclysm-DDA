@@ -46,8 +46,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
-        new_pos.x() = origin.x() + rdistance * std::cos( rangle );
-        new_pos.y() = origin.y() + rdistance * std::sin( rangle );
+        new_pos = { origin.x() + int( rdistance * std::cos( rangle ) ), origin.y() + int( rdistance * std::sin( rangle ) ), new_pos.z() };
         tries++;
     } while( here.impassable( new_pos ) && tries < 20 );
     return teleport_to_point( critter, new_pos, safe, add_teleglow );
@@ -62,7 +61,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     Character *const p = critter.as_character();
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
-    tripoint_abs_ms abs_ms( here.getabs( target ) );
+    tripoint_abs_ms abs_ms( here.getglobal( target ) );
     if( abs_ms.z() > OVERMAP_HEIGHT || abs_ms.z() < -OVERMAP_DEPTH ) {
         debugmsg( "%s cannot teleport to point %s: too high or too deep.", critter.get_name(),
                   abs_ms.to_string() );

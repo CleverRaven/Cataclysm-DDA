@@ -16,7 +16,6 @@
 #include "cata_imgui.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -561,7 +560,7 @@ void monster::try_reproduce()
         return;
     }
 
-    if( !baby_timer && amount_eaten >= stomach_size ) {
+    if( !baby_timer && has_eaten_enough() ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
         // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -599,7 +598,7 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( has_flag( mon_flag_EATS ) && has_effect( effect_critter_underfed ) ) {
+        if( !has_eaten_enough() ) {
             chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
         }
         if( season_match && female && one_in( chance ) ) {
@@ -635,6 +634,9 @@ void monster::refill_udders()
         debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
+    if( !has_eaten_enough() ) {
+        return;
+    }
     if( ammo.empty() ) {
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
@@ -654,36 +656,69 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) {
-        if( calendar::turn - udder_timer > 1_days ) {
-            // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
-            ammo.begin()->second = type->starting_ammo.begin()->second;
-            udder_timer = calendar::turn;
-        }
+    if( calendar::turn - udder_timer > 1_days ) {
+        // You milk once a day.
+        ammo.begin()->second = type->starting_ammo.begin()->second;
+        udder_timer = calendar::turn;
     }
 }
 
-void monster::reset_digestion()
+void monster::recheck_fed_status()
 {
-    if( calendar::turn - stomach_timer > 3_days ) {
-        //If the player hasn't been around, assume critters have been operating at a subsistence level.
-        //Otherwise everything will constantly be underfed. We only run this on load to prevent problems.
-        remove_effect( effect_critter_underfed );
-        remove_effect( effect_critter_well_fed );
-        amount_eaten = 0;
-        stomach_timer = calendar::turn;
+    remove_effect( effect_critter_underfed );
+    remove_effect( effect_critter_well_fed );
+    if( !has_flag( mon_flag_EATS ) ) {
+        return;
     }
+    if( has_fully_eaten() ) {
+        add_effect( effect_critter_well_fed, 24_hours );
+    } else if( !has_eaten_enough() ) {
+        add_effect( effect_critter_underfed, 24_hours );
+    }
+}
+
+void monster::set_amount_eaten( int new_amount )
+{
+    amount_eaten = new_amount;
+    recheck_fed_status();
+}
+
+void monster::mod_amount_eaten( int amount_to_add )
+{
+    amount_eaten += amount_to_add;
+    recheck_fed_status();
+}
+
+int monster::get_amount_eaten() const
+{
+    return amount_eaten;
+}
+
+int monster::get_stomach_fullness_percent() const
+{
+    if( stomach_size == 0 ) {
+        return 100; // no div-by-zero
+    }
+    return get_amount_eaten() / stomach_size;
+}
+
+bool monster::has_eaten_enough() const
+{
+    return !has_effect( effect_critter_underfed ) &&
+           ( has_effect( effect_critter_well_fed ) || has_fully_eaten() );
+}
+
+
+bool monster::has_fully_eaten() const
+{
+    return amount_eaten >= stomach_size;
 }
 
 void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days ) {
-        if( ( amount_eaten >= stomach_size ) && !has_effect( effect_critter_underfed ) ) {
-            add_effect( effect_critter_well_fed, 24_hours );
-        } else if( ( amount_eaten < ( stomach_size / 10 ) ) && !has_effect( effect_critter_well_fed ) ) {
-            add_effect( effect_critter_underfed, 24_hours );
-        }
-        amount_eaten = 0;
+        recheck_fed_status();
+        set_amount_eaten( 0 );
         stomach_timer = calendar::turn;
     }
 }
@@ -700,7 +735,7 @@ void monster::try_biosignature()
     if( !type->biosig_timer ) {
         return;
     }
-    if( has_effect( effect_critter_underfed ) ) {
+    if( !has_eaten_enough() ) {
         return;
     }
 
@@ -886,12 +921,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int max_width = getmaxx( w ) - column - 1;
     std::ostringstream oss;
 
-    oss << get_tag_from_color( c_white ) << _( "Origin: " );
-    oss << enumerate_as_string( type->src.begin(),
-    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    oss << "</color>" << "\n";
+    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
@@ -976,15 +1006,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
 void monster::print_info_imgui() const
 {
-    ImGui::TextUnformatted( _( "Origin: " ) );
-    std::string mods = enumerate_as_string( type->src.begin(),
-                                            type->src.end(),
-    []( const std::pair<mtype_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    },
-    enumeration_conjunction::arrow );
-    ImGui::SameLine( 0, 0 );
-    ImGui::TextUnformatted( mods.c_str() );
+    ImGui::TextUnformatted( get_origin( type->src ).c_str() );
 
     if( debug_mode ) {
         ImGui::TextUnformatted( type->id.c_str() );
@@ -2048,7 +2070,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     const bool u_see_me = player_character.sees( *this );
-    const bool u_see_my_spot = player_character.sees( this->pos() );
+    const bool u_see_my_spot = player_character.sees( this->pos_bub() );
     const bool u_see_target = player_character.sees( target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
@@ -2291,6 +2313,14 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     // Ensure we can try to get at what hit us.
     reset_pathfinding_cd();
     hp -= dam;
+
+    cata::event e = cata::event::make<event_type::monster_takes_damage>( dam, hp < 1 );
+    if( source ) {
+        get_event_bus().send_with_talker( this, source, e );
+    } else {
+        get_event_bus().send( e );
+    }
+
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
@@ -2456,11 +2486,11 @@ bool monster::move_effects( bool )
         // Pretty hacky, but monsters have no stats
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
+        const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( pos_bub(), 1, 0 );
         for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
             // Is our grabber around?
             monster *grabber = nullptr;
-            for( const tripoint loc : surrounding ) {
+            for( const tripoint_bub_ms loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
@@ -2786,7 +2816,7 @@ void monster::process_turn()
     // Persist grabs as long as there's an adjacent target.
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         bool remove = true;
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             const Creature *const you = creatures.creature_at<Creature>( dest );
             if( you && you->has_effect_with_flag( json_flag_GRAB ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Grabbed creature %s found, persisting grab.",
@@ -2843,7 +2873,7 @@ void monster::process_turn()
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
                                "default" );
                 Character &player_character = get_player_character();
-                if( player_character.sees( pos() ) ) {
+                if( player_character.sees( pos_bub() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
                     player_character.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
@@ -2896,14 +2926,14 @@ void monster::die( Creature *nkiller )
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         // Need to filter out which limb we were grabbing before death
-        for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint_bub_ms &player_pos : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             Creature *you = creatures.creature_at( player_pos );
             if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
                 continue;
             }
             // ...but if there are no grabbers around we can just skip to the end
             bool grabbed = false;
-            for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
+            for( const tripoint_bub_ms &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = creatures.creature_at<monster>( mon_pos );
                 // No persisting our grabs from beyond the grave, but we also don't get to remove the effect early
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon != this ) {
@@ -2934,11 +2964,11 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( mon_flag_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const tripoint abssub = ms_to_sm_copy( here.getabs( pos() ) );
+        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.getglobal( pos_bub() ) );
         // Do it for overmap above/below too
-        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+        for( const tripoint_abs_sm &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
             // TODO: fix point types
-            for( mongroup *&mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
+            for( mongroup *&mgp : overmap_buffer.groups_at( p ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }
@@ -3378,31 +3408,6 @@ void monster::process_effects()
         }
     }
 
-    if( has_effect( effect_critter_well_fed ) && one_in( 90 ) ) {
-        heal( 1 );
-    }
-
-    //We already check these timers on_load, but adding a random chance for them to go off here
-    //will make it so that the player needn't leave the area and return for critters to poop,
-    //become hungry, evolve, have babies, or refill udders.
-    if( one_in( 30000 ) ) {
-        try_upgrade( false );
-        try_reproduce();
-        try_biosignature();
-
-        if( amount_eaten > 0 ) {
-            if( has_flag( mon_flag_EATS ) ) {
-                digest_food();
-            } else {
-                amount_eaten = 0;
-            }
-        }
-
-        if( has_flag( mon_flag_MILKABLE ) ) {
-            refill_udders();
-        }
-    }
-
     //Monster will regen morale and aggression if it is at/above max HP
     //It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
@@ -3429,7 +3434,7 @@ void monster::process_effects()
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 2 ) ) {
             const monster *const mon = creatures.creature_at<monster>( p );
             const Character *const guy = creatures.creature_at<Character>( p );
             if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&
@@ -3480,7 +3485,7 @@ void monster::process_effects()
         }
     }
 
-    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
+    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
         remove_effect( effect_cramped_space );
     }
 
@@ -3937,16 +3942,6 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
-    reset_digestion();
-
-    //Clean up runaway values for monsters which eat but don't digest yet.
-    if( amount_eaten > 0 ) {
-        if( has_flag( mon_flag_EATS ) ) {
-            digest_food();
-        } else {
-            amount_eaten = 0;
-        }
-    }
 
     if( has_flag( mon_flag_MILKABLE ) ) {
         refill_udders();
