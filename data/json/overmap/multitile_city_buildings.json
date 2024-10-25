@@ -63,7 +63,7 @@
       { "point": [ 1, 1, 2 ], "overmap": "deserter_city_office_3fb_north" },
       { "point": [ 1, 1, 3 ], "overmap": "deserter_city_office_roofb_north" }
     ],
-    "flags": [ "GLOBALLY_UNIQUE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "city_building",
