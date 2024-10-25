@@ -36,8 +36,6 @@
     "description": "Once alive, then undead, now something else entirely.  Fungal tendrils sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zombie_fungalize",
     "bleed_rate": 0,
-    "vision_day": 5,
-    "vision_night": 5,
     "proportional": { "hp": 0.75, "speed": 2.2 },
     "relative": { "melee_dice_sides": 3, "armor": { "bash": 1, "electric": 2 } },
     "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
@@ -49,7 +47,6 @@
     "description": "With its swollen gray skin overgrown by thick layer of mold, this balloon-like fungal zombie looks like it could violently burst into a cloud of noxious spores at any moment.",
     "copy-from": "mon_zombie_gasbag",
     "default_faction": "fungus",
-    "diff": 5,
     "color": "black_yellow",
     "bleed_rate": 0,
     "vision_day": 5,
