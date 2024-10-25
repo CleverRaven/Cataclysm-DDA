@@ -194,7 +194,7 @@
     "id": "ll_weight_carried_value",
     "width": 13,
     "style": "layout",
-    "label": "Weight Carried (kg)",
+    "label": "Weight Carried",
     "arrange": "minimum_columns",
     "widgets": [ "ll_carry_weight_label", "ll_carry_weight_value" ],
     "type": "widget"
