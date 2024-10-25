@@ -26,7 +26,8 @@
     "harvest": "zombie_humanoid_mushroom",
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungus" },
     "proportional": { "speed": 0.3 },
-    "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } }
+    "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
+    "delete": { "flags": [ "HEARS" ] }
   },
   {
     "id": "mon_zombie_fungus",
@@ -58,6 +59,7 @@
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungalburst", "hit_self": true } },
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
+    "delete": { "flags": [ "HEARS" ] },
     "extend": { "species": [ "FUNGUS" ] }
   },
   {
@@ -77,6 +79,7 @@
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true }, "message": "The %s explodes!" },
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 2, "electric": 4 } },
+    "delete": { "flags": [ "HEARS" ] },
     "extend": { "species": [ "FUNGUS" ] }
   },
   {
