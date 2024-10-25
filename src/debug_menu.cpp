@@ -3751,6 +3751,21 @@ void do_debug_quick_setup()
     Character &u = get_avatar();
     normalize_body( u );
     // Specifically only adds mutations instead of toggling them.
+    uistate.distraction_noise = false;
+    uistate.distraction_pain = false;
+    uistate.distraction_attack = false;
+    uistate.distraction_hostile_close = false;
+    uistate.distraction_hostile_spotted = false;
+    uistate.distraction_conversation = false;
+    uistate.distraction_asthma = false;
+    uistate.distraction_dangerous_field = false;
+    uistate.distraction_weather_change = false;
+    uistate.distraction_hunger = false;
+    uistate.distraction_thirst = false;
+    uistate.distraction_temperature = false;
+    uistate.distraction_mutation = false;
+    uistate.distraction_oxygen = false;
+    uistate.distraction_withdrawal = false;
     u.set_mutations( setup_traits );
     u.remove_weapon();
     u.clear_worn();
