@@ -475,7 +475,7 @@
     "object": {
       "set": [
         { "point": "terrain", "id": "t_door_metal_c", "x": 1, "y": 14 },
-        { "point": "terrain", "id": "t_door_metal_c", "x": 22, "y": 14 }
+        { "point": "terrain", "id": "t_door_metal_c", "x": 21, "y": 14 }
       ]
     }
   },
