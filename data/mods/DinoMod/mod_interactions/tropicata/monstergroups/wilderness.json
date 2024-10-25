@@ -12,7 +12,11 @@
     "type": "monstergroup",
     "name": "GROUP_WILDERNESS_FOREST_DINO",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 1, 2 ] } ]
+    "monsters": [
+      { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_scutellosaurus", "weight": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_stegosaurus", "weight": 10, "pack_size": [ 2, 4 ] }
+    ]
   },
   {
     "type": "monstergroup",
