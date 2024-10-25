@@ -571,7 +571,7 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": " m",
+    "time": "8 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 2,
