@@ -1153,6 +1153,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
         print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "LONG_TELEPORT", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
+        print_hint( "REVEAL_MAP", c_light_blue );
         ++y;
     }
 
@@ -1910,6 +1911,7 @@ static tripoint_abs_omt display()
         ictxt.register_action( "SET_SPECIAL_ARGS" );
         ictxt.register_action( "LONG_TELEPORT" );
         ictxt.register_action( "MODIFY_HORDE" );
+        ictxt.register_action( "REVEAL_MAP" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -2126,7 +2128,8 @@ static tripoint_abs_omt display()
             action = "QUIT";
         } else if( action == "MODIFY_HORDE" ) {
             modify_horde_func( curs );
-            action = "QUIT";
+        } else if( action == "REVEAL_MAP" ) {
+            debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }
