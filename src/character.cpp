@@ -761,6 +761,28 @@ void Character::randomize_cosmetics()
     }
 }
 
+void Character::starting_inv_damage_worn( int days )
+{
+    //damage equipment depending on days passed
+    int chances_to_damage = std::max( days / 14 + rng( -3, 3 ), 0 );
+    do {
+        std::vector<item *> worn_items;
+        worn.inv_dump( worn_items );
+        if( !worn_items.empty() ) {
+            item *to_damage = random_entry( worn_items );
+            int damage_count = rng( 1, 3 );
+            bool destroy = false;
+            do {
+                destroy = to_damage->inc_damage();
+                if( destroy ) {
+                    //if the clothing was destroyed in a simulated "dangerous situation", all contained items are lost
+                    i_rem( to_damage );
+                }
+            } while( damage_count-- > 0 && !destroy );
+        }
+    } while( chances_to_damage-- > 0 );
+}
+
 field_type_id Character::bloodType() const
 {
     if( has_flag( json_flag_ACIDBLOOD ) ) {
