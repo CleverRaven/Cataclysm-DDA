@@ -770,6 +770,21 @@ void uilist::calc_data()
                           + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
     calculated_bounds.h = calculated_menu_size.y + additional_height;
 
+    if( desired_bounds.has_value() ) {
+        cataimgui::bounds b = desired_bounds.value();
+        bool h_neg = b.h < 0.0f;
+        bool w_neg = b.w < 0.0f;
+        bool both_neg = h_neg && w_neg;
+        if( !both_neg ) {
+            if( h_neg ) {
+                desired_bounds->h = calculated_bounds.h;
+            }
+            if( w_neg ) {
+                desired_bounds->w = calculated_bounds.w;
+            }
+        }
+    }
+
     if( longest_line_width > calculated_menu_size.x ) {
         calculated_menu_size.x = longest_line_width;
         calculated_label_width = calculated_menu_size.x - calculated_hotkey_width - padding -
