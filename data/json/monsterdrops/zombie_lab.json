@@ -41,7 +41,7 @@
     "id": "security_armor",
     "subtype": "distribution",
     "items": [
-      { "collection": [ { "item": "tacvest" }, { "item": "kevlar" } ] },
+      { "collection": [ { "group": "loaded_tacvest" }, { "item": "kevlar" } ] },
       { "item": "soft_3a_vest", "variant": "security_armor_vest" }
     ]
   },

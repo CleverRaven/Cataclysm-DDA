@@ -141,7 +141,7 @@
       { "item": "goggles_ir", "prob": 1 },
       { "item": "optical_cloak", "prob": 1 },
       { "item": "UPS_OFF", "prob": 8 },
-      { "item": "tacvest", "prob": 10 },
+      { "group": "loaded_tacvest", "prob": 10 },
       { "item": "backpack", "prob": 8 },
       { "item": "backpack_denim", "prob": 2 },
       { "item": "dump_pouch", "prob": 20 },

@@ -3556,6 +3556,29 @@
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
+    "result": "tacvest_sling",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "tacvest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "xl_tacvest_sling",
+    "type": "recipe",
+    "copy-from": "tacvest_sling",
+    "components": [ [ [ "xl_tacvest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "xs_tacvest_sling",
+    "type": "recipe",
+    "copy-from": "tacvest_sling",
+    "components": [ [ [ "xs_tacvest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
     "result": "load_bearing_vest_sling",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

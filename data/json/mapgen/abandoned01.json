@@ -37,7 +37,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "tacvest", 20 ],
+      { "group": "loaded_tacvest", "prob": 20 },
       [ "jacket_light", 30 ],
       [ "jacket_leather", 30 ],
       [ "jacket_evac", 30 ],

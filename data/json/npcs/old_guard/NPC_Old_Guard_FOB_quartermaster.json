@@ -89,7 +89,7 @@
       [ "mask_filter", 20 ],
       [ "glasses_safety", 15 ],
       [ "goggles_ski", 5 ],
-      [ "tacvest", 20 ],
+      { "group": "loaded_tacvest", "prob": 20 },
       [ "legrig", 15 ],
       [ "tool_belt", 15 ],
       [ "dump_pouch", 15 ],
