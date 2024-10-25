@@ -6266,7 +6266,7 @@
     "//": [ "The recipe is using cooking skill and no more chemistry here!" ],
     "proficiencies": [ { "proficiency": "prof_knife_skills" } ],
     "batch_time_factors": [ 20, 1 ],
-    "book_learn": { "cookbook_foodfashions": { "skill_level": 5 }, "recipe_name": "Improvised Fruit Sugar"  },
+    "book_learn": { "cookbook_foodfashions": { "skill_level": 5 }, "recipe_name": "Improvised Fruit Sugar" },
     "qualities": [
       { "id": "CONTAIN", "level": 1 },
       { "id": "CUT", "level": 2 },
