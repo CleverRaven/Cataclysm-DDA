@@ -1230,50 +1230,33 @@ Mutator Name | Required Keys | Description
 ### Math
 A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
 ```JSON
-{ "math": [ "2 + 2 - 3", "==", "1" ] }
+{ "math": [ "2 + 2 - 3 == 1" ] }
 ```
 or idiomatically
 ```JSON
-{ "math": [ "lhs", "operator", "rhs" ] }
+{ "math": [ "lhs operator rhs" ] }
 ```
-It takes an array as a parameter with 1, 2, or 3 strings:
+The expression can be split into any number of strings in order to get neat line breaks.
 
-#### One string = return value
-```JSON
-{ "math": [ "lhs" ] }
-```
-Example:
+Examples:
 ```JSON
 { "value": "LUMINATION", "add": { "math": [ "u_val('morale') * 3 - rng(0, 100)" ] } }
 ```
 The expression in `lhs` is evaluated and passed on to the parent object.
 
-#### Two strings = unary operation
+The assignment `operators` `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `++`, or `--` can only be used at the top level:
 ```JSON
-{ "math": [ "lhs", "operator" ] }
+    "effect": [
+      {
+        "math": [
+          "BILE_IRRITANT_DURATION",
+          "=",
+          "u_effect_duration('bile_irritant') > 0 ? u_effect_duration('bile_irritant') + 120 + rand(90) : 240 + rand(180)"
+        ]
+      }
+    ]
 ```
-Example:
-```JSON
-"effect": [ { "math": [ "math_test", "++" ] } ]
-```
-`lhs` must be an [assignment target](#assignment-target). `operator` can be `++` or `--` to increment or decrement, respectively.
-
-#### Three strings = assignment or comparison
-```JSON
-{ "math": [ "lhs", "operator", "rhs" ] }
-```
-If `operator` is `=`, `+=`, `-=`, `*=`, `/=`, or `%=` the operation is an assignment:
-```JSON
-"effect": { "math": [ "u_blorg", "=", "rng( 0, 2 ) + u_spell_level('test_spell_pew') / 2" ] }
-```
-`lhs` must be an [assignment target](#assignment-target). `rhs` is evaluated and stored in the assignment target from `lhs`.
-
-
-If `operator` is `==`, `!=`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
-```JSON
-"condition": { "math": [ "u_val('stamina') * 2", ">=", "5000 + rand( 300 )" ] },
-```
-`lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
+In this case, `lhs` must be a single [assignment target](#assignment-target). The `rhs` expression is evaluated and stored in the assignment target from `lhs`.
 
 #### Variables
 Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable, `v_var` is a [var_val](#var_val).
@@ -1283,11 +1266,11 @@ Examples:
     "//0": "return value of global var blorgy_counter",
     { "math": [ "blorgy_counter" ] },
     "//1": "result, x, and y are global variables",
-    { "math": [ "result", "=", "x + y" ] },
+    { "math": [ "result = x + y" ] },
     "//2": "u_z is the variable z on the alpha talker (avatar)",
-    { "math": [ "result", "=", "( x + y ) * u_z" ] },
+    { "math": [ "result = ( x + y ) * u_z" ] },
     "//3": "n_crazyness is the variable craziness on the beta talker (npc)",
-    { "math": [ "n_crazyness * 2", ">=", "( x + y ) * u_z" ] },
+    { "math": [ "n_crazyness * 2 >= ( x + y ) * u_z" ] },
 ```
 
 #### Constants
@@ -1471,7 +1454,7 @@ These functions can then be used like regular math functions, for example:
   {
     "type": "effect_on_condition",
     "id": "EOC_do_something",
-    "effect": [ { "math": [ "secret_value", "=", "my_math_function( u_pain(), 500)" ] } ]
+    "effect": [ { "math": [ "secret_value = my_math_function( u_pain(), 500)" ] } ]
   },
 ```
 so `_0` takes the value of `u_pain()` and `_1` takes the value 500 inside `my_math_function()`
