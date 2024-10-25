@@ -6255,7 +6255,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "byproducts": [ [ "juice_pulp", 3 ] ],
-    "result": "sugar",
+    "result": "crystallizing_sugar",
     "id_suffix": "from_sweets",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6266,7 +6266,7 @@
     "//": [ "The recipe is using cooking skill and no more chemistry here!" ],
     "proficiencies": [ { "proficiency": "prof_knife_skills" } ],
     "batch_time_factors": [ 20, 1 ],
-    "book_learn": { "cookbook_foodfashions": { "skill_level": 5 }, "recipe_name": "Improvised Fruit Sugar" },
+    "book_learn": { "cookbook_foodfashions": { "skill_level": 5, "recipe_name": "Improvised Fruit Sugar" } },
     "qualities": [
       { "id": "CONTAIN", "level": 1 },
       { "id": "CUT", "level": 2 },
@@ -6369,7 +6369,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sugar",
+    "result": "crystallizing_sugar",
     "id_suffix": "from_beets",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
