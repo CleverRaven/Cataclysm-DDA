@@ -24,5 +24,12 @@
     "info": "Sets the longitude used for sunrise/sunset times.  Set to Las Vegas.",
     "stype": "float",
     "value": -115.14
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "info": "Allows to place fixed distance highways during overmap generation.",
+    "stype": "bool",
+    "value": false
   }
 ]

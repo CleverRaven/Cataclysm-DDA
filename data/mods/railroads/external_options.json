@@ -12,5 +12,12 @@
     "info": "Defines whether to place railroads before roads.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "info": "Allows to place fixed distance highways during overmap generation.",
+    "stype": "bool",
+    "value": false
   }
 ]
