@@ -178,8 +178,8 @@ void distraction_manager_gui::show()
                 uistate.distraction_mutation = toggle_state;
                 uistate.distraction_oxygen = toggle_state;
                 uistate.distraction_withdrawal = toggle_state;
-           }
-        } 
+            }
+        }
     }
 }
 
