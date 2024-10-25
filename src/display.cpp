@@ -1019,7 +1019,7 @@ std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar
     float max_wt = ( convert_weight( ava.weight_capacity() ) );
 
     // Create a string showing "current_weight / max_weight"
-    std::string weight_text = string_format( "%.1f/%.1f %s", carry_wt, max_wt, weight_units());
+    std::string weight_text = string_format( "%.1f/%.1f %s", carry_wt, max_wt, weight_units() );
 
     // Set the color based on carry weight
     nc_color weight_color = c_green;  // Default color
