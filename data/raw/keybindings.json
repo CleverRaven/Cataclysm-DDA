@@ -1249,13 +1249,6 @@
   },
   {
     "type": "keybinding",
-    "id": "REVEAL_MAP",
-    "category": "OVERMAP",
-    "name": "Reveal map",
-    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "MODIFY_HORDE",
     "category": "OVERMAP",
     "name": "Modify existing horde or place new one",

@@ -182,6 +182,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WISH: return "WISH";
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
+        case debug_menu::debug_menu_index::REVEAL_MAP: return "REVEAL_MAP";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
         case debug_menu::debug_menu_index::SPAWN_NAMED_NPC: return "SPAWN_NAMED_NPC";
         case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
@@ -459,33 +460,30 @@ bool is_debug_character()
            debug_names.count( first_word( world_generator->active_world->world_name ) );
 }
 
-void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p )
+static void prompt_or_do_map_reveal( int reveal_level = 0 )
 {
-    uilist vis_sel;
-    vis_sel.text = _( "Reveal at which vision level?" );
-    for( int i = static_cast<int>( om_vision_level::full );
-         i >= static_cast<int>( om_vision_level::unseen ); --i ) {
-        vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+    if( reveal_level == 0 ) {
+        uilist vis_sel;
+        vis_sel.text = _( "Reveal at which vision level?" );
+        for( int i = static_cast<int>( om_vision_level::unseen );
+             i < static_cast<int>( om_vision_level::last ); ++i ) {
+            vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+        }
+        vis_sel.query();
+        reveal_level = vis_sel.ret;
+        if( reveal_level == UILIST_CANCEL ) {
+            return;
+        }
     }
-    vis_sel.query();
-    if( vis_sel.ret == UILIST_CANCEL ) {
-        return;
-    }
-    map_reveal( vis_sel.ret, p );
-}
-
-void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p )
-{
-    const om_vision_level reveal_level = static_cast<om_vision_level>( reveal_level_int );
-    overmap &om = !p ? g->get_cur_om() : overmap_buffer.get( project_to<coords::om>( *p ).xy() );
+    overmap &cur_om = g->get_cur_om();
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                om.set_seen( { i, j, k }, reveal_level, true );
+                cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( reveal_level ), true );
             }
         }
     }
-    add_msg( m_good, !p ? _( "Current overmap revealed." ) : _( "Overmap revealed." ) );
+    add_msg( m_good, _( "Current overmap revealed." ) );
 }
 
 static int player_uilist()
@@ -880,6 +878,7 @@ static int spawning_uilist()
 static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
@@ -3744,7 +3743,7 @@ void do_debug_quick_setup()
     for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         u.set_skill_level( pair.first, 10 );
     }
-    map_reveal( static_cast<int>( om_vision_level::full ) );
+    prompt_or_do_map_reveal( static_cast<int>( om_vision_level::full ) );
 }
 
 void debug()
@@ -3802,6 +3801,11 @@ void debug()
         case debug_menu_index::LONG_TELEPORT:
             debug_menu::teleport_long();
             break;
+
+        case debug_menu_index::REVEAL_MAP: {
+            prompt_or_do_map_reveal();
+        }
+        break;
 
         case debug_menu_index::SPAWN_NPC:
             spawn_npc();
