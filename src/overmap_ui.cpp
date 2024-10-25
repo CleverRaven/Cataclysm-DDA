@@ -1148,12 +1148,12 @@ static void draw_om_sidebar( ui_adaptor &ui,
     };
 
     if( data.debug_editor ) {
-        print_hint( "REVEAL_MAP", c_light_blue );
-        print_hint( "LONG_TELEPORT", c_light_blue );
-        print_hint( "PLACE_SPECIAL", c_light_blue );
         print_hint( "PLACE_TERRAIN", c_light_blue );
+        print_hint( "PLACE_SPECIAL", c_light_blue );
         print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+        print_hint( "LONG_TELEPORT", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
+        print_hint( "REVEAL_MAP", c_light_blue );
         ++y;
     }
 
