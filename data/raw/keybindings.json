@@ -888,6 +888,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CONFIRM_MULTIPLE",
+    "name": "Confirm and continue",
+    "bindings": [ { "input_method": "keyboard_any", "key": "SPACE" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_DEFAULT_MODS",
     "category": "MODMANAGER_DIALOG",
     "name": "Save mods as default",
