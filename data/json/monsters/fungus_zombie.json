@@ -90,22 +90,12 @@
     "type": "MONSTER",
     "id": "mon_skeleton_brute_fungus",
     "name": { "str": "fungal skeletal brute" },
-    "copy-from": "mon_skeleton_fungus",
-    "looks_like": "mon_skeleton_brute",
-    "color": "white",
-    "material": [ "bone" ],
+    "copy-from": "mon_skeleton_brute",
     "description": "Fungi bloom from the crevices in the twisted bone growths that cover this creature.  Spores linger in the air around it.",
-    "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
-    "special_attacks": [ [ "SMASH", 30 ], [ "FUNGUS", 200 ] ],
-    "extend": {
-      "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ],
-      "weakpoint_sets": [ "wps_bone_armor" ],
-      "families": [ "prof_wp_skeleton" ]
-    },
     "harvest": "moldy_bones",
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal_bone", 100 ] ] },
-    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } }
+    "proportional": { "hp": 0.75, "speed": 0.55 },
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
+    "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
   },
   {
     "id": "mon_skeleton_hulk_fungus",
