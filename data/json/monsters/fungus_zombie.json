@@ -82,7 +82,7 @@
     "type": "MONSTER",
     "id": "mon_skeleton_fungus",
     "name": { "str": "fungal skeletal zombie" },
-    "copy-from": "mon_skeleton_fungus",
+    "copy-from": "mon_skeleton",
     "description": "Fungi bloom from the crevices in the twisted bone growths that cover this creature.  Spores linger in the air around it.",
     "default_faction": "fungus",
     "bleed_rate": 0,
