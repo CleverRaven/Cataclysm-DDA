@@ -6904,7 +6904,6 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         const point_abs_omt base = coords::project_to<coords::omt>( this->pos() );
         for( int x = p.x() - spawns.radius.max; x <= p.x() + spawns.radius.max; x++ ) {
             for( int y = p.y() - spawns.radius.max; y <= p.y() + spawns.radius.max; y++ ) {
-                const point_abs_omt source = base + p.xy().raw();
                 const tripoint_abs_omt target = tripoint_abs_omt{ base, p.z() } + point_rel_omt{ x, y };
                 if( overmap_buffer.get_existing( coords::project_to<coords::om>( target.xy() ) ) ) {
                     const std::optional<overmap_special_id> spec = overmap_buffer.overmap_special_at( target );
