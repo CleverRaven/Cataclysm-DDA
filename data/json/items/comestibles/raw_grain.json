@@ -52,7 +52,7 @@
     "description": "An empty corn cob.  No longer contains any edible kernels, but it can be used to make stock or as fuel.",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "material": [ "veggy", "wood" ],
+    "material": [ "dry_plant" ],
     "volume": "111 ml",
     "fun": -8,
     "flags": [ "RAW" ],
