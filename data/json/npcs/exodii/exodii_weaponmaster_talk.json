@@ -5,7 +5,7 @@
     "//": "mute by choice, and deaf most of the time (don't like to turn on the hearing cbm unless for job)",
     "dynamic_line": "&What you see looks like the back of a mechanical spider, with at least a dozen crude but polished metal arms coming from the enormously wide spine and shoulders.  The spine of the creature, meanwhile, sits in an awkward-looking chair, doing something on a wide, heavily lighted workbench.  The creature seems to be busy with something.",
     "responses": [
-      { "text": "[Wait a bit.]", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_2A" },
+      { "text": "[Wait a bit.]", "topic": "TALK_WEAPONMASTER_INTRO_2A" },
       { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_2B" }
     ]
   },
@@ -14,7 +14,7 @@
     "type": "talk_topic",
     "dynamic_line": "&It doesn't react to your presence at all.",
     "responses": [
-      { "text": "&Wait in silence.", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_3" },
+      { "text": "&Wait in silence.", "topic": "TALK_WEAPONMASTER_INTRO_3" },
       { "text": "Hello!?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
     ]
   },
@@ -23,7 +23,7 @@
     "type": "talk_topic",
     "dynamic_line": "&It seems to not hear you at all.",
     "responses": [
-      { "text": "&Wait for longer.", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_3" },
+      { "text": "&Wait for longer.", "topic": "TALK_WEAPONMASTER_INTRO_3" },
       { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
     ]
   },
