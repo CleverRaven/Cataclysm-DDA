@@ -72,7 +72,6 @@
     "vision_night": 5,
     "harvest": "zombie_humanoid_mushroom",
     "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal", 100 ] ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true }, "message": "The %s explodes!" },
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 2, "electric": 4 } },
