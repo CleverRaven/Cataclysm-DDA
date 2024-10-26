@@ -603,6 +603,21 @@
   },
   {
     "type": "item_group",
+    "id": "vitc_tablet_bottle_plastic_pill_supplement_1_20",
+    "subtype": "collection",
+    "//": "This group was not created automatically but may still contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "vitc_tablet", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitc_tablet_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "vitc_tablet", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
     "id": "caffeine_bottle_plastic_pill_supplement_1_10",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
