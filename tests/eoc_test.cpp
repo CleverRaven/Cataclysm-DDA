@@ -124,9 +124,7 @@ static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_k
 static const effect_on_condition_id effect_on_condition_run_eocs_1( "run_eocs_1" );
 static const effect_on_condition_id effect_on_condition_run_eocs_2( "run_eocs_2" );
 static const effect_on_condition_id effect_on_condition_run_eocs_3( "run_eocs_3" );
-static const effect_on_condition_id effect_on_condition_run_eocs_4( "run_eocs_4" );
 static const effect_on_condition_id effect_on_condition_run_eocs_5( "run_eocs_5" );
-static const effect_on_condition_id effect_on_condition_run_eocs_6( "run_eocs_6" );
 static const effect_on_condition_id effect_on_condition_run_eocs_7( "run_eocs_7" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
@@ -1423,32 +1421,29 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_1" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_3" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_4" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_5" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_6" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_7" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_test_global_key_M" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_test_global_key_N" ).empty() );
 
     CHECK( effect_on_condition_run_eocs_1->activate( d ) );
     CHECK( effect_on_condition_run_eocs_2->activate( d ) );
     CHECK( effect_on_condition_run_eocs_3->activate( d ) );
-    CHECK( effect_on_condition_run_eocs_4->activate( d ) );
     CHECK( effect_on_condition_run_eocs_5->activate( d ) );
-    CHECK( effect_on_condition_run_eocs_6->activate( d ) );
     CHECK( effect_on_condition_run_eocs_7->activate( d ) );
-
-    set_time( calendar::turn + 10_seconds );
-    effect_on_conditions::process_effect_on_conditions( get_avatar() );
 
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_1" ) ) == Approx( 2 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_2" ) ) == Approx( 20 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_3" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_4" ) ) == Approx( 10 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_5" ) ) == Approx( 4 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_6" ) ) == Approx( 10 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_7" ) ) == Approx( 10 ) );
 
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_3" ).empty() );
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_3" ) ) == Approx( 2 ) );
+
+    set_time( calendar::turn + 8_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
     CHECK( globvars.get_global_value( "npctalk_var_test_global_key_M" ) == "test_context_value_M" );
     CHECK( globvars.get_global_value( "npctalk_var_test_global_key_N" ) == "test_context_value_N" );
 

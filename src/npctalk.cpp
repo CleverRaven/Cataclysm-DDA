@@ -5540,24 +5540,38 @@ void process_eoc( const effect_on_condition_id &eoc, dialogue &d,
     }
 }
 
-void run_eoc_once( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
-                   const duration_or_var &dov_time, bool random_time )
+void queue_eocs( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
+                 duration_or_var const &dov_time, bool random_time )
 {
     time_duration time_in_future = dov_time.evaluate( d );
-
     for( const eoc_entry &entry : eocs ) {
         effect_on_condition_id eoc_id =
             entry.var ? effect_on_condition_id( entry.var->evaluate( d ) ) : entry.id;
-        if( time_in_future == 0_seconds ) {
-            eoc_id->activate( newDialog );
+        if( random_time ) {
+            process_eoc( eoc_id, newDialog, dov_time.evaluate( d ) );
         } else {
-            if( random_time ) {
-                process_eoc( eoc_id, newDialog, dov_time.evaluate( d ) );
-            } else {
-                process_eoc( eoc_id, newDialog, time_in_future );
-            }
+            process_eoc( eoc_id, newDialog, time_in_future );
         }
-    };
+    }
+}
+
+void run_eocs( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
+               std::optional<dbl_or_var> const &iterations,
+               std::optional<std::function<bool( dialogue & )>> const &cond )
+{
+    int i = 0;
+
+    // if it's a loop, we will use iterations_amount as limit to amount of loops allowed
+    // and bump it to 100 as default value
+    int iterations_amount = iterations ? iterations->evaluate( d ) : cond ? 100 : 1;
+    while( i < iterations_amount && ( !cond || ( *cond )( d ) ) ) {
+        for( const eoc_entry &entry : eocs ) {
+            effect_on_condition_id eoc_id =
+                entry.var ? effect_on_condition_id( entry.var->evaluate( d ) ) : entry.id;
+            eoc_id->activate( newDialog );
+        }
+        ++i;
+    }
 }
 
 std::unique_ptr<talker> get_talker( dialogue const &d, std::optional<str_or_var> const &var,
@@ -5606,7 +5620,10 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         jo.throw_error( "Invalid input for run_eocs" );
     }
 
-    dbl_or_var iterations = get_dbl_or_var( jo, "iterations", false, 1 );
+    std::optional<dbl_or_var> iterations;
+    if( jo.has_member( "iterations" ) ) {
+        iterations = get_dbl_or_var( jo, "iterations" );
+    }
     std::optional<std::function<bool( dialogue & )>> cond;
     if( jo.has_object( "condition" ) ) {
         std::function<bool( dialogue & )> cond_;
@@ -5614,8 +5631,17 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         cond = { std::move( cond_ ) };
     }
 
-    duration_or_var dov_time = get_duration_or_var( jo, "time_in_future", false, 0_seconds );
-    bool random_time = jo.get_bool( "randomize_time_in_future", false );
+    std::optional<duration_or_var> dov_time;
+    bool random_time = false;
+    if( jo.has_member( "time_in_future" ) ) {
+        if( iterations || cond ) {
+            jo.throw_error_at(
+                "time_in_future",
+                R"("time_in_future" cannot be used with loops ("condition" or "iterations"). Use nested EOCs instead.)" );
+        }
+        dov_time = get_duration_or_var( jo, "time_in_future" );
+        random_time = jo.get_bool( "randomize_time_in_future", false );
+    }
 
     std::unordered_map<std::string, str_translation_or_var> context;
     if( jo.has_object( "variables" ) ) {
@@ -5663,29 +5689,10 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
             newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
 
-        int i = 0;
-        int iterations_amount = iterations.evaluate( d );
-
-        // there was 'd.amend_callstack( "EOC: " + eoc->id.str() )' in f_run_eoc_until
-        // but because i don't know it's purpose nor it's effect, i'll left it here as comment
-
-        if( cond ) {
-            // if it's a loop, we will use iterations_amount as limit to amount of loops allowed
-            // and bump it to 100 as default value
-            iterations_amount = iterations_amount == 1 ? 100 : iterations_amount;
-
-            while( ( *cond )( d ) ) {
-                run_eoc_once( eocs, d, newDialog, dov_time, random_time );
-                ++i;
-                if( i >= iterations_amount ) {
-                    break;
-                }
-            }
+        if( dov_time ) {
+            queue_eocs( eocs, d, newDialog, *dov_time, random_time );
         } else {
-            while( i < iterations_amount ) {
-                run_eoc_once( eocs, d, newDialog, dov_time, random_time );
-                ++i;
-            }
+            run_eocs( eocs, d, newDialog, iterations, cond );
         }
     };
 }
