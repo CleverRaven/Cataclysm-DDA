@@ -82,23 +82,13 @@
     "type": "MONSTER",
     "id": "mon_skeleton_fungus",
     "name": { "str": "fungal skeletal zombie" },
-    "copy-from": "mon_zombie_fungus",
-    "looks_like": "mon_skeleton",
-    "color": "white",
-    "material": [ "bone" ],
+    "copy-from": "mon_skeleton_fungus",
     "description": "Fungi bloom from the crevices in the twisted bone growths that cover this creature.  Spores linger in the air around it.",
-    "proportional": { "hp": 0.4, "speed": 0.875 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 3,
-      "melee_damage": 4,
-      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
-    },
-    "special_attacks": [ [ "FUNGUS", 200 ] ],
     "harvest": "moldy_bones",
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal_bone", 100 ] ] },
-    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
-    "armor": { "bash": 0, "electric": 5 }
+    "proportional": { "hp": 0.75, "speed": 0.55 },
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
+    "delete": { "flags": [ "HEARS" ] },
+    "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
   },
   {
     "type": "MONSTER",
