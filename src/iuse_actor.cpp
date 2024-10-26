@@ -3306,6 +3306,11 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
         }
     }
 
+    if( !bandages_power && !disinfectant_power && !bleed && !bite && !infect &&
+        !obj.has_array( "effects" ) ) {
+        obj.throw_error( _( "Heal actor is missing any valid healing effect" ) );
+    }
+
     if( obj.has_string( "used_up_item" ) ) {
         obj.read( "used_up_item", used_up_item_id, true );
     } else if( obj.has_object( "used_up_item" ) ) {
