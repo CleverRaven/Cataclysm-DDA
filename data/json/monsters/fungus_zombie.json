@@ -35,6 +35,7 @@
     "description": "Once alive, then undead, now something else entirely.  Fungal tendrils sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zombie_fungalize",
     "bleed_rate": 0,
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 2.2 },
     "relative": { "melee_dice_sides": 3, "armor": { "bash": 1, "electric": 2 } },
     "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
@@ -53,6 +54,7 @@
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungalburst", "hit_self": true } },
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ] }
@@ -71,6 +73,7 @@
     "harvest": "zombie_humanoid_mushroom",
     "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true }, "message": "The %s explodes!" },
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 2, "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ] }
@@ -86,6 +89,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "moldy_bones",
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
@@ -101,6 +105,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "moldy_bones",
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
@@ -116,6 +121,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "moldy_bones",
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
@@ -125,39 +131,17 @@
     "type": "MONSTER",
     "name": { "str": "fungal child", "str_pl": "fungal children" },
     "description": "It is hard to recognize a human child in this creature.  Disgusting-looking mold covers most of its skin.  Many cracks perforate its body, with small fungal stalks poking through.",
+    "copy-from": "mon_zombie_child_base",
     "default_faction": "fungus",
-    "bodytype": "human",
-    "species": [ "FUNGUS" ],
-    "diff": 2,
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "hp": 35,
-    "speed": 50,
-    "material": [ "flesh" ],
-    "symbol": "z",
     "color": "light_gray",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_child" ],
-    "dodge": 2,
     "bleed_rate": 0,
-    "vision_day": 30,
+    "vision_day": 5,
     "vision_night": 5,
     "harvest": "zombie_humanoid_mushroom",
-    "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ],
-      "//": "cloth as any other zombie (always), additional items from child_items_pockets (sometimes)"
-    },
-    "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "FILTHY" ],
-    "armor": { "electric": 3 }
+    "upgrades": false,
+    "proportional": { "hp": 0.75, "speed": 0.55 },
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 2, "electric": 4 } },
+    "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
   },
   {
     "id": "mon_boomer_fungus",
