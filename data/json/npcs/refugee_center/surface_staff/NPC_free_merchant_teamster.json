@@ -226,7 +226,7 @@
       },
       {
         "text": "Ah, that's nothing new to me.  Thanks anyway though.",
-        "topic": "TALK_NONE",
+        "topic": "TALK_DONE",
         "switch": true,
         "default": true
       },
