@@ -1943,14 +1943,6 @@
   },
   {
     "type": "item_group",
-    "id": "flour_bag_paper_powder_1_70",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "flour", "container-item": "null", "count": [ 1, 70 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "bread_flour_bag_paper_powder_20",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
