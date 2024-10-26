@@ -71,44 +71,7 @@
         "                                                                                                                        "
       ],
       "palettes": [ "microlab_generic" ],
-      "terrain": {
-        "G": "t_card_science",
-        "W": "t_gates_mech_control_lab",
-        "z": "t_strconc_floor",
-        "_": "t_carpet_concrete_red",
-        "1": "t_nether_glass_floor",
-        "8": "t_nether_glass_wall",
-        "$": "t_metal_ventilation_shutter"
-      },
-      "furniture": {
-        "A": "f_counter",
-        "M": "f_server",
-        ":": "f_xedra_antenna",
-        "Ñ": "f_locker",
-        "H": "f_table",
-        "D": "f_desk",
-        "Ó": "f_utility_shelf",
-        "7": "f_machinery_light",
-        "&": "f_machinery_electronic",
-        "ä": "f_impaled_officer",
-        "ü": "f_impaled_soldier"
-      },
-      "items": {
-        ",": { "item": "mercenary_battle_traces", "chance": 40 },
-        "_": { "item": "mercenary_battle_traces", "chance": 40 },
-        "A": { "item": "altered_object_i", "chance": 100 },
-        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
-        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
-        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
-      },
-      "computers": {
-        "9": {
-          "name": "Unstable Matter Isolation Chamber",
-          "security": 0,
-          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
-        }
-      }
+      "terrain": { ".": "t_metal_roof", " ": "t_open_air" }
     }
   },
   {
@@ -183,58 +146,8 @@
         "                                                                                                                        "
       ],
       "palettes": [ "microlab_generic" ],
-      "terrain": {
-        "G": "t_card_science",
-        "W": "t_gates_mech_control_lab",
-        "z": "t_strconc_floor",
-        "_": "t_carpet_concrete_red",
-        "1": "t_nether_glass_floor",
-        "8": "t_nether_glass_wall",
-        "$": "t_metal_ventilation_shutter"
-      },
-      "furniture": {
-        "A": "f_counter",
-        "M": "f_server",
-        ":": "f_xedra_antenna",
-        "Ñ": "f_locker",
-        "H": "f_table",
-        "D": "f_desk",
-        "Ó": "f_utility_shelf",
-        "7": "f_machinery_light",
-        "&": "f_machinery_electronic",
-        "ä": "f_impaled_officer",
-        "ü": "f_impaled_soldier"
-      },
-      "items": {
-        ",": { "item": "mercenary_battle_traces", "chance": 40 },
-        "_": { "item": "mercenary_battle_traces", "chance": 40 },
-        "A": { "item": "altered_object_i", "chance": 100 },
-        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
-        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
-        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
-      },
-      "computers": {
-        "9": {
-          "name": "Unstable Matter Isolation Chamber",
-          "security": 0,
-          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
-        }
-      }
+      "terrain": { ".": "t_metal_roof", " ": "t_open_air" }
     }
-  },
-  {
-    "id": "mercenary_battle_traces",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      {
-        "distribution": [ { "item": "shot_hull", "prob": 30 }, { "item": "223_casing", "prob": 70, "count": [ 3, 5 ] } ],
-        "prob": 100
-      },
-      { "item": "xedra40", "prob": 1 },
-      { "item": "xedra10", "prob": 1 }
-    ]
   },
   {
     "type": "mapgen",
@@ -316,35 +229,6 @@
         "1": "t_nether_glass_floor",
         "8": "t_nether_glass_wall",
         "$": "t_metal_ventilation_shutter"
-      },
-      "furniture": {
-        "A": "f_counter",
-        "M": "f_server",
-        ":": "f_xedra_antenna",
-        "Ñ": "f_locker",
-        "H": "f_table",
-        "D": "f_desk",
-        "Ó": "f_utility_shelf",
-        "7": "f_machinery_light",
-        "&": "f_machinery_electronic",
-        "ä": "f_impaled_officer",
-        "ü": "f_impaled_soldier"
-      },
-      "items": {
-        ",": { "item": "mercenary_battle_traces", "chance": 40 },
-        "_": { "item": "mercenary_battle_traces", "chance": 40 },
-        "A": { "item": "altered_object_i", "chance": 100 },
-        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
-        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
-        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
-      },
-      "computers": {
-        "9": {
-          "name": "Unstable Matter Isolation Chamber",
-          "security": 0,
-          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
-        }
       }
     }
   },
@@ -428,50 +312,8 @@
         "1": "t_nether_glass_floor",
         "8": "t_nether_glass_wall",
         "$": "t_metal_ventilation_shutter"
-      },
-      "furniture": {
-        "A": "f_counter",
-        "M": "f_server",
-        ":": "f_xedra_antenna",
-        "Ñ": "f_locker",
-        "H": "f_table",
-        "D": "f_desk",
-        "Ó": "f_utility_shelf",
-        "7": "f_machinery_light",
-        "&": "f_machinery_electronic",
-        "ä": "f_impaled_officer",
-        "ü": "f_impaled_soldier"
-      },
-      "items": {
-        ",": { "item": "mercenary_battle_traces", "chance": 40 },
-        "_": { "item": "mercenary_battle_traces", "chance": 40 },
-        "A": { "item": "altered_object_i", "chance": 100 },
-        "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
-        "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
-        "ü": { "item": "xedra_kill_team_set", "chance": 100 }
-      },
-      "computers": {
-        "9": {
-          "name": "Unstable Matter Isolation Chamber",
-          "security": 0,
-          "options": [ { "name": "Unlock isolation chamber", "action": "unlock", "security": 3 } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
-        }
       }
     }
-  },
-  {
-    "id": "mercenary_battle_traces",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      {
-        "distribution": [ { "item": "shot_hull", "prob": 30 }, { "item": "223_casing", "prob": 70, "count": [ 3, 5 ] } ],
-        "prob": 100
-      },
-      { "item": "xedra40", "prob": 1 },
-      { "item": "xedra10", "prob": 1 }
-    ]
   },
   {
     "type": "mapgen",
