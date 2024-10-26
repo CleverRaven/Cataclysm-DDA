@@ -2166,6 +2166,7 @@
       { "prob": 10, "group": "seasoning_salt_bottle_glass_small_full" },
       { "prob": 4, "group": "seasoning_salt_bottle_plastic_full" },
       { "prob": 4, "group": "seasoning_salt_bottle_glass_full" },
+      { "prob": 1, "group": "seasoning_salt_bag_plastic_full" },
       { "prob": 1, "group": "seasoning_salt_bag_paper_full" }
     ]
   },
