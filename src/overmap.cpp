@@ -6901,13 +6901,17 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
     // produced yet, and it also provides some extra breathing room margin in most cases.
     const overmap_special_spawns &spawns = special.get_monster_spawns();
     if( spawns.group ) {
-        for( int x = p.x() - spawns.radius.max; x < p.x() + spawns.radius.max; x++ ) {
-            for( int y = p.y() - spawns.radius.max; y < p.y() + spawns.radius.max; y++ ) {
-                if( overmap_buffer.overmap_special_at( {x, y, p.z()} ).has_value() &&
-                    overmap_buffer.overmap_special_at( { x, y, p.z()} ).value().obj().has_flag( "SAFE_AT_WORLDGEN" ) ) {
-                    add_msg( "Rejected map special due to Safe overlap, %s, clashing with %s", special.id.c_str(),
-                             overmap_buffer.overmap_special_at( { x, y, p.z() } ).value().c_str() );
-                    return false;
+        const point_abs_omt base = coords::project_to<coords::omt>( this->pos() );
+        for( int x = p.x() - spawns.radius.max; x <= p.x() + spawns.radius.max; x++ ) {
+            for( int y = p.y() - spawns.radius.max; y <= p.y() + spawns.radius.max; y++ ) {
+                const point_abs_omt source = base + p.xy().raw();
+                const tripoint_abs_omt target = tripoint_abs_omt{ base, p.z() } + point_rel_omt{ x, y };
+                if( overmap_buffer.get_existing( coords::project_to<coords::om>( target.xy() ) ) ) {
+                    const std::optional<overmap_special_id> spec = overmap_buffer.overmap_special_at( target );
+                    if( spec.has_value() &&
+                        spec.value().obj().has_flag( "SAFE_AT_WORLDGEN" ) ) {
+                        return false;
+                    }
                 }
             }
         }
@@ -6952,9 +6956,9 @@ std::vector<tripoint_om_omt> overmap::place_special(
 
     if( special.has_flag( "GLOBALLY_UNIQUE" ) ) {
         overmap_buffer.add_unique_special( special.id );
-        point_abs_omt location = coords::project_to<coords::omt>(this->pos()) + p.xy().raw();
-        DebugLog(DL_ALL, DC_ALL) << "Globally Unique " << special.id.c_str() << " added at " << location.to_string_writable();
-        add_msg("Globally Unique %s added at %s", special.id.c_str(), p.to_string_writable());
+        // Debug output if you want to know where all globally unique locations are
+        //       point_abs_omt location = coords::project_to<coords::omt>(this->pos()) + p.xy().raw();
+        //        DebugLog(DL_ALL, DC_ALL) << "Globally Unique " << special.id.c_str() << " added at " << location.to_string_writable();
     } else if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
         overmap_buffer.log_unique_special( special.id );
     }
