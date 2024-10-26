@@ -13,7 +13,6 @@
 #include <optional>
 #include <ostream>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -88,6 +87,7 @@
 #include "mapgendata.h"
 #include "martialarts.h"
 #include "math_parser_type.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
@@ -2444,7 +2444,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             global_variables &globvars = get_globals();
-            phrase.replace( fa, l, globvars.get_global_value( var ) );
+            phrase.replace( fa, l, globvars.get_global_value( var ).str( d ) );
         } else if( tag.find( "<context_val:" ) == 0 ) {
             //adding a context variable to the string requires dialogue to exist
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2452,7 +2452,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, d.get_value( var ) );
+            phrase.replace( fa, l, d.get_value( var ).str( d ) );
         } else if( tag.find( "<item_name:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2605,9 +2605,9 @@ void dialogue::add_topic( const talk_topic &topic )
     }
 }
 
-void const_dialogue::set_value( const std::string &key, const std::string &value )
+void const_dialogue::set_value( const std::string &key, diag_value value )
 {
-    context[key] = value;
+    context[key] = std::move( value );
 }
 
 void const_dialogue::remove_value( const std::string &key )
@@ -2615,15 +2615,15 @@ void const_dialogue::remove_value( const std::string &key )
     context->erase( key );
 }
 
-std::string const_dialogue::get_value( const std::string &key ) const
+diag_value const_dialogue::get_value( const std::string &key ) const
 {
-    return maybe_get_value( key ).value_or( std::string{} );
+    return maybe_get_value( key ).value_or( diag_value{} );
 }
 
-std::optional<std::string> const_dialogue::maybe_get_value( const std::string &key ) const
+std::optional<diag_value> const_dialogue::maybe_get_value( const std::string &key ) const
 {
     auto it = context->find( key );
-    return it == context->end() ? std::nullopt : std::optional<std::string> { it->second };
+    return it == context->end() ? std::nullopt : std::optional<diag_value> { it->second };
 }
 
 void const_dialogue::set_conditional( const std::string &key,
@@ -2638,7 +2638,7 @@ bool const_dialogue::evaluate_conditional( const std::string &key, const_dialogu
     return ( it == conditionals->end() ) ? false : it->second( d );
 }
 
-const std::unordered_map<std::string, std::string> &const_dialogue::get_context() const
+global_variables::impl_t const &const_dialogue::get_context() const
 {
     return context;
 }
@@ -2737,7 +2737,7 @@ dialogue::dialogue( const dialogue &d ) : const_dialogue( d )
 const_dialogue::const_dialogue( std::unique_ptr<const_talker> alpha_in,
                                 std::unique_ptr<const_talker> beta_in,
                                 const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond,
-                                const std::unordered_map<std::string, std::string> &ctx )
+                                global_variables::impl_t const &ctx )
     : alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) ), context( ctx ), conditionals( cond )
 {
     has_alpha = static_cast<bool>( alpha );
@@ -2747,7 +2747,7 @@ const_dialogue::const_dialogue( std::unique_ptr<const_talker> alpha_in,
 dialogue::dialogue(
     std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
     const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond,
-    const std::unordered_map<std::string, std::string> &ctx )
+    global_variables::impl_t const &ctx )
     : const_dialogue( alpha_in ? alpha_in->const_clone() : nullptr,
                       beta_in ? beta_in->const_clone() : nullptr, cond, ctx ),
       alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) )

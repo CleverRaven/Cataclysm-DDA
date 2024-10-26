@@ -379,9 +379,9 @@ str_translation_or_var get_str_translation_or_var(
 
 tripoint_abs_ms get_tripoint_ms_from_var( var_info const &var, const_dialogue const &d )
 {
-    std::optional<std::string> value = read_var_value( var, d );
+    std::optional<diag_value> value = read_var_value( var, d );
     if( value ) {
-        return tripoint_abs_ms{ tripoint::from_string( *value ) };
+        return value->tripoint( d );
     }
     return {};
 }
@@ -412,8 +412,12 @@ var_info read_var_info( const JsonObject &jo )
     return { type, name };
 }
 
-void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value )
+namespace
+{
+
+template<typename T>
+void _write_var_value( var_type type, const std::string &name, dialogue *d,
+                       T value )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -423,9 +427,9 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
             globvars.set_global_value( name, value );
             break;
         case var_type::var:
-            ret = d->get_value( name );
+            ret = d->get_value( name ).str();
             vinfo = process_variable( ret );
-            write_var_value( vinfo.type, vinfo.name, d, value );
+            _write_var_value( vinfo.type, vinfo.name, d, value );
             break;
         case var_type::u:
             if( d->has_alpha ) {
@@ -450,11 +454,18 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
     }
 }
 
+} // namespace
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      std::string const &value )
+{
+    _write_var_value( type, name, d, value );
+}
+
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    write_var_value( type, name, d, string_format( "%g", value ) );
+    _write_var_value( type, name, d, value );
 }
 
 static bodypart_id get_bp_from_str( const std::string &ctxt )

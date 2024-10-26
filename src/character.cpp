@@ -520,9 +520,9 @@ std::string enum_to_string<blood_type>( blood_type data )
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
-    std::unordered_map<std::string, std::string> ctx = {
-        { "effect", name },
-        { "duration", std::to_string( to_turns<int>( effect_duration ) ) }
+    global_variables::impl_t ctx = {
+        { "effect", diag_value{ name } },
+        { "duration", diag_value{ to_turns<int>( effect_duration ) } }
     };
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,

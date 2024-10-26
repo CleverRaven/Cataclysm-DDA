@@ -3,7 +3,6 @@
 #define CATA_SRC_CONDITION_H
 
 #include <functional>
-#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
@@ -16,8 +15,8 @@
 
 class JsonObject;
 class JsonValue;
-enum class var_type : int;
 template <typename T> struct enum_traits;
+struct diag_value;
 
 namespace dialogue_data
 {
@@ -58,8 +57,6 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
                       const std::string &value );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
-void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
-                      const std::string &value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );

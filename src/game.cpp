@@ -879,8 +879,7 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     here.load( pos_sm, true, pump_events );
 }
 
-void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-        &map_of_vars )
+void game::legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars )
 {
     // migrate existing variables with npctalk_var prefix to no prefix (npctalk_var_foo to just foo)
     // remove after 0.J
@@ -5767,7 +5766,7 @@ void game::assing_revive_form( item &it, tripoint_bub_ms p )
         return;
     }
     dialogue d( nullptr, nullptr );
-    write_var_value( var_type::context, "loc", &d, get_map().get_abs( p ).to_string() );
+    write_var_value( var_type::context, "loc", &d, get_map().get_abs( p ) );
     write_var_value( var_type::context, "corpse_damage", &d, it.damage() );
     for( const revive_type &rev_type : montype->revive_types ) {
         if( rev_type.condition( d ) ) {
