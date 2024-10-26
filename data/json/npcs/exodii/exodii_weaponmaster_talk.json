@@ -14,8 +14,8 @@
     "type": "talk_topic",
     "dynamic_line": "&It doesn't react to your presence at all.",
     "responses": [
-      { "text": "&Wait in silence.", "topic": "TALK_WEAPONMASTER_INTRO_3" },
-      { "text": "Hello!?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
+      { "text": "[Wait for longer.]", "topic": "TALK_WEAPONMASTER_INTRO_3" },
+      { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
     ]
   },
   {
@@ -23,8 +23,8 @@
     "type": "talk_topic",
     "dynamic_line": "&It seems to not hear you at all.",
     "responses": [
-      { "text": "&Wait for longer.", "topic": "TALK_WEAPONMASTER_INTRO_3" },
-      { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
+      { "text": "[Wait in silence.]", "topic": "TALK_WEAPONMASTER_INTRO_3" },
+      { "text": "Hello!?", "topic": "TALK_WEAPONMASTER_INTRO_3" }
     ]
   },
   {
@@ -42,8 +42,8 @@
   {
     "id": "TALK_WEAPONMASTER_INTRO_5",
     "type": "talk_topic",
-    "dynamic_line": "&They don't move and do not say anything.",
-    "responses": [ { "text": "Do you understand me?", "topic": "TALK_WEAPONMASTER_INTRO_6" } ]
+    "dynamic_line": "&They do not move and do not say anything.",
+    "responses": [ { "text": "Hey?  Do you understand me?", "topic": "TALK_WEAPONMASTER_INTRO_6" } ]
   },
   {
     "id": "TALK_WEAPONMASTER_INTRO_6",
@@ -52,7 +52,7 @@
     "responses": [
       {
         "text": "[You pull off your backpack, and start to pull out items you deem worthy of trading.  The weaponmaster finally looks interested.]",
-        "topic": "TALK_NONE",
+        "topic": "TALK_DONE",
         "effect": [ { "npc_first_topic": "TALK_EXODII_WEAPONMASTER" }, "start_trade" ]
       }
     ]
