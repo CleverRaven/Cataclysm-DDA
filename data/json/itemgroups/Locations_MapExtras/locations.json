@@ -2437,7 +2437,7 @@
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
       [ "milk_UHT", 10 ],
-      { "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_10" },
       [ "can_spam", 30 ],
       [ "can_tuna", 35 ],
       [ "can_salmon", 25 ],
