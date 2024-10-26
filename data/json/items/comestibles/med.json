@@ -1856,6 +1856,22 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
+    "id": "vitc_tablet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "vitamin C supplement" },
+    "description": "A small white tablet promising more vitamin C than a human can conceivably absorb.",
+    "material": [ "drug_filler" ],
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": "7 cent",
+    "price_postapoc": "15 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
+  },
+  {
     "id": "gummy_vitamins",
     "copy-from": "vitamins",
     "type": "COMESTIBLE",
