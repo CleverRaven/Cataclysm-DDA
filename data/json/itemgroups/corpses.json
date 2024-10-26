@@ -218,12 +218,6 @@
     ]
   },
   {
-    "id": "corpse_child",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "group": "corpse_child_calm" }, { "group": "corpse_child_gunned" } ]
-  },
-  {
     "id": "corpse_generic_human",
     "//": "Bc of corpses being partially hardcoded container-item in entries doesn't work so these get to be one group per corpse for now",
     "type": "item_group",

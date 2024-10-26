@@ -1553,14 +1553,6 @@
   },
   {
     "type": "item_group",
-    "id": "yeast_bag_plastic_full",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "type": "item_group",
     "id": "yeast_bag_paper_full",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
@@ -1776,18 +1768,6 @@
   },
   {
     "type": "item_group",
-    "id": "milk_powder_bulk",
-    "//": "This group was created by a fool and may contain errors.",
-    "subtype": "distribution",
-    "entries": [
-      { "prob": 15, "group": "milk_powder_bottle_plastic" },
-      { "prob": 15, "group": "milk_powder_bottle_glass" },
-      { "prob": 4, "group": "milk_powder_bag_plastic" },
-      { "prob": 5, "group": "milk_powder_bag_paper" }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "milk_powder_bottle_plastic",
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
@@ -1817,14 +1797,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_plastic_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": 4 } ]
   },
   {
     "type": "item_group",
