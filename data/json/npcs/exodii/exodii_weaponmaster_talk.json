@@ -3,7 +3,7 @@
     "id": "TALK_WEAPONMASTER_INTRO_1",
     "type": "talk_topic",
     "//": "mute by choice, and deaf most of the time (don't like to turn on the hearing cbm unless for job)",
-    "dynamic_line": "&What you see looks like the back of a mechanical spider, with at least a dozen crude but polished metal arms coming from the enormously wide spine and shoulders.  Spine of a creature, meanwhile, sits in an awkward-looking chair, doing something on a wide, heavily lighted workbench.  Creature seems to be busy with something.",
+    "dynamic_line": "&What you see looks like the back of a mechanical spider, with at least a dozen crude but polished metal arms coming from the enormously wide spine and shoulders.  The spine of the creature, meanwhile, sits in an awkward-looking chair, doing something on a wide, heavily lighted workbench.  The creature seems to be busy with something.",
     "responses": [
       { "text": "[Wait a bit.]", "effect": "start_trade", "topic": "TALK_WEAPONMASTER_INTRO_2A" },
       { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_2B" }
@@ -62,7 +62,7 @@
     "type": "talk_topic",
     "dynamic_line": [
       "&The Weaponmaster seems to be tinkering on something, but turns their chair to you as you approach.",
-      "&The Weaponmaster seems to be cleaning some sort of weapon, but as you approach them, they signal to bystanding worker to take the weapon, and turn to you.",
+      "&The Weaponmaster seems to be cleaning some sort of weapon, but as you approach them, they signal to a bystanding worker to take the weapon, and turn to you.",
       "&The Weaponmaster seems seems to be polishing some armor, but they turn towards you the second you enter the room."
     ],
     "responses": [

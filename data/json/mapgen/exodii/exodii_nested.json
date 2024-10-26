@@ -62,31 +62,28 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "c_ccc",
-        "b__@_",
-        "b_LCC",
-        "b___b",
-        "|SSSb"
+        "b_L__",
+        "S_C_c",
+        "S_C@c",
+        "S_Cbc",
+        "|_Lcc"
       ],
       "place_item": [
-        { "item": "brogyeki", "x": 1, "y": 4, "chance": 100 },
-        { "item": "sapra", "x": 2, "y": 4, "chance": 100 },
-        { "item": "spear_dory", "x": 3, "y": 4, "chance": 100 }
+        { "item": "brogyeki", "x": 0, "y": 1, "chance": 100 },
+        { "item": "sapra", "x": 0, "y": 2, "chance": 100 },
+        { "item": "spear_dory", "x": 0, "y": 3, "chance": 100 }
       ],
       "mapping": {
-        "|": { "terrain": "t_junk_wall" },
-        "_": { "terrain": "t_metal_floor" },
-        "S": { "terrain": "t_metal_floor", "furniture": "f_rack" },
-        "C": { "terrain": "t_metal_floor", "furniture": "f_workbench" },
-        "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
-        "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" },
-        "b": {
-          "terrain": "t_metal_floor",
-          "furniture": "f_metal_crate_o",
-          "items": { "item": "EXODII_Workshop_Damaged", "chance": 100, "repeat": [ 1, 3 ] }
-        },
-        "@": { "terrain": "t_metal_floor", "furniture": "f_metal_bench", "npcs": { "@": { "class": "exodii_weaponmaster" } } }
-      }
+        "|": { "terrain": "t_scrap_wall" },
+        "_": { "terrain": "t_scrap_floor" },
+        "S": { "terrain": "t_scrap_floor", "furniture": "f_rack" },
+        "C": { "terrain": "t_scrap_floor", "furniture": "f_workbench" },
+        "c": { "terrain": "t_scrap_floor", "furniture": "f_metal_table" },
+        "L": { "terrain": "t_scrap_floor", "furniture": "f_exodii_lamp" },
+        "b": { "terrain": "t_scrap_floor", "furniture": "f_metal_crate_o" },
+        "@": { "terrain": "t_scrap_floor", "furniture": "f_metal_bench", "npcs": { "class": "exodii_weaponmaster" } }
+      },
+      "items": { "b": { "item": "EXODII_Workshop_Damaged", "chance": 100, "repeat": [ 3, 12 ] } }
     }
   },
   {
