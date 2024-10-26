@@ -1587,6 +1587,15 @@
   },
   {
     "type": "city_building",
+    "id": "s_weldingstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_weldingstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_weldingstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_electronicstore",
     "locations": [ "land" ],
     "overmaps": [

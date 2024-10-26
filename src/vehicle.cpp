@@ -2668,7 +2668,7 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->refresh();
         } else {
             // include refresh
-            new_vehicle->shift_parts( here, point_rel_ms_zero - mnt_offset );
+            new_vehicle->shift_parts( here, - mnt_offset );
         }
 
         // update the precalc points
