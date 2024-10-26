@@ -1505,7 +1505,10 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
+        ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "zoom_out" );
         ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "CONFIRM_MULTIPLE" );
         ctxt.register_action( "ROTATE" );
         ctxt.register_action( "QUIT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1555,9 +1558,11 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                 mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
-            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Apply" ),
+            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place" ),
+                       ctxt.get_desc( "CONFIRM_MULTIPLE" ) );
+            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[%s] Place and close" ),
                        ctxt.get_desc( "CONFIRM" ) );
-            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
+            mvwprintz( w_editor, point( 1, 14 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wnoutrefresh( w_editor );
         } );
 
@@ -1570,7 +1575,13 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
-            } else if( action == "CONFIRM" ) { // Actually modify the overmap
+            } else if( action == "zoom_out" ) {
+                g->zoom_out_overmap();
+                om_ui.mark_resize();
+            } else if( action == "zoom_in" ) {
+                g->zoom_in_overmap();
+                om_ui.mark_resize();
+            } else if( action == "CONFIRM" || action == "CONFIRM_MULTIPLE" ) { // Actually modify the overmap
                 if( terrain ) {
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, om_vision_level::full );
@@ -1583,7 +1594,9 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                         }
                     }
                 }
-                break;
+                if( action == "CONFIRM" ) {
+                    break;
+                }
             } else if( action == "ROTATE" && can_rotate ) {
                 uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
                 if( terrain ) {
