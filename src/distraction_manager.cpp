@@ -42,7 +42,7 @@ static const std::vector<configurable_distraction> &get_configurable_distraction
         {&uistate.distraction_mutation,        translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
         {&uistate.distraction_oxygen,          translate_marker( "Asphyxiation" ),                 translate_marker( "This distraction will interrupt your activity when you can't breathe." )},
         {&uistate.distraction_withdrawal,      translate_marker( "Withdrawal" ),                  translate_marker( "This distraction will interrupt your activity when you have withdrawals." )},
-        {&uistate.distraction_all,             translate_marker( "Toggle all" ),                   translate_marker( "Toggle all distractions" ), uistate.is_toggle = true }
+        {&uistate.distraction_noise,           translate_marker( "Toggle all" ),                   translate_marker( "Toggle all distractions" ), true }
     };
     return configurable_distractions;
 }
@@ -162,7 +162,7 @@ void distraction_manager_gui::show()
         } else if( action == "CONFIRM" || action == "LEFT" || action == "RIGHT" ) {
             *( get_configurable_distractions()[currentLine].state ) ^= true;
             if( get_configurable_distractions()[currentLine].is_toggle ) {
-                toggle_state = uistate.distraction_all;
+                toggle_state = *get_configurable_distractions()[currentLine].state;
                 uistate.distraction_noise = toggle_state;
                 uistate.distraction_pain = toggle_state;
                 uistate.distraction_attack = toggle_state;
