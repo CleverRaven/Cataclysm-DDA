@@ -6,13 +6,13 @@
 #include <map>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "event_subscriber.h"
+#include "global_vars.h"
 #include "type_id.h"
 
 class Character;
@@ -95,7 +95,7 @@ void load_existing_character( Character &you );
 effect_on_condition_id load_inline_eoc( const JsonValue &jv, std::string_view src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
-                                Character &you, const std::unordered_map<std::string, std::string> &context );
+                                Character &you, global_variables::impl_t const &context );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */
