@@ -2676,7 +2676,6 @@
     "type": "item_group",
     "id": "pepper_bag_plastic",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "pepper", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -2712,11 +2711,11 @@
     "id": "cinnamon_various_full",
     "subtype": "distribution",
     "entries": [
-      { "prob": 10, "group": "cinnamon_bottle_plastic_small" },
-      { "prob": 10, "group": "cinnamon_bottle_glass_small" },
-      { "prob": 4, "group": "cinnamon_bottle_plastic" },
-      { "prob": 4, "group": "cinnamon_bottle_glass" },
-      { "prob": 1, "group": "cinnamon_bag_paper" }
+      { "prob": 10, "group": "cinnamon_bottle_plastic_small_full" },
+      { "prob": 10, "group": "cinnamon_bottle_glass_small_full" },
+      { "prob": 4, "group": "cinnamon_bottle_plastic_full" },
+      { "prob": 4, "group": "cinnamon_bottle_glass_full" },
+      { "prob": 1, "group": "cinnamon_bag_paper_full" }
     ]
   },
   {
@@ -2751,7 +2750,6 @@
     "type": "item_group",
     "id": "cinnamon_bag_paper_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "cinnamon", "container-item": "null", "count": 500 } ]
   },
