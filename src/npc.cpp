@@ -2427,9 +2427,9 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     if( other.is_npc() || other.is_avatar() ) {
         const Character &guy = dynamic_cast<const Character &>( other );
         // check faction relationships first
-        if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
+        if( has_faction_relationship( guy, npc_factions::relationship::kill_on_sight ) ) {
             return Attitude::HOSTILE;
-        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+        } else if( has_faction_relationship( guy, npc_factions::relationship::watch_your_back ) ) {
             return Attitude::FRIENDLY;
         }
     }
