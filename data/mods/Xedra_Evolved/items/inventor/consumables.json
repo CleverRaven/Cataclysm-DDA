@@ -41,7 +41,7 @@
       [ "fruit_allergen", 1 ],
       [ "junk_allergen", 1 ]
     ],
-    "use_action": { "type": "cast_spell", "spell_id": "cosmic_dagwood_regeneration", "no_fail": true, "level": 0 }
+    "consumption_effect_on_conditions": [ "EOC_DAGWOOD" ]
   },
   {
     "id": "inventor_warp_grenade",
