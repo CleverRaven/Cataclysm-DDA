@@ -1449,6 +1449,14 @@
     "entries": [ { "item": "marlin_9a", "charges": [ 0, 19 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_rio_bravo",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rio_bravo", "charges": [ 0, 15 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_rossi_gallery",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

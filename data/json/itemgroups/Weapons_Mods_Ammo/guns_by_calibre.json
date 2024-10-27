@@ -487,7 +487,8 @@
       { "group": "nested_marlin_9a", "prob": 3 },
       { "group": "nested_ruger_1022", "prob": 100 },
       { "group": "nested_rossi_gallery", "prob": 11 },
-      { "group": "nested_ar15_retool_22", "prob": 2 }
+      { "group": "nested_ar15_retool_22", "prob": 2 },
+      { "group": "nested_rio_bravo", "prob": 20 }
     ]
   },
   {
@@ -647,7 +648,8 @@
       { "item": "ruger_1022", "prob": 100 },
       { "item": "rossi_gallery", "prob": 11 },
       { "item": "marlin_9a", "prob": 3 },
-      { "group": "ar15_22", "prob": 2 }
+      { "group": "ar15_22", "prob": 2 },
+      { "item": "rio_bravo", "prob": 20 }
     ]
   },
   {

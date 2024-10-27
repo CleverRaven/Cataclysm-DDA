@@ -643,5 +643,55 @@
         "description": "A 1911 handgun with \"1911-22\" stamped on the slide.  While .22 LR 1911s were first devised as a training aid for US soldiers, it found large civilian use from concealed carry to plinking thanks to the readily available ammunition and familiar platform."
       }
     ]
+  },
+  {
+    "id": "rio_bravo",
+    "looks_like": "marlin_9a",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "small game lever-action rifle" },
+    "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small-game, it's effectiveness isn't as great against the undead.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rio_bravo",
+        "name": { "str": "Rio Bravo" },
+        "description": "A modern .22 LR lever-action rifle, the Rio Bravo features an 18\" barrel with 15 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  The mechanical origins date back decades, being based off of Rossi's R92 series of rifles, which themselves were based off of the Winchester 1892."
+      }
+    ],
+    "ascii_picture": "marlin_39a",
+    "weight": "2345 g",
+    "volume": "2101 ml",
+    "longest_side": "931 mm",
+    "barrel_length": "457 mm",
+    "price": "404 USD 99 cent",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood", "aluminum" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 5,
+    "ammo": [ "22" ],
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 110,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 15,
+    "valid_mod_locations": [
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]
