@@ -56,19 +56,19 @@
     "type": "item_group",
     "id": "NC_NONE_HARDENED_stabbing",
     "subtype": "distribution",
-    "items": [ "glaive" ]
+    "groups": [ "melee_stabbing_rare" ]
   },
   {
     "type": "item_group",
     "id": "NC_NONE_HARDENED_bashing",
     "subtype": "distribution",
-    "items": [ "bat_metal" ]
+    "groups": [ "melee_bashing_rare" ]
   },
   {
     "type": "item_group",
     "id": "NC_NONE_HARDENED_cutting",
     "subtype": "distribution",
-    "items": [ "sword_sheets_welded_large" ]
+    "groups": [ "melee_cutting_rare" ]
   },
   {
     "type": "item_group",
