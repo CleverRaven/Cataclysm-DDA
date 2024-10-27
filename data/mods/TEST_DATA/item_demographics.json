@@ -671,6 +671,7 @@
           "weight": 204,
           "items": {
             "1911-22": 1,
+            "henry_golden_boy": 1,
             "marlin_9a": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
@@ -1064,6 +1065,7 @@
             "fn_ps90": 1,
             "garand": 1,
             "henry_big_boy": 1,
+            "henry_golden_boy": 1,
             "hk417_13": 1,
             "hk_g3": 1,
             "hk_g80": 1,

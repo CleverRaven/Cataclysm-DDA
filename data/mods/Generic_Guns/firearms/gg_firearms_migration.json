@@ -211,7 +211,8 @@
       "rough_rider_pistol",
       "rough_rider_pistol_9",
       "1911_22",
-      "rio_bravo"
+      "rio_bravo",
+      "henry_golden_boy"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
