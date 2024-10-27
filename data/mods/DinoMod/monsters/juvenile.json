@@ -371,6 +371,18 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER",
+      "WARM",
+      "NO_BREED",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "PET_MOUNTABLE"
     ]
   },
   {
@@ -401,6 +413,18 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER",
+      "WARM",
+      "NO_BREED",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "PET_MOUNTABLE"
     ]
   },
   {
@@ -516,7 +540,19 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
+    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER",
+      "WARM",
+      "NO_BREED",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "PET_HARNESSABLE"
+    ]
   },
   {
     "id": "mon_hesperosaurus_juvenile",
@@ -596,28 +632,36 @@
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
+    "volume": "400 L",
+    "weight": "400 kg",
     "color": "yellow",
+    "hp": 100,
     "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
+    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
-    "copy-from": "mon_stegosaurus_juvenile",
+    "copy-from": "mon_tenontosaurus_juvenile",
+    "volume": "425 L",
+    "weight": "425 kg",
     "color": "yellow",
-    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
+    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
   {
     "id": "mon_iguanodon_juvenile",
     "type": "MONSTER",
     "name": "gray and magenta two-legged juvenile",
     "copy-from": "mon_camptosaurus_juvenile",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 220,
     "description": "A two-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
     "color": "yellow",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 365, "into": "mon_iguanodon" }
+    "upgrades": { "age_grow": 365, "into": "mon_iguanodon" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED", "SWIMS" ]
   },
   {
     "id": "mon_eolambia_juvenile",
