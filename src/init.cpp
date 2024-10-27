@@ -44,6 +44,7 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "game.h"
 #include "gates.h"
 #include "harvest.h"
 #include "input.h"
@@ -102,6 +103,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -122,6 +124,20 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     static DynamicDataLoader theDynamicDataLoader;
     return theDynamicDataLoader;
 }
+
+namespace
+{
+
+void check_sigint()
+{
+    if( g && g->uquit == quit_status::QUIT_EXIT ) {
+        if( g->query_exit_to_OS() ) {
+            throw game::exit_exception();
+        }
+    }
+}
+
+} // namespace
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
                                      const cata_path &base_path,
@@ -172,6 +188,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             }
             ++it;
             inp_mngr.pump_events();
+            check_sigint();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -569,7 +586,7 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
                  "Can't load additional data after finalization.  Must be unloaded first." );
 
     std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
-    std::vector<cata_path> files;
+    std::multimap<mod_id, cata_path> files;
 
     if( dir_exist( path.get_unrelative_path() ) ) {
 
@@ -577,25 +594,24 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
         const std::vector<cata_path> interaction_folders = get_directories( path, false );
 
         for( const cata_path &f : interaction_folders ) {
-            bool is_mod_loaded = false;
-            for( mod_id id : loaded_mods ) {
-                if( id.str() == f.get_unrelative_path().filename().string() ) {
-                    is_mod_loaded = true;
-                }
-            }
+            const mod_id associated_mod = mod_id( f.get_unrelative_path().filename().string() );
+            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(),
+                                            associated_mod ) != loaded_mods.end();
+
             if( is_mod_loaded ) {
                 const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
-                files.insert( files.end(), interaction_files.begin(), interaction_files.end() );
+                for( const cata_path &path : interaction_files ) {
+                    files.emplace( associated_mod, path );
+                }
             }
         }
     }
-
     // iterate over each file
-    for( const cata_path &file : files ) {
+    for( const std::pair<const mod_id, cata_path> &file : files ) {
         try {
             // parse it
-            JsonValue jsin = json_loader::from_path( file );
-            load_all_from_json( jsin, src, path, file );
+            JsonValue jsin = json_loader::from_path( file.second );
+            load_all_from_json( jsin, string_format( "%s#%s", src, file.first.str() ), path, file.second );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
@@ -614,6 +630,7 @@ void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::st
         // find type and dispatch each object until array close
         for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
+            check_sigint();
         }
     } else {
         // not an object or an array?
@@ -843,6 +860,7 @@ void DynamicDataLoader::finalize_loaded_data()
     for( const named_entry &e : entries ) {
         loading_ui::show( _( "Finalizing" ), e.first );
         e.second();
+        check_sigint();
     }
 
     if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
@@ -947,5 +965,6 @@ void DynamicDataLoader::check_consistency()
     for( const named_entry &e : entries ) {
         loading_ui::show( _( "Verifying" ), e.first );
         e.second();
+        check_sigint();
     }
 }

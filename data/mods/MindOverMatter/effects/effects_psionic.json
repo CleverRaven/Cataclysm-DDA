@@ -1362,9 +1362,8 @@
   {
     "type": "effect_type",
     "id": "effect_pyrokinetic_torch_weld",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Incandescent Lance" ],
+    "desc": [ "A thin beam of searing plasma extends from one finger." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -1947,6 +1946,15 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_mesmerize_tracker",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You are in a daze." ],
+    "apply_message": "",
+    "remove_message": "You snap out of your trance.",
+    "show_in_info": true
   },
   {
     "type": "effect_type",

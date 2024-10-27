@@ -1438,10 +1438,6 @@ void Item_factory::finalize()
             it->second.recipes.push_back( p.first );
         }
     }
-    for( auto &e : m_template_groups ) {
-        auto &isd = e.second;
-        isd->finalize( itype_id::NULL_ID() );
-    }
 }
 void item_blacklist_t::clear()
 {

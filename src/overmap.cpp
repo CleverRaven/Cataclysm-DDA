@@ -722,6 +722,10 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::river_tile: return "RIVER";
         case oter_flags::bridge: return "BRIDGE";
         case oter_flags::has_sidewalk: return "SIDEWALK";
+        case oter_flags::road: return "ROAD";
+        case oter_flags::highway: return "HIGHWAY";
+        case oter_flags::highway_reserved: return "HIGHWAY_RESERVED";
+        case oter_flags::highway_special: return "HIGHWAY_SPECIAL";
         case oter_flags::no_rotate: return "NO_ROTATE";
         case oter_flags::should_not_spawn: return "SHOULD_NOT_SPAWN";
         case oter_flags::ignore_rotation_for_adjacency: return "IGNORE_ROTATION_FOR_ADJACENCY";
@@ -2884,7 +2888,8 @@ bool overmap_special::requires_city() const
            constraints_.city_distance.max < std::max( OMAPX, OMAPY );
 }
 
-bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const
+bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &cit,
+        const overmap &omap ) const
 {
     if( !requires_city() ) {
         return true;
@@ -2892,7 +2897,13 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     if( !cit || !constraints_.city_size.contains( cit.size ) ) {
         return false;
     }
-    return constraints_.city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
+    if( constraints_.city_distance.max > std::max( OMAPX, OMAPY ) ) {
+        // Only care that we're more than min away from a city
+        return !omap.distance_to_city( p, constraints_.city_distance.min );
+    }
+    const std::optional<int> dist = omap.distance_to_city( p, constraints_.city_distance.max );
+    // Found a city within max and it's greater than min away
+    return !!dist && constraints_.city_distance.min < *dist;
 }
 
 bool overmap_special::has_flag( const std::string &flag ) const
@@ -4174,6 +4185,83 @@ void overmap::clear_cities()
 void overmap::clear_connections_out()
 {
     connections_out.clear();
+}
+
+bool overmap::is_in_city( const tripoint_om_omt &p ) const
+{
+    if( !city_tiles.empty() ) {
+        return city_tiles.find( p.xy() ) != city_tiles.end();
+    } else {
+        // Legacy handling
+        return distance_to_city( p ) == 0;
+    }
+
+}
+
+std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
+        int max_dist_to_check ) const
+{
+    if( !city_tiles.empty() ) {
+        for( int i = 0; i <= max_dist_to_check; i++ ) {
+            for( const tripoint_om_omt &tile : closest_points_first( p, i, i ) ) {
+                if( is_in_city( tile ) ) {
+                    return i;
+                }
+            }
+        }
+    } else {
+        // Legacy handling
+        const city &nearest_city = get_nearest_city( p );
+        if( !!nearest_city ) {
+            // 0 if within city
+            return std::max( 0, nearest_city.get_distance_from( p ) - nearest_city.size );
+        }
+    }
+    return {};
+}
+
+void overmap::flood_fill_city_tiles()
+{
+    std::unordered_set<point_om_omt> visited;
+    // simplifies bounds checking
+    const half_open_rectangle<point_om_omt> omap_bounds( point_om_omt( 0, 0 ), point_om_omt( OMAPX,
+            OMAPY ) );
+
+    // Look through every point on the overmap
+    for( int y = 0; y < OMAPY; y++ ) {
+        for( int x = 0; x < OMAPX; x++ ) {
+            point_om_omt checked( x, y );
+            // If we already looked at it in a previous flood-fill, ignore it
+            if( visited.find( checked ) != visited.end() ) {
+                continue;
+            }
+            // Is the area connected to this point enclosed by city_tiles?
+            bool enclosed = true;
+            // Predicate for flood-fill. Also detects if any point flood-filled to borders the edge
+            // of the overmap and is thus not enclosed
+            const auto is_unchecked = [&enclosed, &visited, &omap_bounds, this]( const point_om_omt & pt ) {
+                if( city_tiles.find( pt ) != visited.end() ) {
+                    return false;
+                }
+                // We hit the edge of the overmap! We're free!
+                if( !omap_bounds.contains( pt ) ) {
+                    enclosed = false;
+                    return false;
+                }
+                return true;
+            };
+            // All the points connected to this point that aren't part of a city
+            std::vector<point_om_omt> area = ff::point_flood_fill_4_connected( checked, visited, is_unchecked );
+            if( !enclosed ) {
+                continue;
+            }
+            // They are enclosed, and so should be considered part of the city.
+            city_tiles.reserve( city_tiles.size() + area.size() );
+            for( const point_om_omt &pt : area ) {
+                city_tiles.insert( pt );
+            }
+        }
+    }
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
@@ -5821,6 +5909,7 @@ void overmap::place_cities()
             if( ter( p ) == settings->default_oter[OVERMAP_DEPTH] ) {
                 placement_attempts = 0;
                 ter_set( p, oter_road_nesw ); // every city starts with an intersection
+                city_tiles.insert( c );
                 tmp.pos = p.xy();
                 tmp.size = size;
             }
@@ -5829,6 +5918,7 @@ void overmap::place_cities()
             tmp = random_entry( cities_to_place );
             p = tripoint_om_omt( tmp.pos, 0 );
             ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_road_nesw );
+            city_tiles.insert( tmp.pos );
         }
         if( placement_attempts == 0 ) {
             cities.push_back( tmp );
@@ -5842,6 +5932,7 @@ void overmap::place_cities()
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
         }
     }
+    flood_fill_city_tiles();
 }
 
 overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
@@ -5903,7 +5994,11 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size,
                                                 placed_unique_buildings );
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
-            place_special( *building_tid, building_pos, building_dir, town, false, false );
+            std::vector<tripoint_om_omt> used_tripoints = place_special( *building_tid, building_pos,
+                    building_dir, town, false, false );
+            for( const tripoint_om_omt &p : used_tripoints ) {
+                city_tiles.insert( p.xy() );
+            }
             if( building_tid->has_flag( "CITY_UNIQUE" ) ) {
                 placed_unique_buildings.emplace( building_tid );
             }
@@ -6325,7 +6420,7 @@ static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source
 }
 
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
-        const point_om_omt &source, om_direction::type dir, size_t len ) const
+        const point_om_omt &source, om_direction::type dir, size_t len )
 {
     const tripoint_om_omt from( source, 0 );
     // See if we need to make another one "step" further.
@@ -6378,6 +6473,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             break;
         }
 
+        city_tiles.insert( pos.xy() );
         ++actual_len;
 
         if( actual_len > 1 && connection.has( ter_id ) ) {
@@ -7017,7 +7113,7 @@ bool overmap::place_special_attempt(
                 continue;
             }
             // City check is the fastest => it goes first.
-            if( !special.can_belong_to_city( p, nearest_city ) ) {
+            if( !special.can_belong_to_city( p, nearest_city, *this ) ) {
                 continue;
             }
             // See if we can actually place the special there.

@@ -727,7 +727,7 @@ void game::reload_tileset()
         closetilecontext->reinit();
         closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                         /*precheck=*/false, /*force=*/true,
-                                        /*pump_events=*/true );
+                                        /*pump_events=*/true, /*terrain=*/false );
         closetilecontext->do_tile_loading_report();
 
         tilecontext = closetilecontext;
@@ -741,7 +741,7 @@ void game::reload_tileset()
             }
             fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                           /*precheck=*/false, /*force=*/true,
-                                          /*pump_events=*/true );
+                                          /*pump_events=*/true, /*terrain=*/false );
             fartilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the zoomed out tileset failed: %s" ), err.what() );
@@ -751,7 +751,7 @@ void game::reload_tileset()
         overmap_tilecontext->reinit();
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/true,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
         popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
@@ -2800,9 +2800,34 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
     return true;
 }
 
+bool game::query_exit_to_OS()
+{
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
+    uquit = QUIT_EXIT_PENDING; // change it before query so input_context doesn't get confused
+    if( query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+        uquit = QUIT_EXIT;
+        throw exit_exception();
+    }
+    uquit = QUIT_NO;
+    inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
+    return false;
+}
+
 bool game::is_game_over()
 {
+    if( uquit == QUIT_EXIT ) {
+        return query_exit_to_OS();
+    }
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
+        Creature *player_killer = u.get_killer();
+        if( player_killer && player_killer->as_character() ) {
+            events().send<event_type::character_kills_character>(
+                player_killer->as_character()->getID(), u.getID(), u.get_name() );
+        }
+        events().send<event_type::character_dies>( u.getID() );
         events().send<event_type::avatar_dies>();
     }
     if( uquit == QUIT_WATCH ) {
@@ -6945,13 +6970,13 @@ void game::zones_manager()
                 }
                 tripoint_abs_ms first_abs =
                     m.getglobal(
-                        tripoint(
+                        tripoint_bub_ms(
                             std::min( first.position->x, second.position->x ),
                             std::min( first.position->y, second.position->y ),
                             std::min( first.position->z, second.position->z ) ) );
                 tripoint_abs_ms second_abs =
                     m.getglobal(
-                        tripoint(
+                        tripoint_bub_ms(
                             std::max( first.position->x, second.position->x ),
                             std::max( first.position->y, second.position->y ),
                             std::max( first.position->z, second.position->z ) ) );
@@ -9882,6 +9907,9 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( !u.has_item( *loc ) && !loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+        if( !avatar_action::check_stealing( get_player_character(), *loc.get_item() ) ) {
+            return;
+        }
         loc = loc.obtain( u );
         if( !loc ) {
             add_msg( _( "Never mind." ) );
@@ -10613,7 +10641,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
+    const int mcost = m.combined_movecost( u.pos_bub(), tripoint_bub_ms( dest_loc ), grabbed_vehicle,
+                                           modifier,
                                            via_ramp );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
@@ -11366,8 +11395,7 @@ bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_dista
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    // TODO: Fix when unary operation available
-    const bool pulling_furniture = dp.xy() == ( point_rel_ms_zero - u.grab_point.xy() ).raw();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy().raw();
     const bool has_floor = m.has_floor_or_water( fdest );
     creature_tracker &creatures = get_creature_tracker();
     bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
@@ -12790,8 +12818,8 @@ void game::update_overmap_seen()
             continue;
         }
         // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
-        point abs_delta = delta.raw().abs();
-        int max_delta = std::max( abs_delta.x, abs_delta.y );
+        point_rel_omt abs_delta = delta.abs();
+        int max_delta = std::max( abs_delta.x(), abs_delta.y() );
         const float multiplier = trigdist ? std::sqrt( h_squared ) / max_delta : 1;
         const std::vector<tripoint_abs_omt> line = line_to( ompos, p );
         float sight_points = dist;

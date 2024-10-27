@@ -137,6 +137,11 @@ void bodygraph::load( const JsonObject &jo, const std::string_view )
             parts.emplace( sym, bpg );
         }
     }
+
+    if( jo.has_string( "label_fill" ) ) {
+        label_fill = jo.get_string( "label_fill" );
+    }
+
 }
 
 void bodygraph::finalize()
@@ -649,7 +654,8 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 }
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
-        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height )
+        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
+        const std::string_view &label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;
@@ -680,9 +686,20 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
     for( int i = 0; static_cast<size_t>( i ) < rid->rows.size() && i < height; i++ ) {
         std::string ret_row;
         int j = hflip ? rid->rows[i].size() - 1 : 0;
+        size_t label_i = 0;
         for( int x = 0 ; x < width && j < BPGRAPH_MAXCOLS && j >= 0; hflip ? j-- : j++, x++ ) {
-            std::string sym = id->fill_sym.empty() ? rid->rows[i][j] : id->fill_sym;
-            auto iter = id->parts.find( rid->rows[i][j] );
+            std::string sym = " ";
+            const std::string &r = rid->rows[i][j];
+            bool label_sym = false;
+            if( !id->fill_rows.empty() && id->label_fill == id->fill_rows[i][j] ) {
+                if( label_i < label.length() ) {
+                    label_sym = true;
+                    sym = label[label_i++];
+                }
+            } else {
+                sym = id->fill_sym.empty() ? r : id->fill_sym;
+            }
+            auto iter = id->parts.find( r );
             const bodygraph_part *bgp = nullptr;
             if( iter != id->parts.end() ) {
                 bgp = &iter->second;
@@ -697,7 +714,9 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                         missing_section = false;
                     }
                 }
-                sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
+                if( !label_sym ) {
+                    sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
+                }
             }
             if( rid->rows[i][j] == " " ) {
                 sym = " ";

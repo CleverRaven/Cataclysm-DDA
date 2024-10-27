@@ -662,6 +662,11 @@ faction *basecamp::fac() const
     return g->faction_manager_ptr->get( owner );
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
@@ -675,7 +680,23 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
 
     std::sort( pos_names.begin(), pos_names.end(), localized_compare );
 
-    choice = uilist( option, pos_names );
+    uilist menu = uilist( );
+    menu.title = option;
+    menu.desc_enabled = true;
+    for( const auto &it : pos_names ) {
+        // This is pretty dumb, but we need to reduce the width
+        // somehow.  It might be better if the JSON had two values in
+        // it, one for the menu item and another for the description.
+        size_t p = it.find( "  " );
+        if( p == it.npos ) {
+            menu.addentry( it );
+        } else {
+            menu.addentry_desc( it.substr( 0, p ), wrap60( it.substr( p + 2, it.size() ) ) );
+        }
+    }
+
+    menu.query();
+    choice = menu.ret;
 
     if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
         popup( _( "You choose to wait…" ) );

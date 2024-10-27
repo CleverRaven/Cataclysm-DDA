@@ -12,6 +12,7 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "mtype.h"
 #include "enums.h"
@@ -586,7 +587,7 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
             case scope_mod: {
                 const mod_id target_mod_id( filter_str );
                 for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( spellIt->get_src() == target_mod_id
+                    if( get_mod_base_id_from_src( spellIt->get_src() ) == target_mod_id
                         && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
                       ) {
@@ -962,10 +963,23 @@ std::function<double( dialogue & )> pain_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> pain_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
-        d.actor( beta )->set_pain( val );
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), format_value]( dialogue const & d, double val ) {
+
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            d.actor( beta )->mod_pain( val );
+        } else if( format == "raw" ) {
+            d.actor( beta )->set_pain( val );
+        } else {
+            debugmsg( R"(Unknown assigning type "%s" for pain())", format );
+        }
     };
 }
 

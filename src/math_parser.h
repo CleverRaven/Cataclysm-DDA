@@ -20,7 +20,7 @@ class math_exp
         math_exp &operator=( math_exp &&/* other */ ) noexcept;
         explicit math_exp( math_exp_impl impl_ );
 
-        bool parse( std::string_view str, bool assignment = false );
+        bool parse( std::string_view str, bool assignment = false, bool handle_errors = true );
         double eval( dialogue &d ) const;
         void assign( dialogue &d, double val ) const;
 

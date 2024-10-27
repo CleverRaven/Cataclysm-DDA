@@ -1012,6 +1012,35 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
     return std::make_pair( weight_text, weight_color );
 }
 
+// Weight carried, formatted as "current/max" in kg
+std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar &ava )
+{
+    float carry_wt = ( convert_weight( ava.weight_carried() ) );
+    float max_wt = ( convert_weight( ava.weight_capacity() ) );
+
+    // Create a string showing "current_weight / max_weight"
+    std::string weight_text = string_format( "%.1f/%.1f %s", carry_wt, max_wt, weight_units() );
+
+    // Set the color based on carry weight
+    nc_color weight_color = c_green;  // Default color
+
+    if( max_wt > 0 ) {
+        if( carry_wt > max_wt ) {
+            weight_color = c_red;  // Exceeds capacity
+        } else if( carry_wt > 0.75 * max_wt ) {
+            weight_color = c_light_red;  // Approaching capacity (75%)
+        } else if( carry_wt > 0.5 * max_wt ) {
+            weight_color = c_yellow;  // At half capacity (50%)
+        } else if( carry_wt > 0.25 * max_wt ) {
+            weight_color = c_light_green;  // Below half capacity (25%)
+        } else {
+            weight_color = c_green;  // Light load
+        }
+    }
+
+    return std::make_pair( weight_text, weight_color );
+}
+
 std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
         note_text )
 {
@@ -1392,6 +1421,8 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
     cata_fatal( "Invalid widget_var" );
 }
 
+static const std::vector<std::string> bodygraph_var_labels = { "Health", "Temperature", "Encumbrance", "Status", "Wet" };
+
 std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
@@ -1416,7 +1447,8 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return colorize( sym, sym_col.second );
     };
 
-    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
+    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height,
+                                    bodygraph_var_labels[ int( var ) ] );
     height = rows.size();
 
     std::string ret;

@@ -75,7 +75,7 @@
         "topic": "TALK_GODCO_Maria_Angry"
       },
       {
-        "text": "Hey Maria.  I can't stay to talk right now.",
+        "text": "Hey Maria.  <end_talking_leave>",
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
@@ -112,7 +112,7 @@
         "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_can_sew_for_u" } ] },
         "topic": "TALK_GODCO_Maria_Retrieve_Order"
       },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -120,8 +120,8 @@
     "id": "TALK_GODCO_Maria_Story",
     "dynamic_line": "I arrived a bit later than everyone else, I was at my studio when <the_cataclysm> came.  Had to dodge a big horde of <zombies> on my way out of town, totaled my car, and hiked the rest of the way.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -129,8 +129,8 @@
     "id": "TALK_GODCO_Maria_Past",
     "dynamic_line": "I always wanted to be a fashion designer when I was young.  I used to have a set of dolls, and I'd make dresses for them out of spare cloth I could find.  I took up sewing in high school, and I was trying to get a job with Fashion Nova before <the_cataclysm> screwed that up.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -139,8 +139,8 @@
     "dynamic_line": "Things are alright, could be better.  I've been mending clothes and sheets ever since I arrived, fixing this and that.  Theresa's been a big help in those regards, we've traded quilt patterns and designs quite a bit.",
     "responses": [
       { "text": "Could you tell me about Theresa?", "topic": "TALK_GODCO_Maria_Theresa" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -148,8 +148,8 @@
     "id": "TALK_GODCO_Maria_Theresa",
     "dynamic_line": "She's a kind old lady, does a lot of knitting.  She could probably make you something if you asked nicely.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -162,8 +162,8 @@
         "effect": [ { "npc_add_var": "general_trade_can_sew_for_u", "value": "yes" } ],
         "topic": "TALK_GODCO_Maria_Tailor_What"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -254,8 +254,8 @@
       { "text": "What can you sew?", "topic": "TALK_GODCO_Maria_Tailor_What" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },
-      { "text": "I've changed my mind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I've changed my mind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -383,8 +383,8 @@
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
       },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -395,8 +395,8 @@
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -406,8 +406,8 @@
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -417,8 +417,8 @@
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {

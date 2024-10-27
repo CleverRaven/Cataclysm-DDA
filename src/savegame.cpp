@@ -513,6 +513,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "city_tiles" ) {
+            om_member.read( city_tiles );
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -1249,6 +1251,9 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
+    fout << std::endl;
+
+    json.member( "city_tiles", city_tiles );
     fout << std::endl;
 
     json.member( "connections_out", connections_out );

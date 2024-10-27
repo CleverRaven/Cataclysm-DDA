@@ -1712,5 +1712,20 @@
       { "u_lose_effect": "effect_controlling_weather" },
       { "u_lose_effect": "effect_controlling_weather_lightningstorm" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_MOONS_TEARS_FORGING_LEARN_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "TROW_MOONS_TEARS_FORGING" }, { "x_in_y_chance": { "x": 1, "y": 15 } } ] },
+    "effect": [
+      {
+        "if": { "not": { "u_know_recipe": "moon_tear_ingot" } },
+        "then": { "u_learn_recipe": "moon_tear_ingot" },
+        "else": { "run_eocs": "EOC_LEARN_MOONS_TEARS_RECIPES" }
+      },
+      { "u_message": "You dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
+    ]
   }
 ]
