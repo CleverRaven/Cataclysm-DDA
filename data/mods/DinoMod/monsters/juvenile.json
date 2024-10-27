@@ -372,18 +372,7 @@
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
     ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "WARM",
-      "NO_BREED",
-      "CANPLAY",
-      "GROUP_MORALE",
-      "PET_MOUNTABLE"
-    ]
+    "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_anchisaurus_juvenile",
@@ -414,18 +403,7 @@
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
     ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "WARM",
-      "NO_BREED",
-      "CANPLAY",
-      "GROUP_MORALE",
-      "PET_MOUNTABLE"
-    ]
+    "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_haplocanthosaurus_juvenile",
@@ -626,7 +604,7 @@
     "color": "yellow",
     "hp": 100,
     "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED", "PET_MOUNTABLE" ] }
+    "extend": { "flags": [ "SWIMS", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_camptosaurus_juvenile",
@@ -779,7 +757,7 @@
     "weight": "650 kg",
     "hp": 75,
     "upgrades": { "age_grow": 220, "into": "mon_einiosaurus" },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_achelousaurus_juvenile",
@@ -818,11 +796,12 @@
   {
     "id": "mon_kosmoceratops_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_triceratops_juvenile",
+    "copy-from": "mon_kosmoceratops",
     "volume": "600 L",
     "weight": "600 kg",
     "hp": 75,
-    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" }
+    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_torosaurus_juvenile",
