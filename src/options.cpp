@@ -2616,7 +2616,7 @@ void options_manager::add_options_graphics()
              display_list.front().first, COPT_CURSES_HIDE );
 #endif
 
-#if !defined(__ANDROID__) // Android is always fullscreen
+#if !defined(__ANDROID__) || !defined(__EMSCRIPTEN__) // Android and Emscripten are always fullscreen
         add( "FULLSCREEN", page_id, to_translation( "Fullscreen" ),
              to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
         { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
@@ -3273,7 +3273,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             closetilecontext->reinit();
             closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                             /*precheck=*/false, /*force=*/false,
-                                            /*pump_events=*/true );
+                                            /*pump_events=*/true, /*terrain=*/false );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
@@ -3290,7 +3290,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 }
                 fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                               /*precheck=*/false, /*force=*/false,
-                                              /*pump_events=*/true );
+                                              /*pump_events=*/true, /*terrain=*/false );
                 //game_ui::init_ui is called when zoom is changed
                 g->reset_zoom();
                 g->mark_main_ui_adaptor_resize();
@@ -3305,7 +3305,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             overmap_tilecontext->reinit();
             overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                                /*precheck=*/false, /*force=*/false,
-                                               /*pump_events=*/true );
+                                               /*pump_events=*/true, /*terrain=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();

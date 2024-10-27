@@ -4517,6 +4517,10 @@ std::pair<item_location, bool> unload_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &highlighted = get_active_column().get_highlighted();
             if( highlighted && highlighted.is_selectable() ) {
+                item to_unload = *highlighted.any_item();
+                if( !avatar_action::check_stealing( get_player_character(), to_unload ) ) {
+                    return { item_location(), uistate.unload_auto_contain };
+                }
                 return { highlighted.any_item(), uistate.unload_auto_contain };
             }
         } else if( input.action == "CONTAIN_MODE" ) {

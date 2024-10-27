@@ -123,7 +123,9 @@
     "//": "This is the EoC called by concentration checks. Name is to avoid JSON churn",
     "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
     "effect": [
-      { "run_eocs": "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT" },
+      {
+        "run_eocs": [ "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT", "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_maintenance" ]
+      },
       {
         "run_eocs": [
           {
@@ -144,7 +146,9 @@
       }
     ],
     "false_effect": [
-      { "run_eocs": "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT" },
+      {
+        "run_eocs": [ "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT", "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_maintenance" ]
+      },
       {
         "run_eocs": [
           {
@@ -233,6 +237,12 @@
         "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_maintenance",
+    "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(6) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",

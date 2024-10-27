@@ -195,41 +195,5 @@
     "ammo_type": [ "10mm" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 15 } } ]
-  },
-  {
-    "id": "2011_17_mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": "2011 10mm 17-round magazine" },
-    "description": "A lightweight, 17-round, steel magazine with a polymer baseplate.  Used in 2011 pistols chambered for 10mm Auto.",
-    "weight": "70 g",
-    "volume": "110 ml",
-    "longest_side": "140 mm",
-    "price": "100 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "10mm" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 17 } } ]
-  },
-  {
-    "id": "2011_22_mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": "2011 10mm 22-round magazine" },
-    "description": "A lightweight, 22-round, steel magazine with a polymer baseplate.  Used in 2011 pistols chambered for 10mm Auto.",
-    "weight": "85 g",
-    "volume": "125 ml",
-    "longest_side": "170 mm",
-    "price": "100 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "10mm" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 22 } } ]
   }
 ]

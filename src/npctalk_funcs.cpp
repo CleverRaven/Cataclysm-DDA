@@ -886,6 +886,9 @@ void talk_function::follow( npc &p )
     p.set_fac( faction_your_followers );
     get_player_character().cash += p.cash;
     p.cash = 0;
+    if( !p.custom_profession.empty() ) {
+        p.custom_profession.clear();
+    }
 }
 
 void talk_function::follow_only( npc &p )

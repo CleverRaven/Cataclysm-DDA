@@ -903,6 +903,7 @@
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           },
+          { "item": "vitc_tablet", "prob": 7, "count": [ 1, 30 ], "entry-wrapper": "bottle_plastic_small" },
           {
             "item": "calcium_tablet",
             "prob": 10,
