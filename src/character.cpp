@@ -12434,13 +12434,13 @@ float Character::fall_damage_mod() const
 }
 
 static int adjust_effective_force_for_soft_landing( int effective_force,
-        int fall_damage_reduction)
+        int fall_damage_reduction )
 {
     if( effective_force < fall_damage_reduction ) {
         return 0;  // If less than fall_damage_reduction, reduce it to 0
     } else {
-        return effective_force - fall_damage_reduction; 
-    } 
+        return effective_force - fall_damage_reduction;
+    }
 }
 
 // force is maximum damage to hp before scaling
@@ -12506,7 +12506,7 @@ int Character::impact( const int force, const tripoint &p )
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
             effective_force = adjust_effective_force_for_soft_landing( effective_force,
-                                      here.furn( p )->fall_damage_reduction);
+                              here.furn( p )->fall_damage_reduction );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
@@ -12520,15 +12520,14 @@ int Character::impact( const int force, const tripoint &p )
         !here.items_with( p, [&]( item const & it ) {
         return it.affects_fall();
         } ).empty() ) {
-            
             std::list<item_location> fall_affecting_items =
-                here.items_with(p, [&](const item& it) {
+            here.items_with( p, [&]( const item & it ) {
                 return it.affects_fall();
-                    });
+            } );
 
-            for ( const item_location& floor_item : fall_affecting_items ) {
+            for( const item_location &floor_item : fall_affecting_items ) {
                 effective_force = adjust_effective_force_for_soft_landing(
-                    effective_force, floor_item.get_item()->fall_damage_reduction() );
+                                      effective_force, floor_item.get_item()->fall_damage_reduction() );
             }
 
             // effective_force = adjust_effective_force_for_soft_landing( effective_force );
