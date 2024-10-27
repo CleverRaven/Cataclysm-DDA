@@ -1650,6 +1650,22 @@
     "entries": [ { "item": "henry_big_boy", "charges": [ 0, 10 ] }, { "group": "on_hand_44" } ]
   },
   {
+    "id": "nested_rossi_r92_44_16",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_44_16", "charges": [ 0, 10 ] }, { "group": "on_hand_44" } ]
+  },
+  {
+    "id": "nested_rossi_r92_44_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_44_20", "charges": [ 0, 10 ] }, { "group": "on_hand_44" } ]
+  },
+  {
     "id": "nested_m14ebr",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

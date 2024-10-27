@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_automag"
   },
   {
-    "id": [ "henry_big_boy" ],
+    "id": [ "henry_big_boy", "rossi_r92_44_20", "rossi_r92_44_16" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_levergun"
   },

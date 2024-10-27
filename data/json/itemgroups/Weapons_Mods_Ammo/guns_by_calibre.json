@@ -557,7 +557,11 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_44",
-    "items": [ { "group": "nested_henry_big_boy", "prob": 100 } ]
+    "items": [
+      { "group": "nested_henry_big_boy", "prob": 100 },
+      { "group": "nested_rossi_r92_44_16", "prob": 185 },
+      { "group": "nested_rossi_r92_44_20", "prob": 121 }
+    ]
   },
   {
     "type": "item_group",
@@ -720,7 +724,11 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_44",
-    "items": [ { "item": "henry_big_boy", "prob": 100 } ]
+    "items": [
+      { "item": "henry_big_boy", "prob": 100 },
+      { "item": "rossi_r92_44_16", "prob": 185 },
+      { "item": "rossi_r92_44_20", "prob": 121 }
+    ]
   },
   {
     "type": "item_group",
