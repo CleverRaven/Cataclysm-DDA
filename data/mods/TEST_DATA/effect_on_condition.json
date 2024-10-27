@@ -128,5 +128,40 @@
     "type": "effect_on_condition",
     "id": "EOC_N",
     "effect": [ { "set_string_var": { "context_val": "test_context_key_N" }, "target_var": { "global_val": "test_global_key_N" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_talker_mixes",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_mixins_save_name" ],
+        "alpha_talker": { "context_val": "alpha_var" },
+        "beta_talker": { "context_val": "beta_var" },
+        "false_eocs": "EOC_mixes_fail"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_talker_mixes_loc",
+    "effect": [
+      { "run_eocs": [ "EOC_mixins_save_name" ], "alpha_loc": { "context_val": "alpha_var" }, "false_eocs": "EOC_mixes_fail" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mixins_save_name",
+    "effect": [
+      { "set_string_var": "<u_name>", "target_var": { "global_val": "alpha_name" }, "parse_tags": true },
+      { "set_string_var": "<npc_name>", "target_var": { "global_val": "beta_name" }, "parse_tags": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mixes_fail",
+    "effect": [
+      { "set_string_var": "mixin fail alpha", "target_var": { "global_val": "alpha_name" } },
+      { "set_string_var": "mixin fail beta", "target_var": { "global_val": "beta_name" } }
+    ]
   }
 ]

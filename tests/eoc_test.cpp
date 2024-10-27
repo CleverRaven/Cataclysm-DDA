@@ -8,6 +8,7 @@
 #include "make_static.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "overmapbuffer.h"
 #include "timed_event.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -126,6 +127,10 @@ static const effect_on_condition_id effect_on_condition_run_eocs_2( "run_eocs_2"
 static const effect_on_condition_id effect_on_condition_run_eocs_3( "run_eocs_3" );
 static const effect_on_condition_id effect_on_condition_run_eocs_5( "run_eocs_5" );
 static const effect_on_condition_id effect_on_condition_run_eocs_7( "run_eocs_7" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes( "run_eocs_talker_mixes" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -1447,4 +1452,51 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_test_global_key_M" ) == "test_context_value_M" );
     CHECK( globvars.get_global_value( "npctalk_var_test_global_key_N" ) == "test_context_value_N" );
 
+    globvars.clear_global_values();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map();
+    clear_npcs();
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    guy->normalize();
+    overmap_buffer.insert_npc( guy );
+    guy->spawn_at_precise( u.get_location() + tripoint_east );
+    g->load_npcs();
+    tripoint_abs_ms mon_loc = u.get_location() + tripoint_west;
+    monster *zombie = g->place_critter_at( mon_zombie, get_map().bub_from_abs( mon_loc ) );
+    REQUIRE( zombie != nullptr );
+
+    item hammer( "hammer" );
+    item_location hammer_loc( map_cursor{ guy->get_location() }, &hammer );
+    dialogue d2( get_talker_for( *guy ), get_talker_for( hammer_loc ) );
+    talker *alpha_talker = d2.actor( false );
+    talker *beta_talker = d2.actor( true );
+
+    d2.set_value( "npctalk_var_alpha_var", "u" );
+    d2.set_value( "npctalk_var_beta_var", "npc" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == alpha_talker->get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == beta_talker->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", "npc" );
+    d2.set_value( "npctalk_var_beta_var", "u" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == beta_talker->get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == alpha_talker->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", "avatar" );
+    d2.set_value( "npctalk_var_beta_var", std::to_string( guy->getID().get_value() ) );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == get_avatar().get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == guy->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", std::string{} );
+    d2.set_value( "npctalk_var_beta_var", std::string{} );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == "mixin fail alpha" );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == "mixin fail beta" );
+
+    d2.set_value( "npctalk_var_alpha_var", mon_loc.to_string() );
+    CHECK( effect_on_condition_run_eocs_talker_mixes_loc->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == zombie->get_name() );
 }
