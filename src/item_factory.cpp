@@ -4248,10 +4248,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     optional( jo, false, "fall_damage_reduction", def.fall_damage_reduction, 0 );
-    optional( jo, false, "fall_damage_reduction_multiplicative",
-              def.fall_damage_reduction_multiplicative, 1.0f );
-    optional( jo, false, "fall_damage_reduction_on_breaking", def.fall_damage_reduction_on_breaking,
-              0 );
     assign( jo, "ascii_picture", def.picture_id );
     assign( jo, "repairs_with", def.repairs_with );
 

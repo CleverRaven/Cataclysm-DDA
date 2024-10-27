@@ -1813,11 +1813,6 @@ class item : public visitable
 
         //flat damage reduction (increase if negative) on fall (some logic may apply)
         int fall_damage_reduction() const;
-        //multiplicative damage reduction on fall (some logic may apply)
-        float fall_damage_reduction_multiplicative() const;
-
-        //flat damage reduction on fall when strength of breaks items used(not yet implemented)
-        int fall_damage_reduction_on_breaking() const;
         /**
           * if the item will spill if placed into a container
           */
