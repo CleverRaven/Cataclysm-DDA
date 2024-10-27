@@ -594,14 +594,13 @@ static void edit_global_npctalk_vars()
     for( std::pair<const std::string, std::string> &some_global : globvars.get_global_values() ) {
         keymap_index.emplace_back( some_global.first );
         std::string description = string_format( _( "raw var value: %s" ), some_global.second );
-        // only run std::stof if these are actually doubles and won't explode us
-        if( strtol( some_global.second.c_str(), nullptr, 0 ) ) {
+        if( std::optional<double> globvar_as_dbl = svtod( some_global.second ); globvar_as_dbl ) {
             description += "\n";
             description += string_format( _( "as time_duration: %s" ),
-                                          to_string( time_duration::from_turns( std::stof( some_global.second ) ) ) );
+                                          to_string( time_duration::from_turns( *globvar_as_dbl ) ) );
             description += "\n";
             description += string_format( _( "as time_point: %s" ),
-                                          to_string( calendar::turn_zero + time_duration::from_turns( std::stof( some_global.second ) ) ) );
+                                          to_string( calendar::turn_zero + time_duration::from_turns( *globvar_as_dbl ) ) );
         }
         global_var_list.addentry_desc( i, true, input_event(), some_global.first, description );
         i++;
@@ -636,14 +635,13 @@ static void edit_character_npctalk_vars( Character &you )
     for( std::pair<const std::string, std::string> &some_local : char_vars ) {
         keymap_index.emplace_back( some_local.first );
         std::string description = string_format( _( "raw var value: %s" ), some_local.second );
-        // only run std::stof if these are actually doubles and won't explode us
-        if( strtol( some_local.second.c_str(), nullptr, 0 ) ) {
+        if( std::optional<double> localvar_as_dbl = svtod( some_local.second ); localvar_as_dbl ) {
             description += "\n";
             description += string_format( _( "as time_duration: %s" ),
-                                          to_string( time_duration::from_turns( std::stof( some_local.second ) ) ) );
+                                          to_string( time_duration::from_turns( *localvar_as_dbl ) ) );
             description += "\n";
             description += string_format( _( "as time_point: %s" ),
-                                          to_string( calendar::turn_zero + time_duration::from_turns( std::stof( some_local.second ) ) ) );
+                                          to_string( calendar::turn_zero + time_duration::from_turns( *localvar_as_dbl ) ) );
         }
         char_var_list.addentry_desc( i, true, input_event(), some_local.first, description );
         i++;
