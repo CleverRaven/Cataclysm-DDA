@@ -25,6 +25,11 @@ class vehicle;
 struct mutation_variant;
 enum class get_body_part_flags;
 
+namespace npc_factions
+{
+enum class relationship : int;
+}
+
 using bodytype_id = std::string;
 
 /*
@@ -494,6 +499,8 @@ class talker
         virtual void toggle_ai_rule( const std::string &, const std::string & ) {}
         virtual void set_ai_rule( const std::string &, const std::string & ) {}
         virtual void clear_ai_rule( const std::string &, const std::string & ) {}
+
+        virtual void set_fac_relation( const Character *, npc_factions::relationship, bool ) {}
 
         // other descriptors
         virtual std::string get_job_description() const {

@@ -23,6 +23,11 @@ struct tripoint;
 
 struct mutation_variant;
 
+namespace npc_factions
+{
+enum class relationship : int;
+}
+
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
@@ -291,6 +296,8 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void set_fac_relation( const Character *guy, npc_factions::relationship rule,
+                               bool should_set_value ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;

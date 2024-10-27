@@ -3682,6 +3682,31 @@ Variables are also supported
   },
 ```
 
+#### `u_set_fac_relation`, `npc_set_fac_relation`
+Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction.
+ 
+ | Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_set_fac_relation" / "npc_set_fac_relation" | **mandatory** | string or [variable object](#variable-object) | Rule to set. See [the factions doc](FACTIONS.md#faction-relations) for a list of rules and what they cover.  |
+| "set_value_to" | optional | boolean | default true; Whether to set, or unset, this rule. | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Adds the "share public goods" rule 
+```json
+{ "u_set_fac_relation": "share public goods" }
+```
+
+Removes the "kill on sight" rule
+```json
+{ "u_set_fac_relation": "kill on sight", "set_value_to": false }
+```
+
 #### `u_add_faction_trust`
  Your character gains trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction. Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction
 

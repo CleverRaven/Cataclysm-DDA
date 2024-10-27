@@ -1484,7 +1484,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
         } else if( spriority > sounds::sound_t::movement ) {
             if( ( spriority == sounds::sound_t::speech || spriority == sounds::sound_t::alert ||
                   spriority == sounds::sound_t::order ) && sound_source &&
-                !has_faction_relationship( *sound_source, npc_factions::knows_your_voice ) ) {
+                !has_faction_relationship( *sound_source, npc_factions::relationship::knows_your_voice ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
@@ -6346,6 +6346,24 @@ talk_effect_fun_t::func f_roll_remainder( const JsonObject &jo,
     };
 }
 
+talk_effect_fun_t::func f_set_fac_relation( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var new_relation = get_str_or_var( jo.get_member( member ), member, true );
+    const bool should_set_value = jo.get_bool( "set_value_to", true );
+    return [is_npc, new_relation, should_set_value]( dialogue & d ) {
+        std::string relationship_rule = new_relation.evaluate( d );
+        auto rel_map_iter = npc_factions::relation_strs.find( relationship_rule );
+        if( rel_map_iter == npc_factions::relation_strs.end() ) {
+            debugmsg( "Invalid relationship string: %s", relationship_rule );
+            return;
+        } else {
+            d.actor( is_npc )->set_fac_relation( d.actor( !is_npc )->get_character(),
+                                                 rel_map_iter->second, should_set_value );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_add_morale( const JsonObject &jo, std::string_view member,
                                       const std::string_view, bool is_npc )
 {
@@ -7124,6 +7142,7 @@ parsers = {
     { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun::f_run_inv_eocs },
     { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun::f_roll_remainder },
     { "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun::f_mod_healthy },
+    { "u_set_fac_relation", "npc_set_fac_relation", jarg::member, &talk_effect_fun::f_set_fac_relation },
     { "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun::f_add_morale },
     { "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun::f_lose_morale },
     { "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun::f_add_bionic },

@@ -888,6 +888,21 @@ int talker_character_const::morale_cur() const
     return me_chr_const->get_morale_level();
 }
 
+void talker_character::set_fac_relation( const Character *guy, npc_factions::relationship rule,
+        bool should_set_value )
+{
+    if( !guy || !me_chr ) {
+        debugmsg( "Missing character to set new faction relationship" );
+        return;
+    }
+
+    faction *u_fac = me_chr->get_faction();
+    faction *npc_fac = guy->get_faction();
+
+    npc_fac->relations[u_fac->id.c_str()].set( static_cast<size_t>( rule ), should_set_value );
+
+}
+
 void talker_character::add_morale( const morale_type &new_morale, int bonus, int max_bonus,
                                    time_duration duration, time_duration decay_start, bool capped )
 {
