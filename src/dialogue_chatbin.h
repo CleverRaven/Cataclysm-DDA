@@ -120,7 +120,7 @@ struct dialogue_chatbin_snippets {
     translation snip_warn_sleep = no_translation( "<warn_sleep>" );
     translation snip_yawn = no_translation( "<yawn>" );
     translation snip_yes_to_lsd = no_translation( "<yes_to_lsd>" );
-    translation snip_mug_dontmove = to_translation( "Don't move a <swear> muscle…" );
+    translation snip_mug_dontmove = to_translation( "Don't move a <freaking> muscle…" );
     translation snip_lost_blood = to_translation( "I've lost lot of blood." );
     translation snip_pulp_zombie = to_translation( "Hold on, I want to pulp that %s." );
     translation snip_heal_player = to_translation( "Hold still %s, I'm coming to help you." );
@@ -136,7 +136,7 @@ struct dialogue_chatbin_snippets {
 
     // talk from talker_npc.cpp(can use snippets in json)
     translation snip_consume_cant_accept =
-        to_translation( "I don't <swear> trust you enough to eat THIS…" );
+        to_translation( "I don't fuckin' trust you enough to eat THIS…" );
     translation snip_consume_cant_consume =
         to_translation( "It doesn't look like a good idea to consume this…" );
     translation snip_consume_rotten = to_translation( "This is rotten!  I won't eat that." );
@@ -149,7 +149,7 @@ struct dialogue_chatbin_snippets {
     translation snip_give_nope = to_translation( "Nope." );
     translation snip_give_to_hallucination = to_translation( "No thanks, I'm good." );
     translation snip_give_cancel = to_translation( "Changed your mind?" );
-    translation snip_give_dangerous = to_translation( "Are you <swear> insane!?" );
+    translation snip_give_dangerous = to_translation( "Are you <freaking> insane!?" );
     translation snip_give_wield = to_translation( "Thanks, I'll wield that now." );
     translation snip_give_weapon_weak = to_translation( "My current weapon is better than this.\n" );
     translation snip_give_carry = to_translation( "Thanks, I'll carry that now." );

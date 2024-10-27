@@ -29,10 +29,10 @@
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
-      "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
+      "yes": "Ahh!  What the hell are you?  Get the freaking away from me!",
       "no": {
         "math": [ "n_npc_anger() >= 5" ],
-        "yes": "Buzz off <name_b>, I'm not interested in  <swear> chatting with you.",
+        "yes": "Buzz off <name_b>, I'm not interested in <freaking> chatting with you.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ],
           "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
@@ -85,7 +85,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Alright, alright, chill the <swear> out, I'm leaving!",
+        "text": "Alright, alright, chill out, I'm leaving!",
         "condition": {
           "or": [
             { "math": [ "n_npc_anger() >= 5" ] },
@@ -436,7 +436,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria_Angry",
-    "dynamic_line": "'Cause your a <swear> <name_b> is why!  You think you can just do what <swear> ever you want with no consequence!  I'm sick of this, I'm not talking to you anymore.",
+    "dynamic_line": "'Cause your a <freaking> <name_b> is why!  You think you can just do what fucking ever you want with no consequence!  I'm sick of this, I'm not talking to you anymore.",
     "responses": [ { "text": "Okay, <name_b>, piss on it.", "topic": "TALK_DONE" } ]
   }
 ]

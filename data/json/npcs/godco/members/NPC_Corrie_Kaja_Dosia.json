@@ -157,7 +157,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_Mood",
-    "dynamic_line": "I'm just here, really.  I'm the local mechanic around here, I just fiddle with the machinery.  Just about all of it is a <swear> <name_b>, older than dirt and nearly unfixable.  They're running a wood-fire generator for power, the <swear> thing is the noisiest clunker I've ever heard.",
+    "dynamic_line": "I'm just here, really.  I'm the local mechanic around here, I just fiddle with the machinery.  Just about all of it is a <freaking> <name_b>, older than dirt and nearly unfixable.  They're running a wood-fire generator for power, the <freaking> thing is the noisiest clunker I've ever heard.",
     "responses": [
       {
         "text": "How have things changed after that deal with Helena?",
@@ -276,7 +276,7 @@
     "dynamic_line": "Nearly everyone here went to a church that was a bit… out there, shall we say.  They hate what they call \"mutants\", how some creatures and people have physically changed inexplicably after everything went to shit.  I'm glad they didn't kill you on the spot, not many people are left out there.",
     "responses": [
       { "text": "Well, thank's for telling me.  <done_conversation_section>", "topic": "TALK_GODCO_Corrie_2" },
-      { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
+      { "text": "Wow.  This place is fucking crazy, I'm outta here.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -291,7 +291,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_Angry_Pressed",
-    "dynamic_line": "You know <swear> well what I'm upset about <name_b>.  Now go away.",
+    "dynamic_line": "You know freaking well what I'm upset about <name_b>.  Now go away.",
     "responses": [ { "text": "See you later <name_b>.", "topic": "TALK_DONE" } ]
   }
 ]

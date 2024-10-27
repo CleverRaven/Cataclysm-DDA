@@ -33,7 +33,7 @@
         ],
         [
           {
-            "gendered_line": "  Unfortunately, during my 'voyage' to this lighthouse, luck turned away from me.  I was attacked by some <monster> from the underwater depths.  I couldn't fight off him and he dragged my ship to the bottom.  The waves brought me straight to the shore of this little island.  I still don't understand by what miracle I managed to survive, <name_g>.",
+            "gendered_line": "  Unfortunately, during my 'voyage' to this lighthouse, luck turned away from me.  I was attacked by some dreadful creature from the underwater depths.  I couldn't fight off him and he dragged my ship to the bottom.  The waves brought me straight to the shore of this little island.  I still don't understand by what miracle I managed to survive, <name_g>.",
             "relevant_genders": [ "npc" ]
           },
           {
@@ -41,7 +41,7 @@
             "relevant_genders": [ "npc" ]
           },
           {
-            "gendered_line": "  I sailed here a few days ago.  Mikhail and his family are very hospitable.  Unfortunately, during our joint fishing, we were attacked by a swarm of underwater <monster>'s, and my boat was smashed to pieces.  It was <very> scary, we could barely sail away on Mikhail's ship.",
+            "gendered_line": "  I sailed here a few days ago.  Mikhail and his family are very hospitable.  Unfortunately, during our joint fishing, we were attacked by a swarm of underwater abominations, and my boat was smashed to pieces.  It was so scary, we could barely sail away on Mikhail's ship.",
             "relevant_genders": [ "npc" ]
           }
         ]
