@@ -541,18 +541,7 @@
     "weight": "1000 kg",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "WARM",
-      "NO_BREED",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_HARNESSABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_hesperosaurus_juvenile",
