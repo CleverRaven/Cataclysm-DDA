@@ -80,7 +80,13 @@
     "type": "item_group",
     "id": "NC_NONE_archery",
     "subtype": "distribution",
-    "items": [ "crossbow" ]
+    "groups": [ "archery_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_quiver",
+    "subtype": "distribution",
+    "groups": [ "archery_quivers" ]
   },
   {
     "type": "item_group",
