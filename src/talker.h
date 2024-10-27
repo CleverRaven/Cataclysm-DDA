@@ -28,7 +28,7 @@ enum class get_body_part_flags;
 namespace npc_factions
 {
 enum class relationship : int;
-}
+} // namespace npc_factions
 
 using bodytype_id = std::string;
 

@@ -26,7 +26,7 @@ struct mutation_variant;
 namespace npc_factions
 {
 enum class relationship : int;
-}
+} // namespace npc_factions
 
 /*
  * Talker wrapper class for const Character access.
