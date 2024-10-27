@@ -134,6 +134,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const flag_id json_flag_MOP( "MOP" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
+static const gun_mode_id gun_mode_BURST( "BURST" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
@@ -2597,10 +2598,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_FIRE_BURST: {
             if( weapon ) {
-                gun_mode_id original_mode = weapon->gun_get_mode_id();
-                if( weapon->gun_set_mode( gun_mode_AUTO ) ) {
+                if( weapon->gun_set_mode( gun_mode_BURST ) || weapon->gun_set_mode( gun_mode_AUTO ) ) {
                     avatar_action::fire_wielded_weapon( player_character );
-                    weapon->gun_set_mode( original_mode );
                 }
             }
             break;
