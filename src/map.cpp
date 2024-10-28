@@ -5831,7 +5831,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     }
 
                     if( n.is_vehicle_battery() ) {
-                        n.mod_energy( units::from_kilojoule( charged ) );
+                        n.mod_energy( units::from_kilojoule( static_cast<std::int64_t>( charged ) ) );
                     } else {
                         n.ammo_set( itype_battery, n.ammo_remaining() + charged );
                     }
