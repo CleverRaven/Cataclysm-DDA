@@ -29,7 +29,7 @@ void font_loader::load_throws( const cata_path &path )
             config.read( "gui_typeface", gui_typeface );
         }
         if( gui_typeface.empty() ) {
-            gui_typeface.emplace_back( PATH_INFO::fontdir() + "Roboto-Medium.ttf" );
+            gui_typeface.emplace_back( PATH_INFO::fontdir() + "Terminus.ttf" );
         }
         if( config.has_string( "map_typeface" ) ) {
             map_typeface.emplace_back( config.get_string( "map_typeface" ) );
