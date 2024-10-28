@@ -656,7 +656,7 @@
       {
         "id": "rio_bravo",
         "name": { "str": "Rio Bravo" },
-        "description": "A modern .22 LR lever-action rifle, the Rio Bravo features an 18\" barrel with 15 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  The mechanical origins date back decades, being based off of Rossi's R92 series of rifles, which themselves were based off of the Winchester 1892."
+        "description": "A modern .22 LR lever-action rifle, the Rio Bravo features an 18\" barrel with 15 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  The mechanical origins date back decades, being based off of Rossi's R92 series of rifles which themselves were based off of the Winchester 1892."
       }
     ],
     "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/313-rio-bravo-wood-matte-black-22-lr-18-in",
@@ -693,7 +693,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "henry_golden_boy",
@@ -707,7 +707,7 @@
       {
         "id": "henry_golden_boy",
         "name": { "str": "Henry Golden Boy" },
-        "description": "A modern .22 LR lever-action rifle, the Henry Golden Boy features an 20\" octagonal barrel with 16 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  It fairly resembles the original Henry Model 1860 with it's brass colored reciever, though with wooden furniture at the front, and no doubt using modern manufacturing."
+        "description": "A modern .22 LR lever-action rifle, the Henry Golden Boy features an 20\" octagonal barrel with 16 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  It fairly resembles the original Henry Model 1860 with it's brass colored reciever, though with wooden furniture at the front, and without a doubt using modern manufacturing."
       }
     ],
     "//": "Stats from https://www.henryusa.com/rifles/golden-boy/",

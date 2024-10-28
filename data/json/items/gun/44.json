@@ -276,7 +276,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": ".44 lever-action rifle" },
-    "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 16\" barrel with a tube fed magazine.  Go get 'em cowboy!",
+    "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 16\" barrel with a tube fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
       {
@@ -299,7 +299,7 @@
     "ammo": [ "44" ],
     "dispersion": 160,
     "durability": 8,
-    "blackpowder_tolerance": 32,
+    "blackpowder_tolerance": 56,
     "clip_size": 8,
     "valid_mod_locations": [
       [ "grip", 1 ],
@@ -320,7 +320,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": ".44 lever-action rifle" },
-    "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube fed magazine.  Go get 'em cowboy!",
+    "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
       {
@@ -343,7 +343,7 @@
     "ammo": [ "44" ],
     "dispersion": 140,
     "durability": 8,
-    "blackpowder_tolerance": 32,
+    "blackpowder_tolerance": 56,
     "clip_size": 10,
     "valid_mod_locations": [
       [ "grip", 1 ],
