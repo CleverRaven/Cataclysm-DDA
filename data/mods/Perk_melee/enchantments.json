@@ -23,6 +23,12 @@
   },
   {
     "type": "enchantment",
+    "id": "melee_perk_ench_insight_dodge",
+    "condition": { "math": [ "u_effect_intensity('perk_insight')", ">", "9" ] },
+    "values": [ { "value": "DODGE_CHANCE", "add": 25 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "melee_perk_ench_insight_mystic_shot",
     "name": { "str": "Mystic Shot" },
     "description": "Insight empowers your ranged attacks with bows and crossbows.",
@@ -39,5 +45,18 @@
     "id": "melee_perk_ench_insight_mystic_shot_2",
     "condition": { "and": [ { "u_has_wielded_with_flag": "PRIMITIVE_RANGED_WEAPON" }, { "u_has_effect": "perk_insight" } ] },
     "values": [ { "value": "RANGED_DAMAGE", "multiply": { "math": [ "u_effect_intensity('perk_insight')* 0.01" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_momentum_bullet_dodge",
+    "condition": { "math": [ "u_effect_intensity('perk_insight')", ">", "9" ] },
+    "values": [
+      {
+        "value": "RANGE_DODGE",
+        "add": {
+          "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 4 ? u_val('dexterity') * 0.05 :  u_val('dexterity') * 0.01" ]
+        }
+      }
+    ]
   }
 ]
