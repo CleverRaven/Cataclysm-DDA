@@ -1655,7 +1655,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "rossi_r92_44_16", "charges": [ 0, 10 ] }, { "group": "on_hand_44" } ]
+    "entries": [ { "item": "rossi_r92_44_16", "charges": [ 0, 8 ] }, { "group": "on_hand_44" } ]
   },
   {
     "id": "nested_rossi_r92_44_20",
