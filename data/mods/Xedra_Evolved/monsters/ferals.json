@@ -67,6 +67,7 @@
   },
   {
     "id": "mon_feral_zebra_agent_p90",
+    “type”: “MONSTER”,
     "name": "heavily armed zebra agent",
     "copy-from": "mon_feral_zebra_agent",
     "starting_ammo": { "57mm": 50 },
