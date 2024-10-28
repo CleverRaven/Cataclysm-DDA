@@ -153,6 +153,14 @@ New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
 EOCs modifying calories track spent calories
+Adds whispering fungi to fungi zombie mongroup.
+Added check for stealing prior to obtaining book to read
+Added check for stealing prior to reloading items
+Added check for stealing prior to activating items
+Deconstruct simple furniture in the dark
+Mission deadlines supports dialogue variables
+Add a new appliance, the glassblower's crucible
+Add a new widget to display weight as "##.#/##.#[unit]"
 
 
 ## Content:
@@ -336,6 +344,12 @@ Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
+Remove secret science and military stuff from bank/industry/mall vaults
+No free wiring in log walls
+Military locations can spawn EOD suits
+Added a welding store
+Titanium Density Fix
+Add Vitamin C Supplements
 
 
 ## Interface:
@@ -434,6 +448,12 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
+Unify name suffix and profession
+Add daily health widget
+Add labels to structured sidebar tiny bodygraphs
+use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
+Debug reveal map moved to overmap editor, can reveal any overmap
+wrap the text in the menu for choosing your new faction camp type
 
 
 ## Mods:
@@ -689,6 +709,14 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
+Martial Mastery: Fix duration of several technique effects
+Create an external option for disabling zombify_into. Apply it to both Aftershock:Exoplanet and DDtD
+[Xedra Evolved] Moon's tears weapons
+[Xedra Evolved] Add playable Lilin with appropriate scenario
+[MoM] Torrential Channeling power maintenance also raises Nether Attunement
+Aftershock: Remove swims flag from terrestrial creatures.
+[MoM] Feral psion updates with copy-from
+Aftershock: Add suit batteries for the winter suits.
 
 
 ## Balance:
@@ -788,6 +816,7 @@ Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
+Auditing portable charcoal kiln cleanup
 
 
 ## Bugfixes:
@@ -1052,6 +1081,31 @@ Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix Britishisms in the JSON files.
 Fix non-battery charge consumption of active items
+[MoM] Purifiable updates
+calculate correct height when a uilist has desired_bounds not including a height
+Fix: weariness makes hauling faster instead of slower
+Make floors under furniture correct
+Unload zone properly clears auto whitelists
+Stop spawning too many monsters in a cave
+Removes a few handguns, rifles, and a shotgun that didn't meet inclusion criteria
+Fix raw butter calories, add salt to raw butter recipes, Add raw butter as option to recipes that use butter
+Flamethrowers count as firestarters for lighting up bombs
+Forbid starting fires (using firestarters) on water tiles
+[Xedra Evolved] Fix Eater's sixth sense trait
+Fragile and Sturdy flags cannot be inherited
+[Xedra Evolved] Lo Ra'ab
+Faction camp storage zone effective after editing
+Fix: weariness makes hauling faster instead of slower
+Construction blueprints don't require deconstruction tools or decoration materials
+Removes the pockets flag from the cropped hoodies
+[MoM] Fix """""missing""""" EoC id
+Deployed furniture won't be floating anymore if deployed on open air
+Fix minor typos in keybding descriptions
+NPCs stealing player default name
+fix zoo scenario spawn
+fix regression of calculation of the height of a uilist that has a desired_bounds not including a height
+Lowers electronic skill requirement of clay car batteries from 3 to 2
+Cotton patch can be used to stop bleeding
 
 
 ## Performance:
@@ -1162,6 +1216,7 @@ Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Added palettes to use parameters more generally
 
 
 ## Build:
@@ -1185,6 +1240,8 @@ stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
 Fixed Linux experimental build automation issues caused by SDL dependencies
+fixes broken Windows build due to missing ImGui Freetype-related files and map::get_field function deletion
+Fixed broken Android build due to missing FreeType library
 
 
 ## I18N and A11Y:
