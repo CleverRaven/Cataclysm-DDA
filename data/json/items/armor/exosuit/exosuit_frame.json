@@ -1,12 +1,12 @@
 [
   {
-    "id": "modular_exosuit",
+    "id": "dod_modular_exosuit",
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
-    "weight": "45 kg",
-    "volume": "140 L",
-    "material": [ "titanium" ],
+    "weight": "75 kg",
+    "volume": "160 L",
+    "material": [ "qt_steel", "lc_steel,", "aluminum" ],
     "power_armor": true,
     "symbol": "T",
     "looks_like": "power_armor_basic",
@@ -308,7 +308,7 @@
     },
     "use_action": [
       {
-        "target": "modular_exosuit_on",
+        "target": "dod_modular_exosuit_on",
         "msg": "The %s engages.",
         "active": true,
         "need_charges": 1,
@@ -319,9 +319,9 @@
     ]
   },
   {
-    "id": "modular_exosuit_on",
-    "copy-from": "modular_exosuit",
-    "repairs_like": "modular_exosuit",
+    "id": "dod_modular_exosuit_on",
+    "copy-from": "dod_modular_exosuit",
+    "repairs_like": "dod_modular_exosuit",
     "looks_like": "power_armor_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit frame (on)", "str_pl": "exosuit frames (on)" },
@@ -340,14 +340,14 @@
       "MODULE_HOLDER"
     ],
     "power_draw": "6460 mW",
-    "revert_to": "modular_exosuit",
+    "revert_to": "dod_modular_exosuit",
     "use_action": [
       {
         "type": "transform",
         "ammo_scale": 0,
         "menu_text": "Turn off",
         "msg": "The %s disengages.",
-        "target": "modular_exosuit"
+        "target": "dod_modular_exosuit"
       }
     ],
     "armor": [
@@ -378,8 +378,8 @@
     ]
   },
   {
-    "id": "modular_exosuit_light",
-    "copy-from": "modular_exosuit",
+    "id": "dod_modular_exosuit_light",
+    "copy-from": "dod_modular_exosuit",
     "type": "TOOL_ARMOR",
     "name": { "str": "light exosuit frame" },
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.",
@@ -534,7 +534,7 @@
     "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "use_action": [
       {
-        "target": "modular_exosuit_light_on",
+        "target": "dod_modular_exosuit_light_on",
         "msg": "The %s engages.",
         "active": true,
         "need_charges": 1,
@@ -545,9 +545,9 @@
     ]
   },
   {
-    "id": "modular_exosuit_light_on",
-    "copy-from": "modular_exosuit_light",
-    "repairs_like": "modular_exosuit",
+    "id": "dod_modular_exosuit_light_on",
+    "copy-from": "dod_modular_exosuit_light",
+    "repairs_like": "dod_modular_exosuit",
     "looks_like": "power_armor_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "light exosuit frame (on)", "str_pl": "light exosuit frames (on)" },
@@ -567,14 +567,14 @@
     ],
     "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
     "power_draw": "5787 mW",
-    "revert_to": "modular_exosuit_light",
+    "revert_to": "dod_modular_exosuit_light",
     "use_action": [
       {
         "type": "transform",
         "ammo_scale": 0,
         "menu_text": "Turn off",
         "msg": "The %s disengages.",
-        "target": "modular_exosuit_light"
+        "target": "dod_modular_exosuit_light"
       }
     ],
     "armor": [
