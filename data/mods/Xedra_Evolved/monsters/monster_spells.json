@@ -547,7 +547,7 @@
       "name": { "str": "Shield the sleepers" },
       "description": "Ensures an eventless sleep to those who sleep nearby.",
       "message": "",
-      "valid_targets": [ "ally", "self" ],
+      "valid_targets": [ "ally", "hostile" ],
       "effect": "effect_on_condition",
       "effect_str": "eoc_check_sleepers",
       "shape": "blast",
@@ -560,7 +560,6 @@
     {
       "id": "eoc_check_sleepers",
       "type": "effect_on_condition",
-      "condition": { "or": [ { "u_has_effect": "lying_down" }, { "u_has_effect": "sleep" } ] },
       "effect": [ { "u_cast_spell": { "id": "spell_confirm_sleepers", "hit_self": true } } ]
     },
     {
@@ -581,6 +580,7 @@
       "id": "eoc_sleep_shield",
       "type": "effect_on_condition",
       "//": "using the hedge magic effect allows to prevent duplication.",
-      "effect": [ { "u_add_effect": "effect_sleep_shield", "duration": 2 }, { "u_add_effect": "incorporeal", "duration": 2 }, { "u_add_effect": "effect_hedge_no_nightmares", "duration": 2 } ]
+      "condition": { "or": [ { "u_has_effect": "lying_down" }, { "u_has_effect": "sleep" } ] },
+      "effect": [ { "u_add_effect": "effect_sleep_shield", "duration": 3 }, { "u_add_effect": "effect_hedge_no_nightmares", "duration": 2 } ]
     }
 ]

@@ -523,7 +523,7 @@
       { "item": "cane" },
       { "item": "bone_human", "count": [ 3, 15 ] },
       { "item": "human_meat_scrap", "count": [ 10, 40 ] },
-      { "item": "pants" },
+      { "item": "pants", "variant": "pants_black" },
       { "item": "dress_shoes" },
       { "item": "union_suit" }
     ]

@@ -114,7 +114,7 @@
     "id": "mon_deathworm",
     "type": "MONSTER",
     "name": { "str_sp": "Olgoi-khorkhoi" },
-    "description": "Also known as the mongolian death worm, the olgoi-khorkhoi is a massive acid-spewing blood-red worm.  As you see it, you start hoping for the stories you've heard about the deadly poison coating its skin to be nothing but exagerations.",
+    "description": "Also known as the mongolian death worm, the olgoi-khorkhoi is a massive acid-spewing blood-red worm.  As you see it, you start hoping for the stories you've heard about the deadly poison coating its skin to be nothing but exaggerations.",
     "//": "Due to DIGS making that this monster cannot be fought outside of melee range, it won't have its skin poison to prevent gotcha moments.  To compensate, there will be so much acid.",
     "default_faction": "factionless",
     "bodytype": "snake",
