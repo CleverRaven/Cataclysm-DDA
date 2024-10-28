@@ -374,6 +374,7 @@
     "volume": "392 ml",
     "price": "679 USD",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "longest_side": "266 mm",
     "barrel_length": "140 mm",
     "material": [ "steel", "plastic", "aluminum" ],
@@ -544,6 +545,7 @@
     "barrel_length": "190 mm",
     "price": "165 USD 99 cent",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -555,6 +557,7 @@
     "clip_size": 6,
     "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
+    "melee_damage": { "bash": 5 },
     "variant_type": "gun",
     "variants": [
       {
@@ -578,6 +581,7 @@
     "barrel_length": "254 mm",
     "price": "288 USD 99 cent",
     "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -591,6 +595,7 @@
     "clip_size": 6,
     "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
+    "melee_damage": { "bash": 5 },
     "variant_type": "gun",
     "variants": [
       {
@@ -624,6 +629,8 @@
     "dispersion": 320,
     "durability": 8,
     "min_cycle_recoil": 39,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "faults": [
       "fault_gun_blackpowder",
