@@ -659,6 +659,7 @@
         "description": "A modern .22 LR lever-action rifle, the Rio Bravo features an 18\" barrel with 15 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  The mechanical origins date back decades, being based off of Rossi's R92 series of rifles, which themselves were based off of the Winchester 1892."
       }
     ],
+    "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/313-rio-bravo-wood-matte-black-22-lr-18-in",
     "ascii_picture": "marlin_39a",
     "weight": "2345 g",
     "volume": "2101 ml",
@@ -709,6 +710,7 @@
         "description": "A modern .22 LR lever-action rifle, the Henry Golden Boy features an 20\" octagonal barrel with 16 rounds of ammo in it's tube magazine, which is loaded from the front of the rifle.  It fairly resembles the original Henry Model 1860 with it's brass colored reciever, though with wooden furniture at the front, and no doubt using modern manufacturing."
       }
     ],
+    "//": "Stats from https://www.henryusa.com/rifles/golden-boy/",
     "ascii_picture": "marlin_39a",
     "weight": "3062 g",
     "volume": "2116 ml",
