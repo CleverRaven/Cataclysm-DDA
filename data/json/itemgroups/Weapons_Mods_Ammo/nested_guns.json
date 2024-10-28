@@ -1674,6 +1674,22 @@
     "entries": [ { "item": "uberti_1873", "charges": [ 0, 10 ] }, { "group": "on_hand_357" } ]
   },
   {
+    "id": "nested_rossi_r92_357_16",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_357_16", "charges": [ 0, 8 ] }, { "group": "on_hand_357" } ]
+  },
+  {
+    "id": "nested_rossi_r92_357_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_357_20", "charges": [ 0, 10 ] }, { "group": "on_hand_357" } ]
+  },
+  {
     "id": "nested_m14ebr",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

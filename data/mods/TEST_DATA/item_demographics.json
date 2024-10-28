@@ -767,7 +767,11 @@
             "bren2_762": 1
           }
         },
-        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1, "uberti_1873": 1 } },
+        {
+          "type": "357mag",
+          "weight": 34,
+          "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1, "uberti_1873": 1, "rossi_r92_357_16": 1, "rossi_r92_357_20": 1 }
+        },
         {
           "type": "shot",
           "weight": 26,
@@ -1150,6 +1154,8 @@
             "rm11b_sniper_rifle": 1,
             "rm298": 1,
             "rm51_assault_rifle": 1,
+            "rossi_r92_357_16": 1,
+            "rossi_r92_357_20": 1,
             "rossi_r92_44_16": 1,
             "rossi_r92_44_20": 1,
             "rossi_gallery": 1,

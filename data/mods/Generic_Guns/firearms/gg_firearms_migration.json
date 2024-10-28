@@ -164,7 +164,9 @@
       "mp40semi",
       "hpt3895",
       "draco_9mm",
-      "uberti_1873"
+      "uberti_1873",
+      "rossi_r92_357_16",
+      "rossi_r92_357_20"
     ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"

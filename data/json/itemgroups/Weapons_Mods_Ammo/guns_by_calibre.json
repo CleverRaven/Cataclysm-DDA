@@ -558,7 +558,9 @@
     "type": "item_group",
     "id": "guns_rifle_common_357",
     "items": [
-      { "group": "nested_uberti_1873", "prob": 100 }
+      { "group": "nested_uberti_1873", "prob": 100 },
+      { "group": "nested_rossi_r92_357_16", "prob": 18 },
+      { "group": "nested_rossi_r92_357_20", "prob": 37 }
     ]
   },
   {
@@ -732,7 +734,9 @@
     "type": "item_group",
     "id": "guns_rifle_common_display_357",
     "items": [
-      { "item": "uberti_1873", "prob": 100 }
+      { "item": "uberti_1873", "prob": 100 },
+      { "item": "rossi_r92_357_16", "prob": 18 },
+      { "item": "rossi_r92_357_20", "prob": 37 }
     ]
   },
   {
