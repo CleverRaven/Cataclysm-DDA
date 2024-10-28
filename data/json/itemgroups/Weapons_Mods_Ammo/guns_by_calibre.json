@@ -556,6 +556,13 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common_357",
+    "items": [
+      { "group": "nested_uberti_1873", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_44",
     "items": [
       { "group": "nested_henry_big_boy", "prob": 100 },
@@ -719,6 +726,13 @@
       { "item": "ruger_m77", "prob": 62 },
       { "item": "garand", "prob": 100 },
       { "item": "m1903", "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_357",
+    "items": [
+      { "item": "uberti_1873", "prob": 100 }
     ]
   },
   {

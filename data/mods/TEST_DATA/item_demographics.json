@@ -767,7 +767,7 @@
             "bren2_762": 1
           }
         },
-        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1 } },
+        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1, "uberti_1873": 1 } },
         {
           "type": "shot",
           "weight": 26,
@@ -1173,6 +1173,7 @@
             "tac338": 1,
             "tac50": 1,
             "trex_gun": 1,
+            "uberti_1873": 1,
             "vz58_p": 1,
             "vz58ts": 1,
             "weatherby_5": 1,

@@ -351,5 +351,49 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "uberti_1873",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": ".357 lever-action rifle" },
+    "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "uberti_1873",
+        "name": { "str": "Uberti 1873" },
+        "description": "The 1873 is a rifle platform developed all the way in, unsurprisingly, 1873.  This one is a fairly faithful Uberti reproduction, although the original 1873s pre-dated .357 Magnum, and even .38 Special.  This one has a case-hardened finish, wood furniture, and octagonal barrel."
+      }
+    ],
+    "//": "Stats from the .357 Short Rifle https://www.uberti-usa.com/cartridge-rifles/1873-rifle-and-carbine",
+    "weight": "3719 g",
+    "volume": "2718 ml",
+    "longest_side": "1117 cm",
+    "barrel_length": "508 mm",
+    "price": "1429 USD",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "range": 7,
+    "ammo": [ "357mag", "38" ],
+    "dispersion": 140,
+    "durability": 8,
+    "blackpowder_tolerance": 32,
+    "clip_size": 10,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]
