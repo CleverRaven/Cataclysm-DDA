@@ -5597,7 +5597,7 @@ Bonus warmth offered by this terrain/furniture when used to sleep. Also affects 
 
 #### `fall_damage_reduction`
 
-Flat damage reduction or inrease if negative number. Like falling on a bush or soft chair or mattress or sofa.
+Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
 
 #### `bonus_fire_warmth_feet`
 
