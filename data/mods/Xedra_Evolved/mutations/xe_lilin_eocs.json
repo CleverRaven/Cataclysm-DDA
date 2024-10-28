@@ -3,8 +3,15 @@
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN_SELF",
     "recurrence": [ "6 minutes", "6 minutes" ],
-    "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
+    "//": "Split EoC to allow the deactivate_condition to run",
     "deactivate_condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
+    "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SELF_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SELF_2",
+    "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
     "effect": [
       { "u_lose_effect": "effect_lilin_no_ruach" },
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "--" ] },

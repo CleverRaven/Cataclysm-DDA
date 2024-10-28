@@ -1,5 +1,7 @@
 [
   {
+    "//": "Lilin powers should deal with darkness, disease, night, the moon, and owls.  They specifically should not have powers that make them physically tougher, such as armor- or hp-increasing powers, or powers that do large amounts of direct damage.",
+    "//2": "The push and pull of Lilin powers is that they have active powers that require them to spend ruach, and passive powers that scale based on how much ruach they have (some active powers also do this)",
     "type": "mutation",
     "id": "THRESH_LILIN",
     "name": { "str": "One with the Night" },
@@ -7,7 +9,7 @@
     "description": "You have ascended in power and can rival the mighty night-creatures of old.  The night is your home, now, out of the light of the sun.",
     "purifiable": false,
     "threshold": true,
-    "//": "An umbrella cannot protect you because this is a mystical weakness.",
+    "//3": "An umbrella cannot protect you because this is a mystical weakness.",
     "enchantments": [
       {
         "condition": { "and": [ "is_day", "u_is_outside" ] },
@@ -21,10 +23,10 @@
       {
         "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
         "values": [
-          { "value": "STRENGTH", "add": -1 },
-          { "value": "DEXTERITY", "add": -1 },
-          { "value": "INTELLIGENCE", "add": -1 },
-          { "value": "PERCEPTION", "add": -1 }
+          { "value": "STRENGTH", "add": -2 },
+          { "value": "DEXTERITY", "add": -2 },
+          { "value": "INTELLIGENCE", "add": -2 },
+          { "value": "PERCEPTION", "add": -2 }
         ]
       }
     ]
@@ -154,8 +156,29 @@
     "description": "While sleep is restful, the ruach you gain fills you with more energy than even a good night's rest.  You may spend ruach to alleviate your sleepiness.",
     "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
     "category": [ "LILIN" ],
-    "active": true,
     "spells_learned": [ [ "lilin_avoid_sleep_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_AOE_LINE_DISEASE",
+    "name": { "str": "Unleash the Night-Wind" },
+    "points": 4,
+    "description": "You may unleash a foul miasma on your enemies, sickening them.",
+    "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
+    "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_aoe_line_disease_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_DISEASE_ENHANCEMENT_DAMAGE",
+    "name": { "str": "Devoured by Pestilence" },
+    "points": 6,
+    "description": "You may greatly enhance the power of the miasma from Unleash the Night-Wind, doing serious damage and crippling your target.",
+    "prereqs": [ "LILIN_AOE_LINE_DISEASE" ],
+    "prereqs2": [ "LILIN_STEALTH_MODIFIER_IN_DARKNESS" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_disease_enhancement_damage_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -231,7 +254,7 @@
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
-            { "not": { "and": [ "is_day", "u_is_outside" ] },
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
             {
               "or": [ { "math": [ "moon_phase() == 3" ] }, { "math": [ "moon_phase() == 4" ] }, { "math": [ "moon_phase() == 5" ] } ]
             }
@@ -250,7 +273,7 @@
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
-            { "not": { "and": [ "is_day", "u_is_outside" ] },
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
             {
               "or": [
                 { "math": [ "moon_phase() == 2" ] },
@@ -271,11 +294,13 @@
         ]
       },
       {
-        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] }, { "math": [ "moon_phase() == 8" ] } ] },
+        "condition": {
+          "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] } }, { "math": [ "moon_phase() == 8" ] } ]
+        },
         "values": [ { "value": "ITEM_DAMAGE_BIO", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
       },
       {
-        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] }, ] },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] } } ] },
         "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 1 } ]
       }
     ]
@@ -300,9 +325,21 @@
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" ],
-    "prereqs2": [  ],
+    "prereqs2": [ "DEFT" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_speed_dodge_boost_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_UNCANNY_DODGE_WHILE_REAPING",
+    "name": { "str": "From Shadow to Shadow" },
+    "description": "You can leap away from attacks like shadows dancing in candlelight.  You gain Uncanny Dodge while under the effects of Reaping the Whirlwind.",
+    "points": 6,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_SPEED_DODGE_BOOST" ],
+    "prereqs2": [ "LILIN_UNARMED_EXTRA_DAMAGE" ],
+    "category": [ "LILIN" ]
   },
   {
     "type": "mutation",
@@ -352,7 +389,16 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "LEARNING_FOCUS", "add": { "math": [ "5 + clamp( (u_vitamin('lilin_ruach_vitamin') / 100 ), 0, 10) + clamp( ( (u_vitamin('lilin_ruach_vitamin') - 1000) / 250 ), 0, 10) +  clamp( ( (u_vitamin('lilin_ruach_vitamin') - 3000) / 500 ), 0, 10)" ] } } ]
+        "values": [
+          {
+            "value": "LEARNING_FOCUS",
+            "add": {
+              "math": [
+                "5 + clamp( (u_vitamin('lilin_ruach_vitamin') / 100 ), 0, 10) + clamp( ( (u_vitamin('lilin_ruach_vitamin') - 1000) / 250 ), 0, 10) +  clamp( ( (u_vitamin('lilin_ruach_vitamin') - 3000) / 500 ), 0, 10)"
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -370,40 +416,24 @@
       {
         "condition": {
           "and": [
-            { "not": { "and": [ "is_day", "u_is_outside" ] },
-            {
-              "or": [ { "math": [ "moon_phase() ==6" ] }, { "math": [ "moon_phase() == 2" ] } ]
-            }
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "or": [ { "math": [ "moon_phase() ==6" ] }, { "math": [ "moon_phase() == 2" ] } ] }
           ]
         },
-        "values": [
-          {
-            "value": "STEALTH_MODIFIER",
-            "add": 20
-          }
-        ]
+        "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "10 + (u_vitamin('lilin_ruach_vitamin') / 500)" ] } } ]
       },
       {
         "condition": {
           "and": [
-            { "not": { "and": [ "is_day", "u_is_outside" ] },
-            {
-              "or": [
-                { "math": [ "moon_phase() == 7" ] },
-                { "math": [ "moon_phase() == 1" ] }
-              ]
-            }
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "or": [ { "math": [ "moon_phase() == 7" ] }, { "math": [ "moon_phase() == 1" ] } ] }
           ]
         },
-        "values": [
-          {
-            "value": "STEALTH_MODIFIER", "add": 35
-          }
-        ]
+        "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "25 + (u_vitamin('lilin_ruach_vitamin') / 400)" ] } } ]
       },
       {
-        "condition": { "and": [ { "not": { "and": [ "is_day", "u_is_outside" ] }, { "math": [ "moon_phase() == 0" ] } ] },
-        "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
+        "condition": { "and": [ { "not": { "and": [ "is_day", "u_is_outside" ] } }, { "math": [ "moon_phase() == 0" ] } ] },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "40 + (u_vitamin('lilin_ruach_vitamin') / 300)" ] } } ]
       }
     ]
   },
@@ -415,7 +445,6 @@
     "points": 2,
     "starting_trait": false,
     "purifiable": false,
-    "prereqs2": [  ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
@@ -423,6 +452,39 @@
         "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": { "math": [ "15 + (u_vitamin('lilin_ruach_vitamin') / 100)" ] } } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_BONUS_HEALING",
+    "name": { "str": "Warm Breath" },
+    "description": "Your stolen ruach speeds your healing in proportion to how much of it you have.",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 250)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_BONUS_HEALING_ACTIVE",
+    "name": { "str": "The Night's Caress" },
+    "description": "Sometimes, you cannot passively wait for your ruach to heal your wounds, you need it to happen immediately.  You may activate this trait to greatly speed your healing at a continual cost of ruach.",
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "active": true,
+    "activated_is_setup": true,
+    "prereqs": [ "LILIN_BONUS_HEALING" ],
+    "prereqs2": [ "LILIN_ATTRIBUTE_BONUSES_STRENGTH" ],
+    "category": [ "LILIN" ],
+    "activated_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_activated" ],
+    "deactivated_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_deactivated" ]
   },
   {
     "type": "mutation",
@@ -471,7 +533,7 @@
     "player_display": false,
     "prereqs": [ "LILIN_NIGHT_VISION" ],
     "category": [ "LILIN" ],
-    "threshreq": [ "THRESH_LILIN" ]
+    "threshreq": [ "THRESH_LILIN" ],
     "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   },
   {
@@ -492,5 +554,57 @@
         "ench_effects": [ { "effect": "effect_lilin_limb_score_bonuses_at_night", "intensity": 1 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_TRANSFORM_INTO_WAR_OWL_FORM",
+    "name": { "str": "The Strix's Wrath" },
+    "points": 10,
+    "description": "You can combine your forms, transforming into a large owl-human hybrid with wings, rending talons, and a deadly beak.",
+    "starting_trait": false,
+    "purifiable": false,
+    "active": true,
+    "activated_is_setup": true,
+    "prereqs": [ "LILIN_SPEED_DODGE_BOOST" ],
+    "prereqs2": [ "LILIN_TURN_INTO_OWL" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "activated_eocs": [ "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_WAR_OWL_FORM_LEAPER",
+    "name": { "str": "Strix's Leap" },
+    "description": "While you cannot fly, with your bird-like legs and your wings, you can leap quite a distance.",
+    "valid": false,
+    "points": 0,
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_LILIN_STRIX_LEAP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_DISEASE_MELEE_STRIKES",
+    "name": { "str": "Touch of Contagion" },
+    "description": "When you wish it, your very touch bears the contamination of plague.  Your unarmed attacks have a chance to infect your targets, scaling with the amount of ruach you have.",
+    "points": 10,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_DISEASE_ENHANCEMENT_DAMAGE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_INSTANT_HEAL",
+    "name": { "str": "The Moon to Rule the Night" },
+    "points": 9,
+    "description": "At night, under the moonlight, you can knit grievous wounds together in seconds with a great expenditure of ruach.",
+    "prereqs": [ "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT" ],
+    "prereqs2": [ "LILIN_BONUS_HEALING_ACTIVE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "spells_learned": [ [ "lilin_instant_heal_spell", 1 ] ]
   }
 ]

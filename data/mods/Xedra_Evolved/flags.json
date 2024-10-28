@@ -41,7 +41,6 @@
   },
   {
     "id": "EVIL_EYE_IMMUNE_MONSTER",
-    "type": "monster_flag",
-    "info": "This monster is immune to the evil eye."
+    "type": "monster_flag"
   }
 ]

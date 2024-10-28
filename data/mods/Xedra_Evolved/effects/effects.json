@@ -909,8 +909,8 @@
     "max_intensity": 5,
     "show_intensity": false,
     "base_mods": {
-      "hit_mod": [ -3 ],
-      "dodge_mod": [ -4 ],
+      "hit_mod": [ -2 ],
+      "dodge_mod": [ -2 ],
       "per_mod": [ -2 ],
       "health_chance": [ 20 ],
       "health_tick": [ 30 ],
@@ -2307,8 +2307,8 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_lilin_temmporary_glorious",
-    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active",
+    "id": "effect_lilin_temporary_glorious",
+    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
     "name": [ "" ],
     "desc": [ "" ]
   },
@@ -2468,9 +2468,69 @@
     "name": [ "Disoriented" ],
     "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],
     "rating": "bad",
-    "max_duration": "30 s",
+    "max_duration": "5 m",
     "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_supernatural_disease",
+    "name": [ "Miasma" ],
+    "desc": [ { "str": "You are infected by a supernatural disease." } ],
+    "rating": "bad",
+    "max_duration": "5 h",
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.1 },
+          { "value": "ARMOR_ALL", "multiply": 0.05 },
+          { "value": "VISION_RANGE", "multiply": -0.15 },
+          { "value": "REGEN_HP", "multiply": -0.5 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.8 },
+      { "limb_score": "breathing", "modifier": 0.75 },
+      { "limb_score": "lift", "modifier": 0.75 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.85 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "vision", "modifier": 0.85 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_supernatural_disease_focused",
+    "name": [ "Devouring Plague" ],
+    "desc": [ { "str": "You are infected by a supernatural disease." } ],
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "hit_mod": [ -2 ], "dodge_mod": [ -4 ] },
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.25 },
+          { "value": "ARMOR_ALL", "multiply": 0.1 },
+          { "value": "VISION_RANGE", "multiply": -0.35 },
+          { "value": "REGEN_HP", "multiply": -0.95 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.6 },
+      { "limb_score": "breathing", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.65 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.65 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "vision", "modifier": 0.55 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
