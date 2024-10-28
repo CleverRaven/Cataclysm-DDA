@@ -32,14 +32,6 @@
   },
   {
     "type": "mutation",
-    "id": "MELEE_PERK_PRESSURE_STRIKES",
-    "copy-from": "MELEE_PERK_BASE",
-    "name": { "str": "Pressure Points" },
-    "description": "All your unarmed attacks redeal their damage 4 turns after they hit.",
-    "flags": "MELEE_PERK_PRESSURE_STRIKES"
-  },
-  {
-    "type": "mutation",
     "id": "MELEE_PERK_MOVING_DODGE",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Flowing retreat" },
