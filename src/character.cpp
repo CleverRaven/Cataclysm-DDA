@@ -12530,7 +12530,6 @@ int Character::impact( const int force, const tripoint &p )
                                       effective_force, floor_item.get_item()->fall_damage_reduction() );
             }
 
-            // effective_force = adjust_effective_force_for_soft_landing( effective_force );
         }
     }
     //for wielded items
