@@ -88,6 +88,30 @@
   </developer>
 
   <releases>
+    <release version="0.I" type="development" date="UPDATE THIS" />
+    <release version="0.H Herbert" date="UPDATE THIS">
+        <description>
+            <ul>
+                <li>Oceans! Travel far enough east and you'll be greeted by a sandy shore.</li>
+                <li>Furthermore, the map changes as you travel. The farther east you travel, the bigger cities will be. Cities in the west will start to be farther apart. The forest will get more dense the farther north or west you travel.</li>
+                <li>Portal storms are no longer engulfing the entire map and will move around while active. Additionally, in the depths of the earth now lurks an otherworldly horror: fight the new void spider boss if you can find its lair.</li>
+                <li>3D vision has been improved and you can now see the levels below you automatically, even without 3D FOV enabled.</li>
+                <li>Additionally, you can now throw stuff off ledges to damage creatures below, and zones can span multiple Z-levels.</li>
+                <li>New mod: Mind over Matter - adds detailed psionics to the game, along with a variety of new monsters, scenarios and game mechanics.</li>
+                <li>New scenario: Friends to the End. Ever wanted a NPC companion that feels more alive? With Liam you get a friend that cares and helps out during key moments.</li>
+                <li>Guns have been nerfed and now need more skill to be used efficiently.</li>
+                <li>Feral humans are more challenging now. Don't get too cocky when encountering those.</li>
+                <li>A massive nuclear power plant has been added. Get ready to explore its giant interior with proper gear.</li>
+                <li>Accidentally bumping into neutral creatures and angering them is now (mostly) a problem of the past. Just enable safe mode and you will no longer inadvertently slap your clingy pet gracken.</li>
+                <li>Certain monsters can now feast on corpses, graze and browse or gobble up your food and crops.</li>
+                <li>Some monsters can hide under furniture now.</li>
+                <li>Animals need to be fed to produce milk, eggs and to reproduce. Animals can graze on grass to feed themselves, and grazed grass regrows after season changes.</li>
+                <li>There has been an audit of how items burn, as most of these incorrectly burned like wood. You now need kindling to burn all that butchery refuse.</li>
+                <li>You can now find crazed civilians in the cities for the first couple of days. While they can not be turned or "cured" into NPCs, their behavior will make being in a city more dynamic.</li>
+            </ul>
+        </description>
+        <url type="details">https://github.com/CleverRaven/Cataclysm-DDA/tree/0.H-branch/data/changelog.txt</url>
+    </release>
     <release version="0.G Gaiman" date="2023-03-01">
       <description>
         <p>
