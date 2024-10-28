@@ -21,7 +21,7 @@
         ]
       },
       {
-        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "condition": { "and": [ "is_day", "u_is_outside", { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } ] },
         "values": [
           { "value": "STRENGTH", "add": -2 },
           { "value": "DEXTERITY", "add": -2 },
@@ -165,7 +165,7 @@
     "points": 4,
     "description": "You may unleash a foul miasma on your enemies, sickening them.",
     "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
-    "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE" ],
+    "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_aoe_line_disease_spell", 1 ] ]
   },

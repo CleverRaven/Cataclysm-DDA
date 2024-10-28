@@ -222,7 +222,7 @@
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
       {
-        "n_message": "You glare balefully at <u_name> and project all of your malice into your gaze.",
+        "npc_message": "You glare balefully at <u_name> and project all of your malice into your gaze.",
         "type": "neutral"
       },
       {
@@ -241,7 +241,7 @@
         ]
       }
     ],
-    "false_effect": { "n_message": "You don't have enough ruach for your malice to affect your target.", "type": "bad" }
+    "false_effect": { "npc_message": "You don't have enough ruach for your malice to affect your target.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
@@ -250,7 +250,9 @@
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "160" ] },
       { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } },
-      { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 }
+      { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 },
+      { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 },
+      { "u_message": "You let out a piercing cry!", "type": "neutral" }
     ],
     "false_effect": { "u_message": "You don't have enough ruach to let out the night-cry!", "type": "bad" }
   },
@@ -260,24 +262,24 @@
     "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
-      { "n_message": "You summon a wind filled with pestilence.", "type": "neutral" },
+      { "npc_message": "You summon a wind filled with pestilence.", "type": "neutral" },
       {
         "u_add_effect": "effect_lilin_supernatural_disease",
         "duration": [
           {
             "math": [
-              "1 + (u_vitamin('lilin_ruach_vitamin') * 0.09) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1))"
+              "1 + ( (u_vitamin('lilin_ruach_vitamin') * 0.09) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
             ]
           },
           {
             "math": [
-              "15 + (u_vitamin('lilin_ruach_vitamin') * 0.24) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1))"
+              "15 + ( (u_vitamin('lilin_ruach_vitamin') * 0.24) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
             ]
           }
         ]
       }
     ],
-    "false_effect": { "n_message": "You don't have enough ruach to summon the miasma!", "type": "bad" }
+    "false_effect": { "npc_message": "You don't have enough ruach to summon the miasma!", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
@@ -285,18 +287,18 @@
     "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180" ] },
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180" ] },
-      { "n_message": "You infuse your ruach into the plague infecting <u_name>.", "type": "neutral" },
+      { "npc_message": "You infuse your ruach into the plague-infected <u_name>.", "type": "neutral" },
       {
         "u_add_effect": "effect_lilin_supernatural_disease_focused",
         "duration": [
           {
             "math": [
-              "1 + (u_vitamin('lilin_ruach_vitamin') * 0.03) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1))"
+              "1 + ( (u_vitamin('lilin_ruach_vitamin') * 0.03) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
             ]
           },
           {
             "math": [
-              "15 + (u_vitamin('lilin_ruach_vitamin') * 0.09) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1))"
+              "15 + ( (u_vitamin('lilin_ruach_vitamin') * 0.09) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
             ]
           }
         ]
@@ -343,7 +345,7 @@
         ]
       }
     ],
-    "false_effect": { "n_message": "You don't have enough ruach to summon the miasma!", "type": "bad" }
+    "false_effect": { "npc_message": "You don't have enough ruach to summon the miasma!", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
@@ -479,7 +481,7 @@
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1200" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200" ] },
-              { "n_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
+              { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
               {
                 "if": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
                 "then": { "math": [ "u_hp('torso')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }

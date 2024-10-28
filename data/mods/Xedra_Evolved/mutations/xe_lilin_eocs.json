@@ -127,6 +127,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE_FALLBACK",
+    "recurrence": [ "6 minutes", "6 minutes" ],
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
+    "//": "Split EoC to allow the deactivate_condition to run",
+    "deactivate_condition": {
+      "or": [
+        { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell')", ">=", "0" ] },
+        { "not": { "u_has_trait": "LILIN_TRAITS" } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE_FALLBACK_2",
+            "condition": { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell')", ">=", "0" ] },
+            "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell')", "=", "-1" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_INITIAL",
     "required_event": "gains_mutation",
     "eoc_type": "EVENT",

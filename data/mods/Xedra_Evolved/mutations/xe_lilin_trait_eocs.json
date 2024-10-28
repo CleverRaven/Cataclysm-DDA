@@ -253,7 +253,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach to heal your wounds.", "type": "bad" },
-              { "queue_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
+              { "queue_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -263,7 +263,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivated",
+            "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_deactivated",
             "condition": { "u_has_effect": "effect_lilin_bonus_healing_active" },
             "effect": [
               { "u_message": "Your accelerated healing slows to a stop.", "type": "neutral" },
@@ -276,9 +276,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future",
+    "id": "EOC_LILIN_BONUS_HEALING_deactivate_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
-    "effect": [ { "u_deactivate_trait": "LILIN_TEMPORARY_GLORIOUS" }, { "u_deactivate_trait": "LILIN_BONUS_HEALING_ACTIVE" } ]
+    "effect": [ { "u_deactivate_trait": "LILIN_BONUS_HEALING_ACTIVE" } ]
   },
   {
     "type": "effect_on_condition",
@@ -321,7 +321,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach accelerate your healing.", "type": "neutral" },
-              { "u_lose_effect": "effect_lilin_bonus_healing_active" }
+              { "queue_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -330,7 +330,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LILIN_DISEASE_MELEE_STRIKES",
+    "id": "EOC_LILIN_DISEASE_MELEE_STRIKES_CHARACTER_ATTACK",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_character",
     "condition": {
@@ -353,7 +353,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LILIN_DISEASE_MELEE_STRIKES",
+    "id": "EOC_LILIN_DISEASE_MELEE_STRIKES_MONSTER_ATTACK",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
     "condition": {

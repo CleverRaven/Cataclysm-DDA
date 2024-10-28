@@ -2314,6 +2314,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_bonus_healing_active",
+    "//": "Hidden effects, tracking whether you have LILIN_BONUS_HEALING_ACTIVE active.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_ruach_drain_side_effects",
     "name": [ "Ruach-drained" ],
     "desc": [ "A lilit has drained away some of your life-force." ],
