@@ -152,6 +152,18 @@ bool tutorial_game::init()
     player_character.dex_cur = player_character.dex_max;
 
     player_character.set_all_parts_hp_to_max();
+    player_character.clear_effects();
+    player_character.clear_morale();
+    player_character.clear_vitamins();
+    player_character.set_sleepiness( 0 );
+    player_character.set_focus( 100 );
+    player_character.set_hunger( 0 );
+    player_character.set_pain( 0 );
+    player_character.set_rad( 0 );
+    player_character.set_sleep_deprivation( 0 );
+    player_character.set_stamina( player_character.get_stamina_max() );
+    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
+    player_character.set_thirst( 0 );
 
     //~ default name for the tutorial
     player_character.name = _( "John Smith" );
@@ -355,7 +367,6 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
-        /* fallthrough */
         case ACTION_PICKUP: {
             item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
