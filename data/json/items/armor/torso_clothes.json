@@ -921,6 +921,7 @@
   {
     "id": "hoodie_cropped",
     "copy-from": "hoodie",
+    "delete": { "flags": [ "POCKETS" ] },
     "type": "ARMOR",
     "name": { "str": "cropped hoodie" },
     "description": "A sweatshirt with a hood, cropped to expose the stomach.",

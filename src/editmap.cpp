@@ -359,6 +359,7 @@ std::optional<tripoint_bub_ms> editmap::edit()
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "EDIT_TRAPS" );
     ctxt.register_action( "EDIT_FIELDS" );
+    ctxt.register_action( "EDIT_RADS" );
     ctxt.register_action( "EDIT_TERRAIN" );
     ctxt.register_action( "EDIT_FURNITURE" );
     ctxt.register_action( "EDIT_OVERMAP" );
@@ -393,9 +394,10 @@ std::optional<tripoint_bub_ms> editmap::edit()
 
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
+                                       "%s, %s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDIT_TRAPS" ),
                                        ctxt.describe_key_and_name( "EDIT_FIELDS" ),
+                                       ctxt.describe_key_and_name( "EDIT_RADS" ),
                                        ctxt.get_desc( "LEFT_WIDE", 1 ), ctxt.get_desc( "RIGHT_WIDE", 1 ),
                                        ctxt.get_desc( "UP_WIDE", 1 ), ctxt.get_desc( "DOWN_WIDE", 1 ),
                                        ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
@@ -417,6 +419,8 @@ std::optional<tripoint_bub_ms> editmap::edit()
             edit_feature<furn_t>();
         } else if( action == "EDIT_FIELDS" ) {
             edit_fld();
+        } else if( action == "EDIT_RADS" ) {
+            edit_rads();
         } else if( action == "EDIT_ITEMS" ) {
             edit_itm();
         } else if( action == "EDIT_TRAPS" ) {
@@ -693,7 +697,7 @@ void editmap::draw_main_ui_overlay()
             hilights["mapgentgt"].draw( *this, true );
             drawsq_params params = drawsq_params().center( tripoint_bub_ms( SEEX - 1, SEEY - 1, target.z() ) );
             for( const tripoint_omt_ms &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, p.raw(), params );
+                tmpmap.drawsq( g->w_terrain, rebase_bub( p ), params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
@@ -1208,6 +1212,15 @@ void editmap::setup_fmenu( uilist &fmenu )
     }
     if( sel_field >= 0 ) {
         fmenu.selected = sel_field;
+    }
+}
+
+void editmap::edit_rads() const
+{
+    map &here = get_map();
+    int value = 0;
+    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+        here.set_radiation( target, value );
     }
 }
 

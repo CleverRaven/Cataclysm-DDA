@@ -4060,7 +4060,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
-            ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
+            ( ( elapsed + act.moves_total - act.moves_left ) * 1_turns / 100 ) > 5_minutes ) {
             who.add_morale( morale_feeling_good, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
@@ -5838,7 +5838,7 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
         const item_location &tool, const Character &who )
 {
     const pry_data &pdata = data.prying_data();
-    if( pdata.prying_nails ) {
+    if( data.duration() > 1_seconds ) {
         return data.duration();
     }
 
@@ -5941,23 +5941,21 @@ void prying_activity_actor::handle_prying( Character &who )
     };
 
     auto handle_failure = [&]( const pry_data & pdata ) -> void {
-        if( !pdata.breakable )
+        if( pdata.breakable )
         {
-            return;
-        }
+            int difficulty = pdata.difficulty;
+            difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        int difficulty = pdata.difficulty;
-        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+            /** @EFFECT_MECHANICS reduces chance of breaking when prying */
+            const int dice_mech = dice( 2,
+                                        static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
+            /** @ARM_STR reduces chance of breaking when prying */
+            const int dice_str = dice( 2, who.get_arm_str() );
 
-        /** @EFFECT_MECHANICS reduces chance of breaking when prying */
-        const int dice_mech = dice( 2, static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
-        /** @ARM_STR reduces chance of breaking when prying */
-        const int dice_str = dice( 2, who.get_arm_str() );
-
-        if( dice( 4, difficulty ) > dice_mech + dice_str )
-        {
-            // bash will always succeed
-            here.bash( target, 0, false, true );
+            if( dice( 4, difficulty ) > dice_mech + dice_str ) {
+                // bash will always succeed
+                here.bash( target, 0, false, true );
+            }
         }
 
         if( !data->prying_data().failure.empty() )
@@ -8071,7 +8069,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                     const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                      corpse.get_mtype()->gibType() :
                                                      corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos.raw(), dest.raw() );
+                    here.add_splatter_trail( type_blood, pos, dest );
                 }
 
                 // mixture of isaac clarke stomps and swinging your weapon

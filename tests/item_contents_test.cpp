@@ -91,7 +91,7 @@ TEST_CASE( "item_contents" )
 TEST_CASE( "overflow_on_combine", "[item]" )
 {
     clear_map();
-    tripoint origin{ 60, 60, 0 };
+    tripoint_bub_ms origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );
     item_contents overfull_contents( purse.type->pockets );
@@ -101,26 +101,26 @@ TEST_CASE( "overflow_on_combine", "[item]" )
     } );
     map &here = get_map();
     here.i_clear( origin );
-    purse.overflow( origin );
+    purse.overflow( origin.raw() );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
 TEST_CASE( "overflow_test", "[item]" )
 {
     clear_map();
-    tripoint origin{ 60, 60, 0 };
+    tripoint_bub_ms origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );
     purse.force_insert_item( log, pocket_type::MIGRATION );
     map &here = get_map();
-    purse.overflow( origin );
+    purse.overflow( origin.raw() );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
 TEST_CASE( "overflow_test_into_parent_item", "[item]" )
 {
     clear_map();
-    tripoint origin{ 60, 60, 0 };
+    tripoint_bub_ms origin{ 60, 60, 0 };
     item jar( itype_jar_glass_sealed );
     item pickle( itype_pickle );
     pickle.force_insert_item( pickle, pocket_type::MIGRATION );
@@ -131,7 +131,7 @@ TEST_CASE( "overflow_test_into_parent_item", "[item]" )
     }
     REQUIRE( contents_pre == 1 );
 
-    item_location jar_loc( map_cursor( tripoint_bub_ms( origin ) ), &jar );
+    item_location jar_loc( map_cursor( origin ), &jar );
     jar_loc.overflow();
     map &here = get_map();
     CHECK( here.i_at( origin ).empty() );

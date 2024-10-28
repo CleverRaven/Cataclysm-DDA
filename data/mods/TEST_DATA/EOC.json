@@ -203,7 +203,7 @@
       {
         "run_eoc_until": "EOC_until_nested",
         "condition": { "math": [ "u_context", "<", "10000" ] },
-        "iteration": 10000
+        "iterations": 10000
       }
     ]
   },

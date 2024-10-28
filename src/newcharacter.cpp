@@ -366,7 +366,7 @@ static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
-    if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+    if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() && is_avatar() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
         name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
