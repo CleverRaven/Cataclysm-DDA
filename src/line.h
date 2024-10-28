@@ -151,8 +151,10 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
                           int distance );
 tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
                                  const std::vector<tripoint_bub_ms> &line, int distance );
+// line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
+// line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)

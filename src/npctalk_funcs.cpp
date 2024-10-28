@@ -403,7 +403,7 @@ void talk_function::goto_location( npc &p )
     }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
-                 overmap_path_params::for_npc() );
+                 overmap_path_params::for_npc() ).points;
     if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;

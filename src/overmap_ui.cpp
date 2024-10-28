@@ -1794,7 +1794,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
     if( dest == player_omt_pos || dest == start_omt_pos ) {
         return {};
     } else {
-        return overmap_buffer.get_travel_path( start_omt_pos, dest, params );
+        return overmap_buffer.get_travel_path( start_omt_pos, dest, params ).points;
     }
 }
 
