@@ -350,16 +350,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AVOID_SLEEP",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "180" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "300" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "180" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300" ] },
       { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
       {
         "if": { "math": [ "u_val('sleepiness')", "<", "0" ] },
         "then": { "math": [ "u_val('sleepiness')", "=", "0" ] }
       },
       { "math": [ "u_val('sleep_deprivation')", "=", "0" ] },
-      { "u_message": "As a cool breeze on your skin, you feel much more awake.", "type": "good" }
+      { "u_message": "As a cool breeze touches your skin, you feel much more awake.", "type": "good" }
     ],
     "false_effect": [ { "u_message": "You don't have enough ruach to spare any to alleviate your tiredness.", "type": "bad" } ]
   },
