@@ -688,7 +688,7 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
         // somehow.  It might be better if the JSON had two values in
         // it, one for the menu item and another for the description.
         size_t p = it.find( "  " );
-        if( p == it.npos ) {
+        if( p == std::string::npos ) {
             menu.addentry( it );
         } else {
             menu.addentry_desc( it.substr( 0, p ), wrap60( it.substr( p + 2, it.size() ) ) );
