@@ -650,7 +650,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "small game lever-action rifle" },
-    "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small-game, its effectiveness isn't as great against the undead.",
+    "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
     "variant_type": "gun",
     "variants": [
       {
@@ -701,7 +701,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "small game lever-action rifle" },
-    "description": "A .22 Long Rifle lever-action rifle, which holds 16 rounds of ammo.  While quite useful against small-game, its effectiveness isn't as great against the undead.",
+    "description": "A .22 Long Rifle lever-action rifle, which holds 16 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
     "variant_type": "gun",
     "variants": [
       {
