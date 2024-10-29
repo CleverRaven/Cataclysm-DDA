@@ -74,7 +74,7 @@
       "target": "bipod_handguard",
       "moves": 120
     },
-    "flags": [ "BIPOD", "SLOW_WIELD" ]
+    "flags": [ "BIPOD" ]
   },
   {
     "id": "modern_handguard",
