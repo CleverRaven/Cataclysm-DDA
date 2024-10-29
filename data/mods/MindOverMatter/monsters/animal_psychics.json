@@ -136,7 +136,7 @@
     "looks_like": "mon_cow",
     "copy-from": "mon_cow",
     "name": { "str": "hodag" },
-    "description": "This is very similar to cow, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
+    "description": "This is very similar to a cow, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
     "//": "armor, HP, and speed boost power are from biokinesis",
     "//2": "HP based on current cow HP of 110.  If cow HP is raised, raise this proportionately.",
     "proportional": { "hp": 1.4, "speed": 1.15 },
