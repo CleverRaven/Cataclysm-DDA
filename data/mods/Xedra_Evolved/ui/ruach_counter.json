@@ -1,15 +1,15 @@
 [
-   {
+  {
     "id": "spacebar_ruach_counter_block",
     "type": "widget",
     "style": "layout",
     "label": "Ruach",
     "arrange": "minimum_columns",
     "width": 58,
-    "widgets": [ "spacebar_separator_2", "spacebar_ruach_counter_meter" ]
+    "widgets": [ "spacebar_separator_2", "ruach_counter_meter" ]
   },
   {
-    "id": "spacebar_nether_attunement_meter",
+    "id": "ruach_counter_meter",
     "type": "widget",
     "style": "text",
     "label": "Ruach",
@@ -33,7 +33,7 @@
           ]
         }
       },
-     {
+      {
         "id": "ruach_level_2",
         "text": "<color_light_red>Drained</color>",
         "condition": {
@@ -61,8 +61,8 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "1200" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "2401" ] }
+            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1200" ] },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<", "2401" ] }
           ]
         }
       },
@@ -72,7 +72,8 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "2400" ] }
+            { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "2400" ] }
           ]
         }
       }
