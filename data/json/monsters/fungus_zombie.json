@@ -156,6 +156,7 @@
     "vision_night": 5,
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
+    "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ], "special_attacks": [ [ "FUNGUS", 100 ] ] }
@@ -165,28 +166,13 @@
     "type": "MONSTER",
     "name": { "str": "fungal wretch", "str_pl": "fungal wretches" },
     "description": "This severely deformed child lies on its back, its ribs exposed to the sky.  With its limbs contorted in ways only possible through a lack of bones, the child's ribcage stretches far beyond the boundaries of human biology, appearing akin to a bony hive coated in quivering fungal matter.  Spores occasionally waft from its hollowed interior, and, periodically, you can catch sight of weak movement within the abomination's guts.",
+    "copy-from": "mon_zombie_wretch",
     "default_faction": "fungus",
-    "bodytype": "blob",
-    "species": [ "FUNGUS" ],
-    "volume": "30000 ml",
-    "weight": "45000 g",
-    "hp": 45,
-    "speed": 20,
-    "material": [ "flesh" ],
-    "symbol": "z",
     "color": "pink",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 1,
-    "melee_dice": 2,
-    "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_child" ],
-    "vision_day": 2,
-    "vision_night": 2,
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
     "bleed_rate": 0,
+    "vision_day": 4,
+    "vision_night": 4,
     "harvest": "zombie_humanoid_mushroom",
     "special_attacks": [
       {
@@ -197,9 +183,10 @@
       }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
-    "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
-    "armor": { "electric": 1 }
+    "upgrades": false,
+    "proportional": { "hp": 0.75, "speed": 0.55 },
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "electric": 4 } },
+    "extend": { "species": [ "FUNGUS" ] }
   },
   {
     "id": "mon_fungal_raptor",
