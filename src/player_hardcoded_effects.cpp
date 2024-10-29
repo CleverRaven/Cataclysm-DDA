@@ -126,6 +126,7 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
@@ -1090,7 +1091,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_WATERSLEEP ) ) {
+        if( u.has_trait( trait_WATERSLEEP ) || u.has_trait( trait_UNDINE_SLEEP_WATER ) ) {
             u.mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
