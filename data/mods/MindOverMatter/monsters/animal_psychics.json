@@ -290,7 +290,7 @@
       },
       { "id": "pigeon_aura", "type": "spell", "spell_data": { "id": "pigeon_aura", "min_level": 4 }, "cooldown": 200 }
     ],
-    "reproduction": { "baby_type": { "baby_egg": "egg_pigeon_passenge" }, "baby_count": 3, "baby_timer": 32 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pigeon_passenger" }, "baby_count": 3, "baby_timer": 32 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
