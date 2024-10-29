@@ -849,7 +849,7 @@
     "type": "profession",
     "id": "cryptid_hunter",
     "name": "Cryptid Hunter",
-    "description": "You spent months trying to find one of these elusive creatures, searching all over the country in the hopes of proving beyond doubt that they exist.  You recently found enough trustworthy information to write down a map that will certaintly lead you to a cryptid.  Now that the supernatural is undeniable you feel that you should find a cryptid anyway, if only to say that you didn't do all this work for nothing.",
+    "description": "You spent months trying to find one of these elusive creatures, searching all over the country in the hopes of proving beyond doubt that they exist.  You recently found enough trustworthy information to write down a map that will certainly lead you to a cryptid.  Now that the supernatural is undeniable you feel that you should find a cryptid anyway, if only to say that you didn't do all this work for nothing.",
     "//": "This grants a map to a random cryptid and a note with basic info on said cryptid.  Otherwise a version of the park ranger with less gear and without the weapons as they explored far and wide in search of cryptids without having combat training.",
     "//2": "No camera because their plan is to locate and bring back a cryptid, not take photographies that will be accused of being edited.",
     "npc_background": "BG_survival_story_WORKER_PUBLIC",
