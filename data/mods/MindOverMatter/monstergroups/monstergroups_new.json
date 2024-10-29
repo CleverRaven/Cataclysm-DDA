@@ -112,13 +112,6 @@
     "monsters": [ { "monster": "mon_fear_hawk", "weight": 1000 } ]
   },
   {
-    "type": "monstergroup",
-    "name": "GROUP_PIGEON_UPGRADE",
-    "default": "mon_pigeon",
-    "//": "pigeon upgrades",
-    "monsters": [ { "monster": "mon_pigeon", "weight": 500 }, { "monster": "mon_pigeon_passenger", "weight": 50 } ]
-  },
-  {
     "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_swarm_structure", "weight": 60, "cost_multiplier": 2 } ]
@@ -267,6 +260,11 @@
     "name": "GROUP_EGG_CHICKEN",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 95 } ]
+  },
+  {
+    "name": "GROUP_EGG_PIGEON",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pigeon_passenger_chick", "weight": 5 }, { "monster": "mon_pigeon_chick", "weight": 95 } ]
   },
   {
     "name": "GROUP_ALIEN_MEADOW",
