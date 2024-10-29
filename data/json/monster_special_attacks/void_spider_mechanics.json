@@ -6,8 +6,8 @@
     "description": "The severed leg of a void weaver, turned into some macabre ornament.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 10000,
+    "price": "30 USD",
+    "price_postapoc": "100 USD",
     "symbol": "!",
     "color": "light_red",
     "use_action": {
@@ -57,8 +57,8 @@
   },
   {
     "id": "void_spider_empty",
-    "name": "Void spider emptiness",
-    "description": "Constantly empties the area around the spider.",
+    "name": { "str": "Void spider emptiness", "//~": "NO_I18N" },
+    "description": { "str": "Constantly empties the area around the spider.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "self", "hostile", "ground" ],
     "type": "SPELL",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
@@ -70,8 +70,8 @@
   },
   {
     "id": "void_spider_empty_revert",
-    "name": "Void spider revert emptiness",
-    "description": "Constantly empties the area around the spider.",
+    "name": { "str": "Void spider revert emptiness", "//~": "NO_I18N" },
+    "description": { "str": "Constantly empties the area around the spider.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "type": "SPELL",
     "effect": "ter_transform",
@@ -84,8 +84,8 @@
   {
     "id": "void_spider_control",
     "type": "SPELL",
-    "name": "Void spider control",
-    "description": "Void spiders control themselves using this one.",
+    "name": { "str": "Void spider control", "//~": "NO_I18N" },
+    "description": { "str": "Void spiders control themselves using this one.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -98,8 +98,8 @@
   {
     "type": "SPELL",
     "id": "place_void_spider",
-    "name": { "str": "Place Void Spider" },
-    "description": "Spawns a void spider.",
+    "name": { "str": "Place Void Spider", "//~": "NO_I18N" },
+    "description": { "str": "Spawns a void spider.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground" ],
     "max_level": 1,
@@ -117,8 +117,8 @@
   {
     "type": "SPELL",
     "id": "mon_void_weaver_death",
-    "name": { "str": "Void Weaver Death" },
-    "description": "Ends the fight.",
+    "name": { "str": "Void Weaver Death", "//~": "NO_I18N" },
+    "description": { "str": "Ends the fight.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
@@ -372,10 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [
-      { "math": [ "void_spider_killed", "=", "1" ] },
-      { "u_add_var": "killed_a_void_spider", "type": "general", "context": "talk", "value": "yes" }
-    ]
+    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",

@@ -50,8 +50,8 @@
         "///////////                           ////////+/",
         "/                                     ///S.S.../",
         "/                         /////       /T+.....l/",
-        "/              //d//DDDDDD/e../       ///..i.../",
-        "/              /          w{../       ///....../",
+        "/              //D//DDDDDD/e../       ///..i.../",
+        "/              /5         w{../       ///....../",
         "/              /          w{H.d       /T+.l/L/L/",
         "////////////////          //////////////////////"
       ],
@@ -157,7 +157,7 @@
         ",": "t_thconc_floor",
         "h": "t_thconc_floor",
         "l": "t_thconc_floor",
-        "/": "t_strconc_wall",
+        "/": "t_lixa_wall",
         "w": "t_window_bars",
         "d": [ "t_door_metal_c", "t_door_metal_o" ]
       },
@@ -207,7 +207,7 @@
         "l": "t_thconc_floor",
         "s": "t_thconc_floor",
         "T": "t_thconc_floor",
-        "/": "t_strconc_wall",
+        "/": "t_lixa_wall",
         "w": "t_window_bars",
         "e": "t_gates_mech_control",
         "D": "t_door_metal_locked",
@@ -217,6 +217,41 @@
         "l": [ { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ]
       },
       "signs": { "P": { "signage": "NO TRESPASSING:  By order of the United States Department of Energy" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_road_guard_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ---------             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  ---------             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   },
   {
@@ -310,7 +345,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
     }
   },
   {
@@ -369,7 +404,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
     }
   },
   {
@@ -543,7 +578,6 @@
           { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
           { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 },
           { "item": "software_math", "chance": 3, "repeat": 1 },
-          { "item": "software_lab_data", "chance": 2, "repeat": 4 },
           { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
@@ -563,6 +597,7 @@
         { "item": "knit_scarf", "x": 18, "y": 1, "amount": 2 },
         { "item": "laptop", "x": 18, "y": 5, "amount": 1 },
         { "item": "software_useless", "x": 18, "y": 5, "amount": [ 4, 7 ] },
+        { "item": "usb_drive_nano", "x": 18, "y": 5, "amount": 1 },
         { "item": "knitting_needles", "x": 18, "y": 5, "amount": [ 4, 8 ] },
         { "item": "yarn", "x": 18, "y": 5, "amount": [ 20, 40 ] },
         { "item": "laptop", "x": 14, "y": 1, "amount": 1 },
@@ -770,7 +805,7 @@
         "    //________________//",
         "    //________________//"
       ],
-      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+      "terrain": { "_": "t_open_air_rooved", "/": "t_lixa_wall" }
     }
   },
   {
@@ -805,7 +840,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+      "terrain": { "_": "t_open_air_rooved", "/": "t_lixa_wall" }
     }
   },
   {
@@ -1089,7 +1124,7 @@
         { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
-      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "repeat": 2 } ]
+      "place_monster": [ { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "repeat": 2 } ]
     }
   },
   {
@@ -1159,7 +1194,7 @@
         { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
-      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
+      "place_monster": [ { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
     }
   },
   {
@@ -1230,7 +1265,7 @@
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] },
-      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
+      "place_monster": [ { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
     }
   },
   {
@@ -1300,8 +1335,8 @@
         { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] }
@@ -1374,8 +1409,8 @@
         { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
@@ -1452,8 +1487,8 @@
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_3", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_3", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 }
       ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
@@ -1528,8 +1563,8 @@
         { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_3", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_3", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
@@ -1605,8 +1640,8 @@
         { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_4", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_4", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
@@ -1756,10 +1791,10 @@
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 },
-        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 },
+        { "monster": "mon_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],

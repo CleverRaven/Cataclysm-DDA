@@ -34,12 +34,14 @@
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
+#include "loading_ui.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mission.h"
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
@@ -74,11 +76,6 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
-static const std::string type_hair_style( "hair_style" );
-static const std::string type_skin_tone( "skin_tone" );
-static const std::string type_facial_hair( "facial_hair" );
-static const std::string type_eye_color( "eye_color" );
-
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
@@ -89,13 +86,12 @@ static const matype_id style_none( "style_none" );
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
 
-static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-// Wether or not to use Outfit (M) at character creation
+// Whether or not use Outfit (M) at character creation
 static bool outfit = true;
 
 // Responsive screen behavior for small terminal sizes
@@ -200,7 +196,7 @@ static int stat_point_pool()
 {
     return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
 }
-static int stat_points_used( const avatar &u )
+static int stat_points_used( const Character &u )
 {
     int used = 0;
     for( int stat : {
@@ -215,7 +211,7 @@ static int trait_point_pool()
 {
     return get_option<int>( "INITIAL_TRAIT_POINTS" );
 }
-static int trait_points_used( const avatar &u )
+static int trait_points_used( const Character &u )
 {
     int used = 0;
     for( trait_id cur_trait : u.get_mutations( true ) ) {
@@ -238,7 +234,7 @@ static int skill_point_pool()
 {
     return get_option<int>( "INITIAL_SKILL_POINTS" );
 }
-static int skill_points_used( const avatar &u )
+static int skill_points_used( const Character &u )
 {
     int scenario = get_scenario()->point_cost();
     int profession_points = u.prof->point_cost();
@@ -259,12 +255,12 @@ static int point_pool_total()
 {
     return stat_point_pool() + trait_point_pool() + skill_point_pool();
 }
-static int points_used_total( const avatar &u )
+static int points_used_total( const Character &u )
 {
     return stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
 }
 
-static int has_unspent_points( const avatar &u )
+static int has_unspent_points( const Character &u )
 {
     return points_used_total( u ) < point_pool_total();
 }
@@ -275,7 +271,7 @@ struct multi_pool {
     // The amount of points awailable in a pool minus the points that are borrowed
     // by lower pools plus the points that can be borrowed from higher pools
     const int stat_points_left, trait_points_left, skill_points_left;
-    explicit multi_pool( const avatar &u ):
+    explicit multi_pool( const Character &u ):
         pure_stat_points( stat_point_pool() - stat_points_used( u ) ),
         pure_trait_points( trait_point_pool() - trait_points_used( u ) ),
         pure_skill_points( skill_point_pool() - skill_points_used( u ) ),
@@ -370,11 +366,16 @@ static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
-    if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+    if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() && is_avatar() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
         name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     }
+}
+
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
 }
 
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
@@ -392,9 +393,8 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style.\n"
-                                  "\n"
-                                  "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+    menu.title = _( "Select a style.\n" );
+    menu.text = string_format( _( "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                   "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                u.get_str(), u.get_dex(), u.get_per(), u.get_int(),
@@ -407,7 +407,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     for( const matype_id &s : styles ) {
         const martialart &style = s.obj();
-        menu.addentry_desc( style.name.translated(), style.description.translated() );
+        menu.addentry_desc( style.name.translated(), wrap60( style.description.translated() ) );
     }
     while( true ) {
         menu.query( true );
@@ -418,11 +418,14 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     }
 }
 
-void avatar::randomize( const bool random_scenario, bool play_now )
+void Character::randomize( const bool random_scenario, bool play_now )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
-    *this = avatar();
+    if( is_avatar() ) {
+        *this->as_avatar() = avatar();
+    }
+
     bool gender_selection = one_in( 2 );
     male = gender_selection;
     outfit = gender_selection;
@@ -447,11 +450,15 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         if( selected_scenario ) {
             set_scenario( selected_scenario );
         } else {
-            debugmsg( "Failed randomizing sceario - no entries matching requirements." );
+            debugmsg( "Failed randomizing scenario - no entries matching requirements." );
         }
     }
 
-    prof = get_scenario()->weighted_random_profession();
+    const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
+    prof = scenario_from->weighted_random_profession();
+    play_name_suffix = prof->gender_appropriate_name( male );
+    zero_all_skills();
+
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     starting_city = std::nullopt;
     world_origin = std::nullopt;
@@ -464,6 +471,10 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     set_body();
     randomize_hobbies();
+    const trait_id background = prof->pick_background();
+    if( !background.is_empty() ) {
+        set_mutation( background );
+    }
 
     int num_gtraits = 0;
     int num_btraits = 0;
@@ -591,22 +602,17 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     // Restart cardio accumulator
     reset_cardio_acc();
-}
 
-void avatar::randomize_cosmetics()
-{
-    randomize_cosmetic_trait( type_hair_style );
-    randomize_cosmetic_trait( type_skin_tone );
-    randomize_cosmetic_trait( type_eye_color );
-    //arbitrary 50% chance to add beard to male characters
-    if( male && one_in( 2 ) ) {
-        randomize_cosmetic_trait( type_facial_hair );
-    } else {
-        set_mutation( trait_FACIAL_HAIR_NONE );
+    if( is_npc() ) {
+        add_profession_items();
+        as_npc()->randomize_personality();
+        as_npc()->generate_personality_traits();
+        initialize();
+        as_npc()->catchup_skills();
     }
 }
 
-void avatar::add_profession_items()
+void Character::add_profession_items()
 {
     // Our profession should not be a hobby
     if( prof->is_hobby() ) {
@@ -642,13 +648,50 @@ void avatar::add_profession_items()
             inv->push_back( it );
         }
 
-        if( it.is_book() ) {
-            items_identified.insert( it.typeId() );
+        if( it.is_book() && this->is_avatar() ) {
+            as_avatar()->identify( it );
         }
     }
 
     recalc_sight_limits();
     calc_encumbrance();
+}
+
+void Character::randomize_hobbies()
+{
+    hobbies.clear();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    choices.erase( std::remove_if( choices.begin(), choices.end(),
+    [this]( const string_id<profession> &hobby ) {
+        return !prof->allows_hobby( hobby );
+    } ), choices.end() );
+    if( choices.empty() ) {
+        debugmsg( "Why would you blacklist all hobbies?" );
+        choices = profession::get_all_hobbies();
+    };
+
+    int random = rng( 0, 5 );
+
+    if( random >= 1 ) {
+        add_random_hobby( choices );
+    }
+    if( random >= 3 ) {
+        add_random_hobby( choices );
+    }
+    if( random >= 5 ) {
+        add_random_hobby( choices );
+    }
+}
+
+void Character::add_random_hobby( std::vector<profession_id> &choices )
+{
+    const profession_id hobby = random_entry_removed( choices );
+    hobbies.insert( &*hobby );
+
+    // Add or remove traits from hobby
+    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
+        toggle_trait( cur.trait );
+    }
 }
 
 static int calculate_cumulative_experience( int level )
@@ -665,6 +708,7 @@ static int calculate_cumulative_experience( int level )
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
+    loading_ui::done();
     set_wielded_item( item() );
 
     prof = profession::generic();
@@ -795,7 +839,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-void Character::set_skills_from_hobbies()
+void Character::set_skills_from_hobbies( bool no_override )
 {
     // 2 for an average person
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
@@ -804,6 +848,9 @@ void Character::set_skills_from_hobbies()
     // Grab skills from hobbies and train
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
+            if( no_override && get_skill_level( e.first ) != 0 ) {
+                continue;
+            }
             // Train our skill
             const int skill_xp_bonus = calculate_cumulative_experience( e.second );
             get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
@@ -1245,10 +1292,11 @@ static std::string assemble_stat_details( avatar &u, const unsigned char sel )
         case 1: {
             description_str =
                 colorize(
-                    string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
-                    + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
-                                     u.throw_dispersion_per_dodge( false ) ),
-                    COL_STAT_BONUS );
+                    string_format( _( "Melee to-hit bonus: %+.2f" ), u.get_melee_hit_base() ),
+                    u.get_melee_hit_base() >= 0 ? COL_STAT_BONUS : COL_STAT_PENALTY );
+            description_str += colorize(
+                                   string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
+                                                  u.throw_dispersion_per_dodge( false ) ), COL_STAT_PENALTY );
             if( u.ranged_dex_mod() != 0 ) {
                 description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
                                              std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );
@@ -1506,20 +1554,65 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 static struct {
     bool sort_by_points = false;
     /** @related player */
-    bool operator()( const trait_and_var *a, const trait_and_var *b ) {
-        return std::abs( a->trait->points ) > std::abs( b->trait->points );
+    bool operator()( const trait_id *a, const trait_id *b ) {
+        return std::abs( ( *a )->points ) > std::abs( ( *b )->points );
     }
 } traits_sorter;
 
-static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
+static void add_trait( std::vector<trait_id> &to, const trait_id &trait )
 {
-    if( trait->variants.empty() ) {
-        to.emplace_back( trait, "" );
-        return;
+    to.emplace_back( trait );
+}
+
+static const mutation_variant *variant_trait_selection_menu( const trait_id &cur_trait )
+{
+    // Because the keys will change on each loop if I clear the entries, and
+    // if I don't clear the entries, the menu bugs out
+    static std::array<int, 60> keys = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                                        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                        'n', 'o', 'p',/*q */'r', 's', 't',/*u */'v', 'w', 'x', 'y', 'z',
+                                        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                                        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+                                      };
+    uilist menu;
+    const mutation_variant *ret = nullptr;
+    avatar &pc = get_avatar();
+    std::vector<const mutation_variant *> variants;
+    variants.reserve( cur_trait->variants.size() );
+    for( const std::pair<const std::string, mutation_variant> &pr : cur_trait->variants ) {
+        if( pc.has_trait_variant( {cur_trait, pr.first} ) ) {
+            ret = &pr.second;
+        }
+        variants.emplace_back( &pr.second );
     }
-    for( const std::pair<const std::string, mutation_variant> &var : trait->variants ) {
-        to.emplace_back( trait, var.first );
-    }
+
+    menu.title = _( "Which trait?" );
+    menu.desc_enabled = true;
+    menu.allow_cancel = false;
+    int idx;
+    do {
+        menu.entries.clear();
+        idx = 0;
+        menu.addentry_desc( idx, true, 'u', ret != nullptr ? _( "Unselect" ) :
+                            colorize( _( "Unselected" ), c_white ),
+                            _( "Remove this trait." ) );
+        ++idx;
+        for( const mutation_variant *var : variants ) {
+            std::string name = var->alt_name.translated();
+            menu.addentry_desc( idx, true, keys[( idx - 1 ) % keys.size()],
+                                ( ret && ret == var ) ? colorize( name, c_white ) : name,
+                                var->alt_description.translated() );
+            ++idx;
+        }
+        menu.addentry_desc( idx, true, 'q', _( "Done" ), _( "Exit menu." ) );
+        menu.query();
+        if( menu.ret == 0 ) {
+            ret = nullptr;
+        } else if( menu.ret < idx ) {
+            ret = variants[menu.ret - 1];
+        }
+    } while( menu.ret != idx );
+    return ret;
 }
 
 void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
@@ -1533,7 +1626,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     // 0 -> traits that take points ( positive traits )
     // 1 -> traits that give points ( negative traits )
     // 2 -> neutral traits ( facial hair, skin color, etc )
-    std::array<std::vector<trait_and_var>, 3> vStartingTraits;
+    std::array<std::vector<trait_id>, 3> vStartingTraits;
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1598,7 +1691,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     std::array<size_t, 3> traits_size;
     bool recalc_traits = false;
     // pointer for memory footprint reasons
-    std::array<std::vector<const trait_and_var *>, 3> sorted_traits;
+    std::array<std::vector<const trait_id *>, 3> sorted_traits;
     std::array<scrollbar, 3> trait_sbs;
     std::string filterstring;
 
@@ -1744,8 +1837,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
-                const trait_and_var &cursor = *sorted_traits[iCurrentPage][i];
-                const trait_id &cur_trait = cursor.trait;
+                const trait_id &cur_trait = *sorted_traits[iCurrentPage][i];
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
                     int points = cur_trait->points;
                     bool negativeTrait = points < 0;
@@ -1755,7 +1847,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                     if( pool != pool_type::FREEFORM ) {
                         mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
                                    n_gettext( "%s %s %d point", "%s %s %d points", points ),
-                                   cursor.name(),
+                                   cur_trait->name(),
                                    negativeTrait ? _( "earns" ) : _( "costs" ),
                                    points );
                     }
@@ -1769,22 +1861,14 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                         if( u.has_conflicting_trait( cur_trait ) ) {
                             cLine = hilite( c_dark_gray );
                         } else if( u.has_trait( cur_trait ) ) {
-                            if( !cur_trait->variants.empty() && !u.has_trait_variant( cursor ) ) {
-                                cLine = hilite( c_dark_gray );
-                            } else {
-                                cLine = hi_on;
-                            }
+                            cLine = hi_on;
                         }
                     } else {
                         if( u.has_conflicting_trait( cur_trait ) || get_scenario()->is_forbidden_trait( cur_trait ) ) {
                             cLine = c_dark_gray;
 
                         } else if( u.has_trait( cur_trait ) ) {
-                            if( !cur_trait->variants.empty() && !u.has_trait_variant( cursor ) ) {
-                                cLine = c_dark_gray;
-                            } else {
-                                cLine = col_on_act;
-                            }
+                            cLine = col_on_act;
                         }
                     }
                 } else if( u.has_trait( cur_trait ) ) {
@@ -1802,44 +1886,40 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                     // This list only clutters up the screen in screen reader mode
                 } else {
                     mvwprintz( w, opt_pos, cLine,
-                               utf8_truncate( cursor.name(), page_width - 2 ) );
+                               utf8_truncate( cur_trait->name(), page_width - 2 ) );
                 }
             }
 
             if( details_recalc ) {
                 std::string description;
-                const trait_and_var &current = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+                const trait_id &cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if( screen_reader_mode ) {
                     /* Screen readers will skip over text that has not changed.  Since the lists of traits are
                     * alphabetical, this frequently results in letters/words being skipped.  So, if the screen
                     * reader is likely to skip over part of a trait name, we trick it into thinking things have
                     * changed by shifting the text slightly.
                      */
-                    if( !last_trait.empty() && last_trait[0] == current.name()[0] ) {
-                        description = " " + current.name();
+                    if( !last_trait.empty() && last_trait[0] == cur_trait->name()[0] ) {
+                        description = " " + cur_trait->name();
                     } else {
-                        description = current.name();
+                        description = cur_trait->name();
                     }
                     last_trait = description;
 
                     std::string cur_trait_notes;
-                    if( u.has_conflicting_trait( current.trait ) ) {
+                    if( u.has_conflicting_trait( cur_trait ) ) {
                         cur_trait_notes = _( "a conflicting trait is active" );
-                    } else if( u.has_trait( current.trait ) ) {
-                        if( !current.trait->variants.empty() && !u.has_trait_variant( current ) ) {
-                            cur_trait_notes = _( "a different variant of this trait is active" );
-                        } else {
-                            cur_trait_notes = _( "active" );
-                        }
+                    } else if( u.has_trait( cur_trait ) ) {
+                        cur_trait_notes = _( "active" );
                     }
 
                     if( !cur_trait_notes.empty() ) {
                         description.append( string_format( " - %s", cur_trait_notes ) );
                     }
 
-                    description.append( "\n" + current.desc() );
+                    description.append( "\n" + cur_trait->desc() );
                 } else {
-                    description = current.desc();
+                    description = cur_trait->desc();
                 }
                 details.set_text( colorize( description, col_tr ) );
                 details_recalc = false;
@@ -1870,12 +1950,12 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             }
 
             if( !filterstring.empty() ) {
-                for( std::vector<const trait_and_var *> &traits : sorted_traits ) {
+                for( std::vector<const trait_id *> &traits : sorted_traits ) {
                     const auto new_end_iter = std::remove_if(
                                                   traits.begin(),
                                                   traits.end(),
-                    [&filterstring]( const trait_and_var * trait ) {
-                        return !lcmatch( trait->name(), filterstring );
+                    [&filterstring]( const trait_id * trait ) {
+                        return !lcmatch( ( *trait )->name(), filterstring );
                     } );
 
                     traits.erase( new_end_iter, traits.end() );
@@ -1942,39 +2022,41 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             // No additional action required
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
-            const trait_id cur_trait = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->trait;
-            const std::string variant = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->variant;
+            const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const mutation_branch &mdata = cur_trait.obj();
+            std::string variant;
 
             // Look through the profession bionics, and see if any of them conflict with this trait
             std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
             const std::unordered_set<trait_id> conflicting_traits = u.get_conflicting_traits( cur_trait );
 
             if( u.has_trait( cur_trait ) ) {
-
-                inc_type = -1;
-
-                if( get_scenario()->is_locked_trait( cur_trait ) ) {
-                    inc_type = 0;
-                    popup( _( "Your scenario of %s prevents you from removing this trait." ),
-                           get_scenario()->gender_appropriate_name( u.male ) );
-                } else if( u.prof->is_locked_trait( cur_trait ) ) {
-                    inc_type = 0;
-                    popup( _( "Your profession of %s prevents you from removing this trait." ),
-                           u.prof->gender_appropriate_name( u.male ) );
-                }
-                for( const profession *hobbies : u.hobbies ) {
-                    if( hobbies->is_locked_trait( cur_trait ) ) {
-                        inc_type = 0;
-                        popup( _( "Your background of %s prevents you from removing this trait." ),
-                               hobbies->gender_appropriate_name( u.male ) );
+                if( !cur_trait->variants.empty() ) {
+                    const mutation_variant *rval = variant_trait_selection_menu( cur_trait );
+                    if( rval == nullptr ) {
+                        inc_type = -1;
+                    } else {
+                        u.set_mut_variant( cur_trait, rval );
                     }
-                }
-                // Switch variant
-                if( !u.has_trait_variant( trait_and_var( cur_trait, variant ) ) ) {
-                    u.set_mut_variant( cur_trait, cur_trait->variant( variant ) );
-                    inc_type = 0;
-                    details_recalc = true;
+                } else {
+                    inc_type = -1;
+
+                    if( get_scenario()->is_locked_trait( cur_trait ) ) {
+                        inc_type = 0;
+                        popup( _( "Your scenario of %s prevents you from removing this trait." ),
+                               get_scenario()->gender_appropriate_name( u.male ) );
+                    } else if( u.prof->is_locked_trait( cur_trait ) ) {
+                        inc_type = 0;
+                        popup( _( "Your profession of %s prevents you from removing this trait." ),
+                               u.prof->gender_appropriate_name( u.male ) );
+                    }
+                    for( const profession *hobbies : u.hobbies ) {
+                        if( hobbies->is_locked_trait( cur_trait ) ) {
+                            inc_type = 0;
+                            popup( _( "Your background of %s prevents you from removing this trait." ),
+                                   hobbies->gender_appropriate_name( u.male ) );
+                        }
+                    }
                 }
             } else if( !conflicting_traits.empty() ) {
                 std::vector<std::string> conflict_names;
@@ -2012,7 +2094,17 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                        max_trait_points );
 
             } else {
-                inc_type = 1;
+                if( !cur_trait->variants.empty() ) {
+                    const mutation_variant *rval = variant_trait_selection_menu( cur_trait );
+                    if( rval != nullptr ) {
+                        inc_type = 1;
+                        variant = rval->id;
+                    } else {
+                        inc_type = 0;
+                    }
+                } else {
+                    inc_type = 1;
+                }
             }
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
@@ -2080,14 +2172,7 @@ static struct {
 static std::string assemble_profession_details( const avatar &u, const input_context &ctxt,
         const std::vector<string_id<profession>> &sorted_profs, const int cur_id, const std::string &notes )
 {
-    std::string assembled;
-
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( sorted_profs[cur_id]->src, [](
-    const std::pair<profession_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+    std::string assembled = get_origin( sorted_profs[cur_id]->src ) + "\n";
 
     std::string profession_name = sorted_profs[cur_id]->gender_appropriate_name( u.male );
     if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
@@ -3293,13 +3378,7 @@ static struct {
 static std::string assemble_scenario_details( const avatar &u, const input_context &ctxt,
         const scenario *current_scenario, const std::string &notes )
 {
-    std::string assembled;
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( current_scenario->src,
-    []( const std::pair<string_id<scenario>, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+    std::string assembled = get_origin( current_scenario->src ) + "\n";
 
     std::string scenario_name = current_scenario->gender_appropriate_name( !u.male );
     if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
@@ -4055,7 +4134,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             werase( w_traits );
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
             std::vector<trait_and_var> current_traits = you.get_mutations_variants();
-            std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
+            std::sort( current_traits.begin(), current_traits.end(), trait_var_display_sort );
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
@@ -4493,7 +4572,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
             bool gender_selection = one_in( 2 );
             you.male = gender_selection;
-            outfit = gender_selection;
+            if( one_in( 10 ) ) {
+                outfit = !gender_selection;
+            } else {
+                outfit = gender_selection;
+            }
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
                 no_name_entered = you.name.empty();
@@ -4853,6 +4936,7 @@ void avatar::save_template( const std::string &name, pool_type pool )
         if( !random_start_location ) {
             jsout.member( "start_location", start_location );
         }
+        jsout.member( "outfit_gender", outfit );
         jsout.end_object();
 
         serialize( jsout );
@@ -4884,6 +4968,8 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
 
             random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
+
+            outfit = jobj.get_bool( "outfit_gender", true );
 
             // get_scenario()->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
             for( const class start_location &loc : start_locations::get_all() ) {

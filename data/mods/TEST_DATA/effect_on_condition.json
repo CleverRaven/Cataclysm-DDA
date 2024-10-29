@@ -41,5 +41,144 @@
     "type": "ter_furn_transform",
     "id": "test_dirt_transform",
     "terrain": [ { "result": [ "t_grass" ], "valid_terrain": [ "t_dirt" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_1",
+    "//": "run_eocs_1 should be 2",
+    "effect": [ { "run_eocs": [ "EOC_A", "EOC_B" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_A",
+    "effect": [ { "math": [ "run_eocs_1", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_B",
+    "effect": [ { "math": [ "run_eocs_1", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_2",
+    "//": "run_eocs_2 should be 20",
+    "effect": [ { "run_eocs": [ "EOC_C", "EOC_D" ], "iterations": 10 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_C",
+    "effect": [ { "math": [ "run_eocs_2", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_D",
+    "effect": [ { "math": [ "run_eocs_2", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_3",
+    "//": "in 5 seconds, run_eocs_3 should be 2 - 2 eocs would be fired in 2 seconds",
+    "effect": [ { "run_eocs": [ "EOC_E", "EOC_F" ], "time_in_future": "2 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_E",
+    "effect": [ { "math": [ "run_eocs_3", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_F",
+    "effect": [ { "math": [ "run_eocs_3", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_4",
+    "//": "in 2 seconds, run_eocs_4 should be 10 - we shove 10 eocs to run in two seconds",
+    "effect": [ { "run_eocs": [ "EOC_G", "EOC_H" ], "time_in_future": "2 seconds", "iterations": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_G",
+    "effect": [ { "math": [ "run_eocs_4", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_H",
+    "effect": [ { "math": [ "run_eocs_4", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_5",
+    "//": "run_eocs_5 should be 4 - we run eocs until run_eocs_5 would be 4",
+    "effect": [ { "run_eocs": [ "EOC_I", "EOC_J" ], "condition": { "math": [ "run_eocs_5 <= 3" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_I",
+    "effect": [ { "math": [ "run_eocs_5", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_J",
+    "effect": [ { "math": [ "run_eocs_5", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_6",
+    "//": "in 10 seconds, run_eocs_6 should be 10 - two eocs would be randomly fired for 10 seconds",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_K", "EOC_L" ],
+        "time_in_future": [ "0 seconds", "10 seconds" ],
+        "randomize_time_in_future": true,
+        "iterations": 5
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_K",
+    "effect": [ { "math": [ "run_eocs_6", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_L",
+    "effect": [ { "math": [ "run_eocs_6", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_7",
+    "//": "in 10 seconds, run_eocs_7 should be 10, 'test_global_key_M' should contain 'test_context_value_M', and 'test_global_key_N' should contain 'test_context_value_N'",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_M", "EOC_N" ],
+        "time_in_future": [ "0 seconds", "10 seconds" ],
+        "randomize_time_in_future": true,
+        "iterations": 5,
+        "variables": { "test_context_key_M": "test_context_value_M", "test_context_key_N": "test_context_value_N" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_M",
+    "effect": [
+      { "math": [ "run_eocs_7", "++" ] },
+      {
+        "set_string_var": { "context_val": "test_context_key_M" },
+        "target_var": { "global_val": "test_global_key_M" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_N",
+    "effect": [
+      { "math": [ "run_eocs_7", "++" ] },
+      {
+        "set_string_var": { "context_val": "test_context_key_N" },
+        "target_var": { "global_val": "test_global_key_N" }
+      }
+    ]
   }
 ]

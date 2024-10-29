@@ -20,6 +20,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "flood_fill.h"
@@ -136,6 +137,8 @@
  * OMTs wide, but its coordinates are instead rotated when we want to deal with actual game map
  * coordinates.
  */
+
+static const ter_str_id ter_t_open_air( "t_open_air" );
 
 static constexpr int OMT_SIZE = coords::map_squares_per( coords::omt );
 static constexpr int NAV_MAP_NUM_OMT = 2;
@@ -723,7 +726,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
             if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
-                if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {
+                if( !( data.air_ok && here.ter( pt ) == ter_t_open_air ) ) {
                     return false;
                 }
             }
@@ -738,24 +741,24 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     }
 
     // don't drive over visible traps
-    if( here.can_see_trap_at( pt.raw(), driver ) ) {
+    if( here.can_see_trap_at( pt, driver ) ) {
         return false;
     }
 
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
     const furn_id furniture = here.furn( pt );
-    if( furniture != f_null && furniture.obj().movecost != 0 ) {
+    if( furniture != furn_str_id::NULL_ID() && furniture.obj().movecost != 0 ) {
         return false;
     }
 
     const ter_id terrain = here.ter( pt );
-    if( terrain == t_null ) {
+    if( terrain == ter_str_id::NULL_ID() ) {
         return false;
     }
     // open air is an obstacle to non-flying vehicles; it is drivable
     // for flying vehicles
-    if( terrain == t_open_air ) {
+    if( terrain == ter_t_open_air ) {
         return data.air_ok;
     }
     const ter_t &terrain_type = terrain.obj();
@@ -792,7 +795,7 @@ void vehicle::autodrive_controller::compute_obstacles()
     point_queue ramp_points;
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
-            const tripoint abs_map_pt = data.view_to_map.transform( point( dx, dy ), z );
+            const tripoint_abs_ms abs_map_pt( data.view_to_map.transform( point( dx, dy ), z ) );
             const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
             data.is_obstacle[dx][dy] = !check_drivable( p );
             data.ground_z[dx][dy] = z;
@@ -1374,7 +1377,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
-        driver.add_msg_if_player( _( "Can't see a path forward." ) );
+        driver.add_msg_if_player( m_warning, _( "Can't see a path forward." ) );
         stop_autodriving( false );
         return autodrive_result::abort;
     }

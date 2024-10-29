@@ -3,6 +3,7 @@
 #include "auto_pickup.h"
 #include "cata_assert.h"
 #include "item.h"
+#include "item_tname.h"
 
 advanced_inv_listitem::advanced_inv_listitem( const item_location &an_item, int index, int count,
         aim_location area, bool from_vehicle )

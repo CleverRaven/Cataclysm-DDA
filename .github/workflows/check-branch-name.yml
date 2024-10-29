@@ -11,7 +11,7 @@ jobs:
     if: github.head_ref == 'master' && github.repository == 'CleverRaven/Cataclysm-DDA'
     steps:
       - name: Post warning
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "ANTI_EVIL_EYE_GEAR",
+    "type": "json_flag",
+    "info": "Wearing this will protect you from the Evil Eye."
+  },
+  {
+    "id": "holy_symbol",
+    "type": "ARMOR",
+    "copy-from": "holy_symbol",
+    "name": { "str": "holy symbol" },
+    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
+  },
+  {
+    "id": "holy_symbol_wood",
+    "type": "ARMOR",
+    "copy-from": "holy_symbol_wood",
+    "name": { "str": "handmade holy symbol" },
+    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_ABSIT_INVIDIA_HOLY_SYMBOL",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_absit_invidia" },
+        { "compare_string": [ "taint", { "context_val": "effect" } ] },
+        { "u_has_worn_with_flag": "ANTI_EVIL_EYE_GEAR" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "taint" } ]
+  },
+  {
+    "id": "salt",
+    "type": "COMESTIBLE",
+    "copy-from": "salt",
+    "name": { "str_sp": "salt" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Throw some salt over your shoulder.",
+      "effect_on_conditions": [ "EOC_PERK_ABSIT_INVIDIA_SALT" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_ABSIT_INVIDIA_SALT",
+    "effect": [
+      { "u_lose_effect": "taint" },
+      {
+        "u_message": "You toss the salt over your shoulder and mutter under your breath the words that you remember from your childhood.",
+        "type": "mixed"
+      }
+    ]
+  }
+]

@@ -2,22 +2,19 @@
 #ifndef CATA_SRC_CLIMBING_H
 #define CATA_SRC_CLIMBING_H
 
-#include <iosfwd>
-#include <new>
-#include <optional>
-#include <set>
-#include <vector>
+#include <algorithm>
+#include <string>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include "calendar.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"
 
-class JsonObject;
 class Character;
-class map;
-struct tripoint;
+class JsonObject;
 
 /**
 * A "Climbing Aid" as defined here is any one trait, mutation, tool, furniture terrain, technique

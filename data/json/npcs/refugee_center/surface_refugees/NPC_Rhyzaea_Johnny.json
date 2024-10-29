@@ -4,7 +4,7 @@
     "id": "refugee_RhyzaeaJohnny",
     "name_unique": "Rhyzaea Johnny",
     "gender": "female",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Rhyzaea",
     "attitude": 0,
     "mission": 7,
@@ -73,9 +73,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -85,8 +83,8 @@
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Rhyzaea_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Rhyzaea_Situation" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -95,13 +93,13 @@
     "dynamic_line": "Hi there.  I don't think we've met before.  I'm Rhyzaea, people call me Rhy.",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Rhyzaea_Johnny", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Rhyzaea_1a" }
       ]
     },
     "responses": [
       { "text": "Nice to meet you, Rhy.", "topic": "TALK_REFUGEE_Rhyzaea_1_firstmeet" },
-      { "text": "Nice to meet you, Rhy.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "Nice to meet you, Rhy.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -116,7 +114,7 @@
     },
     "responses": [
       { "text": "Hi, Rhy.  How's it going?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -125,7 +123,7 @@
     "dynamic_line": "So, what's your story?  We don't see a lot of new people back here.",
     "responses": [
       { "text": "Just a curious traveler.  What's up with you?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -150,8 +148,8 @@
     "responses": [
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -161,8 +159,8 @@
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,8 +170,8 @@
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

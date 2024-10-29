@@ -9,7 +9,7 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {
@@ -23,7 +23,8 @@
     "trap": "tr_ledge",
     "roof": "t_flat_roof",
     "examine_action": "ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE" ]
   },
   {
     "type": "terrain",
@@ -34,7 +35,7 @@
     "color": "i_cyan",
     "move_cost": 2,
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {
@@ -305,6 +306,18 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_roof_red",
+    "name": "red metal roof",
+    "description": "A sturdy section of metallic rooftop, painted red for visibility and weather resistance.",
+    "symbol": ".",
+    "looks_like": "t_metal_roof",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
   },
   {
     "type": "terrain",

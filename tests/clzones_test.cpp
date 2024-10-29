@@ -2,8 +2,10 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "cata_catch.h"
 #include "clzones.h"
+#include "coordinate_constants.h"
 #include "item.h"
 #include "item_category.h"
 #include "map_helpers.h"
@@ -72,12 +74,13 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     clear_avatar();
     clear_map();
 
-    tripoint_abs_ms const start = here.getglobal( tripoint_east );
+    tripoint_abs_ms const start = here.getglobal( tripoint_bub_ms_zero + tripoint_east );
     bool const move_act = GENERATE( true, false );
     dummy.set_location( start );
 
     if( in_vehicle ) {
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_east, 0_degrees, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms_zero + tripoint_east,
+                                   0_degrees, 0, 0 ) );
         vp = here.veh_at( start ).cargo();
         REQUIRE( vp );
         vp->vehicle().set_owner( dummy );
@@ -96,7 +99,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         if( in_vehicle ) {
             vp->vehicle().add_item( vp->part(), ammo_belt );
         } else {
-            here.add_item_or_charges( tripoint_east, ammo_belt );
+            here.add_item_or_charges( tripoint_bub_ms( tripoint_east ), ammo_belt );
         }
         if( move_act ) {
             dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );

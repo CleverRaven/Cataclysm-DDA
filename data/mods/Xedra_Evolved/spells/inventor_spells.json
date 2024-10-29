@@ -52,6 +52,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
+    "skill": "deduction",
     "flags": [ "SOMATIC" ],
     "max_level": 25,
     "min_damage": 10,

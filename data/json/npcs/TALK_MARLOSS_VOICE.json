@@ -35,7 +35,7 @@
         "effect": { "u_add_effect": "u_offered_marloss_meal", "duration": 25920 }
       },
       { "text": "Who are you?", "topic": "TALK_MARLOSS_VOICE_A_PRIEST" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -63,7 +63,7 @@
         "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY",
         "condition": { "and": [ { "not": { "u_has_flag": "mycus" } }, { "not": { "u_has_effect": "u_given_berry" } } ] }
       },
-      { "text": "Well, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -78,7 +78,7 @@
     "dynamic_line": "Join us then, eat from this meal with us.",
     "responses": [
       {
-        "text": "[Take Marloss berry] Thank you.",
+        "text": "[Take Marloss berry.] Thank you.",
         "topic": "TALK_DONE",
         "effect": [ { "u_spawn_item": "marloss_berry" }, { "u_add_effect": "u_given_berry", "duration": 43200 } ]
       },

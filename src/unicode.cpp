@@ -108,7 +108,8 @@ void remove_accent( char32_t &ch )
         {U'o', {U'ó', U'ô', U'ö', U'ò', U'õ', U'ō'}},
         {U'u', {U'ú', U'û', U'ü', U'ù', U'ū'}},
         {U'n', {U'ñ', U'ń'}},
-        {U'c', {U'ć', U'ç', U'č'}}
+        {U'c', {U'ć', U'ç', U'č'}},
+        {U'е', {U'ё'}}
     };
 
     static std::map<char32_t, char32_t> lookup_table;

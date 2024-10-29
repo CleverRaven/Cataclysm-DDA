@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "m203", "m320_mod", "pipe_launcher40mm" ],
+    "id": [ "m203", "m320_mod" ],
     "type": "MIGRATION",
     "replace": "grenade_under"
   },

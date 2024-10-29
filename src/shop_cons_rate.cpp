@@ -2,11 +2,13 @@
 
 #include "avatar.h"
 #include "condition.h"
+#include "dialogue.h"
 #include "generic_factory.h"
 #include "item_category.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
+#include "npc.h"
 
 namespace
 {

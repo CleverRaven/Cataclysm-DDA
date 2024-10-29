@@ -224,7 +224,6 @@
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] },
         { "item": "afs_circuitry_2", "count": [ 3, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 2, 4 ] }
       ]
@@ -273,7 +272,6 @@
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] },
         { "item": "afs_circuitry_2", "count": [ 3, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 2, 4 ] }
       ]
@@ -319,7 +317,6 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
         { "item": "afs_circuitry_3", "count": [ 1, 4 ] },
         { "item": "afs_circuitry_4", "count": 1, "prob": 25 },
@@ -370,7 +367,6 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
         { "item": "afs_circuitry_3", "count": [ 1, 4 ] },
         { "item": "afs_circuitry_4", "count": 1, "prob": 25 },

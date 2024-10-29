@@ -11,6 +11,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ter_str_id ter_t_floor( "t_floor" );
+
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 
 namespace
@@ -89,7 +91,7 @@ void add_fallback_zone( npc &guy )
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
         tripoint_bub_ms const t_here = here.bub_from_abs( t );
         if( here.has_furn( t_here ) &&
-            ( here.furn( t_here )->max_volume > t_floor->max_volume ||
+            ( here.furn( t_here )->max_volume > ter_t_floor->max_volume ||
               here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
             !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
@@ -133,12 +135,12 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
-            tripoint const dpoint_here = here.getlocal( dpoint );
+            tripoint_bub_ms const dpoint_here = here.bub_from_abs( dpoint );
             std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
-                leftover = _to_map( it, here, dpoint_here );
+                leftover = _to_map( it, here, dpoint_here.raw() );
             }
             if( !leftover ) {
                 break;

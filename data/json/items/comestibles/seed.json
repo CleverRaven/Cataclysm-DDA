@@ -3,7 +3,7 @@
     "abstract": "seed",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str_sp": "seeds" },
+    "name": { "str_sp": "seeds", "//~": "NO_I18N" },
     "category": "seeds",
     "volume": "2 ml",
     "weight": "1 g",
@@ -12,19 +12,20 @@
     "material": [ "veggy" ],
     "symbol": ".",
     "color": "brown",
-    "//": "Note that in most cases this item typically represents many seeds, enough to fill an entire tile with plants."
+    "//": "Note that in most cases this item typically represents many seeds, enough to fill an entire tile with plants.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "abstract": "seed_fruit",
     "type": "COMESTIBLE",
     "copy-from": "seed",
-    "name": { "str_sp": "fruit seeds" }
+    "name": { "str_sp": "fruit seeds", "//~": "NO_I18N" }
   },
   {
     "abstract": "seed_mushroom_base",
     "type": "COMESTIBLE",
     "copy-from": "seed",
-    "name": { "str_sp": "mushroom spores" },
+    "name": { "str_sp": "mushroom spores", "//~": "NO_I18N" },
     "description": "Some mushroom spores.",
     "color": "green"
   },
@@ -179,28 +180,28 @@
     "type": "COMESTIBLE",
     "id": "seed_lettuce",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "lettuce seeds" },
     "description": "Some lettuce seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "lettuce", "fruit": "lettuce", "byproducts": [ "withered" ], "grow": "85 days" }
+    "seed_data": { "plant_name": "lettuce", "fruit": "lettuce_head", "byproducts": [ "withered" ], "grow": "85 days" }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_cabbage",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "cabbage seeds" },
     "color": "light_gray",
     "description": "Some white cabbage seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cabbage", "fruit": "cabbage", "byproducts": [ "withered" ], "grow": "85 days" }
+    "seed_data": { "plant_name": "cabbage", "fruit": "cabbage_head", "byproducts": [ "withered" ], "grow": "85 days" }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_tomato",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "tomato seeds" },
     "description": "Some tomato seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -223,7 +224,7 @@
     "type": "COMESTIBLE",
     "id": "seed_broccoli",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "broccoli seeds" },
     "description": "Some broccoli seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -233,7 +234,7 @@
     "type": "COMESTIBLE",
     "id": "seed_zucchini",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "zucchini seeds" },
     "description": "Some zucchini seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -243,7 +244,7 @@
     "type": "COMESTIBLE",
     "id": "seed_onion",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "onion seeds" },
     "description": "Some onion seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -253,7 +254,7 @@
     "type": "COMESTIBLE",
     "id": "seed_garlic",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "garlic seeds" },
     "description": "Some garlic seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -313,7 +314,8 @@
     "calories": 25,
     "description": "Boiled lotus seeds, with a soft taste.",
     "material": [ "veggy" ],
-    "volume": "100 ml"
+    "volume": "100 ml",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -351,7 +353,7 @@
     "type": "COMESTIBLE",
     "id": "seed_wildcarrot",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "wild root seeds" },
     "description": "Some seeds from a white flower.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -381,7 +383,7 @@
     "type": "COMESTIBLE",
     "id": "seed_carrot",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "carrot seeds" },
     "description": "Some carrot seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -402,7 +404,7 @@
     "type": "COMESTIBLE",
     "id": "seed_chili_pepper",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "chili pepper seeds" },
     "color": "white",
     "description": "Some chili pepper seeds.",
@@ -420,10 +422,20 @@
     "id": "seed_cucumber",
     "copy-from": "seed",
     "price": 50,
-    "name": { "str_sp": "cucumber seeds" },
-    "description": "Some cucumber seeds.",
+    "name": { "str_sp": "salad cucumber seeds" },
+    "description": "Some salad cucumber seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": "60 days" }
+    "seed_data": { "plant_name": "salad cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": "60 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_gherkin",
+    "copy-from": "seed",
+    "price": 50,
+    "name": { "str_sp": "gherkin cucumber seeds" },
+    "description": "Some gherkin cucumber seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "gherkin cucumber", "fruit": "gherkin", "byproducts": [ "withered" ], "grow": "60 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -433,9 +445,9 @@
     "calories": 48,
     "volume": "94 ml",
     "weight": "53 g",
-    "price": 0,
+    "price": "0 cent",
     "spoils_in": "1 day",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "name": { "str_sp": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
     "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
@@ -491,7 +503,8 @@
     "volume": "10 ml",
     "fun": 30,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" }
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -513,7 +526,7 @@
     "name": { "str_sp": "soybean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "A pile of dry soybeans.  These are intended for planting, but there's no reason they couldn't be made into food.",
-    "price": 90,
+    "price": "90 cent",
     "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "null", "recipe": "" }
   },
@@ -569,7 +582,7 @@
     "use_action": [ "SEED" ],
     "calories": 65,
     "description": "Some raw pumpkin seeds with the shells on.  Could be fried and eaten.",
-    "price": 100,
+    "price": "1 USD",
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
@@ -847,7 +860,7 @@
     "name": { "str_sp": "datura seeds" },
     "description": "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.",
     "weight": "2 g",
-    "price": 0,
+    "price": "0 cent",
     "stim": 6,
     "healthy": -2,
     "fun": -1,
@@ -859,7 +872,7 @@
     "type": "COMESTIBLE",
     "id": "seed_celery",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "celery seeds" },
     "description": "Some celery seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -903,7 +916,7 @@
     "name": { "str_sp": "fried seeds" },
     "weight": "32 g",
     "color": "yellow",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 150,
@@ -916,7 +929,8 @@
     "volume": "62 ml",
     "flags": [ "SMOKED" ],
     "freezing_point": -274,
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -939,12 +953,13 @@
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": [ "POISON" ],
-    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
+    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "coffee_bean",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "price": "1 cent",
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
@@ -957,7 +972,7 @@
     "addiction_potential": 1,
     "calories": 549,
     "volume": "6 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
     "//": "You can technically eat 20 or 30 coffee beans before getting sick, but any more than that and you'll have a very bad time.  This is a negligible amount of calories so we either need to greatly reduce portion size here or find a way to simulate the agony someone would be in after eating an entire cup of the things.",
     "weight": "106 g"
@@ -967,7 +982,7 @@
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
     "category": "other",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
     "extend": { "flags": [ "RAW" ] }
@@ -1000,7 +1015,7 @@
     "container": "null",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A bunch of dry unpopped corn.  It's intended for planting, but could be put to other uses.",
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -1030,7 +1045,7 @@
     "type": "COMESTIBLE",
     "id": "seed_bell_pepper",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "bell pepper seeds" },
     "description": "Some bell pepper seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -1040,7 +1055,7 @@
     "type": "COMESTIBLE",
     "id": "seed_bottle_gourd",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "bottle gourd seeds" },
     "description": "Some bottle gourd seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -1056,7 +1071,7 @@
     "type": "COMESTIBLE",
     "id": "seed_eggplant",
     "copy-from": "seed",
-    "price": 70,
+    "price": "70 cent",
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
     "seed_data": { "plant_name": "eggplant", "fruit": "eggplant", "seeds": false, "byproducts": [ "withered" ], "grow": "60 days" }

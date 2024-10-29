@@ -1,0 +1,32 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_bellringer_application_monster",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "and": [ { "u_has_trait": "perk_bellringer" }, { "or": [ { "npc_has_effect": "dazed" }, { "npc_has_effect": "stunned" } ] } ]
+    },
+    "effect": [ { "npc_add_effect": "effect_perk_bellringer", "duration": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_bellringer_application_character",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": {
+      "and": [ { "u_has_trait": "perk_bellringer" }, { "or": [ { "npc_has_effect": "dazed" }, { "npc_has_effect": "stunned" } ] } ]
+    },
+    "effect": [ { "npc_add_effect": "effect_perk_bellringer", "duration": 1 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_bellringer",
+    "name": [ "Bell-ringing" ],
+    "desc": [ "This is really going to hurt.  Applied to targets of the Bellringer perk." ],
+    "apply_message": "",
+    "rating": "bad",
+    "max_duration": "1 s",
+    "enchantments": [ { "values": [ { "value": "ARMOR_BASH", "multiply": -0.33 } ] } ]
+  }
+]

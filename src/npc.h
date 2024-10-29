@@ -25,7 +25,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -39,6 +39,7 @@
 #include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc_attack.h"
+#include "npc_opinion.h"
 #include "pimpl.h"
 #include "point.h"
 #include "sounds.h"
@@ -57,8 +58,8 @@ class npc_class;
 class talker;
 class vehicle;
 
-constexpr int8_t NPC_PERSONALITY_MIN = -10;
-constexpr int8_t NPC_PERSONALITY_MAX = 10;
+constexpr int NPC_PERSONALITY_MIN = -10;
+constexpr int NPC_PERSONALITY_MAX = 10;
 constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
 constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
@@ -228,43 +229,6 @@ struct npc_personality {
     void serialize( JsonOut &json ) const;
     void deserialize( const JsonObject &data );
 };
-
-struct npc_opinion {
-    int trust;
-    int fear;
-    int value;
-    int anger;
-    int owed; // Positive when the npc owes the player. Negative if player owes them.
-    int sold; // Total value of goods sold/donated by player to the npc. Cannot be negative.
-
-    npc_opinion() {
-        trust = 0;
-        fear  = 0;
-        value = 0;
-        anger = 0;
-        owed  = 0;
-        sold = 0;
-    }
-
-    npc_opinion &operator+=( const npc_opinion &rhs ) {
-        trust += rhs.trust;
-        fear  += rhs.fear;
-        value += rhs.value;
-        anger += rhs.anger;
-        owed  += rhs.owed;
-        sold  += rhs.sold;
-        return *this;
-    }
-
-    npc_opinion operator+( const npc_opinion &rhs ) {
-        return npc_opinion( *this ) += rhs;
-    }
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( const JsonObject &data );
-};
-
-
 
 enum class combat_engagement : int {
     NONE = 0,
@@ -532,6 +496,7 @@ struct npc_follower_rules {
     void clear_override( ally_rule clearit );
 
     void set_danger_overrides();
+    void clear_flags();
     void clear_overrides();
 };
 
@@ -818,9 +783,11 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID(),
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void catchup_skills();
         void apply_ownership_to_inv();
         void clear_personality_traits();
         void generate_personality_traits();
+        void randomize_personality();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
@@ -872,6 +839,7 @@ class npc : public Character
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
+        std::string display_name( bool possessive = false ) const;
         std::string name_and_activity() const;
         std::string name_and_maybe_activity() const override;
         /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
@@ -1011,7 +979,7 @@ class npc : public Character
         Creature *current_target();
         const Creature *current_ally() const;
         Creature *current_ally();
-        tripoint good_escape_direction( bool include_pos = true );
+        tripoint_bub_ms good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
         float danger_assessment() const;
@@ -1112,7 +1080,9 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
+        // TODO: Get rid of untyped overload
         bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
@@ -1130,7 +1100,7 @@ class npc : public Character
         // among the different attack methods the npc has available, what's the best one in the current situation?
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
-        void evaluate_best_weapon( const Creature *target );
+        void evaluate_best_attack( const Creature *target );
         float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
@@ -1146,6 +1116,10 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
+        // Returns score for how well this weapon might kill things
+        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
+        // Returns best weapon. Can return null (fists)
+        item *evaluate_best_weapon() const;
         // Returns true if did wield it
         bool wield_better_weapon();
 
@@ -1156,7 +1130,7 @@ class npc : public Character
         int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         void invalidate_range_cache();
-        bool wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const;
+        bool wont_hit_friend( const tripoint_bub_ms &tar, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
         /** Can reload currently wielded gun? */
         bool can_reload_current();
@@ -1183,23 +1157,22 @@ class npc : public Character
          * @param force If there is no valid path, empty the current path.
          * @returns If it updated the path.
          */
-        // TODO: Remove untyped version.
-        bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
         bool update_path( const tripoint_bub_ms &p, bool no_bashing = false, bool force = true );
         void set_guard_pos( const tripoint_abs_ms &p );
-        bool can_open_door( const tripoint &p, bool inside ) const;
-        bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+        bool can_open_door( const tripoint_bub_ms &p, bool inside ) const;
+        bool can_move_to( const tripoint_bub_ms &p, bool no_bashing = false ) const;
 
         // nomove is used to resolve recursive invocation
-        void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
+        void move_to( const tripoint_bub_ms &p, bool no_bashing = false,
+                      std::set<tripoint_bub_ms> *nomove = nullptr );
         // Next in <path>
         void move_to_next();
         // Maneuver so we won't shoot u
         void avoid_friendly_fire();
         void escape_explosion();
         // nomove is used to resolve recursive invocation
-        void move_away_from( const tripoint &p, bool no_bash_atk = false,
-                             std::set<tripoint> *nomove = nullptr );
+        void move_away_from( const tripoint_bub_ms &p, bool no_bash_atk = false,
+                             std::set<tripoint_bub_ms> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         // workers at camp relaxing/wandering
         void worker_downtime();
@@ -1211,7 +1184,7 @@ class npc : public Character
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
 
         // Item discovery and fetching
 
@@ -1222,13 +1195,13 @@ class npc : public Character
         // Consider hoarding
         bool wants_take_that( const item &it );
         // Consider a life of crime
-        bool would_take_that( const item &it, const tripoint &p );
+        bool would_take_that( const item &it, const tripoint_bub_ms &p );
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
         /** Picks up items and returns a list of them. */
-        std::list<item> pick_up_item_map( const tripoint &where );
+        std::list<item> pick_up_item_map( const tripoint_bub_ms &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
         bool has_item_whitelist() const;
@@ -1292,7 +1265,7 @@ class npc : public Character
 
         bool query_yn( const std::string &mes ) const override;
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
         std::string get_epilogue() const;
 
         std::pair<std::string, nc_color> hp_description() const;
@@ -1358,8 +1331,11 @@ class npc : public Character
         // Player orders a friendly NPC to move to this position
         std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
-        const item *wanted_item = nullptr;
-        tripoint wanted_item_pos; // The square containing an item we want
+
+        //Safe reference to an item at a specific location in case it gets deleted before pickup
+        item_location wanted_item = {};
+
+        tripoint_bub_ms wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;
         // This is the spot the NPC wants to move to to sit and relax.
@@ -1380,7 +1356,7 @@ class npc : public Character
         bool has_new_items = false; // If true, we have something new and should re-equip
         int  worst_item_value = 0; // The value of our least-wanted item
 
-        std::vector<tripoint> path; // Our movement plans
+        std::vector<tripoint_bub_ms> path; // Our movement plans
 
         // Personality & other defining characteristics
         std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
@@ -1458,9 +1434,7 @@ class npc : public Character
         // Temporary variable for preventing from death (used by EoC event)
         bool prevent_death_reminder = false; // NOLINT(cata-serialize)
 
-        bool sees_dangerous_field( const tripoint &p ) const;
-        // TODO: Remove untyped version.
-        bool could_move_onto( const tripoint &p ) const;
+        bool sees_dangerous_field( const tripoint_bub_ms &p ) const;
         bool could_move_onto( const tripoint_bub_ms &p ) const;
 
         std::vector<sphere> find_dangerous_explosives() const;
@@ -1490,6 +1464,7 @@ class npc_template
         dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;
+        translation temp_suffix;
         enum class gender : int {
             random,
             male,
@@ -1504,7 +1479,7 @@ class npc_template
         std::optional<int> per;
         std::optional<npc_personality> personality;
 
-        static void load( const JsonObject &jsobj );
+        static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
 };

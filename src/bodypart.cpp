@@ -1,19 +1,25 @@
 #include "bodypart.h"
 
-#include <cstdlib>
+#include <algorithm>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "assign.h"
 #include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "subbodypart.h"
+#include "init.h"
 #include "json.h"
+#include "json_error.h"
+#include "localized_comparator.h"
 #include "rng.h"
+#include "subbodypart.h"
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
@@ -596,9 +602,19 @@ bool body_part_type::has_limb_score( const limb_score_id &id ) const
     return limb_scores.count( id );
 }
 
+damage_instance body_part_type::unarmed_damage_instance() const
+{
+    return damage;
+}
+
 float body_part_type::unarmed_damage( const damage_type_id &dt ) const
 {
     return damage.type_damage( dt );
+}
+
+float body_part_type::total_unarmed_damage() const
+{
+    return damage.total_damage();
 }
 
 float body_part_type::unarmed_arpen( const damage_type_id &dt ) const

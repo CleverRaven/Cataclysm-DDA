@@ -2,14 +2,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
@@ -38,13 +41,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_FLEXIBILITY",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_flexibility')", "<=", "0" ] },
@@ -66,14 +75,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_DASH",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -110,14 +122,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ARMOR_SKIN",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -156,14 +171,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_CLIMATE_CONTROL",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -197,14 +215,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ADRENALINE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -238,14 +259,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ENHANCE_MOBILITY",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -286,14 +310,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_HAMMERHAND",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
@@ -322,14 +349,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_REFLEX_ENHANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
@@ -364,14 +394,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_SEALED_SYSTEM",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -410,14 +443,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_METABOLISM_ENHANCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
@@ -451,14 +487,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_COMBAT_DANCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
@@ -493,14 +532,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_PERFECTED_MOTION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
@@ -529,14 +571,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_HURRICANE_BLOWS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "10" ] },

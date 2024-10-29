@@ -27,13 +27,13 @@
       "]": "t_sidewalk",
       "*": "t_region_shrub_decorative",
       "?": [ "t_region_shrub_decorative", "t_region_tree_shade", "t_tree_dead_warped" ],
-      "A": "t_atm",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "e": "t_elevator",
       "@": "t_elevator_control_off"
     },
     "furniture": {
+      "A": "f_atm_off",
       "&": "f_trashcan",
       "{": "f_glass_fridge",
       "1": [ "f_indoor_plant", "f_indoor_plant_y" ],

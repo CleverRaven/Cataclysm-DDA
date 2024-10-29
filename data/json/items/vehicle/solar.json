@@ -19,8 +19,8 @@
     "volume": "12500 ml",
     "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 1000,
+    "price": "900 USD",
+    "price_postapoc": "10 USD",
     "melee_damage": { "bash": 1 }
   },
   {
@@ -49,8 +49,8 @@
     "volume": "7473 ml",
     "longest_side": "53 cm",
     "use_action": { "type": "deploy_appliance", "base": "folding_solar_panel_deployed" },
-    "price": 28000,
-    "price_postapoc": 500
+    "price": "280 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "type": "MAGAZINE",
@@ -81,8 +81,8 @@
     "volume": "39400 ml",
     "longest_side": "83 cm",
     "use_action": { "type": "deploy_appliance", "base": "folding_solar_panel_v2_deployed" },
-    "price": 32000,
-    "price_postapoc": 2000
+    "price": "320 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "type": "MAGAZINE",
@@ -107,8 +107,8 @@
     "color": "light_blue",
     "material": [ "glass", "steel" ],
     "volume": "6500 ml",
-    "price": 120000,
-    "price_postapoc": 1500,
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "solar_panel"
   },
   {
@@ -117,8 +117,8 @@
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
-    "price": 190000,
-    "price_postapoc": 3000,
+    "price": "1 kUSD 900 USD",
+    "price_postapoc": "30 USD",
     "copy-from": "solar_panel"
   },
   {
@@ -135,8 +135,8 @@
     "id": "reinforced_solar_panel_v2",
     "name": { "str": "advanced reinforced solar panel" },
     "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
-    "price": 240000,
-    "price_postapoc": 3500,
+    "price": "2 kUSD 400 USD",
+    "price_postapoc": "35 USD",
     "copy-from": "reinforced_solar_panel"
   },
   {
@@ -148,8 +148,8 @@
     "symbol": ";",
     "volume": "250 ml",
     "category": "spare_parts",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "solar_panel"
   },
   {
@@ -157,8 +157,8 @@
     "id": "solar_cell_v2",
     "name": { "str": "advanced solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-performance type made of monocrystalline silicon.",
-    "price": 15000,
-    "price_postapoc": 300,
+    "price": "150 USD",
+    "price_postapoc": "3 USD",
     "copy-from": "solar_cell"
   }
 ]

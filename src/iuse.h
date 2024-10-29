@@ -80,6 +80,9 @@ std::optional<int> call_of_tindalos( Character *, item *, const tripoint & );
 std::optional<int> camera( Character *, item *, const tripoint & );
 std::optional<int> can_goo( Character *, item *, const tripoint & );
 std::optional<int> capture_monster_act( Character *, item *, const tripoint & );
+std::optional<int> heat_solid_items( Character *p, item *it, const tripoint & );
+std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint & );
+std::optional<int> heat_all_items( Character *p, item *it, const tripoint & );
 std::optional<int> capture_monster_veh( Character *, item *, const tripoint & );
 std::optional<int> change_eyes( Character *, item *, const tripoint & );
 std::optional<int> change_skin( Character *, item *, const tripoint & );
@@ -123,7 +126,6 @@ std::optional<int> gun_repair( Character *, item *, const tripoint & );
 std::optional<int> gunmod_attach( Character *, item *, const tripoint & );
 std::optional<int> hacksaw( Character *, item *, const tripoint &it_pnt );
 std::optional<int> hairkit( Character *, item *, const tripoint & );
-std::optional<int> hammer( Character *, item *, const tripoint & );
 std::optional<int> hand_crank( Character *, item *, const tripoint & );
 std::optional<int> heat_food( Character *, item *, const tripoint & );
 std::optional<int> heatpack( Character *, item *, const tripoint & );
@@ -135,6 +137,7 @@ std::optional<int> lumber( Character *, item *, const tripoint & );
 std::optional<int> ma_manual( Character *, item *, const tripoint & );
 std::optional<int> magic_8_ball( Character *, item *, const tripoint & );
 std::optional<int> measure_resonance( Character *, item *, const tripoint & );
+std::optional<int> change_outfit( Character *, item *, const tripoint & );
 std::optional<int> electricstorage( Character *, item *, const tripoint & );
 std::optional<int> ebooksave( Character *, item *, const tripoint & );
 std::optional<int> ebookread( Character *, item *, const tripoint & );
@@ -194,6 +197,7 @@ std::optional<int> wash_hard_items( Character *, item *, const tripoint & );
 std::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
 std::optional<int> wash_soft_items( Character *, item *, const tripoint & );
 std::optional<int> water_purifier( Character *, item *, const tripoint & );
+std::optional<int> water_tablets( Character *, item *, const tripoint & );
 std::optional<int> weak_antibiotic( Character *, item *, const tripoint & );
 std::optional<int> weather_tool( Character *, item *, const tripoint & );
 std::optional<int> sextant( Character *, item *, const tripoint & );
@@ -221,6 +225,7 @@ std::optional<int> disassemble( Character *, item *, const tripoint & );
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
 void play_music( Character *p, const tripoint &source, int volume, int max_morale );
+std::optional<int> purify_water( Character *p, item *purifier, item_location &water );
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control
@@ -246,6 +251,23 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( const units::volume & );
 
+struct heating_requirements {
+    units::volume volume;
+    int ammo;
+    int time;
+};
+struct heater {
+    item_location loc;
+    bool consume_flag;
+    int available_heater;
+    int heating_effect;
+    tripoint_abs_ms vpt;
+    bool pseudo_flag;
+};
+heater find_heater( Character *, item * );
+heating_requirements heating_requirements_for_weight( const units::mass &,
+        const units::mass &, const units::volume & );
+
 using use_function_pointer = std::optional<int> ( * )( Character *, item *,
                              const tripoint & );
 
@@ -265,7 +287,7 @@ class iuse_actor
         int cost;
 
         virtual ~iuse_actor() = default;
-        virtual void load( const JsonObject &jo ) = 0;
+        virtual void load( const JsonObject &jo, const std::string &src ) = 0;
         virtual std::optional<int> use( Character *, item &, const tripoint & ) const = 0;
         virtual ret_val<void> can_use( const Character &, const item &, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
@@ -308,7 +330,9 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
+        // TODO: get rid of untyped overload
         std::optional<int> call( Character *, item &, const tripoint & ) const;
+        std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;
         ret_val<void> can_call( const Character &, const item &, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {

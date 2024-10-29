@@ -1,0 +1,145 @@
+[
+  {
+    "id": "real_knives",
+    "type": "requirement",
+    "//": "Any real, small weapons meant to stab someone at close range; larger shivs basically.",
+    "extend": {
+      "tools": [
+        [
+          [ "glass_knife", -1 ],
+          [ "dreamdross_knife", -1 ],
+          [ "dreamforged_knife_combat", -1 ],
+          [ "dreamforged_kris", -1 ],
+          [ "dreamforged_kukri", -1 ],
+          [ "dreamforged_tanto", -1 ],
+          [ "moons_tears_knife_baselard", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_quarterstaves",
+    "type": "requirement",
+    "//": "Any real, pole-like weapons designed for bashing and smashing.  Reserved for quality items.",
+    "extend": { "tools": [ [ [ "dreamdross_bo", -1 ], [ "dreamforged_q_staff", -1 ], [ "dreamforged_q_staff_exp", -1 ] ] ] }
+  },
+  {
+    "id": "real_great_hammers",
+    "type": "requirement",
+    "//": "Any real great hammers.  It's got to have a big blunt end on a long pole, directly attached to it.",
+    "extend": { "tools": [ [ [ "dreamforged_warhammer", -1 ], [ "dreamforged_lucerne", -1 ] ] ] }
+  },
+  {
+    "id": "real_polearms",
+    "type": "requirement",
+    "//": "Any real, top-heavy cutting weapons with a long pole and a blade on the end, designed to swing side-to-side.  Think like a sword with a really long handle.",
+    "extend": {
+      "tools": [
+        [
+          [ "dreamforged_halberd", -1 ],
+          [ "dreamforged_glaive", -1 ],
+          [ "dreamforged_glaive_healing", -1 ],
+          [ "dreamforged_naginata", -1 ],
+          [ "dreamforged_lucerne", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_hooks",
+    "type": "requirement",
+    "//": "Any quality weapon designed to hook your opponents and their gear in a fight.  Reserved for the good stuff.",
+    "extend": {
+      "tools": [
+        [
+          [ "dreamforged_warhammer", -1 ],
+          [ "dreamforged_halberd", -1 ],
+          [ "dreamforged_glaive", -1 ],
+          [ "dreamforged_glaive_healing", -1 ],
+          [ "dreamforged_battleaxe", -1 ],
+          [ "dreamforged_lucerne", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_spears",
+    "type": "requirement",
+    "//": "Any weapon that features a long pole with a pointed tip at the end.  Reserved for quality weapons.",
+    "extend": { "tools": [ [ [ "dreamforged_spear", -1 ] ] ] }
+  },
+  {
+    "id": "real_maces",
+    "type": "requirement",
+    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independently swing (those are flails).",
+    "extend": {
+      "tools": [ [ [ "redcap_club", -1 ], [ "dreamdross_club", -1 ], [ "dreamforged_mace", -1 ], [ "dreamforged_morningstar", -1 ] ] ]
+    }
+  },
+  {
+    "id": "real_short_swords",
+    "type": "requirement",
+    "//": "Any real, edged short swords you could practice with, like broadswords.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
+    "extend": { "tools": [ [ [ "dreamforged_khopesh", -1 ] ] ] }
+  },
+  {
+    "id": "real_medium_swords",
+    "type": "requirement",
+    "//": "Any real, edged medium swords you could practice with, like cavalry sabres.  This is any sword that is bigger than a short sword, but shorter than a long sword.",
+    "extend": {
+      "tools": [
+        [
+          [ "pooka_gladius", -1 ],
+          [ "dreamforged_arming_sword", -1 ],
+          [ "dreamforged_broadsword", -1 ],
+          [ "dreamforged_tsurugi_speed", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_long_swords",
+    "type": "requirement",
+    "//": "Any real, edged long swords you could practice with, like katanas, longswords, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
+    "extend": {
+      "tools": [
+        [
+          [ "mirror_march_estoc", -1 ],
+          [ "winter_lord_estoc", -1 ],
+          [ "dreamforged_longsword", -1 ],
+          [ "dreamforged_katana", -1 ],
+          [ "dreamforged_wakizashi", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_great_swords",
+    "type": "requirement",
+    "//": "Any real, edged, big swords you could practice with, like zweihanders, greatswords, or the Dragonslayer, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side, and is large enough to require a normal human to use two hands can qualify.",
+    "extend": { "tools": [ [ [ "dreamforged_nodachi", -1 ], [ "dreamforged_zweihander", -1 ] ] ] }
+  },
+  {
+    "id": "real_thrusting_swords",
+    "type": "requirement",
+    "//": "Any real, quality weapon designed to be used in a thrusting fashion.  Needs to be a sword, not a spear.  This includes fencing weaponry.",
+    "extend": {
+      "tools": [
+        [
+          [ "mirror_march_estoc", -1 ],
+          [ "winter_lord_estoc", -1 ],
+          [ "dreamforged_estoc", -1 ],
+          [ "dreamforged_broadsword", -1 ],
+          [ "dreamforged_tsurugi_speed", -1 ],
+          [ "dreamforged_rapier", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_great_axes",
+    "type": "requirement",
+    "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
+    "extend": { "tools": [ [ [ "dreamforged_battleaxe", -1 ] ] ] }
+  }
+]

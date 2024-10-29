@@ -18,8 +18,10 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "magic.h"
 #include "make_static.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
@@ -217,14 +219,14 @@ bool mut_personality_score::load( const JsonObject &jsobj, const std::string_vie
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, false, "min_aggression", min_aggression, -10 );
-    optional( j, false, "max_aggression", max_aggression, 10 );
-    optional( j, false, "min_bravery", min_bravery, -10 );
-    optional( j, false, "max_bravery", max_bravery, 10 );
-    optional( j, false, "min_collector", min_collector, -10 );
-    optional( j, false, "max_collector", max_collector, 10 );
-    optional( j, false, "min_altruism", min_altruism, -10 );
-    optional( j, false, "max_altruism", max_altruism, 10 );
+    optional( j, false, "min_aggression", min_aggression, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_aggression", max_aggression, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_bravery", min_bravery, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_bravery", max_bravery, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_collector", min_collector, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_collector", max_collector, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_altruism", min_altruism, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_altruism", max_altruism, NPC_PERSONALITY_MAX );
 
     return true;
 }
@@ -299,7 +301,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string &src )
+void mutation_branch::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -318,7 +320,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
-    optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "sleepiness", sleepiness, false );
+    optional( jo, was_loaded, "mana", mana, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -367,6 +370,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "threshold_substitutes", threshold_substitutes );
+    optional( jo, was_loaded, "strict_threshreq", strict_threshreq );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
@@ -438,6 +443,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         std::string enchant_name = "INLINE_ENCH_" + id.str() + "_" + std::to_string( enchant_num++ );
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
+
+    optional( jo, was_loaded, "comfort", comfort );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( s );
@@ -650,6 +657,8 @@ void mutation_branch::check_consistency()
 {
     for( const mutation_branch &mdata : get_all() ) {
         const trait_id &mid = mdata.id;
+        const mod_id &trait_source = mdata.src.back().second;
+        const bool basegame_trait = trait_source.str() == "dda";
         const std::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
@@ -676,10 +685,13 @@ void mutation_branch::check_consistency()
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
+        // Suppress these onload warnings for overlapping mods
         for( const trait_id &replacement : mdata.replacements ) {
             const mutation_branch &rdata = replacement.obj();
+            bool suppressed = rdata.src.back().second != trait_source && !basegame_trait;
             for( const mutation_category_id &cat : rdata.category ) {
-                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() &&
+                    !suppressed ) {
                     debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
                               cat.c_str(), replacement.c_str() );
                 }
@@ -691,11 +703,12 @@ void mutation_branch::check_consistency()
             }
             const mutation_branch &adata = addition.obj();
             bool found = false;
+            bool suppressed = adata.src.back().second != trait_source && !basegame_trait;
             for( const mutation_category_id &cat : adata.category ) {
                 found = found ||
                         std::find( mdata.category.begin(), mdata.category.end(), cat ) != mdata.category.end();
             }
-            if( !found ) {
+            if( !found && !suppressed ) {
                 debugmsg( "categories in mutation %s don't match any category present in additive mutation %s",
                           mid.c_str(), addition.c_str() );
             }
@@ -704,12 +717,14 @@ void mutation_branch::check_consistency()
         for( const mutation_category_id &cat_id : mdata.category ) {
             if( !mdata.prereqs.empty() ) {
                 bool found = false;
+                bool suppressed = false;
                 for( const trait_id &prereq_id : mdata.prereqs ) {
                     const mutation_branch &prereq = prereq_id.obj();
+                    suppressed = suppressed || ( prereq.src.back().second != trait_source && !basegame_trait );
                     found = found ||
                             std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
                 }
-                if( !found ) {
+                if( !found && !suppressed ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 1 prereqs have this category",
                               mid.c_str(), cat_id.c_str() );
                 }
@@ -717,12 +732,14 @@ void mutation_branch::check_consistency()
 
             if( !mdata.prereqs2.empty() ) {
                 bool found = false;
+                bool suppressed = false;
                 for( const trait_id &prereq_id : mdata.prereqs2 ) {
                     const mutation_branch &prereq = prereq_id.obj();
+                    suppressed = suppressed || ( prereq.src.back().second != trait_source && !basegame_trait );
                     found = found ||
                             std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
                 }
-                if( !found ) {
+                if( !found && !suppressed ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 2 prereqs have this category",
                               mid.c_str(), cat_id.c_str() );
                 }
@@ -870,7 +887,7 @@ void dream::load( const JsonObject &jsobj )
     dreams.push_back( newdream );
 }
 
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
     auto trait_sort_key = []( const trait_and_var & t ) {
         return std::make_pair( -t.trait->get_display_color().to_int(), t.name() );
@@ -879,9 +896,23 @@ bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexce
     return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
+{
+    auto trait_sort_key = []( const trait_id & t ) {
+        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    };
+
+    return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
+}
+
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
     return localized_compare( a.name(), b.name() );
+}
+
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+{
+    return localized_compare( a->name(), b->name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )

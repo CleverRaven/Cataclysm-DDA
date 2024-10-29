@@ -127,7 +127,7 @@
     "type": "npc_class",
     "id": "NC_VETERINARIAN",
     "name": { "str": "Veterinarian" },
-    "//": "Reasonably, this class should recieve animal-specific medical proficiencies if they're ever added.",
+    "//": "Reasonably, this class should receive animal-specific medical proficiencies if they're ever added.",
     "job_description": "I'm looking for wounded to help.",
     "traits": [
       { "group": "BG_survival_story_STUCK_IN_TOWN" },
@@ -397,6 +397,17 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_SCAVENGER_EX_PILOT",
+    "name": { "str": "Former Pilot" },
+    "job_description": "I just want to fly away to somewhere better.",
+    "common_spawn_weight": 0.3,
+    "traits": [ { "trait": "BGSS_Lost_Pilot_1" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "proficiencies": [ "prof_helicopter_pilot" ],
+    "skills": [ { "skill": "driving", "bonus": { "rng": [ 3, 5 ] } } ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_HUNTER",
     "name": { "str": "Hunter" },
     "job_description": "I'm tracking game.",
@@ -632,6 +643,30 @@
       { "id": "bio_razors", "chance": 100 },
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CYBORG_RESCUE",
+    "name": { "str": "Cyborg" },
+    "job_description": "I'm transhuman above and beyond.",
+    "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ],
+    "common": false,
+    "worn_override": "NC_ANCILLA_GRUNT_worn",
+    "carry_override": "NC_ANCILLA_GRUNT_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "bionics": [
+      { "id": "bio_armor_head", "chance": 100 },
+      { "id": "bio_armor_torso", "chance": 100 },
+      { "id": "bio_armor_arms", "chance": 100 },
+      { "id": "bio_armor_legs", "chance": 100 },
+      { "id": "bio_armor_eyes", "chance": 100 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_painkiller", "chance": 16 },
+      { "id": "bio_power_storage_mkII", "chance": 90 }
     ]
   },
   {

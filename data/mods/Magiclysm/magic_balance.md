@@ -1,3 +1,29 @@
+## Contents
+
+- [Spells](#spells)
+  - [Difficulty](#difficulty)
+  - [Max Level](#max-level)
+  - [Attack Stats](#attack-stats)
+  - [Energy Source](#energy-source)
+  - [Casting Time](#casting-time)
+  - [Energy Cost](#energy-cost)
+  - [Damage Type](#damage-type)
+  - [Valid Targets](#valid-targets)
+- [Tier Examples](#tier-examples)
+  - [Tier 0](#tier-0)
+  - [Tier 1](#tier-1)
+  - [Tier 2](#tier-2)
+  - [Tier 3](#tier-3)
+- [Spellcasting Proficiencies](#spellcasting-proficiencies)
+  - [Evocation](#evocation)
+  - [Channeling](#channeling)
+  - [Conjuration](#conjuration)
+  - [Enhancement](#enhancement)
+  - [Conveyance](#conveyance)
+  - [Advice for Using Proficiencies in Spells](#advice-for-using-proficiencies-in-spells)
+
+---
+
 # Spells
 Spells are incredibly versatile, and can range wildly depending on the JSON values that are assigned to them. As such, spells can be said to reside in various "tiers" that are based on their stats. The tier of spell is not listed in game, but can be derived based on several factors.
 
@@ -26,7 +52,7 @@ Mana pools can vary, but it is good to balance around the idea that the caster h
 Fields are currently not very flexible; their duration is fixed, and they do not drift unless they are coded to do so. Most fields would bump the tier level, depending on the field, chance, intensity, etc. Some fields may not bump the tier as they are mostly aesthetic (blood, gore, minor heat, etc)
 
 ### Damage Type
-damage type is a key factor in attack spells. Spells that do force damage ignore all armor, and spells that deal cutting, bashing or piercing get blocked by armor. The other damage types get blocked by their associated damage resistance. Until I rewrite the damage function, heat damage also catches the target on fire, cold gets blocked by fire resistance, and the NOBREATHE flag blocks bio damage.
+Damage type is a key factor in attack spells. Spells that do force damage ignore all armor, and spells that deal cutting, bashing or piercing get blocked by armor. The other damage types get blocked by their associated damage resistance. Until I rewrite the damage function, heat damage also catches the target on fire, cold gets blocked by fire resistance, and the NOBREATHE flag blocks bio damage.
 
 ### Valid targets
 if your spell is an attack spell and it ignores yourself or allies, it is automatically better than one that does not. If you can target the ground with an attack spell that has aoe, it means you can target out of line of sight.
@@ -55,3 +81,34 @@ Fireball: This is an iconic spell from many Fantasies, but it earns its place at
 These spells are even more fantastic or highly specialized.
 Translocate Self: This spell has a very niche but powerful spell effect. Even though its casting time precludes it from being cast in combat, its effect allows you to teleport anywhere you created a translocator gate, making it a very useful utility spell. In addition, it is classless, making it even more versatile, useful, and powerful.
 Mana Blast: This spell is like fireball, but its damage is even higher, and in addition does force damage and as such ignores armor. That puts this spell squarely in tier 3 alone.
+
+## Spellcasting Proficiencies
+Spellcasting proficiencies allow mages to specialize in various kinds of magic, across magic classes, based on what those particular spells do. There are currently five proficieny classes; those being Evocation, Channeling, Conjuration, Enhancement, and Conveyance. 
+
+### Evocation
+Evocation covers powerful, short-casting spells that are meant to release large bursts of energy quickly. This covers most offensive spells, such as Magic Missile, Fireball, or Necrotic Gaze. Evocation can also cover non-offensive spells too, so long as they require the caster to pool mana and release it in fast fashion, and their effects aren't covered by one of the other proficiencies. Proficiency in Evocation allows the caster to use mana more efficiently, raising the damage or power of the spell's effect.
+
+### Channeling
+Channeling covers spells that require the caster to focus for long periods of time, slowly building or channeling mana over the course of the spell. This includes most rituals, such as Wash the Wounds Clean, Crystalize Mana, or the assorted rune creation spells. The effects of these spells can be most anything. Proficiency in Channeling will reduce the mana cost of the spell and its casting time.
+
+### Conjuration
+Conjuration encompasses spells that summon something or someone, usually for a set period of time. Most Golemancy is covered by this, along with the Animist's Summon Undead, Ignus Fattus, or the Druid's Nature's Bow. Conjuration specializes in spells that temporarily summon something, rather than permanently creating something, which would be a bit more suited to Channeling. Proficiency in Conjuration will lower the mana cost of spells and improve the duration times of summoned creatures/objects.
+
+### Enhancement
+Enhancement covers spells that improve the target in some way, mentally, physically, or emotionally. While there are many spells in this class, some of them are Cat's Grace, Ogre's Strength, Eagle's Sight, or Feral Form. Note that spells which exclusively heal are not included, as they are fixing something which is damaged, while Enhancement covers spells which improve on the whole. However, if a spell both heals and buffs something, then it should be included in this. Any spells which exclusively debuff or hinder something should also not be included; see below. Proficiency in Enhancement will lower the casting time of spells and improve the duration of enhancement.
+
+### Enervation
+Enervation spells are the opposite of Enhancement, being spells that reduce the capabilities of the target in some way, such as Slow, A Shadow in the Crowd, or Faerie Fire. This includes spells such as Domination or Beguiling the Savage Beast that take control of the target's mind or actions. Spells that do damage as their primary effect but have some debuffing power as an additional ability are not Enervation spells. Proficiency in Enervation will improve the duration of the spell and increase its area of effect.
+
+### Conveyance
+Conveyance encompasses spells which involve translocating, teleporting, or moving the caster/target. Some spells covered are Phase Door, Magus's Mark, Shocking Dash, or Translocate Self. Proficiency in Conveyance will extend the range of the spell and lower the mana cost of the incantation.
+
+## Restoration
+Restoration spells generally return the physical, spiritually, emotional, or magical capabilities of the target to its ideal state. Spells like Cure Light Wounds, Sacrificial Regrowth, Mind over Pain, or Stone's Endurance are all restoration spells. Restoratiojn also has a dark side, however; spells that drain the target of some capability to restore it to the caster are also restoration spells. Proficiency in Restoration will reduce the casting time and increase the amount healed.
+
+## Transformation
+Transformation spells change one thing into another, such as changing a handful of leaves into gold or changing a charging enemy into a housecat. This also includes partial tranformations of the target. Spells like Harvest of the Hunter, Vicious Tentacle, or Convert are transformation spells. Proficiency in Transformation will increase the duration and reduce the casting time. 
+
+### Advice for Using Proficiencies in Spells
+1. When picking a spell category, make sure to add the appropriate flag (such as `CHANNELING_SPELL` or `RESTORATION_SPELL`) and add an `extra_effects` to call the appropriate spell to grant proficiency xp. If you're using multiple subspells, make sure to add the flag to all the subspells as well. 
+2. When working on spells with multiple effects, such as an `extra_effects` entry, be sure to account for all of the sub-spells and have them use the proper `math` functions. Otherwise, your spell won't scale properly.

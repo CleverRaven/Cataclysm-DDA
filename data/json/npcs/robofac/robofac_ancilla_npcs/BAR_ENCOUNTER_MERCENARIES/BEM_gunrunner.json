@@ -53,7 +53,7 @@
     "id": [ "BEM_GUNRUNNER_1" ],
     "type": "talk_topic",
     "dynamic_line": "&You find the gun runner intently assessing the swirling smoke of a stale cigarette.  <mypronoun> barely acknowledges your approach.  \"Let's cut it short, I have come upon an excess supply of exotic weaponry and let's say that it would be expedient for it to disappear and you seem like just the kind of person I'm looking for.\" .\n\n<mypronoun> hands you an inventory list, loosely annotated in a piece of graph paper.\n\n\"No harm in looking right?",
-    "speaker_effect": { "effect": [ { "npc_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" } ] },
+    "speaker_effect": { "effect": [ { "npc_add_var": "bool_ancilla_barkeep", "value": "yes" } ] },
     "responses": [
       { "text": "Sure, let's see what you have to offer.", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }

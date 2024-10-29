@@ -5,7 +5,7 @@
     "om_terrain": [ [ "bandit_camp_1", "bandit_camp_2" ], [ "bandit_camp_3", "bandit_camp_4" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_floor",
       "faction_owner": [
         { "id": "hells_raiders", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "id": "hells_raiders", "x": [ 24, 47 ], "y": [ 24, 47 ] },

@@ -38,41 +38,41 @@
     "padding": 0
   },
   {
-    "id": "zenfs_fatigue_bar",
+    "id": "zenfs_sleepiness_bar",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_bar_12" ]
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_bar_12" ]
   },
   {
-    "id": "zenfs_fatigue_bar_slim",
+    "id": "zenfs_sleepiness_bar_slim",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_bar_14" ]
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_bar_14" ]
   },
   {
-    "id": "zenfs_fatigue_desc",
+    "id": "zenfs_sleepiness_desc",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_desc_no_label" ],
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_desc_no_label" ],
     "padding": 0
   },
   {
-    "id": "zenfs_fatigue_desc_F",
+    "id": "zenfs_sleepiness_desc_F",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_fatigue_label_F", "zenfs_fatigue_desc_no_label" ],
+    "widgets": [ "zenfs_sleepiness_label_F", "zenfs_sleepiness_desc_no_label" ],
     "padding": 0
   },
   {
-    "id": "zenfs_fatigue_num",
+    "id": "zenfs_sleepiness_num",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_num_no_label" ],
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_num_no_label" ],
     "padding": 0
   },
   {
@@ -157,17 +157,17 @@
     "padding": 0
   },
   {
-    "id": "zenfs_fatigue_bar_template",
+    "id": "zenfs_sleepiness_bar_template",
     "type": "widget",
-    "var": "fatigue",
+    "var": "sleepiness",
     "style": "graph",
     "symbols": "·−=≡≣",
     "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ]
   },
   {
-    "id": "zenfs_fatigue_num_no_label",
+    "id": "zenfs_sleepiness_num_no_label",
     "type": "widget",
-    "var": "fatigue",
+    "var": "sleepiness",
     "style": "number",
     "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ],
     "text_align": "right",
@@ -175,19 +175,19 @@
     "padding": 0
   },
   {
-    "id": "zenfs_fatigue_bar_12",
+    "id": "zenfs_sleepiness_bar_12",
     "type": "widget",
-    "copy-from": "zenfs_fatigue_bar_template",
+    "copy-from": "zenfs_sleepiness_bar_template",
     "width": 12
   },
   {
-    "id": "zenfs_fatigue_bar_14",
+    "id": "zenfs_sleepiness_bar_14",
     "type": "widget",
-    "copy-from": "zenfs_fatigue_bar_template",
+    "copy-from": "zenfs_sleepiness_bar_template",
     "width": 14
   },
   {
-    "id": "zenfs_fatigue_desc_no_label",
+    "id": "zenfs_sleepiness_desc_no_label",
     "type": "widget",
     "style": "text",
     "text_align": "right",
@@ -197,31 +197,31 @@
         "id": "well_rested",
         "text": "Well Rested",
         "color": "blue",
-        "condition": { "math": [ "u_val('fatigue')", "<", "95" ] }
+        "condition": { "math": [ "u_val('sleepiness')", "<", "95" ] }
       },
       {
         "id": "rested",
         "text": "Rested",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "95" ] }, { "math": [ "u_val('fatigue')", "<", "191" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "95" ] }, { "math": [ "u_val('sleepiness')", "<", "191" ] } ] }
       },
       {
         "id": "tired",
         "text": "Tired",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "191" ] }, { "math": [ "u_val('sleepiness')", "<", "383" ] } ] }
       },
       {
         "id": "dead_tired",
         "text": "Dead Tired",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "383" ] }, { "math": [ "u_val('sleepiness')", "<", "575" ] } ] }
       },
       {
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
+        "condition": { "math": [ "u_val('sleepiness')", ">=", "575" ] }
       }
     ],
     "padding": 0
@@ -241,7 +241,7 @@
     "width": 4
   },
   {
-    "id": "zenfs_fatigue_label_F",
+    "id": "zenfs_sleepiness_label_F",
     "type": "widget",
     "style": "text",
     "string": "F",
@@ -250,14 +250,14 @@
     "flags": [ "W_NO_PADDING" ]
   },
   {
-    "id": "zenfs_fatigue_bar_label",
+    "id": "zenfs_sleepiness_bar_label",
     "type": "widget",
     "style": "text",
-    "string": "Fatigue",
-    "width": 7
+    "string": "Sleepiness",
+    "width": 10
   },
   {
-    "id": "zenfs_fatigue_num_label",
+    "id": "zenfs_sleepiness_num_label",
     "type": "widget",
     "style": "text",
     "string": "Fatig",

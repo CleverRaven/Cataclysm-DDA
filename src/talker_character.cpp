@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "avatar.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "effect.h"
@@ -129,6 +130,12 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam ) const
+{
+    return source->deal_damage( source, bp, dam );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;
@@ -214,6 +221,23 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+int talker_character_const::get_total_in_category( const mutation_category_id &categ,
+        mut_count_type count_type ) const
+{
+    return me_chr_const->get_total_in_category( categ, count_type );
+}
+
+int talker_character_const::get_total_in_category_char_has( const mutation_category_id &categ,
+        mut_count_type count_type ) const
+{
+    return me_chr_const->get_total_in_category_char_has( categ, count_type );
+}
+
+bool talker_character_const::is_trait_purifiable( const trait_id &trait_to_check ) const
+{
+    return me_chr_const->purifiable( trait_to_check );
+}
+
 bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
 {
     return me_chr_const->knows_recipe( &*recipe_to_check );
@@ -254,6 +278,22 @@ void talker_character::mutate_towards( const trait_id &trait, const mutation_cat
                                        const bool &use_vitamins )
 {
     me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
+}
+
+void talker_character::set_trait_purifiability( const trait_id &trait, const bool &purifiable )
+{
+    // If we want to set it non-purifiable and we didn't already do that and we really do have the trait
+    if( me_chr->has_trait( trait ) ) {
+        if( !purifiable && !me_chr->my_intrinsic_mutations.count( trait ) ) {
+            me_chr->my_intrinsic_mutations.insert( trait );
+            add_msg_debug( debugmode::DF_MUTATION, "Setting trait %s unpurifiable", trait.c_str() );
+        };
+        // If we want to set it purifiable
+        if( purifiable && me_chr->my_intrinsic_mutations.count( trait ) ) {
+            me_chr->my_intrinsic_mutations.erase( trait );
+            add_msg_debug( debugmode::DF_MUTATION, "Setting trait %s purifiable", trait.c_str() );
+        }
+    }
 }
 
 void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )
@@ -392,6 +432,19 @@ int talker_character_const::get_spell_count( const trait_id &school ) const
     return count;
 }
 
+int talker_character_const::get_spell_sum( const trait_id &school, int min_level ) const
+{
+    int count = 0;
+
+    for( const spell *sp : me_chr_const->magic->get_spells() ) {
+        if( school.is_null() || ( sp->spell_class() == school &&
+                                  sp->get_effective_level() >= min_level ) ) {
+            count = count + sp->get_effective_level() ;
+        }
+    }
+    return count;
+}
+
 void talker_character::set_spell_level( const spell_id &sp, int new_level )
 {
     me_chr->magic->set_spell_level( sp, new_level, me_chr );
@@ -415,6 +468,11 @@ time_duration talker_character_const::proficiency_practiced_time( const proficie
 void talker_character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
 {
     me_chr->set_proficiency_practiced_time( prof, turns );
+}
+
+void talker_character::train_proficiency_for( const proficiency_id &prof, int turns )
+{
+    me_chr->practice_proficiency( prof, time_duration::from_seconds<int>( turns ) );
 }
 
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
@@ -621,9 +679,9 @@ int talker_character_const::get_activity_level() const
     return me_chr_const->activity_level_index();
 }
 
-int talker_character_const::get_fatigue() const
+int talker_character_const::get_sleepiness() const
 {
-    return me_chr_const->get_fatigue();
+    return me_chr_const->get_sleepiness();
 }
 
 int talker_character_const::get_hunger() const
@@ -662,6 +720,10 @@ void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
 }
+void talker_character::mod_stored_kcal( int value, bool ignore_weariness )
+{
+    me_chr->mod_stored_kcal( value, ignore_weariness );
+}
 void talker_character::set_thirst( int value )
 {
     me_chr->set_thirst( value );
@@ -680,6 +742,11 @@ void talker_character::shout( const std::string &speech, bool order )
 int talker_character_const::pain_cur() const
 {
     return me_chr_const->get_pain();
+}
+
+int talker_character_const::perceived_pain_cur() const
+{
+    return me_chr_const->get_perceived_pain();
 }
 
 double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
@@ -721,6 +788,37 @@ bool talker_character_const::wielded_with_weapon_category( const weapon_category
 {
     return me_chr_const->get_wielded_item() &&
            me_chr_const->get_wielded_item()->typeId()->weapon_category.count( w_cat ) > 0;
+}
+
+bool talker_character_const::wielded_with_weapon_skill( const skill_id &w_skill ) const
+{
+    if( me_chr_const->get_wielded_item() ) {
+        item *it = me_chr_const->get_wielded_item().get_item();
+        skill_id it_skill = it->is_gun() ? it->gun_skill() : it->melee_skill();
+        return it_skill == w_skill;
+    } else {
+        return false;
+    }
+}
+
+bool talker_character_const::wielded_with_item_ammotype( const ammotype &w_ammotype ) const
+{
+    if( !me_chr_const->get_wielded_item() ) {
+        return false;
+    }
+    item *it = me_chr_const->get_wielded_item().get_item();
+    if( it->ammo_types().empty() ) {
+        return false;
+    }
+    std::set<ammotype> it_ammotype = it->ammo_types();
+    bool match = false;
+
+    for( ammotype ammo : it_ammotype ) {
+        if( ammo == w_ammotype ) {
+            match = true;
+        }
+    }
+    return match;
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
@@ -775,9 +873,9 @@ bool talker_character_const::can_see_location( const tripoint &pos ) const
     return me_chr_const->sees( pos );
 }
 
-void talker_character::set_fatigue( int amount )
+void talker_character::set_sleepiness( int amount )
 {
-    me_chr->set_fatigue( amount );
+    me_chr->set_sleepiness( amount );
 }
 
 void talker_character::mod_daily_health( int amount, int cap )
@@ -915,6 +1013,11 @@ int talker_character_const::get_bmi_permil() const
 int talker_character_const::get_weight() const
 {
     return units::to_milligram( me_chr_const->get_weight() );
+}
+
+int talker_character_const::get_volume() const
+{
+    return units::to_milliliter( me_chr_const->get_total_volume() );
 }
 
 void talker_character::set_height( int amount )
@@ -1066,14 +1169,15 @@ std::string talker_character_const::proficiency_training_text( const talker &stu
 
     const int cost = calc_proficiency_training_cost( *me_chr_const, *pupil, proficiency );
     const std::string name = proficiency->name();
-    const float pct_before = current_time / time_needed * 100;
-    const float pct_after = ( current_time + 15_minutes ) / time_needed * 100;
+    const float pct_before = current_time * 100.0f / time_needed;
+    const float pct_after = ( current_time + 15_minutes ) * 100.0f / time_needed;
     const std::string after_str = pct_after >= 100.0f ? pgettext( "NPC training: proficiency learned",
                                   "done" ) : string_format( "%2.0f%%", pct_after );
 
     if( cost > 0 ) {
         //~ Proficiency name: (current_practice) -> (next_practice) (cost in dollars)
-        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str, cost );
+        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str,
+                              cost / 100 );
     }
     //~ Proficiency name: (current_practice) -> (next_practice)
     return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
@@ -1192,8 +1296,9 @@ void talker_character::die()
 matec_id talker_character::get_random_technique( Creature &t, bool crit,
         bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
 {
-    return me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter, block_counter,
-                                   blacklist );
+    return std::get<0>( me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter,
+                        block_counter,
+                        blacklist ) );
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,

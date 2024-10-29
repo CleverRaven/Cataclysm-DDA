@@ -12,12 +12,12 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
@@ -55,10 +55,10 @@ static const efftype_id effect_quadruped_full( "quadruped_full" );
 static constexpr int LIGHTMAP_CACHE_X = MAPSIZE_X;
 static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 
-static constexpr point lightmap_boundary_min{};
-static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
+static constexpr point_bub_ms lightmap_boundary_min{};
+static constexpr point_bub_ms lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-static const half_open_rectangle<point> lightmap_boundaries(
+static const half_open_rectangle<point_bub_ms> lightmap_boundaries(
     lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
@@ -68,7 +68,7 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
-void map::add_light_from_items( const tripoint &p, const item_stack &items )
+void map::add_light_from_items( const tripoint_bub_ms &p, const item_stack &items )
 {
     for( const item &it : items ) {
         float ilum = 0.0f; // brightness
@@ -113,14 +113,14 @@ bool map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{smx, smy, zlev} );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           zlev );
                 continue;
             }
 
-            const point sm_offset = sm_to_ms_copy( point( smx, smy ) );
+            const point sm_offset = coords::project_to<coords::ms>( point_rel_sm( smx, smy ) ).raw();
 
             if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
                 continue;
@@ -128,15 +128,15 @@ bool map::build_transparency_cache( const int zlev )
 
             // calculates transparency of a single tile
             // x,y - coords in map local coords
-            auto calc_transp = [&]( const point & p ) {
-                const point sp = p - sm_offset;
+            auto calc_transp = [&]( const point_sm_ms & p ) {
+                const point_sm_ms sp = p - sm_offset;
                 float value = LIGHT_TRANSPARENCY_OPEN_AIR;
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
                        cur_submap->get_furn( sp ).obj().transparent ) ) {
                     return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
                 }
-                if( outside_cache[p.x][p.y] ) {
+                if( outside_cache[p.x()][p.y()] ) {
                     // FIXME: Places inside vehicles haven't been marked as
                     // inside yet so this is incorrectly penalising for
                     // weather in vehicles.
@@ -151,14 +151,15 @@ bool map::build_transparency_cache( const int zlev )
                     // Fields are either transparent or not, however we want some to be translucent
                     value = value * i_level.translucency;
                 }
-                // TODO: [lightmap] Have glass reduce light as well
+                // TODO: [lightmap] Have glass reduce light as well.
+                // Note, binary transluceny is implemented in build_vision_transparency_cache below
                 return std::make_pair( value, value_wo_fields );
             };
 
             if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
-                std::tie( value, dummy ) = calc_transp( sm_offset );
+                std::tie( value, dummy ) = calc_transp( point_sm_ms( sm_offset ) );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
                     bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
@@ -190,37 +191,57 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
-bool map::build_vision_transparency_cache( const int zlev )
+bool map::build_vision_transparency_cache( int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
-    auto &transparency_cache = map_cache.transparency_cache;
-    auto &vision_transparency_cache = map_cache.vision_transparency_cache;
-
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+    cata::mdarray<float, point_bub_ms> &transparency_cache = map_cache.transparency_cache;
+    cata::mdarray<float, point_bub_ms> &vision_transparency_cache = map_cache.vision_transparency_cache;
 
     Character &player_character = get_player_character();
-    const tripoint p = player_character.pos();
+    const tripoint_bub_ms p = player_character.pos_bub();
 
-    if( p.z != zlev ) {
+    if( p.z() != zlev ) {
+        // Just copy the transparency cache and be done with it.
+        memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
         return false;
     }
 
     bool dirty = false;
 
-    bool is_crouching = player_character.is_crouching();
-    bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
-                       player_character.is_running();
-    bool is_prone = player_character.is_prone();
+    std::vector<tripoint_bub_ms> solid_tiles;
 
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( ( is_crouching || is_prone || low_profile ) && coverage( loc ) >= 30 ) {
-            // If we're crouching or prone behind an obstacle, we can't see past it.
-            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            dirty = true;
+    // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
+    // If you change this, also consider creature::sees and map::obstacle_coverage.
+    const bool is_crouching = player_character.is_crouching();
+    const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
+                             player_character.is_running();
+    const bool is_prone = player_character.is_prone();
+
+    if( is_crouching || is_prone || low_profile ) {
+        for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
+            if( loc != p && coverage( loc ) >= 30 ) {
+                // If we're crouching or prone behind an obstacle, we can't see past it.
+                dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
+                solid_tiles.emplace_back( loc );
+            }
         }
+    }
+
+    // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
+        if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) && loc != p ) {
+            dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
+            solid_tiles.emplace_back( loc );
+        }
+    }
+
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
+    // The tile player is standing on should always be visible
+    vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+
+    for( const tripoint_bub_ms loc : solid_tiles ) {
+        vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
     }
 
     return dirty;
@@ -229,17 +250,17 @@ bool map::build_vision_transparency_cache( const int zlev )
 void map::apply_character_light( Character &p )
 {
     if( p.has_effect( effect_onfire ) ) {
-        apply_light_source( p.pos(), 8 );
+        apply_light_source( p.pos_bub(), 8 );
     } else if( p.has_effect( effect_haslight ) ) {
-        apply_light_source( p.pos(), 4 );
+        apply_light_source( p.pos_bub(), 4 );
     }
 
     const float held_luminance = p.active_light();
     if( held_luminance > LIGHT_AMBIENT_LOW ) {
-        apply_light_source( p.pos(), held_luminance );
+        apply_light_source( p.pos_bub(), held_luminance );
     }
 
-    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
+    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos_bub() ) - 0.5f ) {
         p.add_effect( effect_haslight, 1_turns );
     }
 }
@@ -253,7 +274,8 @@ void map::build_sunlight_cache( int pzlev )
     const int zlev_min = -OVERMAP_DEPTH;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int zlev_max = clamp( calc_max_populated_zlev() + 1, pzlev + 1, OVERMAP_HEIGHT );
+    const int zlev_max = clamp( calc_max_populated_zlev() + 1, std::min( pzlev + 1, OVERMAP_HEIGHT ),
+                                OVERMAP_HEIGHT );
 
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
     bool fully_outside = true;
@@ -424,11 +446,11 @@ void map::generate_lightmap( const int zlev )
         apply_character_light( guy );
     }
 
-    std::vector<std::pair<tripoint, float>> lm_override;
+    std::vector<std::pair<tripoint_bub_ms, float>> lm_override;
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{ smx, smy, zlev } );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to generate lightmap at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
                 continue;
@@ -436,25 +458,25 @@ void map::generate_lightmap( const int zlev )
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    const point p2( sx + smx * SEEX, sy + smy * SEEY );
-                    const tripoint p( p2, zlev );
+                    const point_bub_ms p2( sx + smx * SEEX, sy + smy * SEEY );
+                    const tripoint_bub_ms p( p2, zlev );
                     // Project light into any openings into buildings.
-                    if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
+                    if( !outside_cache[p.x()][p.y()] || ( !top_floor && prev_floor_cache[p.x()][p.y()] ) ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
-                            point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
+                            point_bub_ms neighbour = p.xy() + point( dir_x[i], dir_y[i] );
                             if( lightmap_boundaries.contains( neighbour )
-                                && outside_cache[neighbour.x][neighbour.y] &&
-                                ( top_floor || !prev_floor_cache[neighbour.x][neighbour.y] )
+                                && outside_cache[neighbour.x()][neighbour.y()] &&
+                                ( top_floor || !prev_floor_cache[neighbour.x()][neighbour.y()] )
                               ) {
                                 const float source_light =
-                                    std::min( natural_light, lm[neighbour.x][neighbour.y].max() );
+                                    std::min( natural_light, lm[neighbour.x()][neighbour.y()].max() );
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
-                                    update_light_quadrants( lm[p.x][p.y], source_light, quadrant::default_ );
+                                    update_light_quadrants( lm[p.x()][p.y()], source_light, quadrant::default_ );
                                     apply_directional_light( p, dir_d[i], source_light );
                                 } else {
-                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][0] );
-                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][1] );
+                                    update_light_quadrants( lm[p.x()][p.y()], source_light, dir_quadrants[i][0] );
+                                    update_light_quadrants( lm[p.x()][p.y()], source_light, dir_quadrants[i][1] );
                                 }
                             }
                         }
@@ -493,7 +515,7 @@ void map::generate_lightmap( const int zlev )
         if( critter.is_hallucination() ) {
             continue;
         }
-        const tripoint mp = critter.pos();
+        const tripoint_bub_ms mp = critter.pos_bub();
         if( inbounds( mp ) ) {
             if( critter.has_effect( effect_onfire ) ) {
                 apply_light_source( mp, 8 );
@@ -501,8 +523,10 @@ void map::generate_lightmap( const int zlev )
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if( critter.type->luminance > 0 ) {
-                apply_light_source( mp, critter.type->luminance );
+            float critter_luminance = critter.calculate_by_enchantment( critter.type->luminance,
+                                      enchant_vals::mod::LUMINATION, true );
+            if( critter_luminance > 0 ) {
+                apply_light_source( mp, critter_luminance );
             }
         }
     }
@@ -528,7 +552,7 @@ void map::generate_lightmap( const int zlev )
 
         for( const vehicle_part *pt : lights ) {
             const vpart_info &vp = pt->info();
-            tripoint src = v->global_part_pos3( *pt );
+            tripoint_bub_ms src = v->bub_part_pos( *pt );
 
             if( !inbounds( src ) ) {
                 continue;
@@ -552,9 +576,9 @@ void map::generate_lightmap( const int zlev )
                 if( vp.has_flag( VPFLAG_WALL_MOUNTED ) ) {
                     tileray tdir( v->face.dir() + pt->direction );
                     tdir.advance();
-                    tripoint offset = src;
-                    offset.x = src.x + tdir.dx();
-                    offset.y = src.y + tdir.dy();
+                    tripoint_bub_ms offset = src;
+                    offset.x() = src.x() + tdir.dx();
+                    offset.y() = src.y() + tdir.dy();
                     add_light_source( offset, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( offset, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
                 } else {
@@ -577,7 +601,7 @@ void map::generate_lightmap( const int zlev )
         }
 
         for( const vpart_reference &vpr : v->get_any_parts( VPFLAG_CARGO ) ) {
-            const tripoint pos = vpr.pos();
+            const tripoint_bub_ms pos = vpr.pos_bub();
             if( !inbounds( pos ) || vpr.info().has_flag( "COVERED" ) ) {
                 continue;
             }
@@ -590,22 +614,22 @@ void map::generate_lightmap( const int zlev )
         unbuffered: (12^2)*(160*4) = apply_light_ray x 92160
         buffered:   (12*4)*(160)   = apply_light_ray x 7680
     */
-    const tripoint cache_start( 0, 0, zlev );
-    const tripoint cache_end( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y, zlev );
-    for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-        if( light_source_buffer[p.x][p.y] > 0.0 ) {
-            apply_light_source( p, light_source_buffer[p.x][p.y] );
+    const tripoint_bub_ms cache_start( 0, 0, zlev );
+    const tripoint_bub_ms cache_end( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y, zlev );
+    for( const tripoint_bub_ms &p : points_in_rectangle( cache_start, cache_end ) ) {
+        if( light_source_buffer[p.x()][p.y()] > 0.0 ) {
+            apply_light_source( p, light_source_buffer[p.x()][p.y()] );
         }
     }
-    for( const std::pair<tripoint, float> &elem : lm_override ) {
-        lm[elem.first.x][elem.first.y].fill( elem.second );
+    for( const std::pair<tripoint_bub_ms, float> &elem : lm_override ) {
+        lm[elem.first.x()][elem.first.y()].fill( elem.second );
     }
 }
 
-void map::add_light_source( const tripoint &p, float luminance )
+void map::add_light_source( const tripoint_bub_ms &p, float luminance )
 {
-    auto &light_source_buffer = get_cache( p.z ).light_source_buffer;
-    light_source_buffer[p.x][p.y] = std::max( luminance, light_source_buffer[p.x][p.y] );
+    auto &light_source_buffer = get_cache( p.z() ).light_source_buffer;
+    light_source_buffer[p.x()][p.y()] = std::max( luminance, light_source_buffer[p.x()][p.y()] );
 }
 
 // Tile light/transparency: 3D
@@ -635,46 +659,46 @@ lit_level map::light_at( const tripoint &p ) const
     return lit_level::DARK;
 }
 
-float map::ambient_light_at( const tripoint &p ) const
+float map::ambient_light_at( const tripoint_bub_ms &p ) const
 {
-    if( !inbounds( p ) ) {
+    if( !this->inbounds( p ) ) {
         return 0.0f;
     }
 
-    return get_cache_ref( p.z ).lm[p.x][p.y].max();
+    return get_cache_ref( p.z() ).lm[p.x()][p.y()].max();
 }
 
-bool map::is_transparent( const tripoint &p ) const
+bool map::is_transparent( const tripoint_bub_ms &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
-bool map::is_transparent_wo_fields( const tripoint &p ) const
+bool map::is_transparent_wo_fields( const tripoint_bub_ms &p ) const
 {
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
+    return get_cache_ref( p.z() ).transparent_cache_wo_fields[p.x()][p.y()];
 }
 
-float map::light_transparency( const tripoint &p ) const
+float map::light_transparency( const tripoint_bub_ms &p ) const
 {
-    return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
+    return get_cache_ref( p.z() ).transparency_cache[p.x()][p.y()];
 }
 
 // End of tile light/transparency
 
 map::apparent_light_info map::apparent_light_helper( const level_cache &map_cache,
-        const tripoint &p )
+        const tripoint_bub_ms &p )
 {
     avatar const &u = get_avatar();
-    const int dist = rl_dist( u.pos(), p );
+    const int dist = rl_dist( u.pos_bub(), p );
     const float abs_vis =
-        std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
-    const float vis = dist > u.unimpaired_range() ? map_cache.camera_cache[p.x][p.y] : abs_vis;
+        std::max( map_cache.seen_cache[p.x()][p.y()], map_cache.camera_cache[p.x()][p.y()] );
+    const float vis = dist > u.unimpaired_range() ? map_cache.camera_cache[p.x()][p.y()] : abs_vis;
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
     const bool abs_obstructed = abs_vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( const point & p ) {
-        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
-               map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
+    auto is_opaque = [&map_cache]( const point_bub_ms & p ) {
+        return map_cache.transparency_cache[p.x()][p.y()] <= LIGHT_TRANSPARENCY_SOLID &&
+               map_cache.vision_transparency_cache[p.x()][p.y()] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
     // possibly reduce view if aiming (also blocks light)
@@ -709,7 +733,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
         four_quadrants seen_from( 0 );
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
-            const point neighbour = p.xy() + oq.offset;
+            const point_bub_ms neighbour = p.xy() + oq.offset;
 
             if( !lightmap_boundaries.contains( neighbour ) ) {
                 continue;
@@ -717,10 +741,10 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( is_opaque( neighbour ) ) {
                 continue;
             }
-            if( ( rl_dist( u.pos().xy(), neighbour ) > u.unimpaired_range() &&
-                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ||
-                ( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
-                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ) {
+            if( ( rl_dist( u.pos_bub().xy(), neighbour ) > u.unimpaired_range() &&
+                  map_cache.camera_cache[neighbour.x()][neighbour.y()] == 0 ) ||
+                ( map_cache.seen_cache[neighbour.x()][neighbour.y()] == 0 &&
+                  map_cache.camera_cache[neighbour.x()][neighbour.y()] == 0 ) ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -728,19 +752,25 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             seen_from[oq.quadrants[0]] = vis;
             seen_from[oq.quadrants[1]] = vis;
         }
-        apparent_light = ( seen_from * map_cache.lm[p.x][p.y] ).max();
+        apparent_light = ( seen_from * map_cache.lm[p.x()][p.y()] ).max();
     } else {
         // This is the simple case, for a non-opaque tile light from all
         // directions is equivalent
-        apparent_light = vis * map_cache.lm[p.x][p.y].max();
+        apparent_light = vis * map_cache.lm[p.x()][p.y()].max();
     }
     return { obstructed, abs_obstructed, apparent_light };
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
 {
+    return apparent_light_at( tripoint_bub_ms( p ), cache );
+}
+
+lit_level map::apparent_light_at( const tripoint_bub_ms &p,
+                                  const visibility_variables &cache ) const
+{
     Character &player_character = get_player_character();
-    const int dist = rl_dist( player_character.pos(), p );
+    const int dist = rl_dist( player_character.pos_bub(), p );
 
     // Clairvoyance overrides everything.
     if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
@@ -749,13 +779,13 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( cache.clairvoyance_field && field_at( p ).find_field( *cache.clairvoyance_field ) ) {
         return lit_level::BRIGHT;
     }
-    const level_cache &map_cache = get_cache_ref( p.z );
+    const level_cache &map_cache = get_cache_ref( p.z() );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources
-    if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x][p.y] == 0.0 ) {
-        if( !a.abs_obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
+    if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x()][p.y()] == 0.0 ) {
+        if( !a.abs_obstructed && map_cache.sm[p.x()][p.y()] > 0.0 ) {
             return lit_level::BRIGHT_ONLY;
         }
         return lit_level::BLANK;
@@ -772,7 +802,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return lit_level::BLANK;
     }
     // Then we just search for the light level in descending order.
-    if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
+    if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x()][p.y()] > 0.0 ) {
         return lit_level::BRIGHT;
     }
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
@@ -785,25 +815,25 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
 }
 
-bool map::pl_sees( const tripoint &t, const int max_range ) const
+bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const
 {
     if( !inbounds( t ) ) {
         return false;
     }
 
-    const level_cache &map_cache = get_cache_ref( t.z );
+    const level_cache &map_cache = get_cache_ref( t.z() );
     Character &player_character = get_player_character();
     if( max_range >= 0 && square_dist( getglobal( t ), player_character.get_location() ) > max_range &&
-        map_cache.camera_cache[t.x][t.y] == 0 ) {
+        map_cache.camera_cache[t.x()][t.y()] == 0 ) {
         return false;    // Out of range!
     }
 
     const apparent_light_info a = apparent_light_helper( map_cache, t );
     // avatar might not be on *this* map
-    const float light_at_player = get_map().ambient_light_at( player_character.pos() );
+    const float light_at_player = get_map().ambient_light_at( player_character.pos_bub() );
     return !a.obstructed &&
            ( a.apparent_light >= player_character.get_vision_threshold( light_at_player ) ||
-             map_cache.sm[t.x][t.y] > 0.0 );
+             map_cache.sm[t.x()][t.y()] > 0.0 );
 }
 
 // For a direction vector defined by x, y, return the quadrant that's the
@@ -823,7 +853,7 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *accumulate )( const T &, const T &, const int & )>
 void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
                 const cata::mdarray<T, point_bub_ms> &input_array,
-                const point &offset, int offsetDistance,
+                const point_bub_ms &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ) );
@@ -835,7 +865,7 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *accumulate )( const T &, const T &, const int & )>
 void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
                 const cata::mdarray<T, point_bub_ms> &input_array,
-                const point &offset, const int offsetDistance, const T numerator,
+                const point_bub_ms &offset, const int offsetDistance, const T numerator,
                 const int row, float start, const float end, T cumulative_transparency )
 {
     constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
@@ -857,7 +887,7 @@ void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
         delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {
-            point current( offset.x + delta.x * xx + delta.y * xy, offset.y + delta.x * yx + delta.y * yy );
+            point current( offset.x() + delta.x * xx + delta.y * xy, offset.y() + delta.x * yx + delta.y * yy );
             float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             float leadingEdge = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
@@ -925,7 +955,7 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          T( *accumulate )( const T &, const T &, const int & )>
 void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
                    const cata::mdarray<T, point_bub_ms> &input_array,
-                   const point &offset, int offsetDistance, T numerator )
+                   const point_bub_ms &offset, int offsetDistance, T numerator )
 {
     castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate>(
         output_cache, input_array, offset, offsetDistance, numerator );
@@ -952,7 +982,7 @@ template void castLightAll<float, four_quadrants, sight_calc, sight_check,
                            update_light_quadrants, accumulate_transparency>(
                                cata::mdarray<four_quadrants, point_bub_ms> &output_cache,
                                const cata::mdarray<float, point_bub_ms> &input_array,
-                               const point &offset, int offsetDistance, float numerator );
+                               const point_bub_ms &offset, int offsetDistance, float numerator );
 
 template void
 castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
@@ -960,7 +990,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 (
     cata::mdarray<fragment_cloud, point_bub_ms> &output_cache,
     const cata::mdarray<fragment_cloud, point_bub_ms> &input_array,
-    const point &offset, int offsetDistance, fragment_cloud numerator );
+    const point_bub_ms &offset, int offsetDistance, fragment_cloud numerator );
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y
@@ -974,7 +1004,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  * @param origin the starting location
  * @param target_z Z-level to draw light map on
  */
-void map::build_seen_cache( const tripoint &origin, const int target_z, int extension_range,
+void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, int extension_range,
                             bool cumulative, bool camera, int penalty )
 {
     level_cache &map_cache = get_cache( target_z );
@@ -1006,12 +1036,12 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
                 &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
         }
         cur_cache.seen_cache_dirty = false;
-        if( origin.z == z && cur_cache.no_floor_gaps ) {
+        if( origin.z() == z && cur_cache.no_floor_gaps ) {
             directions_to_cast = vertical_direction::UP;
         }
     }
-    if( origin.z == target_z ) {
-        ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
+    if( origin.z() == target_z ) {
+        ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x()][origin.y()] = VISIBILITY_FULL;
     }
 
     cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
@@ -1035,14 +1065,14 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         if( vp.part().removed || vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
             continue;
         }
-        const tripoint mirror_pos = vp.pos();
-        if( rl_dist( origin, vp.pos() ) > extension_range ) {
+        const tripoint_bub_ms mirror_pos = vp.pos_bub();
+        if( rl_dist( origin, vp.pos_bub() ) > extension_range ) {
             continue;
         }
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
-            out_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+            out_cache[mirror_pos.x()][mirror_pos.y()] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
@@ -1061,7 +1091,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
             continue; // Player not at camera control, so cameras don't work
         }
 
-        const tripoint mirror_pos = veh->global_part_pos3( vp_mirror );
+        const tripoint_bub_ms mirror_pos = veh->bub_part_pos( vp_mirror );
 
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
@@ -1072,7 +1102,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         } else {
             offsetDistance = 60 - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
             mocache = &camera_cache;
-            ( *mocache )[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            ( *mocache )[mirror_pos.x()][mirror_pos.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
         // TODO: Factor in the mirror facing and only cast in the
@@ -1086,30 +1116,32 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
 }
 
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
-                                     const array_of_grids_of<const bool> &floor_caches, const std::optional<tripoint> &override_p ) const
+                                     const array_of_grids_of<const bool> &floor_caches,
+                                     const std::optional<tripoint_bub_ms> &override_p ) const
 {
     Character &player_character = get_player_character();
     // If override is not given, use player character for calculations
-    const tripoint origin = override_p.value_or( player_character.pos() );
-    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
+    const tripoint_bub_ms origin = override_p.value_or( player_character.pos_bub() );
+    const int min_z = std::max( origin.z() - fov_3d_z_range, -OVERMAP_DEPTH );
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
-                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
-                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
+                    for( int sz = origin.z() - 1; sz >= min_z; --sz ) {
+                        const tripoint_bub_ms p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
-                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
+                        if( ( *seen_caches[cache_z] )[p.x()][p.y()] == 0.0f ) {
                             break;
                         }
                         // Or floor reached
-                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
+                        if( ( *floor_caches[cache_z] ) [p.x()][p.y()] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character, p ) > 100 ) {
-                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
+                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character,
+                                    p ) > 100 ) {
+                                ( *seen_caches[cache_z] )[p.x()][p.y()] = 0.0f;
                             }
                             break;
                         }
@@ -1150,9 +1182,9 @@ static bool light_check( const float &transparency, const float &intensity )
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
 }
 
-void map::apply_light_source( const tripoint &p, float luminance )
+void map::apply_light_source( const tripoint_bub_ms &p, float luminance )
 {
-    level_cache &cache = get_cache( p.z );
+    level_cache &cache = get_cache( p.z() );
     cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
     cata::mdarray<float, point_bub_ms> &sm = cache.sm;
     cata::mdarray<float, point_bub_ms> &transparency_cache =
@@ -1160,12 +1192,12 @@ void map::apply_light_source( const tripoint &p, float luminance )
     cata::mdarray<float, point_bub_ms> &light_source_buffer =
         cache.light_source_buffer;
 
-    const point p2( p.xy() );
+    const point_bub_ms p2( p.xy() );
 
     if( inbounds( p ) ) {
         const float min_light = std::max( static_cast<float>( lit_level::LOW ), luminance );
-        lm[p2.x][p2.y] = elementwise_max( lm[p2.x][p2.y], min_light );
-        sm[p2.x][p2.y] = std::max( sm[p2.x][p2.y], luminance );
+        lm[p2.x()][p2.y()] = elementwise_max( lm[p2.x()][p2.y()], min_light );
+        sm[p2.x()][p2.y()] = std::max( sm[p2.x()][p2.y()], luminance );
     }
     if( luminance <= lit_level::LOW ) {
         return;
@@ -1190,10 +1222,10 @@ void map::apply_light_source( const tripoint &p, float luminance )
            sy
     */
     const int peer_inbounds = LIGHTMAP_CACHE_X - 1;
-    bool north = p2.y != 0 && light_source_buffer[p2.x][p2.y - 1] < luminance;
-    bool south = p2.y != peer_inbounds && light_source_buffer[p2.x][p2.y + 1] < luminance;
-    bool east = p2.x != peer_inbounds && light_source_buffer[p2.x + 1][p2.y] < luminance;
-    bool west = p2.x != 0 && light_source_buffer[p2.x - 1][p2.y] < luminance;
+    bool north = p2.y() != 0 && light_source_buffer[p2.x()][p2.y() - 1] < luminance;
+    bool south = p2.y() != peer_inbounds && light_source_buffer[p2.x()][p2.y() + 1] < luminance;
+    bool east = p2.x() != peer_inbounds && light_source_buffer[p2.x() + 1][p2.y()] < luminance;
+    bool west = p2.x() != 0 && light_source_buffer[p2.x() - 1][p2.y()] < luminance;
 
     if( north ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
@@ -1232,11 +1264,11 @@ void map::apply_light_source( const tripoint &p, float luminance )
     }
 }
 
-void map::apply_directional_light( const tripoint &p, int direction, float luminance )
+void map::apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance )
 {
-    const point p2( p.xy() );
+    const point_bub_ms p2( p.xy() );
 
-    level_cache &cache = get_cache( p.z );
+    level_cache &cache = get_cache( p.z() );
     cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
     cata::mdarray<float, point_bub_ms> &transparency_cache =
         cache.transparency_cache;
@@ -1272,7 +1304,7 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+void map::apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, float luminance,
                            const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
@@ -1281,160 +1313,82 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
 
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
-    const point p2( p.xy() );
+    const point_bub_ms p2( p.xy() );
 
-    level_cache &cache = get_cache( p.z );
+    level_cache &cache = get_cache( p.z() );
     cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
     cata::mdarray<float, point_bub_ms> &transparency_cache =
         cache.transparency_cache;
 
-    // Normalize (should work with negative values too)
-    units::angle wangle = wideangle / 2.0;
-    units::angle oangle = angle - wangle;
-    units::angle cangle = angle + wangle;
+    const units::angle wangle = wideangle / 2.0;
+    // Normalize so oangle is between 0 and 360 degrees
+    const units::angle oangle = fmod( fmod( angle - wangle, 360_degrees ) + 360_degrees, 360_degrees );
+    const units::angle cangle = oangle + wideangle;
 
-    //cut pre-subsection
-    if( fmod( oangle, 45_degrees ) != 0_degrees ) {
-        units::angle preangle = oangle;
-        oangle = 45_degrees * std::ceil( to_degrees( oangle ) / 45 );
-        switch( static_cast<int>( std::floor( ( preangle + 360_degrees ) / 45_degrees ) ) % 8 ) {
+    // Sweep over every octant
+    int i = 0;
+    while( true ) {
+        int start = i;
+        int end = i + 1;
+        units::angle start_angle;
+        units::angle end_angle;
+        // This octant doesn't overlap with illuminated area
+        if( 45_degrees * end < oangle ) {
+            ++i;
+            continue;
+        }
+        // Finish processing
+        if( 45_degrees * start > cangle ) {
+            break;
+        }
+        // Unified way to cast light in one octant
+        start_angle = std::max( 45_degrees * start, oangle );
+        end_angle = std::min( 45_degrees * end, cangle );
+
+        // i is positive
+        switch( i % 8 ) {
             case 0:
                 castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, tan( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance, 1, tan( end_angle ), tan( start_angle ) );
                 break;
             case 1:
                 castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, cot( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance, 1, cot( start_angle ), cot( end_angle ) );
                 break;
             case 2:
                 castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, -cot( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance, 1, -cot( end_angle ), -cot( start_angle ) );
                 break;
             case 3:
                 castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, -tan( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance, 1, -tan( start_angle ), -tan( end_angle ) );
                 break;
             case 4:
                 castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency >(
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, tan( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance, 1, tan( end_angle ), tan( start_angle ) );
                 break;
             case 5:
                 castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency >(
-                              lm, transparency_cache, p2, 0, luminance, 1, cot( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance, 1, cot( start_angle ), cot( end_angle ) );
                 break;
             case 6:
                 castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, -cot( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance, 1, -cot( end_angle ), -cot( start_angle ) );
                 break;
             case 7:
                 castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, -tan( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance, 1, -tan( start_angle ), -tan( end_angle ) );
                 break;
         }
-    }
-    int numoct = std::floor( to_degrees( cangle - oangle ) / 45 );
-    int firstoct = static_cast<int>( std::lround( to_degrees( oangle ) / 45 ) );
-    oangle += numoct * 45_degrees;
-    wangle = cangle - oangle;
-
-    for( int i = firstoct; i < numoct + firstoct; i++ ) {
-        //if arc crosses 0 degrees, i.e. sectors 7-0-1, offset back to sector 0 after 7
-        switch( ( i + 8 ) % 8 ) {
-            case 0:
-                castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 1:
-                castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 2:
-                castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 3:
-                castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 4:
-                castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 5:
-                castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 6:
-                castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-            case 7:
-                castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
-                          update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
-                break;
-        }
-    }
-    if( wangle == 0_degrees ) {
-        return;
-    }
-
-    switch( static_cast<int>( std::floor( oangle / 45_degrees ) ) % 8 ) {
-        case 0:
-            castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, tan( cangle ), tan( oangle ) );
-            break;
-        case 1:
-            castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, cot( oangle ), cot( cangle ) );
-            break;
-        case 2:
-            castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -cot( cangle ), -cot( oangle ) );
-            break;
-        case 3:
-            castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -tan( oangle ), -tan( cangle ) );
-            break;
-        case 4:
-            castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency >(
-                          lm, transparency_cache, p2, 0, luminance, 1, tan( cangle ), tan( oangle ) );
-            break;
-        case 5:
-            castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency >(
-                          lm, transparency_cache, p2, 0, luminance, 1, cot( oangle ), cot( cangle ) );
-            break;
-        case 6:
-            castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -cot( cangle ), -cot( oangle ) );
-            break;
-        case 7:
-            castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
-                      update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -tan( oangle ), -tan( cangle ) );
-            break;
+        i++;
     }
 }
 
@@ -1444,7 +1398,7 @@ void map::apply_light_ray(
 {
     point a( std::abs( e.x - s.x ) * 2, std::abs( e.y - s.y ) * 2 );
     point d( ( s.x < e.x ) ? 1 : -1, ( s.y < e.y ) ? 1 : -1 );
-    point p( s.xy() );
+    point_bub_ms p( s.xy() );
 
     quadrant quad = quadrant_from_x_y( d.x, d.y );
 
@@ -1465,23 +1419,23 @@ void map::apply_light_ray(
         int t = a.y - ( a.x / 2 );
         do {
             if( t >= 0 ) {
-                p.y += d.y;
+                p.y() += d.y;
                 t -= a.x;
             }
 
-            p.x += d.x;
+            p.x() += d.x;
             t += a.y;
 
             // TODO: clamp coordinates to map bounds before this method is called.
             if( lightmap_boundaries.contains( p ) ) {
-                float current_transparency = transparency_cache[p.x][p.y];
+                float current_transparency = transparency_cache[p.x()][p.y()];
                 bool is_opaque = current_transparency == LIGHT_TRANSPARENCY_SOLID;
-                if( !lit[p.x][p.y] ) {
+                if( !lit[p.x()][p.y()] ) {
                     // Multiple rays will pass through the same squares so we need to record that
-                    lit[p.x][p.y] = true;
+                    lit[p.x()][p.y()] = true;
                     float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
-                    lm[p.x][p.y][q] = std::max( lm[p.x][p.y][q], lm_val );
+                    lm[p.x()][p.y()][q] = std::max( lm[p.x()][p.y()][q], lm_val );
                 }
                 if( is_opaque ) {
                     break;
@@ -1493,27 +1447,27 @@ void map::apply_light_ray(
             }
 
             distance += scaling_factor;
-        } while( !( p.x == e.x && p.y == e.y ) );
+        } while( !( p.x() == e.x && p.y() == e.y ) );
     } else {
         int t = a.x - ( a.y / 2 );
         do {
             if( t >= 0 ) {
-                p.x += d.x;
+                p.x() += d.x;
                 t -= a.y;
             }
 
-            p.y += d.y;
+            p.y() += d.y;
             t += a.x;
 
             if( lightmap_boundaries.contains( p ) ) {
-                float current_transparency = transparency_cache[p.x][p.y];
+                float current_transparency = transparency_cache[p.x()][p.y()];
                 bool is_opaque = current_transparency == LIGHT_TRANSPARENCY_SOLID;
-                if( !lit[p.x][p.y] ) {
+                if( !lit[p.x()][p.y()] ) {
                     // Multiple rays will pass through the same squares so we need to record that
-                    lit[p.x][p.y] = true;
+                    lit[p.x()][p.y()] = true;
                     float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
-                    lm[p.x][p.y][q] = std::max( lm[p.x][p.y][q], lm_val );
+                    lm[p.x()][p.y()][q] = std::max( lm[p.x()][p.y()][q], lm_val );
                 }
                 if( is_opaque ) {
                     break;
@@ -1525,6 +1479,6 @@ void map::apply_light_ray(
             }
 
             distance += scaling_factor;
-        } while( !( p.x == e.x && p.y == e.y ) );
+        } while( !( p.x() == e.x && p.y() == e.y ) );
     }
 }

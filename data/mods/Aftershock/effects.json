@@ -150,6 +150,34 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_badpoison",
+    "name": [ "Fatally Poisoned" ],
+    "desc": [ "The world is spinning around you, and you feel like you're going to die." ],
+    "miss_messages": [ [ "You feel bad inside.", 2 ] ],
+    "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "resist_traits": [ "POISRESIST" ],
+    "immune_flags": [ "BIOLOGICALPROOF", "BIO_IMMUNE" ],
+    "resist_effects": [ "prophylactic_antivenom", "synth_blood_perf", "synth_blood_permanent" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -2 ],
+      "str_mod": [ -3, -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 1, 100 ],
+      "hurt_min": [ 11, 2 ],
+      "hurt_max": [ 20, 5 ],
+      "hurt_chance": [ 1, 200 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Poison"
+  },
+  {
+    "type": "effect_type",
     "id": "afs_generic_speed_bonus",
     "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
     "desc": [ "You move with machine-guided precision." ],
@@ -175,6 +203,19 @@
     "max_duration": "24 h",
     "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "stamina_min": [ 35 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "synth_blood_permanent",
+    "name": [ "Synthblood" ],
+    "desc": [
+      "Your breaths instinctively grow shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "removes_effects": [ "synth_blood_perf" ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 15 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
     "blood_analysis_description": "Synthetic blood",
     "show_in_info": true
   },
@@ -208,6 +249,10 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_hack_done"
+  },
+  {
+    "type": "effect_type",
     "id": "afs_combat_stims",
     "name": [ "Combat Stimulants" ],
     "desc": [ "You are under the effects of powerful military combat stimulants" ],
@@ -219,7 +264,7 @@
     "type": "effect_type",
     "id": "afs_medigel_eff",
     "rating": "good",
-    "name": [ "Medigel" ],
+    "name": [ "MediGel" ],
     "desc": [ "The medical gel applied to your wounds is slowly healing them." ],
     "main_parts_only": true,
     "part_descs": true,
@@ -280,5 +325,11 @@
     "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -4 ], "dex_mod": [ -2 ] },
     "blood_analysis_description": "Dangerous levels of steroids.",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_cureall",
+    "removes_effects": [ "afs_badpoison" ],
+    "base_mods": { "pkill_min": [ 5 ] }
   }
 ]

@@ -2,60 +2,49 @@
   {
     "type": "TRAIT_MIGRATION",
     "id": "CLAIR_SPEED_READ",
+    "//": "remove after 0.I",
     "remove": true
   },
   {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "type": "TRAIT_MIGRATION",
     "id": "PHOTOKINETIC_CAMOUFLAGE_1",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "type": "TRAIT_MIGRATION",
     "id": "PHOTOKINETIC_CAMOUFLAGE_2",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "type": "TRAIT_MIGRATION",
     "id": "PHOTOKINETIC_CAMOUFLAGE_3",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "type": "TRAIT_MIGRATION",
     "id": "PHOTOKINETIC_CAMOUFLAGE_4",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "type": "TRAIT_MIGRATION",
     "id": "PHOTOKINETIC_CAMOUFLAGE_5",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
+    "type": "TRAIT_MIGRATION",
     "id": "PHOTOKINETIC_CAMOUFLAGE_6",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PSI_EXTENDED_CHANNELING_ON",
+    "//": "remove after 0.I",
+    "trait": "PSI_EXTENDED_CHANNELING"
   }
 ]

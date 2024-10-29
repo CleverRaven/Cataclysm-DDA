@@ -9,6 +9,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_barkfloor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 60,
@@ -28,6 +30,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
@@ -46,7 +50,9 @@
     "symbol": "&",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -66,6 +72,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_barkfloor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
@@ -85,6 +93,7 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_barkfloor_noroof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -134,6 +143,8 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_root_floor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,
@@ -180,7 +191,10 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_barkfloor_noroof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_WITH_WALL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "BLOCK_WIND" ],
     "open": "t_bramble_door_o",
     "bash": {
       "str_min": 12,
@@ -200,7 +214,9 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_barkfloor_noroof",
-    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_WITH_WALL", "ROAD" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "ROAD" ],
     "close": "t_bramble_door_c",
     "bash": {
       "str_min": 12,

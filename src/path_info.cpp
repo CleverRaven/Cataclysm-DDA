@@ -419,6 +419,10 @@ std::string PATH_INFO::worldoptions()
 {
     return "worldoptions.json";
 }
+std::string PATH_INFO::world_timestamp()
+{
+    return "world_timestamp.json";
+}
 std::string PATH_INFO::crash()
 {
     return config_dir_value + "crash.log";

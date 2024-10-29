@@ -334,6 +334,21 @@
     "display_field": true
   },
   {
+    "id": "fd_fire_FAKE",
+    "looks_like": "fd_fire",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glittering embers", "sym": "4", "color": "yellow", "light_emitted": 5, "translucency": 0.7 },
+      { "name": "spark shower", "color": "light_red", "light_emitted": 15, "translucency": 0.4 },
+      { "name": "wall of flames", "color": "red", "light_emitted": 40, "translucency": 0.1 }
+    ],
+    "priority": 4,
+    "half_life": "1 seconds",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
+  },
+  {
     "id": "fd_extinguisher",
     "type": "field_type",
     "intensity_levels": [
@@ -892,7 +907,7 @@
         "monster_spawn_chance": 600,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+        "monster_spawn_group": "GROUP_NETHER_REALITY_TEAR_FIELD"
       }
     ],
     "description_affix": "under",
@@ -2000,8 +2015,8 @@
     "max_duration": "6 seconds",
     "max_intensity": 3,
     "int_dur_factor": "2 seconds",
-    "base_mods": { "hurt_min": [ 2 ], "hurt_chance": [ 1 ] },
-    "scaling_mods": { "hurt_min": [ 2 ] },
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 3 ] },
+    "scaling_mods": { "hurt_min": [ 1 ] },
     "show_in_info": true
   },
   {

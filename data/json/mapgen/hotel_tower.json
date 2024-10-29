@@ -382,6 +382,40 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ [ "hotel_tower_6_1_9", "hotel_tower_6_1_8", "hotel_tower_6_1_7" ] ],
+    "object": {
+      "rows": [
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "   --------                                                    -------  ",
+        "   -......-                                                    -.....-  ",
+        "   -......-                                                    -.....-  ",
+        "   --------                                                    -------  ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        ",
+        "                                                                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ [ "hotel_tower_b_3", "hotel_tower_b_2", "hotel_tower_b_1" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",

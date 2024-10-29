@@ -755,6 +755,29 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "formless_ruins_cryoroom_roof",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "RRRRRRRRRRRR",
+        "RRRR RRRRRRR",
+        " RRRRRRRRRRR",
+        "RRRRR RRRRRR",
+        "RRR   RRRRRR",
+        "RRRR RRRRRRR",
+        "RRRRRRRRRRRR",
+        "RR   R RRRRR",
+        "RR   RRRRRRR",
+        "RRRRRRRRRRRR",
+        "RRR RR   RR ",
+        "RRRRRRR RRRR"
+      ],
+      "terrain": { "R": "t_metal_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "formless_ruins_cryoroom",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -783,7 +806,31 @@
         ]
       },
       "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1, 5 ], "y": [ 1, 2 ], "density": 0.1, "repeat": [ 1, 3 ] } ],
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [ { "chunks": [ "formless_ruins_cryoroom_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "formless_ruins_telepad_roof",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "R     RRRRRR",
+        "RR RRRRRRRRR",
+        "RRRRRRRRRRRR",
+        "RRRRRRRRRRRR",
+        "RRR    RRRRR",
+        "R RR  RRRRRR",
+        "RR RRRRRRR R",
+        "RR  RRRRRRRR",
+        "RRR RRRRRR R",
+        "RRRRRRRRRRRR",
+        "RRRRRRRRRRRR",
+        "RRRRR  RR   "
+      ],
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {
@@ -819,7 +866,8 @@
           { "item": "afs_machinery_maintenance_scrapgroup", "chance": 10, "repeat": [ 1, 2 ] }
         ]
       },
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [ { "chunks": [ "formless_ruins_telepad_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -919,6 +967,23 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "formless_ruins_escapepod_roof",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "R RRR ",
+        "  RRR ",
+        "  RRR ",
+        "      ",
+        "     R"
+      ],
+      "terrain": { "R": "t_metal_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "formless_ruins_escapepod",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -940,7 +1005,25 @@
       },
       "furniture": { "!": "f_afs_escape_pod_seat" },
       "items": { "!": { "item": "afs_escape_pod_suppliesII", "chance": 100 } },
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [ { "chunks": [ "formless_ruins_escapepod_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "formless_ruins_smallcryoroom_roof",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   RRR",
+        "RRRRRR",
+        "RRRRRR",
+        "  R RR",
+        "  R RR",
+        "  RRRR"
+      ],
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {
@@ -968,7 +1051,8 @@
         ]
       },
       "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1, 5 ], "y": [ 1, 2 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [ { "chunks": [ "formless_ruins_smallcryoroom_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

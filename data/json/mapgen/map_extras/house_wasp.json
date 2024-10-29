@@ -4,32 +4,6 @@
     "method": "json",
     "update_mapgen_id": "mx_house_wasp",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "ter_furn_transforms": { " ": { "transform": "remove_door" } },
       "nested": {
         " ": [

@@ -35,7 +35,7 @@ using move_statistics = statistics<int>;
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 
 static int moves_to_destination( const std::string &monster_type,
-                                 const tripoint &start, const tripoint &end )
+                                 const tripoint_bub_ms &start, const tripoint_bub_ms &end )
 {
     clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
@@ -105,8 +105,8 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     test_player.setpos( center );
     test_player.set_moves( 0 );
     // Give the player a head start.
-    const tripoint monster_start = { -10 * direction_of_flight + test_player.pos()
-                                   };
+    const tripoint_bub_ms monster_start = { -10 * direction_of_flight + test_player.pos_bub()
+                                          };
     monster &test_monster = spawn_test_monster( monster_type, monster_start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
@@ -131,8 +131,8 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 REQUIRE( g->num_creatures() == 2 );
             }
             const int move_cost = get_map().combined_movecost(
-                                      test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
-            tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
+                                      test_player.pos_bub(), test_player.pos_bub() + direction_of_flight, nullptr, 0 );
+            tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
@@ -164,17 +164,18 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 
 // Verify that the named monster has the expected effective speed, not reduced
 // due to wasted motion from shambling.
-static void check_shamble_speed( const std::string &monster_type, const tripoint &destination )
+static void check_shamble_speed( const std::string &monster_type,
+                                 const tripoint_bub_ms &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = get_normalized_angle( point_zero, destination.xy() );
+    const float slope = get_normalized_angle( point_zero, destination.xy().raw() );
     const float diagonal_multiplier = 1.0 + ( get_option<bool>( "CIRCLEDIST" ) ?
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
     move_statistics move_stats;
     for( int i = 0; i < 10; ++i ) {
-        move_stats.add( moves_to_destination( monster_type, tripoint_zero, destination ) );
+        move_stats.add( moves_to_destination( monster_type, tripoint_bub_ms_zero, destination ) );
         if( ( move_stats.avg() / ( 10000.0 * diagonal_multiplier ) ) ==
             Approx( 1.0 ).epsilon( 0.02 ) ) {
             break;
@@ -267,11 +268,11 @@ static void monster_check()
 {
     const float diagonal_multiplier = ( get_option<bool>( "CIRCLEDIST" ) ? 1.41 : 1.0 );
     // Have a monster walk some distance in a direction and measure how long it takes.
-    float vert_move = moves_to_destination( "mon_pig", tripoint_zero, {100, 0, 0} );
+    float vert_move = moves_to_destination( "mon_pig", tripoint_bub_ms_zero, {100, 0, 0} );
     CHECK( ( vert_move / 10000.0 ) == Approx( 1.0 ) );
-    int horiz_move = moves_to_destination( "mon_pig", tripoint_zero, {0, 100, 0} );
+    int horiz_move = moves_to_destination( "mon_pig", tripoint_bub_ms_zero, {0, 100, 0} );
     CHECK( ( horiz_move / 10000.0 ) == Approx( 1.0 ) );
-    int diag_move = moves_to_destination( "mon_pig", tripoint_zero, {100, 100, 0} );
+    int diag_move = moves_to_destination( "mon_pig", tripoint_bub_ms_zero, {100, 100, 0} );
     CHECK( ( diag_move / ( 10000.0 * diagonal_multiplier ) ) == Approx( 1.0 ).epsilon( 0.05 ) );
 
     check_shamble_speed( "mon_pig", {100, 0, 0} );
@@ -300,6 +301,19 @@ static void monster_check()
     CHECK( can_catch_player( "mon_zombie", tripoint_south_east ) < 0 );
     CHECK( can_catch_player( "mon_zombie_dog", tripoint_east ) > 0 );
     CHECK( can_catch_player( "mon_zombie_dog", tripoint_south_east ) > 0 );
+}
+
+TEST_CASE( "check_mon_id" )
+{
+    for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() != "dda" ) {
+            continue;
+        }
+        std::string mon_id = mon.id.str();
+        std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+        INFO( "Now checking the id of " << mon.id.str() );
+        CHECK( ( suffix_id == "mon"  || suffix_id == "pseudo" ) );
+    }
 }
 
 // Write out a map of slope at which monster is moving to time required to reach their destination.
@@ -384,7 +398,7 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
 TEST_CASE( "limit_mod_size_bonus", "[monster]" )
 {
     const std::string monster_type = "mon_zombie";
-    monster &test_monster = spawn_test_monster( monster_type, tripoint_zero );
+    monster &test_monster = spawn_test_monster( monster_type, tripoint_bub_ms_zero );
 
     REQUIRE( test_monster.get_size() == creature_size::medium );
 
@@ -394,7 +408,7 @@ TEST_CASE( "limit_mod_size_bonus", "[monster]" )
     clear_creatures();
 
     const std::string monster_type2 = "mon_feral_human_pipe";
-    monster &test_monster2 = spawn_test_monster( monster_type2, tripoint_zero );
+    monster &test_monster2 = spawn_test_monster( monster_type2, tripoint_bub_ms_zero );
 
     REQUIRE( test_monster2.get_size() == creature_size::medium );
 

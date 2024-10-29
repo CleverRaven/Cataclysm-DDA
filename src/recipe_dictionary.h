@@ -128,11 +128,12 @@ class recipe_subset
         int get_custom_difficulty( const recipe *r ) const;
 
         /** Check if there is any recipes in given category (optionally restricted to subcategory), index which is for nested categories */
-        bool empty_category( const std::string &cat, const std::string &subcat = std::string() ) const;
+        bool empty_category( const crafting_category_id &cat,
+                             const std::string &subcat = std::string() ) const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
-            const std::string &cat,
+            const crafting_category_id &cat,
             const std::string &subcat = std::string() ) const;
 
         /** Returns all recipes which could use component */
@@ -202,7 +203,7 @@ class recipe_subset
     private:
         std::set<const recipe *> recipes;
         std::map<const recipe *, int> difficulties;
-        std::map<std::string, std::set<const recipe *>> category;
+        std::map<crafting_category_id, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
 };
 

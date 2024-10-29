@@ -192,7 +192,7 @@
       "v": [
         { "item": "art", "chance": 5 },
         { "item": "home_display_case", "chance": 30 },
-        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs_residential", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
         { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
@@ -205,7 +205,7 @@
       "3": [ { "item": "SUS_utensils", "chance": 3 }, { "item": "SUS_knife_drawer", "chance": 3 } ],
       "4": { "item": "SUS_junk_drawer", "chance": 6 },
       "5": { "item": "SUS_kitchen_sink", "chance": 5 },
-      "8": [ { "item": "SUS_bathroom_medicine", "chance": 1 }, { "item": "harddrugs", "chance": 5 } ],
+      "8": [ { "item": "SUS_bathroom_medicine", "chance": 1 }, { "item": "harddrugs_residential", "chance": 5 } ],
       "@": { "item": "bed", "chance": 5 },
       "Z": { "item": "laundry", "chance": 10 },
       "W": { "item": "laundry", "chance": 10 }

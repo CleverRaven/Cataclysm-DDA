@@ -20,5 +20,35 @@
     "type": "bionic_migration",
     "//": "obsoleted from base game as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/70989",
     "from": "bio_trickle"
+  },
+  {
+    "id": [ "bot_eyebot" ],
+    "type": "MIGRATION",
+    "replace": "afs_bot_eyebot"
+  },
+  {
+    "id": [ "broken_eyebot" ],
+    "type": "MIGRATION",
+    "replace": "afs_broken_eyebot"
+  },
+  {
+    "id": [ "bot_copbot" ],
+    "type": "MIGRATION",
+    "replace": "afs_bot_copbot"
+  },
+  {
+    "id": [ "broken_copbot" ],
+    "type": "MIGRATION",
+    "replace": "afs_broken_copbot"
+  },
+  {
+    "id": [ "bot_riotbot" ],
+    "type": "MIGRATION",
+    "replace": "afs_bot_riotbot"
+  },
+  {
+    "id": [ "broken_riotbot" ],
+    "type": "MIGRATION",
+    "replace": "afs_broken_riotbot"
   }
 ]

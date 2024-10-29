@@ -115,6 +115,6 @@
     "harvest": "exempt",
     "anger_triggers": [  ],
     "death_function": { "message": "The %s dissipates in a gust of wind!", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "FLIES", "PATH_AVOID_DANGER_1", "CAMOUFLAGE", "HARDTOSHOOT", "NOGIB", "NOHEAD", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "FLIES", "PATH_AVOID_DANGER", "CAMOUFLAGE", "HARDTOSHOOT", "NOGIB", "NOHEAD", "NO_BREATHE" ]
   }
 ]

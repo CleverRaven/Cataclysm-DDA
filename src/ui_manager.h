@@ -128,6 +128,11 @@ class ui_adaptor
          **/
         void position( const point &topleft, const point &size );
         /**
+         * like 'position', except topleft and size are given as
+         * pixels in tiled builds and console cells on curses builds
+         **/
+        void position_absolute( const point &topleft, const point &size );
+        /**
          * Set redraw and resize callbacks. The resize callback should
          * call `position` or `position_from_window` to set the size of the UI,
          * and (re-)calculate any UI data that is related to the screen size,
@@ -217,6 +222,8 @@ class ui_adaptor
          **/
         void reset();
 
+        void shutdown();
+
         /* See the `ui_manager` namespace */
         static void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
         static bool has_imgui();
@@ -243,6 +250,7 @@ class ui_adaptor
 
         bool disabling_uis_below;
         bool is_debug_message_ui;
+        bool is_shutting_down = false;
 
         mutable bool invalidated;
         mutable bool deferred_resize;
@@ -287,6 +295,7 @@ void redraw_invalidated();
  **/
 void screen_resized();
 void invalidate_all_ui_adaptors();
+void reset();
 } // namespace ui_manager
 
 #endif // CATA_SRC_UI_MANAGER_H

@@ -1,7 +1,7 @@
 #include "drawing_primitives.h"
 
 #include <functional>
-#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "line.h"

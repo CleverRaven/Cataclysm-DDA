@@ -3,18 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmf_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "acidia_camp_palette" ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "palettes": [ "acidia_camp_palette" ] }
   },
   {
     "type": "mapgen",
@@ -105,6 +94,30 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_2_roof",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "       R   R ",
+        "        sss  ",
+        "        sss  ",
+        "       RsssR ",
+        "       RRRRR ",
+        "             "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "bc_prim_farm_3",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -119,6 +132,30 @@
         "        *+*  ",
         "       *   * ",
         "       *   * ",
+        "             ",
+        "             ",
+        "             "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_3_roof",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "        RRR  ",
+        "       R   R ",
+        "       R   R ",
         "             ",
         "             ",
         "             "
@@ -146,6 +183,30 @@
         "  wc'''      ",
         "  *c'cc      ",
         "  ******     "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_4_roof",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "  RRRRRR     ",
+        "  Rssss      ",
+        "  Vssss      ",
+        "  Rssss      ",
+        "  Vssss      ",
+        "  Rssss      ",
+        "  RRRRRR     "
       ],
       "palettes": [ "acidia_camp_palette" ]
     }
@@ -180,7 +241,8 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "bc_prim_farm_2" ], "x": 1, "y": 10 },
+        { "chunks": [ "bc_prim_farm_2" ], "x": 1, "y": 10, "z": 0 },
+        { "chunks": [ "bc_prim_farm_2_roof" ], "x": 1, "y": 10, "z": 1 },
         { "chunks": [ "bc_prim_farm_long_fields" ], "x": 1, "y": 6 },
         { "chunks": [ "bc_prim_farm_long_fields" ], "x": 9, "y": 6 },
         { "chunks": [ "bc_prim_farm_long_fields" ], "x": 17, "y": 6 }
@@ -193,7 +255,8 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "bc_prim_farm_3" ], "x": 1, "y": 10 },
+        { "chunks": [ "bc_prim_farm_3" ], "x": 1, "y": 10, "z": 0 },
+        { "chunks": [ "bc_prim_farm_3_roof" ], "x": 1, "y": 10, "z": 1 },
         { "chunks": [ "bc_prim_farm_short_fields" ], "x": 15, "y": 14 },
         { "chunks": [ "bc_prim_farm_short_fields" ], "x": 18, "y": 14 },
         { "chunks": [ "bc_prim_farm_short_fields" ], "x": 21, "y": 14 },
@@ -213,6 +276,11 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_base_field_camp_farm_4",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "bc_prim_farm_4" ], "x": 1, "y": 10 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_farm_4" ], "x": 1, "y": 10, "z": 0 },
+        { "chunks": [ "bc_prim_farm_4_roof" ], "x": 1, "y": 10, "z": 1 }
+      ]
+    }
   }
 ]

@@ -335,6 +335,7 @@ enum class distraction_type : int {
     temperature,
     mutation,
     oxygen,
+    withdrawal,
     last,
 };
 
@@ -489,6 +490,12 @@ enum class link_state : int {
 template<>
 struct enum_traits<link_state> {
     static constexpr link_state last = link_state::last;
+};
+
+enum mut_count_type {
+    POSITIVE,
+    NEGATIVE,
+    ALL
 };
 
 #endif // CATA_SRC_ENUMS_H

@@ -36,7 +36,7 @@
       "place_loot": [
         { "group": "guns_rifle_hunting_display", "x": 2, "y": 13, "chance": 70, "repeat": [ 2, 3 ] },
         { "group": "guns_pistol_hunting_display", "x": 2, "y": 13, "chance": 70, "repeat": [ 2, 3 ] },
-        { "group": "guns_shotgun_common_display", "x": 2, "y": 14, "chance": 70, "repeat": [ 3, 4 ] },
+        { "group": "guns_shotgun_common_display", "x": 2, "y": 14, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "SUS_hunting_archery", "x": 2, "y": 15, "chance": 80, "repeat": [ 4, 5 ] },
         { "group": "archery_ammo", "x": 2, "y": 16, "chance": 80, "repeat": [ 4, 6 ] },
         { "group": "archery_loaded_quivers", "x": 2, "y": 16, "chance": 40, "repeat": [ 2, 4 ] },

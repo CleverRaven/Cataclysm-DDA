@@ -85,6 +85,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "homeless_camp_refurb_2_roof",
+    "//": "Phase 2 of homeless refurbishment.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         rrrrr          ",
+        "         rrrrr          ",
+        "         rrrrr          ",
+        "         rrrrr          ",
+        "         rrrrr          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    rrrr                ",
+        "    rrrr                ",
+        "    rrrr                ",
+        "    rrrr                ",
+        "    rrrr                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "r": "t_wood_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "homeless_camp_refurb_2",
     "//": "Phase 2 of homeless refurbirations.",
     "object": {
@@ -115,7 +151,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "c": "t_wall_wood" }
+      "terrain": { "c": "t_wall_wood" },
+      "place_nested": [ { "chunks": [ "homeless_camp_refurb_2_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

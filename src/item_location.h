@@ -111,6 +111,9 @@ class item_location
         /** returns the character whose inventory contains this item, nullptr if none **/
         Character *carrier() const;
 
+        /** returns the character whose inventory contains this item, nullptr if none **/
+        const vehicle_cursor *veh_cursor() const;
+
         /** returns true if the item is in the inventory of the given character **/
         bool held_by( Character const &who ) const;
 
@@ -153,6 +156,13 @@ class item_location
          * Overflow items into parent pockets recursively
          */
         void overflow();
+
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item_location &ammo, bool now ) const;
 
     private:
         class impl;

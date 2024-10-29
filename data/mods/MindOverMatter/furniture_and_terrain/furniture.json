@@ -136,6 +136,7 @@
     "looks_like": "f_boulder_large",
     "coverage": 75,
     "required_str": 32,
+    "crafting_pseudo_item": "black_nether_crystal_pseudo_tool",
     "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 25,

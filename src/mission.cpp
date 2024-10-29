@@ -16,6 +16,7 @@
 #include "colony.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
@@ -28,7 +29,6 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -60,8 +60,11 @@ mission mission_type::create( const character_id &npc_id ) const
     ret.monster_type = monster_type;
     ret.monster_kill_goal = monster_kill_goal;
 
-    if( deadline_low != 0_turns || deadline_high != 0_turns ) {
-        ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
+    struct dialogue d( get_talker_for( get_player_character() ),
+                       get_talker_for( g->find_npc( npc_id ) ) );
+    time_duration deadline_as_var = deadline.evaluate( d );
+    if( deadline_as_var != 0_turns ) {
+        ret.deadline = calendar::turn + deadline_as_var;
     } else {
         ret.deadline = calendar::turn_zero;
     }
@@ -171,9 +174,13 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             avatar &player_character = get_avatar();
             for( std::pair<const int, mission> &e : world_missions ) {
                 mission &i = e.second;
-
                 if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
-                    i.step_complete( 1 );
+                    if( i.type->monster_kill_goal == 1 ) {
+                        i.step_complete( 1 );
+                    } else {
+                        // Recurring nemesis!!
+                        mission_start::kill_nemesis( &i );
+                    }
                     return;
                 }
             }
@@ -314,8 +321,10 @@ void mission::assign( avatar &u )
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
-        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
-            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        dialogue d( get_talker_for( u ), get_talker_for( g->find_npc( npc_id ) ) );
+        time_duration deadline_as_var = type->deadline.evaluate( d );
+        if( deadline_as_var != 0_turns ) {
+            deadline = calendar::turn + deadline_as_var;
         } else {
             deadline = calendar::turn_zero;
         }
@@ -331,6 +340,8 @@ void mission::fail()
     if( player_character.getID() == player_id ) {
         player_character.on_mission_finished( *this );
     }
+    // Tracks completion/failure
+    deadline = calendar::turn;
 
     type->fail( this );
 }
@@ -457,6 +468,9 @@ void mission::wrap_up()
             break;
     }
 
+    // Tracks completion/failure
+    deadline = calendar::turn;
+
     type->end( this );
 }
 
@@ -535,7 +549,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     }
                 }
             };
-            for( const tripoint &p : here.points_in_radius( player_character.pos(), 5 ) ) {
+            for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 5 ) ) {
                 if( player_character.sees( p ) ) {
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
@@ -780,6 +794,11 @@ bool mission::has_generic_rewards() const
     return type->has_generic_rewards;
 }
 
+void mission::set_deadline( time_point new_deadline )
+{
+    deadline = new_deadline;
+}
+
 void mission::set_target( const tripoint_abs_omt &p )
 {
     target = p;
@@ -874,7 +893,7 @@ mission::mission()
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
-    recruit_class = NC_NONE;
+    recruit_class = npc_class_id::NULL_ID();
     target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;

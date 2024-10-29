@@ -210,7 +210,16 @@
     "description": "You take camping to a whole new level.  You have spent nights and weekends surviving in the wild with just a knife to aid you.  Maybe this skill for self-sufficiency can keep you safe.",
     "points": 4,
     "skills": [ { "level": 3, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "cooking" } ],
-    "proficiencies": [ "prof_fibers", "prof_leatherworking_basic", "prof_fibers_rope", "prof_traps", "prof_knapping", "prof_carving" ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_leatherworking_basic",
+      "prof_fibers_rope",
+      "prof_traps",
+      "prof_knapping",
+      "prof_carving",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "traits": [ "OUTDOORSMAN" ]
   },
   {
@@ -362,7 +371,7 @@
     "description": "While not the type of wrestler to use folding chairs as weapons, you have experience wrasslin' and tusslin' with others out on the mat.  There's no referees around to see, but hopefully your skills will help you avoid getting pinned by the undead.",
     "points": 5,
     "skills": [ { "level": 3, "name": "melee" }, { "level": 4, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
-    "proficiencies": [ "prof_athlete_basic", "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_athlete_basic", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
     "traits": [ "FAST_REFLEXES" ]
   },
   {
@@ -373,7 +382,14 @@
     "description": "You were likely on the 100+ wins list back in school and maybe you're a collegiate wrestler or you're using it as part of something like MMA.  Considering how grabby those zombies are, you should get plenty of use out of your skills.",
     "points": 8,
     "skills": [ { "level": 5, "name": "melee" }, { "level": 6, "name": "unarmed" }, { "level": 6, "name": "dodge" } ],
-    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ],
+    "proficiencies": [
+      "prof_athlete_basic",
+      "prof_athlete_expert",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro",
+      "prof_unarmed_master",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "FAST_REFLEXES", "GOODCARDIO" ]
   },
   {
@@ -519,6 +535,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "canning_food",
+    "name": "Home canning",
+    "description": "Whether it was something practiced in your family or something you took it up to extend the shelf life of your groceries, you know how to preserve produce and meat in cans or mason jars.  With the electricity down and refrigerators dead, saying your skills could come in handy is an understatement.",
+    "points": 4,
+    "proficiencies": [ "prof_food_prep", "prof_preservation", "prof_food_canning" ],
+    "skills": [ { "level": 4, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "paintball",
     "name": "Paintball",
     "description": "Pretending to shoot at your friends has always been fun.  Now you can do it for real.",
@@ -562,7 +588,7 @@
     "description": "You've been in quite a few fights in the street.  You can throw and dodge a punch better than most.",
     "points": 3,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ]
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ]
   },
   {
     "type": "profession",
@@ -573,7 +599,7 @@
     "points": 6,
     "skills": [ { "level": 5, "name": "melee" }, { "level": 6, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
     "traits": [ "PAINRESIST" ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ]
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master", "prof_gross_anatomy" ]
   },
   {
     "type": "profession",
@@ -625,7 +651,7 @@
     "points": 6,
     "skills": [ { "level": 3, "name": "stabbing" }, { "level": 3, "name": "melee" }, { "level": 3, "name": "dodge" } ],
     "traits": [ "MARTIAL_FENCING" ],
-    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro" ]
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_gross_anatomy" ]
   },
   {
     "type": "profession",
@@ -636,7 +662,7 @@
     "points": 10,
     "skills": [ { "level": 6, "name": "stabbing" }, { "level": 5, "name": "melee" }, { "level": 5, "name": "dodge" } ],
     "traits": [ "MARTIAL_FENCING" ],
-    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_fencing_weapons_master" ]
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_fencing_weapons_master", "prof_gross_anatomy" ]
   },
   {
     "type": "profession",
@@ -721,7 +747,7 @@
       { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_MA_BLACK" ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ]
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master", "prof_gross_anatomy" ]
   },
   {
     "type": "profession",
@@ -744,7 +770,8 @@
       "prof_long_swords_familiar",
       "prof_hooking_familiar",
       "prof_fencing_weapons_familiar",
-      "prof_spears_familiar"
+      "prof_spears_familiar",
+      "prof_gross_anatomy"
     ]
   },
   {
@@ -775,7 +802,8 @@
       "prof_fencing_weapons_familiar",
       "prof_fencing_weapons_pro",
       "prof_spears_familiar",
-      "prof_spears_pro"
+      "prof_spears_pro",
+      "prof_gross_anatomy"
     ]
   },
   {
@@ -826,7 +854,14 @@
     "points": -3,
     "traits": [ "ANTIFRUIT", "MEATARIAN" ],
     "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ],
-    "proficiencies": [ "prof_knives_familiar", "prof_knife_skills" ]
+    "proficiencies": [
+      "prof_knives_familiar",
+      "prof_knife_skills",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_intro_biology"
+    ]
   },
   {
     "type": "profession",
@@ -836,7 +871,8 @@
     "description": "You have been a vegetarian for so long that eating meat makes you feel sick.  You like to supplement your diet with wild plants and mushrooms foraged in the woods.",
     "points": -1,
     "traits": [ "VEGETARIAN" ],
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ]
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_food_prep", "prof_forage_cooking" ]
   },
   {
     "type": "profession",
@@ -881,8 +917,8 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "modelling",
-    "name": "Modelling",
-    "description": "You were deep into the fashion scene, keeping up on the latest trends and even modelling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
+    "name": "Modeling",
+    "description": "You were deep into the fashion scene, keeping up on the latest trends and even modeling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
     "points": 2,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
     "traits": [ "STYLISH" ],
@@ -1105,6 +1141,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "luthier",
+    "name": "Woodworking - Luthier",
+    "description": "You've learned woodworking in the field of making musical instruments.  You'll be able to create musical instruments in the Cataclysm.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "proficiencies": [ "prof_luthier_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "home_improvement",
     "name": "Home Improvement",
     "points": 4,
@@ -1120,7 +1166,8 @@
     "points": 1,
     "description": "A quiet day at the lake would be a welcome break from the hordes.  Though, now that you think about it, the fish have been acting strangely vicious lately too.",
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
-    "traits": [ "OUTDOORSMAN" ]
+    "traits": [ "OUTDOORSMAN" ],
+    "proficiencies": [ "prof_butchering_basic" ]
   },
   {
     "subtype": "hobby",
@@ -1271,7 +1318,7 @@
     "name": "Fire Performing",
     "description": "Whether you twirled, spun, juggled, or ate it, your manipulation of flaming objects was impressive and terrifying to behold.",
     "points": 1,
-    "traits": [ "PYROMANIA", "ADRENALINE", "DEFT" ],
+    "traits": [ "PYROMANIA", "DEFT" ],
     "skills": [ { "level": 1, "name": "survival" } ]
   },
   {
