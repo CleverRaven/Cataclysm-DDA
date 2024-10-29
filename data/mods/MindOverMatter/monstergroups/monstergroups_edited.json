@@ -244,7 +244,13 @@
       { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days", "cost_multiplier": 2 },
       { "monster": "mon_cockatrice", "weight": 10, "starts": "21 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] },
       { "monster": "mon_pigeon_passenger", "weight": 2, "starts": "21 days", "cost_multiplier": 2 },
-      { "monster": "mon_pigeon_passenger", "weight": 10, "starts": "21 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
+      {
+        "monster": "mon_pigeon_passenger",
+        "weight": 10,
+        "starts": "21 days",
+        "cost_multiplier": 10,
+        "pack_size": [ 3, 5 ]
+      }
     ]
   },
   {
