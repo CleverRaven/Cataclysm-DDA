@@ -154,6 +154,6 @@
     "type": "jmath_function",
     "id": "lilin_has_ruach_efficiency",
     "num_args": 0,
-    "return": "1 - min( ( (u_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) - max( ( (u_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ), 0.33)"
+    "return": "1 - min( ( (u_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) - (u_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) - ( u_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (u_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
   }
 ]
