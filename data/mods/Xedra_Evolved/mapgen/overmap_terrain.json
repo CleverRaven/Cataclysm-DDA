@@ -311,10 +311,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "cabin_sevenoclock",
-      "cabin_roof_sevenoclock"
-    ],
+    "id": [ "cabin_sevenoclock", "cabin_roof_sevenoclock" ],
     "name": "old cabin",
     "sym": "C",
     "color": "green",
@@ -325,9 +322,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "field_deathworm"
-    ],
+    "id": [ "field_deathworm" ],
     "name": "acid-scarred field",
     "sym": ".",
     "color": "light_green",

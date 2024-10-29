@@ -2473,7 +2473,7 @@
     "show_intensity": false,
     "max_intensity": 1
   },
-    {
+  {
     "type": "effect_type",
     "id": "effect_sleep_shield",
     "name": [ "Undisrupted sleep" ],
@@ -2485,7 +2485,16 @@
     "show_intensity": false,
     "max_intensity": 1,
     "flags": [ "INVISIBLE", "NO_SCENT", "PAIN_IMMUNE", "BLIND", "DEAF", "LEVITATION" ],
-    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": 9999 },  { "value": "CLIMATE_CONTROL_HEAT", "add": 500 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 500 }, { "value": "FORCEFIELD", "add": 1 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPY", "add": 9999 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 500 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 500 },
+          { "value": "FORCEFIELD", "add": 1 }
+        ]
+      }
+    ],
     "removes_effects": [ "grabbed", "bleed" ]
   }
 ]

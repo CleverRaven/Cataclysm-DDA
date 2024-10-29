@@ -156,7 +156,19 @@
       [ "ACID_BARF", 3 ]
     ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "DIGS", "POISON", "NO_BREATHE", "PUSH_MON", "ACIDPROOF", "ACID_BLOOD", "RANGED_ATTACKER" ],
-    "armor": { "bash": 20 , "cut": 5 , "bullet": 10 }
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "BASHES",
+      "DIGS",
+      "POISON",
+      "NO_BREATHE",
+      "PUSH_MON",
+      "ACIDPROOF",
+      "ACID_BLOOD",
+      "RANGED_ATTACKER"
+    ],
+    "armor": { "bash": 20, "cut": 5, "bullet": 10 }
   }
 ]

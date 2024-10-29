@@ -192,10 +192,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "nested": {
-        "-": { "chunks": [ [ "acid_gibs_3x3", 1 ], [ "null", 50 ] ] },
-        "1": { "chunks": [ "deathworm_track" ] }
-      }
+      "nested": { "-": { "chunks": [ [ "acid_gibs_3x3", 1 ], [ "null", 50 ] ] }, "1": { "chunks": [ "deathworm_track" ] } }
     }
   },
   {
@@ -253,9 +250,7 @@
         "                        "
       ],
       "place_monster": [ { "monster": "mon_deathworm", "x": 11, "y": 12 } ],
-      "nested": {
-        "-": { "chunks": [ [ "acid_gibs_3x3", 1 ], [ "null", 5 ] ] }
-      }
+      "nested": { "-": { "chunks": [ [ "acid_gibs_3x3", 1 ], [ "null", 5 ] ] } }
     }
   }
 ]

@@ -318,7 +318,10 @@
       }
     ],
     "false_effect": [
-      { "u_message": "Distrustful of the shenanigans you used to bring him at such a high altitude, the Man of the Nineteenth Hour refuses to shield you!", "type": "bad" }
+      {
+        "u_message": "Distrustful of the shenanigans you used to bring him at such a high altitude, the Man of the Nineteenth Hour refuses to shield you!",
+        "type": "bad"
+      }
     ]
   },
   {

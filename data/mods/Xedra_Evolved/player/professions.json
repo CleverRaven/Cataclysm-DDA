@@ -844,7 +844,6 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
-
   {
     "type": "profession",
     "id": "cryptid_hunter",
@@ -898,27 +897,18 @@
     "id": "random_cryptid_map",
     "//": "This item group gives a random cryptid map and the associated notes when starting as a cryptid hunter.  The probabilities are intended to be equal with each other.",
     "subtype": "distribution",
-    "items": [
-          { "group": "deathworm_map", "prob": 50 },
-          { "group": "sevenoclock_map", "prob": 50 }
-    ]
+    "items": [ { "group": "deathworm_map", "prob": 50 }, { "group": "sevenoclock_map", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "deathworm_map",
-    "entries": [
-      { "item": "deathworm_map" },
-      { "item": "deathworm_note" }
-    ]
+    "entries": [ { "item": "deathworm_map" }, { "item": "deathworm_note" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "sevenoclock_map",
-    "entries": [
-      { "item": "sevenoclock_map" },
-      { "item": "sevenoclock_note" }
-    ]
+    "entries": [ { "item": "sevenoclock_map" }, { "item": "sevenoclock_note" } ]
   }
 ]

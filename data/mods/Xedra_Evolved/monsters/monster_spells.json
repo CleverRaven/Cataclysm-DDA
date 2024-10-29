@@ -541,22 +541,22 @@
     "min_range": 30,
     "max_range": 30
   },
-    {
-      "id": "spell_shield_sleepers",
-      "type": "SPELL",
-      "name": { "str": "Shield the sleepers" },
-      "description": "Ensures an eventless sleep to those who sleep nearby.",
-      "message": "",
-      "valid_targets": [ "ally", "hostile" ],
-      "effect": "attack",
-      "effect_str": "effect_sleep_shield_check",
-      "shape": "blast",
-      "min_duration": 3000,
-      "max_duration": 3000,
-      "min_aoe": 15,
-      "max_aoe": 15,
-      "min_range": 1,
-      "max_range": 1,
-      "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
-    }
+  {
+    "id": "spell_shield_sleepers",
+    "type": "SPELL",
+    "name": { "str": "Shield the sleepers" },
+    "description": "Ensures an eventless sleep to those who sleep nearby.",
+    "message": "",
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "attack",
+    "effect_str": "effect_sleep_shield_check",
+    "shape": "blast",
+    "min_duration": 3000,
+    "max_duration": 3000,
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "min_range": 1,
+    "max_range": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  }
 ]
