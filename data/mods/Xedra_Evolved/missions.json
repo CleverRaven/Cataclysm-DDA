@@ -68,7 +68,9 @@
     "destination": "cabin_sevenoclock",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "cabin_sevenoclock", "om_special": "cabin_sevenoclock", "search_range": 1800 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_sevenoclock", "om_special": "cabin_sevenoclock", "search_range": 1800 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
