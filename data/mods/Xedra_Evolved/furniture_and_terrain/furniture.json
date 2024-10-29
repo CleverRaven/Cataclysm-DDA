@@ -298,7 +298,7 @@
           "id": "EOC_SEVENOCLOCK_TRACK",
           "condition": { "math": [ "u_tracked_sevenoclock", "==", "0" ] },
           "effect": [
-            { "u_message": "You carefully examinate the footprints, determining where they lead." },
+            { "u_message": "You carefully examine the footprints, determining where they lead." },
             { "assign_mission": "MISSION_SEVENOCLOCK" },
             { "math": [ "u_tracked_sevenoclock", "=", "1" ] }
           ]
@@ -329,7 +329,7 @@
           "id": "EOC_DEATHWORM_TRACK",
           "condition": { "math": [ "u_tracked_deathworm", "==", "0" ] },
           "effect": [
-            { "u_message": "You carefully examinate the hole, determining where it leads." },
+            { "u_message": "You carefully examine the hole, determining where it leads." },
             { "assign_mission": "MISSION_DEATHWORM" },
             { "math": [ "u_tracked_deathworm", "=", "1" ] }
           ]
