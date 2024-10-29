@@ -8,7 +8,7 @@
     "color": "light_gray",
     "weight": "40000 g",
     "volume": "20 L",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -21,7 +21,7 @@
     "color": "light_gray",
     "weight": "40000 g",
     "volume": "70000 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -34,7 +34,7 @@
     "color": "light_gray",
     "weight": "60000 g",
     "volume": "80000 ml",
-    "price": 300000,
+    "price": "3 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -47,7 +47,7 @@
     "color": "light_gray",
     "weight": "150000 g",
     "volume": "575000 ml",
-    "price": 1000000,
+    "price": "10 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -60,7 +60,7 @@
     "color": "light_gray",
     "weight": "40000 g",
     "volume": "70000 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -120,7 +120,7 @@
     "symbol": "c",
     "weight": "40000 g",
     "volume": "70000 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts",
     "color": "red_green"
@@ -133,7 +133,7 @@
     "symbol": "c",
     "weight": "40000 g",
     "volume": "70000 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts",
     "color": "red_green"
@@ -147,8 +147,8 @@
     "color": "light_gray",
     "weight": "60000 g",
     "volume": "20 L",
-    "price": 500000,
-    "price_postapoc": 250,
+    "price": "5 kUSD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "steel" ],
     "category": "spare_parts"
   }

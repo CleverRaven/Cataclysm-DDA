@@ -17,8 +17,10 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "sleep.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -179,6 +181,10 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // Other threshold traits that are taken as acceptable replacements for this threshold
+        std::vector<trait_id> threshold_substitutes;
+        // Disallow threshold substitution for this trait in particular
+        bool strict_threshreq = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -200,9 +206,10 @@ struct mutation_branch {
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the four are true, it drains that as the "cost"
-        bool fatigue       = false;
+        bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
@@ -215,14 +222,7 @@ struct mutation_branch {
         // bodytemp elements:
         units::temperature_delta bodytemp_min = 0_C_delta;
         units::temperature_delta bodytemp_max = 0_C_delta;
-        units::temperature_delta bodytemp_sleep = 0_C_delta;
-        // Healing per turn
-        std::optional<float> healing_awake = std::nullopt;
-        std::optional<float> healing_multiplier = std::nullopt;
-        // Limb mending bonus
-        std::optional<float> mending_modifier = std::nullopt;
         // Additional bonuses
-        float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
 
         int butchering_quality = 0;
@@ -244,14 +244,6 @@ struct mutation_branch {
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
-
-        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        std::optional<float> temperature_speed_modifier = std::nullopt;
-        // As above but for thirst.
-        std::optional<float> thirst_modifier = std::nullopt;
-
-        // Multiplier for skill rust delay, defaulting to 1.
-        std::optional<float> skill_rust_multiplier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -297,6 +289,9 @@ struct mutation_branch {
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
 
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
+
         struct OverrideLook {
             std::string id;
             std::string tile_category;
@@ -339,8 +334,6 @@ struct mutation_branch {
         std::set<json_character_flag> flags; // Mutation flags
         std::set<json_character_flag> active_flags; // Mutation flags only when active
         std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
-        std::vector<trait_id>
-        prevented_by; // Traits listed here will block this mutation from being acquired
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
@@ -413,7 +406,7 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
@@ -562,8 +555,10 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
 std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
@@ -571,7 +566,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

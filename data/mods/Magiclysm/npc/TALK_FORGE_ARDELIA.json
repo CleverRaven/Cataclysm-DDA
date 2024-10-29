@@ -68,17 +68,24 @@
   {
     "id": "TALK_FORGE_LORD_LIBRARIAN",
     "type": "talk_topic",
-    "dynamic_line": "I keep Valzain's books.  There are many floors of bookshelves in his pocket dimension.  These happen to be the ones I think it most likely he'll read soon.  I can sell some that we have copies of.",
+    "dynamic_line": "I keep Valzain's books.  There are many floors of bookshelves among his pocket dimensions, with more magic than a mortal mind like yours could comprehend.  These happen to be the ones I think it most likely he'll read soon.  I can sell some that we have extra copies of.",
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_LIBRARIAN" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_LIBRARIAN_DOING" },
+      { "text": "Do you have any more books in the back?", "topic": "TALK_FORGE_LIBRARIAN_ASK_INTERVAL" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_FORGE_LIBRARIAN_DOING",
     "type": "talk_topic",
-    "dynamic_line": "I organize the books, I sell extra books, once when we still lent books I would hunt down those with late books to return.",
+    "dynamic_line": "I organize the books, I sell extra books, back when we still lent books I would hunt down those with late books to return.  I have done this for aeons past and I will continue to do this for aeons to come.",
     "responses": [ { "text": "Let's talk business then.", "topic": "TALK_FORGE_LORD_LIBRARIAN" } ]
+  },
+  {
+    "id": "TALK_FORGE_LIBRARIAN_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "It shouldn't take Valzain too long to read what he desires from what I have out.  Check back in <interval> and I should have some new books set out.",
+    "responses": [ { "text": "Safe readings.", "topic": "TALK_FORGE_LORD_LIBRARIAN" } ]
   }
 ]

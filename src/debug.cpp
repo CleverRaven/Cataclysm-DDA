@@ -35,6 +35,7 @@
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
+#include "loading_ui.h"
 #include "mod_manager.h"
 #include "options.h"
 #include "output.h"
@@ -229,6 +230,7 @@ std::string filter_name( debug_filter value )
         case DF_ANATOMY_BP: return "DF_ANATOMY_BP";
         case DF_AVATAR: return "DF_AVATAR";
         case DF_BALLISTIC: return "DF_BALLISTIC";
+        case DF_CAMPS: return "DF_CAMPS";
         case DF_CHARACTER: return "DF_CHARACTER";
         case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
         case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
@@ -310,6 +312,8 @@ static void debug_error_prompt(
     if( !force && ignored_messages.count( msg_key ) > 0 ) {
         return;
     }
+    // gui loading screen might be drawing an image, we need to clean it up
+    loading_ui::done();
 
     std::string formatted_report =
         string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!

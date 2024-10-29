@@ -82,10 +82,12 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
-        case widget_var::fatigue:
-            return "fatigue";
+        case widget_var::sleepiness:
+            return "sleepiness";
         case widget_var::health:
             return "health";
+        case widget_var::daily_health:
+            return "daily_health";
         case widget_var::weariness_level:
             return "weariness_level";
         case widget_var::mana:
@@ -144,6 +146,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_armor_outer_text";
         case widget_var::carry_weight_text:
             return "carry_weight_text";
+        case widget_var::carry_weight_value:
+            return "carry_weight_value";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -305,7 +309,7 @@ bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     d.reason = opt_var; // TODO: remove since it's replaced by context var
-    write_var_value( var_type::context, "npctalk_var_widget", nullptr, &d, opt_var );
+    write_var_value( var_type::context, "npctalk_var_widget", &d, opt_var );
     return !has_condition || condition( d );
 }
 
@@ -591,7 +595,7 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = 120;
             break;
-        case widget_var::fatigue:
+        case widget_var::sleepiness:
             _var_min = 0;
             _var_max = 1000;
             break;
@@ -606,6 +610,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_max = 200;
             // Small range of normal health that won't be color-coded
             _var_norm = std::make_pair( -10, 10 );
+            break;
+        case widget_var::daily_health:
+            _var_min = -200;
+            _var_max = 200;
             break;
         case widget_var::mana:
             _var_min = 0;
@@ -806,7 +814,7 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.movecounter;
             break;
         case widget_var::move_remainder:
-            value = ava.moves;
+            value = ava.get_moves();
             break;
         case widget_var::move_cost:
             value = ava.run_cost( 100 );
@@ -814,11 +822,14 @@ int widget::get_var_value( const avatar &ava ) const
         case widget_var::pain:
             value = ava.get_perceived_pain();
             break;
-        case widget_var::fatigue:
-            value = ava.get_fatigue();
+        case widget_var::sleepiness:
+            value = ava.get_sleepiness();
             break;
         case widget_var::health:
             value = ava.get_lifestyle();
+            break;
+        case widget_var::daily_health:
+            value = ava.get_daily_health();
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();
@@ -1037,6 +1048,7 @@ bool widget::uses_text_function() const
         case widget_var::body_graph_wet:
         case widget_var::bp_armor_outer_text:
         case widget_var::carry_weight_text:
+        case widget_var::carry_weight_value:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -1139,6 +1151,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::carry_weight_text:
             desc = display::carry_weight_text_color( ava );
+            break;
+        case widget_var::carry_weight_value:
+            desc = display::carry_weight_value_color( ava );
+            break;
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -1306,7 +1322,7 @@ nc_color widget::value_color( int value )
     // Get range of values from min to max
     const int var_range = _var_max - _var_min;
 
-    if( ! _breaks.empty() ) {
+    if( var_range > 0 && ! _breaks.empty() ) {
         const int value_offset = ( 100 * ( value - _var_min ) ) / var_range;
         for( int i = 0; i < color_max; i++ ) {
             if( value_offset < _breaks[i] ) {

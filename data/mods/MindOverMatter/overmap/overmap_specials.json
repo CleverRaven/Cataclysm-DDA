@@ -169,7 +169,7 @@
     "city_distance": [ 10, 120 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "LAB", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "LAB", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

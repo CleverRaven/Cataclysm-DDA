@@ -111,7 +111,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "weariness_desc", "fatigue_desc_label" ]
+    "widgets": [ "weariness_desc", "sleepiness_desc_label" ]
   },
   {
     "id": "needs_layout_cleaner",

@@ -24,6 +24,7 @@
     "type": "SPECIES",
     "id": "CYBORG",
     "description": "an alien cyborg",
+    "//": "The difference between a ROBOT and a CYBORG is that a CYBORG has a human mind controlling it and ROBOT does not",
     "flags": [ "DRACULIN_IMMUNE" ],
     "footsteps": "heavy thuds."
   },
@@ -58,6 +59,13 @@
     "type": "SPECIES",
     "id": "NETHER",
     "description": "a nether creature",
+    "flags": [ "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "NETHER_BURROWING",
+    "description": "a nether creature",
+    "footsteps": "rustling",
     "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
@@ -174,9 +182,17 @@
   {
     "type": "SPECIES",
     "id": "ROBOT",
+    "//": "The difference between a ROBOT and a CYBORG is that a CYBORG has a human mind controlling it and ROBOT does not",
     "description": "a robot",
     "footsteps": "mechanical whirring.",
     "bleeds": "fd_mechanical_fluid"
+  },
+  {
+    "type": "SPECIES",
+    "id": "ROBOT_FLYING",
+    "description": "a flying robot",
+    "footsteps": "WHIRR",
+    "flags": [ "LOUDMOVES" ]
   },
   {
     "type": "SPECIES",

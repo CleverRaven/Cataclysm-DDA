@@ -1261,6 +1261,17 @@ ImGuiIO::ImGuiIO()
     AppAcceptingEvents = true;
     BackendUsingLegacyKeyArrays = (ImS8)-1;
     BackendUsingLegacyNavInputArray = true; // assume using legacy array until proven wrong
+    PreEditText[0] = NULL;
+}
+
+void ImGuiIO::SetPreEditText(const char *str)
+{
+    strcpy(PreEditText, str);
+}
+
+void ImGuiIO::ClearPreEditText()
+{
+    PreEditText[0] = NULL;
 }
 
 // Pass in translated ASCII characters for text input.
@@ -2467,7 +2478,7 @@ ImGuiTextFilter::ImGuiTextFilter(const char* default_filter) //-V1077
 
 bool ImGuiTextFilter::Draw(const char* label, float width)
 {
-    if (width != 0.0f)
+    if (width != 0.0f) 
         ImGui::SetNextItemWidth(width);
     bool value_changed = ImGui::InputText(label, InputBuf, IM_ARRAYSIZE(InputBuf));
     if (value_changed)
@@ -4148,7 +4159,7 @@ ImGuiIO& ImGui::GetIO()
     return GImGui->IO;
 }
 
-// Pass this to your backend rendering function! Valid after Render() and until the next call to NewFrame()
+// Pass this to  your backend rendering function! Valid after Render() and until the next call to NewFrame()
 ImDrawData* ImGui::GetDrawData()
 {
     ImGuiContext& g = *GImGui;
@@ -7087,20 +7098,24 @@ void ImGui::SetCurrentFont(ImFont* font)
 
 void ImGui::PushFont(ImFont* font)
 {
+#ifdef TILES
     ImGuiContext& g = *GImGui;
     if (!font)
         font = GetDefaultFont();
     SetCurrentFont(font);
     g.FontStack.push_back(font);
     g.CurrentWindow->DrawList->PushTextureID(font->ContainerAtlas->TexID);
+#endif
 }
 
 void  ImGui::PopFont()
 {
+#ifdef TILES
     ImGuiContext& g = *GImGui;
     g.CurrentWindow->DrawList->PopTextureID();
     g.FontStack.pop_back();
     SetCurrentFont(g.FontStack.empty() ? GetDefaultFont() : g.FontStack.back());
+#endif
 }
 
 void ImGui::PushItemFlag(ImGuiItemFlags option, bool enabled)

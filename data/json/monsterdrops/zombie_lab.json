@@ -28,23 +28,12 @@
   {
     "type": "item_group",
     "id": "security_gear",
+    "subtype": "collection",
     "items": [
-      { "group": "full_1st_aid", "prob": 30 },
-      [ "airhorn", 5 ],
-      { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
-      { "group": "adhesive_bandages_box_used", "prob": 10 },
-      [ "tacvest", 5 ],
-      { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
-      [ "holster", 25 ],
-      [ "armguard_cut_resistant", 2 ],
-      [ "bholster", 3 ],
-      [ "legpouch_large", 5 ],
-      [ "pocket_firstaid", 10 ],
-      [ "police_belt", 20 ],
-      [ "rope_30", 5 ],
-      [ "sm_extinguisher", 5 ],
-      [ "two_way_radio", 30 ],
-      [ "whistle", 5 ]
+      { "distribution": [ { "group": "full_1st_aid" }, { "group": "full_ipok" } ], "prob": 30 },
+      { "item": "heavy_flashlight", "prob": 50, "charges": [ 0, 100 ] },
+      { "item": "two_way_radio", "charges": [ 0, 100 ] },
+      { "item": "whistle" }
     ]
   },
   {
@@ -52,28 +41,58 @@
     "id": "security_armor",
     "subtype": "distribution",
     "items": [
-      { "group": "military_ballistic_vest_light", "prob": 30, "damage": [ 0, 2 ] },
-      { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 30, "damage": [ 0, 2 ] }
+      { "collection": [ { "item": "tacvest" }, { "item": "kevlar" } ] },
+      { "item": "soft_3a_vest", "variant": "security_armor_vest" }
     ]
   },
   {
     "id": "mon_zombie_labsecurity_death_drops",
     "type": "item_group",
     "subtype": "collection",
-    "magazine": 100,
-    "ammo": 40,
     "entries": [
-      { "group": "security_armor", "prob": 30, "damage": [ 0, 2 ] },
-      { "group": "security_gear", "prob": 50, "damage": [ 0, 2 ] },
-      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
-      { "group": "security_pants", "damage": [ 1, 4 ] },
-      { "group": "security_shoes", "prob": 70, "damage": [ 1, 4 ] },
-      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
-      { "group": "cop_weapons", "prob": 20, "damage": [ 0, 1 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "clothing_glasses", "prob": 5 },
-      { "group": "clothing_watch", "prob": 5 },
-      { "group": "wallets", "damage": [ 1, 4 ] }
+      { "group": "default_zombie_items_pockets" },
+      { "group": "security_armor", "damage": [ 0, 4 ] },
+      { "group": "security_gear" },
+      { "group": "cop_gloves", "prob": 40, "damage": [ 0, 4 ] },
+      {
+        "collection": [
+          { "item": "pants", "variant": "pants_black", "damage": [ 0, 4 ] },
+          {
+            "distribution": [
+              { "item": "leather_belt", "damage": [ 0, 4 ] },
+              { "item": "webbing_belt", "contents-item": "dump_pouch", "damage": [ 0, 4 ] }
+            ]
+          }
+        ]
+      },
+      { "group": "security_shoes", "damage": [ 0, 4 ] },
+      { "item": "dress_shirt", "damage": [ 0, 4 ] },
+      { "item": "dog_tag", "prob": 20 },
+      {
+        "collection": [
+          { "item": "tazer", "charges": [ 250, 500 ], "damage": [ 0, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "item": "holster", "damage": [ 0, 4 ] },
+                  { "item": "m9", "charges": [ 0, 15 ], "damage": [ 0, 4 ] },
+                  { "item": "m9mag", "charges": [ 0, 15 ], "count": [ 1, 2 ], "damage": [ 0, 4 ] }
+                ]
+              },
+              {
+                "distribution": [ { "item": "baton-extended", "damage": [ 0, 4 ] }, { "item": "PR24-extended", "damage": [ 0, 4 ] } ]
+              }
+            ]
+          }
+        ],
+        "prob": 90
+      },
+      { "group": "underwear", "damage": [ 0, 4 ] },
+      { "group": "socks_unisex", "damage": [ 0, 4 ] },
+      { "group": "clothing_glasses", "damage": [ 0, 4 ] },
+      { "group": "clothing_watch", "damage": [ 0, 4 ] },
+      { "group": "wallets", "damage": [ 0, 4 ] }
     ]
   },
   {

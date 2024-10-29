@@ -37,7 +37,7 @@
     "description": "Woodshed, in your chest..",
     "volume": "301 L",
     "weight": "1 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -230,7 +230,7 @@
     "name": { "str": "Bionic Limb - Left Leg CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "CBM which replaces the left leg with a bionic counterpart.",
-    "price": 220000,
+    "price": "2 kUSD 200 USD",
     "weight": "30000 g",
     "difficulty": 3,
     "volume": "8000 ml"
@@ -242,7 +242,7 @@
     "name": { "str": "Bionic Limb - Right Leg CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "CBM which replaces the left leg with a bionic counterpart.",
-    "price": 220000,
+    "price": "2 kUSD 200 USD",
     "weight": "30000 g",
     "difficulty": 3,
     "volume": "8000 ml"

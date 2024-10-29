@@ -25,7 +25,7 @@
     "move_cost_mod": 8,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB", "FLAMMABLE_ASH" ],
     "bash": {
       "str_min": 30,
       "str_max": 80,
@@ -57,7 +57,7 @@
     "looks_like": "t_bamboo_tall",
     "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE", "FLAMMABLE_ASH" ],
     "bash": {
       "str_min": 5,
       "str_max": 12,

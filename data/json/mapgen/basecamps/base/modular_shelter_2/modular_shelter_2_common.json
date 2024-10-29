@@ -12,6 +12,7 @@
       "s": "f_sofa",
       "C": "f_armchair",
       "Q": "f_woodstove",
+      "V": "f_vent_pipe",
       "B": "f_bookcase",
       "*": "f_clear"
     }
@@ -28,8 +29,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 8, "y": 8 },
-        { "point": "furniture", "id": "f_table", "x": 9, "y": 8 }
+        { "point": "furniture", "id": "f_fireplace", "x": 8, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 8, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_table", "x": 9, "y": 8, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 9, "y": 8, "chance": 100 } ]
     }
@@ -52,8 +54,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_woodstove", "x": 8, "y": 8 },
-        { "point": "furniture", "id": "f_table", "x": 9, "y": 8 }
+        { "point": "furniture", "id": "f_woodstove", "x": 8, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 8, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_table", "x": 9, "y": 8, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 9, "y": 8, "chance": 100 } ]
     }
@@ -307,9 +310,28 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_shelter_2_living_room_roof",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "  V",
+        "   "
+      ],
+      "palettes": [ "fbmc_shelter_2_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbmc_shelter_2_livingroom",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_living_room" ], "x": 17, "y": 7 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_shelter_2_living_room" ], "x": 17, "y": 7, "z": 0 },
+        { "chunks": [ "fbmc_shelter_2_living_room_roof" ], "x": 17, "y": 7, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",

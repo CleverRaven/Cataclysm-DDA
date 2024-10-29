@@ -48,8 +48,6 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
 
-static const faction_id faction_no_faction( "no_faction" );
-
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
@@ -171,7 +169,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     if( add_topics.back() == "TALK_NONE" ) {
         add_topics.back() = me_npc->pick_talk_topic( player_character );
     }
-    me_npc->moves -= 100;
+    me_npc->mod_moves( -to_moves<int>( 1_seconds ) );
 
     if( player_character.is_deaf() ) {
         if( add_topics.back() == me_npc->chatbin.talk_mug ||
@@ -364,7 +362,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
 
             const time_duration &consume_time = p.get_consume_time( to_eat );
-            p.moves -= to_moves<int>( consume_time );
+            p.mod_moves( -to_moves<int>( consume_time ) );
             p.consume( to_eat );
             reason = p.chat_snippets().snip_consume_eat.translated();
         }
@@ -395,7 +393,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
 
         p.consume_effects( to_eat );
         to_eat.charges -= amount_used;
-        p.moves -= 250;
+        p.mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
     }
@@ -450,7 +448,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         // Eating first, to avoid evaluating bread as a weapon
         const consumption_result consume_res = try_consume( *me_npc, given, reason );
         if( consume_res != REFUSED ) {
-            player_character.moves -= 100;
+            player_character.mod_moves( -to_moves<int>( 1_seconds ) );
             if( consume_res == CONSUMED_ALL ) {
                 player_character.i_rem( &given );
             } else if( given.is_container() ) {
@@ -510,7 +508,7 @@ std::string talker_npc::give_item_to( const bool to_use )
 
     if( taken ) {
         player_character.i_rem( &given );
-        player_character.moves -= 100;
+        player_character.mod_moves( -to_moves<int>( 1_seconds ) );
         me_npc->has_new_items = true;
     }
 
@@ -562,7 +560,7 @@ void talker_npc::set_fac( const faction_id &new_fac_name )
 
 void talker_npc::add_faction_rep( const int rep_change )
 {
-    if( me_npc->get_faction()-> id != faction_no_faction ) {
+    if( !me_npc->get_faction()->lone_wolf_faction ) {
         me_npc->get_faction()->likes_u += rep_change;
         me_npc->get_faction()->respects_u += rep_change;
         me_npc->get_faction()->trusts_u += rep_change;
@@ -773,19 +771,19 @@ std::string talker_npc::evaluation_by( const talker &alpha ) const
         info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
     }
     needs_rates rates = me_npc->calc_needs_rates();
-    if( ability >= 100 - ( get_fatigue() / 10 ) ) {
+    if( ability >= 100 - ( get_sleepiness() / 10 ) ) {
         std::string how_tired;
-        if( get_fatigue() > fatigue_levels::EXHAUSTED ) {
+        if( get_sleepiness() > sleepiness_levels::EXHAUSTED ) {
             how_tired = _( "Exhausted" );
-        } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
             how_tired = _( "Dead tired" );
-        } else if( get_fatigue() > fatigue_levels::TIRED ) {
+        } else if( get_sleepiness() > sleepiness_levels::TIRED ) {
             how_tired = _( "Tired" );
         } else {
             how_tired = _( "Not tired" );
             if( ability >= 100 ) {
-                time_duration sleep_at = 5_minutes * ( fatigue_levels::TIRED -
-                                                       get_fatigue() ) / rates.fatigue;
+                time_duration sleep_at = 5_minutes * ( sleepiness_levels::TIRED -
+                                                       get_sleepiness() ) / rates.sleepiness;
                 how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
             }
         }

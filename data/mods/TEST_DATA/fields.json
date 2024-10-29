@@ -64,5 +64,10 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_fog"
+  },
+  {
+    "id": "test_fd_migration_new_id",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "migrated" } ]
   }
 ]

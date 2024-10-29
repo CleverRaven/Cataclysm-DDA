@@ -599,6 +599,8 @@ time_point sunset( const time_point &p );
 time_point daylight_time( const time_point &p );
 /** Returns the time it gets dark based on sunset */
 time_point night_time( const time_point &p );
+/** Returns the time when the clock displays 12:00 */
+time_point noon( const time_point &p );
 /** Returns true if it's currently night time - after dusk and before dawn. */
 bool is_night( const time_point &p );
 /** Returns true if it's currently day time - after dawn and before dusk. */

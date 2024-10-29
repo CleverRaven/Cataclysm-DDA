@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_doctor" ],
+    "om_terrain": "office_doctor",
+    "//": "Adds CBMs, autodocs and supplies for them",
     "weight": 50000,
     "object": {
       "fill_ter": "t_floor",
@@ -65,7 +66,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_doctor_1" ],
+    "om_terrain": "office_doctor_1",
     "weight": 50000,
     "object": {
       "fill_ter": "t_floor",
@@ -119,7 +120,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_doctor_2" ],
+    "om_terrain": "office_doctor_2",
     "weight": 20000,
     "object": {
       "fill_ter": "t_dirt",

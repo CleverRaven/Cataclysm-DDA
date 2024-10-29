@@ -1,0 +1,36 @@
+[
+  {
+    "id": "yrax_delta_laser_gun",
+    "type": "GUN",
+    "name": { "str": "deterrent laser weapon" },
+    "description": "a very small laser weapon",
+    "volume": "3 L",
+    "price": 0,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "looks_like": "v29",
+    "color": "magenta",
+    "skill": "pistol",
+    "range": 30,
+    "ranged_damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 4 },
+    "dispersion": 10,
+    "durability": 10,
+    "loudness": 7,
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
+    "id": "yrax_metaljet_cannon",
+    "type": "GUN",
+    "name": { "str": "ferro-hydraulic cannon" },
+    "copy-from": "v29",
+    "weight": "19770 g",
+    "volume": "8300 ml",
+    "longest_side": "800 mm",
+    "barrel_length": "559 mm",
+    "energy_drain": "0 kJ",
+    "ammo_effects": [ "LASER", "FLAME" ],
+    "ranged_damage": { "damage_type": "heat", "amount": 1400, "armor_penetration": 120 },
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  }
+]

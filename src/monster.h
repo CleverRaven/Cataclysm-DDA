@@ -118,10 +118,10 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void digest_food();
-        void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
+        std::vector<material_id> get_no_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -150,6 +150,7 @@ class monster : public Creature
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        void print_info_imgui() const;
 
         // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
@@ -159,7 +160,7 @@ class monster : public Creature
 
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
         // Inverts color if inv==true
         // // Returns true if f is set (see mtype.h)
         bool has_flag( const mon_flag_id &f ) const final;
@@ -208,12 +209,12 @@ class monster : public Creature
          * can_move_to() is a wrapper for both of them.
          * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
+        // TODO: Get rid of untyped overload
         bool can_move_to( const tripoint &p ) const;
+        bool can_move_to( const tripoint_bub_ms &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;
-
-        bool monster_move_in_vehicle( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -457,7 +458,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
-        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
+        void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
 
@@ -538,8 +539,21 @@ class monster : public Creature
         int friendly = 0;
         int anger = 0;
         int morale = 0;
+    private:
         int stomach_size = 0;
         int amount_eaten = 0;
+        void recheck_fed_status();
+    public:
+        void set_amount_eaten( int new_amount );
+        void mod_amount_eaten( int amount_to_add );
+        int get_amount_eaten() const;
+        // Truncates to integer for ease of use
+        int get_stomach_fullness_percent() const;
+        // Whether the monster has eaten enough to reproduce/make milk/get by normally
+        bool has_eaten_enough() const;
+        // Whether their stomach is completely full or more
+        // TODO: Find out why can we even exceed stomach size??
+        bool has_fully_eaten() const;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
@@ -605,7 +619,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
         double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
     private:

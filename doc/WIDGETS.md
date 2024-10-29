@@ -601,9 +601,9 @@ If you have a `text` style widget that has no other options for what to display,
 
 ## fill
 
-For "graph" widgets with more than two sybols, different ways of filling up the graph become
+For "graph" widgets with more than two symbols, different ways of filling up the graph become
 possible.  The method is specified with the "fill" field. By default the "bucket" fill method is
-used, but there is also a "pool" method described helow.
+used, but there is also a "pool" method described below.
 
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
@@ -969,7 +969,7 @@ In the example above, the widget would print out the following text:
 # Variable ranges
 
 Widgets using a numeric "var" (those without a `_text` suffix) have a predetermined absolute range
-(minimum and maximum), as well as a predermined normal value or range.  These limits are not
+(minimum and maximum), as well as a predetermined normal value or range.  These limits are not
 customizable in widget JSON, but knowing about them will make it easier to understand how "graph"
 widgets are drawn, and how the "colors" list is mapped to the variable's numeric range.
 
@@ -1019,7 +1019,7 @@ Many vars are numeric in nature. These may use style "number" or style "graph". 
 |--                 |--
 | `cardio_acc`      | Cardio accumulator, integer
 | `cardio_fit`      | Cardio fitness, integer near BMR
-| `fatigue`         | tiredness, 0-600+
+| `sleepiness`         | tiredness, 0-600+
 | `focus`           | focus level, 0-100+
 | `health`          | Current hidden health value, -200 to +200
 | `mana`            | available mana, 0-MAX_MANA
@@ -1140,7 +1140,7 @@ Text widget ids typically have a `_desc` suffix.
 | `activity_desc`        | `Activity: Moderate`
 | `date_desc`            | `Date: Summer day 25`
 | `env_temp_desc`        | `Temperature: 65F`
-| `fatigue_desc`         | `Rest: Tired`
+| `sleepiness_desc`         | `Rest: Tired`
 | `health_desc`          | `Health: Good`
 | `hunger_desc`          | `Hunger: Satisfied`
 | `lighting_desc`        | `Lighting: Bright`
@@ -1177,7 +1177,7 @@ This table gives some examples of single-line "columns" layouts:
 | `hitpoints_legs_layout` | `L LEG: \|\|\|\|\|  R LEG: \|\|\|\|\|`
 | `mood_focus_layout` | `Mood: :-)  Focus: 100`
 | `safe_sound_layout` | `Safe: Off  Sound:  15`
-| `sound_fatigue_focus_layout` | `Sound:  15  Fatigue: Fresh  Focus: 100`
+| `sound_sleepiness_focus_layout` | `Sound:  15  Fatigue: Fresh  Focus: 100`
 | `sound_focus_layout` | `Sound:  15  Focus: 100`
 | `stats_layout` | `Str: 9  Dex: 8  Int: 10  Per: 7`
 

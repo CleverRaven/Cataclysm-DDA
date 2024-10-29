@@ -245,5 +245,33 @@
         "message": "The loose rock falls apart into a pile of dirt."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_entrap_target_in_stone",
+    "furniture": [
+      {
+        "result": "f_ierde_lithic_gaol_fang",
+        "valid_furniture": [ "f_null" ],
+        "message": "Fangs of rock erupt around the target!"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_entrap_target_in_stone_ground_zero",
+    "furniture": [ { "result": "f_null", "valid_furniture": [ "f_ierde_lithic_gaol_fang" ], "message": "" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_ierde_translocator_location",
+        "valid_furniture": [ "f_null" ],
+        "message": "You place both hands on the living earth and feel the rhythms of the rock.",
+        "message_good": true
+      }
+    ]
   }
 ]

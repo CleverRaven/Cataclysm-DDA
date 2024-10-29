@@ -50,6 +50,7 @@
           "t_shrub_lilac": 1,
           "t_shrub_peanut": 1
         },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 2,
           "t_shrub_strawberry": 3,
@@ -205,6 +206,14 @@
       "noise_threshold_swamp_isolated": 0.6,
       "river_floodplain_buffer_distance_min": 3,
       "river_floodplain_buffer_distance_max": 15
+    },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
     },
     "forest_mapgen_settings": {
       "forest": {

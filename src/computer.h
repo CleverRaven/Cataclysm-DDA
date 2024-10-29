@@ -2,19 +2,20 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
-#include <iosfwd>
+#include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "calendar.h"
 #include "point.h"
-#include "talker.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class talker;
 
 enum computer_action {
     COMPACT_NULL = 0,

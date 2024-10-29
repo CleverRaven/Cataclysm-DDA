@@ -1,21 +1,21 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "mi-go_camp1",
+    "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
+    "vision_levels": "alien_tower",
+    "see_cost": "high",
     "name": "mi-go encampment",
     "sym": "<",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2",
-    "name": "mi-go encampment",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
@@ -23,34 +23,61 @@
     "name": "mi-go spire",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2-2",
     "name": "mi-go landing platform",
+    "see_cost": "none",
     "sym": "_",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mi-go_scout_tower_1", "mi-go_scout_tower_2", "mi-go_scout_tower_3", "mi-go_scout_tower_4" ],
-    "name": "mi-go scout tower",
-    "sym": ">",
+    "id": "mi-go_camp2-3",
+    "name": "mi-go landing roof",
+    "see_cost": "none",
+    "sym": "_",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "copy-from": "mi-go_camp1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "barry_mi-go_scout_tower_1",
+      "barry_mi-go_scout_tower_2",
+      "barry_mi-go_scout_tower_3",
+      "barry_mi-go_scout_tower_4",
+      "mi-go_scout_tower_1",
+      "mi-go_scout_tower_2",
+      "mi-go_scout_tower_3",
+      "mi-go_scout_tower_4"
+    ],
+    "name": "mi-go scout tower",
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_portal",
     "name": "mi-go structure",
     "sym": "=",
+    "vision_levels": "blends_till_details",
+    "see_cost": "high",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_portal_roof",
+    "name": "mi-go structure roof",
+    "vision_levels": "roof_or_air",
+    "see_cost": "none",
+    "sym": "=",
+    "color": "dark_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_EXTREME" ]
   }
 ]

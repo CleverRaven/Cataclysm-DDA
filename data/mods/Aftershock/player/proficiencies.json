@@ -1,0 +1,57 @@
+[
+  {
+    "type": "proficiency_category",
+    "id": "prof_afs_social",
+    "name": "Social Standing",
+    "description": "Proficiencies related to your status within spacefaring culture in all its forms."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_armament_license",
+    "category": "prof_afs_social",
+    "name": { "str": "Armament License" },
+    "can_learn": false,
+    "description": "You have a license to own and operate military grade weaponry and can legally purchase such items without any difficulty."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_concentration",
+    "name": "Concentration",
+    "description": "Proficiencies that help with maintaining concentration even in the face of distractions."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_basic",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Beginner)" },
+    "description": "You are capable of holding the same thing in mind even when sitting in an uncomfortable position or after skipping a meal.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_intermediate",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Expert)" },
+    "description": "You can maintain your concentration even if outside in winter without a coat or in the middle of a fight.",
+    "can_learn": true,
+    "time_to_learn": "32 h",
+    "default_time_multiplier": 2.5,
+    "default_skill_penalty": 0.25,
+    "required_proficiencies": [ "prof_concentration_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_master",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Master)" },
+    "description": "You can maintain your concentration even when suffering crippling injuries or while on mind-altering substances.",
+    "can_learn": true,
+    "time_to_learn": "64 h",
+    "default_time_multiplier": 3,
+    "default_skill_penalty": 0.3,
+    "required_proficiencies": [ "prof_concentration_intermediate" ]
+  }
+]

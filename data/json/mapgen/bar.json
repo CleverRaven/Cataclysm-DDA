@@ -27,8 +27,8 @@
         "|....xxxx.....xxxx....T|",
         "|......................|",
         "||+||+||||||||||||||+|||",
-        "|rl|rl|===dd<====Dllll&|",
-        "|ts|ts|4=========|{{{l&|",
+        "|rl|rl|===dd<====Dllll@|",
+        "|ts|ts|4=========|{{{l@|",
         "|||||||==========|||||||"
       ],
       "terrain": {
@@ -54,7 +54,8 @@
       },
       "furniture": {
         "#": "f_table",
-        "&": "f_fridge",
+        "&": [ "f_glass_fridge", "f_glass_fridge_double" ],
+        "@": "f_heavy_duty_fridge",
         "B": "f_bench",
         "C": "f_chair",
         "T": "f_trashcan",
@@ -197,7 +198,7 @@
         "@": "f_table",
         "#": "f_table",
         "$": "f_glass_fridge",
-        "&": "f_fridge",
+        "&": "f_heavy_duty_fridge",
         "B": "f_sofa",
         "C": "f_armchair",
         "T": "f_trashcan",

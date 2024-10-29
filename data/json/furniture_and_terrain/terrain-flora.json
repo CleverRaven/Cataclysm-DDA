@@ -837,7 +837,7 @@
     "type": "terrain",
     "id": "t_tree_coffee",
     "name": "coffee tree",
-    "description": "This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  If you examined the branches more closely, you could probably find a few mature ones.",
+    "description": "This is 'Gymnocladus dioicus', or the Kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  If you examined the branches more closely, you could probably find a few mature ones.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green_green", "brown" ],
     "//": "barren in winter, fruits in autumn",
@@ -866,7 +866,7 @@
     "type": "terrain",
     "id": "t_tree_coffee_harvested",
     "name": "coffee tree",
-    "description": "This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  Looks like all the ripe pods have been picked.",
+    "description": "This is 'Gymnocladus dioicus', or the Kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  Looks like all the ripe pods have been picked.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "//": "barren in winter, no fruits anymore",
@@ -2670,7 +2670,8 @@
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "transforms_into": "t_grass_grazed",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "GRAZABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2722,6 +2723,19 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_grazed",
+    "name": "grazed grass",
+    "description": "An area of extremely short green stubble protruding from the dirt.  Something has been clearly grazing here.",
+    "looks_like": "t_grass_dead",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "transforms_into": "t_grass",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "HARVESTED" ],
     "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2879,7 +2893,7 @@
     "type": "terrain",
     "id": "t_fungus_colony",
     "name": "mushroom colony",
-    "description": "A large pile of organic matter which has molded over with fungus.  The caps of many mundane mushrooms spring from the top, you can even recognise some.  The fungi growing here don't seem edible, though.",
+    "description": "A large pile of organic matter which has molded over with fungus.  The caps of many mundane mushrooms spring from the top, you can even recognize some.  The fungi growing here don't seem edible, though.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 2,

@@ -35,7 +35,7 @@
         "move_cost": 80,
         "accuracy": 5,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "effects": [ { "id": "stunned", "duration": 2, "chance": 5 } ],
         "hit_dmg_u": "%1$s hits your %2$s with a cudgel!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a cudgel!",
@@ -58,7 +58,8 @@
       ]
     },
     "armor": { "bash": 12, "cut": 12, "bullet": 4 },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "WIELDED_WEAPON" ]
+    "zombify_into": "mon_zombie_goblin",
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "REVIVES", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
@@ -91,7 +92,7 @@
           "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
           "fake_dex": 8,
           "fake_per": 8,
-          "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+          "condition": { "test_eoc": "is_disarmed" },
           "require_targeting_player": false,
           "description": "The goblin slings a rock at you!",
           "ranges": [ [ 2, 10, "DEFAULT" ] ],
@@ -119,7 +120,7 @@
         "range": 2,
         "//": "attack based on knife spear",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 26 } ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "hit_dmg_u": "%1$s hits your %2$s with their spear!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their spear!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
@@ -169,6 +170,7 @@
         "uncanny_dodgeable": true,
         "dodgeable": false,
         "blockable": false,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns!",
         "hit_dmg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns!",
         "miss_msg_u": "%1$s chatters words of magic and you narrowly avoid a cloud of scratching thorns!",
@@ -181,6 +183,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
         "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       {
@@ -188,6 +191,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_ranged_gas_attack", "min_level": 5 },
         "cooldown": 30,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and %1$s is surrounded in greenish vapors."
       }
     ],
@@ -224,7 +228,7 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "mon_wolf_mutant_huge",
+    "looks_like": "mon_wolf",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 20,
     "morale": 70,
@@ -239,7 +243,7 @@
     "stomach_size": 800,
     "harvest": "mammal_large_fur",
     "dissect": "dissect_lupine_sample_large",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {
@@ -252,7 +256,7 @@
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zombie_dog_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {
@@ -293,7 +297,7 @@
         "accuracy": 6,
         "//": "attack based on combat machete",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 23 } ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "hit_dmg_u": "%1$s hits your %2$s with their blade!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
@@ -310,7 +314,7 @@
         "accuracy": 6,
         "//": "attack based on combat machete + rapid strike",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "hit_dmg_u": "%1$s hits your %2$s with their blade!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
@@ -346,7 +350,7 @@
       "HAS_MIND",
       "WARM",
       "BASHES",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "QUIETMOVES",
       "SWARMS",
       "GROUP_MORALE",
@@ -371,7 +375,7 @@
         "range": 2,
         "//": "attack based on knife spear",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 26 } ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "hit_dmg_u": "%1$s hits your %2$s with their spear!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their spear!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",

@@ -45,7 +45,7 @@
         "M.bbbbbbbbb..bbbbbbbbb.MM.MCCM.MCCM..MCCM.MCCM.MM.........J..J..F..F...M",
         "M.ttttttttt..ttttttttt.MM.MCCM.MCCM..MCCM.MCCM.MM.........j..j.........M",
         "M.bbbbbbbbb..bbbbbbbbb.MM.MddM.MddM..MddM.MddM.MM.........j..j.........M",
-        "M.....*..........*.....MM......................MMH.H.H.H.HJ..JH.H.H.H.HM",
+        "M.....*..........*.....MM......................MMh.h.h.h.hJ..JH.H.H.H.HM",
         "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMM#ddMMMMMMMMMMM",
         "MPPpv................................................................pPM",
         "Mpppv.*.....*.....*.....*.....*....**....*.....*.....*.....*.....*...pPM",
@@ -109,7 +109,6 @@
         "w": "f_workbench",
         "S": "f_sink",
         "t": "f_table",
-        "V": "f_vending_reinforced",
         "C": "f_crate_c",
         "1": "f_arcfurnace_empty",
         "2": "f_hydraulic_press",
@@ -118,6 +117,7 @@
         "9": "f_heavy_lathe",
         "K": "f_beverly_shear",
         "H": "f_exo_gantry",
+        "h": "f_exo_gantry",
         "5": "f_machinery_electronic",
         "6": "f_machinery_light",
         "7": "f_machinery_heavy",
@@ -153,6 +153,7 @@
         "p": "t_foamcrete_floor_seal",
         "z": "t_escape_pod_floor"
       },
+      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
       "mapping": {
         "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },
@@ -188,8 +189,8 @@
         "E": { "items": [ { "item": "afs_tools_space_emergency", "chance": 100 } ] },
         "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
-        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
-        "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] }
+        "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] },
+        "h": { "items": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ] }
       },
       "place_loot": [
         { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },

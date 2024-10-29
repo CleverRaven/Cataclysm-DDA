@@ -53,7 +53,7 @@
       },
       {
         "id": "LESSON_GOT_WEAPON",
-        "text": "The item you just picked up is a good weapon!  To wield a weapon, press <keybind:wield>, then pick what to wield.  To wield nothing, either drop your weapon with <keybind:drop>, or press <keybind:wield> to put it away.  A zombie has spawned nearby.  To attack it, simply move into it."
+        "text": "The item you just picked up is a good weapon!  To wield a weapon, press <keybind:wield>, then pick what to wield.  To wield nothing, either drop your weapon with <keybind:drop>, or press <keybind:wield> to put it away."
       },
       {
         "id": "LESSON_GOT_FOOD",

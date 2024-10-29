@@ -21,12 +21,18 @@ struct recipe_group_data;
 
 using group_id = string_id<recipe_group_data>;
 
+struct omt_types_parameters {
+    std::string omt;
+    ot_match_type omt_type;
+    std::unordered_map<std::string, std::unordered_set<std::string>> parameters;
+};
+
 struct recipe_group_data {
     group_id id;
     std::vector<std::pair<group_id, mod_id>> src;
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
-    std::map<recipe_id, std::set<std::string>> om_terrains;
+    std::map<recipe_id, std::vector<omt_types_parameters>> om_terrains;
     bool was_loaded = false;
 
     void load( const JsonObject &jo, std::string_view src );
@@ -46,9 +52,23 @@ void recipe_group_data::load( const JsonObject &jo, const std::string_view )
         translation desc;
         ordering.read( "description", desc );
         recipes.emplace( name_id, desc );
-        om_terrains[name_id] = std::set<std::string>();
-        for( const std::string ter_type : ordering.get_array( "om_terrains" ) ) {
-            om_terrains[name_id].insert( ter_type );
+        for( const JsonValue jv : ordering.get_array( "om_terrains" ) ) {
+            std::string ter;
+            ot_match_type ter_match_type = ot_match_type::type;
+            std::unordered_map<std::string, std::unordered_set<std::string>> parameter_map;
+            if( jv.test_string() ) {
+                ter = jv.get_string();
+            } else {
+                JsonObject jo = jv.get_object();
+                ter = jo.get_string( "om_terrain" );
+                if( jo.has_string( "om_terrain_match_type" ) ) {
+                    ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+                }
+                if( jo.has_object( "parameters" ) ) {
+                    jo.read( "parameters", parameter_map );
+                }
+            }
+            om_terrains[name_id].emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
         }
     }
 }
@@ -81,30 +101,68 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_bldg( const std::s
     }
 }
 
-std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,
-        const std::string &om_terrain_id )
+std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id )
 {
     std::map<recipe_id, translation> all_rec;
     if( !recipe_groups_data.is_valid( group_id( id ) ) ) {
         return all_rec;
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
-    if( om_terrain_id != "ANY" ) {
-        std::string base_om_ter_id{ oter_no_dir( oter_id( om_terrain_id ) ) };
+    return group.recipes;
+}
 
-        for( const auto &recp : group.recipes ) {
-            const auto &recp_terrain = group.om_terrains.find( recp.first );
-            if( recp_terrain == group.om_terrains.end() ) {
-                continue;
-            }
-            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ||
-                recp_terrain->second.find( "ANY" ) != recp_terrain->second.end() ) {
-                all_rec.emplace( recp );
-            }
-        }
+std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,
+        const oter_id &omt_ter, const std::optional<mapgen_arguments> *maybe_args )
+{
+    std::map<recipe_id, translation> all_rec;
+    if( !recipe_groups_data.is_valid( group_id( id ) ) ) {
         return all_rec;
     }
-    return group.recipes;
+    const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
+    for( const auto &recp : group.recipes ) {
+        const auto &recp_terrain_it = group.om_terrains.find( recp.first );
+        if( recp_terrain_it == group.om_terrains.end() ) {
+            debugmsg( "Recipe %s doesn't specify 'om_terrains', use ANY instead if intended to work anywhere",
+                      recp.second );
+            continue;
+        }
+        for( const omt_types_parameters &om_terrain : recp_terrain_it->second ) {
+            if( om_terrain.omt == "ANY" ) {
+                all_rec.emplace( recp );
+                break;
+            }
+            if( !is_ot_match( om_terrain.omt, omt_ter, om_terrain.omt_type ) ) {
+                continue;
+            }
+            if( om_terrain.parameters.empty() ) {
+                all_rec.emplace( recp );
+                break;
+            }
+            if( !!maybe_args ) {
+                bool parameters_matched = true;
+                for( const auto &key_value_set_pair : om_terrain.parameters ) {
+                    auto map_key_it = maybe_args->value().map.find( key_value_set_pair.first );
+                    if( map_key_it == maybe_args->value().map.end() ) {
+                        debugmsg( "Parameter key %s in recipe %s not found for omt %s", key_value_set_pair.first, id,
+                                  omt_ter.id().str() );
+                        continue;
+                    }
+                    if( key_value_set_pair.second.find( map_key_it->second.get_string() ) ==
+                        key_value_set_pair.second.end() ) {
+                        parameters_matched = false;
+                        break;
+                    }
+                }
+                if( parameters_matched ) {
+                    all_rec.emplace( recp );
+                    break;
+                }
+            } else {
+                debugmsg( "Parameter(s) expected for recipe %s but none found for omt %s", id, omt_ter.id().str() );
+            }
+        }
+    }
+    return all_rec;
 }
 
 std::string recipe_group::get_building_of_recipe( const std::string &recipe )

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "EOC_CLEAR_BUFFS",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_lose_effect": "mabuff:buff_perk_tempo" },
+      { "u_lose_effect": "mabuff:buff_perk_momentum" },
+      { "u_lose_effect": "perk_dex_bonus" }
+    ]
+  },
+  {
+    "id": "EOC_CLEAR_COMBAT_TEMPO",
+    "type": "effect_on_condition",
+    "effect": [ { "u_lose_effect": "mabuff:buff_perk_tempo" } ]
+  },
+  {
+    "id": "EOC_CLEAR_MOMENTUM",
+    "type": "effect_on_condition",
+    "effect": [ { "u_lose_effect": "mabuff:buff_perk_momentum" }, { "u_lose_effect": "perk_dex_bonus" } ]
+  }
+]

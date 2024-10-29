@@ -35,10 +35,10 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     CAPTURE( item_loc->typeId() );
 
     guy.set_moves( 1000 );
-    const int old_moves = guy.moves;
+    const int old_moves = guy.get_moves();
     REQUIRE( guy.wield( item_loc ) );
     CAPTURE( guy.get_wielded_item()->typeId() );
-    int move_cost = old_moves - guy.moves;
+    int move_cost = old_moves - guy.get_moves();
 
     INFO( "Strength:" << guy.get_str() );
     CHECK( Approx( expected_moves ).epsilon( 0.1f ) == move_cost );
@@ -47,9 +47,9 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
 static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
                                      const int expected_moves )
 {
-    item &spawned_item = get_map().add_item_or_charges( guy.pos(), item( item_name, calendar::turn,
+    item &spawned_item = get_map().add_item_or_charges( guy.pos_bub(), item( item_name, calendar::turn,
                          1 ) );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    item_location item_loc( map_cursor( guy.get_location() ), &spawned_item );
     CHECK( item_loc.obtain_cost( guy ) == Approx( expected_moves ).epsilon( 0.1f ) );
 }
 

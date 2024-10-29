@@ -15,7 +15,7 @@
       [ "H" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#cross", "wheel_10", "minifridge" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#cross", "wheel_10", "big_portable_fridge" ] },
       { "x": 0, "y": 0, "parts": [ "controls_electronic" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe#cross", "wheel_10" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery" ] },
@@ -94,7 +94,7 @@
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_10", "small_storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "minifreezer", "controls_electronic" ] }
+      { "x": 0, "y": 0, "parts": [ "chest_minifreezer", "controls_electronic" ] }
     ]
   },
   {
@@ -357,5 +357,12 @@
     "name": "small hospital bed",
     "blueprint": [ [ "x" ] ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_10", "bed" ] } ]
+  },
+  {
+    "id": "medical_cart",
+    "type": "vehicle",
+    "name": "Medical Cart",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "metal_tray" ] } ]
   }
 ]

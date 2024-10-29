@@ -10,6 +10,7 @@
 
 #include "assign.h"
 #include "calendar.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -18,7 +19,9 @@
 #include "iexamine.h"
 #include "iexamine_actors.h"
 #include "item_group.h"
+#include "iteminfo_query.h"
 #include "json.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -26,7 +29,11 @@
 #include "trap.h"
 #include "type_id.h"
 
+static furn_id f_null;
+
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+static const skill_id skill_survival( "survival" );
 
 namespace
 {
@@ -204,9 +211,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_PLOWABLE: return "PLOWABLE";
         case ter_furn_flag::TFLAG_ORGANIC: return "ORGANIC";
         case ter_furn_flag::TFLAG_CONSOLE: return "CONSOLE";
-        case ter_furn_flag::TFLAG_TREE_PLANTABLE: return "TREE_PLANTABLE";
         case ter_furn_flag::TFLAG_PLANTABLE: return "PLANTABLE";
         case ter_furn_flag::TFLAG_GROWTH_HARVEST: return "GROWTH_HARVEST";
+        case ter_furn_flag::TFLAG_GROWTH_OVERGROWN: return "GROWTH_OVERGROWN";
         case ter_furn_flag::TFLAG_MOUNTABLE: return "MOUNTABLE";
         case ter_furn_flag::TFLAG_RAMP_END: return "RAMP_END";
         case ter_furn_flag::TFLAG_FLOWER: return "FLOWER";
@@ -256,17 +263,17 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
         case ter_furn_flag::TFLAG_AMMOTYPE_RELOAD: return "AMMOTYPE_RELOAD";
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
-        case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
-		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
-		case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
+        case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
+        case ter_furn_flag::TFLAG_TRANSLUCENT: return "TRANSLUCENT";
+        case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
         case ter_furn_flag::TFLAG_GRAZABLE: return "GRAZABLE";
         case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
         case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
-        case ter_furn_flag::TFLAG_MUTANT_TREE: return "MUTANT_TREE";
         case ter_furn_flag::TFLAG_SINGLE_SUPPORT: return "SINGLE_SUPPORT";
         case ter_furn_flag::TFLAG_CLIMB_ADJACENT: return "CLIMB_ADJACENT";
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
+        case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -564,7 +571,7 @@ std::string map_data_common_t::name() const
     return name_.translated();
 }
 
-bool map_data_common_t::can_examine( const tripoint &examp ) const
+bool map_data_common_t::can_examine( const tripoint_bub_ms &examp ) const
 {
     return examine_actor || examine_func.can_examine( examp );
 }
@@ -584,7 +591,7 @@ void map_data_common_t::set_examine( iexamine_functions func )
     examine_func = func;
 }
 
-void map_data_common_t::examine( Character &you, const tripoint &examp ) const
+void map_data_common_t::examine( Character &you, const tripoint_bub_ms &examp ) const
 {
     if( !examine_actor ) {
         examine_func.examine( you, examp );
@@ -649,6 +656,144 @@ const std::set<std::string> &map_data_common_t::get_harvest_names() const
     return hid.is_null() ? null_names : hid->names();
 }
 
+std::vector<std::string> ter_t::extended_description() const
+{
+    std::vector<std::string> ret;
+    ret.emplace_back( get_origin( src ) );
+    ret.emplace_back( "--" );
+
+    std::vector<std::string> tmp = map_data_common_t::extended_description();
+    ret.insert( ret.end(), tmp.begin(), tmp.end() );
+
+    return ret;
+}
+
+std::vector<std::string> furn_t::extended_description() const
+{
+    std::vector<std::string> ret;
+    ret.emplace_back( get_origin( src ) );
+    ret.emplace_back( "--" );
+
+    std::vector<std::string> tmp = map_data_common_t::extended_description();
+    ret.insert( ret.end(), tmp.begin(), tmp.end() );
+
+    // If this furniture has a crafting pseudo item, check for tool qualities and print them
+    if( !crafting_pseudo_item.is_empty() ) {
+        const item pseudo( crafting_pseudo_item );
+        std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
+        const iteminfo_query quality_query( quality_part );
+        std::vector<iteminfo> info_vec;
+        pseudo.qualities_info( info_vec, &quality_query, 1, false );
+        // A bit of cargo-culting here, pre-imgui printing code was adapted
+        // to split string with line breaks into single-line strings
+        std::string quality_string = format_item_info( info_vec, {} );
+        size_t strpos = 0;
+        while( ( strpos = quality_string.find( '\n' ) ) != std::string::npos ) {
+            // \n character is skipped
+            ret.emplace_back( quality_string.substr( 0, strpos ) );
+            quality_string.erase( 0, strpos + 1 );
+        }
+    }
+
+    return ret;
+}
+
+std::vector<std::string> map_data_common_t::extended_description() const
+{
+    std::vector<std::string> tmp;
+
+    tmp.emplace_back( string_format( _( "<header>That is a %s.</header>" ), name() ) );
+    tmp.emplace_back( description.translated() );
+    bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
+    []( const harvest_id & hv ) {
+        return !hv.obj().empty();
+    } );
+
+    if( has_any_harvest ) {
+        tmp.emplace_back( "--" );
+        int player_skill = get_player_character().get_greater_skill_or_knowledge_level( skill_survival );
+        tmp.emplace_back( _( "You could harvest the following things from it:" ) );
+        // Group them by identical ids to avoid repeating same blocks of data
+        // First, invert the mapping: season->id to id->seasons
+        std::multimap<harvest_id, season_type> identical_harvest;
+        for( size_t season = SPRING; season <= WINTER; season++ ) {
+            const auto &hv = harvest_by_season[season];
+            if( hv.obj().empty() ) {
+                continue;
+            }
+
+            identical_harvest.insert( std::make_pair( hv, static_cast<season_type>( season ) ) );
+        }
+        // Now print them in order of seasons
+        // TODO: Highlight current season
+        for( size_t season = SPRING; season <= WINTER; season++ ) {
+            const auto range = identical_harvest.equal_range( harvest_by_season[season] );
+            if( range.first == range.second ) {
+                continue;
+            }
+
+            // List the seasons first
+            std::string seasons = enumerate_as_string( range.first, range.second,
+            []( const std::pair<harvest_id, season_type> &pr ) {
+                if( pr.second == season_of_year( calendar::turn ) ) {
+                    return "<good>" + calendar::name_season( pr.second ) + "</good>";
+                }
+
+                return "<dark>" + calendar::name_season( pr.second ) + "</dark>";
+            } );
+            seasons += ":";
+            tmp.emplace_back( seasons );
+            // List the drops
+            // They actually describe what player can get from it now, so it isn't spoily
+            // TODO: Allow spoily listing of everything
+            tmp.emplace_back( range.first->first.obj().describe( player_skill ) );
+            // Remove the range from the multimap so that it isn't listed twice
+            identical_harvest.erase( range.first, range.second );
+        }
+    }
+
+    tmp.emplace_back( "--" );
+    tmp.emplace_back( string_format( _( "Concealment: %d%%" ), coverage ) );
+    if( has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        tmp.emplace_back( _( "Can be <color_green>cut down</color> with the right tools." ) );
+    }
+
+    // todo: generalize, copied from map::features which combines terrain and furniture info
+    std::string result;
+    const auto add = [&]( const std::string & text ) {
+        if( !result.empty() ) {
+            result += " ";
+        }
+        result += text;
+    };
+    const auto add_if = [&]( const bool cond, const std::string & text ) {
+        if( cond ) {
+            add( text );
+        }
+    };
+    add_if( bash.str_max != -1 && !bash.bash_below, _( "Smashable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_SHARP ), _( "Sharp." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAT ), _( "Flat." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
+            has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
+            has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD ), _( "Flammable." ) );
+    tmp.emplace_back( result );
+
+    std::vector<std::string> ret;
+    ret.reserve( tmp.size() );
+    for( const std::string &s : tmp ) {
+        ret.emplace_back( replace_colors( s ) );
+    }
+
+    return ret;
+}
+
 void load_furniture( const JsonObject &jo, const std::string &src )
 {
     if( furniture_data.empty() ) {
@@ -667,7 +812,8 @@ void load_terrain( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 {
-    if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
+    if( !transparent && ( flag == ter_furn_flag::TFLAG_TRANSPARENT ||
+                          flag == ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         transparent = true;
     }
 
@@ -744,423 +890,12 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
     }
 }
 
-ter_id t_null,
-       t_hole, // Real nothingness; makes you fall a z-level
-       // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
-       t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
-       t_rock_floor,
-       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
-       t_grass_alien,
-       t_metal_floor,
-       t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
-       t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
-       t_floor, t_floor_waxed,
-       t_dirtfloor,//Dirt floor(Has roof)
-       t_carpet_red, t_carpet_yellow, t_carpet_purple, t_carpet_green,
-       t_linoleum_white, t_linoleum_gray,
-       t_grate,
-       t_slime,
-       t_bridge,
-       t_covered_well,
-       // Lighting related
-       t_utility_light,
-       // Walls
-       t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate,
-       t_palisade_gate_o,
-       t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-       t_wall, t_concrete_wall, t_brick_wall,
-       t_wall_metal,
-       t_scrap_wall,
-       t_scrap_wall_halfway,
-       t_wall_glass,
-       t_wall_glass_alarm,
-       t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
-       t_laminated_glass, t_ballistic_glass,
-       t_reinforced_door_glass_o, t_reinforced_door_glass_c,
-       t_bars,
-       t_reb_cage,
-       t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b,
-       t_rdoor_o, t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm,
-       t_door_frame,
-       t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
-       t_retractable_gate_c, t_retractable_gate_l, t_retractable_gate_o,
-       t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
-       t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
-       t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
-       t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-       t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
-       t_portcullis,
-       t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open,
-       t_curtains, t_window_bars_curtains, t_window_bars_domestic,
-       t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-       t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced,
-       t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
-       t_metal_grate_window, t_metal_grate_window_with_curtain, t_metal_grate_window_with_curtain_open,
-       t_metal_grate_window_noglass, t_metal_grate_window_with_curtain_noglass,
-       t_metal_grate_window_with_curtain_open_noglass,
-       t_window_stained_green, t_window_stained_red, t_window_stained_blue,
-       t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
-       t_rock, t_fault,
-       t_paper,
-       t_rock_wall, t_rock_wall_half,
-       // Tree
-       t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_coffee, t_tree_coffee_harvested,
-       t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
-       t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum,
-       t_tree_plum_harvested,
-       t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped,
-       t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush,
-       t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk, t_stump,
-       t_root_wall,
-       t_wax, t_floor_wax,
-       t_fence, t_chainfence, t_chainfence_posts,
-       t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-       t_railing,
-       // Nether
-       t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
-       t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
-       // Water, lava, etc.
-       t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
-       t_swater_surf, t_water_pool, t_sewage,
-       t_lava,
-       // More embellishments than you can shake a stick at.
-       t_sandbox, t_slide, t_monkey_bars, t_backboard,
-       t_gas_pump, t_gas_pump_smashed,
-       t_diesel_pump, t_diesel_pump_smashed,
-       t_atm,
-       t_missile, t_missile_exploded,
-       t_radio_tower, t_radio_controls,
-       t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
-       t_barndoor, t_palisade_pulley,
-       t_gates_control_metal,
-       t_sewage_pipe, t_sewage_pump,
-       t_column,
-       t_vat,
-       t_rootcellar,
-       t_cvdbody, t_cvdmachine,
-       t_water_pump,
-       t_conveyor,
-       t_improvised_shelter,
-       // Staircases etc.
-       t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
-       t_slope_up, t_rope_up,
-       t_manhole_cover,
-       // Special
-       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
-       t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
-       t_pedestal_temple,
-       // Temple tiles
-       t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
-       t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-       t_rad_platform,
-       // Railroad and subway
-       t_railroad_rubble,
-       t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
-       t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
-       t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1,
-       t_railroad_track_d2,
-       t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
-       t_railroad_track_d_on_tie;
-
-// TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
+ter_id t_null;
 
 void set_ter_ids()
 {
     t_null = ter_id( "t_null" );
-    t_hole = ter_id( "t_hole" );
-    t_dirt = ter_id( "t_dirt" );
-    t_sand = ter_id( "t_sand" );
-    t_clay = ter_id( "t_clay" );
-    t_dirtmound = ter_id( "t_dirtmound" );
-    t_grave = ter_id( "t_grave" );
-    t_grave_new = ter_id( "t_grave_new" );
-    t_pit_shallow = ter_id( "t_pit_shallow" );
-    t_pit = ter_id( "t_pit" );
-    t_pit_corpsed = ter_id( "t_pit_corpsed" );
-    t_pit_covered = ter_id( "t_pit_covered" );
-    t_pit_spiked = ter_id( "t_pit_spiked" );
-    t_pit_spiked_covered = ter_id( "t_pit_spiked_covered" );
-    t_pit_glass = ter_id( "t_pit_glass" );
-    t_pit_glass_covered = ter_id( "t_pit_glass_covered" );
-    t_rock_floor = ter_id( "t_rock_floor" );
-    t_grass = ter_id( "t_grass" );
-    t_grass_dead = ter_id( "t_grass_dead" );
-    t_grass_long = ter_id( "t_grass_long" );
-    t_grass_tall = ter_id( "t_grass_tall" );
-    t_moss = ter_id( "t_moss" );
-    t_metal_floor = ter_id( "t_metal_floor" );
-    t_pavement = ter_id( "t_pavement" );
-    t_pavement_y = ter_id( "t_pavement_y" );
-    t_zebra = ter_id( "t_zebra" );
-    t_sidewalk = ter_id( "t_sidewalk" );
-    t_concrete = ter_id( "t_concrete" );
-    t_thconc_floor = ter_id( "t_thconc_floor" );
-    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
-    t_strconc_floor = ter_id( "t_strconc_floor" );
-    t_floor = ter_id( "t_floor" );
-    t_floor_waxed = ter_id( "t_floor_waxed" );
-    t_dirtfloor = ter_id( "t_dirtfloor" );
-    t_carpet_red = ter_id( "t_carpet_red" );
-    t_carpet_yellow = ter_id( "t_carpet_yellow" );
-    t_carpet_purple = ter_id( "t_carpet_purple" );
-    t_carpet_green = ter_id( "t_carpet_green" );
-    t_linoleum_white = ter_id( "t_linoleum_white" );
-    t_linoleum_gray = ter_id( "t_linoleum_gray" );
-    t_grate = ter_id( "t_grate" );
-    t_slime = ter_id( "t_slime" );
-    t_bridge = ter_id( "t_bridge" );
-    t_utility_light = ter_id( "t_utility_light" );
-    t_wall_log_half = ter_id( "t_wall_log_half" );
-    t_wall_log = ter_id( "t_wall_log" );
-    t_wall_log_chipped = ter_id( "t_wall_log_chipped" );
-    t_wall_log_broken = ter_id( "t_wall_log_broken" );
-    t_palisade = ter_id( "t_palisade" );
-    t_palisade_gate = ter_id( "t_palisade_gate" );
-    t_palisade_gate_o = ter_id( "t_palisade_gate_o" );
-    t_wall_half = ter_id( "t_wall_half" );
-    t_wall_wood = ter_id( "t_wall_wood" );
-    t_wall_wood_chipped = ter_id( "t_wall_wood_chipped" );
-    t_wall_wood_broken = ter_id( "t_wall_wood_broken" );
-    t_wall = ter_id( "t_wall" );
-    t_concrete_wall = ter_id( "t_concrete_wall" );
-    t_brick_wall = ter_id( "t_brick_wall" );
-    t_wall_metal = ter_id( "t_wall_metal" );
-    t_scrap_wall = ter_id( "t_scrap_wall" );
-    t_scrap_wall_halfway = ter_id( "t_scrap_wall_halfway" );
-    t_wall_glass = ter_id( "t_wall_glass" );
-    t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
-    t_reinforced_glass = ter_id( "t_reinforced_glass" );
-    t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
-    t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
-    t_laminated_glass = ter_id( "t_laminated_glass" );
-    t_ballistic_glass = ter_id( "t_ballistic_glass" );
-    t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
-    t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
-    t_bars = ter_id( "t_bars" );
-    t_reb_cage = ter_id( "t_reb_cage" );
-    t_door_c = ter_id( "t_door_c" );
-    t_door_c_peep = ter_id( "t_door_c_peep" );
-    t_door_b = ter_id( "t_door_b" );
-    t_door_b_peep = ter_id( "t_door_b_peep" );
-    t_door_o = ter_id( "t_door_o" );
-    t_door_o_peep = ter_id( "t_door_o_peep" );
-    t_rdoor_c = ter_id( "t_rdoor_c" );
-    t_rdoor_b = ter_id( "t_rdoor_b" );
-    t_rdoor_o = ter_id( "t_rdoor_o" );
-    t_door_locked_interior = ter_id( "t_door_locked_interior" );
-    t_door_locked = ter_id( "t_door_locked" );
-    t_door_locked_peep = ter_id( "t_door_locked_peep" );
-    t_door_locked_alarm = ter_id( "t_door_locked_alarm" );
-    t_door_frame = ter_id( "t_door_frame" );
-    t_mdoor_frame = ter_id( "t_mdoor_frame" );
-    t_chaingate_l = ter_id( "t_chaingate_l" );
-    t_fencegate_c = ter_id( "t_fencegate_c" );
-    t_fencegate_o = ter_id( "t_fencegate_o" );
-    t_chaingate_c = ter_id( "t_chaingate_c" );
-    t_chaingate_o = ter_id( "t_chaingate_o" );
-    t_retractable_gate_l = ter_id( "t_retractable_gate_l" );
-    t_retractable_gate_c = ter_id( "t_retractable_gate_c" );
-    t_retractable_gate_o = ter_id( "t_retractable_gate_o" );
-    t_door_boarded = ter_id( "t_door_boarded" );
-    t_door_boarded_damaged = ter_id( "t_door_boarded_damaged" );
-    t_door_boarded_peep = ter_id( "t_door_boarded_peep" );
-    t_rdoor_boarded = ter_id( "t_rdoor_boarded" );
-    t_rdoor_boarded_damaged = ter_id( "t_rdoor_boarded_damaged" );
-    t_door_boarded_damaged_peep = ter_id( "t_door_boarded_damaged_peep" );
-    t_door_metal_c = ter_id( "t_door_metal_c" );
-    t_door_metal_o = ter_id( "t_door_metal_o" );
-    t_door_metal_locked = ter_id( "t_door_metal_locked" );
-    t_door_metal_pickable = ter_id( "t_door_metal_pickable" );
-    t_door_bar_c = ter_id( "t_door_bar_c" );
-    t_door_bar_o = ter_id( "t_door_bar_o" );
-    t_door_bar_locked = ter_id( "t_door_bar_locked" );
-    t_door_glass_c = ter_id( "t_door_glass_c" );
-    t_door_glass_o = ter_id( "t_door_glass_o" );
-    t_door_glass_frosted_c = ter_id( "t_door_glass_frosted_c" );
-    t_door_glass_frosted_o = ter_id( "t_door_glass_frosted_o" );
-    t_portcullis = ter_id( "t_portcullis" );
-    t_recycler = ter_id( "t_recycler" );
-    t_window = ter_id( "t_window" );
-    t_window_taped = ter_id( "t_window_taped" );
-    t_window_domestic = ter_id( "t_window_domestic" );
-    t_window_domestic_taped = ter_id( "t_window_domestic_taped" );
-    t_window_bars_domestic = ter_id( "t_window_bars_domestic" );
-    t_window_open = ter_id( "t_window_open" );
-    t_curtains = ter_id( "t_curtains" );
-    t_window_bars_curtains = ter_id( "t_window_bars_curtains" );
-    t_window_alarm = ter_id( "t_window_alarm" );
-    t_window_alarm_taped = ter_id( "t_window_alarm_taped" );
-    t_window_empty = ter_id( "t_window_empty" );
-    t_window_frame = ter_id( "t_window_frame" );
-    t_window_boarded = ter_id( "t_window_boarded" );
-    t_window_boarded_noglass = ter_id( "t_window_boarded_noglass" );
-    t_window_reinforced = ter_id( "t_window_reinforced" );
-    t_window_reinforced_noglass = ter_id( "t_window_reinforced_noglass" );
-    t_window_enhanced = ter_id( "t_window_enhanced" );
-    t_window_enhanced_noglass = ter_id( "t_window_enhanced_noglass" );
-    t_window_bars_alarm = ter_id( "t_window_bars_alarm" );
-    t_window_bars = ter_id( "t_window_bars" );
-    t_window_stained_green = ter_id( "t_window_stained_green" );
-    t_window_stained_red = ter_id( "t_window_stained_red" );
-    t_window_stained_blue = ter_id( "t_window_stained_blue" );
-    t_window_no_curtains = ter_id( "t_window_no_curtains" );
-    t_window_no_curtains_open = ter_id( "t_window_no_curtains_open" );
-    t_window_no_curtains_taped = ter_id( "t_window_no_curtains_taped" );
-    t_rock = ter_id( "t_rock" );
-    t_fault = ter_id( "t_fault" );
-    t_paper = ter_id( "t_paper" );
-    t_rock_wall = ter_id( "t_rock_wall" );
-    t_rock_wall_half = ter_id( "t_rock_wall_half" );
-    t_tree = ter_id( "t_tree" );
-    t_tree_young = ter_id( "t_tree_young" );
-    t_tree_apple = ter_id( "t_tree_apple" );
-    t_tree_apple_harvested = ter_id( "t_tree_apple_harvested" );
-    t_tree_coffee = ter_id( "t_tree_coffee" );
-    t_tree_coffee_harvested = ter_id( "t_tree_coffee_harvested" );
-    t_tree_pear = ter_id( "t_tree_pear" );
-    t_tree_pear_harvested = ter_id( "t_tree_pear_harvested" );
-    t_tree_cherry = ter_id( "t_tree_cherry" );
-    t_tree_cherry_harvested = ter_id( "t_tree_cherry_harvested" );
-    t_tree_peach = ter_id( "t_tree_peach" );
-    t_tree_peach_harvested = ter_id( "t_tree_peach_harvested" );
-    t_tree_apricot = ter_id( "t_tree_apricot" );
-    t_tree_apricot_harvested = ter_id( "t_tree_apricot_harvested" );
-    t_tree_plum = ter_id( "t_tree_plum" );
-    t_tree_plum_harvested = ter_id( "t_tree_plum_harvested" );
-    t_tree_pine = ter_id( "t_tree_pine" );
-    t_tree_blackjack = ter_id( "t_tree_blackjack" );
-    t_tree_birch = ter_id( "t_tree_birch" );
-    t_tree_willow = ter_id( "t_tree_willow" );
-    t_tree_maple = ter_id( "t_tree_maple" );
-    t_tree_maple_tapped = ter_id( "t_tree_maple_tapped" );
-    t_tree_deadpine = ter_id( "t_tree_deadpine" );
-    t_tree_hickory = ter_id( "t_tree_hickory" );
-    t_tree_hickory_dead = ter_id( "t_tree_hickory_dead" );
-    t_tree_hickory_harvested = ter_id( "t_tree_hickory_harvested" );
-    t_underbrush = ter_id( "t_underbrush" );
-    t_shrub = ter_id( "t_shrub" );
-    t_shrub_blueberry = ter_id( "t_shrub_blueberry" );
-    t_shrub_strawberry = ter_id( "t_shrub_strawberry" );
-    t_trunk = ter_id( "t_trunk" );
-    t_stump = ter_id( "t_stump" );
-    t_root_wall = ter_id( "t_root_wall" );
-    t_wax = ter_id( "t_wax" );
-    t_floor_wax = ter_id( "t_floor_wax" );
-    t_fence = ter_id( "t_fence" );
-    t_chainfence = ter_id( "t_chainfence" );
-    t_chainfence_posts = ter_id( "t_chainfence_posts" );
-    t_fence_post = ter_id( "t_fence_post" );
-    t_fence_wire = ter_id( "t_fence_wire" );
-    t_fence_barbed = ter_id( "t_fence_barbed" );
-    t_fence_rope = ter_id( "t_fence_rope" );
-    t_railing = ter_id( "t_railing" );
-    t_marloss = ter_id( "t_marloss" );
-    t_fungus_floor_in = ter_id( "t_fungus_floor_in" );
-    t_fungus_floor_sup = ter_id( "t_fungus_floor_sup" );
-    t_fungus_floor_out = ter_id( "t_fungus_floor_out" );
-    t_fungus_wall = ter_id( "t_fungus_wall" );
-    t_fungus_mound = ter_id( "t_fungus_mound" );
-    t_fungus = ter_id( "t_fungus" );
-    t_shrub_fungal = ter_id( "t_shrub_fungal" );
-    t_tree_fungal = ter_id( "t_tree_fungal" );
-    t_tree_fungal_young = ter_id( "t_tree_fungal_young" );
-    t_marloss_tree = ter_id( "t_marloss_tree" );
-    t_water_moving_dp = ter_id( "t_water_moving_dp" );
-    t_water_moving_sh = ter_id( "t_water_moving_sh" );
-    t_water_sh = ter_id( "t_water_sh" );
-    t_water_dp = ter_id( "t_water_dp" );
-    t_swater_sh = ter_id( "t_swater_sh" );
-    t_swater_dp = ter_id( "t_swater_dp" );
-    t_swater_surf = ter_id( "t_swater_surf" );
-    t_water_pool = ter_id( "t_water_pool" );
-    t_sewage = ter_id( "t_sewage" );
-    t_lava = ter_id( "t_lava" );
-    t_sandbox = ter_id( "t_sandbox" );
-    t_slide = ter_id( "t_slide" );
-    t_monkey_bars = ter_id( "t_monkey_bars" );
-    t_backboard = ter_id( "t_backboard" );
-    t_gas_pump = ter_id( "t_gas_pump" );
-    t_gas_pump_smashed = ter_id( "t_gas_pump_smashed" );
-    t_diesel_pump = ter_id( "t_diesel_pump" );
-    t_diesel_pump_smashed = ter_id( "t_diesel_pump_smashed" );
-    t_atm = ter_id( "t_atm" );
-    t_missile = ter_id( "t_missile" );
-    t_missile_exploded = ter_id( "t_missile_exploded" );
-    t_radio_tower = ter_id( "t_radio_tower" );
-    t_radio_controls = ter_id( "t_radio_controls" );
-    t_gates_mech_control = ter_id( "t_gates_mech_control" );
-    t_gates_control_brick = ter_id( "t_gates_control_brick" );
-    t_gates_control_concrete = ter_id( "t_gates_control_concrete" );
-    t_barndoor = ter_id( "t_barndoor" );
-    t_palisade_pulley = ter_id( "t_palisade_pulley" );
-    t_gates_control_metal = ter_id( "t_gates_control_metal" );
-    t_sewage_pipe = ter_id( "t_sewage_pipe" );
-    t_sewage_pump = ter_id( "t_sewage_pump" );
-    t_column = ter_id( "t_column" );
-    t_vat = ter_id( "t_vat" );
-    t_rootcellar = ter_id( "t_rootcellar" );
-    t_cvdbody = ter_id( "t_cvdbody" );
-    t_cvdmachine = ter_id( "t_cvdmachine" );
-    t_stairs_down = ter_id( "t_stairs_down" );
-    t_stairs_up = ter_id( "t_stairs_up" );
-    t_manhole = ter_id( "t_manhole" );
-    t_ladder_up = ter_id( "t_ladder_up" );
-    t_ladder_down = ter_id( "t_ladder_down" );
-    t_slope_down = ter_id( "t_slope_down" );
-    t_slope_up = ter_id( "t_slope_up" );
-    t_rope_up = ter_id( "t_rope_up" );
-    t_manhole_cover = ter_id( "t_manhole_cover" );
-    t_card_science = ter_id( "t_card_science" );
-    t_card_military = ter_id( "t_card_military" );
-    t_card_industrial = ter_id( "t_card_industrial" );
-    t_card_reader_broken = ter_id( "t_card_reader_broken" );
-    t_slot_machine = ter_id( "t_slot_machine" );
-    t_elevator_control = ter_id( "t_elevator_control" );
-    t_elevator_control_off = ter_id( "t_elevator_control_off" );
-    t_elevator = ter_id( "t_elevator" );
-    t_pedestal_wyrm = ter_id( "t_pedestal_wyrm" );
-    t_pedestal_temple = ter_id( "t_pedestal_temple" );
-    t_rock_red = ter_id( "t_rock_red" );
-    t_rock_green = ter_id( "t_rock_green" );
-    t_rock_blue = ter_id( "t_rock_blue" );
-    t_floor_red = ter_id( "t_floor_red" );
-    t_floor_green = ter_id( "t_floor_green" );
-    t_floor_blue = ter_id( "t_floor_blue" );
-    t_switch_rg = ter_id( "t_switch_rg" );
-    t_switch_gb = ter_id( "t_switch_gb" );
-    t_switch_rb = ter_id( "t_switch_rb" );
-    t_switch_even = ter_id( "t_switch_even" );
-    t_covered_well = ter_id( "t_covered_well" );
-    t_water_pump = ter_id( "t_water_pump" );
-    t_conveyor = ter_id( "t_conveyor" );
-    t_open_air = ter_id( "t_open_air" );
-    t_pavement_bg_dp = ter_id( "t_pavement_bg_dp" );
-    t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
-    t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
-    t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
-    t_rad_platform = ter_id( "t_rad_platform" );
-    t_improvised_shelter = ter_id( "t_improvised_shelter" );
-    t_railroad_rubble = ter_id( "t_railroad_rubble" );
-    t_buffer_stop = ter_id( "t_buffer_stop" );
-    t_railroad_crossing_signal = ter_id( "t_railroad_crossing_signal" );
-    t_crossbuck_metal = ter_id( "t_crossbuck_metal" );
-    t_crossbuck_wood = ter_id( "t_crossbuck_wood" );
-    t_railroad_tie = ter_id( "t_railroad_tie" );
-    t_railroad_tie_h = ter_id( "t_railroad_tie_h" );
-    t_railroad_tie_v = ter_id( "t_railroad_tie_v" );
-    t_railroad_tie_d = ter_id( "t_railroad_tie_d" );
-    t_railroad_track = ter_id( "t_railroad_track" );
-    t_railroad_track_h = ter_id( "t_railroad_track_h" );
-    t_railroad_track_v = ter_id( "t_railroad_track_v" );
-    t_railroad_track_d = ter_id( "t_railroad_track_d" );
-    t_railroad_track_d1 = ter_id( "t_railroad_track_d1" );
-    t_railroad_track_d2 = ter_id( "t_railroad_track_d2" );
-    t_railroad_track_on_tie = ter_id( "t_railroad_track_on_tie" );
-    t_railroad_track_h_on_tie = ter_id( "t_railroad_track_h_on_tie" );
-    t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
-    t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
+
     for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );
         if( ter.trap_id_str.empty() ) {
@@ -1177,173 +912,9 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-furn_id f_null, f_clear,
-        f_hay,
-        f_rubble, f_rubble_rock, f_wreckage, f_ash,
-        f_barricade_road, f_sandbag_half, f_sandbag_wall,
-        f_bulletin,
-        f_indoor_plant,
-        f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
-        f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
-        f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-        f_bench, f_table, f_pool_table,
-        f_counter,
-        f_fridge, f_glass_fridge, f_dresser, f_locker,
-        f_rack, f_bookcase,
-        f_washer, f_dryer,
-        f_vending_c, f_vending_o, f_dumpster, f_dive_block,
-        f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
-        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-        f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
-        f_fema_groundsheet, f_large_groundsheet,
-        f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
-        f_skin_door_o, f_skin_groundsheet,
-        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
-        f_cattails, f_lotus, f_lilypad,
-        f_safe_c, f_safe_l, f_safe_o,
-        f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-        f_fvat_empty, f_fvat_full, f_fvat_wood_empty, f_fvat_wood_full,
-        f_wood_keg,
-        f_standing_tank,
-        f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
-        f_flower_marloss,
-        f_tatami,
-        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-        f_arcfurnace_empty, f_arcfurnace_full,
-        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
-        f_water_mill, f_water_mill_active,
-        f_wind_mill, f_wind_mill_active,
-        f_robotic_arm, f_vending_reinforced,
-        f_brazier,
-        f_firering,
-        f_tourist_table,
-        f_camp_chair,
-        f_sign,
-        f_stook_empty, f_stook_full,
-        f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
-        f_console, f_console_broken;
-
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
-    f_clear = furn_id( "f_clear" );
-    f_hay = furn_id( "f_hay" );
-    f_rubble = furn_id( "f_rubble" );
-    f_rubble_rock = furn_id( "f_rubble_rock" );
-    f_wreckage = furn_id( "f_wreckage" );
-    f_ash = furn_id( "f_ash" );
-    f_barricade_road = furn_id( "f_barricade_road" );
-    f_sandbag_half = furn_id( "f_sandbag_half" );
-    f_sandbag_wall = furn_id( "f_sandbag_wall" );
-    f_stook_empty = furn_id( "f_stook_empty" );
-    f_stook_full = furn_id( "f_stook_full" );
-    f_bulletin = furn_id( "f_bulletin" );
-    f_indoor_plant = furn_id( "f_indoor_plant" );
-    f_bed = furn_id( "f_bed" );
-    f_toilet = furn_id( "f_toilet" );
-    f_makeshift_bed = furn_id( "f_makeshift_bed" );
-    f_straw_bed = furn_id( "f_straw_bed" );
-    f_sink = furn_id( "f_sink" );
-    f_oven = furn_id( "f_oven" );
-    f_woodstove = furn_id( "f_woodstove" );
-    f_fireplace = furn_id( "f_fireplace" );
-    f_bathtub = furn_id( "f_bathtub" );
-    f_chair = furn_id( "f_chair" );
-    f_armchair = furn_id( "f_armchair" );
-    f_sofa = furn_id( "f_sofa" );
-    f_cupboard = furn_id( "f_cupboard" );
-    f_trashcan = furn_id( "f_trashcan" );
-    f_desk = furn_id( "f_desk" );
-    f_exercise = furn_id( "f_exercise" );
-    f_bench = furn_id( "f_bench" );
-    f_table = furn_id( "f_table" );
-    f_pool_table = furn_id( "f_pool_table" );
-    f_counter = furn_id( "f_counter" );
-    f_fridge = furn_id( "f_fridge" );
-    f_glass_fridge = furn_id( "f_glass_fridge" );
-    f_dresser = furn_id( "f_dresser" );
-    f_locker = furn_id( "f_locker" );
-    f_rack = furn_id( "f_rack" );
-    f_bookcase = furn_id( "f_bookcase" );
-    f_washer = furn_id( "f_washer" );
-    f_dryer = furn_id( "f_dryer" );
-    f_vending_c = furn_id( "f_vending_c" );
-    f_vending_o = furn_id( "f_vending_o" );
-    f_vending_reinforced = furn_id( "f_vending_reinforced" );
-    f_dumpster = furn_id( "f_dumpster" );
-    f_dive_block = furn_id( "f_dive_block" );
-    f_crate_c = furn_id( "f_crate_c" );
-    f_crate_o = furn_id( "f_crate_o" );
-    f_coffin_c = furn_id( "f_coffin_c" );
-    f_coffin_o = furn_id( "f_coffin_o" );
-    f_canvas_wall = furn_id( "f_canvas_wall" );
-    f_large_canvas_wall = furn_id( "f_large_canvas_wall" );
-    f_canvas_door = furn_id( "f_canvas_door" );
-    f_large_canvas_door = furn_id( "f_large_canvas_door" );
-    f_canvas_door_o = furn_id( "f_canvas_door_o" );
-    f_large_canvas_door_o = furn_id( "f_large_canvas_door_o" );
-    f_groundsheet = furn_id( "f_groundsheet" );
-    f_large_groundsheet = furn_id( "f_large_groundsheet" );
-    f_center_groundsheet = furn_id( "f_center_groundsheet" );
-    f_fema_groundsheet = furn_id( "f_fema_groundsheet" );
-    f_skin_wall = furn_id( "f_skin_wall" );
-    f_skin_door = furn_id( "f_skin_door" );
-    f_skin_door_o = furn_id( "f_skin_door_o" );
-    f_skin_groundsheet = furn_id( "f_skin_groundsheet" );
-    f_mutpoppy = furn_id( "f_mutpoppy" );
-    f_fungal_mass = furn_id( "f_fungal_mass" );
-    f_fungal_clump = furn_id( "f_fungal_clump" );
-    f_flower_fungal = furn_id( "f_flower_fungal" );
-    f_cattails = furn_id( "f_cattails" );
-    f_lilypad = furn_id( "f_lilypad" );
-    f_lotus = furn_id( "f_lotus" );
-    f_safe_c = furn_id( "f_safe_c" );
-    f_safe_l = furn_id( "f_safe_l" );
-    f_safe_o = furn_id( "f_safe_o" );
-    f_plant_seed = furn_id( "f_plant_seed" );
-    f_plant_seedling = furn_id( "f_plant_seedling" );
-    f_plant_mature = furn_id( "f_plant_mature" );
-    f_plant_harvest = furn_id( "f_plant_harvest" );
-    f_fvat_empty = furn_id( "f_fvat_empty" );
-    f_fvat_full = furn_id( "f_fvat_full" );
-    f_fvat_wood_empty = furn_id( "f_fvat_wood_empty" );
-    f_fvat_wood_full = furn_id( "f_fvat_wood_full" );
-    f_wood_keg = furn_id( "f_wood_keg" );
-    f_standing_tank = furn_id( "f_standing_tank" );
-    f_egg_sackbw = furn_id( "f_egg_sackbw" );
-    f_egg_sackcs = furn_id( "f_egg_sackcs" );
-    f_egg_sackws = furn_id( "f_egg_sackws" );
-    f_egg_sacke = furn_id( "f_egg_sacke" );
-    f_flower_marloss = furn_id( "f_flower_marloss" );
-    f_kiln_empty = furn_id( "f_kiln_empty" );
-    f_kiln_full = furn_id( "f_kiln_full" );
-    f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
-    f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
-    f_arcfurnace_empty = furn_id( "f_arcfurnace_empty" );
-    f_arcfurnace_full = furn_id( "f_arcfurnace_full" );
-    f_smoking_rack = furn_id( "f_smoking_rack" );
-    f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
-    f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
-    f_metal_smoking_rack_active = furn_id( "f_metal_smoking_rack_active" );
-    f_water_mill = furn_id( "f_water_mill" );
-    f_water_mill_active = furn_id( "f_water_mill_active" );
-    f_wind_mill = furn_id( "f_wind_mill" );
-    f_wind_mill_active = furn_id( "f_wind_mill_active" );
-    f_robotic_arm = furn_id( "f_robotic_arm" );
-    f_brazier = furn_id( "f_brazier" );
-    f_firering = furn_id( "f_firering" );
-    f_tourist_table = furn_id( "f_tourist_table" );
-    f_camp_chair = furn_id( "f_camp_chair" );
-    f_sign = furn_id( "f_sign" );
-    f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
-    f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
-    f_gun_safe_el = furn_id( "f_gun_safe_el" );
-    f_street_light = furn_id( "f_street_light" );
-    f_traffic_light = furn_id( "f_traffic_light" );
-    f_flagpole = furn_id( "f_flagpole" );
-    f_wooden_flagpole = furn_id( "f_wooden_flagpole" );
-    f_console_broken = furn_id( "f_console_broken" );
-    f_console = furn_id( "f_console" );
 }
 
 size_t ter_t::count()
@@ -1395,7 +966,7 @@ void init_mapdata()
     add_actor( std::make_unique<eoc_examine_actor>() );
 }
 
-void map_data_common_t::load( const JsonObject &jo, const std::string & )
+void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 {
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
@@ -1403,7 +974,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
-        examine_actor->load( data );
+        examine_actor->load( data, src );
         examine_func = iexamine_functions_from_string( "invalid" );
     } else if( !was_loaded ) {
         examine_actor = nullptr;
@@ -1423,6 +994,19 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;
             }
+        }
+    }
+
+    if( jo.has_object( "liquid_source" ) ) {
+        JsonObject liquid_source = jo.get_object( "liquid_source" );
+        mandatory( liquid_source, was_loaded, "id", liquid_source_item_id );
+        optional( liquid_source, was_loaded, "min_temp", liquid_source_min_temp );
+        if( liquid_source.has_int( "count" ) ) {
+            mandatory( liquid_source, was_loaded, "count", liquid_source_count.first );
+            mandatory( liquid_source, was_loaded, "count", liquid_source_count.second );
+        } else if( liquid_source.has_array( "count" ) ) {
+            JsonArray ja = liquid_source.get_array( "count" );
+            liquid_source_count = { ja.get_int( 0 ), ja.get_int( 1 ) };
         }
     }
 
@@ -1601,6 +1185,10 @@ void ter_t::check() const
         if( !e.is_valid() ) {
             debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
         }
+    }
+    if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ) && !deconstruct.can_do ) {
+        debugmsg( "ter %s has EASY_DECONSTRUCT flag but cannot be deconstructed",
+                  id.c_str(), deconstruct.drop_group.c_str() );
     }
 }
 
@@ -1788,7 +1376,7 @@ void activity_data_ter::load( const JsonObject &jo )
 
 void activity_data_furn::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "result", result_, f_null.id() );
+    optional( jo, was_loaded, "result", result_, furn_str_id::NULL_ID() );
     activity_data_common::load( jo );
     valid_ = true;
 }

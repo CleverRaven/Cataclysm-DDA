@@ -2,31 +2,32 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
 #include <cstdlib>
-#include <iosfwd>
 #include <list>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
-#include "contents_change_handler.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
@@ -36,11 +37,12 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -52,7 +54,10 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -65,10 +70,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "recipe_dictionary.h"
-#include "activity_actor_definitions.h"
+
+struct use_function;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -117,6 +123,9 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
+
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -194,9 +203,9 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name(), m.name( c.pos() )
+                it.display_name(), m.name( c.pos_bub() )
             );
-            m.add_item_or_charges( c.pos(), it );
+            m.add_item_or_charges( c.pos_bub(), it );
             return true;
         }
     }
@@ -213,7 +222,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint where = veh.global_part_pos3( vp );
+    const tripoint_bub_ms where = veh.bub_part_pos( vp );
     map &here = get_map();
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
@@ -226,7 +235,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         }
 
         if( it.made_of( phase_id::LIQUID ) ) {
-            here.add_item_or_charges( c.pos(), it );
+            here.add_item_or_charges( c.pos_bub(), it );
             it.charges = 0;
         }
 
@@ -422,11 +431,13 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
         item &dropped_item = here.add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( where.raw() ), &dropped_item );
+        items_dropped.emplace_back( map_cursor( where ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
     you.recoil = MAX_RECOIL;
+    you.invalidate_weight_carried_cache();
+
     return items_dropped;
 }
 
@@ -531,7 +542,7 @@ int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
 {
     avatar &player_character = get_avatar();
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
-        const tripoint cart_position = player_character.pos() + player_character.grab_point;
+        const tripoint_bub_ms cart_position = player_character.pos_bub() + player_character.grab_point;
         if( const std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
             return move_cost_cart( it, src, dest, ovp->items().free_volume() );
         }
@@ -576,12 +587,12 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
     for( const tripoint &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.getabs( pt ) );
+        you.activity.coord_set.insert( here.getglobal( pt ).raw() );
     }
     // values[0]
-    you.activity.values.push_back( here.getabs( src_loc ).x );
+    you.activity.values.push_back( here.getglobal( src_loc ).x() );
     // values[1]
-    you.activity.values.push_back( here.getabs( src_loc ).y );
+    you.activity.values.push_back( here.getglobal( src_loc ).y() );
     // values[2]
     you.activity.values.push_back( point_zero.x );
     // values[3]
@@ -662,7 +673,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
+    const auto &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
             here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
@@ -736,7 +747,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
+    const auto &avoid = you.get_path_avoid();
     if( sorted.front() == you.pos_bub() ) {
         // We are on the best tile
         return {};
@@ -1167,8 +1178,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
-            here.ter( src_loc ) == t_stump ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == ter_t_trunk ||
+            here.ter( src_loc ) == ter_t_stump ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {
@@ -1186,7 +1197,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             // make sure nobody else is working on that corpse right now
             if( i.is_corpse() && !i.has_var( "activity_var" ) ) {
                 const mtype corpse = *i.get_mtype();
-                if( corpse.size >= creature_size::medium ) {
+                if( corpse.size > creature_size::medium ) {
                     big_count += 1;
                 } else {
                     small_count += 1;
@@ -1202,7 +1213,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
-                if( !b_rack_present || !here.has_nearby_table( src_loc, 2 ) ) {
+                if( !b_rack_present ) {
                     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
                 }
                 if( you.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( you.has_quality( qual_SAW_W ) ||
@@ -1293,6 +1304,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
             const itype_id seed = options.get_seed();
 
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+                return activity_reason_info::ok( do_activity_reason::NEEDS_CLEARING );
+            }
+
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 map_stack items = here.i_at( src_loc );
                 const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -1356,7 +1371,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( p ) {
             item_location to_craft = p->get_item_to_craft();
             if( to_craft && to_craft->is_craft() ) {
-                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
                 const recipe &r = to_craft->get_making();
                 std::vector<std::vector<item_comp>> item_comp_vector =
                                                      to_craft->get_continue_reqs().get_components();
@@ -1375,7 +1390,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
-        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -1777,29 +1792,8 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_preferred_crafting_component );
-
-            int left_to_consume = 0;
-
-            if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                int consumed = 0;
-                for( item &itm : empty_consumed ) {
-                    consumed += itm.charges;
-                }
-                left_to_consume = comp.count - consumed;
-            } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                left_to_consume = comp.count - empty_consumed.size();
-            }
-
-            if( left_to_consume > 0 ) {
-                comp_selection<item_comp> remainder = sel;
-                remainder.comp.count = 1;
-                std::list<item>used_consumed = you.consume_items( remainder,
-                                               left_to_consume, is_crafting_component );
-                empty_consumed.splice( empty_consumed.end(), used_consumed );
-            }
-
-            used.splice( used.end(), empty_consumed );
+            std::list<item> consumed = you.consume_items( sel, 1, is_crafting_component );
+            used.splice( used.end(), consumed );
         }
     }
     pc.components = used;
@@ -1829,7 +1823,7 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
                     loot_abspos, zone_src_set );
         // Find the nearest unsorted zone to dump objects at
         for( const tripoint_abs_ms &src_elem : zone_src_sorted ) {
-            if( !here.can_put_items_ter_furn( here.getlocal( src_elem ) ) ) {
+            if( !here.can_put_items_ter_furn( here.bub_from_abs( src_elem ) ) ) {
                 continue;
             }
             loot_src_lot = here.bub_from_abs( src_elem );
@@ -1864,7 +1858,8 @@ static bool fetch_activity(
     const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.getlocal( you.backlog.front().coords.back() ) ) ) {
+    if( !here.can_put_items_ter_furn( here.bub_from_abs( tripoint_abs_ms(
+                                          you.backlog.front().coords.back() ) ) ) ) {
         return false;
     }
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
@@ -1880,7 +1875,8 @@ static bool fetch_activity(
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
                     if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                         move_item( you, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                                   here.bub_from_abs( you.backlog.front().coords.back() ), ovp, activity_to_restore );
+                                   here.bub_from_abs( tripoint_abs_ms( you.backlog.front().coords.back() ) ), ovp,
+                                   activity_to_restore );
                         return true;
                     }
                 }
@@ -1895,7 +1891,8 @@ static bool fetch_activity(
                 if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
                                               you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.bub_from_abs( you.backlog.front().coords.back() ), ovp, activity_to_restore );
+                               here.bub_from_abs( tripoint_abs_ms( you.backlog.front().coords.back() ) ), ovp,
+                               activity_to_restore );
 
                     return true;
                     // other tasks want the tool picked up
@@ -1959,13 +1956,13 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
     for( item &elem : items ) {
         if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
             const mtype corpse = *elem.get_mtype();
-            if( corpse.size >= creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+            if( corpse.size > creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
             elem.set_var( "activity_var", you.name );
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             // TODO: fix point types
-            you.activity.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+            you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             you.activity.placement = here.getglobal( src_loc );
             return true;
         }
@@ -2053,7 +2050,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             const tripoint_bub_ms src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
-                if( !here.inbounds( you.pos() ) ) {
+                if( !here.inbounds( you.pos_bub() ) ) {
                     // p is implicitly an NPC that has been moved off the map, so reset the activity
                     // and unload them
                     you.cancel_activity();
@@ -2371,7 +2368,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     break;
                 }
             }
-            if( you.moves <= 0 || move_and_reset ) {
+            if( you.get_moves() <= 0 || move_and_reset ) {
                 return;
             }
         }
@@ -2477,7 +2474,7 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
         you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
-    } else if( ter == t_trunk || ter == t_stump ) {
+    } else if( ter == ter_t_trunk || ter == ter_t_stump ) {
         you.assign_activity( chop_logs_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
@@ -2555,11 +2552,11 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     const tripoint_abs_ms abspos = here.getglobal( localpos );
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
-        tripoint unsorted_spot;
+        tripoint_bub_ms unsorted_spot;
         std::unordered_set<tripoint_abs_ms> unsorted_set =
             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
         if( !unsorted_set.empty() ) {
-            unsorted_spot = here.getlocal( random_entry( unsorted_set ) );
+            unsorted_spot = here.bub_from_abs( random_entry( unsorted_set ) );
         }
         bool found_one_point = false;
         bool found_route = true;
@@ -2596,7 +2593,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
-        if( src_set.empty() && unsorted_spot != tripoint_zero ) {
+        if( src_set.empty() && unsorted_spot != tripoint_bub_ms_zero ) {
             for( const item *inv_elem : you.inv_dump() ) {
                 if( inv_elem->has_var( "activity_var" ) ) {
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
@@ -2650,7 +2647,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
 
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
-        const tripoint set_pt = here.getlocal( *it2 );
+        const tripoint_bub_ms set_pt = here.bub_from_abs( *it2 );
         if( MOP_ACTIVITY ) {
             if( !here.mopsafe_field_at( set_pt ) ) {
                 it2 = src_set.erase( it2 );
@@ -2663,7 +2660,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
-        if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+        if( !dark_capable && you.fine_detail_vision_mod( set_pt.raw() ) > 4.0 ) {
             it2 = src_set.erase( it2 );
             continue;
         }
@@ -2701,7 +2698,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     }
     const bool post_dark_check = src_set.empty();
     if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
-        you.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
+        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
     }
     return src_set;
 }
@@ -2713,7 +2710,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
     const std::unordered_set<tripoint_abs_ms> &src_set, const bool check_only = false )
 {
     map &here = get_map();
-    const tripoint_abs_ms abspos = here.getglobal( you.pos() );
+    const tripoint_abs_ms abspos = here.getglobal( you.pos_bub() );
     zone_manager &mgr = zone_manager::get_manager();
 
     bool &can_do_it = act_info.can_do;
@@ -2739,7 +2736,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
     // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
-        return requirement_check_result::SKIP_LOCATION;
+        return requirement_check_result::SKIP_LOCATION_NO_ZONE;
     }
     if( can_do_it ) {
         return requirement_check_result::CAN_DO_LOCATION;
@@ -2751,11 +2748,38 @@ static requirement_check_result generic_multi_activity_check_requirement(
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
+            if( zone ) {
+                you.add_msg_if_player( m_info, _( "You don't have the skill for the %1$s task at zone %2$s." ),
+                                       act_id.c_str(), zone->get_name() );
+            } else {
+                you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
+            }
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
-            you.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
+            if( zone ) {
+                you.add_msg_if_player( m_info,
+                                       _( "There is something blocking the location for the %1$s task at zone %2$s." ), act_id.c_str(),
+                                       zone->get_name() );
+            } else {
+                you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
+                                       act_id.c_str() );
+            }
         }
-        return requirement_check_result::SKIP_LOCATION;
+        if( you.is_npc() ) {
+            if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
+                return requirement_check_result::SKIP_LOCATION_NO_SKILL;
+
+            } else if( reason == do_activity_reason::NO_ZONE ) {
+                return requirement_check_result::SKIP_LOCATION_NO_ZONE;
+            } else if( reason == do_activity_reason::ALREADY_DONE ) {
+                return requirement_check_result::SKIP_LOCATION;
+            } else if( reason == do_activity_reason::BLOCKING_TILE ) {
+                return requirement_check_result::SKIP_LOCATION_BLOCKING;
+            } else if( reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
+                return requirement_check_result::SKIP_LOCATION_UNKNOWN_ACTIVITY;
+            }
+        } else {
+            return requirement_check_result::SKIP_LOCATION;
+        }
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
                reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
                reason == do_activity_reason::NEEDS_PLANTING ||
@@ -2772,8 +2796,15 @@ static requirement_check_result generic_multi_activity_check_requirement(
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         if( you.is_npc() ) {
-            add_msg_if_player_sees( you, m_info, _( "%s is trying to find necessary items to do the job" ),
-                                    you.disp_name() );
+            if( zone ) {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+            } else {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+            }
         }
         requirement_id what_we_need;
         std::vector<tripoint_bub_ms> loot_zone_spots;
@@ -2784,8 +2815,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );
         }
-        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
-                PICKUP_RANGE - 1 ) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE,
+                PICKUP_RANGE ) ) {
             combined_spots.push_back( elem );
         }
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
@@ -2887,9 +2918,17 @@ static requirement_check_result generic_multi_activity_check_requirement(
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-            you.add_msg_player_or_npc( m_info,
-                                       _( "The required items are not available to complete this task." ),
-                                       _( "The required items are not available to complete this task." ) );
+            if( zone ) {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name(),
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name() );
+            } else {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+            }
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 you.activity_vehicle_part_index = -1;
@@ -2931,11 +2970,11 @@ static requirement_check_result generic_multi_activity_check_requirement(
                         you.activity = player_activity();
                         you.backlog.clear();
                         check_npc_revert( you );
-                        return requirement_check_result::SKIP_LOCATION;
+                        return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
                     }
                     act_prev.coords.push_back(
-                        here.getabs(
-                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
+                        here.getglobal(
+                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] ).raw()
                     );
                 }
                 act_prev.placement = src;
@@ -2943,7 +2982,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::RETURN_EARLY;
         }
     }
-    return requirement_check_result::SKIP_LOCATION;
+    return requirement_check_result::SKIP_LOCATION_NO_MATCH;
 }
 
 /** Do activity at this location */
@@ -2966,7 +3005,10 @@ static bool generic_multi_activity_do(
           ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
-        iexamine::harvest_plant( you, src_loc.raw(), true );
+        iexamine::harvest_plant( you, src_loc, true );
+    } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
+               here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+        iexamine::clear_overgrown( you, src_loc );
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
@@ -2990,7 +3032,7 @@ static bool generic_multi_activity_do(
                 continue;
             }
             // TODO: fix point types
-            iexamine::plant_seed( you, src_loc.raw(), itype_id( seed ) );
+            iexamine::plant_seed( you, src_loc, itype_id( seed ) );
             you.backlog.emplace_front( act_id );
             return false;
         }
@@ -3110,7 +3152,7 @@ static bool generic_multi_activity_do(
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
                                                            recipe_time_flag::ignore_proficiencies ) * qty ) );
                     // TODO: fix point types
-                    act.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+                    act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getglobal( src_loc );
                     act.position = qty;
                     act.index = false;
@@ -3128,10 +3170,22 @@ static bool generic_multi_activity_do(
     return true;
 }
 
+struct failure_reasons {
+    bool no_path = false;
+    bool skip_location_no_zone = false;
+    bool skip_location_blocking = false;
+    bool skip_location_no_skill = false;
+    bool skip_location_unknown_activity = false;
+    bool skip_location_no_location = false;
+    bool skip_location_no_match = false;
+    bool skip_location = false;
+    bool no_craft_disassembly_location_route_found = false;
+};
+
 bool generic_multi_activity_handler( player_activity &act, Character &you, bool check_only )
 {
     map &here = get_map();
-    const tripoint_abs_ms abspos = here.getglobal( you.pos() );
+    const tripoint_abs_ms abspos = here.getglobal( you.pos_bub() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone
@@ -3160,10 +3214,13 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
         return true;
     }
+
+    failure_reasons reason;
+
     for( const tripoint_abs_ms &src : src_sorted ) {
         const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
         if( !here.inbounds( src_loc ) && !check_only ) {
-            if( !here.inbounds( you.pos() ) ) {
+            if( !here.inbounds( you.pos_bub() ) ) {
                 // p is implicitly an NPC that has been moved off the map, so reset the activity
                 // and unload them
                 you.assign_activity( activity_to_restore );
@@ -3174,6 +3231,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             const std::vector<tripoint_bub_ms> route = route_adjacent( you, src_loc );
             if( route.empty() ) {
                 // can't get there, can't do anything, skip it
+                reason.no_path = true;
                 continue;
             }
             you.set_moves( 0 );
@@ -3186,7 +3244,33 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         const requirement_check_result req_res = generic_multi_activity_check_requirement(
                     you, activity_to_restore, act_info, src, src_loc, src_set, check_only );
         if( req_res == requirement_check_result::SKIP_LOCATION ) {
+            reason.skip_location = true;
             continue;
+
+        } else if( req_res == requirement_check_result::SKIP_LOCATION_NO_ZONE ) {
+            reason.skip_location_no_zone = true;
+            continue;
+
+        }      else if( req_res == requirement_check_result::SKIP_LOCATION_NO_SKILL ) {
+            reason.skip_location_no_skill = true;
+            continue;
+
+        }        else if( req_res == requirement_check_result::SKIP_LOCATION_BLOCKING ) {
+            reason.skip_location_blocking = true;
+            continue;
+
+        } else if( req_res == requirement_check_result::SKIP_LOCATION_UNKNOWN_ACTIVITY ) {
+            reason.skip_location_unknown_activity = true;
+            continue;
+
+        } else if( req_res == requirement_check_result::SKIP_LOCATION_NO_LOCATION ) {
+            reason.skip_location_no_location = true;
+            continue;
+
+        } else if( req_res == requirement_check_result::SKIP_LOCATION_NO_MATCH ) {
+            reason.skip_location_no_match = true;
+            continue;
+
         } else if( req_res == requirement_check_result::RETURN_EARLY ) {
             return true;
         }
@@ -3208,10 +3292,11 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             // check if we found path to source / adjacent tile
             if( route.empty() ) {
                 check_npc_revert( you );
+                reason.no_craft_disassembly_location_route_found = true;
                 continue;
             }
             if( !check_only ) {
-                if( you.moves <= 0 ) {
+                if( you.get_moves() <= 0 ) {
                     // Restart activity and break from cycle.
                     you.assign_activity( activity_to_restore );
                     return true;
@@ -3250,7 +3335,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
     }
     if( !check_only ) {
-        if( you.moves <= 0 ) {
+        if( you.get_moves() <= 0 ) {
             // Restart activity and break from cycle.
             you.assign_activity( activity_to_restore );
             you.activity_vehicle_part_index = -1;
@@ -3266,6 +3351,46 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         you.activity_vehicle_part_index = -1;
     }
     // scanned every location, tried every path.
+    if( !check_only && you.is_npc() ) {
+        if( src_sorted.empty() ) {
+            add_msg( m_neutral,
+                     _( "%1s failed to perform the %2$s activity because no suitable locations were found." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.no_path ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because no path to a suitable location could be found." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location_no_zone ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because no required zone was found." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location_blocking ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because the target location is blocked or cannot be reached." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location_no_skill ) {
+            add_msg( m_neutral, _( "%1$s failed to perform the %2$s activity because of insufficient skills." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location_unknown_activity ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because the activity couldn't be found.  This is probably an error." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location_no_location ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because no suitable location could be found." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location_no_match ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because no criteria could be matched." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        } else if( reason.skip_location ) {
+            // Assumed to have been reported already.
+        } else if( reason.no_craft_disassembly_location_route_found ) {
+            add_msg( m_neutral,
+                     _( "%1$s failed to perform the %2$s activity because no path to a suitable crafting/disassembly location could be found." ),
+                     you.disp_name(), activity_to_restore.c_str() );
+        }
+    }
     return false;
 }
 
@@ -3500,7 +3625,7 @@ int get_auto_consume_moves( Character &you, const bool food )
             return VisitResponse::NEXT;
         };
 
-        const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
+        const optional_vpart_position vp = here.veh_at( here.bub_from_abs( loc ) );
         if( vp ) {
             if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
                 for( item &it : vp_cargo->items() ) {
@@ -3509,8 +3634,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 }
             }
         } else {
-            for( item &it : here.i_at( here.getlocal( loc ) ) ) {
-                item_location i_loc( map_cursor( here.getlocal( loc ) ), &it );
+            for( item &it : here.i_at( here.bub_from_abs( loc ) ) ) {
+                item_location i_loc( map_cursor( loc ), &it );
                 visit_item_contents( i_loc, visit );
             }
         }

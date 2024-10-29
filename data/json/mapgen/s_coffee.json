@@ -18,7 +18,7 @@
         "SSSSSSSSSSSSSS|r      |S",
         "SVVVVVVVzMSSzz|   #W##|S",
         "SVD>>>>VzMSSMzV   #ww%|S",
-        "SV BBB>VzMSSSS{   xwwF|S",
+        "SV BBB>VzMSSSS{   xww(|S",
         "SV   B>VzMSSSS{   flwl|S",
         "SV   B>VzMMMMzV   flwU|S",
         "SV   B>Vzzzzzz|X  #wwG|S",
@@ -32,6 +32,7 @@
         "S|||||||||||||||||||3||S",
         "S4SSSSSSSSSSSSSSSSSSSSSS"
       ],
+      "palettes": [ "commercial" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         "M": "t_region_groundcover_urban",
@@ -48,6 +49,7 @@
         "A": "t_linoleum_white",
         "C": "t_linoleum_white",
         "F": "t_linoleum_white",
+        "(": "t_linoleum_white",
         "G": "t_linoleum_white",
         "L": "t_linoleum_white",
         "U": "t_linoleum_white",
@@ -56,6 +58,7 @@
         "f": "t_linoleum_white",
         "l": "t_linoleum_white",
         "w": "t_linoleum_white",
+        "x": "t_linoleum_white",
         "+": "t_door_c",
         "3": [ "t_door_locked", "t_door_locked_alarm" ],
         "I": "t_door_locked_interior",
@@ -83,8 +86,9 @@
         "L": "f_locker",
         "A": "f_sink",
         "U": "f_sink",
-        "f": "f_glass_fridge",
-        "F": "f_fridge",
+        "f": { "param": "display_fridge", "fallback": "f_glass_fridge" },
+        "F": "f_heavy_duty_fridge",
+        "(": "f_glass_fridge_double",
         "G": "f_oven",
         "X": "f_rack",
         "9": "f_rack",
@@ -229,7 +233,7 @@
         "T": "f_table",
         "t": "f_table",
         "c": "f_counter",
-        "e": "f_fridge",
+        "e": "f_heavy_duty_fridge",
         "l": "f_locker",
         "W": "f_counter_gate_c",
         "r": "f_rack"
@@ -344,8 +348,7 @@
         "o": "f_oven",
         "r": "f_rack",
         "t": "f_table",
-        "v": "f_vending_o",
-        "{": "f_fridge",
+        "{": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
         "x": "f_counter"
       },
       "terrain": {
@@ -366,6 +369,7 @@
         "<": "t_ladder_up",
         "|": "t_wall_b"
       },
+      "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true } },
       "place_items": [
         { "chance": 80, "repeat": [ 1, 8 ], "item": "coffee_freezer", "x": [ 3, 4 ], "y": 4 },
         { "chance": 70, "repeat": [ 1, 8 ], "item": "coffee_display_2", "x": 7, "y": 13 },

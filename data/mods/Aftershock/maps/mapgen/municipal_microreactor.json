@@ -202,7 +202,7 @@
         "###--```````>g>````--###",
         "####-((((((-      --####",
         "####-d6 6d -YYY.<--#####",
-        "####-Yh hY -..M.--#----#",
+        "####-Yh hY -.. .--#----#",
         "####-      -222--##- ~-#",
         "####-     6-YYYT----2--#",
         "####-    h6-   T-l b l-#",
@@ -238,7 +238,7 @@
         { "item": "nuclear_reactor", "x": 12, "y": 7, "chance": 100 }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] } ],
-      "monster": { "T": { "monster": "mon_turret_rifle" }, "M": { "monster": "mon_charred_nightmare" } }
+      "monster": { "T": { "monster": "mon_turret_rifle" } }
     }
   },
   {

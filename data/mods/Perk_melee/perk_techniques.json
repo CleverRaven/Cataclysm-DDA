@@ -1,0 +1,106 @@
+[
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_FEINT",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Feint drills" },
+    "description": "Perform a feint whenever an attack would miss.",
+    "flags": "MELEE_PERK_FEINT"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_STAGGER_STRIKE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Staggering Strikes" },
+    "description": "Attacks with bashing weapons are likely to stun their target if the full combat tempo bonus is active.",
+    "flags": "MELEE_PERK_STAGGER_STRIKE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_FORE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Fore!" },
+    "description": "Hah, just watch this.\nCritical strikes with bashing weapons can knock your targets backwards.  You are guaranteed to knock back stunned targets.",
+    "flags": "MELEE_PERK_FORE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_MAKE_WAY",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Make Way" },
+    "description": "Perform an overhead attack with a polearm or staff.  The attack will knock back all targets hit.",
+    "flags": "MELEE_PERK_MAKE_WAY"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_STAFF_KICK",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Fulcrum Kick" },
+    "description": "Deliver a powerful flying kick using a polearm as a springboard.  The kick will knock back humanoid targets of similar or smaller size.",
+    "flags": "MELEE_PERK_STAFF_KICK"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_COILING_STRIKE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Coiling Strikes" },
+    "description": "Perform a quick reach attack with a polearm or staff if you have at least 1 momentum stack.  The attack will heavily scale with perception.",
+    "flags": "MELEE_PERK_COILING_STRIKE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_KNIFE_COUNTER_DODGE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Snap slash" },
+    "description": "If you dodge an attack with a knife or dagger, you'll counterattack with a quick slash.",
+    "flags": "MELEE_PERK_KNIFE_COUNTER_DODGE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_KNIFE_FINISHER",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Slaying strike" },
+    "description": "Perform a finishing attack with a knife or dagger when reaching 3 tempo stacks.  The attack will prioritize enemy weak points.",
+    "flags": "MELEE_PERK_KNIFE_FINISHER"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_JUST_HIT_IT",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Vulgar Opening" },
+    "description": "If you have no combat buffs active, perform an opening attack with armor penetration increased by 225% of your strength.  Just hit them with the damn thing.",
+    "flags": "MELEE_PERK_JUST_HIT_IT"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_ESTOCADA",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Estocada" },
+    "description": "Perform a quick lunging thrust with a long sword, thrusting sword or quarterstaff.  You must have exactly 1 momentum stack to perform this attack.",
+    "flags": "MELEE_PERK_ESTOCADA"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_TACKLE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Charging Tackle" },
+    "description": "Your first attack after acquiring at least 3 momentum stacks will be replaced by a shoulder tackle.  The tackle will ground humanoid targets of similar or smaller size and consume all momentum stacks.",
+    "flags": "MELEE_PERK_TACKLE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_EXECUTION",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Execution" },
+    "description": "Whenever you attack a human-sized target with a great axe, great sword or great hammer if the target has less health than the base attack rating of your weapon, you will execute them instead.  Execution attacks ignore armor and will restore 10% of your max stamina.",
+    "flags": "MELEE_PERK_EXECUTION"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_BRUTALITY",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Brutal Execution" },
+    "description": "You perform executions with such brutality that all minded enemies that witness them will become stunned for 2 turns.",
+    "flags": "MELEE_PERK_BRUTALITY"
+  }
+]

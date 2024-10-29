@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "make_static.h"
 #include "mapgen.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
@@ -340,7 +341,8 @@ std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id 
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
+bool recipe_subset::empty_category( const crafting_category_id &cat,
+                                    const std::string &subcat ) const
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return uistate.favorite_recipes.empty();
@@ -348,7 +350,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
-    } else if( cat == "CC_*" ) {
+    } else if( cat->is_wildcard ) {
         //any other category in CC_* is populated
         return false;
     }
@@ -368,7 +370,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
     return true;
 }
 
-std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
+std::vector<const recipe *> recipe_subset::in_category( const crafting_category_id &cat,
         const std::string &subcat ) const
 {
     std::vector<const recipe *> res;
@@ -435,7 +437,14 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    mod_tracker::assign_src( r, src );
     r.was_loaded = true;
+
+    // Check for duplicate recipe_ids before assigning it to the map
+    auto duplicate = out.find( r.ident() );
+    if( duplicate != out.end() ) {
+        mod_tracker::check_duplicate_entries( r, duplicate->second );
+    }
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -594,7 +603,7 @@ void recipe_dictionary::finalize()
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
             recipe &bk = recipe_dict.uncraft[rid];
-            bk.ident_ = rid;
+            bk.id = rid;
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_data_uncraft_book * pages;
@@ -647,7 +656,7 @@ void recipe_dictionary::check_consistency()
     for( const auto &e : recipe_dict.recipes ) {
         const recipe &r = e.second;
 
-        if( r.category.empty() ) {
+        if( r.category.str().empty() ) {
             if( !r.subcategory.empty() ) {
                 debugmsg( "recipe %s has subcategory but no category", r.ident().str() );
             }
@@ -655,18 +664,19 @@ void recipe_dictionary::check_consistency()
             continue;
         }
 
-        const std::vector<std::string> *subcategories = subcategories_for_category( r.category );
-        if( !subcategories ) {
-            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category );
+        if( !r.category.is_valid() ) {
+            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category.str() );
             continue;
         }
 
+        const std::vector<std::string> &subcategories = r.category->subcategories;
+
         if( !r.subcategory.empty() ) {
-            auto it = std::find( subcategories->begin(), subcategories->end(), r.subcategory );
-            if( it == subcategories->end() ) {
+            auto it = std::find( subcategories.begin(), subcategories.end(), r.subcategory );
+            if( it == subcategories.end() ) {
                 debugmsg(
                     "recipe %s has subcategory %s which is invalid or doesn't match category %s",
-                    r.ident().str(), r.subcategory, r.category );
+                    r.ident().str(), r.subcategory, r.category.str() );
             }
         }
     }
@@ -690,6 +700,10 @@ void recipe_dictionary::reset()
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
+    deferred.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )

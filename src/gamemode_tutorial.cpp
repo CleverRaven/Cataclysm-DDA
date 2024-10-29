@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "game.h"
 #include "item.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -26,6 +27,8 @@
 #include "type_id.h"
 #include "weather.h"
 
+static const furn_str_id furn_f_rack( "f_rack" );
+
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
@@ -38,6 +41,13 @@ static const overmap_special_id overmap_special_tutorial( "tutorial" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throwing( "throwing" );
+
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_locked_interior( "t_door_locked_interior" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
+static const ter_str_id ter_t_window( "t_window" );
 
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
@@ -123,6 +133,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
 
 bool tutorial_game::init()
 {
+    loading_ui::done();
     // TODO: clean up old tutorial
 
     // Start at noon at the end of the spring and set a fixed temperature of 20 degrees to prevent freezing
@@ -141,6 +152,18 @@ bool tutorial_game::init()
     player_character.dex_cur = player_character.dex_max;
 
     player_character.set_all_parts_hp_to_max();
+    player_character.clear_effects();
+    player_character.clear_morale();
+    player_character.clear_vitamins();
+    player_character.set_sleepiness( 0 );
+    player_character.set_focus( 100 );
+    player_character.set_hunger( 0 );
+    player_character.set_pain( 0 );
+    player_character.set_rad( 0 );
+    player_character.set_sleep_deprivation( 0 );
+    player_character.set_stamina( player_character.get_stamina_max() );
+    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
+    player_character.set_thirst( 0 );
 
     //~ default name for the tutorial
     player_character.name = _( "John Smith" );
@@ -201,7 +224,7 @@ void tutorial_game::per_turn()
 
     map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( player_character.pos().xy() ) ) {
+        for( const item &it : here.i_at( player_character.pos_bub().xy() ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -209,26 +232,26 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
-        if( here.ter( p ) == t_door_c ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+        if( here.ter( p ) == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == t_door_o ) {
+        } else if( here.ter( p ) == ter_t_door_o ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == t_door_locked_interior ) {
+        } else if( here.ter( p ) == ter_t_door_locked_interior ) {
             add_message( tut_lesson::LESSON_LOCKED_DOOR );
             break;
-        } else if( here.ter( p ) == t_window ) {
+        } else if( here.ter( p ) == ter_t_window ) {
             add_message( tut_lesson::LESSON_WINDOW );
             break;
-        } else if( here.furn( p ) == f_rack ) {
+        } else if( here.furn( p ) == furn_f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( here.ter( p ) == t_stairs_down ) {
+        } else if( here.ter( p ) == ter_t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == ter_id( "t_water_dispenser" ) ) {
+        } else if( here.ter( p ) == ter_t_water_dispenser ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         } else if( here.tr_at( p ).id == tr_bubblewrap ) {
@@ -237,41 +260,41 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( !here.i_at( point( player_character.posx(), player_character.posy() ) ).empty() ) {
+    if( !here.i_at( point_bub_ms( player_character.posx(), player_character.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 
-    if( here.tr_at( player_character.pos() ) == tr_tutorial_1 ) {
+    if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_1 ) {
         add_message( tut_lesson::LESSON_LOOK );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_2 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_2 ) {
         add_message( tut_lesson::LESSON_MOVEMENT_MODES );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_3 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_3 ) {
         add_message( tut_lesson::LESSON_MONSTER_SIGHTED );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_4 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_4 ) {
         add_message( tut_lesson::LESSON_REACH_ATTACK );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_5 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_5 ) {
         add_message( tut_lesson::LESSON_HOLSTERS_WEAR );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_6 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_6 ) {
         add_message( tut_lesson::LESSON_GUN_LOAD );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_7 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_7 ) {
         add_message( tut_lesson::LESSON_INVENTORY );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_8 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_8 ) {
         add_message( tut_lesson::LESSON_FLASHLIGHT );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_9 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_9 ) {
         add_message( tut_lesson::LESSON_INTERACT );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_10 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_10 ) {
         add_message( tut_lesson::LESSON_REMOTE_USE );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_11 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_11 ) {
         player_character.set_hunger( 100 );
         player_character.stomach.empty();
         add_message( tut_lesson::LESSON_CRAFTING_FOOD );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_12 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_12 ) {
         add_message( tut_lesson::LESSON_CONSTRUCTION );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_13 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_13 ) {
         player_character.set_pain( 20 );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_14 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_14 ) {
         add_message( tut_lesson::LESSON_THROWING );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_15 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_15 ) {
         add_message( tut_lesson::LESSON_FINALE );
     }
 }
@@ -344,7 +367,6 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
-        /* fallthrough */
         case ACTION_PICKUP: {
             item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
@@ -363,6 +385,10 @@ void tutorial_game::post_action( action_id act )
 
         }
         break;
+
+        case ACTION_SAVE:
+            get_weather().forced_temperature.reset();
+            break;
 
         default:
             // TODO: add more actions here

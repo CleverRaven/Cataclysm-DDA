@@ -67,11 +67,6 @@
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
       "mapgensize": [ 3, 3 ],
-      "rows": [
-        "   ",
-        "   ",
-        "   "
-      ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [ { "group": "trash", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 3, "chance": 100 } ],
       "place_nested": [ { "chunks": [ [ "sub_fd_shock_vent", 30 ], [ "null", 70 ] ], "x": 1, "y": 1 } ]

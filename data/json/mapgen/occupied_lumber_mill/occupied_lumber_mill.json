@@ -87,7 +87,7 @@
         { "type": "LOOT_CURRENCY", "faction": "wasteland_scavengers", "x": [ 26, 26 ], "y": [ 43, 43 ] },
         { "type": "LOOT_WOOD", "faction": "wasteland_scavengers", "x": [ 26, 26 ], "y": [ 44, 44 ] }
       ],
-      "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 50000, 268750 ] } },
+      "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 500, 2687 ] } },
       "place_vehicles": [
         { "vehicle": "flatbed_truck", "x": [ 43, 45 ], "y": 33, "chance": 30, "fuel": 25, "status": 0, "rotation": 90 },
         {

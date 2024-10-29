@@ -1,11 +1,11 @@
 [
   {
-    "id": "stamina_fatigue_layout",
+    "id": "stamina_sleepiness_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Stamina/Fatigue",
+    "label": "Stamina/Sleepiness",
     "arrange": "columns",
-    "widgets": [ "stamina_graph", "fatigue_graph" ]
+    "widgets": [ "stamina_graph", "sleepiness_graph" ]
   },
   {
     "id": "stats_narrow_layout",
@@ -41,7 +41,7 @@
       "hunger_desc_label",
       "thirst_desc_label",
       "weight_desc_label",
-      "fatigue_desc_label",
+      "sleepiness_desc_label",
       "pain_desc_label",
       "body_temp_desc_label"
     ]
@@ -56,7 +56,7 @@
       "hunger_desc_label",
       "thirst_desc_label",
       "weight_desc_label",
-      "fatigue_desc_label",
+      "sleepiness_desc_label",
       "pain_num_label",
       "body_temp_desc_label"
     ],
@@ -72,7 +72,7 @@
       "hunger_desc_no_label",
       "thirst_desc_no_label",
       "weight_desc_no_label",
-      "fatigue_desc_no_label",
+      "sleepiness_desc_no_label",
       "pain_desc_no_label",
       "body_temp_desc_no_label"
     ]
@@ -110,12 +110,12 @@
     "widgets": [ "mood_desc_label", "focus_num" ]
   },
   {
-    "id": "stamina_fatigue_focus_layout",
+    "id": "stamina_sleepiness_focus_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Stamina/Fatigue/Focus",
+    "label": "Stamina/Sleepiness/Focus",
     "arrange": "columns",
-    "widgets": [ "stamina_graph_classic", "fatigue_graph", "focus_num" ]
+    "widgets": [ "stamina_graph_classic", "sleepiness_graph", "focus_num" ]
   },
   {
     "id": "move_speed_layout",
@@ -192,12 +192,12 @@
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
-    "id": "sound_fatigue_focus_layout",
+    "id": "sound_sleepiness_focus_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Sound/Fatigue/Focus",
+    "label": "Sound/Sleepiness/Focus",
     "arrange": "columns",
-    "widgets": [ "sound_num", "fatigue_graph", "focus_num" ]
+    "widgets": [ "sound_num", "sleepiness_graph", "focus_num" ]
   },
   {
     "id": "sound_focus_layout",

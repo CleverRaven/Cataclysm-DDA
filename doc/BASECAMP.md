@@ -216,7 +216,6 @@ the needs must be autocalculated.
 ## Recipe groups
 Recipe groups serve two purposes: they indicate what recipes can produced by the camp after an upgrade mission is completed, and they indicate what upgrade paths are available and where camps can be placed.
 
-### Upgrade Paths and Expansions
 There are two special recipe groups, `"all_faction_base_types"` and `"all_faction_base_expansions"`.  They both look like this:
 ```json
   {
@@ -232,11 +231,56 @@ There are two special recipe groups, `"all_faction_base_types"` and `"all_factio
   },
 ```
 
-Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.  `"id"` is the recipe `"id"` of the recipe that starts that basecamp or basecamp expansion upgrade path, and has to conform to the pattern `"faction_base_X_0"`, where X distinguishes the entry from the others, with the prefix and suffix required by the code.  `"description"` is a short name of the basecamp or basecamp expansion.  `"om_terrains"` is a list of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion.
+### Upgrade Paths and Expansions
 
-All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as `"not_an_upgrade"`, to prevent them from showing up as available upgrades. Additionally, if you want to add an expansion, you must create an OMT with the same `id` as the expansion's `id`.
+All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as `"not_an_upgrade"`, to prevent them from showing up as available upgrades.
+Additionally, if you want to add an expansion, you must create an OMT with the same `id` as the expansion's `id`.
+If the player attempts to start a basecamp on an overmap terrain that has two or more valid basecamp expansion paths, they will allowed to choose which path to start.
 
-If the player attempts to start a basecamp on an overmap terrain that has two or more valid basecamp expansion paths, she will allowed to choose which path to start.
+Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.
+
+---- Field ---- | --------------------------------------------------------------------------------------------------------- Description --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+`"id"`          | Id of the recipe that starts that basecamp or basecamp expansion upgrade path, and has to conform to the pattern `"faction_base_X_0"`, where X distinguishes the entry from the others, with the prefix and suffix required by the code.                                                                                                          |
+`"description"` | The name shown in-game for the basecamp or basecamp expansion.                                                                                                                                                                                                                                                                                    |
+`"om_terrains"` | An array of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion. Individual entries can either be a string or an object containing `"om_terrain"` for the overmap terrain id, along with at least one of `"parameters"` and `"om_terrain_match_type"` (see [JSON_INFO.md](JSON_INFO.md#Starting-locations)) |
+
+
+#### Examples
+
+Camp that can be made anywhere
+
+```json
+    {
+        "id": "faction_base_barebones_0",
+        "description": "Barebones Camp",
+        "om_terrains": [ "ANY" ]
+    },
+```
+
+Camp that can be placed on any overmap terrain starting `farmland_` or `hayfield_` or that match `"farmland"` or `"hayfield"` exactly
+
+```json
+    {
+        "id": "faction_base_farmer_0",
+        "description": "Farmer Camp",
+        "om_terrains": [
+        { "om_terrain": "farmland", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "hayfield", "om_terrain_match_type": "PREFIX" }
+        ]
+    },
+```
+
+Camp that can only be placed on `"omt_that_varies_in_shape"` if the parameter `"shape"` is set to either `"circle"` or `"circle_alt"` (but not say `"rectangle"` that would want different map updates)
+
+```json
+    {
+        "id": "faction_base_circle_0",
+        "description": "Farmer Camp",
+        "om_terrains": [
+        { "om_terrain": "omt_that_varies_in_shape", "parameters": { "shape": [ "circle", "circle_alt" ] }
+        ]
+    },
+```
 
 ## Sample basecamp upgrade path
 

@@ -130,7 +130,7 @@
   {
     "id": "psionic_drained_difficulty_five",
     "type": "SPELL",
-    "name": { "str": "Foirteen Percent Nether Attunement Chance" },
+    "name": { "str": "Fourteen Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "14% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
@@ -398,7 +398,7 @@
   {
     "id": "psionic_maintenance_drained_difficulty_five",
     "type": "SPELL",
-    "name": { "str": "Foirteen Percent Nether Attunement Chance" },
+    "name": { "str": "Fourteen Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
     "description": "14% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
