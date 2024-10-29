@@ -8,12 +8,11 @@
       { "monster": "mon_hidebehind", "weight": 20 },
       { "monster": "mon_psi_gremlin", "weight": 100 },
       { "monster": "mon_psi_gremlin", "weight": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_cockatrice", "weight": 75 },
-      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_hodag", "weight": 10 },
+      { "monster": "mon_cockatrice", "weight": 75, "starts": "21 days" },
+      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ], "starts": "21 days" },
+      { "monster": "mon_hodag", "weight": 10, "starts": "180 days"  },
       { "monster": "mon_bandersnatch", "weight": 5 },
-      { "monster": "mon_fear_hawk", "weight": 10 },
-      { "monster": "mon_cockatrice", "weight": 2, "pack_size": [ 2, 2 ] }
+      { "monster": "mon_fear_hawk", "weight": 10 }
     ]
   },
   {
@@ -262,7 +261,12 @@
   {
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 1 } ]
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 100 } ]
+  },
+  {
+    "name": "GROUP_EGG_CHICKEN",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 95 } ]
   },
   {
     "name": "GROUP_ALIEN_MEADOW",
