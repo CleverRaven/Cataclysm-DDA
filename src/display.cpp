@@ -1015,8 +1015,8 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
 // Weight carried, formatted as "current/max" in kg
 std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar &ava )
 {
-    float carry_wt = ( convert_weight( ava.weight_carried() ) );
-    float max_wt = ( convert_weight( ava.weight_capacity() ) );
+    float carry_wt = convert_weight( ava.weight_carried() );
+    float max_wt = convert_weight( ava.weight_capacity() );
 
     // Create a string showing "current_weight / max_weight"
     std::string weight_text = string_format( "%.1f/%.1f %s", carry_wt, max_wt, weight_units() );
