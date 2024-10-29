@@ -43,7 +43,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "nested": {
-        "-": { "chunks": [ [ "corpse_blood_gibs_college_3x3", 1 ], [ "null", 50 ] ] },
+        "-": { "chunks": [ [ "corpse_blood_gibs_college_3x3", 1 ], [ "null", 250 ] ] },
         "1": { "chunks": [ "sevenoclock_track" ] }
       }
     }
@@ -65,6 +65,7 @@
     "method": "json",
     "om_terrain": [ "cabin_sevenoclock" ],
     "object": {
+      "rotation": [ 0, 3 ],
       "fill_ter": "t_floor",
       "rows": [
         "...........~~...........",
@@ -116,6 +117,7 @@
     "method": "json",
     "om_terrain": "cabin_roof_sevenoclock",
     "object": {
+      "rotation": [ 0, 3 ],
       "fill_ter": "t_tar_flat_roof",
       "rows": [
         "                        ",
@@ -202,7 +204,6 @@
     "nested_mapgen_id": "acid_gibs_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
-      "place_items": [ { "item": "map_extra_science", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100 } ],
       "place_fields": [ { "field": "fd_acid", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
     }
   },
@@ -223,7 +224,8 @@
     "method": "json",
     "om_terrain": "field_deathworm",
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_dirt",
+      "rotation": [ 0, 3 ],
       "rows": [
         "----------------------  ",
         "----------------------  ",

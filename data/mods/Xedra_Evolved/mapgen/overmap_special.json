@@ -288,8 +288,8 @@
     "type": "overmap_special",
     "id": "old cabin",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "cabin_sevenoclock" },
-      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_sevenoclock" }
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_sevenoclock_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_sevenoclock_north" }
     ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
@@ -301,7 +301,7 @@
     "type": "overmap_special",
     "id": "acid-scarred field",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "field_deathworm" }
+      { "point": [ 0, 0, 0 ], "overmap": "field_deathworm_north" }
     ],
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
