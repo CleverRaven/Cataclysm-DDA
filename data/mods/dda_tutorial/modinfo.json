@@ -1,0 +1,25 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "dda_tutorial",
+    "name": "Tutorial",
+    "description": "Tutorial for Cataclysm-DDA",
+    "category": "content",
+    "obsolete": true
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_item",
+    "symbol": ".",
+    "color": "red",
+    "name": "test item",
+    "description": "Just to check the tutorial mod is active.",
+    "price": "100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "wood" ],
+    "weight": "5 kg",
+    "volume": "1 L",
+    "flags": [ "NO_REPAIR", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 6 }
+  }
+]
