@@ -908,6 +908,18 @@ std::vector<std::string> get_hotkeys( const std::string_view s )
     return hotkeys;
 }
 
+PopupFlags popup_flag_from_string( const std::string str )
+{
+    if( str == "PF_GET_KEY" ) {
+        return PF_GET_KEY;
+    } else if( str == "PF_ON_TOP" ) {
+        return PF_ON_TOP;
+    } else if( str == "PF_FULLSCREEN" ) {
+        return PF_FULLSCREEN;
+    }
+    return PF_NONE;
+}
+
 int popup( const std::string &text, PopupFlags flags )
 {
 #if defined(__ANDROID__)

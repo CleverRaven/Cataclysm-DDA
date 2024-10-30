@@ -4764,6 +4764,8 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
+    const PopupFlags popup_flag = jo.has_member( "popup_flag" ) ?
+                                  popup_flag_from_string( jo.get_string( "popup_flag" ) ) : PF_NONE;
     str_or_var interrupt_type;
     if( jo.has_member( "interrupt_type" ) ) {
         interrupt_type = get_str_or_var( jo.get_member( "interrupt_type" ), "interrupt_type", true );
@@ -4777,8 +4779,8 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     } else {
         type_string.str_val = "neutral";
     }
-    return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string,
-                     popup_msg, popup_w_interrupt_query_msg, interrupt_type, global, is_npc]
+    return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
+                     popup_w_interrupt_query_msg, popup_flag, interrupt_type, global, is_npc]
     ( dialogue const & d ) {
         Character const *target;
         if( global ) {
@@ -4850,7 +4852,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             }
         }
         if( popup_msg ) {
-            popup( translated_message );
+            popup( translated_message, popup_flag );
             g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
