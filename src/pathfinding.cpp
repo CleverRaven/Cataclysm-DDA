@@ -229,13 +229,16 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // what to do with p_special & PathfindingFlag::RestrictTiny?
-    if( ( p_special & PathfindingFlag::RestrictSmall &&
-          settings.creature_size > creature_size::tiny ) || ( p_special & PathfindingFlag::RestrictMedium &&
-                  settings.creature_size > creature_size::small ) || ( p_special & PathfindingFlag::RestrictLarge &&
-                          settings.creature_size > creature_size::medium ) || ( p_special & PathfindingFlag::RestrictHuge &&
-                                  settings.creature_size > creature_size::large ) ) {
+    if( settings.size && (
+            ( p_special & PathfindingFlag::RestrictSmall && settings.size > creature_size::tiny ) ||
+            ( p_special & PathfindingFlag::RestrictMedium && settings.size > creature_size::small ) ||
+            ( p_special & PathfindingFlag::RestrictLarge && settings.size > creature_size::medium ) ||
+            ( p_special & PathfindingFlag::RestrictHuge && settings.size > creature_size::large ) ) ) {
         return PF_IMPASSABLE;
+
     }
+
+
 
     const int bash = settings.bash_strength;
     const bool allow_open_doors = settings.allow_open_doors;
@@ -306,7 +309,14 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // If it's a door and we can open it from the tile we're on, cool.
-    if( allow_open_doors && ( terrain.open || furniture.open ) &&
+    // The open version of terrain/furniture also needs to be passable for our size.
+    if( allow_open_doors &&
+        ( ( terrain.open &&
+            ( terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ? settings.size <
+              creature_size::large : true ) ) ||
+          ( furniture.open &&
+            ( furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ? settings.size <
+              creature_size::large : true ) ) ) &&
         ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
             !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
           !is_outside( cur ) ) ) {

@@ -4328,7 +4328,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                     return critter;
                 }
 
-                const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false, critter->get_size() };
+                const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
 
                 if( !get_map().route( u.pos_bub(), critter->pos_bub(), pf_settings ).empty() ) {
                     return critter;
