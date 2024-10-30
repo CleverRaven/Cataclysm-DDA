@@ -10,15 +10,8 @@
     "difficulty": 99,
     "always_invisible": true,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
-    "action": "spell",
-    "spell_data": { "id": "LESSON_LOOK" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_LOOK",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_LOOK"
+    "action": "eocs",
+    "eocs": [ "EOC_LESSON_LOOK" ]
   },
   {
     "type": "effect_on_condition",
@@ -35,14 +28,7 @@
     "type": "trap",
     "id": "tr_tutorial_2",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_MOVEMENT_MODES" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_MOVEMENT_MODES",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_MOVEMENT_MODES"
+    "eocs": [ "EOC_LESSON_MOVEMENT_MODES" ]
   },
   {
     "type": "effect_on_condition",
@@ -59,14 +45,7 @@
     "type": "trap",
     "id": "tr_tutorial_3",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_MONSTER_SIGHTED" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_MONSTER_SIGHTED",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_MONSTER_SIGHTED"
+    "eocs": [ "EOC_LESSON_MONSTER_SIGHTED" ]
   },
   {
     "type": "effect_on_condition",
@@ -83,14 +62,7 @@
     "type": "trap",
     "id": "tr_tutorial_4",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_REACH_ATTACK" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_REACH_ATTACK",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_REACH_ATTACK"
+    "eocs": [ "EOC_LESSON_REACH_ATTACK" ]
   },
   {
     "type": "effect_on_condition",
@@ -107,14 +79,7 @@
     "type": "trap",
     "id": "tr_tutorial_5",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_HOLSTERS_WEAR" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_HOLSTERS_WEAR",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_HOLSTERS_WEAR"
+    "eocs": [ "EOC_LESSON_HOLSTERS_WEAR" ]
   },
   {
     "type": "effect_on_condition",
@@ -131,14 +96,7 @@
     "type": "trap",
     "id": "tr_tutorial_6",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_GUN_LOAD" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_GUN_LOAD",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_GUN_LOAD"
+    "eocs": [ "EOC_LESSON_GUN_LOAD" ]
   },
   {
     "type": "effect_on_condition",
@@ -155,14 +113,7 @@
     "type": "trap",
     "id": "tr_tutorial_7",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_INVENTORY" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_INVENTORY",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_INVENTORY"
+    "eocs": [ "EOC_LESSON_INVENTORY" ]
   },
   {
     "type": "effect_on_condition",
@@ -179,14 +130,7 @@
     "type": "trap",
     "id": "tr_tutorial_8",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_FLASHLIGHT" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_FLASHLIGHT",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_FLASHLIGHT"
+    "eocs": [ "EOC_LESSON_FLASHLIGHT" ]
   },
   {
     "type": "effect_on_condition",
@@ -203,14 +147,7 @@
     "type": "trap",
     "id": "tr_tutorial_9",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_INTERACT" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_INTERACT",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_INTERACT"
+    "eocs": [ "EOC_LESSON_INTERACT" ]
   },
   {
     "type": "effect_on_condition",
@@ -227,14 +164,7 @@
     "type": "trap",
     "id": "tr_tutorial_10",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_REMOTE_USE" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_REMOTE_USE",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_REMOTE_USE"
+    "eocs": [ "EOC_LESSON_REMOTE_USE" ]
   },
   {
     "type": "effect_on_condition",
@@ -251,14 +181,7 @@
     "type": "trap",
     "id": "tr_tutorial_11",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_CRAFTING_FOOD" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_CRAFTING_FOOD",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_CRAFTING_FOOD"
+    "eocs": [ "EOC_LESSON_CRAFTING_FOOD" ]
   },
   {
     "type": "effect_on_condition",
@@ -275,14 +198,7 @@
     "type": "trap",
     "id": "tr_tutorial_12",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_CONSTRUCTION" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_CONSTRUCTION",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_CONSTRUCTION"
+    "eocs": [ "EOC_LESSON_CONSTRUCTION" ]
   },
   {
     "type": "effect_on_condition",
@@ -305,14 +221,7 @@
     "type": "trap",
     "id": "tr_tutorial_14",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_THROWING" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_THROWING",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_THROWING"
+    "eocs": [ "EOC_LESSON_THROWING" ]
   },
   {
     "type": "effect_on_condition",
@@ -329,14 +238,7 @@
     "type": "trap",
     "id": "tr_tutorial_15",
     "copy-from": "tr_tutorial_1",
-    "spell_data": { "id": "LESSON_FINALE" }
-  },
-  {
-    "type": "SPELL",
-    "id": "LESSON_FINALE",
-    "name": { "str": "tutorial message", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_LESSON_FINALE"
+    "eocs": [ "EOC_LESSON_FINALE" ]
   },
   {
     "type": "effect_on_condition",
