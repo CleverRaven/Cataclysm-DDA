@@ -12433,16 +12433,6 @@ float Character::fall_damage_mod() const
     return std::max( 0.0f, ret );
 }
 
-static int adjust_effective_force_for_soft_landing( int effective_force,
-        int fall_damage_reduction )
-{
-    if( effective_force < fall_damage_reduction ) {
-        return 0;  // If less than fall_damage_reduction, reduce it to 0
-    } else {
-        return effective_force - fall_damage_reduction;
-    }
-}
-
 // force is maximum damage to hp before scaling
 int Character::impact( const int force, const tripoint &p )
 {
