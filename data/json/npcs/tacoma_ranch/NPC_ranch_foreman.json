@@ -148,6 +148,26 @@
     "responses": [ { "text": "I'll keep an eye out.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Bartender_done",
+    "dynamic_line": "Ever since you got the bartender set up, our liquor business has been running so much better!  As thanks for your efforts, I wanted to reward you with a portion of recent profits.",
+    "speaker_effect": { "effect": [ { "u_spawn_item": "FMCNote", "count": 75 }, { "u_lose_var": "mission_flag_Bartender_rewarded" } ] },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Doctor_done",
+    "dynamic_line": "I heard you helped jumpstart our local medical services.  With that basic need covered, everyone has been able to focus on their work a lot more, so to thank you for your efforts, I wanted to reward you.",
+    "speaker_effect": {
+      "effect": [
+        { "u_spawn_item": "FMCNote", "count": 25 },
+        { "u_lose_var": "mission_flag_Doctor_rewarded" },
+        { "u_lose_var": "mission_flag_Nurse_rewarded" }
+      ]
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
     "name": { "str": "Cut 200 planks" },

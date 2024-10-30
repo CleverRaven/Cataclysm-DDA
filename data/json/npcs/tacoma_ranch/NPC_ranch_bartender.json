@@ -396,6 +396,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
+      "effect": { "u_add_var": "mission_flag_Bartender_rewarded", "value": "no" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
         "place_item": [ { "item": "55gal_drum", "x": 18, "y": 3, "repeat": 2, "faction": "tacoma_commune" } ],

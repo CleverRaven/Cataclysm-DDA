@@ -542,6 +542,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
+      "effect": { "u_add_var": "mission_flag_Nurse_rewarded", "value": "no" },
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_59",
