@@ -673,7 +673,7 @@
     "copy-from": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy-duty flashlight (on)", "str_pl": "heavy-duty flashlights (on)" },
-    "power_draw": "6 W",
+    "power_draw": "2600 mW",
     "revert_to": "heavy_flashlight",
     "use_action": [
       {
