@@ -873,7 +873,7 @@
     "color": "blue",
     "name": { "str": "headlamp" },
     "description": "An LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
-    "//":"reference: https://www.rei.com/product/202772/black-diamond-astro-300-headlamp",
+    "//": "reference: https://www.rei.com/product/202772/black-diamond-astro-300-headlamp",
     "price": "20 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "aluminum" ],
