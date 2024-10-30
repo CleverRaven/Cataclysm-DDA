@@ -50,7 +50,7 @@
   {
     "type": "TRAIT_MIGRATION",
     "id": "PHOTOKIN_HIDE_UGLY_01",
-     "//": "remove after 0.J",
+    "//": "remove after 0.J",
     "remove": true
   },
   {
@@ -80,7 +80,7 @@
   {
     "type": "TRAIT_MIGRATION",
     "id": "PHOTOKIN_HIDE_UGLY_06",
-     "//": "remove after 0.J",
+    "//": "remove after 0.J",
     "remove": true
   }
 ]
