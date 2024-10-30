@@ -155,7 +155,21 @@ void trap::load( const JsonObject &jo, const std::string_view )
     int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    optional( jo, was_loaded, "spell_data", spell_data );
+    if( jo.has_member( "spell_data" ) ) {
+        if( act != trapfunc::cast_spell ) {
+            jo.throw_error_at( "spell_data",
+                               "Can't use \"spell_data\" without specifying \"action\": \"spell\"" );
+        }
+        optional( jo, was_loaded, "spell_data", spell_data );
+    }
+    if( jo.has_member( "eocs" ) ) {
+        if( act != trapfunc::eocs ) {
+            jo.throw_error_at( "eocs", "Can't use \"eocs\" without specifying \"action\": \"eocs\"" );
+        }
+        for( JsonValue jv : jsobj.get_array( "eocs" ) ) {
+            eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
+    }
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "sound_threshold", sound_threshold );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {

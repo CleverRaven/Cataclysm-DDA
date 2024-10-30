@@ -370,6 +370,19 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
+bool trapfunc::eocs( const tripoint &p, Creature *critter, item * )
+{
+    map &here = get_map();
+    trap tr = here.tr_at( p );
+    for( const effect_on_condition_id &eoc : tr.eocs ) {
+        dialogue d( critter == nullptr ? nullptr : get_talker_for( critter ), nullptr );
+        eoc->activate( d );
+    }
+    here.remove_trap( p );
+    return true;
+}
+
+
 bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
 {
     if( c == nullptr ) {
@@ -1773,6 +1786,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "board", trapfunc::board },
             { "caltrops", trapfunc::caltrops },
             { "caltrops_glass", trapfunc::caltrops_glass },
+            { "eocs", trapfunc::eocs },
             { "tripwire", trapfunc::tripwire },
             { "crossbow", trapfunc::crossbow },
             { "shotgun", trapfunc::shotgun },
