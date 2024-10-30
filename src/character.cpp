@@ -12495,8 +12495,7 @@ int Character::impact( const int force, const tripoint &p )
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
-            effective_force = adjust_effective_force_for_soft_landing( effective_force,
-                              here.furn( p )->fall_damage_reduction );
+            effective_force = std::max( 0, effective_force - here.furn( p )->fall_damage_reduction );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
