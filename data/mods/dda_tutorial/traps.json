@@ -8,9 +8,10 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
+    "always_invisible": true,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "action": "spell",
-    "spell_data": { "id": "LESSON_LOOK" },
-    "always_invisible": true
+    "spell_data": { "id": "LESSON_LOOK" }
   },
   {
     "type": "SPELL",
@@ -27,15 +28,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_2",
-    "name": "movement modes tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_MOVEMENT_MODES" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_MOVEMENT_MODES" }
   },
   {
     "type": "SPELL",
@@ -52,15 +46,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_3",
-    "name": "melee tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_MONSTER_SIGHTED" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_MONSTER_SIGHTED" }
   },
   {
     "type": "SPELL",
@@ -77,15 +64,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_4",
-    "name": "reach attack tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_REACH_ATTACK" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_REACH_ATTACK" }
   },
   {
     "type": "SPELL",
@@ -102,15 +82,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_5",
-    "name": "wear items tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_HOLSTERS_WEAR" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_HOLSTERS_WEAR" }
   },
   {
     "type": "SPELL",
@@ -127,15 +100,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_6",
-    "name": "firearms tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_GUN_LOAD" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_GUN_LOAD" }
   },
   {
     "type": "SPELL",
@@ -152,15 +118,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_7",
-    "name": "inventory tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_INVENTORY" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_INVENTORY" }
   },
   {
     "type": "SPELL",
@@ -177,15 +136,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_8",
-    "name": "flashlight tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_FLASHLIGHT" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_FLASHLIGHT" }
   },
   {
     "type": "SPELL",
@@ -202,15 +154,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_9",
-    "name": "water container tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_INTERACT" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_INTERACT" }
   },
   {
     "type": "SPELL",
@@ -227,15 +172,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_10",
-    "name": "remote use tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_REMOTE_USE" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_REMOTE_USE" }
   },
   {
     "type": "SPELL",
@@ -252,15 +190,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_11",
-    "name": "crafting tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_CRAFTING_FOOD" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_CRAFTING_FOOD" }
   },
   {
     "type": "SPELL",
@@ -277,15 +208,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_12",
-    "name": "construction tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_CONSTRUCTION" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_CONSTRUCTION" }
   },
   {
     "type": "SPELL",
@@ -302,27 +226,14 @@
   {
     "type": "trap",
     "id": "tr_tutorial_13",
-    "name": "pain management tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "none",
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "action": "none"
   },
   {
     "type": "trap",
     "id": "tr_tutorial_14",
-    "name": "throwing tutorial",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_THROWING" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_THROWING" }
   },
   {
     "type": "SPELL",
@@ -339,15 +250,8 @@
   {
     "type": "trap",
     "id": "tr_tutorial_15",
-    "name": "tutorial finale",
-    "color": "white",
-    "symbol": "x",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "spell",
-    "spell_data": { "id": "LESSON_FINALE" },
-    "always_invisible": true
+    "copy-from": "tr_tutorial_1",
+    "spell_data": { "id": "LESSON_FINALE" }
   },
   {
     "type": "SPELL",
