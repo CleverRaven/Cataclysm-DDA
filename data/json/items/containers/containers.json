@@ -2143,6 +2143,23 @@
     "melee_damage": { "bash": 10 }
   },
   {
+    "id": "clay_watercont_no_lid",
+    "type": "GENERIC",
+    "name": { "str": "large clay pot (no lid)" },
+    "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+    "copy-from": "clay_watercont",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "37500 ml",
+        "max_contains_weight": "50 kg"
+      }
+    ]
+  },
+  {
     "id": "cup_plastic",
     "type": "GENERIC",
     "category": "container",
