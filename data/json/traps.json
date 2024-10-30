@@ -900,25 +900,9 @@
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
-    "action": "spell",
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
-    "spell_data": { "id": "swirling_vortex" }
-  },
-  {
-    "type": "SPELL",
-    "id": "trap_base",
-    "name": { "str": "base spell for traps", "//~": "NO_I18N" },
-    "description": { "str": "EOCs the victim.", "//~": "NO_I18N" },
-    "valid_targets": [ "self", "hostile", "ally" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
-    "shape": "blast",
-    "min_range": 0,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_SWIRLING_VORTEX"
+    "action": "eocs",
+    "eocs": [ "EOC_SWIRLING_VORTEX" ]
   },
   {
     "type": "effect_on_condition",
@@ -928,50 +912,22 @@
   {
     "type": "trap",
     "id": "tr_portal_dungeon_entrance",
-    "name": "swirling vortex",
-    "color": "green",
-    "action": "spell",
     "copy-from": "tr_swirling_vortex",
-    "spell_data": { "id": "portal_dungeon_entrance" }
-  },
-  {
-    "type": "SPELL",
-    "id": "portal_dungeon_entrance",
-    "name": { "str": "portal dungeon entrance", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON"
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON" ]
   },
   {
     "type": "trap",
     "id": "tr_portal_dungeon_exit",
     "name": "hole to outside",
-    "color": "green",
     "copy-from": "tr_swirling_vortex",
-    "action": "spell",
-    "spell_data": { "id": "portal_dungeon_exit" }
-  },
-  {
-    "type": "SPELL",
-    "id": "portal_dungeon_exit",
-    "name": { "str": "portal dungeon exit", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_EXIT" ]
   },
   {
     "type": "trap",
     "id": "tr_portal_dungeon_next_level",
-    "name": "Swirling vortex",
     "color": "blue",
     "copy-from": "tr_swirling_vortex",
-    "action": "spell",
-    "spell_data": { "id": "portal_dungeon_next_level" }
-  },
-  {
-    "type": "SPELL",
-    "id": "portal_dungeon_next_level",
-    "name": { "str": "portal dungeon next level", "//~": "NO_I18N" },
-    "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL" ]
   },
   {
     "type": "trap",
