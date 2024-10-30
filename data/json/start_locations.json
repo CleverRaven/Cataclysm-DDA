@@ -693,7 +693,7 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
-    "terrain": [ "road_straight" ]
+    "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ]
   },
   {
     "type": "start_location",
