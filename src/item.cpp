@@ -13396,10 +13396,17 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         // If not carried by someone, but laying on the ground:
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
-            if( here.flammable_items_at( pos ) ||
-                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
-                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, fd_fire, 1 );
+            for( const item &i : here.i_at( pos ) ) {
+                if( i.typeId() == typeId() ) {
+                    if( here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
+                        here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
+                        here.add_field( pos, fd_fire, 1 );
+                        break;
+                    }
+                } else if( i.flammable( 0 ) ) {
+                    here.add_field( pos, fd_fire, 1 );
+                    break;
+                }
             }
         }
     }
