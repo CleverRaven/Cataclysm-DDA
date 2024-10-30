@@ -247,40 +247,44 @@
     "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
     "effect": [
       {
-        "u_map_run_eocs": [ "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION" ],
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION",
+            "effect": [
+              {
+                "if": {
+                  "u_query_tile": "line_of_sight",
+                  "target_var": { "context_val": "arvore_walk_wilds_location" },
+                  "range": {
+                    "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
+                  },
+                  "z_level": false,
+                  "message": "Select tree to step to."
+                },
+                "then": {
+                  "if": {
+                    "or": [
+                      { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_location" } },
+                      { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "arvore_walk_wilds_location" } }
+                    ]
+                  },
+                  "then": [
+                    { "u_teleport": { "context_val": "arvore_walk_wilds_location" }, "force": true },
+                    { "u_message": "You step into the tree and step out of another one nearby.", "type": "neutral" }
+                  ],
+                  "else": { "u_message": "You must select a tree to step to." }
+                },
+                "else": { "u_message": "Canceled" }
+              }
+            ],
+            "false_effect": { "u_message": "You need to be standing next to a tree to traverse the wilds.", "type": "bad" }
+          }
+        ],
         "range": 1,
         "store_coordinates_in": { "context_val": "arvore_walk_wilds_origin" },
         "stop_at_first": true,
         "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_origin" } }
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION",
-    "condition": { "math": [ "has_var(arvore_walk_wilds_origin)" ] },
-    "effect": [
-      {
-        "if": {
-          "u_query_tile": "anywhere",
-          "target_var": { "context_val": "arvore_walk_wilds_location" },
-          "range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] },
-          "z_level": false,
-          "message": "Select tree to step to."
-        },
-        "then": {
-          "if": { 
-            "or": [
-              { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_location" } },
-              { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "arvore_walk_wilds_location" } }
-            ] 
-          },
-          "then": { "u_teleport": { "context_val": "arvore_walk_wilds_location" }, "force": true },
-          "else": { "u_message": "You must select a tree to step to." }
-        },
-        "else": { "u_message": "Canceled" }
-      },
-    "false_effect": { "u_message": "You need to be standing next to a tree to traverse the wilds.", "type": "bad" }
     ]
   },
   {
