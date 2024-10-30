@@ -228,6 +228,15 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
+    // what to do with p_special & PathfindingFlag::RestrictTiny?
+    if( ( p_special & PathfindingFlag::RestrictSmall &&
+          settings.creature_size > creature_size::tiny ) || ( p_special & PathfindingFlag::RestrictMedium &&
+                  settings.creature_size > creature_size::small ) || ( p_special & PathfindingFlag::RestrictLarge &&
+                          settings.creature_size > creature_size::medium ) || ( p_special & PathfindingFlag::RestrictHuge &&
+                                  settings.creature_size > creature_size::large ) ) {
+        return PF_IMPASSABLE;
+    }
+
     const int bash = settings.bash_strength;
     const bool allow_open_doors = settings.allow_open_doors;
     const bool allow_unlock_doors = settings.allow_unlock_doors;

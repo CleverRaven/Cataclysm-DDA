@@ -5482,7 +5482,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
         tiles.erase( tiles.begin() ); // we already tried this position
         const int max_path_length = 4 * max_dist;
         const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
-                                            false, false );
+                                            false, false, creature_size::medium );
         for( const tripoint_bub_ms &e : tiles ) {
             if( copies_remaining <= 0 ) {
                 break;
@@ -10774,6 +10774,11 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
         cur_value |= PathfindingFlag::Sharp;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
+        cur_value |= ( PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge );
+
     }
 
     cache.special[p.x()][p.y()] = cur_value;

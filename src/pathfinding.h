@@ -5,6 +5,7 @@
 #include "coords_fwd.h"
 #include "game_constants.h"
 #include "mdarray.h"
+#include "character.h"
 
 // An attribute of a particular map square that is of interest in pathfinding.
 // Has a maximum of 32 members. For more, the datatype underlying PathfindingFlags
@@ -146,14 +147,16 @@ struct pathfinding_settings {
     bool avoid_sharp = false;
     bool avoid_dangerous_fields = false;
 
+    creature_size creature_size = creature_size::medium;
+
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
 
     pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool aud, bool at, bool acs,
-                          bool art, bool as )
+                          bool art, bool as, enum creature_size cs )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
           allow_open_doors( aod ), allow_unlock_doors( aud ), avoid_traps( at ), allow_climb_stairs( acs ),
-          avoid_rough_terrain( art ), avoid_sharp( as ) {}
+          avoid_rough_terrain( art ), avoid_sharp( as ), creature_size( cs )  {}
 
     pathfinding_settings &operator=( const pathfinding_settings & ) = default;
 };
