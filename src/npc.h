@@ -821,6 +821,12 @@ class npc : public Character
         void update_missions_target( character_id old_character, character_id new_character );
         std::pair<skill_id, int> best_combat_skill( combat_skills subset ) const;
         void starting_weapon( const npc_class_id &type );
+        /**
+        * Adds items to a randomly generated NPC (i.e. not having a defined npc_class)
+        * As time passes, NPCs get stronger (reaching peak at 90 days)
+        * See NC_NONE_*.json and NC_NONE_HARDENED_*.json for item selection
+        */
+        void starting_inv_passtime();
 
         // Save & load
         void deserialize( const JsonObject &data ) override;
