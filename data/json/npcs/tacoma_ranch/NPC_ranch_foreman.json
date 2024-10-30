@@ -157,6 +157,7 @@
     "item": "2x4",
     "count": 200,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_2",
     "dialogue": {
       "describe": "We need help…",
@@ -219,6 +220,7 @@
     "difficulty": 5,
     "value": 50000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_3",
     "dialogue": {
       "describe": "We need help…",
@@ -294,6 +296,7 @@
     "item": "nail",
     "count": 2500,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_4",
     "dialogue": {
       "describe": "We need help…",
@@ -352,6 +355,7 @@
     "item": "salt",
     "count": 3888,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_5",
     "dialogue": {
       "describe": "We need help…",
@@ -419,6 +423,7 @@
     "item": "fertilizer_liquid",
     "count": 120,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_6",
     "dialogue": {
       "describe": "We need help…",
@@ -464,6 +469,7 @@
     "item": "rock",
     "count": 75,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_7",
     "dialogue": {
       "describe": "We need help…",
@@ -511,6 +517,7 @@
     "item": "pipe",
     "count": 50,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_8",
     "dialogue": {
       "describe": "We need help…",
@@ -561,6 +568,7 @@
     "item": "motor",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_9",
     "dialogue": {
       "describe": "We need help…",
@@ -624,6 +632,7 @@
     "item": "bleach",
     "count": 150,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_10_1",
     "dialogue": {
       "describe": "We need help…",
@@ -663,6 +672,7 @@
     "item": "bandages",
     "count": 36,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_10",
     "dialogue": {
       "describe": "We need help…",
@@ -691,6 +701,7 @@
     "item": "disinfectant",
     "count": 60,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help…",
@@ -723,6 +734,7 @@
     "item": "welder",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_12",
     "dialogue": {
       "describe": "We need help…",
@@ -784,6 +796,7 @@
     "item": "battery_car",
     "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_13",
     "dialogue": {
       "describe": "We need help…",
@@ -824,6 +837,7 @@
     "item": "two_way_radio",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_14",
     "dialogue": {
       "describe": "We need help…",
@@ -862,6 +876,7 @@
     "item": "backpack",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_15",
     "dialogue": {
       "describe": "We need help…",
@@ -902,6 +917,7 @@
     "item": "brewing_cookbook",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_16",
     "dialogue": {
       "describe": "We need help…",
@@ -935,6 +951,7 @@
     "item": "sugar",
     "count": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_17",
     "dialogue": {
       "describe": "We need help…",
@@ -967,6 +984,7 @@
     "item": "glass_sheet",
     "count": 30,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",
