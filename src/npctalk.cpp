@@ -2434,6 +2434,38 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, spell_id( var )->description.translated() );
+        } else if( tag.find( "<keybind:" ) == 0 ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            std::string keybind = var;
+
+            //deal with category specific binds like <keybind:TARGET:PREV_TARGET>
+            size_t pos_category_split = var.find( ':' );
+
+            std::string category = "DEFAULTMODE";
+            if( pos_category_split != std::string::npos ) {
+                category = var.substr( 0, pos_category_split );
+                keybind = var.substr( pos_category_split + 1 );
+            }
+            input_context ctxt( category );
+
+            std::string keybind_desc;
+            std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
+            if( keys.empty() ) { // Display description for unbound keys
+                keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+
+                if( !ctxt.is_registered_action( keybind ) ) {
+                    debugmsg( "Keybind specified by <keybind:%s> is invalid/missing", var );
+                }
+            } else {
+                keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
+                    return colorize( '\'' + k.long_description() + '\'', c_yellow );
+                }, enumeration_conjunction::or_ );
+            }
+
+            phrase.replace( fa, l, keybind_desc );
         } else if( tag.find( "<city>" ) == 0 ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
