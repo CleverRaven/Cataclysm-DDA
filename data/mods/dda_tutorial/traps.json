@@ -2,15 +2,27 @@
   {
     "type": "trap",
     "id": "tr_tutorial_1",
-    "name": "look around tutorial",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
     "color": "white",
     "symbol": "x",
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_LOOK" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_LOOK",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_LOOK"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_LOOK",
+    "effect": [ { "u_message": "LESSON_LOOK", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -21,9 +33,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_MOVEMENT_MODES" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_MOVEMENT_MODES",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_MOVEMENT_MODES"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_MOVEMENT_MODES",
+    "effect": [ { "u_message": "LESSON_MOVEMENT_MODES", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -34,9 +58,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_MONSTER_SIGHTED" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_MONSTER_SIGHTED",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_MONSTER_SIGHTED"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_MONSTER_SIGHTED",
+    "effect": [ { "u_message": "LESSON_MONSTER_SIGHTED", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -47,9 +83,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_REACH_ATTACK" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_REACH_ATTACK",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_REACH_ATTACK"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_REACH_ATTACK",
+    "effect": [ { "u_message": "LESSON_REACH_ATTACK", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -60,9 +108,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_HOLSTERS_WEAR" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_HOLSTERS_WEAR",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_HOLSTERS_WEAR"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_HOLSTERS_WEAR",
+    "effect": [ { "u_message": "LESSON_HOLSTERS_WEAR", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -73,9 +133,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_GUN_LOAD" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_GUN_LOAD",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_GUN_LOAD"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_GUN_LOAD",
+    "effect": [ { "u_message": "LESSON_GUN_LOAD", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -86,9 +158,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_INVENTORY" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_INVENTORY",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_INVENTORY"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_INVENTORY",
+    "effect": [ { "u_message": "LESSON_INVENTORY", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -99,9 +183,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_FLASHLIGHT" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_FLASHLIGHT",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_FLASHLIGHT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_FLASHLIGHT",
+    "effect": [ { "u_message": "LESSON_FLASHLIGHT", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -112,9 +208,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_INTERACT" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_INTERACT",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_INTERACT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_INTERACT",
+    "effect": [ { "u_message": "LESSON_INTERACT", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -125,9 +233,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_REMOTE_USE" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_REMOTE_USE",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_REMOTE_USE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_REMOTE_USE",
+    "effect": [ { "u_message": "LESSON_REMOTE_USE", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -138,9 +258,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_CRAFTING_FOOD" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_CRAFTING_FOOD",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_CRAFTING_FOOD"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_CRAFTING_FOOD",
+    "effect": [ { "u_message": "LESSON_CRAFTING_FOOD", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -151,9 +283,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_CONSTRUCTION" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_CONSTRUCTION",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_CONSTRUCTION"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_CONSTRUCTION",
+    "effect": [ { "u_message": "LESSON_CONSTRUCTION", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -165,7 +309,6 @@
     "avoidance": 99,
     "difficulty": 99,
     "action": "none",
-    "benign": true,
     "always_invisible": true
   },
   {
@@ -177,9 +320,21 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_THROWING" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_THROWING",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_THROWING"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_THROWING",
+    "effect": [ { "u_message": "LESSON_THROWING", "popup": true, "snippet": true } ]
   },
   {
     "type": "trap",
@@ -190,8 +345,20 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true,
+    "action": "spell",
+    "spell_data": { "id": "LESSON_FINALE" },
     "always_invisible": true
+  },
+  {
+    "type": "SPELL",
+    "id": "LESSON_FINALE",
+    "name": { "str": "tutorial message", "//~": "NO_I18N" },
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LESSON_FINALE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LESSON_FINALE",
+    "effect": [ { "u_message": "LESSON_FINALE", "popup": true, "snippet": true } ]
   }
 ]
