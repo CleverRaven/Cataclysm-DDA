@@ -399,6 +399,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+    optional( jo, was_loaded, "activation_msg", activation_msg,
+              to_translation( "You activate your %s." ) );
 
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
