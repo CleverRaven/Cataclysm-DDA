@@ -12523,8 +12523,7 @@ int Character::impact( const int force, const tripoint &p )
     //for wielded items
     if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
         weapon.affects_fall() ) {
-        effective_force = adjust_effective_force_for_soft_landing( effective_force,
-                          weapon.fall_damage_reduction() );
+        effective_force = std::max( 0, effective_force - weapon.fall_damage_reduction() );
 
     }
     // Rescale for huge force
