@@ -1215,7 +1215,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
 
     it.spill_contents( suitable.value() );
     if( !place_appliance( tripoint_bub_ms( suitable.value() ),
-                          vpart_appliance_from_item( appliance_base ), it ) ) {
+                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
         // failed to place somehow, cancel!!
         return 0;
     }
@@ -3326,6 +3326,11 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
         for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
+    }
+
+    if( !bandages_power && !disinfectant_power && !bleed && !bite && !infect &&
+        !obj.has_array( "effects" ) ) {
+        obj.throw_error( _( "Heal actor is missing any valid healing effect" ) );
     }
 
     if( obj.has_string( "used_up_item" ) ) {

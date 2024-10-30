@@ -443,6 +443,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     clear_map();
     clear_avatar();
     map &m = get_map();
+    Character &player_character = get_player_character();
     const int max_displacement = 50;
     const std::optional<item> stand_lamp1( "test_standing_lamp" );
     const std::optional<item> stand_lamp2( "test_standing_lamp" );
@@ -450,8 +451,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
 
-    place_appliance( app1_pos, vpart_ap_test_standing_lamp, stand_lamp1 );
-    place_appliance( app2_pos, vpart_ap_test_standing_lamp, stand_lamp2 );
+    place_appliance( app1_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp1 );
+    place_appliance( app2_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp2 );
 
     optional_vpart_position app1_part = m.veh_at( app1_pos );
     optional_vpart_position app2_part = m.veh_at( app2_pos );
