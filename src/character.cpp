@@ -12516,8 +12516,7 @@ int Character::impact( const int force, const tripoint &p )
             } );
 
             for( const item_location &floor_item : fall_affecting_items ) {
-                effective_force = adjust_effective_force_for_soft_landing(
-                                      effective_force, floor_item.get_item()->fall_damage_reduction() );
+                effective_force = std::max( 0, effective_force - floor_item.get_item()->fall_damage_reduction() );
             }
 
         }
