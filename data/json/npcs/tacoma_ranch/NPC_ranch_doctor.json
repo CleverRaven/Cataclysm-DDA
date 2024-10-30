@@ -232,6 +232,7 @@
     "item": "crutches",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
     "dialogue": {
       "describe": "We need help…",
@@ -256,6 +257,7 @@
     "item": "gloves_medical",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
     "dialogue": {
       "describe": "We need help…",
