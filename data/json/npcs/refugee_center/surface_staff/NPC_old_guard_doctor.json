@@ -100,6 +100,7 @@
       "assign_mission_target": { "om_terrain": "hospital_2", "search_range": 540, "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood…",
@@ -123,6 +124,7 @@
     "item": "software_lab_data",
     "start": "create_lab_console",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_3",
     "dialogue": {
       "describe": "We need help…",
@@ -146,6 +148,7 @@
     "item": "software_encryption_codes",
     "start": "create_hidden_lab_console",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_4",
     "dialogue": {
       "describe": "We need help…",
@@ -169,6 +172,7 @@
     "item": "software_archived_data",
     "start": "create_ice_lab_console",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_5",
     "dialogue": {
       "describe": "We need help…",
@@ -202,6 +206,7 @@
       "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need help…",
       "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
