@@ -3667,7 +3667,7 @@ void faction::serialize( JsonOut &json ) const
         json.member( rel_data.first );
         json.start_object();
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            json.member( rel_flag.first, rel_data.second.test( rel_flag.second ) );
+            json.member( rel_flag.first, rel_data.second.test( static_cast<size_t>( rel_flag.second ) ) );
         }
         json.end_object();
     }

@@ -1476,6 +1476,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         }
 #endif
 
+        out << std::unitbuf; // flush writes immediately
         return out;
     }
 

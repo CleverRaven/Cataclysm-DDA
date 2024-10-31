@@ -2030,7 +2030,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
             temp_camp->handle_mission( mission_key.cur_key.id );
         }
     } else {
-        you.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
+        you.add_msg_if_player( _( "This bulletin board is not inside a camp." ) );
     }
 }
 

@@ -15,9 +15,9 @@
         "#&.......#____#....P...#",
         "#S.P.....#____#........#",
         "#&......^#W++W#^.......#",
-        "#..........cc..........#",
-        "#..........cc........r.#",
-        "#.......hd.cc......Prrr#",
+        "#..........==..........#",
+        "#..........==........r.#",
+        "#.......hd.==......Prrr#",
         "#........d...........r.#",
         "#sa....................#",
         "#hP......|----|........#",
@@ -32,7 +32,7 @@
         "#3...|HH^|.<W<.|^HH|..3#",
         "########################"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass_alarm",
@@ -42,7 +42,6 @@
         "D": "t_door_c",
         "W": "t_wall_glass",
         "_": "t_sidewalk",
-        "c": "t_carpet_red",
         "g": "t_region_groundcover_forest",
         "u": "t_region_shrub",
         "<": "t_stairs_up"
@@ -90,9 +89,9 @@
         "#........-____-........#",
         "#........-____-........#",
         "#...9P..^|W++W|^..P9...#",
-        "#..........cc..........#",
-        "#..........cc..........#",
-        "#...9P..hd.cc.....P9...#",
+        "#..........==..........#",
+        "#..........==..........#",
+        "#...9P..hd.==.....P9...#",
         "#........d.............#",
         "#......................#",
         "#........|----|........#",
@@ -107,7 +106,7 @@
         "#3...|HH^|.<W<.|^HH|..3#",
         "########################"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass_alarm",
@@ -117,7 +116,6 @@
         "D": "t_door_c",
         "W": "t_wall_glass",
         "_": "t_sidewalk",
-        "c": "t_carpet_red",
         "g": "t_region_groundcover_forest",
         "u": "t_region_shrub",
         "<": "t_stairs_up"
