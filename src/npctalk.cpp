@@ -2259,8 +2259,8 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
 {
     phrase = SNIPPET.expand( phrase );
 
-    const Character *u_chr = u.get_character();
-    const Character *me_chr = me.get_character();
+    const Character *u_chr = u.get_const_character();
+    const Character *me_chr = me.get_const_character();
     size_t fa;
     size_t fb;
     size_t fa_;
@@ -4806,7 +4806,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
         if( global ) {
             target = &get_player_character();
         } else {
-            target = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
+            target = d.actor( is_npc )->get_const_character();
         }
         if( !target || target->is_npc() ) {
             return;

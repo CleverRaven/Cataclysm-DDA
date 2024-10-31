@@ -645,8 +645,8 @@ conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view 
     return [trait_to_check, is_npc]( dialogue const & d ) {
         const talker *observer = d.actor( !is_npc );
         const talker *observed = d.actor( is_npc );
-        int visibility_cap = observer->get_character()->get_mutation_visibility_cap(
-                                 observed->get_character() );
+        int visibility_cap = observer->get_const_character()->get_mutation_visibility_cap(
+                                 observed->get_const_character() );
         bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
         const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
         bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
@@ -1617,7 +1617,7 @@ conditional_t::func f_is_day()
 conditional_t::func f_is_outside( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
-        return is_creature_outside( *static_cast<talker const *>( d.actor( is_npc ) )->get_creature() );
+        return is_creature_outside( *d.actor( is_npc )->get_const_creature() );
     };
 }
 
@@ -1642,7 +1642,7 @@ conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool
     bool default_val = jo.get_bool( "default" );
     return [message, default_val, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
-        if( actor->get_character() && actor->get_character()->is_avatar() ) {
+        if( actor->get_const_character() && actor->get_const_character()->is_avatar() ) {
             std::string translated_message = message.evaluate( d );
             return query_yn( translated_message );
         } else {
@@ -2202,51 +2202,51 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
 
 namespace
 {
-std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals = {
-    { "activity_level", &talker::get_activity_level },
-    { "age", &talker::get_age },
-    { "anger", &talker::get_anger },
-    { "bmi_permil", &talker::get_bmi_permil },
-    { "cash", &talker::cash },
-    { "difficulty", &talker::get_difficulty },
-    { "dexterity_base", &talker::get_dex_max },
-    { "dexterity_bonus", &talker::get_dex_bonus },
-    { "dexterity", &talker::dex_cur },
-    { "exp", &talker::get_kill_xp },
-    { "sleepiness", &talker::get_sleepiness },
-    { "fine_detail_vision_mod", &talker::get_fine_detail_vision_mod },
-    { "focus", &talker::focus_cur },
-    { "friendly", &talker::get_friendly },
-    { "grab_strength", &talker::get_grab_strength },
-    { "health", &talker::get_health },
-    { "height", &talker::get_height },
-    { "hunger", &talker::get_hunger },
-    { "instant_thirst", &talker::get_instant_thirst },
-    { "intelligence_base", &talker::get_int_max },
-    { "intelligence_bonus", &talker::get_int_bonus },
-    { "intelligence", &talker::int_cur },
-    { "mana_max", &talker::mana_max },
-    { "mana", &talker::mana_cur },
-    { "morale", &talker::morale_cur },
-    { "owed", &talker::debt },
-    { "perception_base", &talker::get_per_max },
-    { "perception_bonus", &talker::get_per_bonus },
-    { "perception", &talker::per_cur },
-    { "pkill", &talker::get_pkill },
-    { "pos_x", &talker::posx },
-    { "pos_y", &talker::posy },
-    { "pos_z", &talker::posz },
-    { "rad", &talker::get_rad },
-    { "size", &talker::get_size },
-    { "sleep_deprivation", &talker::get_sleep_deprivation },
-    { "sold", &talker::sold },
-    { "stamina", &talker::get_stamina },
-    { "stim", &talker::get_stim },
-    { "strength_base", &talker::get_str_max },
-    { "strength_bonus", &talker::get_str_bonus },
-    { "strength", &talker::str_cur },
-    { "thirst", &talker::get_thirst },
-    { "count", &talker::get_count }
+std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_get_vals = {
+    { "activity_level", &const_talker::get_activity_level },
+    { "age", &const_talker::get_age },
+    { "anger", &const_talker::get_anger },
+    { "bmi_permil", &const_talker::get_bmi_permil },
+    { "cash", &const_talker::cash },
+    { "difficulty", &const_talker::get_difficulty },
+    { "dexterity_base", &const_talker::get_dex_max },
+    { "dexterity_bonus", &const_talker::get_dex_bonus },
+    { "dexterity", &const_talker::dex_cur },
+    { "exp", &const_talker::get_kill_xp },
+    { "sleepiness", &const_talker::get_sleepiness },
+    { "fine_detail_vision_mod", &const_talker::get_fine_detail_vision_mod },
+    { "focus", &const_talker::focus_cur },
+    { "friendly", &const_talker::get_friendly },
+    { "grab_strength", &const_talker::get_grab_strength },
+    { "health", &const_talker::get_health },
+    { "height", &const_talker::get_height },
+    { "hunger", &const_talker::get_hunger },
+    { "instant_thirst", &const_talker::get_instant_thirst },
+    { "intelligence_base", &const_talker::get_int_max },
+    { "intelligence_bonus", &const_talker::get_int_bonus },
+    { "intelligence", &const_talker::int_cur },
+    { "mana_max", &const_talker::mana_max },
+    { "mana", &const_talker::mana_cur },
+    { "morale", &const_talker::morale_cur },
+    { "owed", &const_talker::debt },
+    { "perception_base", &const_talker::get_per_max },
+    { "perception_bonus", &const_talker::get_per_bonus },
+    { "perception", &const_talker::per_cur },
+    { "pkill", &const_talker::get_pkill },
+    { "pos_x", &const_talker::posx },
+    { "pos_y", &const_talker::posy },
+    { "pos_z", &const_talker::posz },
+    { "rad", &const_talker::get_rad },
+    { "size", &const_talker::get_size },
+    { "sleep_deprivation", &const_talker::get_sleep_deprivation },
+    { "sold", &const_talker::sold },
+    { "stamina", &const_talker::get_stamina },
+    { "stim", &const_talker::get_stim },
+    { "strength_base", &const_talker::get_str_max },
+    { "strength_bonus", &const_talker::get_str_bonus },
+    { "strength", &const_talker::str_cur },
+    { "thirst", &const_talker::get_thirst },
+    { "count", &const_talker::get_count }
 };
 } // namespace
 
@@ -2270,7 +2270,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
         };
     } else if( checked_value == "dodge" ) {
         return [is_npc]( dialogue const & d ) {
-            return static_cast<talker const *>( d.actor( is_npc ) )->get_character()->get_dodge();
+            return d.actor( is_npc )->get_const_character()->get_dodge();
         };
     } else if( checked_value == "power_percentage" ) {
         return [is_npc]( dialogue const & d ) {
