@@ -3,7 +3,7 @@
     "id": "TALK_WEAPONMASTER_INTRO_1",
     "type": "talk_topic",
     "//": "mute by choice, and deaf most of the time (don't like to turn on the hearing cbm unless for job)",
-    "dynamic_line": "&What you see looks like the back of a mechanical spider, with at least a dozen crude but polished metal arms coming from the enormously wide spine and shoulders.  The spine of the creature, meanwhile, sits in an awkward-looking chair, doing something on a wide, heavily lighted workbench.  The creature seems to be busy with something.",
+    "dynamic_line": "&What you see looks like the back of a mechanical spider, with at least a dozen crude but polished metal arms coming from the enormously wide spine and shoulders.  The spine of the creature, meanwhile, sits in an awkward-looking chair, manipulating tools and geegaws on a wide, brightly lit workbench.  The creature seems to be busy with something.",
     "responses": [
       { "text": "[Wait a bit.]", "topic": "TALK_WEAPONMASTER_INTRO_2A" },
       { "text": "Hello?", "topic": "TALK_WEAPONMASTER_INTRO_2B" }
@@ -30,7 +30,7 @@
   {
     "id": "TALK_WEAPONMASTER_INTRO_3",
     "type": "talk_topic",
-    "dynamic_line": "&A few seconds later, they seem to finish whatever they were busy with and turn their chair towards you.  Their front looks no less exotic than their back; the abundance of metal arms looks even more extraordinary next to the clear lack of any legs.  What you initially thought to be a chair is simply a rotating platform, sturdy enough to support the weight of the entire body of the creature.  A number of cameras, which seem to be a replacement for eyes, look at you motionlessly, while the forehead of the creature has the surprisingly familiar sign \"IX\" painted on.",
+    "dynamic_line": "&A few seconds later, they seem to finish whatever they were busy with and turn their chair towards you.  Their front looks no less exotic than their back; the abundance of metal arms are even more extraordinary next to the clear lack of any legs.  What you initially thought to be a chair is simply a rotating platform, sturdy enough to support the weight of the entire body of the creature.  A number of cameras, which seem to be a replacement for eyes, look at you motionlessly, while the forehead of the creature has the surprisingly familiar sign \"IX\" painted on.",
     "responses": [ { "text": "Who-…  Wha-…  What are you?", "topic": "TALK_WEAPONMASTER_INTRO_4" } ]
   },
   {
