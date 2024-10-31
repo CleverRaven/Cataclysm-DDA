@@ -15,7 +15,7 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 1, 2 ],
     "priority": -1,
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
@@ -32,10 +32,10 @@
       { "point": [ 0, 1, 1 ], "overmap": "motel_2_roof_north" },
       { "point": [ 1, 1, 1 ], "overmap": "motel_3_roof_north" }
     ],
-    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
+    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 1, 2 ],
     "priority": -1,
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
@@ -1091,10 +1091,10 @@
       { "point": [ 3, 1, 0 ], "overmap": "special_field" },
       { "point": [ 1, -5, 0 ], "locations": [ "land", "road" ] }
     ],
-    "connections": [ { "point": [ 1, -5, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
+    "connections": [ { "point": [ 1, -5, 0 ], "terrain": "road", "connection": "local_road" } ],
     "locations": [ "field" ],
     "city_distance": [ 10, 40 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 1 3 ],
     "priority": -1,
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },

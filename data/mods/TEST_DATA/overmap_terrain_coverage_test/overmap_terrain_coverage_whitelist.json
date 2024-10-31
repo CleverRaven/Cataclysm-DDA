@@ -14,21 +14,7 @@
       "ravine_floor",
       "ravine_floor_edge",
       "rock_border",
-      "s_restaurant_deserted_test",
-      "wind_turbine_ground",
-      "wind_turbine_pillar",
-      "wind_turbine_pillar_platform",
-      "wind_turbine_roof",
-      "wind_turbine_nacelle",
-      "motel_twd_1",
-      "motel_entrance_no_sidewalk",
-      "motel_twd_2",
-      "motel_twd_1_f1",
-      "motel_1_no_sidewalk",
-      "motel_2_no_sidewalk",
-      "motel_3_no_sidewalk",
-      "motel_twd_2_f1",
-      "motel_twd_1_f2"
+      "s_restaurant_deserted_test"
     ]
   }
 ]
