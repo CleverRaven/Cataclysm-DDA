@@ -534,6 +534,8 @@ struct vehicle_part {
 
         time_point last_disconnected = calendar::before_time_starts;
 
+        time_point last_charged = calendar::turn;
+
     private:
         // part type definition
         // note: this could be a const& but doing so would require hassle with implementing
