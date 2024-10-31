@@ -15,7 +15,7 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "priority": -1,
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
@@ -35,7 +35,7 @@
     "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "priority": -1,
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
