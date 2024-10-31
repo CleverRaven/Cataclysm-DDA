@@ -403,10 +403,13 @@
         {
           "id": "psi_electrokin3_neuro_acceleration",
           "type": "spell",
-          "spell_data": { "id": "electrokinetic_neuro_acceleration_monster" },
+          "spell_data": { "id": "electrokinetic_neuro_acceleration_enhanced_monster" },
           "cooldown": 1,
           "condition": {
-            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_neuro_acceleration" } } ]
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_neuro_acceleration_enhanced" } }
+            ]
           },
           "monster_message": "%1$s begins moving much more quickly."
         },

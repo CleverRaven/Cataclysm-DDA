@@ -358,9 +358,9 @@
   },
   {
     "type": "SPELL",
-    "id": "electrokinetic_neuro_acceleration_monster",
+    "id": "electrokinetic_neuro_acceleration_enhanced_monster",
     "name": { "str": "Neuro-Acceleration monster enemy check" },
-    "description": "Applies an Neuro-Acceleration when a hostile target is detected.",
+    "description": "Applies Neuro-Acceleration when a hostile target is detected.",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "max_level": 1,
@@ -374,5 +374,24 @@
     "type": "effect_on_condition",
     "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_APPLIER",
     "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration", "duration": { "math": [ "rng(225,742)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "electrokinetic_neuro_acceleration_enhanced_monster",
+    "name": { "str": "Neuro-Acceleration Enhanced monster enemy check" },
+    "description": "Applies an enhanced version of Neuro-Acceleration when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration_enhanced", "duration": { "math": [ "rng(225,742)" ] } } ]
   }
 ]

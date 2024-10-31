@@ -299,8 +299,7 @@
     "name": { "str": "gremlin" },
     "//": "A Nether-affected fox",
     "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its body distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
-    "speed": 170,
-    "dodge": 7,
+    "relative": { "dodge": 1 },
     "special_attacks": [
       {
         "id": "psi_gremlin_power_draining_spell",
@@ -310,6 +309,16 @@
         "allow_no_target": true,
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "Sparks flicker over %1$s's fur."
+      },
+      {
+        "id": "psi_gremlin_neuro_acceleration",
+        "type": "spell",
+        "spell_data": { "id": "electrokinetic_neuro_acceleration_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_neuro_acceleration" } } ]
+        },
+        "monster_message": "%1$s begins moving more quickly."
       }
     ],
     "armor": { "electric": 40 },
