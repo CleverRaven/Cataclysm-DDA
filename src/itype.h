@@ -133,6 +133,10 @@ struct islot_comestible {
         /** effect on character thirst (may be negative) */
         int quench = 0;
 
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
+
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
 
@@ -200,19 +204,6 @@ struct islot_comestible {
         std::pair<int, int> rot_spawn_monster_amount = {1, 1};
 
     private:
-        // Obviously necessary, statics for character nutrition calcs
-        friend int compute_default_effective_kcal( const item &comest, const Character &you,
-                const cata::flat_set<flag_id> &extra_flags );
-        friend std::map<vitamin_id, int> compute_default_effective_vitamins(
-            const item &it, const Character &you );
-        // obviously necessary
-        friend class Item_factory;
-        // Does silly things with fake items
-        friend class basecamp;
-        /** Nutrition values to use for this type when they aren't calculated from
-         * components */
-        nutrients default_nutrition;
-
         /** effect on morale when consuming */
         int fun = 0;
 

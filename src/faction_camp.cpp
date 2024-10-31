@@ -5714,12 +5714,6 @@ item basecamp::make_fake_food( const nutrients &to_use ) const
     return food_item;
 }
 
-static const npc &getAverageJoe()
-{
-    static npc averageJoe;
-    return averageJoe;
-}
-
 // mission support
 bool basecamp::distribute_food( bool player_command )
 {
