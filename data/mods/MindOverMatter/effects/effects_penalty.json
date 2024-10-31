@@ -235,7 +235,10 @@
       "psi_vitakinetic_degeneration",
       "pigeon_aura",
       "effect_feral_regeneration",
-      "effect_telepath_network_monster_effect"
+      "effect_telepath_network_monster_effect",
+      "effect_monster_neuro_acceleration",
+      "effect_monster_heightened_reflex_enhanced",
+      "effect_monster_heightened_reflex"
     ],
     "max_duration": "24 hours",
     "flags": [ "NO_PSIONICS" ]

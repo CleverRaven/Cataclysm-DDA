@@ -26,7 +26,6 @@
     "name": "feral adept",
     "description": "This feral human moves with a disturbing fluid grace.  Despite that, they bear the same crazed expression as all the others.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.1 },
     "relative": { "melee_skill": 2, "melee_dice": 1, "melee_dice_sides": -2, "dodge": 2 },
     "symbol": "@",
     "color": "pink",
@@ -53,7 +52,6 @@
     "name": { "str": "feral dervish", "str_pl": "feral dervishes" },
     "description": "Despite their appearance, this creature moves too quickly and smoothly to be truly human.  Bloodshot eyes are the only indicator that they are not some kind of perfectly precise android.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.25 },
     "relative": { "melee_skill": 4, "melee_dice": 1, "dodge": 4 },
     "color": "pink",
     "symbol": "@",
@@ -84,6 +82,16 @@
           "cooldown": 1,
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_biokin2_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_heightened_reflex" } } ]
+          },
+          "monster_message": "%1$s begins moving more quickly."
         }
       ],
       "flags": [ "STUN_IMMUNE" ]
@@ -96,7 +104,6 @@
     "description": "With inhumanly precise movements, this feral moves toward you.  They are clearly still alive, but their mouth is closed and their chest does not rise or fall.  As you watch, they suddenly blur into rapid motion.",
     "//": "NO_BREATHE here is due to the biokinetic Sealed System power.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.35 },
     "relative": { "melee_skill": 6, "melee_dice": 1, "dodge": 6 },
     "color": "pink",
     "symbol": "@",
@@ -148,6 +155,19 @@
             ]
           },
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_biokin3_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+            ]
+          },
+          "monster_message": "%1$s begins moving much more quickly."
         },
         {
           "type": "monster_attack",
@@ -381,6 +401,16 @@
           "cooldown": { "math": [ "12 + rand(24)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s's waves a hand at %3$s and sparks crackle over their skin!"
+        },
+        {
+          "id": "psi_electrokin3_neuro_acceleration",
+          "type": "spell",
+          "spell_data": { "id": "electrokinetic_neuro_acceleration_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_neuro_acceleration" } } ]
+          },
+          "monster_message": "%1$s begins moving much more quickly."
         },
         {
           "id": "psi_electrokin3_revive",
