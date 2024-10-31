@@ -333,12 +333,12 @@ bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
         return true;
     }
     // Sharing stuff also means sharing access.
-    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_my_stuff ) ) {
         return true;
     }
     // Some factions will share access to infinite water sources, but not food
     if( water_request &&
-        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_public_goods ) ) {
         return true;
     }
     return false;
