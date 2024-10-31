@@ -1336,6 +1336,10 @@ class Character : public Creature, public visitable
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
         void randomize_cosmetic_trait( const std::string &mutation_type );
+        /** Damages worn equipment
+        @param days - simulated number of in-game days passed
+        */
+        void starting_inv_damage_worn( int days );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait

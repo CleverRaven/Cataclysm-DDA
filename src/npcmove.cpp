@@ -797,7 +797,7 @@ void npc::assess_danger()
             continue;
         }
 
-        if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+        if( has_faction_relationship( guy, npc_factions::relationship::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
         } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos_bub() ) ) {
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
@@ -3276,7 +3276,7 @@ void npc::worker_downtime()
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     // are we already in a chair
-    if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, pos() ) ) {
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, pos_bub() ) ) {
         // just chill here
         move_pause();
         return;
@@ -3823,7 +3823,7 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
             would_always_steal = true;
         }
         // Anyone willing to kill you no longer cares for your property rights
-        if( has_faction_relationship( player, npc_factions::kill_on_sight ) ) {
+        if( has_faction_relationship( player, npc_factions::relationship::kill_on_sight ) ) {
             would_always_steal = true;
         }
         if( would_always_steal ) {

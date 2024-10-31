@@ -150,6 +150,12 @@ std::queue<deferred_math> &get_deferred_math()
     return dfr_math;
 }
 
+void clear_deferred_math()
+{
+    std::queue<deferred_math> empty;
+    get_deferred_math().swap( empty );
+}
+
 std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view str, bool ass )
 {
     get_deferred_math().emplace( jo, str, ass );
@@ -581,7 +587,9 @@ void finalize_conditions()
         try {
             math.exp->parse( math.str, math.assignment, false );
         } catch( std::invalid_argument const &ex ) {
-            math.jo.throw_error_at( "math", ex.what() );
+            JsonObject jo{ std::move( math.jo ) };
+            clear_deferred_math();
+            jo.throw_error_at( "math", ex.what() );
         }
         dfr.pop();
     }
@@ -1760,10 +1768,15 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
 {
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [target]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
-        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
-        return c && c.get_distance_from_bounds() <= 0;
+        tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
+                                          target.evaluate( d ) ) ) );
+
+        // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
+        if( target_pos.z() < -1 ) {
+            return false;
+        }
+
+        return overmap_buffer.is_in_city( target_pos );
     };
 }
 

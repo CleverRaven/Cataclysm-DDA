@@ -132,6 +132,7 @@ static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
 static const npc_class_id NC_COWBOY( "NC_COWBOY" );
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 static const npc_class_id NC_NONE( "NC_NONE" );
+static const npc_class_id NC_NONE_HARDENED( "NC_NONE_HARDENED" );
 static const npc_class_id NC_TRADER( "NC_TRADER" );
 
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
@@ -171,6 +172,7 @@ class monfaction;
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
 static void starting_inv( npc &who, const npc_class_id &type );
+static void starting_inv_ammo( npc &who, std::list<item> &res, int multiplier );
 
 bool job_data::set_task_priority( const activity_id &task, int new_priority )
 {
@@ -563,6 +565,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     }
     if( type.is_null() || type == NC_NONE ) {
         Character::randomize( false );
+        starting_inv_passtime();
         return;
     }
 
@@ -914,28 +917,10 @@ void starting_inv( npc &who, const npc_class_id &type )
         return;
     }
 
-    // If wielding a gun, get some additional ammo for it
-    const item_location weapon = who.get_wielded_item();
-    if( weapon && weapon->is_gun() ) {
-        item ammo;
-        if( !weapon->magazine_default().is_null() ) {
-            item mag( weapon->magazine_default() );
-            mag.ammo_set( mag.ammo_default() );
-            ammo = item( mag.ammo_default() );
-            res.push_back( mag );
-        } else if( !weapon->ammo_default().is_null() ) {
-            ammo = item( weapon->ammo_default() );
-            // TODO: Move to npc_class
-            // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-            int qty = 1 + ( type == NC_COWBOY ||
-                            type == NC_BOUNTY_HUNTER );
-            qty = rng( qty, qty * 2 );
-
-            while( qty-- != 0 && who.can_stash( ammo ) ) {
-                res.push_back( ammo );
-            }
-        }
-    }
+    // TODO: Move to npc_class
+    // NC_COWBOY and NC_BOUNTY_HUNTER get double
+    int multiplier = ( type == NC_COWBOY || type == NC_BOUNTY_HUNTER ) ? 2 : 1;
+    starting_inv_ammo( who, res, multiplier );
 
     if( type == NC_ARSONIST ) {
         res.emplace_back( "molotov" );
@@ -964,6 +949,118 @@ void starting_inv( npc &who, const npc_class_id &type )
         it.set_owner( who );
     }
     *who.inv += res;
+}
+
+/**
+Give npc ammo for ranged weapon
+@param res - list of items to return
+@param multiplier - magazine/ammo quantity multiplier
+*/
+void starting_inv_ammo( npc &who, std::list<item> &res, int multiplier )
+{
+    // If wielding a gun, get some additional ammo for it
+    const item_location weapon = who.get_wielded_item();
+    int ammo_quantity;
+    item ammo = item();
+    ammo_quantity = rng( 1, 2 ) * multiplier;
+    if( weapon && weapon->is_gun() ) {
+        if( !weapon->magazine_default().is_null() ) {
+            ammo = item( weapon->magazine_default() );
+            ammo.ammo_set( ammo.ammo_default() );
+        } else if( !weapon->ammo_default().is_null() ) {
+            ammo = item( weapon->ammo_default() );
+        } else {
+            return;
+        }
+        while( ammo_quantity-- != 0 && who.can_stash( ammo ) ) {
+            res.push_back( ammo );
+        }
+    }
+}
+
+void npc::starting_inv_passtime()
+{
+    static int max_time = to_days<int>( 180_days );
+    auto npc_wear_item = []( npc * who, item & it ) {
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
+        }
+        if( who->can_wear( it ).success() ) {
+            it.on_wear( *who );
+            who->worn.wear_item( *who, it, false, false );
+            it.set_owner( *who );
+        }
+    };
+    auto found_good_item = []( int day ) {
+        return ( x_in_y( day, max_time ) ? NC_NONE_HARDENED : NC_NONE );
+    };
+
+    std::map<const bodypart_id, int> starting_coverage;
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        starting_coverage.emplace( part, worn.get_coverage( part ) );
+    }
+
+    int days_since_cata = std::min( to_days<int>( calendar::turn - calendar::start_of_cataclysm ),
+                                    max_time );
+    //give storage item if too little volume
+    if( worn.volume_capacity() < 10000_ml ) {
+        item storage = random_item_from( found_good_item( days_since_cata ), "storage" );
+        npc_wear_item( this, storage );
+    }
+    //damage worn starting equipment
+    starting_inv_damage_worn( days_since_cata );
+    //replace equipment for basic coverage
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        int cov = worn.get_coverage( part );
+        if( cov < starting_coverage[part] || cov == 0 ) {
+            item clothing = random_item_from( found_good_item( days_since_cata ),
+                                              io::enum_to_string( part->primary_limb_type() ) );
+            if( one_in( 2 ) ) {
+                clothing.inc_damage(); //lightly used equipment
+            }
+            npc_wear_item( this, clothing );
+        }
+    }
+    //if no weapon on person, give one based on best weapon skill
+    std::vector<item_location> items = all_items_loc();
+    bool has_weapon = false;
+    for( const item_location &i : items ) {
+        if( i->is_melee() || i->is_gun() ) {
+            has_weapon = true;
+            break;
+        }
+    }
+    if( !has_weapon ) {
+        starting_weapon( NC_NONE );
+        //additional ammo guaranteed if given a weapon
+        std::list<item> res;
+        starting_inv_ammo( *this, res, 1 );
+        for( item &ammo : res ) {
+            try_add( ammo, nullptr, nullptr, false );
+        }
+    }
+
+    //extra items if storage allows
+    int items_added = 0;
+    int items_limit = 2 + rng_normal( 4 * ( static_cast<double>( std::min( days_since_cata,
+                                            max_time ) ) / static_cast<double>( max_time ) ) );
+    if( one_in( 16 ) ) {
+        items_limit += rng( 8, 12 );
+    } else if( one_in( 16 ) ) {
+        items_limit = rng( 1, 2 );
+    }
+    do {
+        item next_to_add = random_item_from( found_good_item( days_since_cata ), "extra" );
+        if( can_stash( next_to_add ) ) {
+            if( !next_to_add.has_flag( flag_TRADER_AVOID ) ) {
+                next_to_add.set_owner( *this );
+                try_add( next_to_add, nullptr, nullptr, false );
+            }
+        } else {
+            break;
+        }
+        items_added++;
+    } while( items_added <= items_limit );
 }
 
 void npc::revert_after_activity()
@@ -1627,7 +1724,7 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             const auto &points_to_check = wrapped_veh.v->immediate_path();
-            point p( get_map().getglobal( pos() ).x(), get_map().getglobal( pos() ).y() );
+            point p( get_map().getglobal( pos_bub() ).xy().raw() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }
@@ -2431,9 +2528,9 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     if( other.is_npc() || other.is_avatar() ) {
         const Character &guy = dynamic_cast<const Character &>( other );
         // check faction relationships first
-        if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
+        if( has_faction_relationship( guy, npc_factions::relationship::kill_on_sight ) ) {
             return Attitude::HOSTILE;
-        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+        } else if( has_faction_relationship( guy, npc_factions::relationship::watch_your_back ) ) {
             return Attitude::FRIENDLY;
         }
     }
@@ -3328,7 +3425,7 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
         // Penalty for failure chance is 1/success = 1/(1-failure) = 1/(1-(1/dex)) = dex/(dex-1)
-        path_settings->climb_cost = ( 10 - climb / 5 ) * climb / ( climb - 1 );
+        path_settings->climb_cost = ( 10 - climb / 5.0f ) * climb / ( climb - 1 );
     } else {
         // Climbing at this dexterity will always fail
         path_settings->climb_cost = 0;

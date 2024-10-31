@@ -761,6 +761,28 @@ void Character::randomize_cosmetics()
     }
 }
 
+void Character::starting_inv_damage_worn( int days )
+{
+    //damage equipment depending on days passed
+    int chances_to_damage = std::max( days / 14 + rng( -3, 3 ), 0 );
+    do {
+        std::vector<item *> worn_items;
+        worn.inv_dump( worn_items );
+        if( !worn_items.empty() ) {
+            item *to_damage = random_entry( worn_items );
+            int damage_count = rng( 1, 3 );
+            bool destroy = false;
+            do {
+                destroy = to_damage->inc_damage();
+                if( destroy ) {
+                    //if the clothing was destroyed in a simulated "dangerous situation", all contained items are lost
+                    i_rem( to_damage );
+                }
+            } while( damage_count-- > 0 && !destroy );
+        }
+    } while( chances_to_damage-- > 0 );
+}
+
 field_type_id Character::bloodType() const
 {
     if( has_flag( json_flag_ACIDBLOOD ) ) {
@@ -7651,7 +7673,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
 
 int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 {
-    const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
+    const double multiplier = vitamin_rate( vitamin ) * 100 / 1_days;
     return std::lround( ammount * multiplier );
 }
 
@@ -8543,7 +8565,7 @@ void Character::rooted()
 // TODO: The rates for iron, calcium, and thirst should probably be pulled from the nutritional data rather than being hardcoded here, so that future balance changes don't break this.
 {
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && is_barefoot() ) {
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos_bub() ) && is_barefoot() ) {
         int time_to_full = 43200; // 12 hours
         if( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             time_to_full += -14400;    // -4 hours
@@ -11037,7 +11059,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11393,14 +11415,14 @@ action_id Character::get_next_auto_move_direction()
 
     if( next_expected_position ) {
         // Difference between where the character is and where we expect them to be after last auto-move.
-        tripoint diff = ( pos_bub() - *next_expected_position ).raw().abs();
+        tripoint_rel_ms diff = ( pos_bub() - *next_expected_position ).abs();
         // This might differ by 1 (in z-direction), since the character might have crossed a ramp,
         // which teleported them a tile up or down. If the error is in x or y direction, we might as well
         // give them a turn to recover, as the move still might be vaild.
         // We cut off at 1 since 2 definitely results in an invalid move.
         // If the character is still stumbling or stuck,
         // they will cancel the auto-move on the next cycle (as the distance increases).
-        if( std::max( { diff.x, diff.y, diff.z } ) > 1 ) {
+        if( std::max( { diff.x(), diff.y(), diff.z()} ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
