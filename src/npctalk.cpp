@@ -2571,6 +2571,11 @@ talker *dialogue::actor( const bool is_beta ) const
     return ( is_beta ? beta : alpha ).get();
 }
 
+bool dialogue::has_actor( bool is_beta ) const
+{
+    return is_beta ? has_beta : has_alpha;
+}
+
 dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.has_alpha )
 {
     if( has_alpha ) {
@@ -5535,75 +5540,76 @@ void process_eoc( const effect_on_condition_id &eoc, dialogue &d,
     }
 }
 
-void run_eoc_once( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
-                   const duration_or_var &dov_time, bool random_time )
+void queue_eocs( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
+                 duration_or_var const &dov_time, bool random_time )
 {
     time_duration time_in_future = dov_time.evaluate( d );
-
     for( const eoc_entry &entry : eocs ) {
         effect_on_condition_id eoc_id =
             entry.var ? effect_on_condition_id( entry.var->evaluate( d ) ) : entry.id;
-        if( time_in_future == 0_seconds ) {
-            eoc_id->activate( newDialog );
+        if( random_time ) {
+            process_eoc( eoc_id, newDialog, dov_time.evaluate( d ) );
         } else {
-            if( random_time ) {
-                process_eoc( eoc_id, newDialog, dov_time.evaluate( d ) );
-            } else {
-                process_eoc( eoc_id, newDialog, time_in_future );
-            }
+            process_eoc( eoc_id, newDialog, time_in_future );
         }
-    };
+    }
 }
 
-dialogue generate_new_dialogue( dialogue &d, bool has_alpha_var, bool has_beta_var,
-                                const str_or_var &alpha_var, const str_or_var &beta_var, bool is_alpha_loc, bool is_beta_loc,
-                                const std::vector<effect_on_condition_id> &false_eocs )
+void run_eocs( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
+               std::optional<dbl_or_var> const &iterations,
+               std::optional<std::function<bool( dialogue & )>> const &cond )
 {
-    // to generate new dialogue from existing one, and possibly swap talkers
+    int i = 0;
 
-    dialogue newDialog( d );
-
-    if( has_alpha_var || has_beta_var ) {
-        bool alpha_invalid = false; // whether alpha talker exists in the game
-        bool beta_invalid = false; // whether beta talker exists in the game
-        auto get_talker = [&d]( const str_or_var & var, bool is_loc, bool & invalid ) {
-            Creature *guy;
-            std::string str = var.evaluate( d );
-            if( is_loc ) {
-                tripoint_abs_ms pos = tripoint_abs_ms( tripoint::from_string( str ) );
-                guy = get_creature_tracker().creature_at( pos );
-                if( guy == nullptr ) {
-                    invalid = true;
-                }
-            } else if( str.empty() ) {
-                guy = nullptr;
-            } else if( str == "u" ) {
-                guy = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
-            } else if( str == "npc" ) {
-                guy = d.has_beta ? d.actor( true )->get_creature() : nullptr;
-            } else if( str == "avatar" ) {
-                guy = &get_avatar();
-            } else {
-                guy = get_character_from_id( str, g.get() );
-                if( guy == nullptr ) {
-                    invalid = true;
-                }
-            }
-            return guy;
-        };
-
-        Creature *alpha_guy = get_talker( alpha_var, is_alpha_loc, alpha_invalid );
-        Creature *beta_guy = get_talker( beta_var, is_beta_loc, beta_invalid );
-        if( alpha_invalid || beta_invalid || ( alpha_guy == nullptr && beta_guy == nullptr ) ) {
-            run_eoc_vector( false_eocs, d );
-        } else {
-            newDialog = dialogue( ( alpha_guy == nullptr ) ? nullptr : get_talker_for( alpha_guy ),
-                                  ( beta_guy == nullptr ) ? nullptr : get_talker_for( beta_guy ),
-                                  d.get_conditionals(),
-                                  d.get_context() );
+    // if it's a loop, we will use iterations_amount as limit to amount of loops allowed
+    // and bump it to 100 as default value
+    int iterations_amount = iterations ? iterations->evaluate( d ) : cond ? 100 : 1;
+    while( i < iterations_amount && ( !cond || ( *cond )( d ) ) ) {
+        for( const eoc_entry &entry : eocs ) {
+            effect_on_condition_id eoc_id =
+                entry.var ? effect_on_condition_id( entry.var->evaluate( d ) ) : entry.id;
+            eoc_id->activate( newDialog );
         }
-    };
-    return newDialog;
+        ++i;
+    }
+}
+
+std::unique_ptr<talker> get_talker( dialogue const &d, std::optional<str_or_var> const &var,
+                                    bool is_loc, bool parent_beta )
+{
+    if( !var ) {
+        if( d.has_actor( parent_beta ) ) {
+            return d.actor( parent_beta )->clone();
+        }
+        return {};
+    }
+
+    std::string str = var->evaluate( d );
+
+    if( str.empty() ) {
+        return {};
+    } else if( str == "u" && d.has_alpha ) {
+        return  d.actor( false )->clone();
+    } else if( str == "npc" && d.has_beta ) {
+        return d.actor( true )->clone();
+    } else if( str == "avatar" ) {
+        return get_talker_for( get_avatar() );
+    } else {
+        Creature *crit = nullptr;
+        if( is_loc ) {
+            tripoint_abs_ms pos = tripoint_abs_ms( tripoint::from_string( str ) );
+            crit = get_creature_tracker().creature_at( pos );
+        } else {
+            crit = get_character_from_id( str, g.get() );
+        }
+
+        if( crit != nullptr ) {
+            return get_talker_for( *crit );
+        }
+    }
+
+    debugmsg( R"(run_eocs error: no valid talker for "%s\n%s")", str, d.get_callstack() );
+    return {};
 }
 
 talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view member,
@@ -5614,18 +5620,28 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         jo.throw_error( "Invalid input for run_eocs" );
     }
 
-    dbl_or_var iterations = get_dbl_or_var( jo, "iterations", false, 1 );
-    bool has_cond = false;
-    std::function<bool( dialogue & )> cond;
+    std::optional<dbl_or_var> iterations;
+    if( jo.has_member( "iterations" ) ) {
+        iterations = get_dbl_or_var( jo, "iterations" );
+    }
+    std::optional<std::function<bool( dialogue & )>> cond;
     if( jo.has_object( "condition" ) ) {
-        read_condition( jo, "condition", cond, true );
-        has_cond = true;
-    } else {
-        read_condition( jo, "condition", cond, true );
+        std::function<bool( dialogue & )> cond_;
+        read_condition( jo, "condition", cond_, false );
+        cond = { std::move( cond_ ) };
     }
 
-    duration_or_var dov_time = get_duration_or_var( jo, "time_in_future", false, 0_seconds );
-    bool random_time = jo.get_bool( "randomize_time_in_future", false );
+    std::optional<duration_or_var> dov_time;
+    bool random_time = false;
+    if( jo.has_member( "time_in_future" ) ) {
+        if( iterations || cond ) {
+            jo.throw_error_at(
+                "time_in_future",
+                R"("time_in_future" cannot be used with loops ("condition" or "iterations"). Use nested EOCs instead.)" );
+        }
+        dov_time = get_duration_or_var( jo, "time_in_future" );
+        random_time = jo.get_bool( "randomize_time_in_future", false );
+    }
 
     std::unordered_map<std::string, str_translation_or_var> context;
     if( jo.has_object( "variables" ) ) {
@@ -5635,69 +5651,48 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         }
     }
 
-    str_or_var alpha_var;
-    str_or_var beta_var;
+    std::optional<str_or_var> alpha_var;
+    std::optional<str_or_var> beta_var;
     bool is_alpha_loc = false;
     bool is_beta_loc = false;
-    bool has_alpha_var = true;
-    bool has_beta_var = true;
 
     if( jo.has_member( "beta_loc" ) ) {
-        beta_var = get_str_or_var( jo.get_member( "beta_loc" ), "beta_loc", false, "npc" );
+        beta_var = get_str_or_var( jo.get_member( "beta_loc" ), "beta_loc" );
         is_beta_loc = true;
     } else if( jo.has_member( "beta_talker" ) ) {
-        beta_var = get_str_or_var( jo.get_member( "beta_talker" ), "beta_talker", false, "npc" );
-    } else {
-        beta_var.str_val = "npc";
-        has_beta_var = false;
+        beta_var = get_str_or_var( jo.get_member( "beta_talker" ), "beta_talker" );
     }
 
     if( jo.has_member( "alpha_loc" ) ) {
-        alpha_var = get_str_or_var( jo.get_member( "alpha_loc" ), "alpha_loc", has_beta_var,
-                                    "u" ); // alpha_talker is mandatory if beta_talker exists
+        alpha_var = get_str_or_var( jo.get_member( "alpha_loc" ), "alpha_loc" );
         is_alpha_loc = true;
     } else if( jo.has_member( "alpha_talker" ) ) {
-        alpha_var = get_str_or_var( jo.get_member( "alpha_talker" ), "alpha_talker", false, "u" );
-    } else {
-        alpha_var.str_val = "u";
-        has_alpha_var = false;
+        alpha_var = get_str_or_var( jo.get_member( "alpha_talker" ), "alpha_talker" );
     }
 
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs", src );
 
-    return [eocs, cond, has_cond, iterations, dov_time, random_time, alpha_var, beta_var, is_alpha_loc,
-          is_beta_loc, has_alpha_var, has_beta_var, false_eocs, context]( dialogue & d ) {
+    return [eocs, cond, iterations, dov_time, random_time, alpha_var, beta_var, is_alpha_loc,
+          is_beta_loc, false_eocs, context]( dialogue & d ) {
 
-        dialogue newDialog = generate_new_dialogue( d, has_alpha_var, has_beta_var, alpha_var, beta_var,
-                             is_alpha_loc, is_beta_loc, false_eocs );
+        std::unique_ptr<talker> alpha = get_talker( d, alpha_var, is_alpha_loc, false );
+        std::unique_ptr<talker> beta = get_talker( d, beta_var, is_beta_loc, true );
+        if( !alpha && !beta ) {
+            run_eoc_vector( false_eocs, d );
+            return;
+        }
+
+        dialogue newDialog{ std::move( alpha ), std::move( beta ), d.get_conditionals(),
+                            d.get_context() };
 
         for( const auto &val : context ) {
             newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
 
-        int i = 0;
-        int iterations_amount = iterations.evaluate( d );
-
-        // there was 'd.amend_callstack( "EOC: " + eoc->id.str() )' in f_run_eoc_until
-        // but because i don't know it's purpose nor it's effect, i'll left it here as comment
-
-        if( has_cond ) {
-            // if it's a loop, we will use iterations_amount as limit to amount of loops allowed
-            // and bump it to 100 as default value
-            iterations_amount = iterations_amount == 1 ? 100 : iterations_amount;
-
-            while( cond( d ) ) {
-                run_eoc_once( eocs, d, newDialog, dov_time, random_time );
-                ++i;
-                if( i >= iterations_amount ) {
-                    break;
-                }
-            }
+        if( dov_time ) {
+            queue_eocs( eocs, d, newDialog, *dov_time, random_time );
         } else {
-            while( i < iterations_amount ) {
-                run_eoc_once( eocs, d, newDialog, dov_time, random_time );
-                ++i;
-            }
+            run_eocs( eocs, d, newDialog, iterations, cond );
         }
     };
 }
