@@ -2737,7 +2737,7 @@ class Character : public Creature, public visitable
         // Items currently being hauled
         std::vector<item_location> haul_list;
 
-        tripoint_rel_ms view_offset;
+        mutable tripoint_rel_ms view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;

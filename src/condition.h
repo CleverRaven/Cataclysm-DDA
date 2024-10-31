@@ -67,6 +67,8 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
                       const std::string &value, int call_depth = 0 );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
+void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
+                      const std::string &value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,

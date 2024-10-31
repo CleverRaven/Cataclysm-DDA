@@ -539,6 +539,27 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
     }
 }
 
+void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
+                      const std::string &value )
+{
+    switch( type ) {
+        case var_type::global:
+            get_globals().set_global_value( name, value );
+            break;
+        case var_type::context:
+        case var_type::var:
+        case var_type::u:
+        case var_type::npc:
+        case var_type::faction:
+        case var_type::party:
+            debugmsg( "Only global variables can be assigned from an eval function.\n%s", d.get_callstack() );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+}
+
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
 {
@@ -1658,6 +1679,9 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
 {
     std::string type = jo.get_string( member.data() );
     var_info target_var = read_var_info( jo.get_object( "target_var" ) );
+    if( target_var.type != var_type::global ) {
+        jo.throw_error_at( "target_var", "Only global variables can be used as targets for u_query" ) ;
+    }
     std::string message;
     if( jo.has_member( "message" ) ) {
         message = jo.get_string( "message" );
@@ -1671,7 +1695,6 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
         std::optional<tripoint> loc;
         Character const *ch = d.const_actor( is_npc )->get_const_character();
         if( ch && ch->as_avatar() ) {
-            avatar const *you = ch->as_avatar();
             if( type == "anywhere" ) {
                 if( !message.empty() ) {
                     static_popup popup;
@@ -1687,7 +1710,9 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                     popup.on_top( true );
                     popup.message( "%s", message );
                 }
-                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
+                avatar dummy;
+                dummy.set_location( get_avatar().get_location() );
+                target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
                 if( !traj.empty() ) {
                     loc = traj.back().raw();
                 }
@@ -1704,7 +1729,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
         }
         if( loc.has_value() ) {
             tripoint_abs_ms pos_global = get_map().getglobal( *loc );
-            write_var_value( target_var.type, target_var.name, &d,
+            write_var_value( target_var.type, target_var.name, d,
                              pos_global.to_string() );
         }
         return loc.has_value();
