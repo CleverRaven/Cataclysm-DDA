@@ -237,6 +237,7 @@
       "effect_feral_regeneration",
       "effect_telepath_network_monster_effect",
       "effect_monster_neuro_acceleration",
+      "effect_monster_neuro_acceleration_enhanced",
       "effect_monster_heightened_reflex_enhanced",
       "effect_monster_heightened_reflex"
     ],
