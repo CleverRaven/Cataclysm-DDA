@@ -3435,22 +3435,23 @@ std::unique_ptr<talker> get_talker_for( Creature &me )
         return std::make_unique<talker_npc>( me.as_npc() );
     } else if( me.is_avatar() ) {
         return std::make_unique<talker_avatar>( me.as_avatar() );
-    } else {
-        debugmsg( "Invalid creature type %s.", me.get_name() );
-        return std::make_unique<talker>();
     }
+    debugmsg( "Invalid creature type %s.", me.get_name() );
+    return std::make_unique<talker>();
 }
 
 std::unique_ptr<const_talker> get_const_talker_for( const Creature &me )
 {
-    if( !me.is_monster() ) {
-        return std::make_unique<talker_character_const>( me.as_character() );
-    } else if( me.is_monster() ) {
+    if( me.is_monster() ) {
         return std::make_unique<talker_monster_const>( me.as_monster() );
-    } else {
-        debugmsg( "Invalid creature type %s.", me.get_name() );
-        return std::make_unique<talker>();
+    } else if( me.is_npc() ) {
+        return std::make_unique<talker_npc_const>( me.as_npc() );
+    } else if( me.is_avatar() ) {
+        return std::make_unique<talker_avatar_const>( me.as_avatar() );
     }
+
+    debugmsg( "Invalid creature type %s.", me.get_name() );
+    return std::make_unique<talker>();
 }
 
 std::unique_ptr<talker> get_talker_for( Creature *me )
@@ -3458,14 +3459,6 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
     if( !me ) {
         debugmsg( "Null creature type." );
         return std::make_unique<talker>();
-    } else if( me->is_monster() ) {
-        return std::make_unique<talker_monster>( me->as_monster() );
-    } else if( me->is_npc() ) {
-        return std::make_unique<talker_npc>( me->as_npc() );
-    } else if( me->is_avatar() ) {
-        return std::make_unique<talker_avatar>( me->as_avatar() );
-    } else {
-        debugmsg( "Invalid creature type %s.", me->get_name() );
-        return std::make_unique<talker>();
     }
+    return get_talker_for( *me );
 }
