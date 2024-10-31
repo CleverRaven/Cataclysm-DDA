@@ -7,7 +7,7 @@
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of steel.",
     "weight": "6750 g",
     "volume": "3250 ml",
-	"sided": true,
+    "sided": true,
     "material": [ "qt_steel" ],
     "symbol": "[",
     "looks_like": "armguard_lightplate",
