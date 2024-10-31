@@ -2145,7 +2145,7 @@
   {
     "id": "clay_watercont_no_lid",
     "type": "GENERIC",
-    "name": { "str": "large clay pot (no lid)" },
+    "name": { "str": "large clay pot (no lid)", "str_pl": "large clay pots (no lid)" },
     "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
     "copy-from": "clay_watercont",
     "pocket_data": [
