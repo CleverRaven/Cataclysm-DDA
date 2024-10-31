@@ -133,10 +133,6 @@ struct islot_comestible {
         /** effect on character thirst (may be negative) */
         int quench = 0;
 
-        /** Nutrition values to use for this type when they aren't calculated from
-         * components */
-        nutrients default_nutrition;
-
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
 
@@ -154,6 +150,19 @@ struct islot_comestible {
 
         /** Reference to item that will be received after smoking current item */
         itype_id smoking_result;
+
+        /*
+        * For the few rare cases where default nutrition needs to be accessible. Prefer using
+        * default_character_compute_effective_nutrients unless absolutely necessary.
+        */
+        nutrients default_nutrition_read_only() const {
+            return default_nutrition;
+        }
+
+        /** For the one case where default nutrition needs to be overridden. */
+        void set_default_nutrition( nutrients new_nutrition ) {
+            default_nutrition = std::move( new_nutrition );
+        };
 
         /** TODO: add documentation */
         int healthy = 0;
@@ -204,6 +213,10 @@ struct islot_comestible {
         std::pair<int, int> rot_spawn_monster_amount = {1, 1};
 
     private:
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
+
         /** effect on morale when consuming */
         int fun = 0;
 

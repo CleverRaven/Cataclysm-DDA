@@ -5710,7 +5710,7 @@ item basecamp::make_fake_food( const nutrients &to_use ) const
     item food_item( food_id );
     // Set the default nutritional of the item.
     // This doesn't persist through save/load, but that's ok, we will be eating it immediately.
-    food_item.get_comestible()->default_nutrition = to_use;
+    food_item.get_comestible()->set_default_nutrition( to_use );
     return food_item;
 }
 
