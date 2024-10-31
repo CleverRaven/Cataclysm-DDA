@@ -418,5 +418,13 @@
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "glocksear",
+    "type": "GUNMOD",
+    "name": { "str": "Glock auto sear plate" },
+    "copy-from": "glocksear",
+    "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher", "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ]
   }
 ]
