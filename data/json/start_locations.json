@@ -358,7 +358,7 @@
     "type": "start_location",
     "id": "sloc_hospital",
     "name": "Hospital",
-    "terrain": [ { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [ "hospital_5" ]
   },
   {
     "type": "start_location",
@@ -693,7 +693,7 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
-    "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ]
   },
   {
     "type": "start_location",
