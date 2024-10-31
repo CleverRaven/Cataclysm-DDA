@@ -32,7 +32,7 @@
     ]
   },
   {
-    "id": "damaged_afs_exo_arm_steel",
+    "id": "damaged_exo_afs_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "id": "destroyed_afs_exo_arm_steel",
+    "id": "destroyed_exo_afs_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
