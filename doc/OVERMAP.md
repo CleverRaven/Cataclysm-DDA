@@ -453,7 +453,7 @@ original intersection.
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
 | `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.               |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
-| `occurrences`   | Min/max number of occurrences when placing the special. If OVERMAP_UNIQUE flag is set, becomes X of Y chance. |
+| `occurrences`   | Min/max number of occurrences when placing the special. If either of OVERMAP_UNIQUE or GLOBALLY_UNIQUE flags is set, becomes X of Y chance. |
 | `priority`      | **Warning: Do not use this unnecessarily.** The generation process is executed in the order of specials with the highest value. Can be used when maps are difficult to generate. (large maps, maps that are or require dependencies etc) It is **strongly recommended** to set it to 1 (HIGH priority) or -1 (LOW priority) if used. (default = 0).  It is adviced that map specials marked with the SAFE_AT_WORLDGEN are given a priority of 1 unless there are reasons not to, in order to exist when specials spawning monsters in an area are spawned, as that will cause the latter not to spawn that close. |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
 | `rotate`        | Whether the special can rotate. True if not specified.                                                |
