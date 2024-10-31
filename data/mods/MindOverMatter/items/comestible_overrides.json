@@ -12,12 +12,5 @@
     "name": { "str": "feral pigeon egg" },
     "copy-from": "egg_pigeon",
     "rot_spawn": { "group": "GROUP_EGG_PIGEON" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_pigeon_passenger",
-    "name": { "str": "feral pigeon egg" },
-    "copy-from": "egg_pigeon",
-    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 }
   }
 ]

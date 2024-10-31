@@ -258,10 +258,7 @@
     "name": "GROUP_SAFE",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [
-      { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days" },
-      { "monster": "mon_psi_gremlin", "weight": 2 }
-    ]
+    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days" }, { "monster": "mon_psi_gremlin", "weight": 2 } ]
   },
   {
     "name": "GROUP_STRAY_DOGS",

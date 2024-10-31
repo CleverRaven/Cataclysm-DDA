@@ -108,8 +108,13 @@
     "type": "MONSTER",
     "copy-from": "mon_cow",
     "name": { "str": "cow" },
-    "description": "The domestic cow, a baleful, ruminating farm animal.  She is quite muscular, and would be a great source of milk if domesticated or of meat and leather if slaughtered.  She moves with an oddly fluid grace.",
-    "extend": { 
+    "description": "The domestic cow, a baleful, ruminating farm animal.  She is quite muscular, and would be a great source of milk if domesticated or of meat and leather if slaughtered.  This one moves with an oddly fluid grace.",
+    "reproduction": {
+      "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_COW_PRE_HODAG_MUTANT_BABIES" },
+      "baby_count": 1,
+      "baby_timer": 343
+    },
+    "extend": {
       "special_attacks": [
         {
           "id": "psi_hodag_speed_boost",
@@ -138,14 +143,13 @@
     "name": { "str": "hodag" },
     "description": "This is very similar to a cow, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
     "//": "armor, HP, and speed boost power are from biokinesis",
-    "//2": "HP based on current cow HP of 110.  If cow HP is raised, raise this proportionately.",
     "proportional": { "hp": 1.4, "speed": 1.15 },
     "relative": { "melee_skill": 1, "melee_dice_sides": 2 },
     "symbol": "C",
     "color": "yellow",
     "aggression": 0,
     "morale": 80,
-    "extend": { 
+    "extend": {
       "special_attacks": [
         {
           "id": "scratch",
@@ -180,20 +184,18 @@
   },
   {
     "id": "mon_hodag_calf",
-    "copy-from": "mon_cow_calf":
-     "looks_like": "mon_hodag_calf",
+    "copy-from": "mon_cow_calf",
+    "looks_like": "mon_cow_calf",
     "type": "MONSTER",
     "name": { "str": "baby hodag" },
     "description": "This is very similar to a calf, though the short bone spikes growing from its back and its clawed feet separate it from any calf you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
-     "proportional": { "hp": 1.4, "speed": 1.15 },
+    "proportional": { "hp": 1.4, "speed": 1.15 },
     "relative": { "melee_skill": 1, "melee_dice_sides": 2 },
     "symbol": "C",
     "color": "light_gray",
     "upgrades": { "age_grow": 180, "into": "mon_hodag" },
-     "extend": { 
+    "extend": {
       "special_attacks": [
-        [ "GRAZE", 20 ], 
-        [ "EAT_CROP", 60 ],
         {
           "id": "psi_hodag_hardened_skin",
           "type": "spell",
@@ -203,8 +205,8 @@
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
         }
       ]
-     },
-     "armor": { "bash": 4, "cut": 3, "stab": 1, "bullet": 4, "electric": 1 }
+    },
+    "armor": { "bash": 4, "cut": 3, "stab": 1, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_cockatrice",
@@ -303,7 +305,7 @@
     "id": "mon_pigeon_passenger_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "description": "A tiny darkly-colored chick, it could be from a number of different species if it weren't for the golden third eye below the center of its forehead.",
+    "description": "A tiny darkly-colored chick, it could be from a number of different species if it weren't for the third eye below the center of its forehead.",
     "upgrades": { "age_grow": 10, "into": "mon_pigeon_passenger" },
     "petfood": {
       "food": [ "BIRDFOOD" ],
