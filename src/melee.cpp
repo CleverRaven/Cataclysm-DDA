@@ -1415,7 +1415,7 @@ void Character::roll_damage( const damage_type_id &dt, bool crit, damage_instanc
     }
 }
 std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_technique(
-    Creature &t, const item_location &weap, bool crit,
+    Creature const &t, const item_location &weap, bool crit,
     bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
 {
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
@@ -1448,7 +1448,7 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
                                           sub_body_part_sub_limb_debug ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-        Character::evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
+        Character::evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
                                        bool crit, bool dodge_counter, bool block_counter ) const
 {
     // this could be more robust but for now it should work fine
@@ -1468,7 +1468,7 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
 
     // Ignore this technique if we fail the dialog conditions
     if( tec_id->has_condition ) {
-        dialogue d( get_talker_for( this ), get_talker_for( t ) );
+        const_dialogue d( get_const_talker_for( *this ), get_const_talker_for( t ) );
         if( !tec_id->condition( d ) ) {
             add_msg_debug( debugmode::DF_MELEE, "Conditionals failed, attack discarded" );
             return std::nullopt;
@@ -1580,13 +1580,13 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
     return std::nullopt;
 }
 
-bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique ) const
+bool Character::valid_aoe_technique( Creature const &t, const ma_technique &technique ) const
 {
     std::vector<Creature *> dummy_targets;
     return valid_aoe_technique( t, technique, dummy_targets );
 }
 
-bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
+bool Character::valid_aoe_technique( Creature const &t, const ma_technique &technique,
                                      std::vector<Creature *> &targets ) const
 {
     if( technique.aoe.empty() ) {

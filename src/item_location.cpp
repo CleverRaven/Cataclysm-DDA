@@ -1165,7 +1165,7 @@ std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );
 }
-std::unique_ptr<talker> get_talker_for( const item_location &it )
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it )
 {
     return std::make_unique<talker_item_const>( &it );
 }

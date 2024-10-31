@@ -68,12 +68,12 @@ using trial_mod = std::pair<std::string, int>;
 struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
 
     // If this talk_trial is skill check, this is the string ID of the skill that we check the level of.
     std::string skill_required;
 
-    int calc_chance( dialogue &d ) const;
+    int calc_chance( const_dialogue const &d ) const;
     /**
      * Returns a user-friendly representation of @ref type
      */
@@ -176,7 +176,7 @@ struct talk_response {
      */
     translation truetext;
     translation falsetext;
-    std::function<bool( dialogue & )> truefalse_condition;
+    std::function<bool( const_dialogue const & )> truefalse_condition;
 
     talk_trial trial;
     /**
@@ -184,14 +184,14 @@ struct talk_response {
      */
 
     //copy of json_talk_response::condition, optional
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
 
     //whether to display this response in normal gameplay even if condition is false
     bool show_always = false;
     //appended to response if condition fails or show_always/show_condition
     std::string show_reason;
     //show_always, but on show_condition being true
-    std::function<bool( dialogue & )> show_condition;
+    std::function<bool( const_dialogue const & )> show_condition;
 
     //flag to hold result of show_anyways (not read from JSON)
     bool ignore_conditionals = false;
@@ -427,7 +427,7 @@ class json_talk_response
 {
     private:
         talk_response actual_response;
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         bool has_condition_ = false;
         bool is_switch = false;
         bool is_default = false;

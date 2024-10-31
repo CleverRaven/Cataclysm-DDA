@@ -1131,12 +1131,12 @@ class Character : public Creature, public visitable
         bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random technique/vector/contact area set from the  possible techs */
         std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> pick_technique(
-            Creature &t, const item_location &weap,
+            Creature const &t, const item_location &weap,
             bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} )
         const;
         // Filter techniques per tech, return a tech/vector/sublimb set
         std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-                evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
+                evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
                                     bool crit = false, bool dodge_counter = false, bool block_counter = false ) const;
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
@@ -1236,8 +1236,8 @@ class Character : public Creature, public visitable
         bool can_autolearn( const matype_id &ma_id ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique ) const;
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique ) const;
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique,
                                   std::vector<Creature *> &targets ) const;
     public:
 
