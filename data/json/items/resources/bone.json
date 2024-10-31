@@ -85,7 +85,7 @@
     "vitamins": [ [ "calcium", "5294 mg" ], [ "meat_allergen", 1 ] ],
     "material": [ "powder" ],
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -10
   },
   {
