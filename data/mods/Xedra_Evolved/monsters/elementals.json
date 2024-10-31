@@ -794,9 +794,14 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "salamagman", 40 ] ] },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "PATH_AVOID_DANGER", "PATH_AVOID_FALL", "FIREPROOF" ],
-    "armor": { "bash": 16, "cut": 12, "bullet": 26, "xe_cold_iron_cut_damage": 0,
+    "armor": {
+      "bash": 16,
+      "cut": 12,
+      "bullet": 26,
+      "xe_cold_iron_cut_damage": 0,
       "xe_cold_iron_bash_damage": 0,
-      "xe_cold_iron_stab_damage": 0 }
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_salamagman_large",
@@ -830,9 +835,14 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "salamagman_champion", 40 ] ] },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "PATH_AVOID_DANGER", "PATH_AVOID_FALL", "FIREPROOF" ],
-    "armor": { "bash": 16, "cut": 12, "bullet": 26, "xe_cold_iron_cut_damage": 0,
+    "armor": {
+      "bash": 16,
+      "cut": 12,
+      "bullet": 26,
+      "xe_cold_iron_cut_damage": 0,
       "xe_cold_iron_bash_damage": 0,
-      "xe_cold_iron_stab_damage": 0 }
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_salamagman_warlord_butterfly",
@@ -866,9 +876,14 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "salamagman_warlord_butterfly", 40 ] ] },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FLIES", "PATH_AVOID_DANGER", "PATH_AVOID_FALL", "FIREPROOF" ],
-    "armor": { "bash": 16, "cut": 12, "bullet": 26, "xe_cold_iron_cut_damage": 0,
+    "armor": {
+      "bash": 16,
+      "cut": 12,
+      "bullet": 26,
+      "xe_cold_iron_cut_damage": 0,
       "xe_cold_iron_bash_damage": 0,
-      "xe_cold_iron_stab_damage": 0 }
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_venus_doll",
