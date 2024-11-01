@@ -51,7 +51,6 @@
   {
     "id": "exo_leg_plastic",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_leg_steel",
     "name": { "str": "plastic leg plate (exosuit)", "str_pl": "plastic leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are plates of plastic.",
@@ -95,7 +94,6 @@
   {
     "id": "exo_leg_comp",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_leg_steel",
     "name": { "str": "composite leg plate (exosuit)", "str_pl": "composite leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of layered ceramic and steel.",

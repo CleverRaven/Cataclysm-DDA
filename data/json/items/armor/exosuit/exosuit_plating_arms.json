@@ -67,7 +67,6 @@
   {
     "id": "exo_arm_plastic",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_arm_steel",
     "name": { "str": "plastic arm plate (exosuit)", "str_pl": "plastic arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are plates of plastic.",
@@ -125,7 +124,6 @@
   {
     "id": "exo_arm_comp",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_arm_steel",
     "name": { "str": "composite arm plate (exosuit)", "str_pl": "composite arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of layered ceramic and steel.",
