@@ -1965,14 +1965,14 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             armor.on_takeoff( guy );
 
             item_location loc = item_location( guy, &armor );
-            cata::event e = cata::event::make<event_type::character_armor_destroyed>( guy.getID() ,armor.typeId() );
+            cata::event e = cata::event::make<event_type::character_armor_destroyed>( guy.getID(),
+                            armor.typeId() );
             get_event_bus().send_with_talker( &guy, &loc, e );
-            
             for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                 worn_remains.push_back( *it );
             }
             // decltype is the type name of the iterator, note that reverse_iterator::base returns the
-            // iterator to the next element, not the one the revers_iterator points to. 
+            // iterator to the next element, not the one the revers_iterator points to.
             // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
             iter = decltype( iter )( worn.erase( --iter.base() ) );
         } else {
