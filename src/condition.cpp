@@ -172,8 +172,6 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
         jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( std::string( member ) );
-    const std::string &type_var = jo.get_string( "type", "" );
-    const std::string &var_context = jo.get_string( "context", "" );
     default_val = get_dbl_or_var( jo, "default", false );
     return var_basename;
 }
@@ -426,8 +424,6 @@ static abstract_var_info<T> abstract_read_var_info( const JsonObject &jo )
     }
 
     if( jo.has_string( "var_name" ) ) {
-        const std::string &type_var = jo.get_string( "type", "" );
-        const std::string &var_context = jo.get_string( "context", "" );
         name = jo.get_string( "var_name" );
     }
     if( jo.has_member( "u_val" ) ) {
