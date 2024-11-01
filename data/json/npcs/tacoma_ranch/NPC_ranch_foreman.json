@@ -168,7 +168,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_reward",
-    "dynamic_line": "You've done a lot for the ranch, by generally helping both community with both wellness and trade.  As the project lead, I want to make sure these efforts don't go unnoticed.",
+    "dynamic_line": "You've done a lot for the ranch, by generally helping the community with both wellness and trade.  As the project lead, I want to make sure these efforts don't go unnoticed.",
     "responses": [
       {
         "text": "You mean setting up the doctor's office?",
