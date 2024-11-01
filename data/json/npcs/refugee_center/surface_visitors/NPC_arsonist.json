@@ -201,7 +201,6 @@
     "difficulty": 1,
     "value": 500,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "has_generic_rewards": false,
     "goal": "MGOAL_FIND_ITEM",
     "item": "fertilizer_commercial",
     "count": 120,
