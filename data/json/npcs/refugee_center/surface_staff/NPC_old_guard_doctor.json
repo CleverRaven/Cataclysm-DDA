@@ -104,7 +104,7 @@
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood…",
-      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.  I've been authorized to reward the completion of this job with <reward_count:FMCNote> merch, a sizeable sum of the local currency.",
+      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.  I've been authorized to reward the completion of this job with 30 merch, a sizeable sum of the local currency.",
       "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
       "rejected": "Are you sure?  The scientific value of that blood data could be priceless…",
       "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
@@ -129,7 +129,7 @@
     "followup": "MISSION_SCIENCE_REP_3",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.  Like last time, I can compensate you, and the Old Guard saw enough promise in this assignment to spare a larger sum of <reward_count:FMCNote> merch.  I'm sure you're also free to lay claim to any valuables you might find at the target location.",
+      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.  Like last time, I can compensate you, and the Old Guard saw enough promise in this assignment to spare a larger sum of 60 merch.  I'm sure you're also free to lay claim to any valuables you might find at the target location.",
       "accepted": "Great!  I've mapped out a route to the address.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Also brush up on your computer skills, any computers will have some security on them.  Bring back anything you find on a USB drive.",
@@ -178,7 +178,7 @@
     "followup": "MISSION_SCIENCE_REP_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did find communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.  The Old Guard didn't seem very convinced, but still ended up providing <reward_count:FMCNote> merch for this.",
+      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did find communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.  The Old Guard didn't seem very convinced, but still ended up providing 100 merch for this.",
       "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",
@@ -212,7 +212,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need help…",
-      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.  On the other hand, our sponsors were extremely impressed in getting this far without their direction, and would like to apologize by supporting this mission with a whole <reward_count:FMCNote> merch!",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.  On the other hand, our sponsors were extremely impressed in getting this far without their direction, and would like to apologize by supporting this mission with a whole 300 merch!",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",
