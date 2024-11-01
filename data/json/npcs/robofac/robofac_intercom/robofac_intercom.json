@@ -18,7 +18,7 @@
     "type": "npc_class",
     "id": "NC_ROBOFAC_INTERCOM",
     "name": { "str": "intercom" },
-    "job_description": "Reading this line is a bug",
+    "job_description": ".",
     "common": false,
     "bonus_str": { "rng": [ 8, 10 ] },
     "bonus_int": { "rng": [ 1, 2 ] },
