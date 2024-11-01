@@ -16,11 +16,11 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "no", { "u_val": "mission_flag_Bartender_rewarded" } ],
-      "no": "Hello again.  If you have no other business with me, I'd like to talk to you about something.",
-      "yes": {
+      "yes": "Hello again.  If you have no other business with me, I'd like to talk to you about something.",
+      "no": {
         "compare_string": [ "no", { "u_val": "mission_flag_Doctor_rewarded" } ],
-        "no": "Hello again.  If you have no other business with me, I'd like to talk to you about something.",
-        "yes": {
+        "yes": "Hello again.  If you have no other business with me, I'd like to talk to you about something.",
+        "no": {
           "u_is_wearing": "badge_marshal",
           "yes": "Can I help you, marshal?",
           "no": { "u_male": true, "yes": "Morning sir, how can I help you?", "no": "Morning ma'am, how can I help you?" }
