@@ -175,6 +175,16 @@
           "cooldown": 1,
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_hodag_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_heightened_reflex" } } ]
+          },
+          "monster_message": "%1$s begins moving more quickly."
         }
       ]
     },
