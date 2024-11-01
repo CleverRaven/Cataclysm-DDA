@@ -2471,6 +2471,42 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sleep_shield_check",
+    "name": [ "Promises of undisrupted sleep" ],
+    "desc": [ "I wish you a good night." ],
+    "apply_message": "You could swear that this man wished you a good night.",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "3 seconds",
+    "show_intensity": false,
+    "max_intensity": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield",
+    "name": [ "Undisrupted sleep" ],
+    "desc": [ "Sleep well.  Nothing but you can disrupt your sleep." ],
+    "apply_message": "As you fall asleep, you feel safer than you ever were.",
+    "remove_message": "As you wake up, the feeling of safety quickly fades away.",
+    "rating": "good",
+    "max_duration": "3 days",
+    "show_intensity": false,
+    "max_intensity": 1,
+    "flags": [ "INVISIBLE", "NO_SCENT", "PAIN_IMMUNE", "BLIND", "DEAF", "LEVITATION" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPY", "add": 9999 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 500 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 500 },
+          { "value": "FORCEFIELD", "add": 1 }
+        ]
+      }
+    ],
+    "removes_effects": [ "grabbed", "bleed" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_aoe_daze",
     "name": [ "Disoriented" ],
     "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],

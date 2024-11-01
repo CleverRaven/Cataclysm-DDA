@@ -516,5 +516,21 @@
       { "drop": "triffid_heart_chunk", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.3 }
     ]
+  },
+  {
+    "id": "sevenoclock_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hat_fur" },
+      { "item": "sevenoclock_coat" },
+      { "item": "swag_bag" },
+      { "item": "cane" },
+      { "item": "bone_human", "count": [ 3, 15 ] },
+      { "item": "human_meat_scrap", "count": [ 10, 40 ] },
+      { "item": "pants", "variant": "pants_black" },
+      { "item": "dress_shoes" },
+      { "item": "union_suit" }
+    ]
   }
 ]
