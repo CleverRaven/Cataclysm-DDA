@@ -404,6 +404,23 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_EASIER_WEAKPOINT_ATTACKS",
+    "name": { "str": "Shattering the Broken Vessels" },
+    "description": "Attuned to darkness and disease, you can easily spot the cracks in your enemies' defenses.  You have an easier chance to hit enemy weakpoints, increasing as your ruach rises.",
+    "points": 4,
+    "purifiable": false,
+    "prereqs": [ "LILIN_GAIN_MORE_FOCUS" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": { "math": [ "0.5 + (u_vitamin('lilin_ruach_vitamin') / 2000 )" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_STEALTH_MODIFIER_IN_DARKNESS",
     "name": { "//~": "This is a reference to Psalms 91:6", "str": "The Pestilence that Stalks in Darkness" },
     "description": "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.",
