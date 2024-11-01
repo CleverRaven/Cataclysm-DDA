@@ -285,7 +285,6 @@
       { "group": "antifungal_dr_group", "prob": 10 },
       { "group": "antiparasitic_dr_group", "prob": 10 },
       { "group": "diazepam_dr_group", "prob": 10 },
-      { "group": "calcium_dr_group", "prob": 10 },
       { "group": "iron_dr_group", "prob": 10 },
       { "group": "prozac_dr_group", "prob": 10 },
       { "group": "thorazine_dr_group", "prob": 10 },

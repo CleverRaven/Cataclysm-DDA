@@ -101,9 +101,10 @@ void faction_template::load_relations( const JsonObject &jsobj )
 {
     for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
         JsonObject rel_jo = fac.get_object();
-        std::bitset<npc_factions::rel_types> fac_relation( 0 );
+        std::bitset<static_cast<size_t>( npc_factions::relationship::rel_types )> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
+            fac_relation.set( static_cast<size_t>( rel_flag.second ),
+                              rel_jo.get_bool( rel_flag.first, false ) );
         }
         relations[fac.name()] = fac_relation;
     }
@@ -461,7 +462,7 @@ bool faction::has_relationship( const faction_id &guy_id, npc_factions::relation
 {
     for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
-            return rel_data.second.test( flag );
+            return rel_data.second.test( static_cast<size_t>( flag ) );
         }
     }
     return false;

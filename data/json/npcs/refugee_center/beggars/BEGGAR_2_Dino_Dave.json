@@ -405,7 +405,8 @@
       "effect": [
         { "math": [ "dave_castle_stage", "++" ] },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
-        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
+        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" },
+        { "mapgen_update": "beggar_2_remove_lobbycardboard", "om_terrain": "evac_center_18" }
       ]
     }
   },
@@ -474,8 +475,14 @@
     "object": {
       "set": [
         { "point": "terrain", "id": "t_door_metal_c", "x": 1, "y": 14 },
-        { "point": "terrain", "id": "t_door_metal_c", "x": 22, "y": 14 }
+        { "point": "terrain", "id": "t_door_metal_c", "x": 21, "y": 14 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "beggar_2_remove_lobbycardboard",
+    "method": "json",
+    "object": { "set": [ { "line": "furniture", "id": "f_clear", "x": 6, "y": 1, "x2": 8, "y2": 1 } ] }
   }
 ]

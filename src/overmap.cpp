@@ -6988,6 +6988,26 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         }
     }
 
+    // Don't spawn monster areas over locations designated as safe.
+    // We're using the maximum radius rather than the generated one, as the latter hasn't been
+    // produced yet, and it also provides some extra breathing room margin in most cases.
+    const overmap_special_spawns &spawns = special.get_monster_spawns();
+    if( spawns.group ) {
+        const point_abs_omt base = coords::project_to<coords::omt>( this->pos() );
+        for( int x = p.x() - spawns.radius.max; x <= p.x() + spawns.radius.max; x++ ) {
+            for( int y = p.y() - spawns.radius.max; y <= p.y() + spawns.radius.max; y++ ) {
+                const tripoint_abs_omt target = tripoint_abs_omt{ base, p.z() } + point_rel_omt{ x, y };
+                if( overmap_buffer.get_existing( coords::project_to<coords::om>( target.xy() ) ) ) {
+                    const std::optional<overmap_special_id> spec = overmap_buffer.overmap_special_at( target );
+                    if( spec.has_value() &&
+                        spec.value().obj().has_flag( "SAFE_AT_WORLDGEN" ) ) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
     const std::vector<overmap_special_locations> fixed_terrains = special.required_locations();
 
     return std::all_of( fixed_terrains.begin(), fixed_terrains.end(),
@@ -7027,6 +7047,9 @@ std::vector<tripoint_om_omt> overmap::place_special(
 
     if( special.has_flag( "GLOBALLY_UNIQUE" ) ) {
         overmap_buffer.add_unique_special( special.id );
+        // Debug output if you want to know where all globally unique locations are
+        //       point_abs_omt location = coords::project_to<coords::omt>(this->pos()) + p.xy().raw();
+        //        DebugLog(DL_ALL, DC_ALL) << "Globally Unique " << special.id.c_str() << " added at " << location.to_string_writable();
     } else if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
         overmap_buffer.log_unique_special( special.id );
     }
