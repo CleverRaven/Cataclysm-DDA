@@ -321,7 +321,7 @@
   {
     "type": "SPELL",
     "id": "biokinetic_heightened_reflexes_monster",
-    "name": { "str": "Heightened Reflexes enemy check" },
+    "name": { "str": "Heightened Reflexes enemy check", "//~": "NO_I18N" },
     "description": "Applies Enhanced Reflexes when a hostile target is detected.",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
@@ -340,7 +340,7 @@
   {
     "type": "SPELL",
     "id": "biokinetic_heightened_reflexes_enhanced_monster",
-    "name": { "str": "Heightened Reflexes enemy check" },
+    "name": { "str": "Heightened Reflexes enemy check", "//~": "NO_I18N" },
     "description": "Applies an even stronger version of Heightened Reflexes when a hostile target is detected.",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
@@ -359,7 +359,7 @@
   {
     "type": "SPELL",
     "id": "electrokinetic_neuro_acceleration_monster",
-    "name": { "str": "Neuro-Acceleration monster enemy check" },
+    "name": { "str": "Neuro-Acceleration monster enemy check", "//~": "NO_I18N" },
     "description": "Applies Neuro-Acceleration when a hostile target is detected.",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
@@ -378,7 +378,7 @@
   {
     "type": "SPELL",
     "id": "electrokinetic_neuro_acceleration_enhanced_monster",
-    "name": { "str": "Neuro-Acceleration Enhanced monster enemy check" },
+    "name": { "str": "Neuro-Acceleration Enhanced monster enemy check", "//~": "NO_I18N" },
     "description": "Applies an enhanced version of Neuro-Acceleration when a hostile target is detected.",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
