@@ -216,9 +216,7 @@
     "id": "zombie_lizardfolk",
     "type": "harvest",
     "copy-from": "zombie_humanoid",
-    "delete": {
-      "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ]
-    }
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
   },
   {
     "id": "zombie_ravenfolk",
