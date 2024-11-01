@@ -3198,6 +3198,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "ammo_pref", ammo_pref );
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
+    data.read( "last_charged", last_charged );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3252,6 +3253,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "ammo_pref", ammo_pref );
     json.member( "locked", locked );
     json.member( "last_disconnected", last_disconnected );
+    json.member( "last_charged", last_charged );
     json.end_object();
 }
 
@@ -3665,7 +3667,7 @@ void faction::serialize( JsonOut &json ) const
         json.member( rel_data.first );
         json.start_object();
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            json.member( rel_flag.first, rel_data.second.test( rel_flag.second ) );
+            json.member( rel_flag.first, rel_data.second.test( static_cast<size_t>( rel_flag.second ) ) );
         }
         json.end_object();
     }

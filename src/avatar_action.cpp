@@ -952,6 +952,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
         return;
     }
+
+    bool in_mech = false;
     if( you.is_mounted() ) {
         monster *mons = get_player_character().mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
@@ -960,6 +962,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
                          mons->get_name() );
                 return;
             }
+            in_mech = true;
         }
     }
 
@@ -973,10 +976,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    const ret_val<void> ret = you.can_wield( *loc );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-        return;
+    // Bypass check for whether we can wield an item if we're inside a mech
+    if( !in_mech ) {
+        const ret_val<void> ret = you.can_wield( *loc );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
     }
 
     // make a copy and get the original.
@@ -1012,9 +1018,12 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // you must wield the item to throw it
-    if( !you.is_wielding( *orig ) ) {
-        if( !you.wield( *orig ) ) {
-            return;
+    // if we're in the mech, let's assume the mech wields the item
+    if( !in_mech ) {
+        if( !you.is_wielding( *orig ) ) {
+            if( !you.wield( *orig ) ) {
+                return;
+            }
         }
     }
 
@@ -1028,7 +1037,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    item_location weapon = you.get_wielded_item();
+    item_location weapon = in_mech ? loc : you.get_wielded_item();
     target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
                                             blind_throw_from_pos.has_value() );
 
@@ -1045,7 +1054,11 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.remove_weapon();
+        if( in_mech ) {
+            loc.remove_item();
+        } else {
+            you.remove_weapon();
+        }
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
@@ -1087,6 +1100,10 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         }
     }
 
+    if( !avatar_action::check_stealing( get_player_character(), *loc.get_item() ) ) {
+        return;
+    }
+
     loc.overflow();
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
@@ -1095,7 +1112,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     }
 
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
-        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on.  Proceed?" ) ) ) {
             loc->deactivate();
             loc.get_item()->set_fault( faults::random_of_type( "wet" ) );
             // An electronic item in water is also shorted.

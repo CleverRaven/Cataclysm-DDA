@@ -421,6 +421,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
@@ -483,6 +484,12 @@ static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
+
+static const std::string type_hair_color( "hair_color" );
+static const std::string type_hair_style( "hair_style" );
+static const std::string type_skin_tone( "skin_tone" );
+static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
 
 namespace io
 {
@@ -740,6 +747,41 @@ void Character::randomize_blood()
     my_blood_type = blood_type::blood_AB;
     blood_rh_factor = false;
 }
+void Character::randomize_cosmetics()
+{
+    randomize_cosmetic_trait( type_hair_color );
+    randomize_cosmetic_trait( type_hair_style );
+    randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
+    //arbitrary 50% chance to add beard to male characters
+    if( male && one_in( 2 ) ) {
+        randomize_cosmetic_trait( type_facial_hair );
+    } else {
+        set_mutation( trait_FACIAL_HAIR_NONE );
+    }
+}
+
+void Character::starting_inv_damage_worn( int days )
+{
+    //damage equipment depending on days passed
+    int chances_to_damage = std::max( days / 14 + rng( -3, 3 ), 0 );
+    do {
+        std::vector<item *> worn_items;
+        worn.inv_dump( worn_items );
+        if( !worn_items.empty() ) {
+            item *to_damage = random_entry( worn_items );
+            int damage_count = rng( 1, 3 );
+            bool destroy = false;
+            do {
+                destroy = to_damage->inc_damage();
+                if( destroy ) {
+                    //if the clothing was destroyed in a simulated "dangerous situation", all contained items are lost
+                    i_rem( to_damage );
+                }
+            } while( damage_count-- > 0 && !destroy );
+        }
+    } while( chances_to_damage-- > 0 );
+}
 
 field_type_id Character::bloodType() const
 {
@@ -820,17 +862,24 @@ creature_size Character::get_size() const
 
 std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
-    if( !possessive ) {
-        if( is_avatar() ) {
-            return capitalize_first ? _( "You" ) : _( "you" );
-        }
-        return get_name();
-    } else {
-        if( is_avatar() ) {
-            return capitalize_first ? _( "Your" ) : _( "your" );
-        }
-        return string_format( _( "%s's" ), get_name() );
+    return is_avatar() ? as_avatar()->display_name( possessive,
+            capitalize_first ) : as_npc()->display_name( possessive );
+}
+
+std::string Character::disp_profession() const
+{
+    if( !custom_profession.empty() ) {
+        return custom_profession;
     }
+    if( is_npc() && as_npc()->myclass != npc_class_id::NULL_ID() ) {
+        if( play_name_suffix ) {
+            return play_name_suffix.value();
+        }
+    }
+    if( prof != nullptr && prof != profession::generic() ) {
+        return prof->gender_appropriate_name( male );
+    }
+    return "";
 }
 
 std::string Character::name_and_maybe_activity() const
@@ -3450,6 +3499,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when
         rval.emplace_back( move_mode.str(), "" );
     }
     return rval;
+}
+
+void Character::zero_all_skills()
+{
+    for( Skill &skill : Skill::skills ) {
+        set_skill_level( skill.ident(), 0 );
+    }
 }
 
 SkillLevelMap Character::get_all_skills() const
@@ -7617,7 +7673,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
 
 int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 {
-    const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
+    const double multiplier = vitamin_rate( vitamin ) * 100 / 1_days;
     return std::lround( ammount * multiplier );
 }
 
@@ -8509,7 +8565,7 @@ void Character::rooted()
 // TODO: The rates for iron, calcium, and thirst should probably be pulled from the nutritional data rather than being hardcoded here, so that future balance changes don't break this.
 {
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && is_barefoot() ) {
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos_bub() ) && is_barefoot() ) {
         int time_to_full = 43200; // 12 hours
         if( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             time_to_full += -14400;    // -4 hours
@@ -11003,7 +11059,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11359,14 +11415,14 @@ action_id Character::get_next_auto_move_direction()
 
     if( next_expected_position ) {
         // Difference between where the character is and where we expect them to be after last auto-move.
-        tripoint diff = ( pos_bub() - *next_expected_position ).raw().abs();
+        tripoint_rel_ms diff = ( pos_bub() - *next_expected_position ).abs();
         // This might differ by 1 (in z-direction), since the character might have crossed a ramp,
         // which teleported them a tile up or down. If the error is in x or y direction, we might as well
         // give them a turn to recover, as the move still might be vaild.
         // We cut off at 1 since 2 definitely results in an invalid move.
         // If the character is still stumbling or stuck,
         // they will cancel the auto-move on the next cycle (as the distance increases).
-        if( std::max( { diff.x, diff.y, diff.z } ) > 1 ) {
+        if( std::max( { diff.x(), diff.y(), diff.z()} ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }

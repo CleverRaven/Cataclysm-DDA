@@ -9,8 +9,8 @@ class vehicle;
 class ui_adaptor;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
-void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const std::optional<item> &base = std::nullopt );
+bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const Character &owner, const std::optional<item> &base = std::nullopt );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has

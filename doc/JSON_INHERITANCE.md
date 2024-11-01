@@ -116,6 +116,7 @@ MONSTER_FACTION
 mutation
 overmap_terrain
 recipe
+scenario
 terrain
 TOOL
 uncraft

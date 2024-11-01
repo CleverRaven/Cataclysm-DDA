@@ -462,7 +462,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self", "ground" ],
-    "flags": [ "LOUD" ],
+    "flags": [ "LOUD", "SPLIT_DAMAGE" ],
     "damage_type": "electric",
     "max_level": 4,
     "min_damage": 4,
@@ -812,6 +812,7 @@
     "name": { "str": "Boomer Claymore Attack", "//~": "NO_I18N" },
     "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "ground" ],
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "cone",
     "min_damage": 30,
@@ -1108,13 +1109,14 @@
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "effect_str": "stunned",
+    "min_range": 4,
     "max_range": 4,
     "shape": "blast",
     "message": "",
     "min_duration": 100,
     "max_duration": 400,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "extra_effects": [ { "id": "flatlander_attack_nausea", "hit_self": true } ]
+    "extra_effects": [ { "id": "flatlander_attack_nausea" } ]
   },
   {
     "type": "SPELL",

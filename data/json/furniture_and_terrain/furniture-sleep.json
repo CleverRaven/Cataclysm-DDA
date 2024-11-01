@@ -11,7 +11,7 @@
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "fall_damage_reduction": 35,
-    "required_str": -1,
+    "required_str": 12,
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {

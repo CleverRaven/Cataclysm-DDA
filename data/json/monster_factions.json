@@ -54,7 +54,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "aquatic_predator", "kraken", "fish_large", "fish_mutant_passive" ]
+    "hate": [ "aquatic_predator", "kraken", "fish_large", "fish_mutant_passive", "beaver" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -283,6 +283,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "beaver",
+    "base_faction": "herbivore",
+    "neutral": [ "herbivore" ],
+    "by_mood": [ "zombie_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "bear",
     "base_faction": "animal",
     "//": "Hunts small things, can't resist honey",
@@ -320,7 +327,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "pig",
-    "base_faction": "herbivore"
+    "base_faction": "herbivore",
+    "neutral": [ "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",

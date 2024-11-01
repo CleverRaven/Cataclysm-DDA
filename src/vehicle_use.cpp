@@ -960,15 +960,15 @@ void vehicle::crash_terrain_around()
     }
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
-        tripoint crush_target( 0, 0, -OVERMAP_LAYERS );
-        const tripoint start_pos = vp.pos();
+        tripoint_bub_ms crush_target( 0, 0, -OVERMAP_LAYERS );
+        const tripoint_bub_ms start_pos = vp.pos_bub();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             crush_target.z == -OVERMAP_LAYERS; i++ ) {
-            tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
+             crush_target.z() == -OVERMAP_LAYERS; i++ ) {
+            tripoint_bub_ms cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
-                busy_pos |= vp_tmp.pos() == cur_pos;
+                busy_pos |= vp_tmp.pos_bub() == cur_pos;
             }
             for( const std::string &flag : ttd.pre_flags ) {
                 if( here.has_flag( flag, cur_pos ) && !busy_pos ) {
@@ -978,7 +978,7 @@ void vehicle::crash_terrain_around()
             }
         }
         //target chosen
-        if( crush_target.z != -OVERMAP_LAYERS ) {
+        if( crush_target.z() != -OVERMAP_LAYERS ) {
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
@@ -1002,17 +1002,14 @@ void vehicle::transform_terrain()
             }
         }
         if( prereq_fulfilled ) {
-            const ter_id new_ter = ter_id( ttd.post_terrain );
-            if( new_ter != ter_str_id::NULL_ID() ) {
-                here.ter_set( start_pos, new_ter );
+            if( !!ttd.post_terrain ) {
+                here.ter_set( start_pos, *ttd.post_terrain );
             }
-            const furn_id new_furn = furn_id( ttd.post_furniture );
-            if( new_furn != furn_str_id::NULL_ID() ) {
-                here.furn_set( start_pos, new_furn );
+            if( !!ttd.post_furniture ) {
+                here.furn_set( start_pos, *ttd.post_furniture );
             }
-            const field_type_id new_field = field_type_id( ttd.post_field );
-            if( new_field.id() ) {
-                here.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+            if( !!ttd.post_field ) {
+                here.add_field( start_pos, *ttd.post_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
             const int speed = std::abs( velocity );
@@ -1149,7 +1146,7 @@ void vehicle::operate_scoop()
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
-                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
+                                              that_item_there->volume() * 2 / units::legacy_volume_factor + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.

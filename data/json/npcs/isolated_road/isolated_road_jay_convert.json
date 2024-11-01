@@ -215,7 +215,7 @@
     },
     "responses": [
       { "text": "See you then.", "topic": "TALK_DONE" },
-      { "text": "There's something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
   {
@@ -224,7 +224,7 @@
     "dynamic_line": "Sorry, it isn't ready yet.",
     "responses": [
       { "text": "See you then.", "topic": "TALK_DONE" },
-      { "text": "There's something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
   {
@@ -334,7 +334,7 @@
         ],
         "topic": "TALK_DONE"
       },
-      { "text": "There's something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   }
 ]

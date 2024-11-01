@@ -149,6 +149,9 @@ struct iteminfo {
         /** Flag indicating decimal with three points of precision.  */
         bool three_decimal;
 
+        /** info is ASCII art (prefer monospaced font) */
+        bool bIsArt;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -157,6 +160,7 @@ struct iteminfo {
             lower_is_better = 1 << 3, ///< Lower values are better for this stat
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
+            is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
         };
 
         /**
@@ -366,6 +370,12 @@ class item : public visitable
         bool is_software_storage() const;
 
         bool is_ebook_storage() const;
+
+        /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
 
         /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
@@ -2452,8 +2462,11 @@ class item : public visitable
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
+         * Set second parameter to true to ignore vehicle batteries, UPS and bionic power when checking
          */
+
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
+        units::energy energy_remaining( const Character *carrier, bool ignoreExternalSources ) const;
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.

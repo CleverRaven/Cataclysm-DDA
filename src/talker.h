@@ -25,6 +25,11 @@ class vehicle;
 struct mutation_variant;
 enum class get_body_part_flags;
 
+namespace npc_factions
+{
+enum class relationship : int;
+} // namespace npc_factions
+
 using bodytype_id = std::string;
 
 /*
@@ -55,7 +60,7 @@ class talker
         virtual item_location *get_item() {
             return nullptr;
         }
-        virtual item_location *get_item() const {
+        virtual item_location const *get_item() const {
             return nullptr;
         }
         virtual monster *get_monster() {
@@ -495,6 +500,8 @@ class talker
         virtual void set_ai_rule( const std::string &, const std::string & ) {}
         virtual void clear_ai_rule( const std::string &, const std::string & ) {}
 
+        virtual void set_fac_relation( const Character *, npc_factions::relationship, bool ) {}
+
         // other descriptors
         virtual std::string get_job_description() const {
             return "";
@@ -590,6 +597,10 @@ class talker
         virtual int attack_speed() const {
             return 0;
         }
+        virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
+                const damage_instance & ) const {
+            return dealt_damage_instance();
+        };
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }

@@ -405,33 +405,16 @@
     "description": "Having this spell is a bug.  And casting it is lethal",
     "message": "The location the grenade occupied is instantly overwhelmed with sounds and colors you've never felt before as space warps in impossible ways.  Whatever used to be there is now gone.",
     "effect": "attack",
-    "extra_effects": [
-      { "id": "netherium_warp_grenade_detonation_terrain", "max_level": 0 },
-      { "id": "netherium_warp_grenade_detonation_portal", "max_level": 0 }
-    ],
+    "extra_effects": [ { "id": "netherium_warp_grenade_detonation_portal", "max_level": 0 } ],
     "shape": "blast",
-    "valid_targets": [ "self", "hostile", "ally" ],
+    "valid_targets": [ "self", "hostile", "ally", "ground" ],
     "min_damage": 1000,
     "max_damage": 1000,
+    "min_bash_scaling": 10,
     "min_aoe": 2,
     "max_aoe": 5,
     "damage_type": "pure",
     "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ]
-  },
-  {
-    "id": "netherium_warp_grenade_detonation_terrain",
-    "type": "SPELL",
-    "name": "Netherium Warp Detonation - Terrain",
-    "description": "Having this spell is a bug.  Cast to forget about your surroundings",
-    "effect": "bash",
-    "shape": "blast",
-    "valid_targets": [ "ground" ],
-    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "IGNORE_WALLS" ],
-    "min_damage": 10000,
-    "max_damage": 10000,
-    "min_aoe": 2,
-    "max_aoe": 5,
-    "damage_type": "bash"
   },
   {
     "id": "netherium_warp_grenade_detonation_portal",

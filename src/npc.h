@@ -783,9 +783,11 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID(),
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void catchup_skills();
         void apply_ownership_to_inv();
         void clear_personality_traits();
         void generate_personality_traits();
+        void randomize_personality();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
@@ -819,6 +821,12 @@ class npc : public Character
         void update_missions_target( character_id old_character, character_id new_character );
         std::pair<skill_id, int> best_combat_skill( combat_skills subset ) const;
         void starting_weapon( const npc_class_id &type );
+        /**
+        * Adds items to a randomly generated NPC (i.e. not having a defined npc_class)
+        * As time passes, NPCs get stronger (reaching peak at 90 days)
+        * See NC_NONE_*.json and NC_NONE_HARDENED_*.json for item selection
+        */
+        void starting_inv_passtime();
 
         // Save & load
         void deserialize( const JsonObject &data ) override;
@@ -837,6 +845,7 @@ class npc : public Character
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
+        std::string display_name( bool possessive = false ) const;
         std::string name_and_activity() const;
         std::string name_and_maybe_activity() const override;
         /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
@@ -1461,6 +1470,7 @@ class npc_template
         dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;
+        translation temp_suffix;
         enum class gender : int {
             random,
             male,

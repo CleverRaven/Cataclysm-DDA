@@ -317,6 +317,7 @@
         "                                                                        "
       ],
       "palettes": [ "p_resort_palette_living_floor" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 29, 45 ], "y": [ 56, 58 ] } ],
       "place_items": [
         { "chance": 75, "item": "keg_beer", "x": 66, "y": 48 },
         { "chance": 75, "item": "keg_beer", "x": 65, "y": 48 },

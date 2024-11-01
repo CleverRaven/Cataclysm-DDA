@@ -18,6 +18,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "magic.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
@@ -320,6 +321,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "sleepiness", sleepiness, false );
+    optional( jo, was_loaded, "mana", mana, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -397,6 +399,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+    optional( jo, was_loaded, "activation_msg", activation_msg,
+              to_translation( "You activate your %s." ) );
 
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 

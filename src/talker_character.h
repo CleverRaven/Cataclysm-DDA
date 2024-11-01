@@ -23,6 +23,11 @@ struct tripoint;
 
 struct mutation_variant;
 
+namespace npc_factions
+{
+enum class relationship : int;
+} // namespace npc_factions
+
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
@@ -70,6 +75,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &dam ) const override;
         int pain_cur() const override;
         int perceived_pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
@@ -194,6 +201,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_height() const override;
         int get_bmi_permil() const override;
         int get_weight() const override;
+        int get_volume() const override;
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
@@ -288,6 +296,8 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void set_fac_relation( const Character *guy, npc_factions::relationship rule,
+                               bool should_set_value ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;

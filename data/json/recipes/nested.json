@@ -7109,7 +7109,7 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_copper", "pike_wood" ],
+    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
     "difficulty": 3
   },
   {
