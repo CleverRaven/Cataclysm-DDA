@@ -223,7 +223,7 @@
   {
     "id": "zombie_ravenfolk",
     "type": "harvest",
-    "copy-from": "demihuman_large_fur",
+    "copy-from": "zombie_humanoid",
     "//": "removes 66% of their featers due to most being unusable due to being from an undead corpse.",
     "delete": {
       "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ]
