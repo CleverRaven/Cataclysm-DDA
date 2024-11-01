@@ -129,7 +129,7 @@
     "followup": "MISSION_SCIENCE_REP_3",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.  Like last time, I can compensate you, and the Old Guard saw enough promise in this assignment to spare a larger sum of <reward_count:FMCNote> merch.",
+      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.  Like last time, I can compensate you, and the Old Guard saw enough promise in this assignment to spare a larger sum of <reward_count:FMCNote> merch.  I'm sure you're also free to lay claim to any valuables you might find at the target location.",
       "accepted": "Great!  I've mapped out a route to the address.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Also brush up on your computer skills, any computers will have some security on them.  Bring back anything you find on a USB drive.",
@@ -221,6 +221,6 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     },
-    "end": { "effect": { "u_spawn_item": "FMCNote", "count": 200 } }
+    "end": { "effect": { "u_spawn_item": "FMCNote", "count": 300 } }
   }
 ]
