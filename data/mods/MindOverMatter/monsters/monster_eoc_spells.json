@@ -358,7 +358,7 @@
   },
   {
     "type": "SPELL",
-    "id": "electrokinetic_neuro_acceleration_enhanced_monster",
+    "id": "electrokinetic_neuro_acceleration_monster",
     "name": { "str": "Neuro-Acceleration monster enemy check" },
     "description": "Applies Neuro-Acceleration when a hostile target is detected.",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
