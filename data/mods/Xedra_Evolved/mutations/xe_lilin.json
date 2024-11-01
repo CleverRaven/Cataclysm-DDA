@@ -525,6 +525,32 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_RUACH_EFFICIENCY",
+    "name": { "str": "Grasping at Heaven" },
+    "description": "You've learned how to more efficiently use your ruach, greedily keeping some behind for yourself when you activate your powers.  Powers that cost ruach have their initial and periodic costs reduced by 15%.  This does not reduce the continual ruach cost of staying alive.",
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
+    "prereqs2": [ "LILIN_GAIN_MORE_FOCUS" ],
+    "changes_to": [ "LILIN_RUACH_EFFICIENCY_UPGRADE" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_RUACH_EFFICIENCY_UPGRADE",
+    "name": { "str": "Climbing Babel" },
+    "description": "You jealously parcel out your ruach, only spending exactly as much as you need and no more.  Powers that cost ruach have their initial and periodic costs reduced by 15%, with an additional reduction that grows based on your total amount of ruach, to a maximum reduction of 33%.  This does not reduce the continual ruach cost of staying alive.",
+    "points": 10,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_TEMPORARY_GLORIOUS_2" ],
+    "prereqs2": [ "LILIN_RUACH_EFFICIENCY_UPGRADE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_READ_CRAFT_IN_DARKNESS",
     "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
     "description": "You have adapted so well to the night that it doesn't hinder your actions at all.  You can read and craft in any light levels.",
