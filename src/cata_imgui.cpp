@@ -1039,7 +1039,7 @@ void cataimgui::PushMonoFont()
 #endif
 }
 
-bool cataimgui::RightAlign( const char *str_id )
+bool cataimgui::BeginRightAlign( const char *str_id )
 {
     if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
         ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch );

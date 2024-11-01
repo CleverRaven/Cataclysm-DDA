@@ -2519,10 +2519,11 @@ class spellcasting_callback : public uilist_callback
 
         void refresh( uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
+            ImGui::SameLine( 0.0, -1.0 );
             ImVec2 info_size = ImGui::GetContentRegionAvail();
-            info_size.y -= ( 1.0 * ImGui::GetTextLineHeightWithSpacing() ) - ImGui::GetFrameHeightWithSpacing();
+            info_size.y -= ImGui::GetTextLineHeightWithSpacing();
             if( ImGui::BeginChild( "spell info", info_size, false,
-                                   ImGuiWindowFlags_AlwaysAutoResize ) ) {
+                                   ImGuiWindowFlags_AlwaysVerticalScrollbar ) ) {
                 if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < known_spells.size() ) {
                     display_spell_info( menu->previewing );
                 }
@@ -2532,7 +2533,7 @@ class spellcasting_callback : public uilist_callback
                                         _( "Popup Distractions" );
             ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[I]", ignore_string.c_str() );
             ImGui::SameLine();
-            if( cataimgui::RightAlign( "hotkeys" ) ) {
+            if( cataimgui::BeginRightAlign( "hotkeys" ) ) {
                 ImGui::TextColored( c_yellow, "%s", _( "Assign Hotkey [=]" ) );
                 cataimgui::EndRightAlign();
             }
@@ -2658,7 +2659,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
     const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
-    double column_width = desired_extra_space_right( ) / 2.0;
+    double column_width = ImGui::GetContentRegionAvail().x / 2.0;
     if( ImGui::BeginTable( "data", 2 ) ) {
         ImGui::TableSetupColumn( "current level", ImGuiTableColumnFlags_WidthFixed, column_width );
         ImGui::TableSetupColumn( "max level", ImGuiTableColumnFlags_WidthFixed, column_width );

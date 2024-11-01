@@ -153,6 +153,6 @@ void load_colors();
 void PushGuiFont();
 void PushMonoFont();
 
-bool RightAlign( const char *str_id );
+bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
 } // namespace cataimgui
