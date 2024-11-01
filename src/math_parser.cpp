@@ -797,7 +797,7 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
         scoped = scoped.substr( 1 );
     }
     validate_string( scoped, "variable", " \'" );
-    output.emplace( std::in_place_type_t<var>(), type, "npctalk_var_" + std::string{ scoped } );
+    output.emplace( std::in_place_type_t<var>(), type, std::string{ scoped } );
 }
 
 std::string math_exp::math_exp_impl::error( std::string_view str, std::string_view what )

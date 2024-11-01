@@ -197,8 +197,8 @@ void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
                 dialogue d( get_talker_for( *source ), critter == nullptr ? nullptr : get_talker_for( critter ) );
                 // `p` is tripoint relative to the upper left corner of currently loaded overmap
                 // not very useful for player's purposes methinks, but much appreciated
-                // write_var_value( var_type::context, "npctalk_var_proj_target_tripoint", &d, p.abs().to_string());
-                write_var_value( var_type::context, "npctalk_var_proj_damage", &d, dealt_damage );
+                // write_var_value( var_type::context, "proj_target_tripoint", &d, p.abs().to_string());
+                write_var_value( var_type::context, "proj_damage", &d, dealt_damage );
                 eoc->activate( d );
             }
             //cast ammo effect spells

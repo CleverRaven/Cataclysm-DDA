@@ -568,7 +568,7 @@ void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
         dialogue d;
         std::unordered_map<std::string, std::string> context;
         for( const auto &val : e.data() ) {
-            context["npctalk_var_" + val.first] = val.second.get_string();
+            context[val.first] = val.second.get_string();
         }
 
         // if we have an NPC to trigger this event for, do so,

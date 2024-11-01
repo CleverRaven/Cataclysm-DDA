@@ -2611,7 +2611,7 @@ static void character_edit_menu()
             .title( _( "Value" ) )
             .width( 85 )
             .edit( value );
-            you.set_value( "npctalk_var_" + key, value );
+            you.set_value( key, value );
             break;
         }
         case D_FACTION: {
@@ -3326,7 +3326,7 @@ static void edit_global_vars()
     .width( 85 )
     .edit( value );
     global_variables &globvars = get_globals();
-    globvars.set_global_value( "npctalk_var_" + key, value );
+    globvars.set_global_value( key, value );
 }
 
 static void game_report()
