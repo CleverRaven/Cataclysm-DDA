@@ -700,6 +700,45 @@
             ]
           },
           "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        },
+        {
+          "type": "monster_attack",
+          "//": "soldiers might have actually known some combat magic",
+          "attack_type": "melee",
+          "id": "feral_dabbler_soldier_magicmissile",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "25" ] }
+            ]
+          },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_dabbler_ethereal_grasp",
+          "type": "spell",
+          "spell_data": { "id": "ethereal_grasp", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "26" ] }
+            ]
+          },
+          "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
         }
       ]
     }
@@ -788,6 +827,45 @@
             ]
           },
           "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        },
+        {
+          "type": "monster_attack",
+          "//": "soldiers might have actually known some combat magic",
+          "attack_type": "melee",
+          "id": "feral_dabbler_soldier_magicmissile",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "25" ] }
+            ]
+          },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_dabbler_ethereal_grasp",
+          "type": "spell",
+          "spell_data": { "id": "ethereal_grasp", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "26" ] }
+            ]
+          },
+          "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
         }
       ]
     }
