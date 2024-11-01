@@ -143,7 +143,7 @@
     "name": { "str": "hodag" },
     "description": "This is very similar to a cow, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
     "//": "armor, HP, and speed boost power are from biokinesis",
-    "proportional": { "hp": 1.4, "speed": 1.15 },
+    "proportional": { "hp": 1.4 },
     "relative": { "melee_skill": 1, "melee_dice_sides": 2 },
     "symbol": "C",
     "color": "yellow",
