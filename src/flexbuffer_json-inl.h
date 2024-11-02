@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_FLEXBUFFER_JSON_INL_H
-#define CATA_SRC_FLEXBUFFER_JSON_INL_H
+#ifndef CATA_SRC_FLEXBUFFER_JSON_H
+#define CATA_SRC_FLEXBUFFER_JSON_H
 
 #include <optional>
 #include <string>
@@ -10,7 +10,7 @@
 
 #include "cata_bitset.h"
 #include "cata_small_literal_vector.h"
-#include "filesystem.h"
+#include "cata_utility.h"
 #include "flexbuffer_cache.h"
 #include "json.h"
 #include "json_error.h"
@@ -18,1101 +18,724 @@
 #include "memory_fast.h"
 #include "string_id.h"
 
-// The iterators have to come first because clang requires complete definitions when we call begin/end in definitions later in the header.
-class JsonArray::const_iterator
-{
-        const_iterator( const JsonArray &object, size_t pos )
-            : array_{ object }, pos_{ pos }
-        {}
+// Represents a 'path' in a json object, a series of object keys or indices, that when accessed from the root get you to some element in the json structure.
+struct JsonPath {
+        // Flexbuffer structures are either arrays or objects, where objects are just
+        // arrays with an extra 'key vector'. As such, we can store a jsonpath as a series
+        // of numeric indices and not store any string pointer values at all. This lets us
+        // compress the datastructure to a series of shorts (at least one vector has >1k
+        // elements in it). How this index should be interpreted depends on the type of
+        // the json value at that location. Arrays as native indices, objects as an index
+        // into the object's corresponding key vector.
 
-    public:
-        const_iterator &operator++() {
-            pos_++;
+        using index_type = uint32_t;
+
+        JsonPath() = default;
+        JsonPath( const JsonPath & ) = default;
+        JsonPath( JsonPath && ) = default;
+
+        JsonPath &operator=( const JsonPath & ) = default;
+        JsonPath &operator=( JsonPath && ) noexcept = default;
+
+        JsonPath &push_back( size_t idx ) {
+            if( idx < std::numeric_limits<index_type>::max() ) {
+                path_.push_back( static_cast<index_type>( idx ) );
+            } else {
+                throw std::runtime_error( "Json index out of range of uint32_t" );
+            }
             return *this;
         }
 
-        bool operator==( const const_iterator  &other ) const {
-            return pos_ == other.pos_ && &array_ == &other.array_;
+        uint8_t size() const {
+            return path_.size();
         }
 
-        bool operator!=( const const_iterator &other ) const {
-            return !( *this == other );
+        void pop_back() {
+            path_.pop_back();
         }
 
-        JsonValue operator*() const {
-            array_.mark_visited( pos_ );
+        index_type &last() {
+            return *path_.back();
+        }
 
-            return array_[pos_];
+        index_type const *begin() const {
+            return path_.begin();
+        }
+        index_type const *end() const {
+            return path_.end();
+        }
+
+        friend JsonPath operator+( const JsonPath &lhs, size_t idx ) {
+            JsonPath ret( lhs );
+            ret.push_back( idx );
+            return ret;
         }
 
     private:
-        const JsonArray &array_;
-        size_t pos_;
-
-        friend JsonArray;
+        static constexpr size_t kInlinePathSegments = 7;
+        small_literal_vector<index_type, kInlinePathSegments> path_;
 };
 
-inline auto JsonArray::begin() const -> const_iterator
+class JsonObject;
+class JsonArray;
+class JsonValue;
+class JsonMember;
+
+inline flexbuffers::Reference flexbuffer_root_from_storage(
+    const std::shared_ptr<flexbuffer_storage> &storage )
 {
-    return const_iterator( *this, 0 );
+    return flexbuffers::GetRoot( storage->data(), storage->size() );
 }
 
-inline auto JsonArray::end() const -> const_iterator
+class Json
 {
-    return const_iterator( *this, size_ );
-}
+    public:
+        Json() = delete;
+        using flexbuffer = flexbuffers::Reference;
 
-class JsonObject::const_iterator
+        std::string str() const;
+        [[noreturn]] void throw_error( const JsonPath &path, int offset, const std::string &message ) const;
+        [[noreturn]] void throw_error_after( const JsonPath &path, const std::string &message ) const;
+        [[noreturn]] void string_error( const JsonPath &path, int offset,
+                                        const std::string &message ) const;
+
+        static const std::string &flexbuffer_type_to_string( flexbuffers::Type t );
+
+        // Atomically sets whether Json destructors report unvisited members or not. Returns the prior value.
+        static bool globally_report_unvisited_members( bool do_report );
+
+    protected:
+        Json( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json ) : root_{ std::move( root ) },
+            json_ { json } {}
+
+        ~Json() noexcept = default;
+
+        Json( const Json & ) = default;
+        Json &operator=( const Json & ) = default;
+
+        Json( Json && ) noexcept = default;
+        Json &operator=( Json && ) noexcept = default;
+
+        // Keeps the backing memory alive, also contains the root reference and source file for error logging.
+        std::shared_ptr<parsed_flexbuffer> root_;
+        // The actual thing we are pointing to with this Json instance.
+        flexbuffer json_;
+};
+
+class JsonWithPath : protected Json
 {
-        const_iterator( const JsonObject &object, size_t pos )
-            : object_{ object }, pos_{ pos }
-        {}
+    public:
+        [[noreturn]] void throw_error( const std::string &message ) const noexcept( false ) {
+            throw_error( 0, message );
+        }
+        [[noreturn]] void throw_error( int offset, const std::string &message ) const noexcept( false ) {
+            Json::throw_error( path_, offset, message );
+        }
+        [[noreturn]] void throw_error_after( const std::string &message ) const noexcept( false ) {
+            Json::throw_error_after( path_, message );
+        }
+
+    protected:
+        JsonWithPath( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
+                      JsonPath &&path ) : Json( std::move( root ), json ), path_{ std::move( path ) } {}
+
+        JsonWithPath( const JsonWithPath & ) = default;
+        JsonWithPath &operator=( const JsonWithPath & ) = default;
+
+        JsonWithPath( JsonWithPath && ) noexcept = default;
+        JsonWithPath &operator=( JsonWithPath && ) noexcept = default;
+
+        bool error_or_false( bool throw_on_error,
+                             const std::string &message ) const noexcept( false ) {
+            if( throw_on_error ) {
+                throw_error( 0, message );
+            }
+            return false;
+        }
+
+        JsonPath path_;
+};
+
+// A single value wrapper. Convertible to any actual value or array/object.
+// To keep creating these as trivial as possible, these do not contain a JsonPath. The typical
+// pattern with JsonValue's is to immediately cast to the desired type, and generally are
+// retrieved while iterating members of a JsonObject or values in a JsonArray. This
+// means the parent_path will outlive the JsonValue. But we have no real way to guarantee
+// this without resorting to moving the JsonPath into a heap allocation with shared_ptr.
+// We still aren't totally trivial because Json has a shared_ptr member, but it's close.
+class JsonValue : Json
+{
+    public:
+        JsonValue( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
+                   JsonPath const *parent_path, size_t path_index ) : Json(
+                           std::move( root ),
+                           json ), parent_path_{ parent_path }, path_index_{ path_index } {}
+
+        JsonValue( const JsonValue & ) = default;
+        JsonValue &operator=( const JsonValue & ) = default;
+
+        JsonValue( JsonValue && ) noexcept = default;
+        JsonValue &operator=( JsonValue && ) noexcept = default;
+
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator std::string() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator bool() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator int() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator unsigned() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator int64_t() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator uint64_t() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator double() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator JsonObject() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator JsonArray() const;
+
+        bool test_string() const;
+        bool test_bool() const;
+        bool test_number() const;
+        bool test_int() const;
+        bool test_float() const;
+        bool test_object() const;
+        bool test_array() const;
+        bool test_null() const;
+
+        std::string get_string() const;
+        bool get_bool() const;
+        int get_int() const;
+        unsigned int get_uint() const;
+        int64_t get_int64() const;
+        uint64_t get_uint64() const;
+        double get_float() const;
+        JsonArray get_array() const;
+        JsonObject get_object() const;
+
+        using Json::throw_error;
+        using Json::throw_error_after;
+        using Json::string_error;
+
+        // optionally-fatal reading into values by reference
+        // returns true if the data was read successfully, false otherwise
+        // if throw_on_error then throws JsonError rather than returning false.
+        bool read( bool &b, bool throw_on_error = false ) const;
+        bool read( char &c, bool throw_on_error = false ) const;
+        bool read( signed char &c, bool throw_on_error = false ) const;
+        bool read( unsigned char &c, bool throw_on_error = false ) const;
+        bool read( short unsigned int &s, bool throw_on_error = false ) const;
+        bool read( short int &s, bool throw_on_error = false ) const;
+        bool read( int &i, bool throw_on_error = false ) const;
+        bool read( int64_t &i, bool throw_on_error = false ) const;
+        bool read( uint64_t &i, bool throw_on_error = false ) const;
+        bool read( unsigned int &u, bool throw_on_error = false ) const;
+        bool read( float &f, bool throw_on_error = false ) const;
+        bool read( double &d, bool throw_on_error = false ) const;
+        bool read( std::string &s, bool throw_on_error = false ) const;
+
+        // This is for the string_id type
+        template <typename T>
+        auto read( string_id<T> &thing, bool throw_on_error = false ) const -> bool;
+
+        // This is for the int_id type
+        template <typename T>
+        auto read( int_id<T> &thing, bool throw_on_error = false ) const -> bool;
+
+        /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
+        template<typename T>
+        auto read( T &v, bool throw_on_error = false ) const ->
+        decltype( deserialize( v, *this ), true );
+
+        /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
+        template<typename T>
+        auto read( T &v, bool throw_on_error = false ) const -> decltype( v.deserialize( *this ), true );
+
+        template<typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
+        bool read( T &val, bool throw_on_error = false ) const;
+
+        /// Overload for std::pair
+        template<typename T, typename U>
+        bool read( std::pair<T, U> &p, bool throw_on_error = false ) const;
+
+        // array ~> vector, deque, list
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<void, typename T::value_type> > * = nullptr
+                   >
+        auto read( T &v, bool throw_on_error = false ) const -> decltype( v.front(), true );
+
+        // array ~> array
+        template <typename T, size_t N>
+        bool read( std::array<T, N> &v, bool throw_on_error = false ) const;
+
+        // object ~> containers with matching key_type and value_type
+        // set, unordered_set ~> object
+        template <typename T, std::enable_if_t<
+                      std::is_same_v<typename T::key_type, typename T::value_type>> * = nullptr
+                  >
+        bool read( T &v, bool throw_on_error = false ) const;
+
+        // special case for enum_bitset
+        template <typename T>
+        bool read( enum_bitset<T> &v, bool throw_on_error = false ) const;
+
+        // special case for colony<item> as it supports RLE
+        // see corresponding `write` for details
+        template <typename T, std::enable_if_t<std::is_same_v<T, item>>* = nullptr >
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) const;
+
+        // special case for colony as it uses `insert()` instead of `push_back()`
+        // and therefore doesn't fit with vector/deque/list
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * = nullptr >
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) const;
+
+        // object ~> containers with unmatching key_type and value_type
+        // map, unordered_map ~> object
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<typename T::key_type, typename T::value_type> > * = nullptr
+                   >
+        bool read( T &m, bool throw_on_error = true ) const;
+
+        [[noreturn]] void string_error( const std::string &message ) const noexcept( false ) {
+            string_error( 0, message );
+        }
+
+        [[noreturn]] void string_error( int offset, const std::string &message ) const noexcept( false ) {
+            JsonPath p;
+            if( parent_path_ ) {
+                p = *parent_path_ + path_index_;
+            }
+            string_error( p, offset, message );
+        }
+
+        [[noreturn]] void throw_error( const std::string &message ) const noexcept( false ) {
+            throw_error( 0, message );
+        }
+
+        [[noreturn]] void throw_error( int offset, const std::string &message ) const noexcept( false ) {
+            JsonPath p;
+            if( parent_path_ ) {
+                p = *parent_path_ + path_index_;
+            }
+            throw_error( p, offset, message );
+        }
+
+        [[noreturn]] void throw_error_after( const std::string &message ) const noexcept( false ) {
+            JsonPath p;
+            if( parent_path_ ) {
+                p = *parent_path_ + path_index_;
+            }
+            throw_error_after( p, message );
+        }
+    private:
+        JsonPath const *parent_path_;
+        size_t path_index_;
+
+        // Putting this in the header allows inlining and eliding a bunch of code with constant folding.
+        bool error_or_false( bool throw_on_error, const std::string &message ) const noexcept( false ) {
+            if( throw_on_error ) {
+                throw_error( 0, message );
+            }
+            return false;
+        }
+};
+
+class JsonArray : JsonWithPath
+{
+        static const auto &empty_array_() {
+            // NOLINTNEXTLINE(cata-almost-never-auto)
+            static auto empty_array = flexbuffer_cache::parse_buffer( "[]" );
+            return empty_array;
+        }
 
     public:
-        const_iterator &operator++() {
-            pos_++;
+        JsonArray() : JsonWithPath( empty_array_(),
+                                        flexbuffer_root_from_storage( empty_array_()->get_storage() ), {} ) {
+            init( json_ );
+        }
+
+        JsonArray(
+            std::shared_ptr<parsed_flexbuffer> root,
+            flexbuffer json,
+            JsonPath &&path )
+            : JsonWithPath( std::move( root ), json, std::move( path ) ) {
+            init( json_ );
+        }
+
+        JsonArray( const JsonArray &rhs ) : JsonWithPath( rhs ) {
+            init( json_ );
+        }
+
+        JsonArray &operator=( const JsonArray &rhs ) {
+            JsonWithPath::operator=( rhs );
+            init( json_ );
             return *this;
         }
 
-        bool operator==( const const_iterator &other ) const {
-            return pos_ == other.pos_ && &object_ == &other.object_;
+        JsonArray( JsonArray &&rhs ) noexcept :
+            JsonWithPath( std::move( static_cast<JsonWithPath &>( rhs ) ) ) {
+            init( json_, &rhs.visited_fields_bitset_ );
+            rhs.visited_fields_bitset_.set_all();
         }
 
-        bool operator!=( const const_iterator &other ) const {
-            return !( *this == other );
+        JsonArray &operator=( JsonArray &&rhs ) noexcept {
+            JsonWithPath::operator=( std::move( static_cast<JsonWithPath &>( rhs ) ) );
+            init( json_, &rhs.visited_fields_bitset_ );
+            rhs.visited_fields_bitset_.set_all();
+            return *this;
         }
 
-        JsonMember operator*() const {
-            object_.mark_visited( pos_ );
-            return JsonMember(
-                       object_.keys_[pos_].AsString(),
-                       object_[pos_] );
+        class const_iterator;
+        friend const_iterator;
+
+        // Iterates the values in this array.
+        const_iterator begin() const;
+        const_iterator end() const;
+
+        size_t size() const {
+            return size_;
+        }
+
+        bool empty() const {
+            return size() == 0;
+        }
+
+        JsonValue operator[]( size_t idx ) const;
+
+        std::string get_string( size_t idx ) const;
+        int get_int( size_t idx ) const;
+        double get_float( size_t idx ) const;
+
+        JsonArray get_array( size_t idx ) const;
+        JsonObject get_object( size_t idx ) const;
+
+        bool has_string( size_t idx ) const;
+        bool has_bool( size_t idx ) const;
+        bool has_int( size_t idx ) const;
+        bool has_float( size_t idx ) const;
+        bool has_array( size_t idx ) const;
+        bool has_object( size_t idx ) const;
+
+        bool test_string() const;
+        std::string next_string();
+
+        bool test_bool() const;
+        bool next_bool();
+
+        bool test_int() const;
+        int next_int();
+
+        bool test_float() const;
+        double next_float();
+
+        bool test_array() const;
+
+        JsonArray next_array();
+
+        bool test_object() const;
+        JsonObject next_object();
+
+        JsonValue next_value();
+
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+                 E next_enum_value() ;
+
+                 // array ~> vector, deque, list
+                 template < typename T, std::enable_if_t <
+                                !std::is_same_v<void, typename T::value_type> > * = nullptr
+                            >
+                 auto read( T &v, bool throw_on_error = false ) const -> decltype( v.front(), true );
+
+                 // random-access read values by reference
+                 template <typename T> bool read_next( T &t, bool throw_on_error = false );
+
+                 // random-access read values by reference
+                 template <typename T> bool read( size_t idx, T &t, bool throw_on_error = false ) const;
+
+                 template <typename T = std::string, typename Res = std::set<T>>
+                 Res get_tags( size_t idx ) const;
+
+                 [[noreturn]] void string_error( size_t idx, int offset, const std::string &message ) const;
+
+        bool has_more() const {
+            return next_ < size_;
+        }
+
+        using JsonWithPath::throw_error;
+        using JsonWithPath::throw_error_after;
+        using JsonWithPath::error_or_false;
+
+    private:
+        JsonValue get_next();
+
+        size_t size_ = 0;
+        size_t next_ = 0;
+
+        // NOLINTNEXTLINE(cata-large-inline-function)
+        void init( const flexbuffer &json, tiny_bitset *moved_visited_fields = nullptr ) noexcept {
+            if( json.IsFixedTypedVector() ) {
+                size_ = json.AsFixedTypedVector().size();
+            } else if( json.IsTypedVector() ) {
+                size_ = json.AsTypedVector().size();
+            } else {
+                size_ = json.AsVector().size();
+            }
+            if( moved_visited_fields ) {
+                using namespace std;
+                swap( visited_fields_bitset_, *moved_visited_fields );
+            } else {
+                visited_fields_bitset_.resize( size_ );
+            }
+        }
+
+        mutable tiny_bitset visited_fields_bitset_;
+
+        void mark_visited( size_t idx ) const {
+            visited_fields_bitset_.set( idx );
+        }
+};
+
+class JsonMember : public JsonValue
+{
+    public:
+        JsonMember( flexbuffers::String name,
+                    JsonValue value ) : JsonValue( std::move( value ) ),
+            name_( name ) { }
+
+        JsonMember( const JsonMember & ) = default;
+        JsonMember &operator=( const JsonMember & ) = default;
+
+        JsonMember( JsonMember && ) = default;
+        JsonMember &operator=( JsonMember && ) = default;
+
+        std::string name() const {
+            return name_.str();
+        }
+
+        bool is_comment() const {
+            return strncmp( name_.c_str(), "//", 2 ) == 0;
         }
 
     private:
-        const JsonObject &object_;
-        size_t pos_;
-
-        friend JsonObject;
+        flexbuffers::String name_;
 };
 
-inline auto JsonObject::begin() const -> const_iterator
+class JsonObject : JsonWithPath
 {
-    return const_iterator( *this, 0 );
-}
+    protected:
+        flexbuffers::TypedVector keys_ = flexbuffers::TypedVector::EmptyTypedVector();
+        flexbuffers::Vector values_ = flexbuffers::Vector::EmptyVector();
+        mutable tiny_bitset visited_fields_bitset_;
 
-inline auto JsonObject::end() const -> const_iterator
-{
-    return const_iterator( *this, keys_.size() );
-}
-
-inline JsonValue::operator std::string() const
-{
-    if( json_.IsString() ) {
-        return json_.AsString().str();
-    }
-    throw_error( "Expected a string, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline JsonValue::operator int() const
-{
-    if( json_.IsNumeric() ) {
-        return static_cast<int>( json_.AsInt64() );
-    }
-    throw_error( "Expected an int, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline JsonValue::operator int64_t() const
-{
-    if( json_.IsNumeric() ) {
-        return static_cast<int64_t>( json_.AsInt64() );
-    }
-    throw_error( "Expected an int64_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline JsonValue::operator uint64_t() const
-{
-    if( json_.IsNumeric() ) {
-        // These are always stored as signed ints.
-        int64_t signed_value = json_.AsInt64();
-        if( signed_value >= 0 ) {
-            return static_cast<uint64_t>( signed_value );
+        static const auto &empty_object_() {
+            // NOLINTNEXTLINE(cata-almost-never-auto)
+            static auto empty_object = flexbuffer_cache::parse_buffer( "{}" );
+            return empty_object;
         }
-        throw_error( "uint64_t value out of range" );
-    }
-    throw_error( "Expected a uint64_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
 
-inline JsonValue::operator unsigned() const
-{
-    if( json_.IsNumeric() ) {
-        // These are always stored as signed ints.
-        int64_t signed_value = json_.AsInt64();
-        if( signed_value >= 0 ) {
-            return static_cast<unsigned int>( signed_value );
+    public:
+        JsonObject() : JsonWithPath( empty_object_(),
+                                         flexbuffer_root_from_storage( empty_object_()->get_storage() ), {} ) {
+            init( json_ );
         }
-        throw_error( "unsigned int value out of range" );
-    }
-    throw_error( "Expected an uint32_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
 
-inline JsonValue::operator bool() const
-{
-    if( json_.IsBool() ) {
-        return json_.AsBool();
-    }
-    throw_error( "Expected a bool, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline JsonValue::operator double() const
-{
-    if( json_.IsNumeric() ) {
-        return json_.AsDouble();
-    }
-    throw_error( "Expected a double, got " + flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline JsonValue::operator JsonObject() const
-{
-    JsonPath new_path;
-    if( parent_path_ ) {
-        new_path = *parent_path_ + path_index_;
-    }
-    if( json_.IsMap() ) {
-        return JsonObject( root_, flexbuffer( json_ ), std::move( new_path ) );
-    }
-    throw_error( new_path, 0, "Expected an object, got " +
-                 flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline JsonValue::operator JsonArray() const
-{
-    JsonPath new_path;
-    if( parent_path_ ) {
-        new_path = *parent_path_ + path_index_;
-    }
-    if( json_.IsAnyVector() && !json_.IsMap() ) {
-        return JsonArray( root_, flexbuffer( json_ ), std::move( new_path ) );
-    }
-    throw_error( new_path, 0, "Expected an array, got " +
-                 flexbuffer_type_to_string( json_.GetType() ) );
-}
-
-inline bool JsonValue::test_string() const
-{
-    return json_.IsString();
-}
-inline bool JsonValue::test_bool() const
-{
-    return json_.IsBool();
-}
-inline bool JsonValue::test_number() const
-{
-    return json_.IsNumeric();
-}
-inline bool JsonValue::test_int() const
-{
-    return json_.IsNumeric();
-}
-inline bool JsonValue::test_float() const
-{
-    return json_.IsNumeric();
-}
-inline bool JsonValue::test_object() const
-{
-    return json_.IsMap();
-}
-inline bool JsonValue::test_array() const
-{
-    return json_.IsVector() && !json_.IsMap();
-}
-inline bool JsonValue::test_null() const
-{
-    return json_.IsNull();
-}
-
-inline std::string JsonValue::get_string() const
-{
-    return static_cast<std::string>( *this );
-}
-inline bool JsonValue::get_bool() const
-{
-    return static_cast<bool>( *this );
-}
-inline int JsonValue::get_int() const
-{
-    return static_cast<int>( *this );
-}
-inline unsigned int JsonValue::get_uint() const
-{
-    return static_cast<unsigned int>( *this );
-}
-inline int64_t JsonValue::get_int64() const
-{
-    return static_cast<int64_t>( *this );
-}
-inline uint64_t JsonValue::get_uint64() const
-{
-    return static_cast<uint64_t>( *this );
-}
-inline double JsonValue::get_float() const
-{
-    return static_cast<double>( *this );
-}
-
-inline JsonArray JsonValue::get_array() const
-{
-    return static_cast<JsonArray>( *this );
-}
-
-inline JsonObject JsonValue::get_object() const
-{
-    return static_cast<JsonObject>( *this );
-}
-
-// This is for the string_id type
-template <typename T>
-auto JsonValue::read( string_id<T> &thing, bool throw_on_error ) const -> bool
-{
-    std::string tmp;
-    if( !read( tmp, throw_on_error ) ) {
-        return false;
-    }
-    thing = string_id<T>( tmp );
-    return true;
-}
-
-// This is for the int_id type
-template <typename T>
-auto JsonValue::read( int_id<T> &thing, bool throw_on_error ) const -> bool
-{
-    std::string tmp;
-    if( !read( tmp, throw_on_error ) ) {
-        return false;
-    }
-    thing = int_id<T>( tmp );
-    return true;
-}
-
-/// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
-template<typename T>
-auto JsonValue::read( T &v, bool throw_on_error ) const ->
-decltype( deserialize( v, *this ), true )
-{
-    try {
-        deserialize( v, *this );
-        return true;
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
+        JsonObject(
+            std::shared_ptr<parsed_flexbuffer> root,
+            flexbuffer json,
+            JsonPath &&path
+        )
+            : JsonWithPath( std::move( root ), json, std::move( path ) ) {
+            init( json_ );
         }
-        return false;
-    }
-}
 
-/// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
-template<typename T>
-auto JsonValue::read( T &v, bool throw_on_error ) const -> decltype( v.deserialize( *this ),
-        true )
-{
-    try {
-        v.deserialize( *this );
-        return true;
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
+        JsonObject( const JsonObject &rhs ) : JsonWithPath( rhs ) {
+            init( json_ );
         }
-        return false;
-    }
-}
 
-template<typename T, std::enable_if_t<std::is_enum_v<T>, int>>
-bool JsonValue::read( T &val, bool throw_on_error ) const
-{
-    int i;
-    if( read( i, false ) ) {
-        val = static_cast<T>( i );
-        return true;
-    }
-    std::string s;
-    if( read( s, throw_on_error ) ) {
-        val = io::string_to_enum<T>( s );
-        return true;
-    }
-    return false;
-}
+        JsonObject &operator=( const JsonObject &rhs ) {
+            JsonWithPath::operator=( rhs );
+            init( json_ );
+            // Copying an object resets visited fields.
+            visited_fields_bitset_.clear_all();
+            return *this;
+        }
 
-/// Overload for std::pair
-template<typename T, typename U>
-bool JsonValue::read( std::pair<T, U> &p, bool throw_on_error ) const
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array encoding pair" );
-    }
-    try {
-        JsonArray ja = get_array();
-        if( ja.size() != 2 ) {
-            return error_or_false( throw_on_error, "Array had wrong number of elements for pair" );
+        JsonObject( JsonObject &&rhs ) noexcept :
+            JsonWithPath( std::move( static_cast<JsonWithPath &>( rhs ) ) )  {
+            init( json_, &rhs.visited_fields_bitset_ );
+            rhs.visited_fields_bitset_.set_all();
         }
-        bool result = ja[ 0 ].read( p.first, throw_on_error ) &&
-                      ja[ 1 ].read( p.second, throw_on_error );
-        if( !result && throw_on_error ) {
-            throw_error( "Array had wrong number of elements for pair" );
-        }
-        return result;
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
-}
 
-// array ~> vector, deque, list
-template < typename T, std::enable_if_t <
-               !std::is_same_v<void, typename T::value_type> > * >
-auto JsonValue::read( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array" );
-    }
-    try {
-        v.clear();
-        for( JsonValue jv : get_array() ) {
-            typename T::value_type element;
-            if( jv.read( element, throw_on_error ) ) {
-                v.push_back( std::move( element ) );
-            }
+        JsonObject &operator=( JsonObject &&rhs ) noexcept {
+            JsonWithPath::operator=( std::move( static_cast<JsonWithPath &>( rhs ) ) );
+            init( json_, &rhs.visited_fields_bitset_ );
+            rhs.visited_fields_bitset_.set_all();
+            return *this;
         }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
 
-    return true;
-}
+        ~JsonObject();
 
-// array ~> array
-template <typename T, size_t N>
-bool JsonValue::read( std::array<T, N> &v, bool throw_on_error ) const
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array" );
-    }
-    try {
-        JsonArray ja = get_array();
-        if( ja.size() != N ) {
-            if( ja.size() < N ) {
-                return error_or_false( throw_on_error, "Json array is too short" );
+    private:
+        void init( const flexbuffer &json, tiny_bitset *moved_visited_fields = nullptr ) {
+            flexbuffers::Map json_map = json.AsMap();
+            keys_ = json_map.Keys();
+            values_ = json_map.Values();
+            if( moved_visited_fields ) {
+                using namespace std;
+                swap( visited_fields_bitset_, *moved_visited_fields );
             } else {
-                return error_or_false( throw_on_error, "Json array is too long" );
+                visited_fields_bitset_.resize( keys_.size() );
             }
         }
-        size_t i = 0;
-        for( JsonValue jv : ja ) {
-            if( !jv.read( v[ i ], throw_on_error ) ) {
-                return false; // invalid entry
+
+    public:
+        size_t size() const {
+            return keys_.size();
+        }
+
+        std::string get_string( const std::string &key ) const;
+        std::string get_string( const char *key ) const;
+
+        template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>* = nullptr>
+        std::string get_string( const std::string &key, T && fallback ) const;
+
+        template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>* = nullptr>
+        std::string get_string( const char *key, T && fallback ) const;
+
+        // Vanilla accessors. Just return the named member and use it's conversion function.
+        bool get_bool( std::string_view key ) const;
+        int get_int( std::string_view key ) const;
+        double get_float( std::string_view key ) const;
+        JsonArray get_array( std::string_view key ) const;
+        JsonObject get_object( std::string_view key ) const;
+
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+                 E get_enum_value( const std::string &name ) const;
+                 template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+                          E get_enum_value( const char *name ) const;
+
+                          template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+                                   E get_enum_value( const std::string &name, E fallback ) const;
+                                   template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+                                            E get_enum_value( const char *name, E fallback ) const;
+
+                                            // Sigh.
+                                            std::vector<int> get_int_array( std::string_view name ) const;
+                                            std::vector<std::string> get_string_array( std::string_view name ) const;
+                                            std::vector<std::string> get_as_string_array( const std::string &name ) const;
+                                            std::set<std::string> get_as_string_set( const std::string &name ) const;
+
+                                            bool has_member( std::string_view key ) const;
+                                            bool has_null( std::string_view key ) const;
+                                            bool has_string( std::string_view key ) const;
+                                            bool has_bool( std::string_view key ) const;
+                                            bool has_number( std::string_view key ) const;
+                                            bool has_int( std::string_view key ) const;
+                                            bool has_float( std::string_view key ) const;
+                                            bool has_array( std::string_view key ) const;
+                                            bool has_object( std::string_view key ) const;
+
+                                            // Fallback accessors. Test if the named member exists, and if yes, return it,
+                                            // else will return the fallback value. Does *not* test the member is the type
+                                            // being requested.
+                                            bool get_bool( std::string_view key, bool fallback ) const;
+                                            int get_int( std::string_view key, int fallback ) const;
+                                            double get_float( std::string_view key, double fallback ) const;
+
+                                            // Tries to get the member, and if found, calls it visited.
+                                            std::optional<JsonValue> get_member_opt( std::string_view key ) const;
+                                            JsonValue get_member( std::string_view key ) const;
+                                            JsonValue operator[]( std::string_view key ) const;
+
+                                            // Schwillions of read overloads
+                                            template <typename T>
+                                            bool read( std::string_view name, T &t, bool throw_on_error = true ) const;
+
+                                            template <typename T = std::string, typename Res = std::set<T>>
+                                            Res get_tags( std::string_view name ) const;
+
+                                            [[noreturn]] void throw_error( const std::string &err ) const;
+                                            [[noreturn]] void throw_error_at( std::string_view member, const std::string &err ) const;
+
+        void allow_omitted_members() const {
+            visited_fields_bitset_.set_all();
+        }
+
+        void copy_visited_members( const JsonObject &rhs ) const {
+            visited_fields_bitset_ = rhs.visited_fields_bitset_;
+        }
+
+        using Json::str;
+
+        class const_iterator;
+        friend const_iterator;
+
+        const_iterator begin() const;
+        const_iterator end() const;
+
+    private:
+        // Only called by the iterator which can't be manually constructed.
+        JsonValue operator[]( size_t idx ) const;
+
+        // NOLINTNEXTLINE(cata-large-inline-function)
+        flexbuffers::Reference find_value_ref( const std::string_view key ) const {
+            size_t idx = 0;
+            bool found = find_map_key_idx( key, keys_, idx );
+            if( found ) {
+                return values_[ idx ];
             }
-            ++i;
+            return flexbuffers::Reference();
         }
-        return true;
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
-}
 
-// object ~> containers with matching key_type and value_type
-// set, unordered_set ~> object
-template <typename T, std::enable_if_t<
-              std::is_same_v<typename T::key_type, typename T::value_type>> *>
-bool JsonValue::read( T &v, bool throw_on_error ) const
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array" );
-    }
-    try {
-        v.clear();
-        for( JsonValue jv : get_array() ) {
-            typename T::value_type element;
-            if( jv.read( element, throw_on_error ) ) {
-                v.insert( std::move( element ) );
-            }
-        }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
+        // NOLINTNEXTLINE(cata-large-inline-function)
+        static bool find_map_key_idx( const std::string_view key, const flexbuffers::TypedVector &keys,
+                                      size_t &idx ) {
+            // Handlrolled binary search because the STL does not provide a version that just uses indexes.
+            std::make_signed_t<size_t>low = 0;
+            std::make_signed_t<size_t>high = keys.size() - 1;
+            while( low <= high ) {
+                std::make_signed_t<size_t> mid = ( high - low ) / 2 + low;
 
-    return true;
-}
+                const std::string_view test_key = keys[ mid ].AsKey();
+                int res = string_view_cmp( test_key, key );
 
-// special case for enum_bitset
-template <typename T>
-bool JsonValue::read( enum_bitset<T> &v, bool throw_on_error ) const
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array" );
-    }
-    try {
-        v = {};
-        for( JsonValue jv : get_array() ) {
-            T element;
-            if( jv.read( element, throw_on_error ) ) {
-                if( v.test( element ) ) {
-                    return error_or_false(
-                               throw_on_error,
-                               "Duplicate entry in set defined by json array" );
+                if( res == 0 ) {
+                    idx = mid;
+                    return true;
+                } else if( res < 0 ) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
                 }
-                v.set( element );
             }
+            return false;
         }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
+
+        void mark_visited( size_t idx ) const {
+            visited_fields_bitset_.set( idx );
         }
-        return false;
-    }
 
-    return true;
-}
+        void report_unvisited() const;
 
-// special case for colony<item> as it supports RLE
-// see corresponding `write` for details
-template <typename T, std::enable_if_t<std::is_same_v<T, item>>* >
-bool JsonValue::read( cata::colony<T> &v, bool throw_on_error ) const
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array" );
-    }
-    try {
-        v.clear();
-        for( JsonValue jv : get_array() ) {
-            T element;
-            if( jv.test_array() ) {
-                JsonArray rle_element = jv;
-                if( rle_element.size() != 2 ) {
-                    rle_element.error_or_false( throw_on_error, "Not enough values for RLE" );
-                    continue;
-                }
-                int run_l;
-                if( rle_element[ 0 ].read( element, throw_on_error ) &&
-                    rle_element[ 1 ].read( run_l, throw_on_error )
-                  ) { // all is good
-                    // first insert (run_l-1) elements
-                    for( int i = 0; i < run_l - 1; i++ ) {
-                        v.insert( element );
-                    }
-                    // micro-optimization, move last element
-                    v.insert( std::move( element ) );
-                } else { // array is malformed, skipping it entirely
-                    error_or_false( throw_on_error, "Expected end of array" );
-                }
-            } else {
-                if( jv.read( element, throw_on_error ) ) {
-                    v.insert( std::move( element ) );
-                }
-            }
-        }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
+        // Reports an error via JsonObject at this location.
+        [[noreturn]] void error_no_member( std::string_view member ) const;
 
-    return true;
-}
+        // debugmsg prints all the skipped members.
+        void error_skipped_members( const std::vector<size_t> &skipped_members ) const;
+};
 
-// special case for colony as it uses `insert()` instead of `push_back()`
-// and therefore doesn't fit with vector/deque/list
-// for colony of items there is another specialization with RLE
-template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * >
-bool JsonValue::read( cata::colony<T> &v, bool throw_on_error ) const
-{
-    if( !test_array() ) {
-        return error_or_false( throw_on_error, "Expected json array" );
-    }
-    try {
-        v.clear();
-        for( JsonValue jv : get_array() ) {
-            typename cata::colony<T>::value_type element;
-            if( jv.read( element, throw_on_error ) ) {
-                v.insert( std::move( element ) );
-            }
-        }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
+// Having this uncommented causes unable to match definition errors for msvc.
+// The implementation still exists in the -inl header but has to come after all
+// the definitions for JsonValue::read().
+//template<typename T>
+//void deserialize( std::optional<T> &obj, const JsonValue &jsin );
 
-    return true;
-}
+void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
+                       std::string_view name );
 
-// object ~> containers with unmatching key_type and value_type
-// map, unordered_map ~> object
-template < typename T, std::enable_if_t <
-               !std::is_same_v<typename T::key_type, typename T::value_type> > * >
-bool JsonValue::read( T &m, bool throw_on_error ) const
-{
-    if( !test_object() ) {
-        return error_or_false( throw_on_error, "Expected json object" );
-    }
-    try {
-        m.clear();
-        for( JsonMember jm : get_object() ) {
-            using key_type = typename T::key_type;
-            key_type key = key_from_json_string<key_type>()( jm.name() );
-            typename T::mapped_type element;
-            if( jm.read( element, throw_on_error ) ) {
-                m[ std::move( key ) ] = std::move( element );
-            }
-        }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
+#include "flexbuffer_json-inl.h"
 
-    return true;
-}
-
-// array ~> vector, deque, list
-template < typename T, std::enable_if_t <
-               !std::is_same_v<void, typename T::value_type> > * >
-auto JsonArray::read( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
-{
-    try {
-        v.clear();
-        for( JsonValue value : *this ) {
-            typename T::value_type element;
-            if( value.read( element, throw_on_error ) ) {
-                v.emplace_back( std::move( element ) );
-            }
-        }
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
-
-    return true;
-}
-
-inline JsonValue JsonArray::operator[]( size_t idx ) const
-{
-    // Manually bsearch for the key idx to store in visited_fields_bitset_.
-    // flexbuffers::Map::operator[] will probably be faster but won't give us the idx,
-    // which we need to track visited fields.
-
-    if( idx < size_ ) {
-        mark_visited( idx );
-        flexbuffers::Reference value;
-        if( json_.IsFixedTypedVector() ) {
-            value = json_.AsFixedTypedVector()[ idx ];
-        } else if( json_.IsTypedVector() ) {
-            value = json_.AsTypedVector()[ idx ];
-        } else {
-            value = json_.AsVector()[ idx ];
-        }
-        return JsonValue{ root_, value, &path_, idx };
-    }
-    throw_error( std::to_string( idx ) + " index is out of bounds." );
-}
-
-inline std::string JsonArray::get_string( size_t idx ) const
-{
-    return ( *this )[ idx ];
-}
-
-inline int JsonArray::get_int( size_t idx ) const
-{
-    return ( *this )[ idx ];
-}
-
-inline double JsonArray::get_float( size_t idx ) const
-{
-    return ( *this )[ idx ];
-}
-
-inline JsonArray JsonArray::get_array( size_t idx ) const
-{
-    return ( *this )[ idx ];
-}
-
-inline JsonObject JsonArray::get_object( size_t idx ) const
-{
-    return ( *this )[ idx ];
-}
-
-inline bool JsonArray::has_string( size_t idx ) const
-{
-    return idx < size_ && ( *this )[ idx ].test_string();
-}
-
-inline bool JsonArray::has_bool( size_t idx ) const
-{
-    return idx < size_ && ( *this )[ idx ].test_bool();
-}
-
-inline bool JsonArray::has_int( size_t idx ) const
-{
-    return idx < size_ && ( *this )[ idx ].test_int();
-}
-
-inline bool JsonArray::has_float( size_t idx ) const
-{
-    return idx < size_ && ( *this )[ idx ].test_float();
-}
-
-inline bool JsonArray::has_array( size_t idx ) const
-{
-    return idx < size_ && ( *this )[ idx ].test_array();
-}
-
-inline bool JsonArray::has_object( size_t idx ) const
-{
-    return idx < size_ && ( *this )[ idx ].test_object();
-}
-
-inline bool JsonArray::test_string() const
-{
-    return has_string( next_ );
-}
-inline std::string JsonArray::next_string()
-{
-    return get_next();
-}
-
-inline bool JsonArray::test_bool() const
-{
-    return has_bool( next_ );
-}
-inline bool JsonArray::next_bool()
-{
-    return get_next();
-}
-
-inline bool JsonArray::test_int() const
-{
-    return has_int( next_ );
-}
-inline int JsonArray::next_int()
-{
-    return get_next();
-}
-
-inline bool JsonArray::test_float() const
-{
-    return has_float( next_ );
-}
-
-inline double JsonArray::next_float()
-{
-    return get_next();
-}
-
-inline bool JsonArray::test_array() const
-{
-    return has_array( next_ );
-}
-inline JsonArray JsonArray::next_array()
-{
-    return get_next();
-}
-
-inline bool JsonArray::test_object() const
-{
-    return has_object( next_ );
-}
-inline JsonObject JsonArray::next_object()
-{
-    return get_next();
-}
-
-inline JsonValue JsonArray::next_value()
-{
-    return get_next();
-}
-
-template<typename E, typename>
-E JsonArray::next_enum_value()
-{
-    try {
-        return io::string_to_enum<E>( next_string() );
-    } catch( const io::InvalidEnumString & ) {
-        --path_.last();
-        throw_error( "invalid enumeration value" );
-    }
-}
-
-// random-access read values by reference
-template <typename T> bool JsonArray::read_next( T &t, bool throw_on_error )
-{
-    return get_next().read( t, throw_on_error );
-}
-
-// random-access read values by reference
-template <typename T> bool JsonArray::read( size_t idx, T &t, bool throw_on_error ) const
-{
-    return ( *this )[ idx ].read( t, throw_on_error );
-}
-
-[[noreturn]] inline void JsonArray::string_error( size_t idx, int offset,
-        const std::string &message ) const
-{
-    ( *this )[ idx ].string_error( path_, offset, message );
-}
-
-template <typename T, typename Res>
-Res JsonArray::get_tags( const size_t idx ) const
-{
-    Res res;
-
-    JsonValue jv = ( *this )[ idx ];
-
-    // allow single string as tag
-    if( jv.test_string() ) {
-        res.insert( T( jv.get_string() ) );
-        return res;
-    }
-
-    for( const std::string line : jv.get_array() ) {
-        res.insert( T( line ) );
-    }
-
-    return res;
-}
-
-inline JsonValue JsonArray::get_next()
-{
-    return ( *this )[ next_++ ];
-}
-
-// When the body is ifdef'd out, this tidy lint fires.
-//NOLINTNEXTLINE(modernize-use-equals-default)
-inline JsonObject::~JsonObject()
-{
-#ifndef CATA_IN_TOOL
-    if( std::uncaught_exceptions() == 0 && !visited_fields_bitset_.all() ) {
-        report_unvisited();
-    }
-#endif
-}
-
-inline std::string JsonObject::get_string( const std::string &key ) const
-{
-    return get_string( key.c_str() );
-}
-inline std::string JsonObject::get_string( const char *key ) const
-{
-    return get_member( key );
-}
-
-template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>*>
-std::string JsonObject::get_string( const std::string &key, T &&fallback ) const
-{
-    return get_string( key.c_str(), std::forward<T>( fallback ) );
-}
-
-template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>*>
-std::string JsonObject::get_string( const char *key, T &&fallback ) const
-{
-    size_t idx = 0;
-    bool found = find_map_key_idx( key, keys_, idx );
-    if( found ) {
-        return get_string( key );
-    }
-    return std::forward<T>( fallback );
-}
-
-// Vanilla accessors. Just return the named member and use it's conversion function.
-inline int JsonObject::get_int( const std::string_view key ) const
-{
-    return get_member( key );
-}
-
-inline double JsonObject::get_float( const std::string_view key ) const
-{
-    return get_member( key );
-}
-
-inline bool JsonObject::get_bool( const std::string_view key ) const
-{
-    return get_member( key );
-}
-
-inline JsonArray JsonObject::get_array( const std::string_view key ) const
-{
-    std::optional<JsonValue> member_opt = get_member_opt( key );
-    if( member_opt.has_value() ) {
-        return std::move( *member_opt );
-    }
-    return JsonArray{};
-}
-
-inline JsonObject JsonObject::get_object( const std::string_view key ) const
-{
-    std::optional<JsonValue> member_opt = get_member_opt( key );
-    if( member_opt.has_value() ) {
-        return std::move( *member_opt );
-    }
-    return JsonObject{};
-}
-
-template<typename E, typename >
-E JsonObject::get_enum_value( const std::string &name ) const
-{
-    return get_enum_value<E>( name.c_str() );
-}
-template<typename E, typename >
-E JsonObject::get_enum_value( const char *name ) const
-{
-    JsonValue value = get_member( name );
-    try {
-        return io::string_to_enum<E>( static_cast<std::string>( value ) );
-    } catch( const io::InvalidEnumString & ) {
-        value.throw_error( "invalid enumeration value" );
-    }
-}
-
-template<typename E, typename >
-E JsonObject::get_enum_value( const std::string &name, E fallback ) const
-{
-    return get_enum_value<E>( name.c_str(), fallback );
-}
-template<typename E, typename >
-E JsonObject::get_enum_value( const char *name, E fallback ) const
-{
-    std::optional<JsonValue> value = get_member_opt( name );
-    if( value.has_value() ) {
-        try {
-            return io::string_to_enum<E>( static_cast<std::string>( *value ) );
-        } catch( const io::InvalidEnumString & ) {
-            value->throw_error( "invalid enumeration value" );
-        }
-    } else {
-        return fallback;
-    }
-}
-
-inline std::vector<int> JsonObject::get_int_array( const std::string_view name ) const
-{
-    std::vector<int> ret;
-    JsonArray ja = get_array( name );
-    ret.reserve( ja.size() );
-    for( JsonValue jv : get_array( name ) ) {
-        ret.emplace_back( jv );
-    }
-    return ret;
-}
-inline std::vector<std::string> JsonObject::get_string_array( const std::string_view name ) const
-{
-    std::vector<std::string> ret;
-    JsonArray ja = get_array( name );
-    ret.reserve( ja.size() );
-    for( JsonValue jv : get_array( name ) ) {
-        ret.emplace_back( jv );
-    }
-    return ret;
-}
-inline std::vector<std::string> JsonObject::get_as_string_array( const std::string &name ) const
-{
-    std::vector<std::string> ret;
-    if( has_array( name ) ) {
-        JsonArray ja = get_array( name );
-        ret.reserve( ja.size() );
-        for( JsonValue jv : get_array( name ) ) {
-            ret.emplace_back( jv );
-        }
-    } else {
-        ret.emplace_back( get_string( name ) );
-    }
-    return ret;
-}
-
-inline bool JsonObject::has_member( const std::string_view key ) const
-{
-    size_t idx;
-    return find_map_key_idx( key, keys_, idx );
-}
-
-inline bool JsonObject::has_null( const std::string_view key ) const
-{
-    flexbuffers::Reference ref = find_value_ref( key );
-    return ref.IsNull();
-}
-
-inline bool JsonObject::has_int( const std::string_view key ) const
-{
-    return has_number( key );
-}
-
-inline bool JsonObject::has_float( const std::string_view key ) const
-{
-    return has_number( key );
-}
-
-inline bool JsonObject::has_number( const std::string_view key ) const
-{
-    flexbuffers::Reference ref = find_value_ref( key );
-    return ref.IsNumeric();
-}
-
-inline bool JsonObject::has_string( const std::string_view key ) const
-{
-    flexbuffers::Reference ref = find_value_ref( key );
-    return ref.IsString();
-}
-
-inline bool JsonObject::has_bool( const std::string_view key ) const
-{
-    flexbuffers::Reference ref = find_value_ref( key );
-    return ref.IsBool();
-}
-
-inline bool JsonObject::has_array( const std::string_view key ) const
-{
-    flexbuffers::Reference ref = find_value_ref( key );
-    return ref.IsAnyVector() && !ref.IsMap();
-}
-
-inline bool JsonObject::has_object( const std::string_view key ) const
-{
-    flexbuffers::Reference ref = find_value_ref( key );
-    return ref.IsMap();
-}
-
-// Fallback accessors. Test if the named member exists, and if yes, return it,
-// else will return the fallback value. Does *not* test the member is the type
-// being requested.
-inline int JsonObject::get_int( const std::string_view key, int fallback ) const
-{
-    std::optional<JsonValue> member_opt = get_member_opt( key );
-    if( member_opt.has_value() ) {
-        return *member_opt;
-    }
-    return fallback;
-}
-
-inline double JsonObject::get_float( const std::string_view key, double fallback ) const
-{
-    std::optional<JsonValue> member_opt = get_member_opt( key );
-    if( member_opt.has_value() ) {
-        return *member_opt;
-    }
-    return fallback;
-}
-
-inline bool JsonObject::get_bool( const std::string_view key, bool fallback ) const
-{
-    std::optional<JsonValue> member_opt = get_member_opt( key );
-    if( member_opt.has_value() ) {
-        return *member_opt;
-    }
-    return fallback;
-}
-
-// Tries to get the member, and if found, calls it visited.
-inline std::optional<JsonValue> JsonObject::get_member_opt( const std::string_view key ) const
-{
-    size_t idx = 0;
-    bool found = find_map_key_idx( key, keys_, idx );
-    if( found ) {
-        mark_visited( idx );
-        return JsonValue{ root_, values_[ idx ], &path_, idx };
-    }
-    return std::nullopt;
-}
-
-inline JsonValue JsonObject::get_member( const std::string_view key ) const
-{
-    // Manually bsearch for the key idx to store in visited_fields_bitset_.
-    // flexbuffers::Map::operator[] will probably be faster but won't give us the idx,
-    // which we need to track visited fields.
-    size_t idx = 0;
-    bool found = find_map_key_idx( key, keys_, idx );
-    if( found ) {
-        mark_visited( idx );
-        return JsonValue{ root_, values_[ idx ], &path_, idx };
-    }
-    error_no_member( key );
-    return ( *this )[key];
-}
-
-inline JsonValue JsonObject::operator[]( const std::string_view key ) const
-{
-    return get_member( key );
-}
-
-template <typename T>
-bool JsonObject::read( std::string_view name, T &t, bool throw_on_error ) const
-{
-    std::optional<JsonValue> member_opt = get_member_opt( name );
-    if( !member_opt.has_value() ) {
-        return false;
-    }
-    return ( *member_opt ).read( t, throw_on_error );
-}
-
-template <typename T, typename Res>
-Res JsonObject::get_tags( const std::string_view name ) const
-{
-    Res res;
-    std::optional<JsonValue> member_opt = get_member_opt( name );
-    if( !member_opt.has_value() ) {
-        return res;
-    }
-
-    JsonValue &member = *member_opt;
-
-    // allow single string as tag
-    if( member.test_string() ) {
-        res.insert( T{ static_cast<std::string>( member ) } );
-        return res;
-    }
-
-    // otherwise assume it's an array and error if it isn't.
-    for( const std::string line : static_cast<JsonArray>( member ) ) {
-        res.insert( T( line ) );
-    }
-
-    return res;
-}
-
-inline JsonValue JsonObject::operator[]( size_t idx ) const
-{
-    mark_visited( idx );
-    return JsonValue{ root_, values_[ idx ], &path_, idx };
-}
-
-template<typename T>
-void deserialize( std::optional<T> &obj, const JsonValue &jsin )
-{
-    if( jsin.test_null() ) {
-        obj.reset();
-    } else {
-        obj.emplace( T{} );
-        jsin.read( *obj, true );
-    }
-}
-
-inline void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
-                              const std::string_view name )
-{
-    for( const std::string line : json.get_array( name ) ) {
-        s.insert( line );
-    }
-}
-
-#endif // CATA_SRC_FLEXBUFFER_JSON_INL_H
+#endif // CATA_SRC_FLEXBUFFER_JSON_H

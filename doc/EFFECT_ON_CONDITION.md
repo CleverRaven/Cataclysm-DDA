@@ -1247,7 +1247,7 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
 ```
 
 ### `map_in_city`
-- type: location string or [variable object](##variable-object)
+- type: location string or [variable object](#variable-object)
 - return true if the location is in the bounds of a city at or above z-1
 
 #### Valid talkers:
@@ -1265,7 +1265,7 @@ Check the location is in a city.
 },
 ```
 
-Each time the avatar enters an OMT message them whether they're in a city or not.
+Each time the avatar enters an OMT display a message as to whether or not they're in a city.
 ```
   {
     "type": "effect_on_condition",

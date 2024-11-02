@@ -772,7 +772,8 @@ bool _can_construct(
     std::optional<construction_id> const &part_con_idx )
 {
     return ( part_con_idx && *part_con_idx == check.id ) ||
-           ( check.pre_terrain != idx->post_terrain && can_construct( check, loc ) );
+           ( ( check.pre_terrain.find( idx->post_terrain ) == check.pre_terrain.end() ) &&
+             can_construct( check, loc ) );
 }
 
 construction const *
@@ -806,9 +807,9 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
         return it.group != idx->group && !it.post_terrain.empty() &&
-               it.post_terrain == idx->pre_terrain &&
+               ( idx->pre_terrain.find( it.post_terrain ) != idx->pre_terrain.end() )  &&
                // don't get stuck building and deconstructing the top level post_terrain
-               it.pre_terrain != top_idx->post_terrain &&
+               ( it.pre_terrain.find( top_idx->post_terrain ) == it.pre_terrain.end() )  &&
                ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
     } );
 
