@@ -7,7 +7,7 @@
 
 #include "field_type.h"
 #include "type_id.h"
-#include <dialogue_helpers.h>
+#include "dialogue_helpers.h"
 
 class JsonObject;
 

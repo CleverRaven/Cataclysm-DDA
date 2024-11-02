@@ -78,7 +78,7 @@ struct input_event {
     std::string edit;
     bool edit_refresh;
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
     int shortcut_last_used_action_counter = 0;
 #endif
@@ -111,7 +111,13 @@ struct input_event {
         sequence.push_back( static_cast<int>( s ) );
     }
 
-    input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
+    input_event( const std::set<keymod_t> &mod, int s, input_event_t t )
+        : type( t ), modifiers( mod ), edit_refresh( false ) {
+        sequence.push_back( s );
+        #if defined(__ANDROID__) || defined(__IPHONEOS__)
+        shortcut_last_used_action_counter = 0;
+        #endif
+    }
 
     int get_first_input() const;
 

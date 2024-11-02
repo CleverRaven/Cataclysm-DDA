@@ -5999,9 +5999,6 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
             for( const tripoint_om_omt &p : used_tripoints ) {
                 city_tiles.insert( p.xy() );
             }
-            if( building_tid->has_flag( "CITY_UNIQUE" ) ) {
-                placed_unique_buildings.emplace( building_tid );
-            }
             break;
         }
     }

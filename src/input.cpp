@@ -62,7 +62,7 @@ bool is_mouse_enabled()
 
 bool is_keycode_mode_supported()
 {
-#if defined(TILES) && !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if defined(TILES) && !defined(__ANDROID__) && !defined(__IPHONEOS__)
     return keycode_mode;
 #else
     return false;
@@ -84,15 +84,6 @@ std::string get_input_string_from_file( const std::string &fname )
         }
     } );
     return ret;
-}
-
-input_event::input_event( const std::set<keymod_t> &mod, const int s, const input_event_t t )
-    : type( t ), modifiers( mod ), edit_refresh( false )
-{
-    sequence.emplace_back( s );
-#if defined(__ANDROID__)
-    shortcut_last_used_action_counter = 0;
-#endif
 }
 
 int input_event::get_first_input() const
@@ -892,7 +883,7 @@ int input_manager::get_previously_pressed_key() const
 
 void input_manager::wait_for_any_key()
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     input_context ctxt( "WAIT_FOR_ANY_KEY", keyboard_mode::keycode );
 #endif
     while( true ) {

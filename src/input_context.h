@@ -8,7 +8,7 @@
 #include <string_view>
 #include <vector>
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <list>
 #endif
 
@@ -40,14 +40,14 @@ class input_context
 {
         friend class keybindings_ui;
     public:
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             coordinate_input_received( false ), handling_coordinate_input( false ) {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
@@ -60,14 +60,14 @@ class input_context
             : registered_any_input( false ), category( category ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
             register_action( "toggle_language_to_en" );
         }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
@@ -82,14 +82,29 @@ class input_context
             }
         };
 
-        std::vector<manual_key> registered_manual_keys;
-
         // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
         // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
         bool allow_text_entry;
 
-        void register_manual_key( manual_key mk );
-        void register_manual_key( int key, const std::string text = "" );
+        void register_manual_key( manual_key mk ){
+            // Prevent duplicates
+            for( const input_context::manual_key &manual_key : registered_manual_keys )
+                if( manual_key.key == mk.key ) {
+                    return;
+                }
+
+            registered_manual_keys.push_back( mk );
+        };
+
+        void register_manual_key( int key, const std::string text = "" ){
+            // Prevent duplicates
+            for( const input_context::manual_key &manual_key : registered_manual_keys )
+                if( manual_key.key == key ) {
+                    return;
+                }
+
+            registered_manual_keys.push_back( input_context::manual_key( key, text ) );
+        };
 
         std::string get_action_name_for_manual_key( int key ) {
             for( const auto &manual_key : registered_manual_keys ) {
@@ -416,7 +431,9 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
-
+#if defined(__IPHONEOS__) || defined(__ANDROID__)
+        std::vector<manual_key> registered_manual_keys;
+#endif
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:

@@ -1,4 +1,6 @@
+#if !defined(__IPHONEOS__)
 #include "input_context.h"
+#endif
 
 #include <algorithm>
 #include <array>
@@ -20,6 +22,9 @@
 #include "cursesdef.h"
 #include "game.h"
 #include "help.h"
+#if defined(__IPHONEOS__)
+#include "input_context.h"
+#endif
 #include "input.h"
 #include "map.h"
 #include "options.h"
@@ -154,28 +159,6 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
 
 #if defined(__ANDROID__)
 std::list<input_context *> input_context::input_context_stack;
-
-void input_context::register_manual_key( manual_key mk )
-{
-    // Prevent duplicates
-    for( const manual_key &manual_key : registered_manual_keys )
-        if( manual_key.key == mk.key ) {
-            return;
-        }
-
-    registered_manual_keys.push_back( mk );
-}
-
-void input_context::register_manual_key( int key, const std::string text )
-{
-    // Prevent duplicates
-    for( const manual_key &manual_key : registered_manual_keys )
-        if( manual_key.key == key ) {
-            return;
-        }
-
-    registered_manual_keys.push_back( manual_key( key, text ) );
-}
 #endif
 
 void input_context::register_action( const std::string &action_descriptor )

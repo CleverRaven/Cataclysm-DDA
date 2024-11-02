@@ -1269,7 +1269,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         return;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile
     // width/height specified
     if( tile_width == 0 || tile_height == 0 ) {
