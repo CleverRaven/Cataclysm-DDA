@@ -190,7 +190,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 400,
     "durability": 8,
-    "min_cycle_recoil": 330,
+    "min_cycle_recoil": 330
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
