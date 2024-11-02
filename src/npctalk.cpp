@@ -1320,6 +1320,9 @@ void game::chat()
             break;
         case NPC_CHAT_ACTIVITIES: {
             const int activity = npc_activities_menu();
+            if( activity == UILIST_CANCEL ) {
+                return;
+            }
 
             std::vector<int> npcs_selected;
 
