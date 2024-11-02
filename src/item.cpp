@@ -9062,7 +9062,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
         if( shield_hp > 0 ) {
             return armor_status::UNDAMAGED;
         } else {
-            //Shields deliberatedly ignore the enchatment multiplier, as the health mechanic wouln't make sense otherwise.
+            //Shields deliberately ignore the enchantment multiplier, as the health mechanic wouldn't make sense otherwise.
             mod_damage( itype::damage_scale * 6 );
             return armor_status::DESTROYED;
         }
@@ -9078,7 +9078,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
-    // Fragile items take damage if the block more than 15% of their armor value this uses the pre-mitigated damage.
+    // Fragile items take damage if they block more than 15% of their armor value, this uses the pre-mitigated damage.
     if( has_flag( flag_FRAGILE ) &&
         premitigated.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
         return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
