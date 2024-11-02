@@ -18,7 +18,7 @@
       {
         "id": "sp_shrug_off_hit",
         "hit_self": true,
-        "message": "You shruf off the attack.",
+        "message": "You shrug off the attack.",
         "npc_message": "%1$s's no sells the incoming attack."
       }
     ]
