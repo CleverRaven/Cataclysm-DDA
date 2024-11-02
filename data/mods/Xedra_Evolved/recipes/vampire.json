@@ -217,7 +217,8 @@
     "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE",
     "effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
-      { "u_message": "Your experiments are fruitless.  You'll have to try again." } ]
+      { "u_message": "Your experiments are fruitless.  You'll have to try again." }
+    ]
   },
   {
     "type": "effect_on_condition",
