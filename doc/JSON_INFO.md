@@ -3971,7 +3971,7 @@ The `conditional_names` field allows defining alternate names for items that wil
     },
     {
       "type": "VAR",
-      "condition": "npctalk_var_DISPLAY_NAME_MORALE",
+      "condition": "DISPLAY_NAME_MORALE",
       "name": { "str_sp": "%s (morale)" },
       "value" : "true"
     },
@@ -3990,7 +3990,7 @@ You can list as many conditional names for a given item as you want. Each condit
     - `COMPONENT_ID` Similar to `COMPONENT_ID_SUBSTRING`, but search the exact component match
     - `FLAG` which checks if an item has the specified flag (exact match).
     - `VITAMIN` which checks if an item has the specified vitamin (exact match).
-    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "value": "Felt Great" }` would be named: `npctalk_var_MORALE`.
+    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`.
     - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
