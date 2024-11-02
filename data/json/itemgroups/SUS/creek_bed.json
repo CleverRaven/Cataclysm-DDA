@@ -2,6 +2,6 @@
   {
     "id": "creek_bed",
     "type": "item_group",
-    "items": [ [ "rock", 5 ], [ "field_stone", 20 ], [ "stick", 10 ], [ "long_stick", 2 ], [ "log", 1 ] ]
+    "items": [ [ "rock", 5 ], [ "field_stone", 20 ], [ "stick", 10 ], [ "stick_long", 2 ], [ "log", 1 ] ]
   }
 ]
