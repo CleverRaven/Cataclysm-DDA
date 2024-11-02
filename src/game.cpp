@@ -6111,6 +6111,10 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
         return true; // Nobody to piss off
     }
     basecamp *actual_camp = *bcp;
+    if( actual_camp->get_owner()->limited_area_claim &&
+        player_character.global_omt_location() != actual_camp->camp_omt_pos() ) {
+        return true; // outside of claimed area
+    }
     if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
         return true; // You're allowed to do this anyway
     }
