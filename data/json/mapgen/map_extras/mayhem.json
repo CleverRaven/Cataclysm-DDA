@@ -8,6 +8,15 @@
       "place_nested": [ { "chunks": [ "24x24_mayhem_crash", "24x24_mayhem_limo", "24x24_mayhem_tire_change" ], "x": 0, "y": 0 } ]
     }
   },
+    {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_mayhem_crash_start",
+    "object": {
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "24x24_mayhem_crash" ], "x": 0, "y": 0 } ]
+    }
+  },
   {
     "type": "mapgen",
     "method": "json",
