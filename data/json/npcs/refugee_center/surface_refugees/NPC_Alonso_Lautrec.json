@@ -337,6 +337,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I think I might know where those special pants might be though…",
       "offer": "This clown was into some of the different things, not the vanilla, you understand me?  Yes.  I think you will find my valuables in a toy shop not so so far.",
