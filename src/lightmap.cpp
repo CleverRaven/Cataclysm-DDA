@@ -227,15 +227,15 @@ bool map::build_vision_transparency_cache( int zlev )
         }
     }
 
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    // We don't need to deal with cache dirtying, because that was handled when the terrain was changed.
     for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
         if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) && loc != p ) {
-            dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
-            solid_tiles.emplace_back( loc );
+            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
         }
     }
-
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
 
     // The tile player is standing on should always be visible
     vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
