@@ -46,6 +46,7 @@ targets:
         name: Sources
         buildPhase: sources
         includes:
+          - "**/swift/*.swift"
           - "**/third-party/imgui/*.cpp"
           - "**/third-party/imgui/*.h"
           - "*.cpp"
