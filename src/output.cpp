@@ -908,7 +908,7 @@ std::vector<std::string> get_hotkeys( const std::string_view s )
     return hotkeys;
 }
 
-PopupFlags popup_flag_from_string( const std::string str )
+PopupFlags popup_flag_from_string( const std::string &str )
 {
     if( str == "PF_GET_KEY" ) {
         return PF_GET_KEY;

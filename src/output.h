@@ -503,7 +503,7 @@ enum PopupFlags {
     PF_FULLSCREEN  = 1 << 3,
 };
 
-PopupFlags popup_flag_from_string( const std::string str );
+PopupFlags popup_flag_from_string( const std::string &str );
 
 template<typename ...Args>
 inline int popup_getkey( const char *const mes, Args &&... args )

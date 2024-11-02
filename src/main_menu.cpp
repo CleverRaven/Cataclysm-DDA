@@ -114,7 +114,7 @@ void demo_ui::run()
 }
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
-static const mod_id MOD_INFORMATION_tutorial( "dda_tutorial" );
+static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
 enum class main_menu_opts : int {
     MOTD = 0,
@@ -892,7 +892,7 @@ bool main_menu::opening_screen()
                         }
                         world->active_mod_order.clear();
                         world->active_mod_order.emplace_back( MOD_INFORMATION_dda );
-                        world->active_mod_order.emplace_back( MOD_INFORMATION_tutorial );
+                        world->active_mod_order.emplace_back( MOD_INFORMATION_dda_tutorial );
                         world_generator->set_active_world( world );
                         try {
                             g->setup();

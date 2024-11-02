@@ -50,21 +50,8 @@ static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
 static const ter_str_id ter_t_window( "t_window" );
 
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
-static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
-static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
 static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
-static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
 static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
-static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
-static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
-static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
-static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
-static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
-static const trap_str_id tr_tutorial_5( "tr_tutorial_5" );
-static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
-static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
-static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
-static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
 
 namespace io
 {
