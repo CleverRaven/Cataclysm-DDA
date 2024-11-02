@@ -277,7 +277,6 @@
   {
     "type": "terrain",
     "id": "t_zebra",
-    "alias": [ "t_zebra_h", "t_zebra_v" ],
     "name": "pedestrian crossing",
     "connect_groups": [ "PAVEMENT", "PAVEMENT_ZEBRA" ],
     "connects_to": "PAVEMENT_ZEBRA",
