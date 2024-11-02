@@ -693,7 +693,8 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
-    "terrain": [ "road_curved" ]
+    "city_distance": [ 10, -1 ],
+    "terrain": [ "field", { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ]
   },
   {
     "type": "start_location",
