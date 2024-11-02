@@ -12055,6 +12055,14 @@ itype_id item::typeId() const
     return type ? type->get_id() : itype_id::NULL_ID();
 }
 
+bool item::affects_fall() const
+{
+    return type ? type->fall_damage_reduction != 0 : false;
+}
+int item::fall_damage_reduction() const
+{
+    return type->fall_damage_reduction;
+}
 bool item::getlight( float &luminance, units::angle &width, units::angle &direction ) const
 {
     luminance = 0;
