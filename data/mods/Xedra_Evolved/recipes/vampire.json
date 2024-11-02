@@ -167,7 +167,10 @@
     "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05_REAL" } ],
     "false_effect": [
       { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04" },
-      { "u_message": "Your vampirism isn't potent enough to unlock a gift of this level, so you have to settle for a weaker gift.", "type": "bad" }
+      {
+        "u_message": "Your vampirism isn't potent enough to unlock a gift of this level, so you have to settle for a weaker gift.",
+        "type": "bad"
+      }
     ]
   },
   {
