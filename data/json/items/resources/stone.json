@@ -35,7 +35,7 @@
     "symbol": ";",
     "color": "brown",
     "name": { "str": "field stone" },
-    "description": "A medium, flatish, heavy rock, big enough and flat enough to be used as a into field stone walls.",
+    "description": "A medium, flatish, heavy rock, big enough and flat enough to be used as a block in field stone walls.",
     "category": "spare_parts",
     "material": "stone",
     "weight": "2628 g",
