@@ -80,7 +80,13 @@
     "type": "item_group",
     "id": "NC_NONE_HARDENED_archery",
     "subtype": "distribution",
-    "items": [ "longbow" ]
+    "groups": [ "archery_rare" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_quiver",
+    "subtype": "distribution",
+    "groups": [ "NC_NONE_quiver" ]
   },
   {
     "type": "item_group",
