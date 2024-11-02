@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 34;
+const int savegame_version = 35;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -278,12 +278,14 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             for( const JsonMember &jm : elem.get_object( "context" ) ) {
                 // migrate existing context variables with npctalk_var_foo to just foo
                 // remove after 0.J
-                const std::string prefix = "npctalk_var_";
-                if( jm.name().rfind( prefix, 0 ) == 0 ) {
-                    std::string new_key = jm.name().substr( prefix.size() );
-                    context[new_key] = jm.get_string();
-                } else {
-                    context[jm.name()] = jm.get_string();
+                if( savegame_loading_version < 35 ) {
+                    const std::string prefix = "npctalk_var_";
+                    if( jm.name().rfind( prefix, 0 ) == 0 ) {
+                        std::string new_key = jm.name().substr( prefix.size() );
+                        context[new_key] = jm.get_string();
+                    } else {
+                        context[jm.name()] = jm.get_string();
+                    }
                 }
             }
             temp.context = context;
@@ -1570,19 +1572,19 @@ void global_variables::unserialize( JsonObject &jo )
 
     // migrate existing global variables with npctalk_var_foo to just foo
     // remove after 0.J
-    // because i'm a lamer, values are not actually replaced, we just make a copy of each without prefix
-    const std::string prefix = "npctalk_var_";
-    for( auto i = global_values.begin(); i != global_values.end(); ) {
-        if( i->first.rfind( prefix, 0 ) == 0 ) {
-            auto extracted = global_values.extract( i++ );
-            std::string new_key = extracted.key().substr( prefix.size() );
-            extracted.key() = new_key;
-            global_values.insert( std::move( extracted ) );
-        } else {
-            ++i;
+    if( savegame_loading_version < 35 ) {
+        const std::string prefix = "npctalk_var_";
+        for( auto i = global_values.begin(); i != global_values.end(); ) {
+            if( i->first.rfind( prefix, 0 ) == 0 ) {
+                auto extracted = global_values.extract( i++ );
+                std::string new_key = extracted.key().substr( prefix.size() );
+                extracted.key() = new_key;
+                global_values.insert( std::move( extracted ) );
+            } else {
+                ++i;
+            }
         }
     }
-
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )

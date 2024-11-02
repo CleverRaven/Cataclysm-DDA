@@ -2807,6 +2807,22 @@ void item::io( Archive &archive )
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
+    // migrate existing item variables with npctalk_var_foo to just foo
+    // remove after 0.J
+    if( savegame_loading_version < 35 ) {
+        const std::string prefix = "npctalk_var_";
+        for( auto i = item_vars.begin(); i != item_vars.end(); ) {
+            if( i->first.rfind( prefix, 0 ) == 0 ) {
+                auto extracted = ( *item_vars ).extract( i++ );
+                std::string new_key = extracted.key().substr( prefix.size() );
+                extracted.key() = new_key;
+                item_vars.insert( std::move( extracted ) );
+            } else {
+                ++i;
+            }
+        }
+    }
+
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
