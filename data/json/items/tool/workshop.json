@@ -1735,7 +1735,7 @@
     "color": "light_gray",
     "qualities": [ [ "VISE", 3 ], [ "ANVIL", 1 ] ],
     "melee_damage": { "bash": 14 }
-  }
+  },
   {
     "id": "Exodii kiln",
     "type": "TOOL",
@@ -1753,5 +1753,5 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "2500 W" } ],
     "melee_damage": { "bash": 20 }
-  },
+  }
 ]
