@@ -83,6 +83,7 @@
     "//": "This should contain all tier 1 vampire powers",
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
         "u_roll_remainder": [
           "EYEGLEAM",
@@ -106,6 +107,7 @@
     "//": "This should contain all tier 2 vampire powers",
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
         "u_roll_remainder": [
           "BLOODHEAL",
@@ -128,6 +130,7 @@
     "//": "This should contain all tier 3 vampire powers",
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
         "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
         "type": "mutation",
@@ -142,6 +145,7 @@
     "//": "This should contain all tier 4 vampire powers",
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
         "u_roll_remainder": [
           "TRUE_VAMPIRE_POWER",
@@ -162,20 +166,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05",
-    "//": "This checks if the vampire has the required tier before trying to give them tier 5 powers",
-    "condition": { "u_has_trait": "BLOOD_DRINKER" },
-    "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05_REAL" } ],
-    "false_effect": [
-      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04" },
-      { "u_message": "Your vampirism isn't potent enough to unlock a gift of this level, so you have to settle for a weaker gift.", "type": "bad" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_05_REAL",
     "//": "This should contain all tier 5 vampire powers",
     "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
     "effect": [
+      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
         "u_roll_remainder": [
           "VAMPIRE_MASTER_MORTAL_MIND",
@@ -205,16 +199,13 @@
     "effect": [
       { "u_message": "You learn a new blood gift.", "popup": true },
       { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" },
-      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "5 days" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE",
-    "effect": [ 
-      { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
-      { "u_message": "Your experiments are fruitless.  You'll have to try again." } ]
+    "effect": [ { "u_message": "Your experiments are fruitless.  You'll have to try again." } ]
   },
   {
     "type": "effect_on_condition",
