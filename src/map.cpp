@@ -5903,8 +5903,10 @@ std::list<item> map::use_amount( const std::vector<tripoint> &reachable_pts, con
         }
     }
     for( const tripoint &p : reachable_pts ) {
-        std::list<item> tmp = use_amount_square( p, type, quantity, filter );
-        ret.splice( ret.end(), tmp );
+        if( accessible_items( p ) ) {
+            std::list<item> tmp = use_amount_square( p, type, quantity, filter );
+            ret.splice( ret.end(), tmp );
+        }
     }
     return ret;
 }
