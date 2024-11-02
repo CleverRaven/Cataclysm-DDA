@@ -238,7 +238,9 @@ bool map::build_vision_transparency_cache( int zlev )
     memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
 
     // The tile player is standing on should always be visible
-    vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    if( inbounds( p ) ) {
+        vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    }
 
     for( const tripoint_bub_ms loc : solid_tiles ) {
         vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
