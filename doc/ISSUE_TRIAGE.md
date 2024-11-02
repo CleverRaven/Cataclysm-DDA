@@ -26,10 +26,10 @@ At the end of the day, this is a judgement call about what the triager understan
 Roughly our priority ordering is:
 1. crashes
 2. loss of data. This includes save migration from supported stable versions, but not ancient stable versions or experimental versions. To be clear migration *to* stable versions from experimental versions *is* included. This also includes chunks of map being lost or overwritten.
-4. character death or item loss due to bugs (this is unfortunately not itself a bug but the outcome of a bug co it can be very subjective)
-5. blatant "lack of consistency" bugs (characters, items or monsters having stats an order of magnitude or so off from reality, mechanics that make no sense).
-6. Poor UX due to e.g. excessive keypresses for an activity, tricky or misleading input, poor wording of UI elements. (maybe actually a feature request)
-7. minor inconsistencies e.g. things that are only apparent by comparing json values, typos, 
+3. character death or item loss due to bugs (this is unfortunately not itself a bug but the outcome of a bug co it can be very subjective)
+4. blatant "lack of consistency" bugs (characters, items or monsters having stats an order of magnitude or so off from reality, mechanics that make no sense).
+5. Poor UX due to e.g. excessive keypresses for an activity, tricky or misleading input, poor wording of UI elements. (maybe actually a feature request)
+6. minor inconsistencies e.g. things that are only apparent by comparing json values, typos, 
 
 This is a bit more granular than necessary, 1, 2 and 3 are critical, 4 and 5 are important and everything else is null priority.
 
