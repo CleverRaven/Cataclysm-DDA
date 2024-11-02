@@ -2949,7 +2949,7 @@ spell &known_magic::select_spell( Character &guy )
     spell_menu.desired_bounds = {
         -1.0,
             -1.0,
-            std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
+            -1.0,
             clamp( static_cast<int>( known_spells_sorted.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeight(),
         };
 
