@@ -3786,6 +3786,22 @@ void Creature::load( const JsonObject &jsin )
         }
     }
 
+    // migrate existing u/npc variables with npctalk_var_foo to just foo
+    // remove after 0.J
+    if( savegame_loading_version < 35 ) {
+        const std::string prefix = "npctalk_var_";
+        for( auto i = values.begin(); i != values.end(); ) {
+            if( i->first.rfind( prefix, 0 ) == 0 ) {
+                auto extracted = values.extract( i++ );
+                std::string new_key = extracted.key().substr( prefix.size() );
+                extracted.key() = new_key;
+                values.insert( std::move( extracted ) );
+            } else {
+                ++i;
+            }
+        }
+    }
+
     jsin.read( "damage_over_time_map", damage_over_time_map );
 
     jsin.read( "blocks_left", num_blocks );
