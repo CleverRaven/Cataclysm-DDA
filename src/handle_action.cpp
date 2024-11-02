@@ -134,6 +134,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const flag_id json_flag_MOP( "MOP" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
+static const gun_mode_id gun_mode_BURST( "BURST" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
@@ -905,6 +906,12 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
+static bool is_smashable_corpse( const item &maybe_corpse )
+{
+    return maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
+           maybe_corpse.can_revive();
+}
+
 static void smash()
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -914,7 +921,17 @@ static void smash()
     }
     tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
 
-    if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+    // Little hack: If there's a smashable corpse, it'll always be bashed first. So don't bother warning about
+    // terrain smashing unless it's actually possible.
+    bool smashable_corpse_at_target = false;
+    for( const item &maybe_corpse : get_map().i_at( smashp ) ) {
+        if( is_smashable_corpse( maybe_corpse ) ) {
+            smashable_corpse_at_target = true;
+            break;
+        }
+    }
+
+    if( !smashable_corpse_at_target && !g->warn_player_maybe_anger_local_faction( true ) ) {
         return; // player declined to smash faction's stuff
     }
 
@@ -1006,8 +1023,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 
     bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
-        if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-            maybe_corpse.can_revive() ) {
+        if( is_smashable_corpse( maybe_corpse ) ) {
             if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
                 !is_immune_field( fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
@@ -2597,10 +2613,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_FIRE_BURST: {
             if( weapon ) {
-                gun_mode_id original_mode = weapon->gun_get_mode_id();
-                if( weapon->gun_set_mode( gun_mode_AUTO ) ) {
+                if( weapon->gun_set_mode( gun_mode_BURST ) || weapon->gun_set_mode( gun_mode_AUTO ) ) {
                     avatar_action::fire_wielded_weapon( player_character );
-                    weapon->gun_set_mode( original_mode );
                 }
             }
             break;

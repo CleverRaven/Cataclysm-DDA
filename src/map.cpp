@@ -2093,7 +2093,7 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 {
     std::map<tripoint_bub_ms, furn_id> tmp_override;
 
-    for( const auto element : override ) {
+    for( const auto &element : override ) {
         tmp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
@@ -2165,11 +2165,11 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
     std::map<tripoint_bub_ms, ter_id> temp_override;
     std::map<tripoint_bub_ms, furn_id> temp_override_f;
 
-    for( const auto element : override ) {
+    for( const auto &element : override ) {
         temp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
-    for( const auto element : override_f ) {
+    for( const auto &element : override_f ) {
         temp_override_f.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
@@ -4257,6 +4257,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         }
     }
 
+    if( has_flag( ter_furn_flag::TFLAG_ALARMED, p ) ) {
+        sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                       false, "environment", "alarm" );
+    }
+
     if( bash == nullptr || ( bash->destroy_only && !params.destroy ) ) {
         // Nothing bashable here
         if( impassable( p ) ) {
@@ -5789,30 +5794,59 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     if( recharge_part_idx >= 0 ) {
-        const vehicle_part &recharge_part = cur_veh.part( recharge_part_idx );
-        if( !recharge_part.removed && recharge_part.enabled ) {
+
+        vehicle_part &recharge_part = cur_veh.part( recharge_part_idx );
+
+        int turns_elapsed = to_turns<int>( calendar::turn - recharge_part.last_charged );
+        recharge_part.last_charged = calendar::turn;
+
+        if( !recharge_part.removed && recharge_part.enabled  && ( turns_elapsed > 0 ) ) {
+            int dischargeable = turns_elapsed * recharge_part.info().bonus;
+            // Convert to kilojoule
+            dischargeable = ( dischargeable / 1000 ) + x_in_y( dischargeable % 1000, 1000 );
             for( item &n : cur_veh.get_items( vp ) ) {
+
+                if( dischargeable <= 0 ) {
+                    break;
+                }
+
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     continue;
                 }
+
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-                if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining( nullptr ) ) ) {
-                    int power = recharge_part.info().bonus;
-                    while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1 );
-                        // Around 85% efficient; a few of the discharges don't actually recharge
-                        if( missing == 0 && !one_in( 7 ) ) {
-                            if( n.is_vehicle_battery() ) {
-                                n.mod_energy( 1_kJ );
-                            } else {
-                                n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
-                            }
-                        }
-                        power -= 1000;
-                    }
-                    break;
+                int chargeable = {};
+                if( n.is_vehicle_battery() ) {
+                    chargeable = std::ceil( units::to_kilojoule<double>( n.type->battery->max_capacity -
+                                            n.energy_remaining( nullptr ) ) );
+                } else if( n.ammo_capacity( ammo_battery ) ) {
+                    chargeable = n.ammo_capacity( ammo_battery ) - n.ammo_remaining();
                 }
+
+                if( chargeable > 0 ) {
+
+                    // Around 85% efficient; a few of the discharges don't actually recharge
+                    const int needed_for_full_charge = ( chargeable * 7 / 6 ) + x_in_y( chargeable * 7 % 6, 6 );
+                    const int to_discharge = std::min( needed_for_full_charge, dischargeable );
+                    const int discharged = to_discharge - cur_veh.discharge_battery( to_discharge );
+
+                    int charged = {};
+                    if( discharged < to_discharge  || needed_for_full_charge >= dischargeable ) {
+                        charged = ( discharged * 6 / 7 ) + x_in_y( discharged * 6 % 7, 7 );
+                        dischargeable = 0;
+                    } else {
+                        charged = chargeable;
+                        dischargeable -= needed_for_full_charge;
+                    }
+
+                    if( n.is_vehicle_battery() ) {
+                        n.mod_energy( units::from_kilojoule( static_cast<std::int64_t>( charged ) ) );
+                    } else {
+                        n.ammo_set( itype_battery, n.ammo_remaining() + charged );
+                    }
+
+                }
+
             }
         }
     }

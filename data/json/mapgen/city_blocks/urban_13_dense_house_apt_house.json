@@ -99,11 +99,10 @@
         "````````````````````````````````````##```##`````",
         "````````````````````````````````````````````````"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "=": "t_carpet_green",
         "_": "t_pavement",
         "`": "t_concrete",
         "K": "t_concrete",
@@ -197,9 +196,8 @@
         "______~~~___________________________~~~~~~~_____",
         "________________________________________________"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
-        "=": "t_carpet_green",
         "_": "t_open_air",
         "~": "t_flat_roof",
         "t": "t_linoleum_gray",
@@ -256,10 +254,9 @@
         "````````````````````````````````````````````````",
         "````````````````````````````````````````````````"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "liquids": { "Я": { "liquid": "water", "amount": [ 0, 1000 ] } },
       "terrain": {
-        "=": "t_carpet_green",
         "`": "t_open_air",
         "-": "t_gutter",
         "!": "t_gutter_drop",

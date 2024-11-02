@@ -8665,6 +8665,29 @@ bool item::is_maybe_melee_weapon() const
            my_cat_id == item_category_tools;
 }
 
+bool item::made_of_any_food_components( bool deep_search ) const
+{
+    if( components.empty() || !get_comestible() ) {
+        return false;
+    }
+
+    for( const std::pair<itype_id, std::vector<item>> pair : components ) {
+        for( const item &it : pair.second ) {
+            nutrients &maybe_food = it.get_comestible()->default_nutrition;
+            bool must_be_food = maybe_food.kcal() > 0 || maybe_food.vitamins().empty();
+            bool has_food_component = false;
+            if( deep_search && !it.components.empty() ) {
+                // make true if any component has food values, even if some don't
+                has_food_component |= it.made_of_any_food_components( deep_search );
+            }
+            if( must_be_food || has_food_component ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool item::has_edged_damage() const
 {
     for( const damage_type &dt : damage_type::get_all() ) {
@@ -13396,10 +13419,17 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         // If not carried by someone, but laying on the ground:
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
-            if( here.flammable_items_at( pos ) ||
-                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
-                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, fd_fire, 1 );
+            for( const item &i : here.i_at( pos ) ) {
+                if( i.typeId() == typeId() ) {
+                    if( here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
+                        here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
+                        here.add_field( pos, fd_fire, 1 );
+                        break;
+                    }
+                } else if( i.flammable( 0 ) ) {
+                    here.add_field( pos, fd_fire, 1 );
+                    break;
+                }
             }
         }
     }

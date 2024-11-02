@@ -577,6 +577,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "book_pneumatics",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
       "offer": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
@@ -602,6 +603,7 @@
     "item": "motor",
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
@@ -630,6 +632,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "metal_tank",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_REFUGEE_Jenny_GET_TEXT",
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
@@ -660,6 +663,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "text_gunsmith",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I hate to admit it, but my first few tests haven't gone well.  I think I know what's wrong, but I need more information.",
       "offer": "I need a good quality reference book on gunsmithing.  This isn't my area of expertise, and I don't want to blow anybody up.",

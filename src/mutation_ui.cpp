@@ -441,7 +441,8 @@ void avatar::power_mutations()
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
                                        ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
-                                add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
+                                add_msg_if_player( m_neutral,
+                                                   string_format( mut_data.activation_msg, mutation_name( mut_data.id ) ) );
                                 // Reset menu in advance
                                 ui.reset();
                                 activate_mutation( mut_id );
@@ -615,7 +616,8 @@ void avatar::power_mutations()
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                            ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
                                            ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
-                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
+                                    add_msg_if_player( m_neutral,
+                                                       string_format( mut_data.activation_msg, mutation_name( mut_data.id ) ) );
                                     // Reset menu in advance
                                     ui.reset();
                                     activate_mutation( mut_id );
