@@ -10778,7 +10778,6 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
         cur_value |= ( PathfindingFlag::RestrictLarge | PathfindingFlag::RestrictHuge );
-
     }
 
     cache.special[p.x()][p.y()] = cur_value;
