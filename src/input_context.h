@@ -43,10 +43,8 @@ class input_context
 
         input_context() : registered_any_input( false ), category( "default" ),
             coordinate_input_received( false ), handling_coordinate_input( false ) {
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
-#endif
             register_action( "toggle_language_to_en" );
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
@@ -56,14 +54,11 @@ class input_context
             : registered_any_input( false ), category( category ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
-#endif
             register_action( "toggle_language_to_en" );
         }
 
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
@@ -80,25 +75,12 @@ class input_context
 
         std::vector<manual_key> registered_manual_keys;
 
-        void register_manual_key( manual_key mk ){
-            // Prevent duplicates
-            for( const input_context::manual_key &manual_key : registered_manual_keys )
-                if( manual_key.key == mk.key ) {
-                    return;
-                }
+        // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
+        // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
+        bool allow_text_entry;
 
-            registered_manual_keys.push_back( mk );
-        };
-
-        void register_manual_key( int key, const std::string text = "" ){
-            // Prevent duplicates
-            for( const input_context::manual_key &manual_key : registered_manual_keys )
-                if( manual_key.key == key ) {
-                    return;
-                }
-
-            registered_manual_keys.push_back( input_context::manual_key( key, text ) );
-        };
+        void register_manual_key( manual_key mk );
+        void register_manual_key( int key, const std::string text = "" );
 
         std::string get_action_name_for_manual_key( int key ) {
             for( const auto &manual_key : registered_manual_keys ) {
@@ -156,7 +138,6 @@ class input_context
         bool operator!=( const input_context &other ) const {
             return !( *this == other );
         }
-#endif
 
         /**
          * Register an action with this input context.
@@ -425,13 +406,13 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
+
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
         bool is_registered_action( const std::string &action_name ) const;
-        bool allow_text_entry = false;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
