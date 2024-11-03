@@ -38,12 +38,20 @@
     "id": "shield_layout",
     "type": "widget",
     "style": "layout",
+    "arrange": "minimum_columns",
+    "label": "SHIELD",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "shield_layout_1", "shield_rad_warning" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_layout_1",
+    "type": "widget",
+    "style": "layout",
     "arrange": "rows",
     "label": "SHIELD",
-    "width": 19,
-    "label_align": "center",
-    "text_align": "left",
-    "widgets": [ "shield_rad_warning", "shield_gauge", "shield_power_gauge" ]
+    "widgets": [ "shield_gauge", "shield_power_gauge" ]
   },
   {
     "id": "shield_gauge",
@@ -208,7 +216,7 @@
         "condition": { "math": [ "u_shield_ratio", "<", "0.00" ] }
       }
     ],
-    "padding": 0
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "shield_power_gauge",
@@ -273,25 +281,26 @@
         "condition": { "math": [ "u_shield_power_ratio", "<=", "0" ] }
       }
     ],
-    "padding": 0
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "shield_rad_warning",
     "type": "widget",
+    "width": 8,
     "style": "text",
     "clauses": [
       {
-        "text": "☢DNGR☢",
+        "text": "  ☢DNGR☢",
         "color": "red",
         "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
       }
     ],
     "default_clause": {
-      "text": "☢DNGR☢",
+      "text": "  ☢DNGR☢",
       "color": "dark_gray",
       "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
     },
-    "flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   },
   {
     "id": "shield_heat_warning",
@@ -299,16 +308,16 @@
     "style": "text",
     "clauses": [
       {
-        "text": "!HEAT!",
+        "text": "  !HEAT!",
         "color": "red",
         "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
       }
     ],
     "default_clause": {
-      "text": "!HEAT!",
+      "text": "  !HEAT!",
       "color": "dark_gray",
       "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
     },
-    "flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   }
 ]
