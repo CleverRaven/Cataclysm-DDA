@@ -171,7 +171,7 @@
         "/": "t_gates_mech_control",
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         ")": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "}": "t_fence_v",
+        "}": "t_fence",
         "©": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "-": "t_concrete",
         "$": "t_thconc_floor",

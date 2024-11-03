@@ -84,9 +84,9 @@
         "│4444444444444444444ww4444444&44444444444444444444444444444444444444444444444444444444444444444│",
         "││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││"
       ],
-      "palettes": [ "parametrized_carpets_palette" ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 72, 95 ], "y": [ 24, 47 ], "repeat": [ 0, 4 ] } ],
+      "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "4": [ [ "t_region_shrub_decorative", 12 ], "t_region_tree_shade", [ "t_region_groundcover_forest", 3 ] ],
         "+": "t_door_c",
@@ -94,7 +94,6 @@
         "d": "t_region_soil",
         "s": "t_sidewalk",
         "0": "t_window",
-        "|": "t_wall_g",
         "│": "t_drystone_wall_half",
         "<": "t_stairs_up",
         "G": "t_golf_hole",
@@ -224,11 +223,11 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_floor",
         " ": "t_open_air",
         "#": "t_metal_railing",
-        "|": "t_wall_g",
         "*": "t_tile_flat_roof",
         "c": "t_tile_flat_roof",
         "a": "t_tile_flat_roof",

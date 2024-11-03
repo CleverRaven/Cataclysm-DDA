@@ -322,8 +322,9 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
         return {};
     }
 
-    // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    // if item has food components, will derive calories from that instead.
+    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) &&
+        comest.made_of_any_food_components( true ) ) {
         nutrients tally{};
         if( comest.recipe_charges == 0 ) {
             // Avoid division by zero

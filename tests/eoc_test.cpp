@@ -8,6 +8,7 @@
 #include "make_static.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "overmapbuffer.h"
 #include "timed_event.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -124,10 +125,12 @@ static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_k
 static const effect_on_condition_id effect_on_condition_run_eocs_1( "run_eocs_1" );
 static const effect_on_condition_id effect_on_condition_run_eocs_2( "run_eocs_2" );
 static const effect_on_condition_id effect_on_condition_run_eocs_3( "run_eocs_3" );
-static const effect_on_condition_id effect_on_condition_run_eocs_4( "run_eocs_4" );
 static const effect_on_condition_id effect_on_condition_run_eocs_5( "run_eocs_5" );
-static const effect_on_condition_id effect_on_condition_run_eocs_6( "run_eocs_6" );
 static const effect_on_condition_id effect_on_condition_run_eocs_7( "run_eocs_7" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes( "run_eocs_talker_mixes" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -1423,33 +1426,77 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_1" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_3" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_4" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_5" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_6" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_7" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_test_global_key_M" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_test_global_key_N" ).empty() );
 
     CHECK( effect_on_condition_run_eocs_1->activate( d ) );
     CHECK( effect_on_condition_run_eocs_2->activate( d ) );
     CHECK( effect_on_condition_run_eocs_3->activate( d ) );
-    CHECK( effect_on_condition_run_eocs_4->activate( d ) );
     CHECK( effect_on_condition_run_eocs_5->activate( d ) );
-    CHECK( effect_on_condition_run_eocs_6->activate( d ) );
     CHECK( effect_on_condition_run_eocs_7->activate( d ) );
-
-    set_time( calendar::turn + 10_seconds );
-    effect_on_conditions::process_effect_on_conditions( get_avatar() );
 
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_1" ) ) == Approx( 2 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_2" ) ) == Approx( 20 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_3" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_4" ) ) == Approx( 10 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_5" ) ) == Approx( 4 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_6" ) ) == Approx( 10 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_7" ) ) == Approx( 10 ) );
 
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_3" ).empty() );
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_3" ) ) == Approx( 2 ) );
+
+    set_time( calendar::turn + 8_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
     CHECK( globvars.get_global_value( "npctalk_var_test_global_key_M" ) == "test_context_value_M" );
     CHECK( globvars.get_global_value( "npctalk_var_test_global_key_N" ) == "test_context_value_N" );
 
+    globvars.clear_global_values();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map();
+    clear_npcs();
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    guy->normalize();
+    overmap_buffer.insert_npc( guy );
+    guy->spawn_at_precise( u.get_location() + tripoint_east );
+    g->load_npcs();
+    tripoint_abs_ms mon_loc = u.get_location() + tripoint_west;
+    monster *zombie = g->place_critter_at( mon_zombie, get_map().bub_from_abs( mon_loc ) );
+    REQUIRE( zombie != nullptr );
+
+    item hammer( "hammer" );
+    item_location hammer_loc( map_cursor{ guy->get_location() }, &hammer );
+    dialogue d2( get_talker_for( *guy ), get_talker_for( hammer_loc ) );
+    talker *alpha_talker = d2.actor( false );
+    talker *beta_talker = d2.actor( true );
+
+    d2.set_value( "npctalk_var_alpha_var", "u" );
+    d2.set_value( "npctalk_var_beta_var", "npc" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == alpha_talker->get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == beta_talker->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", "npc" );
+    d2.set_value( "npctalk_var_beta_var", "u" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == beta_talker->get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == alpha_talker->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", "avatar" );
+    d2.set_value( "npctalk_var_beta_var", std::to_string( guy->getID().get_value() ) );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == get_avatar().get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == guy->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", std::string{} );
+    d2.set_value( "npctalk_var_beta_var", std::string{} );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == "mixin fail alpha" );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == "mixin fail beta" );
+
+    d2.set_value( "npctalk_var_alpha_var", mon_loc.to_string() );
+    CHECK( effect_on_condition_run_eocs_talker_mixes_loc->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == zombie->get_name() );
 }

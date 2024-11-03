@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "dialogue_helpers.h"
+#include "type_id.h"
 #include "math_parser_diag.h"
 #include "math_parser_func.h"
 

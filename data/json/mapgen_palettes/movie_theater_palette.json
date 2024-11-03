@@ -50,8 +50,8 @@
       "D": "t_door_metal_pickable",
       "d": "t_door_locked",
       "w": "t_window",
-      "-": "t_railing_h",
-      "R": "t_railing_h",
+      "-": "t_railing",
+      "R": "t_railing",
       "<": "t_ladder_up"
     }
   }

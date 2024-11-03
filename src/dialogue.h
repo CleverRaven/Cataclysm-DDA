@@ -244,6 +244,7 @@ struct dialogue {
                   const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
                   const std::unordered_map<std::string, std::string> &ctx );
         talker *actor( bool is_beta ) const;
+        bool has_actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
         mutable std::string reason;

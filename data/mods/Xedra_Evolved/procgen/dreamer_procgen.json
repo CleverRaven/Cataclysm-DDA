@@ -7,7 +7,8 @@
         "weight": 100,
         "charges": { "range": [ 7, 7 ], "power": 0 },
         "charges_per_use": { "range": [ 1, 1 ], "power": 0 },
-        "max_charges": { "range": [ 3, 7 ], "power": 25 }
+        "max_charges": { "range": [ 3, 7 ], "power": 25 },
+        "recharge_type": "none"
       }
     ],
     "active_procgen_values": [

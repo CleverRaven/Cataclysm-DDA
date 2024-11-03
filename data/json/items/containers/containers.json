@@ -2032,7 +2032,7 @@
     "category": "container",
     "name": { "str": "clay canister" },
     "looks_like": "bowl_clay",
-    "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
+    "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
     "weight": "268 g",
     "volume": "295 ml",
@@ -2088,7 +2088,7 @@
     "category": "container",
     "name": { "str": "clay hydria" },
     "looks_like": "bowl_clay",
-    "description": "A 15-liter clay pot with three handles for carrying and pouring.",
+    "description": "A 15-liter clay pot with three handles for carrying and pouring.  It also has a waterproofed hide lid.",
     "ascii_picture": "clay_hydria",
     "weight": "1955 g",
     "volume": "17700 ml",
@@ -2141,6 +2141,23 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "clay_watercont_no_lid",
+    "type": "GENERIC",
+    "name": { "str": "large clay pot (no lid)", "str_pl": "large clay pots (no lid)" },
+    "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+    "copy-from": "clay_watercont",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "37500 ml",
+        "max_contains_weight": "50 kg"
+      }
+    ]
   },
   {
     "id": "cup_plastic",
@@ -2557,7 +2574,7 @@
     "category": "container",
     "name": { "str": "clay jug" },
     "looks_like": "bowl_clay",
-    "description": "A clay container with a lid, used to hold and pour liquids.",
+    "description": "A clay container with a waterproofed hide lid, used to hold and pour liquids.",
     "ascii_picture": "jug_clay",
     "weight": "400 g",
     "volume": "1180 ml",

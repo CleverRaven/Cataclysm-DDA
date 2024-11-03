@@ -981,16 +981,6 @@ void starting_inv_ammo( npc &who, std::list<item> &res, int multiplier )
 void npc::starting_inv_passtime()
 {
     static int max_time = to_days<int>( 180_days );
-    auto npc_wear_item = []( npc * who, item & it ) {
-        if( it.has_flag( flag_VARSIZE ) ) {
-            it.set_flag( flag_FIT );
-        }
-        if( who->can_wear( it ).success() ) {
-            it.on_wear( *who );
-            who->worn.wear_item( *who, it, false, false );
-            it.set_owner( *who );
-        }
-    };
     auto found_good_item = []( int day ) {
         return ( x_in_y( day, max_time ) ? NC_NONE_HARDENED : NC_NONE );
     };
@@ -1005,7 +995,7 @@ void npc::starting_inv_passtime()
     //give storage item if too little volume
     if( worn.volume_capacity() < 10000_ml ) {
         item storage = random_item_from( found_good_item( days_since_cata ), "storage" );
-        npc_wear_item( this, storage );
+        starting_inv_wear_item( this, storage );
     }
     //damage worn starting equipment
     starting_inv_damage_worn( days_since_cata );
@@ -1018,20 +1008,29 @@ void npc::starting_inv_passtime()
             if( one_in( 2 ) ) {
                 clothing.inc_damage(); //lightly used equipment
             }
-            npc_wear_item( this, clothing );
+            starting_inv_wear_item( this, clothing );
         }
     }
     //if no weapon on person, give one based on best weapon skill
+    npc_class_id found_weapon_quality = found_good_item( days_since_cata );
+    bool found_great_weapon = found_weapon_quality == NC_NONE_HARDENED;
     std::vector<item_location> items = all_items_loc();
-    bool has_weapon = false;
+    bool has_ranged_weapon = false;
+    bool has_melee_weapon = false;
     for( const item_location &i : items ) {
-        if( i->is_melee() || i->is_gun() ) {
-            has_weapon = true;
+        if( i->is_melee() && !i->is_armor() ) {
+            //if a great weapon was selected, poor weapons don't count
+            if( !found_great_weapon || i->base_damage_melee().total_damage() >= MELEE_STAT * 2 ) {
+                has_melee_weapon = true;
+            }
+            break;
+        } else if( i->is_gun() ) {
+            has_ranged_weapon = true;
             break;
         }
     }
-    if( !has_weapon ) {
-        starting_weapon( NC_NONE );
+    if( !has_melee_weapon && !has_ranged_weapon ) {
+        starting_weapon( found_weapon_quality );
         //additional ammo guaranteed if given a weapon
         std::list<item> res;
         starting_inv_ammo( *this, res, 1 );
@@ -1061,6 +1060,18 @@ void npc::starting_inv_passtime()
         }
         items_added++;
     } while( items_added <= items_limit );
+}
+
+void npc::starting_inv_wear_item( npc *who, item &it )
+{
+    if( it.has_flag( flag_VARSIZE ) ) {
+        it.set_flag( flag_FIT );
+    }
+    if( who->can_wear( it ).success() ) {
+        it.on_wear( *who );
+        who->worn.wear_item( *who, it, false, false );
+        it.set_owner( *who );
+    }
 }
 
 void npc::revert_after_activity()
@@ -1167,13 +1178,13 @@ void npc::place_on_map()
     debugmsg( "Failed to place NPC in a valid location near (%d,%d,%d)", posx(), posy(), posz() );
 }
 
-//Subset: whether "combat skill" includes all combat skills, no "general" (dodge, melee, marksman) skills, or only weapons you would expect NPCs to wield
-//Returns a pair with the skill_id (first) of the best skill, and the level (int) of that skill. If there is no best skill, defaults to stabbing.
-std::pair<skill_id, int> npc::best_combat_skill( combat_skills subset ) const
+std::pair<skill_id, int> npc::best_combat_skill( combat_skills subset, bool randomize ) const
 {
-    std::pair<skill_id, int> highest_skill( skill_stabbing, 0 );
+    std::vector<std::pair<skill_id, SkillLevel>> skill_subset;
+    std::pair<skill_id, int> default_skill( skill_stabbing, 0 );
+    int highest_level;
 
-    for( const auto &p : *_skills ) {
+    for( const std::pair<const skill_id, SkillLevel> &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
             switch( subset ) {
                 case combat_skills::ALL:
@@ -1189,17 +1200,41 @@ std::pair<skill_id, int> npc::best_combat_skill( combat_skills subset ) const
                         continue;
                     }
                     break;
+                case combat_skills::WEAPONS_ONLY_NO_THROW:
+                    if( p.first == skill_dodge || p.first == skill_gun || p.first == skill_melee ||
+                        p.first == skill_unarmed || p.first == skill_launcher || p.first == skill_throw ) {
+                        continue;
+                    }
+                    break;
             }
 
-            const int level = p.second.level();
-            if( level > highest_skill.second ) {
-                highest_skill.second = level;
-                highest_skill.first = p.first;
-            }
+            skill_subset.emplace_back( p );
+        }
+    }
+    std::sort( skill_subset.begin(), skill_subset.end(), []( std::pair<skill_id, SkillLevel> &s1,
+    std::pair<skill_id, SkillLevel> &s2 ) {
+        return s1.second.level() > s2.second.level();
+    } );
+    highest_level = skill_subset.front().second.level();
+
+    std::list<std::pair<skill_id, SkillLevel>> tied_skills;
+    for( const std::pair<skill_id, SkillLevel> &p : skill_subset ) {
+        if( p.second == highest_level ) {
+            tied_skills.emplace_back( p );
         }
     }
 
-    return highest_skill;
+    if( tied_skills.size() == skill_subset.size() ) {
+        default_skill.second = highest_level;
+        if( randomize ) {
+            default_skill.first = random_entry( tied_skills ).first;
+        }
+        return default_skill;
+    }
+
+    skill_id return_skill = randomize ? random_entry( tied_skills ).first :
+                            tied_skills.front().first;
+    return std::pair<skill_id, int>( return_skill, highest_level );
 }
 
 void npc::starting_weapon( const npc_class_id &type )
@@ -1209,7 +1244,7 @@ void npc::starting_weapon( const npc_class_id &type )
         return;
     }
 
-    const skill_id best = best_combat_skill( combat_skills::WEAPONS_ONLY ).first;
+    const skill_id best = best_combat_skill( combat_skills::WEAPONS_ONLY_NO_THROW, true ).first;
 
     if( best == skill_stabbing ) {
         set_wielded_item( random_item_from( type, "stabbing", Item_spawn_data_survivor_stabbing ) );
@@ -1221,6 +1256,8 @@ void npc::starting_weapon( const npc_class_id &type )
         set_wielded_item( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
         set_wielded_item( random_item_from( type, "archery" ) );
+        item quiver = random_item_from( type, "quiver" );
+        starting_inv_wear_item( this, quiver );
     } else if( best == skill_pistol ) {
         set_wielded_item( random_item_from( type, "pistol", Item_spawn_data_guns_pistol_common ) );
     } else if( best == skill_shotgun ) {
@@ -2528,9 +2565,9 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     if( other.is_npc() || other.is_avatar() ) {
         const Character &guy = dynamic_cast<const Character &>( other );
         // check faction relationships first
-        if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
+        if( has_faction_relationship( guy, npc_factions::relationship::kill_on_sight ) ) {
             return Attitude::HOSTILE;
-        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+        } else if( has_faction_relationship( guy, npc_factions::relationship::watch_your_back ) ) {
             return Attitude::FRIENDLY;
         }
     }

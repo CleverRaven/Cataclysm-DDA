@@ -889,7 +889,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             const std::set<tripoint_bub_ms> projected_points = get_projected_part_points();
             const units::angle angle =
                 move.dir() + ( coll_velocity > 0 ? 0_degrees : 180_degrees ) + 45_degrees *
-                ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
+                ( parts[part].mount.x() > pivot_point().x ? -1 : 1 );
             const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
@@ -1662,8 +1662,8 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
     for( int part_index : wheelcache ) {
         const auto &wheel = parts[ part_index ];
         bool rails_ahead = true;
-        tripoint wheel_point;
-        coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
+        tripoint_rel_ms wheel_point;
+        coord_translate( mdir.dir(), this->pivot_point_rel(), wheel.mount,
                          wheel_point );
 
         tripoint_bub_ms wheel_tripoint = pos_bub() + wheel_point;
@@ -1710,9 +1710,9 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
             // if wheel that lands on rail still not found
             if( yVal == INT_MAX ) {
                 // store mount point.y of wheel
-                yVal = wheel.mount.y;
+                yVal = wheel.mount.y();
             }
-            if( yVal == wheel.mount.y ) {
+            if( yVal == wheel.mount.y() ) {
                 turning_wheels_that_are_one_axis++;
             }
             wheels_on_rail++;
@@ -1806,7 +1806,8 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
            && ( wheels_on_rail !=
                 turning_wheels_that_are_one_axis // wheels that want to turn is not on same axis
                 || all_wheels_on_one_axis ||
-                ( std::abs( rail_wheel_bounding_box.p2.x - rail_wheel_bounding_box.p1.x ) < 4 && velocity < 0 ) );
+                ( std::abs( rail_wheel_bounding_box.p2.x() - rail_wheel_bounding_box.p1.x() ) < 4 &&
+                  velocity < 0 ) );
     // allow turn for vehicles with wheel distance < 4 when moving backwards
 }
 
@@ -2291,9 +2292,17 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
 bool vehicle::should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
                                   const tripoint &neighbor_precalc ) const
 {
+    return vehicle::should_enable_fake( tripoint_rel_ms( fake_precalc ),
+                                        tripoint_rel_ms( parent_precalc ), tripoint_rel_ms( neighbor_precalc ) );
+}
+
+bool vehicle::should_enable_fake( const tripoint_rel_ms &fake_precalc,
+                                  const tripoint_rel_ms &parent_precalc,
+                                  const tripoint_rel_ms &neighbor_precalc ) const
+{
     // if parent's pos is diagonal to neighbor, but fake isn't, fake can fill a gap opened
-    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).abs();
-    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).abs();
+    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).raw().abs();
+    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).raw().abs();
     return ( abs_parent_neighbor_diff.x == 1 && abs_parent_neighbor_diff.y == 1 ) &&
            ( ( abs_fake_neighbor_diff.x == 1 && abs_fake_neighbor_diff.y == 0 ) ||
              ( abs_fake_neighbor_diff.x == 0 && abs_fake_neighbor_diff.y == 1 ) );
@@ -2307,17 +2316,17 @@ void vehicle::update_active_fakes()
             continue;
         }
         const vehicle_part &part_real = parts.at( part_fake.fake_part_to );
-        const tripoint &fake_precalc = part_fake.precalc[0];
-        const tripoint &real_precalc = part_real.precalc[0];
-        const vpart_edge_info &real_edge = edges[part_real.mount];
+        const tripoint_rel_ms &fake_precalc = part_fake.precalc[0];
+        const tripoint_rel_ms &real_precalc = part_real.precalc[0];
+        const vpart_edge_info &real_edge = edges[part_real.mount.raw()];
         const bool is_protrusion = part_real.info().has_flag( "PROTRUSION" );
 
         if( real_edge.forward != -1 ) {
-            const tripoint &forward = parts.at( real_edge.forward ).precalc[0];
+            const tripoint_rel_ms &forward = parts.at( real_edge.forward ).precalc[0];
             part_fake.is_active_fake = should_enable_fake( fake_precalc, real_precalc, forward );
         }
         if( real_edge.back != -1 && ( !part_fake.is_active_fake || real_edge.forward == -1 ) ) {
-            const tripoint &back = parts.at( real_edge.back ).precalc[0];
+            const tripoint_rel_ms &back = parts.at( real_edge.back ).precalc[0];
             part_fake.is_active_fake = should_enable_fake( fake_precalc, real_precalc, back );
         }
         if( is_protrusion && part_fake.fake_protrusion_on >= 0 ) {
