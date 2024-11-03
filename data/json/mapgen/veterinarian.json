@@ -44,7 +44,7 @@
         "l": "t_thconc_floor",
         ":": "t_door_glass_c",
         ";": "t_door_locked",
-        "=": "t_chainfence_h",
+        "=": "t_chainfence",
         "O": "t_window",
         "^": "t_chaingate_c",
         "i": [ [ "t_door_locked_interior", 2 ], "t_door_c" ],
