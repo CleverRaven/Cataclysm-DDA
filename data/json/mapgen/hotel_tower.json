@@ -368,8 +368,8 @@
         "      -------------------------------------------------------------     ",
         "                                                                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_adobe_brick_wall", "_": "t_thconc_floor", "+": "t_door_metal_elocked" },
+      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
+      "terrain": { "_": "t_thconc_floor", "+": "t_door_metal_elocked" },
       "furniture": { "H": "f_generator_broken", "6": "f_water_heater_family" },
       "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_monster": [

@@ -370,6 +370,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_tower_open_air_corner" ],
-    "object": { "fill_ter": "t_open_air", "place_terrain": [ { "ter": "t_concrete_wall", "x": 0, "y": 23 } ] }
+    "object": {
+      "fill_ter": "t_open_air",
+      "palettes": [ "parametrized_walls_palette" ],
+      "place_terrain": [ { "ter": { "param": "exterior_wall_type", "fallback": "t_concrete_wall" }, "x": 0, "y": 23 } ]
+    }
   }
 ]
