@@ -142,7 +142,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -181,7 +181,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -224,7 +224,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -264,7 +264,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -307,7 +307,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -346,7 +346,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -385,7 +385,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -428,7 +428,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
@@ -467,7 +467,7 @@
         {
           "x_in_y_chance": {
             "x": {
-              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+              "math": [ "(10 * (max(1,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain') )" ]
             },
             "y": 1000
           }
