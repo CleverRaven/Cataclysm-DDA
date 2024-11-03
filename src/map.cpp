@@ -10213,6 +10213,10 @@ void map::update_pathfinding_cache( const tripoint &p ) const
         cur_value |= PF_SHARP;
     }
 
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) {
+        cur_value |= PF_SMALL_PASSAGE;
+    }
+
     cache.special[p.x][p.y] = cur_value;
 }
 
