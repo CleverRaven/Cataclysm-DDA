@@ -245,7 +245,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.bub_from_abs( loc ).raw() ) ) {
+        if( !veh.enclosed_at( here.bub_from_abs( loc ) ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();
@@ -630,10 +630,10 @@ bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) c
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
+static bool overlaps_vehicle( const std::set<tripoint_bub_ms> &veh_area, const tripoint_bub_ms &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
+    for( const tripoint_bub_ms &tmp : tripoint_range<tripoint_bub_ms>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -775,7 +775,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue; // Handle this late so that boo_hoo++ can happen
         }
         // Expensive check for proximity to vehicle
-        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), m->pos(), area ) ) {
+        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), tripoint_bub_ms( m->pos() ), area ) ) {
             continue;
         }
 

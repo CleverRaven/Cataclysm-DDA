@@ -11106,7 +11106,7 @@ void Character::stagger()
         const optional_vpart_position vp_there = here.veh_at( dest );
         if( vp_there ) {
             vehicle &veh = vp_there->vehicle();
-            if( veh.enclosed_at( dest.raw() ) ) {
+            if( veh.enclosed_at( dest ) ) {
                 blocked = true;
             }
         }
