@@ -1265,21 +1265,12 @@ void Character::load( const JsonObject &data )
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
         std::unordered_map<std::string, std::string> context;
+        // context variables
         for( const JsonMember &jm : elem.get_object( "context" ) ) {
-            // migrate existing context variables with npctalk_var_foo to just foo
-            // remove after 0.J
-            if( savegame_loading_version < 35 ) {
-                const std::string prefix = "npctalk_var_";
-                if( jm.name().rfind( prefix, 0 ) == 0 ) {
-                    std::string new_key = jm.name().substr( prefix.size() );
-                    context[new_key] = jm.get_string();
-                } else {
-                    context[jm.name()] = jm.get_string();
-                }
-            } else {
-                context[jm.name()] = jm.get_string();
-            }
+            context[jm.name()] = jm.get_string();
         }
+        game::legacy_migrate_npctalk_var_prefix( context );
+
         temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
@@ -2818,8 +2809,11 @@ void item::io( Archive &archive )
     archive.io( "bday", bday, calendar::start_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
+    // item variables
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
-    // migrate existing item variables with npctalk_var_foo to just foo
+
+    // game::legacy_migrate_npctalk_var_prefix( item_vars );
+    // doesn't work here, because item_vars is cata::heap<std::map<>>, not std::unordered_map<>
     // remove after 0.J
     if( savegame_loading_version < 35 ) {
         const std::string prefix = "npctalk_var_";
@@ -2834,7 +2828,6 @@ void item::io( Archive &archive )
             }
         }
     }
-
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -3788,6 +3781,7 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "effects", *effects );
     }
 
+    // u/npc variables
     jsin.read( "values", values );
     // potentially migrate some values
     for( std::pair<std::string, std::string> migration : get_globals().migrations ) {
@@ -3798,21 +3792,7 @@ void Creature::load( const JsonObject &jsin )
         }
     }
 
-    // migrate existing u/npc variables with npctalk_var_foo to just foo
-    // remove after 0.J
-    if( savegame_loading_version < 35 ) {
-        const std::string prefix = "npctalk_var_";
-        for( auto i = values.begin(); i != values.end(); ) {
-            if( i->first.rfind( prefix, 0 ) == 0 ) {
-                auto extracted = values.extract( i++ );
-                std::string new_key = extracted.key().substr( prefix.size() );
-                extracted.key() = new_key;
-                values.insert( std::move( extracted ) );
-            } else {
-                ++i;
-            }
-        }
-    }
+    game::legacy_migrate_npctalk_var_prefix( values );
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
 

@@ -1550,6 +1550,7 @@ void weather_manager::unserialize_all( const JsonObject &w )
 
 void global_variables::unserialize( JsonObject &jo )
 {
+    // global variables
     jo.read( "global_vals", global_values );
     // potentially migrate some variable names
     for( std::pair<std::string, std::string> migration : migrations ) {
@@ -1560,21 +1561,7 @@ void global_variables::unserialize( JsonObject &jo )
         }
     }
 
-    // migrate existing global variables with npctalk_var_foo to just foo
-    // remove after 0.J
-    if( savegame_loading_version < 35 ) {
-        const std::string prefix = "npctalk_var_";
-        for( auto i = global_values.begin(); i != global_values.end(); ) {
-            if( i->first.rfind( prefix, 0 ) == 0 ) {
-                auto extracted = global_values.extract( i++ );
-                std::string new_key = extracted.key().substr( prefix.size() );
-                extracted.key() = new_key;
-                global_values.insert( std::move( extracted ) );
-            } else {
-                ++i;
-            }
-        }
-    }
+    game::legacy_migrate_npctalk_var_prefix( global_values );
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
