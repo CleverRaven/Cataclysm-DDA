@@ -1161,8 +1161,8 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
-    const furn_id f = here.furn( p );
-    const ter_id t = here.ter( p );
+    const furn_id &f = here.furn( p );
+    const ter_id &t = here.ter( p );
     if( con.pre_specials.size() > 1 ) { // pre-functions
         for( const auto &special : con.pre_specials ) {
             if( !special( p ) ) {
@@ -2001,9 +2001,10 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &p, Cha
         here.ter_set( p, ter_t_dirt );
     }
 
-    if( here.ter( p ) == ter_t_clay ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_clay ) {
         add_msg( _( "You gather some clay." ) );
-    } else if( here.ter( p ) == ter_t_sand ) {
+    } else if( t == ter_t_sand ) {
         add_msg( _( "You gather some sand." ) );
     } else {
         // Fall through to an undefined material.
@@ -2053,10 +2054,11 @@ void construct::remove_above( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
-    ter_id roof = here.ter( p ).obj().roof;
+    const ter_id &t = here.ter( p );
+    const ter_id &roof = t.obj().roof;
     if( !roof ) {
         debugmsg( "add_roof post_ter called on terrain lacking roof definition, %s.",
-                  here.ter( p ).id().c_str() );
+                  t.id().c_str() );
     }
     here.ter_set( p + tripoint_above, roof );
 }

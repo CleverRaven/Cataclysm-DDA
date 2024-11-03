@@ -747,12 +747,12 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
 
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
-    const furn_id furniture = here.furn( pt );
+    const furn_id &furniture = here.furn( pt );
     if( furniture != furn_str_id::NULL_ID() && furniture.obj().movecost != 0 ) {
         return false;
     }
 
-    const ter_id terrain = here.ter( pt );
+    const ter_id &terrain = here.ter( pt );
     if( terrain == ter_str_id::NULL_ID() ) {
         return false;
     }
