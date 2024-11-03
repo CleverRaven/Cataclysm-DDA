@@ -13,7 +13,7 @@
         {
           "id": "psi_hidebehind_obscurity_activate",
           "type": "spell",
-          "spell_data": { "id": "monster_apply_obscurity_power" },
+          "spell_data": { "id": "hidebehind_apply_obscurity_power" },
           "cooldown": { "math": [ "5 + rand(10)" ] },
           "condition": {
             "and": [
