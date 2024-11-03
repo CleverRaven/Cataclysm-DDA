@@ -25,9 +25,8 @@
       { "group": "gossamer_upper_body", "prob": 70 },
       { "group": "gossamer_lower_body", "prob": 70 },
       { "group": "gossamer_outerwear", "prob": 25 },
-      { "item": "loincloth_gossamer" },
+      { "item": "loincloth_gossamer", "prob": 80 },
       { "group": "gossamer_socks", "prob": 25 },
-      { "group": "clothing_glasses", "prob": 5 },
       { "group": "fae_furs", "prob": 10 }
     ]
   },
@@ -54,7 +53,7 @@
       { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 5 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
-      { "item": "mirror_march_estoc", "prob": 25, "damage": [ 0, 5 ] },
+      { "group": "bannerman_weapons", "prob": 50, "damage": [ 0, 5 ] },
       { "item": "baldric", "prob": 100 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
@@ -67,7 +66,7 @@
       { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "redcap_armor", "prob": 20, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
-      { "item": "redcap_club", "prob": 25, "damage": [ 0, 5 ] },
+      { "group": "redcap_weapons", "prob": 50, "damage": [ 0, 5 ] },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
     ]
   },
@@ -79,7 +78,7 @@
       { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
       { "group": "pooka_armor", "prob": 20, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
-      { "item": "pooka_gladius", "prob": 25, "damage": [ 0, 5 ] },
+      { "group": "pooka_weapons", "prob": 50, "damage": [ 0, 5 ] },
       { "item": "scabbard", "prob": 100 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
     ]

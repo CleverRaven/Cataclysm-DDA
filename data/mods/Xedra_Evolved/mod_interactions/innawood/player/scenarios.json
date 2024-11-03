@@ -47,7 +47,7 @@
   },
   {
     "type": "scenario",
-    "id": "xe_lilin_scenario",
+    "id": "xe_lilin_scenario_naked_afraid",
     "name": "The Owl, Naked and Afraid",
     "points": 0,
     "description": "For most or all of your life, you've had a secret; you are a predator.  While you don't need to drink blood or eat flesh or anything so crude, you must absorb the spiritual essence, the \"ruach\", of living beings in order to maintain your health and vitality.  Something happened, and now you're alone in the wilderness, without any of your possessions.  You'd best find others quick, or you'll wither away.",
@@ -55,7 +55,8 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "professions": [ "naked" ],
     "eoc": [ "scenario_lilin_starting_ruach" ],
-    "forced_traits": [ "LILIN_TRAITS", "LILIN_DRAIN_RUACH_MELEE" ]
+    "forced_traits": [ "LILIN_TRAITS", "LILIN_DRAIN_RUACH_MELEE" ],
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
