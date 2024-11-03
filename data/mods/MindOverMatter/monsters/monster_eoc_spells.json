@@ -393,5 +393,35 @@
     "type": "effect_on_condition",
     "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
     "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration_enhanced", "duration": { "math": [ "rng(225,742)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "hidebehind_apply_obscurity_power",
+    "name": { "str": "Hidebehind Obscurity enemy check" },
+    "description": "Preps for using Obscurity when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MONSTER_APPLY_OBSCURITY",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MONSTER_APPLY_OBSCURITY",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TEEPSHIELD" } },
+        { "not": { "u_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "u_has_effect": "eff_monster_immune_to_telepathy" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "n_power_obscurity_duration", "=", "rng(205,835)" ] },
+      { "u_add_effect": "telepathic_ignorance", "duration": { "math": [ "n_power_obscurity_duration" ] } },
+      { "npc_add_effect": "telepathic_ignorance_self", "duration": { "math": [ "n_power_obscurity_duration" ] } }
+    ]
   }
 ]
