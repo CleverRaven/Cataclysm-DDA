@@ -2819,7 +2819,7 @@ void item::io( Archive &archive )
         const std::string prefix = "npctalk_var_";
         for( auto i = item_vars.begin(); i != item_vars.end(); ) {
             if( i->first.rfind( prefix, 0 ) == 0 ) {
-                auto extracted = ( *item_vars ).extract( i++ );
+                std::map<std::string, std::string>::node_type extracted = ( *item_vars ).extract( i++ );
                 std::string new_key = extracted.key().substr( prefix.size() );
                 extracted.key() = new_key;
                 item_vars.insert( std::move( extracted ) );
