@@ -304,7 +304,7 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 
     // Fix Back button crash on Android 9
-#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON )
+#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON ) && !defined(__IPHONEOS__)
     const bool trap_back_button = get_option<bool>( "ANDROID_TRAP_BACK_BUTTON" );
     SDL_SetHint( SDL_HINT_ANDROID_TRAP_BACK_BUTTON, trap_back_button ? "1" : "0" );
 #endif
@@ -565,7 +565,7 @@ void refresh_display()
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
     ClearScreen();
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
+#if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
@@ -3635,7 +3635,7 @@ static void init_term_size_and_scaling_factor()
     scaling_factor = 1;
     point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
 
-#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
+#if !defined(__ANDROID__)
 
     if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
         scaling_factor = 2;
