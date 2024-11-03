@@ -458,8 +458,10 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
-    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) || critter.has_flag( mon_flag_TEEP_IMMUNE );
-    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield && !has_eff_flag_seer_protection;
+    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
+                                        critter.has_flag( mon_flag_TEEP_IMMUNE );
+    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
+                             !has_eff_flag_seer_protection;
 
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
