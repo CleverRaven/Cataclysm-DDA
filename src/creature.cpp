@@ -103,6 +103,7 @@ static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
@@ -449,10 +450,16 @@ static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vo
 
 bool Creature::sees( const Creature &critter ) const
 {
+    const Character *ch = critter.as_character();
+
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
         return true;
     }
+
+    bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
+    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) || critter.has_flag( mon_flag_TEEP_IMMUNE );
+    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield && !has_eff_flag_seer_protection;
 
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
@@ -475,7 +482,8 @@ bool Creature::sees( const Creature &critter ) const
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
-    if( this->has_flag( mon_flag_MIND_SEEING ) && critter.has_mind() && !( critter.has_flag( json_flag_TEEPSHIELD ) || critter.has_flag( mon_flag_TEEP_IMMUNE ) ) ) {
+
+    if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
         const monster *m = this->as_monster();
         int mindsight_vision = (m->type->vision_day) / 1.5;
         return target_range <= std::max( mindsight_vision, m->type->vision_night );
