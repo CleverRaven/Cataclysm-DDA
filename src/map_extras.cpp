@@ -379,14 +379,15 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
         // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
         // half it's length so that it spawns more over the center of the debris area
         const bounding_box bbox = veh.get_bounding_box();
-        const point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
-        const point offset( veh.dir_vec().x * length.x / 2, veh.dir_vec().y * length.y / 2 );
-        const point min( std::abs( bbox.p1.x ), std::abs( bbox.p1.y ) );
-        const int x_max = SEEX * 2 - bbox.p2.x - 1;
-        const int y_max = SEEY * 2 - bbox.p2.y - 1;
+        const point_rel_ms length( std::abs( bbox.p2.x() - bbox.p1.x() ),
+                                   std::abs( bbox.p2.y() - bbox.p1.y() ) );
+        const point_rel_ms offset( veh.dir_vec().x * length.x() / 2, veh.dir_vec().y * length.y() / 2 );
+        const point_rel_ms min( std::abs( bbox.p1.x() ), std::abs( bbox.p1.y() ) );
+        const int x_max = SEEX * 2 - bbox.p2.x() - 1;
+        const int y_max = SEEY * 2 - bbox.p2.y() - 1;
 
         // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-        wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
+        wreckage_pos = { clamp( c.x + offset.x(), min.x(), x_max ), clamp( c.y + offset.y(), min.y(), y_max ), abs_sub.z};
     }
 
     vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos.raw(), dir1, rng( 1, 33 ), 1 );

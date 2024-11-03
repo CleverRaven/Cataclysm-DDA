@@ -750,8 +750,8 @@
     "description": "A couple of posts that can support a fence.  They look lonely without the fence.",
     "symbol": "#",
     "color": "brown",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT" ],
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "WALL", "PERMEABLE", "THIN_OBSTACLE" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "pointy_stick", "count": 2 } ] },
     "bash": {
       "str_min": 8,

@@ -3134,7 +3134,7 @@
     "coverage": 20,
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 350,
       "str_max": 650,
