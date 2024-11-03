@@ -87,6 +87,7 @@ targets:
         CLANG_CXX_LANGUAGE_STANDARD: c++17
         CMAKE_CXX_STANDARD: 17
         CMAKE_CXX_STANDARD_REQUIRED: ON
+        CMAKE_CXX_EXTENSIONS: OFF
         CLANG_WARN_DOCUMENTATION_COMMENTS: false
         GCC_WARN_64_TO_32_BIT_CONVERSION: No
         SWIFT_OBJC_INTEROP_MODE: objcxx
@@ -107,7 +108,7 @@ targets:
           #- "-Werror"
           - "-Wall -Wextra -Wformat-signedness -Wlogical-op -Wmissing-declarations -Wmissing-noreturn" 
           - "-Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wsuggest-override" 
-          - "-Wunused-macros -Wzero-as-null-pointer-constant -Wno-unknown-warning-option -Wredundant-decls" 
+          - "-Wunused-macros -Wzero-as-null-pointer-constant -Wno-unknown-warning-option -Wno-nullability-extension -Wredundant-decls" 
           - "-fsigned-char"
         OTHER_LDFLAGS:
           - "-Wl,-ld_classic"
@@ -118,7 +119,7 @@ targets:
         GCC_PREPROCESSOR_DEFINITIONS: 
           - RELEASE 
         OTHER_CPLUSPLUSFLAGS:
-          - "-Os -DNDEBUG -pthread '-std=c++14'"
+          - "-Os -DNDEBUG -pthread '-std=c++17'"
     dependencies:
       # TODO: build libcataclysm-tiles-common.a as it's own step again. Currently rolled in to single build
       # - framework: libs/libcataclysm-tiles-common.a
