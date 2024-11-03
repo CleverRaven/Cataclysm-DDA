@@ -131,6 +131,7 @@ static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -472,6 +473,12 @@ bool Creature::sees( const Creature &critter ) const
     if( this->has_flag( mon_flag_ALL_SEEING ) ) {
         const monster *m = this->as_monster();
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
+    }
+
+    if( this->has_flag( mon_flag_MIND_SEEING ) && critter.has_mind() && !( critter.has_flag( json_flag_TEEPSHIELD ) || critter.has_flag( mon_flag_TEEP_IMMUNE ) ) ) {
+        const monster *m = this->as_monster();
+        int mindsight_vision = (m->type->vision_day) / 1.5;
+        return target_range <= std::max( mindsight_vision, m->type->vision_night );
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
