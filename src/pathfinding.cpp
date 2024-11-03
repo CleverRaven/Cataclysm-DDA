@@ -308,15 +308,19 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return climb_cost;
     }
 
-    // If it's a door and we can open it from the tile we're on, cool.
-    // The open version of terrain/furniture also needs to be passable for our size.
+    // If terrain/furniture is openable but we can't fit through the open version, ignore the tile
     if( allow_open_doors &&
-        ( ( terrain.open &&
-            ( terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ? settings.size <
-              creature_size::large : true ) ) ||
-          ( furniture.open &&
-            ( furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ? settings.size <
-              creature_size::large : true ) ) ) &&
+        ( ( terrain.open && terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+          ( furniture.open && furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+          // Windows with curtains need to be opened twice
+          ( terrain.open->open && terrain.open->open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ) &&
+        settings.size > creature_size::medium
+      ) {
+        return PF_IMPASSABLE;
+    }
+
+    // If it's a door and we can open it from the tile we're on, cool.
+    if( allow_open_doors && ( terrain.open || furniture.open ) &&
         ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
             !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
           !is_outside( cur ) ) ) {
