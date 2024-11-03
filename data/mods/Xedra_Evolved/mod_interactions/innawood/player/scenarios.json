@@ -70,5 +70,19 @@
     "eoc": [ "scenario_once_bitten" ],
     "requirement": "avchievement_gains_vampire_trait",
     "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "once_bitten_naked_and_afraid",
+    "copy-from": "infected",
+    "name": "Once Bitten, Naked and Afraid",
+    "points": 0,
+    "description": "Whether you were visiting Salem's Lot, boating on the Demeter, vacationing to Transylvania, or just another lost boy or girl, you've been bitten by a stranger at twilight the night before.  And to make matters worse, when you woke up, you were alone in the wilderness with no sign of humanity anywhere.  You're going to have to survive somehow.",
+    "start_name": "Alone",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
+    "professions": [ "naked" ],
+    "eoc": [ "scenario_once_bitten" ],
+    "requirement": "avchievement_gains_vampire_trait",
+    "flags": [ "LONE_START" ]
   }
 ]
