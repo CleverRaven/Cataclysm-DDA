@@ -23,7 +23,7 @@ extension UIScreen {
 }
 
 public func iosGetDisplayDensity() -> Float {
-    let scale = UIScreen.current?.screen ?? 1.0
+    let scale = UIScreen.current?.nativeScale ?? 1.0
     return Float(scale)
 }
 
