@@ -860,7 +860,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
             }
             int part_num = veh.get_non_fake_part( coll.part );
 
-            const point &collision_point = veh.part( coll.part ).mount;
+            const point_rel_ms &collision_point = veh.part( coll.part ).mount;
             const int coll_dmg = coll.imp;
 
             // Shock damage, if the target part is a rotor treat as an aimed hit.
@@ -1059,8 +1059,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     }
 
     // Used to calculate the epicenter of the collision.
-    point epicenter1;
-    point epicenter2;
+    point_rel_ms epicenter1;
+    point_rel_ms epicenter2;
 
     float dmg;
     // Vertical collisions will be simpler for a while (1D)
@@ -1194,8 +1194,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.damage( *this, target_parm, dmg2_part, damage_bash );
     }
 
-    epicenter2.x /= coll_parts_cnt;
-    epicenter2.y /= coll_parts_cnt;
+    epicenter2.x() /= coll_parts_cnt;
+    epicenter2.y() /= coll_parts_cnt;
 
     if( dmg2_part > 100 ) {
         // Shake vehicle because of collision
@@ -1573,7 +1573,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
 
             // ramps make everything super tricky
             int psg_offset_z = -ramp_offset;
-            tripoint next_pos; // defaults to 0,0,0
+            tripoint_rel_ms next_pos; // defaults to 0,0,0
             if( parts_to_move.empty() ) {
                 next_pos = veh_part.precalc[1];
             }
@@ -1796,9 +1796,9 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return false;
     }
-    const furn_id new_target_furniture = new_furniture == furn_f_clear ? furn_str_id::NULL_ID() :
-                                         new_furniture;
-    const furn_id old_id = current_submap->get_furn( l );
+    const furn_id &new_target_furniture = new_furniture == furn_f_clear ? furn_str_id::NULL_ID() :
+                                          new_furniture;
+    const furn_id &old_id = current_submap->get_furn( l );
     if( old_id == new_target_furniture ) {
         // Nothing changed
         return true;
@@ -1817,7 +1817,7 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) &&
         new_target_furniture != furn_str_id::NULL_ID() ) {
-        const ter_id current_ter = current_submap->get_ter( l );
+        const ter_id &current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
                   "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
                   new_target_furniture.id().str(), p.to_string(), current_ter.id().str() );
@@ -2093,7 +2093,7 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 {
     std::map<tripoint_bub_ms, furn_id> tmp_override;
 
-    for( const auto element : override ) {
+    for( const auto &element : override ) {
         tmp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
@@ -2165,11 +2165,11 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
     std::map<tripoint_bub_ms, ter_id> temp_override;
     std::map<tripoint_bub_ms, furn_id> temp_override_f;
 
-    for( const auto element : override ) {
+    for( const auto &element : override ) {
         temp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
-    for( const auto element : override_f ) {
+    for( const auto &element : override_f ) {
         temp_override_f.insert( {tripoint_bub_ms( element.first ), element.second} );
     }
 
@@ -2220,7 +2220,7 @@ uint8_t map::get_known_rotates_to_f( const tripoint_bub_ms &p,
  */
 const harvest_id &map::get_harvest( const tripoint_bub_ms &pos ) const
 {
-    const furn_id furn_here = furn( pos );
+    const furn_id &furn_here = furn( pos );
     if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         const harvest_id &harvest = furn_here->get_harvest();
         if( !harvest.is_null() ) {
@@ -2228,7 +2228,7 @@ const harvest_id &map::get_harvest( const tripoint_bub_ms &pos ) const
         }
     }
 
-    const ter_id ter_here = ter( pos );
+    const ter_id &ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return harvest_id::NULL_ID();
     }
@@ -2244,7 +2244,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 const std::set<std::string> &map::get_harvest_names( const tripoint_bub_ms &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
-    const furn_id furn_here = furn( pos );
+    const furn_id &furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
         if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
             return null_harvest_names;
@@ -2253,7 +2253,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint_bub_ms &pos 
         return furn_here->get_harvest_names();
     }
 
-    const ter_id ter_here = ter( pos );
+    const ter_id &ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return null_harvest_names;
     }
@@ -2315,7 +2315,7 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         debugmsg( "Tried to set terrain at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return true;
     }
-    const ter_id old_id = current_submap->get_ter( l );
+    const ter_id &old_id = current_submap->get_ter( l );
     if( old_id == new_terrain ) {
         // Nothing changed
         return false;
@@ -2833,7 +2833,7 @@ bool map::supports_above( const tripoint_bub_ms &p ) const
         return true;
     }
 
-    const furn_id frn_id = tile.get_furn();
+    const furn_id &frn_id = tile.get_furn();
     if( frn_id != furn_str_id::NULL_ID() ) {
         const furn_t &frn = frn_id.obj();
         if( frn.movecost < 0 ) {
@@ -2880,7 +2880,7 @@ void map::drop_everything( const tripoint_bub_ms &p )
 
 void map::drop_furniture( const tripoint_bub_ms &p )
 {
-    const furn_id frn = furn( p );
+    const furn_id &frn = furn( p );
     if( frn == furn_str_id::NULL_ID() || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
         return;
     }
@@ -2908,7 +2908,7 @@ void map::drop_furniture( const tripoint_bub_ms &p )
             return SS_GOOD_SUPPORT;
         }
 
-        const furn_id frn_id = furn( below_dest );
+        const furn_id &frn_id = furn( below_dest );
         if( frn_id != furn_str_id::NULL_ID() ) {
             const furn_t &frn = frn_id.obj();
             // Allow crushing tiny/nocollide furniture
@@ -4257,6 +4257,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         }
     }
 
+    if( has_flag( ter_furn_flag::TFLAG_ALARMED, p ) ) {
+        sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                       false, "environment", "alarm" );
+    }
+
     if( bash == nullptr || ( bash->destroy_only && !params.destroy ) ) {
         // Nothing bashable here
         if( impassable( p ) ) {
@@ -4401,7 +4406,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
             // Take the tent down
             const int rad = tentp->second.obj().bash.collapse_radius;
             for( const tripoint_bub_ms &pt : points_in_radius( tentp->first, rad ) ) {
-                const furn_id frn = furn( pt );
+                const furn_id &frn = furn( pt );
                 if( frn == furn_str_id::NULL_ID() ) {
                     continue;
                 }
@@ -4764,8 +4769,8 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
         return false;
     };
 
-    furn_id furniture = furn( p );
-    ter_id terrain = ter( p );
+    const furn_id &furniture = furn( p );
+    const ter_id &terrain = ter( p );
     bool hit_something = false;
 
     // shoot through furniture or terrain and see if we hit something
@@ -4841,7 +4846,7 @@ bool map::hit_with_acid( const tripoint_bub_ms &p )
     if( passable( p ) ) {
         return false;    // Didn't hit the tile!
     }
-    const ter_id t = ter( p );
+    const ter_id &t = ter( p );
     if( t == ter_t_wall_glass || t == ter_t_wall_glass_alarm ||
         t == ter_t_vat ) {
         ter_set( p, ter_t_floor );
@@ -5789,30 +5794,59 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     if( recharge_part_idx >= 0 ) {
-        const vehicle_part &recharge_part = cur_veh.part( recharge_part_idx );
-        if( !recharge_part.removed && recharge_part.enabled ) {
+
+        vehicle_part &recharge_part = cur_veh.part( recharge_part_idx );
+
+        int turns_elapsed = to_turns<int>( calendar::turn - recharge_part.last_charged );
+        recharge_part.last_charged = calendar::turn;
+
+        if( !recharge_part.removed && recharge_part.enabled  && ( turns_elapsed > 0 ) ) {
+            int dischargeable = turns_elapsed * recharge_part.info().bonus;
+            // Convert to kilojoule
+            dischargeable = ( dischargeable / 1000 ) + x_in_y( dischargeable % 1000, 1000 );
             for( item &n : cur_veh.get_items( vp ) ) {
+
+                if( dischargeable <= 0 ) {
+                    break;
+                }
+
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     continue;
                 }
+
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-                if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining( nullptr ) ) ) {
-                    int power = recharge_part.info().bonus;
-                    while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1 );
-                        // Around 85% efficient; a few of the discharges don't actually recharge
-                        if( missing == 0 && !one_in( 7 ) ) {
-                            if( n.is_vehicle_battery() ) {
-                                n.mod_energy( 1_kJ );
-                            } else {
-                                n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
-                            }
-                        }
-                        power -= 1000;
-                    }
-                    break;
+                int chargeable = {};
+                if( n.is_vehicle_battery() ) {
+                    chargeable = std::ceil( units::to_kilojoule<double>( n.type->battery->max_capacity -
+                                            n.energy_remaining( nullptr ) ) );
+                } else if( n.ammo_capacity( ammo_battery ) ) {
+                    chargeable = n.ammo_capacity( ammo_battery ) - n.ammo_remaining();
                 }
+
+                if( chargeable > 0 ) {
+
+                    // Around 85% efficient; a few of the discharges don't actually recharge
+                    const int needed_for_full_charge = ( chargeable * 7 / 6 ) + x_in_y( chargeable * 7 % 6, 6 );
+                    const int to_discharge = std::min( needed_for_full_charge, dischargeable );
+                    const int discharged = to_discharge - cur_veh.discharge_battery( to_discharge );
+
+                    int charged = {};
+                    if( discharged < to_discharge  || needed_for_full_charge >= dischargeable ) {
+                        charged = ( discharged * 6 / 7 ) + x_in_y( discharged * 6 % 7, 7 );
+                        dischargeable = 0;
+                    } else {
+                        charged = chargeable;
+                        dischargeable -= needed_for_full_charge;
+                    }
+
+                    if( n.is_vehicle_battery() ) {
+                        n.mod_energy( units::from_kilojoule( static_cast<std::int64_t>( charged ) ) );
+                    } else {
+                        n.ammo_set( itype_battery, n.ammo_remaining() + charged );
+                    }
+
+                }
+
             }
         }
     }
@@ -5959,7 +5993,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( *this, vp.pos(), engine_heater_is_on );
+        vp.part().process_contents( *this, vp.pos_bub(), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
@@ -7748,7 +7782,7 @@ int map::obstacle_coverage( const tripoint_bub_ms &loc1, const tripoint_bub_ms &
         obstaclepos = new_point;
         return false;
     } );
-    if( const furn_id obstacle_f = furn( tripoint_bub_ms( obstaclepos ) ) ) {
+    if( const furn_id &obstacle_f = furn( tripoint_bub_ms( obstaclepos ) ) ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( tripoint_bub_ms( obstaclepos ) ) ) {
@@ -7797,7 +7831,7 @@ int map::ledge_coverage( const Creature &viewer, const tripoint_bub_ms &target_p
         }
     }
     // Viewer eye level is higher when standing on furniture
-    const furn_id viewer_furn = furn( viewer_p );
+    const furn_id &viewer_furn = furn( viewer_p );
     if( viewer_furn.obj().id ) {
         eye_level += viewer_furn->coverage * 0.01f;
     }
@@ -7855,7 +7889,7 @@ int map::ledge_coverage( const tripoint_bub_ms &viewer_p, const tripoint_bub_ms 
         return 0;
     }
     // Target has a coverage penalty when standing on furniture
-    const furn_id target_furn = furn( target_p );
+    const furn_id &target_furn = furn( target_p );
     if( target_furn ) {
         ledge_coverage -= target_furn->coverage;
     }
@@ -7870,7 +7904,7 @@ int map::coverage( const tripoint &p ) const
 
 int map::coverage( const tripoint_bub_ms &p ) const
 {
-    if( const furn_id obstacle_f = furn( p ) ) {
+    if( const furn_id &obstacle_f = furn( p ) ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -8936,7 +8970,7 @@ void map::rad_scorch( const tripoint_bub_ms &p, const time_duration &time_since_
         furn_set( p, furn_str_id::NULL_ID() );
     }
 
-    const ter_id tid = ter( p );
+    const ter_id &tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
             {ter_t_grass, ter_t_dirt},
@@ -9075,7 +9109,7 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            const ter_id ter_here = sub_here->get_ter( { x, y } );
+            const ter_id &ter_here = sub_here->get_ter( { x, y } );
             if( !ter_here.id()->has_flag( "EMPTY_SPACE" ) ) {
                 continue;
             }
@@ -9757,7 +9791,7 @@ void map::build_obstacle_cache(
     // Cache all the vehicle stuff in one loop
     for( wrapped_vehicle &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
-            tripoint_bub_ms p { v.pos + vp.part().precalc[0]};
+            tripoint_bub_ms p { v.pos + vp.part().precalc[0].raw()};
             if( p.z() != start.z() ) {
                 break;
             }

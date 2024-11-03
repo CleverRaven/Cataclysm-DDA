@@ -127,6 +127,35 @@
   },
   {
     "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFIMMUNE",
+    "copy-from": "INFIMMUNE",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GENERIC_UNCANNY_DODGE_TRAIT",
+    "name": { "str": "The Trait That Gives you Uncanny Dodge" },
+    "description": "The Uncanny Dodge flag only works on traits or bionics, so this is a trait for powers that grant it.",
+    "points": 1,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,

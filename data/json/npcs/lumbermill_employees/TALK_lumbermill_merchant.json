@@ -42,11 +42,27 @@
       },
       { "text": "Can I purchase some of your wares?", "topic": "TALK_LUMBERMILL_FABRICATE" },
       {
+        "text": "Can I use the gate?  I'd like to bring a vehicle for trade.",
+        "topic": "TALK_LUMBERMILL_GATE_PERMISSION"
+      },
+      {
         "text": "Any jobs you need done?",
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUMBERMILL_GATE_PERMISSION",
+    "dynamic_line": "I'll tell the guys to open one of the gates, but you gotta promise to be careful.  We've got a simple rule here: You break it, you buy it!",
+    "responses": [
+      {
+        "text": "I'll be careful.",
+        "effect": { "mapgen_update": "ocu_lumbermill_opens_a_gate", "om_terrain": "lumbermill_1_1_ocu" },
+        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
+      }
     ]
   },
   {

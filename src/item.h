@@ -372,6 +372,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
+
+        /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
          * Used for nicer messages only.
          */
@@ -1545,7 +1551,10 @@ class item : public visitable
          * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
          * @return true if the item was successfully connected.
          */
+        // TODO: Get rid of untyped overload.
         ret_val<void> link_to( vehicle &veh, const point &mount,
+                               link_state link_type = link_state::no_link );
+        ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
 
         /**
@@ -1812,6 +1821,11 @@ class item : public visitable
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
 
+        /** Checks is item affect fall */
+        bool affects_fall() const;
+
+        //flat damage reduction (increase if negative) on fall (some logic may apply)
+        int fall_damage_reduction() const;
         /**
           * if the item will spill if placed into a container
           */

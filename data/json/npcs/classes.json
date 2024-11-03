@@ -11,6 +11,12 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_NONE_HARDENED",
+    "name": { "str": "No class" },
+    "job_description": "I'm a dummy class for better NPC items later into the Cataclysm."
+  },
+  {
+    "type": "npc_class",
     "id": "NC_TEST_CLASS",
     "name": { "str": "Debug Dude" },
     "job_description": "I'm helping you test the game.",

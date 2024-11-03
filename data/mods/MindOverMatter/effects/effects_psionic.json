@@ -1247,7 +1247,21 @@
     "desc": [ "You're just another survivor.  There's definitely nothing odd about you at all." ],
     "rating": "good",
     "remove_message": "The illusions around you fall away.",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "UGLINESS",
+            "multiply": {
+              "math": [
+                "max(((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 )) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

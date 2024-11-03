@@ -247,16 +247,29 @@ static bool has_pre_terrain( const construction &con, const tripoint_bub_ms &p )
 
     map &here = get_map();
     if( con.pre_is_furniture ) {
-        furn_id f = furn_id( con.pre_terrain );
-        return here.furn( p ) == f;
+        furn_id f = here.furn( p );
+        for( const auto &pre_terrain : con.pre_terrain ) {
+            if( f == furn_id( pre_terrain ) ) {
+                return true;
+            }
+        }
     } else {
-        ter_id t = ter_id( con.pre_terrain );
-        return here.ter( p ) == t;
+        ter_id t = here.ter( p );
+        for( const auto &pre_terrain : con.pre_terrain ) {
+            if( t == ter_id( pre_terrain ) ) {
+                return true;
+            }
+        }
     }
+    return false;
 }
 
 static bool has_pre_terrain( const construction &con )
 {
+    if( con.pre_terrain.empty() ) {
+        return true;
+    }
+
     tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     for( const tripoint_bub_ms &p : get_map().points_in_radius( avatar_pos, 1 ) ) {
         if( p != avatar_pos && has_pre_terrain( con, p ) ) {
@@ -667,14 +680,22 @@ construction_id construction_menu( const bool blueprint )
                 // Example: First step of dig pit could say something about
                 // requiring diggable ground.
                 if( !current_con->pre_terrain.empty() ) {
-                    std::string require_string;
+                    // C++20 will allow this to be generated on demand with a std::ranges::views::transform
+                    std::vector<std::string> require_names( current_con->pre_terrain.size() );
                     if( current_con->pre_is_furniture ) {
-                        require_string = furn_str_id( current_con->pre_terrain )->name();
+                        std::transform( current_con->pre_terrain.cbegin(), current_con->pre_terrain.cend(),
+                        require_names.begin(), []( std::string pre_terrain ) {
+                            return furn_str_id( pre_terrain )->name();
+                        } );
                     } else {
-                        require_string = ter_str_id( current_con->pre_terrain )->name();
+                        std::transform( current_con->pre_terrain.cbegin(), current_con->pre_terrain.cend(),
+                        require_names.begin(), []( std::string pre_terrain ) {
+                            return ter_str_id( pre_terrain )->name();
+                        } );
                     }
                     nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
-                    add_line( _( "Requires: " ) + colorize( require_string, pre_color ) );
+                    add_line( _( "Requires: " ) + colorize( enumerate_as_string( require_names,
+                                                            enumeration_conjunction::or_ ), pre_color ) );
                 }
                 if( !current_con->pre_note.empty() ) {
                     add_line( _( "Annotation: " ) + colorize( current_con->pre_note, color_data ) );
@@ -1140,8 +1161,8 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
-    const furn_id f = here.furn( p );
-    const ter_id t = here.ter( p );
+    const furn_id &f = here.furn( p );
+    const ter_id &t = here.ter( p );
     if( con.pre_specials.size() > 1 ) { // pre-functions
         for( const auto &special : con.pre_specials ) {
             if( !special( p ) ) {
@@ -1720,14 +1741,14 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     here.add_vehicle_to_cache( veh );
 }
 
-void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
+void construct::done_wiring( const tripoint_bub_ms &p, Character &who )
 {
     get_map().partial_con_remove( p );
 
-    place_appliance( p, vpart_from_item( itype_wall_wiring ) );
+    place_appliance( p, vpart_from_item( itype_wall_wiring ), who );
 }
 
-void construct::done_appliance( const tripoint_bub_ms &p, Character & )
+void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
 {
     map &here = get_map();
 
@@ -1748,7 +1769,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
-    place_appliance( p, vpart, base );
+    place_appliance( p, vpart, who, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
@@ -1980,9 +2001,10 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &p, Cha
         here.ter_set( p, ter_t_dirt );
     }
 
-    if( here.ter( p ) == ter_t_clay ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_clay ) {
         add_msg( _( "You gather some clay." ) );
-    } else if( here.ter( p ) == ter_t_sand ) {
+    } else if( t == ter_t_sand ) {
         add_msg( _( "You gather some sand." ) );
     } else {
         // Fall through to an undefined material.
@@ -2032,10 +2054,11 @@ void construct::remove_above( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
-    ter_id roof = here.ter( p ).obj().roof;
+    const ter_id &t = here.ter( p );
+    const ter_id &roof = t.obj().roof;
     if( !roof ) {
         debugmsg( "add_roof post_ter called on terrain lacking roof definition, %s.",
-                  here.ter( p ).id().c_str() );
+                  t.id().c_str() );
     }
     here.ter_set( p + tripoint_above, roof );
 }
@@ -2221,10 +2244,12 @@ void load_construction( const JsonObject &jo )
     }
 
     jo.read( "pre_note", con.pre_note );
-    con.pre_terrain = jo.get_string( "pre_terrain", "" );
-    if( con.pre_terrain.size() > 1
-        && con.pre_terrain[0] == 'f'
-        && con.pre_terrain[1] == '_' ) {
+    con.pre_terrain = jo.get_as_string_set( "pre_terrain" );
+    const std::string &first_pre_terrain = *con.pre_terrain.begin();
+    if( !con.pre_terrain.empty()
+        && first_pre_terrain.size() > 1
+        && first_pre_terrain[0] == 'f'
+        && first_pre_terrain[1] == '_' ) {
         con.pre_is_furniture = true;
     }
 
@@ -2395,12 +2420,14 @@ void check_constructions()
         }
 
         if( !c.pre_terrain.empty() ) {
-            if( c.pre_is_furniture ) {
-                if( !furn_str_id( c.pre_terrain ).is_valid() ) {
-                    debugmsg( "Unknown pre_terrain (furniture) %s in %s", c.pre_terrain, display_name );
+            for( const auto &pre_terrain : c.pre_terrain ) {
+                if( c.pre_is_furniture ) {
+                    if( !furn_str_id( pre_terrain ).is_valid() ) {
+                        debugmsg( "Unknown pre_terrain (furniture) %s in %s", pre_terrain, display_name );
+                    }
+                } else if( !ter_str_id( pre_terrain ).is_valid() ) {
+                    debugmsg( "Unknown pre_terrain (terrain) %s in %s", pre_terrain, display_name );
                 }
-            } else if( !ter_str_id( c.pre_terrain ).is_valid() ) {
-                debugmsg( "Unknown pre_terrain (terrain) %s in %s", c.pre_terrain, display_name );
             }
         }
         if( !c.post_terrain.empty() ) {
@@ -2556,7 +2583,12 @@ build_reqs get_build_reqs_for_furn_ter_ids(
             total_builds[build.id] = 0;
         }
         total_builds[build.id] += count;
-        std::string build_pre_ter = build.pre_terrain;
+        if( build.pre_terrain.size() > 1 ) {
+            debugmsg( "get_build_reqs_for_furn_ter_ids tried to get reqs for %s which has multiple pre_terrain",
+                      build.str_id.str() );
+            return;
+        }
+        std::string build_pre_ter = build.pre_terrain.empty() ? "" : *build.pre_terrain.begin();
         while( !build_pre_ter.empty() ) {
             bool found_pre = false;
             // only consider DECORATE constructions if there's no other way to build the target
@@ -2568,22 +2600,30 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                     if( ( pre_build.category == construction_category_DECORATE ) != allow_decorate ) {
                         continue;
                     }
-                    if( pre_build.category == construction_category_REPAIR ) {
+                    if( pre_build.category == construction_category_REPAIR ||
+                        pre_build.category == construction_category_DECONSTRUCT ) {
                         continue;
                     }
+                    std::string pre_build_pre_terrain = pre_build.pre_terrain.empty() ? "" : *
+                                                        pre_build.pre_terrain.begin();
                     if( ( pre_build.post_terrain.empty() ||
                           ( !pre_build.post_is_furniture &&
                             ter_id( pre_build.post_terrain ) != base_ter ) ) &&
                         ( pre_build.pre_terrain.empty() ||
                           ( pre_build.post_is_furniture &&
-                            ter_id( pre_build.pre_terrain ) == base_ter ) ) &&
+                            ter_id( pre_build_pre_terrain ) == base_ter ) ) &&
                         pre_build.post_terrain == build_pre_ter &&
-                        pre_build.pre_terrain != build.post_terrain ) {
+                        pre_build_pre_terrain != build.post_terrain ) {
+                        if( pre_build.pre_terrain.size() > 1 ) {
+                            debugmsg( "get_build_reqs_for_furn_ter_ids tried to recurse into %s which has multiple pre_terrain",
+                                      pre_build.str_id.str() );
+                            return;
+                        }
                         if( total_builds.find( pre_build.id ) == total_builds.end() ) {
                             total_builds[pre_build.id] = 0;
                         }
                         total_builds[pre_build.id] += count;
-                        build_pre_ter = pre_build.pre_terrain;
+                        build_pre_ter = pre_build_pre_terrain;
                         found_pre = true;
                         break;
                     }

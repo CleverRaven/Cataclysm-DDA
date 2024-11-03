@@ -55,7 +55,7 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
 }
 
 bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const std::optional<item> &base )
+                      const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -63,7 +63,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
+        debugmsg( "error constructing appliance" );
         return false;
     }
 
@@ -123,6 +123,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
         orient_part( veh, vpinfo, partnum );
     }
+    veh->set_owner( owner );
     return true;
 }
 
@@ -400,13 +401,13 @@ void veh_app_interact::refill()
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().id.str() );
-        const point q = veh->coord_translate( pt->mount );
+        const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
             act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );
-        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
         act.values.push_back( a_point.x );
         act.values.push_back( a_point.y );
         act.values.push_back( -a_point.x );

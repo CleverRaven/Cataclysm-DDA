@@ -220,25 +220,26 @@ void tutorial_game::per_turn()
     }
 
     for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
-        if( here.ter( p ) == ter_t_door_c ) {
+        const ter_id &t = here.ter( p );
+        if( t == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == ter_t_door_o ) {
+        } else if( t == ter_t_door_o ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == ter_t_door_locked_interior ) {
+        } else if( t == ter_t_door_locked_interior ) {
             add_message( tut_lesson::LESSON_LOCKED_DOOR );
             break;
-        } else if( here.ter( p ) == ter_t_window ) {
+        } else if( t == ter_t_window ) {
             add_message( tut_lesson::LESSON_WINDOW );
             break;
         } else if( here.furn( p ) == furn_f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( here.ter( p ) == ter_t_stairs_down ) {
+        } else if( t == ter_t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == ter_t_water_dispenser ) {
+        } else if( t == ter_t_water_dispenser ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         } else if( here.tr_at( p ).id == tr_bubblewrap ) {
@@ -251,10 +252,11 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_PICKUP );
     }
 
-    if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_11 ) {
+    const trap &tr = here.tr_at( player_character.pos_bub() );
+    if( tr == tr_tutorial_11 ) {
         player_character.set_hunger( 100 );
         player_character.stomach.empty();
-    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_13 ) {
+    } else if( tr == tr_tutorial_13 ) {
         player_character.set_pain( 20 );
     }
 }

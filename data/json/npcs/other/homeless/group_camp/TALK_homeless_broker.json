@@ -92,7 +92,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_BROKER_STAY",
     "dynamic_line": "Well, I don't see anything wrong with it.  We should have a spare bed in that tent you could sleep on.  Just don't cause any trouble.",
-    "responses": [ { "text": "Thank you.", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "Thank you.", "topic": "TALK_NONE", "effect": { "u_set_fac_relation": "share public goods" } } ]
   },
   {
     "type": "talk_topic",

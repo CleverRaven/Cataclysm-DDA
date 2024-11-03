@@ -761,6 +761,28 @@ void Character::randomize_cosmetics()
     }
 }
 
+void Character::starting_inv_damage_worn( int days )
+{
+    //damage equipment depending on days passed
+    int chances_to_damage = std::max( days / 14 + rng( -3, 3 ), 0 );
+    do {
+        std::vector<item *> worn_items;
+        worn.inv_dump( worn_items );
+        if( !worn_items.empty() ) {
+            item *to_damage = random_entry( worn_items );
+            int damage_count = rng( 1, 3 );
+            bool destroy = false;
+            do {
+                destroy = to_damage->inc_damage();
+                if( destroy ) {
+                    //if the clothing was destroyed in a simulated "dangerous situation", all contained items are lost
+                    i_rem( to_damage );
+                }
+            } while( damage_count-- > 0 && !destroy );
+        }
+    } while( chances_to_damage-- > 0 );
+}
+
 field_type_id Character::bloodType() const
 {
     if( has_flag( json_flag_ACIDBLOOD ) ) {
@@ -1399,18 +1421,22 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+    if( cache_has_item_with_flag( flag_ALARMCLOCK, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_WATCH, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+    if( cache_has_item_with_flag( flag_WATCH, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
 }
 
@@ -9120,8 +9146,8 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
-    const ter_id ter_at_pos = here.ter( pos );
-    const furn_id furn_at_pos = here.furn( pos );
+    const ter_id &ter_at_pos = here.ter( pos );
+    const furn_id &furn_at_pos = here.furn( pos );
 
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
@@ -10193,7 +10219,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
                               1 );
         run_cost_effect_mul( obstacle_mult, _( "Obstacle Muts." ) );
 
-        if( has_proficiency( proficiency_prof_parkour ) ) {
+        if( has_proficiency( proficiency_prof_parkour ) && !is_prone() ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
 
@@ -12529,7 +12555,7 @@ int Character::impact( const int force, const tripoint &p )
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
-            // TODO: Make furniture matter
+            effective_force = std::max( 0, effective_force - here.furn( p )->fall_damage_reduction );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
@@ -12538,8 +12564,28 @@ int Character::impact( const int force, const tripoint &p )
                 mod /= 1.0f + ( 0.1f * swim_skill );
             }
         }
-    }
+        //checking for items on floor
+        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        !here.items_with( p, [&]( item const & it ) {
+        return it.affects_fall();
+        } ).empty() ) {
+            std::list<item_location> fall_affecting_items =
+            here.items_with( p, [&]( const item & it ) {
+                return it.affects_fall();
+            } );
 
+            for( const item_location &floor_item : fall_affecting_items ) {
+                effective_force = std::max( 0, effective_force - floor_item.get_item()->fall_damage_reduction() );
+            }
+
+        }
+    }
+    //for wielded items
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        weapon.affects_fall() ) {
+        effective_force = std::max( 0, effective_force - weapon.fall_damage_reduction() );
+
+    }
     // Rescale for huge force
     // At >30 force, proper landing is impossible and armor helps way less
     if( effective_force > 30 ) {

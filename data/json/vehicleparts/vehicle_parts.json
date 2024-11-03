@@ -65,7 +65,7 @@
   {
     "type": "vehicle_part",
     "id": "null",
-    "name": { "str": "null part" },
+    "name": { "str": "null part", "//~": "NO_I18N" },
     "categories": [ "other" ],
     "color": "red",
     "broken_color": "red",

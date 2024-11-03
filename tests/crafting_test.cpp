@@ -451,7 +451,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
     const tripoint_bub_ms battery_pos = test_origin + tripoint_north;
     std::optional<item> battery_item( "test_storage_battery" );
-    place_appliance( battery_pos, vpart_ap_test_storage_battery, battery_item );
+    place_appliance( battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     give_tools( tools, plug_in_tools );
     const inventory &crafting_inv = player_character.crafting_inventory();
