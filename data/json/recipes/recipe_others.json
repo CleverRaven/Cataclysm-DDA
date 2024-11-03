@@ -3380,5 +3380,19 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 1 ] ], [ [ "sheet_canvas", 1 ], [ "sheet_canvas_patchwork", 1 ] ] ],
     "byproducts": [ [ "splinter", 8 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hobo_candle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "gum", 3 ], ["superglue", 10], ["bone_glue", 1]], [ [ "jug_plastic", 1 ] ], [ [ "string_36", 1 ] ], [ ["can_drink", 1] ] ],
+    "byproducts": [ [ "splinter", 8 ] ]
   }
 ]
