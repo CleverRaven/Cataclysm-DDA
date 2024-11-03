@@ -18,12 +18,8 @@
           "condition": {
             "and": [
               { "not": { "u_has_flag": "NO_PSIONICS" } },
-              {
-                "and": [
-                  { "not": { "u_has_effect": "effect_telepathic_ignorance_self" } },
-                  { "not": { "npc_has_effect": "effect_telepathic_ignorance" } }
-                ]
-              }
+              { "not": { "u_has_effect": "telepathic_ignorance_self" } },
+              { "not": { "npc_has_effect": "telepathic_ignorance" } }
             ]
           },
           "monster_message": ""

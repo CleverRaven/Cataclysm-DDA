@@ -399,7 +399,7 @@
     "id": "hidebehind_apply_obscurity_power",
     "name": { "str": "Hidebehind Obscurity enemy check" },
     "description": "Preps for using Obscurity when a hostile target is detected.",
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "max_level": 1,
     "effect": "effect_on_condition",

@@ -482,7 +482,6 @@ bool Creature::sees( const Creature &critter ) const
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
-
     if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
         const monster *m = this->as_monster();
         int mindsight_vision = (m->type->vision_day) / 1.5;
@@ -504,8 +503,6 @@ bool Creature::sees( const Creature &critter ) const
     auto visible = []( const Character * ch ) {
         return ch == nullptr || !ch->is_invisible();
     };
-
-    const Character *ch = critter.as_character();
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
