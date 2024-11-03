@@ -397,7 +397,7 @@
     "valid": false,
     "starting_trait": true,
     "types": [ "MANA_ADD", "MANA_REGEN", "MANA_MULT" ],
-    "flags": [ "NON_THRESH", "NO_SPELLCASTING" ],
+    "flags": [ "NO_SPELLCASTING" ],
     "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -1 }, { "value": "MAX_MANA", "multiply": -1 } ] } ]
   }
 ]
