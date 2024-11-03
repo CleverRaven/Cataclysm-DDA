@@ -881,7 +881,7 @@ void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, st
     const std::string prefix = "npctalk_var_";
     for( auto i = map_of_vars.begin(); i != map_of_vars.end(); ) {
         if( i->first.rfind( prefix, 0 ) == 0 ) {
-            auto extracted = ( map_of_vars ).extract( i++ );
+            auto extracted =  map_of_vars.extract( i++ );
             std::string new_key = extracted.key().substr( prefix.size() );
             extracted.key() = new_key;
             map_of_vars.insert( std::move( extracted ) );
@@ -889,8 +889,6 @@ void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, st
             ++i;
         }
     }
-
-    return;
 }
 
 // Set up all default values for a new game
