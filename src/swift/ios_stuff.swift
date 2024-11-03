@@ -1,7 +1,7 @@
 import Foundation
 import GameController
 import UIKit
-import CoreAudio
+import AVFoundation
 
 extension UIWindow {
     static var current: UIWindow? {
@@ -23,7 +23,7 @@ extension UIScreen {
 }
 
 public func iosGetDisplayDensity() -> Float {
-    let scale = UIWindow.current?.screen ?? 1.0
+    let scale = UIScreen.current?.screen ?? 1.0
     return Float(scale)
 }
 
