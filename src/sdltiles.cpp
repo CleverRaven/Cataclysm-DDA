@@ -286,12 +286,9 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
-#endif
-#if defined(__IPHONEOS__)
-    window_flags |= SDL_WINDOW_MAXIMIZED;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
@@ -299,7 +296,7 @@ static void WinCreate()
         display = 0;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Bugfix for red screen on Samsung S3/Mali
     // https://forums.libsdl.org/viewtopic.php?t=11445
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
