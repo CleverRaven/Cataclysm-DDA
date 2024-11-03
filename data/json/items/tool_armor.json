@@ -896,7 +896,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT" ],
         "default_magazine": "medium_battery_cell"
       }
     ],
