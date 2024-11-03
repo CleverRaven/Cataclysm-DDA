@@ -27,6 +27,10 @@
   {
     "type": "snippet",
     "category": "<fungaloid_harvest>",
-    "text": [ "<fungaloid_harvest>", "<fungaloid_harvest_deeper>", "<fungaloid_harvest>  <fungaloid_harvest_deeper>" ]
+    "text": [
+      { "text": { "str": "<fungaloid_harvest>", "//~": "NO_I18N" } },
+      { "text": { "str": "<fungaloid_harvest_deeper>", "//~": "NO_I18N" } },
+      { "text": { "str": "<fungaloid_harvest>  <fungaloid_harvest_deeper>", "//~": "NO_I18N" } }
+    ]
   }
 ]

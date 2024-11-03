@@ -51,25 +51,19 @@
     "type": "item_group",
     "id": "NC_NONE_stabbing",
     "subtype": "distribution",
-    "items": [ "knife_folding" ]
+    "groups": [ "melee_stabbing_common" ]
   },
   {
     "type": "item_group",
     "id": "NC_NONE_bashing",
-    "items": [
-      [ "hammer", 20 ],
-      [ "wrench", 20 ],
-      [ "hammer_sledge", 20 ],
-      [ "pipe", 20 ],
-      [ "baton-extended", 20 ],
-      [ "crowbar", 20 ]
-    ]
+    "subtype": "distribution",
+    "groups": [ "melee_bashing_common" ]
   },
   {
     "type": "item_group",
     "id": "NC_NONE_cutting",
     "subtype": "distribution",
-    "items": [ "knife_cleaver" ]
+    "groups": [ "melee_cutting_common" ]
   },
   {
     "type": "item_group",

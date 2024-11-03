@@ -11,7 +11,7 @@
     "id": "t_label",
     "width": 1,
     "style": "symbol",
-    "string": " ",
+    "string": { "str": " ", "//~": "NO_I18N" },
     "colors": [ "c_dark_gray" ],
     "type": "widget"
   },
@@ -19,77 +19,83 @@
     "id": "l_space",
     "width": 1,
     "copy-from": "t_label",
-    "string": " ",
+    "string": { "str": " ", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_sw",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╰",
+    "string": { "str": "╰", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_nw",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╭",
+    "string": { "str": "╭", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_se",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╯",
+    "string": { "str": "╯", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_ne",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╮",
+    "string": { "str": "╮", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_sc_cl",
     "width": 1,
     "copy-from": "t_border",
-    "string": "┴",
+    "string": { "str": "┴", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_nc_cl",
     "width": 1,
     "copy-from": "t_border",
-    "string": "┬",
+    "string": { "str": "┬", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_hc",
     "width": 1,
     "copy-from": "t_border",
-    "string": "─",
+    "string": { "str": "─", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_vc",
     "width": 1,
     "copy-from": "t_border",
-    "string": "│",
+    "string": { "str": "│", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_div1",
     "width": 41,
     "copy-from": "t_border",
-    "string": "═══════╧═══════════════════════╧═════════",
+    "string": {
+      "str": "═══════╧═══════════════════════╧═════════",
+      "//~": "NO_I18N"
+    },
     "type": "widget"
   },
   {
     "id": "l_div2",
     "width": 41,
     "copy-from": "t_border",
-    "string": "═════════════════════════════════════════",
+    "string": {
+      "str": "═════════════════════════════════════════",
+      "//~": "NO_I18N"
+    },
     "type": "widget"
   },
   {
@@ -231,7 +237,7 @@
     "id": "i_splinted_sym",
     "width": 1,
     "style": "symbol",
-    "string": "‡",
+    "string": { "str": "‡", "//~": "NO_I18N" },
     "colors": [ "h_white" ],
     "type": "widget"
   },
@@ -429,7 +435,7 @@
     "width": 7,
     "style": "symbol",
     "colors": [ "c_white_red" ],
-    "string": "══╾⠡╼══",
+    "string": { "str": "══╾⠡╼══", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
@@ -926,14 +932,14 @@
     "id": "l_moon_phase_left",
     "width": 1,
     "copy-from": "t_label",
-    "string": "[",
+    "string": { "str": "[", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_moon_phase_right",
     "width": 1,
     "copy-from": "t_label",
-    "string": "]",
+    "string": { "str": "]", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
@@ -1115,31 +1121,31 @@
     "clauses": [
       {
         "id": "bright",
-        "text": "☼☼☼☼☼",
+        "text": { "str": "☼☼☼☼☼", "//~": "NO_I18N" },
         "color": "c_white",
         "condition": { "math": [ "u_val('fine_detail_vision_mod')", "<=", "1" ] }
       },
       {
         "id": "cloudy",
-        "text": "☼☼☼☼",
+        "text": { "str": "☼☼☼☼", "//~": "NO_I18N" },
         "color": "c_yellow",
         "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "2" ] }
       },
       {
         "id": "shady",
-        "text": "☼☼☼",
+        "text": { "str": "☼☼☼", "//~": "NO_I18N" },
         "color": "c_light_gray",
         "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "3" ] }
       },
       {
         "id": "dark",
-        "text": "☼☼",
+        "text": { "str": "☼☼", "//~": "NO_I18N" },
         "color": "c_dark_gray",
         "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "4" ] }
       },
       {
         "id": "very dark",
-        "text": "☼",
+        "text": { "str": "☼", "//~": "NO_I18N" },
         "color": "c_dark_gray",
         "condition": { "math": [ "u_val('fine_detail_vision_mod')", ">=", "5" ] }
       }
@@ -1239,21 +1245,21 @@
     "id": "l_dex",
     "width": 2,
     "copy-from": "t_label",
-    "string": "D:",
+    "string": { "ctxt": "label_dexterity", "str": "D:" },
     "type": "widget"
   },
   {
     "id": "l_int",
     "width": 2,
     "copy-from": "t_label",
-    "string": "I:",
+    "string": { "ctxt": "label_intelligence", "str": "I:" },
     "type": "widget"
   },
   {
     "id": "l_per",
     "width": 2,
     "copy-from": "t_label",
-    "string": "P:",
+    "string": { "ctxt": "label_perception", "str": "P:" },
     "type": "widget"
   },
   {
@@ -1328,7 +1334,7 @@
         "condition": { "math": [ "u_val('power_percentage')", ">", "99" ] }
       }
     ],
-    "default_clause": { "text": "     " },
+    "default_clause": { "text": { "str": "     ", "//~": "NO_I18N" } },
     "type": "widget"
   },
   {
@@ -1415,38 +1421,58 @@
     "clauses": [
       {
         "id": "engorged",
-        "text": "o⁰ₒ○",
+        "text": { "str": "o⁰ₒ○", "//~": "NO_I18N" },
         "color": "c_light_green_green",
         "condition": { "u_has_effect": "hunger_engorged" }
       },
-      { "id": "full", "text": "████", "color": "h_green", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "full",
+        "text": { "str": "████", "//~": "NO_I18N" },
+        "color": "h_green",
+        "condition": { "u_has_effect": "hunger_full" }
+      },
       {
         "id": "satisfied",
-        "text": "  ██",
+        "text": { "str": "  ██", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": { "u_has_effect": "hunger_satisfied" }
       },
-      { "id": "blank", "text": "    ", "color": "h_green", "condition": { "u_has_effect": "hunger_blank" } },
-      { "id": "hungry", "text": "█   ", "color": "c_light_gray", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "blank",
+        "text": { "str": "    ", "//~": "NO_I18N" },
+        "color": "h_green",
+        "condition": { "u_has_effect": "hunger_blank" }
+      },
+      {
+        "id": "hungry",
+        "text": { "str": "█   ", "//~": "NO_I18N" },
+        "color": "c_light_gray",
+        "condition": { "u_has_effect": "hunger_hungry" }
+      },
       {
         "id": "very_hungry",
-        "text": "██  ",
+        "text": { "str": "██  ", "//~": "NO_I18N" },
         "color": "h_yellow",
         "condition": { "u_has_effect": "hunger_very_hungry" }
       },
       {
         "id": "near_starving",
-        "text": "███ ",
+        "text": { "str": "███ ", "//~": "NO_I18N" },
         "color": "h_red",
         "condition": { "u_has_effect": "hunger_near_starving" }
       },
       {
         "id": "starving",
-        "text": "████",
+        "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_red",
         "condition": { "u_has_effect": "hunger_starving" }
       },
-      { "id": "famished", "text": "XXXX", "color": "i_red", "condition": { "u_has_effect": "hunger_famished" } }
+      {
+        "id": "famished",
+        "text": { "str": "XXXX", "//~": "NO_I18N" },
+        "color": "i_red",
+        "condition": { "u_has_effect": "hunger_famished" }
+      }
     ],
     "type": "widget"
   },
@@ -1464,13 +1490,13 @@
     "clauses": [
       {
         "id": "turgid",
-        "text": "o⁰ₒ○",
+        "text": { "str": "o⁰ₒ○", "//~": "NO_I18N" },
         "color": "c_light_green_green",
         "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
       },
       {
         "id": "hydrated",
-        "text": "████",
+        "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
@@ -1478,7 +1504,7 @@
       },
       {
         "id": "slaked",
-        "text": "  ██",
+        "text": { "str": "  ██", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
@@ -1486,7 +1512,7 @@
       },
       {
         "id": "neutral",
-        "text": "    ",
+        "text": { "str": "    ", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
@@ -1494,7 +1520,7 @@
       },
       {
         "id": "thirsty",
-        "text": "█   ",
+        "text": { "str": "█   ", "//~": "NO_I18N" },
         "color": "h_yellow",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst')", "<=", "80" ] } ]
@@ -1502,7 +1528,7 @@
       },
       {
         "id": "very_thirsty",
-        "text": "██  ",
+        "text": { "str": "██  ", "//~": "NO_I18N" },
         "color": "h_yellow",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst')", "<=", "240" ] } ]
@@ -1510,7 +1536,7 @@
       },
       {
         "id": "dehydrated",
-        "text": "███ ",
+        "text": { "str": "███ ", "//~": "NO_I18N" },
         "color": "h_red",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst')", "<=", "450" ] } ]
@@ -1518,7 +1544,7 @@
       },
       {
         "id": "dehydrated2",
-        "text": "████",
+        "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_red",
         "condition": {
           "and": [ { "math": [ "u_val('instant_thirst')", ">", "450" ] }, { "math": [ "u_val('instant_thirst')", "<=", "520" ] } ]
@@ -1526,7 +1552,7 @@
       },
       {
         "id": "parched",
-        "text": "XXXX",
+        "text": { "str": "XXXX", "//~": "NO_I18N" },
         "color": "i_red",
         "condition": { "math": [ "u_val('instant_thirst')", ">", "520" ] }
       }
@@ -2024,7 +2050,7 @@
     "id": "l_wtrns",
     "width": 2,
     "copy-from": "t_label",
-    "string": { "ctxt": "label_weary_transition_level", "str": "W:" },
+    "string": { "ctxt": "label_weary", "str": "W:" },
     "type": "widget"
   },
   {

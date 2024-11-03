@@ -8,7 +8,7 @@
       "fill_ter": "t_concrete",
       "rows": [
         "........................",
-        "------------------------",
+        "||||||||||||||||||||||||",
         "|   T                  |",
         "|                      |",
         "|   }                  |",
@@ -26,17 +26,16 @@
         "|        8S            |",
         "|                      |",
         "| T hST{BT             |",
-        "|   {              -++--",
+        "|   {              |++||",
         "|   B              |  ..",
         "| T hST            |  ..",
         "|   }              |  ..",
-        "--------------------...."
+        "||||||||||||||||||||...."
       ],
       "terrain": {
         " ": "t_concrete",
         "*": "t_floor",
         "+": "t_chaingate_c",
-        "-": "t_chainfence_h",
         ".": "t_grass",
         "8": "t_potential_trans",
         "B": "t_oil_circ_brkr_l",
@@ -55,7 +54,7 @@
         "w": "t_wall_b",
         "x": "t_chainfence_posts",
         "{": "t_current_trans",
-        "|": "t_chainfence_v",
+        "|": "t_chainfence",
         "}": "t_lgtn_arrest",
         "4": "t_gutter_downspout"
       },

@@ -3523,6 +3523,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
             wound.set_duration( std::max( 0_turns, dur ) );
             if( wound.get_duration() == 0_turns ) {
                 heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
+                patient.remove_effect( effect_bleed, healed );
             } else {
                 heal_msg( m_good, _( "You reduce the bleeding, but it's not stopped yet." ),
                           _( "The bleeding is reduced, but not stopped." ) );

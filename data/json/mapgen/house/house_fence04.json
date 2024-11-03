@@ -42,7 +42,7 @@
       "terrain": {
         "{": "t_chainfence",
         ",": "t_chaingate_c",
-        "/": "t_railing_h",
+        "/": "t_railing",
         "=": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "0": "t_floor_noroof",
         "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -104,7 +104,7 @@
         "{": "t_chainfence",
         ",": "t_chaingate_c",
         "`": "t_null",
-        "/": "t_railing_h",
+        "/": "t_railing",
         "=": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "0": "t_floor_noroof",
         "H": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },

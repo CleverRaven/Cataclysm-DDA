@@ -223,8 +223,8 @@
         "d": "t_dirt",
         "g": "t_grass",
         "r": "t_grass",
-        "P": "t_chainfence_v",
-        "|": "t_chainfence_v",
+        "P": "t_chainfence",
+        "|": "t_chainfence",
         "X": "t_dirtmound",
         "Y": "t_dirtmound"
       },

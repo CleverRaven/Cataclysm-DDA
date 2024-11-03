@@ -129,7 +129,7 @@
         "+": "t_door_c",
         "b": "t_door_metal_locked",
         "c": "t_gates_mech_control",
-        "d": "t_chainfence_h",
+        "d": "t_chainfence",
         "&": "t_chaingate_l",
         "5": "t_thconc_floor",
         "6": "t_thconc_floor",
