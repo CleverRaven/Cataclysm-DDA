@@ -160,6 +160,10 @@ static int TERMINAL_HEIGHT;
 static bool fullscreen;
 static int scaling_factor;
 
+#if defined(__IPHONEOS__)
+std::list<input_context *> input_context::input_context_stack;
+#endif
+
 using cata_cursesport::cursecell;
 
 //***********************************
