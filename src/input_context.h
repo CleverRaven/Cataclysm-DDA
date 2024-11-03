@@ -8,9 +8,7 @@
 #include <string_view>
 #include <vector>
 
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <list>
-#endif
 
 #include "action.h"
 #include "input_enums.h"
