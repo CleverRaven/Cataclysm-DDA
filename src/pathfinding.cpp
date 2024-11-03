@@ -228,7 +228,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
-    // what to do with p_special & PathfindingFlag::RestrictTiny?
+    // RestrictTiny isn't checked since it's unclear how it would actually work as there's no category smaller than tiny
     if( settings.size && (
             ( p_special & PathfindingFlag::RestrictSmall && settings.size > creature_size::tiny ) ||
             ( p_special & PathfindingFlag::RestrictMedium && settings.size > creature_size::small ) ||
