@@ -815,7 +815,7 @@ std::string math_exp::math_exp_impl::error( std::string_view str, std::string_vi
         std::holds_alternative<var>( output.top().data ) ) {
         // NOLINTNEXTLINE(cata-translate-string-literal): debug message
         mess = string_format( "%s (or unknown function %s)", mess,
-                              std::get<var>( output.top().data ).varinfo.name.substr( 12 ) );
+                              std::get<var>( output.top().data ).varinfo.name );
     }
 
     offset = std::max<std::ptrdiff_t>( 0, offset - 1 );
