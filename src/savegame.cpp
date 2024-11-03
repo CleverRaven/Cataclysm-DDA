@@ -276,17 +276,7 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
             std::unordered_map<std::string, std::string> context;
             for( const JsonMember &jm : elem.get_object( "context" ) ) {
-                // migrate existing context variables with npctalk_var_foo to just foo
-                // remove after 0.J
-                if( savegame_loading_version < 35 ) {
-                    const std::string prefix = "npctalk_var_";
-                    if( jm.name().rfind( prefix, 0 ) == 0 ) {
-                        std::string new_key = jm.name().substr( prefix.size() );
-                        context[new_key] = jm.get_string();
-                    } else {
-                        context[jm.name()] = jm.get_string();
-                    }
-                }
+                context[jm.name()] = jm.get_string();
             }
             temp.context = context;
             queued_global_effect_on_conditions.push( temp );
