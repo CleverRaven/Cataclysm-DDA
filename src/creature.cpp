@@ -486,7 +486,7 @@ bool Creature::sees( const Creature &critter ) const
 
     if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
         const monster *m = this->as_monster();
-        int mindsight_vision = (m->type->vision_day) / 1.5;
+        int mindsight_vision = ( m->type->vision_day ) / 1.5;
         return target_range <= std::max( mindsight_vision, m->type->vision_night );
     }
 
