@@ -40,10 +40,8 @@ class input_context
 {
         friend class keybindings_ui;
     public:
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
-#endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             coordinate_input_received( false ), handling_coordinate_input( false ) {

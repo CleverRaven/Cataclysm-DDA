@@ -157,7 +157,7 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 std::list<input_context *> input_context::input_context_stack;
 #endif
 
