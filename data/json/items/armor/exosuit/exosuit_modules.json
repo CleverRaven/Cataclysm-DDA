@@ -156,45 +156,5 @@
       "target": "exo_flashlight"
     },
     "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
-  },
-  {
-    "id": "exo_recoil",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "name": { "str": "recoil mitigation system (off)", "str_pl": "recoil mitigation systems (off)" },
-    "description": "This module takes partial control of the exosuit while firing, damping recoil.  Activate before firing.",
-    "weight": "500 g",
-    "volume": "500 ml",
-    "material": [ "qt_steel", "plastic" ],
-    "symbol": "o",
-    "color": "white",
-    "charges_per_use": 1,
-    "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate your suit's recoil dampeners.",
-      "target": "exo_recoil_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "There is not enough charge to activate the module."
-    },
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_exo_recoil" } ] }
-  },
-  {
-    "id": "exo_recoil_on",
-    "copy-from": "exo_recoil",
-    "type": "TOOL",
-    "name": { "str": "recoil mitigation system (on)", "str_pl": "recoil mitigation systems (on)" },
-    "power_draw": "2 W",
-    "revert_to": "exo_recoil",
-    "use_action": {
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "You turn off the recoil mitigation system.",
-      "target": "exo_recoil"
-    },
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ]
   }
 ]

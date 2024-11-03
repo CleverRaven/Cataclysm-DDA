@@ -1,6 +1,6 @@
 [
   {
-    "id": "afs_exo_standard_underlayer",
+    "id": "exo_standard_underlayer",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -27,11 +27,10 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_1" } ] }
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
-    "id": "afs_exo_combat_underlayer",
+    "id": "exo_combat_underlayer",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -66,7 +65,6 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_2" } ] }
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   }
 ]
