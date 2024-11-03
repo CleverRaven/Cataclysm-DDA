@@ -1304,7 +1304,6 @@ monster *vehicle::get_harnessed_animal() const
     return nullptr;
 }
 
-// "turn" parameter changed to "trn" to avoid clashing with "turn" operation.
 void vehicle::selfdrive( const int trn, const int acceleration )
 {
     if( !is_towed() && !magic && !get_harnessed_animal() && !has_part( "AUTOPILOT" ) ) {
@@ -1413,7 +1412,6 @@ bool vehicle::check_heli_ascend( Character &p ) const
     return true;
 }
 
-// Parameter "turn" changed to "trn" to not clash with operation "turn".
 void vehicle::pldrive( Character &driver, const int trn, const int acceleration, const int z )
 {
     bool is_non_proficient = false;

@@ -1824,7 +1824,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void selfdrive( int turn, int acceleration );
+        void selfdrive( int trn, int acceleration );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1833,11 +1833,11 @@ class vehicle
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle
-         * @param turn is turn direction
+         * @param trn is turn direction
          * @param acceleration is acceleration
          * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( Character &driver, int turn, int acceleration, int z = 0 );
+        void pldrive( Character &driver, int trn, int acceleration, int z = 0 );
 
         /**
         * Flags item \p tool with PSEUDO, if it has MOD pocket then a `pseudo_magazine_mod` is
