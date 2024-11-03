@@ -1824,7 +1824,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void selfdrive( const int turn, int acceleration );
+        void selfdrive( int turn, int acceleration );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1837,7 +1837,7 @@ class vehicle
          * @param acceleration is acceleration
          * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( Character &driver, int turn, const int acceleration, int z = 0 );
+        void pldrive( Character &driver, int turn, int acceleration, int z = 0 );
 
         /**
         * Flags item \p tool with PSEUDO, if it has MOD pocket then a `pseudo_magazine_mod` is
