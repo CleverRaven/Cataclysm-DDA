@@ -153,6 +153,10 @@ New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
 EOCs modifying calories track spent calories
+Mutations can have a custom activation message
+modify random NPC starting equipment based on time passed
+Throwing items while piloting mechs (with the mech's assist)
+Faction relationships can be modified through dialogue
 
 
 ## Content:
@@ -336,6 +340,12 @@ Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
+Adds in new .357, .44, and .22 LR lever action rifles
+Carpets have won't always be the same color
+Beds are draggable
+Large clay pots can now be crafted without a lid and used in the slow sand water filter
+Fence posts and bollards are more similar
+melee weapon item groups for random NPCs
 
 
 ## Interface:
@@ -434,6 +444,7 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
+Repeat survey missions without leaving the interface
 
 
 ## Mods:
@@ -689,6 +700,24 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
+[MoM/Magiclysm interaction] Synchronize anti-Stare powers, Thought Shield spell protects from telepathy
+[Xedra Evolve] Add Ruach counter to sidebars
+[Sky Island/MoM/XE interactions] Allow starting with XE/MoM scenario-limited professions in Sky Island
+Apply copy-from to mod scenarios
+[MoM] Move Mirror-mask bonus to effect, obsolete mutations
+[Xedra Evolved] Require Traverse the Wilds to target a tree as the endpoint
+[Xedra Evolved] More Lilin powers
+[DinoMod] mountable and harnessable audit
+Magus spell Slow Description Change
+[DinoMod] eggs directly into hatchlings
+[MoM] Update mutated animals to match vanilla changes
+[XE] Add cryptid hunting and a few cryptids
+[Magiclysm] Zombie versions of lizardfolk and ravenfolk drop tainted flesh like all other zombies
+[MoM] Update everglow matrix lighting recipes
+[Magiclysm] Feral dabblers: add small chance ferals know a single spell
+[MoM] Remove monster inherent speed boosts, replace with actual powers that have to be used
+[XE] fix two bugs about learning new blood gifts
+[Magiclysm] Add a trait that prevents magical spellcasting
 
 
 ## Balance:
@@ -788,6 +817,11 @@ Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
+Factions don't mind the player smashing zombie corpses
+Remove Calcium From Rare Drugs Itemgroup
+ranged weapon selection for random NPCs
+Some factions claim only one OMT
+Added some reaction to furniture when falling down
 
 
 ## Bugfixes:
@@ -1052,6 +1086,26 @@ Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix Britishisms in the JSON files.
 Fix non-battery charge consumption of active items
+Heating elements no longer drop from smashing the fume hood
+Cotton patch can be used to stop bleeding
+No salvage for ballistic plates
+Forbid drinking liquids underwater for characters with `Aqueous Repose` and `Embrace of the Waters` mutations, as it stated in mutations' descriptions
+New appliances have correct owner
+Minor gun fixes
+Fix flatlander not using special attack
+Battery charger appliances now work when outside the reality bubble
+Dropped lit cigarette won't start fires if there's no flammable terrain, furniture, or items on that tile
+Use correct symbols for vehicle front corners
+Invalid recharge type and instant book reading
+fix scenario spawns
+Stop 20x Melatonin Spawns
+Debug log no longer one entry behind
+'Burst-fire wielded weapon' now actually sets wielded weapon to burst or auto firing modes
+[Xedra Evolved] Fix homullus trait regressions
+Fix shelter and burning building starts
+Camp food can be distributed from vehicle cargo zones
+Bleeding can be stopped with bandages without waiting an extra turn
+Don't apply parkour bonus when moving prone
 
 
 ## Performance:
@@ -1162,6 +1216,10 @@ Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Refactoring armor order from Cody
+Allow construction pre_terrain to be a list of alternatives
+Refactoring Hub01 dialogues
+remove furniture/terrain legacy alias code and JSON
 
 
 ## Build:
@@ -1185,6 +1243,7 @@ stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
 Fixed Linux experimental build automation issues caused by SDL dependencies
+Fix CMake build after adding freetype
 
 
 ## I18N and A11Y:
@@ -1193,6 +1252,7 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Do not extract pseudoitems/some UI labels/debug strings for translations
 
 
 # 0.G (Gaiman)
