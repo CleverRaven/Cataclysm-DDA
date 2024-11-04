@@ -1115,7 +1115,7 @@
     "type": "TOOL",
     "copy-from": "hobo_candle",
     "name": { "str": "hobo candle" },
-    "description": "An gasoline based hobo candle, akin to a makeshift alcohol lamp, held together by the hopes, dreams and gum of a survivor.  It doesn't provide very much light, but it can burn for about a week.  This hobo candle is lit.",
+    "description": "A gasoline-based hobo candle, akin to a makeshift alcohol lamp, held together by the hopes, dreams and gum of a survivor.  It doesn't provide very much light, but it can burn for about a week.  This hobo candle is lit.",
     "turns_per_charge": 238,
     "use_action": [
       { "type": "firestarter", "moves": 200 },
