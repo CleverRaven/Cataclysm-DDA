@@ -185,16 +185,6 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
 #endif
 
-#if defined(__IPHONEOS__)
-#if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
-    SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
-#endif
-
-#if defined(SDL_HINT_TOUCH_MOUSE_EVENTS)
-    SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
-#endif
-#endif
-
 #if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
     // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
     // broken implementation on Windows which does not show.
@@ -310,11 +300,17 @@ static void WinCreate()
 #endif
 
     // Prevent mouse|touch input confusion
-#if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
+#if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH) && !defined(__IPHONEOS__)
     SDL_SetHint( SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1" );
 #else
     SDL_SetHint( SDL_HINT_MOUSE_TOUCH_EVENTS, "0" );
     SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
+#endif
+#endif
+
+#if defined(__IPHONEOS__)
+#if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
+    SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
 #endif
 #endif
 
@@ -327,7 +323,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -405,7 +401,7 @@ static void WinCreate()
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                               fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
 
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
+#if defined(__ANDROID__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
@@ -2977,12 +2973,6 @@ static void CheckMessages()
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             needupdate = true;
         }
-    }
-#endif
-
-#if defined(IOS_KEYBOARD)
-    if( !SDL_IsTextInputActive() ) {
-        StartTextInput();
     }
 #endif
 

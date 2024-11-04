@@ -102,7 +102,6 @@ targets:
           - TILES 
           - BACKTRACE 
           - SDL_SOUND
-          - IOS_KEYBOARD
           - $(inherited)
         OTHER_CPLUSPLUSFLAGS: 
           #- "-Werror"
