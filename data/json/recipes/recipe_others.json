@@ -3392,6 +3392,11 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "gum", 3 ], [ "super_glue", 10], [ "bone_glue", 1]], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "string_36", 1 ] ], [ [ "can_drink", 1] ] ]
+    "components": [
+      [ [ "gum", 3 ], [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "string_36", 1 ] ],
+      [ [ "can_drink", 1 ] ]
+    ]
   }
 ]
