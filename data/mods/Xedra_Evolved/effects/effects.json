@@ -2539,5 +2539,22 @@
       { "limb_score": "vision", "modifier": 0.55 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_owl_form_pass_through_walls",
+    "//": "Allows owl form lilin with the appropriate traits to fly through walls and avoid attacks",
+    "name": [  ],
+    "desc": [  ],
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "TURN_INTO_OWL_TRAITS" },
+        "values": [ { "value": "EVASION", "add": { "math": [ "0.4 + (u_vitamin('lilin_ruach_vitamin') / 18000)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_trait": "TURN_INTO_OWL_TRAITS" }, { "not": "is_day" } ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ]
+      }
+    ]
   }
 ]

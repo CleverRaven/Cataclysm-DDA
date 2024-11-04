@@ -615,6 +615,19 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_OWL_FORM_PASS_THROUGH_WALLS",
+    "name": { "str": "Like an Unclean Spirit" },
+    "description": "Your owl form is half-spirit and half-flesh. You have a high chance to dodge any attacks against you, and may pass straight through walls as long as it is night.",
+    "points": 6,
+    "purifiable": false,
+    "player_display": false,
+    "prereqs": [ "LILIN_TURN_INTO_OWL" ],
+    "prereqs2": [ "LILIN_UNCANNY_DODGE_WHILE_REAPING" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT",
     "name": { "str": "The Night-Hunter" },
     "description": "You are at home in the night, and your prowess is heightened while the moon is up as long as you have any ruach within you.",
