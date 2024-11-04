@@ -75,7 +75,7 @@ Another example.  Reloaded ammo is derived from the factory equivalent but with 
 * Flags can be deleted via `delete`.  It is not an error if the deleted flag does not exist in the parent.
 
 
-Not all `type`s work work the same.  For `"type": "MONSTER"`, `relative` would look slightly different and can be defined in two ways:
+Not all `type`s work the same.  For `"type": "MONSTER"`, `relative` would look slightly different and can be defined in two ways:
 
 ```json
     "//": "base monster",
