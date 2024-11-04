@@ -160,6 +160,21 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_BONUS_PERSUASION",
+    "name": { "//~": "This is a reference to Proverbs 5:3", "str": "Smoother than Oil" },
+    "points": 2,
+    "description": "Your presence is intoxicating, and humans have a hard time resisting your charms.  You gain a bonus to your persuasion chance.",
+    "prereqs": [ "PRETTY", "BEAUTIFUL" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SOCIAL_PERSUADE", "add": { "math": [ "12 + (12 * u_has_trait('THRESH_LILIN')" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_AOE_LINE_DISEASE",
     "name": { "str": "Unleash the Night-Wind" },
     "points": 4,
@@ -187,7 +202,8 @@
     "description": "You can use your powers to spin a web of illusion around yourself, increasing your attractiveness to a supernatural degree.  While the harsh light of the sun destroys the illusion, you need merely to move back into the shadows to restore it.",
     "points": 2,
     "purifiable": false,
-    "prereqs": [ "PRETTY", "BEAUTIFUL" ],
+    "prereqs": [ "BEAUTIFUL" ],
+    "prereqs2": [ "LILIN_BONUS_PERSUASION" ],
     "category": [ "LILIN" ],
     "changes_to": [ "LILIN_TEMPORARY_GLORIOUS_2" ],
     "active": true,
@@ -543,20 +559,20 @@
   {
     "type": "mutation",
     "id": "LILIN_RUACH_EFFICIENCY",
-    "name": { "str": "Grasping at Heaven" },
+    "name": { "//~": "This is a reference to Proverbs 23:5", "str": "Glancing at Riches" },
     "description": "You've learned how to more efficiently use your ruach, greedily keeping some behind for yourself when you activate your powers.  Powers that cost ruach have their initial and periodic costs reduced by 15%.  This does not reduce the continual ruach cost of staying alive.",
     "points": 5,
     "starting_trait": false,
     "purifiable": false,
-    "prereqs": [ "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
+    "prereqs": [ "LILIN_HOLD_MORE_RUACH", "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
     "prereqs2": [ "LILIN_GAIN_MORE_FOCUS" ],
     "changes_to": [ "LILIN_RUACH_EFFICIENCY_UPGRADE" ],
     "category": [ "LILIN" ]
   },
   {
     "type": "mutation",
-    "id": "LILIN_RUACH_EFFICIENCY_UPGRADE",
-    "name": { "str": "Climbing Babel" },
+    "id": "LILIN_RUACH_EFFICIENCY_UPGRADE_2",
+    "name": { "//~": "This is a reference to Jeremiah 5:27", "str": "Like a Cage Full of Birds" },
     "description": "You jealously parcel out your ruach, only spending exactly as much as you need and no more.  Powers that cost ruach have their initial and periodic costs reduced by 15%, with an additional reduction that grows based on your total amount of ruach, to a maximum reduction of 33%.  This does not reduce the continual ruach cost of staying alive.",
     "points": 10,
     "starting_trait": false,
