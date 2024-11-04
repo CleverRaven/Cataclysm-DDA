@@ -3058,34 +3058,6 @@ static void CheckMessages()
                         break;
                 }
                 break;
-#if defined(__IPHONEOS__)
-            case SDL_APP_WILLENTERBACKGROUND:
-                if( SDL_IsTextInputActive() ) {
-                    // TODO: Abstract common method with above usage
-                    text_input_active_when_regaining_focus = true;
-                    // Stop text input to not intefere with other programs
-                    SDL_StopTextInput();
-                    // Clear uncommited IME text. TODO: commit IME text instead.
-                    last_input = input_event();
-                    last_input.type = input_event_t::keyboard_char;
-                    last_input.edit.clear();
-                    last_input.edit_refresh = true;
-                    text_refresh = true;
-                } else {
-                    text_input_active_when_regaining_focus = false;
-                }
-                break;
-            case SDL_APP_DIDENTERBACKGROUND:
-                window_focus = false;
-                break;
-            case SDL_APP_DIDENTERFOREGROUND:
-                window_focus = true;
-                // Restore text input status
-                if( text_input_active_when_regaining_focus ) {
-                    SDL_StartTextInput();
-                }
-                break;
-#endif
             case SDL_RENDER_TARGETS_RESET:
                 render_target_reset = true;
                 break;
@@ -3117,7 +3089,7 @@ static void CheckMessages()
                         // key was handled
                     } else {
                         last_input = input_event( lc, input_event_t::keyboard_char );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -3185,7 +3157,7 @@ static void CheckMessages()
                     if( strlen( ev.text.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.text.text );
                         last_input = input_event( lc, input_event_t::keyboard_char );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
