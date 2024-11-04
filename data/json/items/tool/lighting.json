@@ -1097,7 +1097,7 @@
     "symbol": "G",
     "color": "white",
     "ammo": [ "gasoline" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "gasoline": 3000} } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "gasoline": 3000 } } ],
     "use_action": {
       "target": "hobo_candle_lit",
       "msg": "You light the hobo candle.",
