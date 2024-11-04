@@ -10219,7 +10219,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
                               1 );
         run_cost_effect_mul( obstacle_mult, _( "Obstacle Muts." ) );
 
-        if( has_proficiency( proficiency_prof_parkour ) ) {
+        if( has_proficiency( proficiency_prof_parkour ) && !is_prone() ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
 
