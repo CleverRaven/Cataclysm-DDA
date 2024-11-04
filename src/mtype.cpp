@@ -233,7 +233,7 @@ void set_mon_flag_ids()
     mon_flag_MECH_DEFENSIVE = mon_flag_id( "MECH_DEFENSIVE" );
     mon_flag_MECH_RECON_VISION = mon_flag_id( "MECH_RECON_VISION" );
     mon_flag_MILKABLE = mon_flag_id( "MILKABLE" );
-    mon_flag_MIND_SEEING = mon_flag_id ("MIND_SEEING");
+    mon_flag_MIND_SEEING = mon_flag_id( "MIND_SEEING" );
     mon_flag_NEMESIS = mon_flag_id( "NEMESIS" );
     mon_flag_NEVER_WANDER = mon_flag_id( "NEVER_WANDER" );
     mon_flag_NIGHT_INVISIBILITY = mon_flag_id( "NIGHT_INVISIBILITY" );
