@@ -218,9 +218,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_EVIL_EYE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
       {
         "npc_message": "You glare balefully at <u_name> and project all of your malice into your gaze.",
         "type": "neutral"
@@ -246,9 +246,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AOE_DAZE",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "160" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "160 * lilin_has_ruach_efficiency()" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "160" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "160 * lilin_has_ruach_efficiency()" ] },
       { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } },
       { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 },
       { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 },
@@ -259,9 +259,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AOE_LINE_DISEASE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "240 * lilin_has_ruach_efficiency()" ] },
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240 * lilin_has_ruach_efficiency()" ] },
       { "npc_message": "You summon a wind filled with pestilence.", "type": "neutral" },
       {
         "u_add_effect": "effect_lilin_supernatural_disease",
@@ -284,9 +284,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_DISEASE_ENHANCEMENT_DAMAGE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180 * lilin_has_ruach_efficiency()" ] },
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180" ] },
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180 * lilin_has_ruach_efficiency()" ] },
       { "npc_message": "You infuse your ruach into the plague-infected <u_name>.", "type": "neutral" },
       {
         "u_add_effect": "effect_lilin_supernatural_disease_focused",
@@ -350,9 +350,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AVOID_SLEEP",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "300" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "300 * lilin_has_ruach_efficiency()" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300 * lilin_has_ruach_efficiency()" ] },
       { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
       {
         "if": { "math": [ "u_val('sleepiness')", "<", "0" ] },
@@ -372,9 +372,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "240 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240 * lilin_has_ruach_efficiency()" ] },
               { "u_message": "A thick fog begins to rise.", "type": "neutral" },
               { "math": [ "magic_weather_dense_fog", "=", "1" ] },
               { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
@@ -421,9 +421,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_SPEED_BOOST",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360 * lilin_has_ruach_efficiency()" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
       {
         "u_add_effect": "effect_lilin_speed_boost",
         "duration": {
@@ -478,9 +478,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_INSTANT_HEAL_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1200" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1200 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200 * lilin_has_ruach_efficiency()" ] },
               { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
               {
                 "if": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },

@@ -163,12 +163,12 @@
     "id": "LILIN_BONUS_PERSUASION",
     "name": { "//~": "This is a reference to Proverbs 5:3", "str": "Smoother than Oil" },
     "points": 2,
-    "description": "Your presence is intoxicating, and humans have a hard time resisting your charms.  You gain a bonus to your persuasion chance.",
+    "description": "Your presence is intoxicating, and humans have a hard time resisting your charms.  You gain a bonus to your persuasion chance as long as you aren't empty of ruach.",
     "prereqs": [ "PRETTY", "BEAUTIFUL" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
         "values": [ { "value": "SOCIAL_PERSUADE", "add": { "math": [ "12 + (12 * u_has_trait('THRESH_LILIN')" ] } } ]
       }
     ]

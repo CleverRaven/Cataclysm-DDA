@@ -10,9 +10,9 @@
           "run_eocs": [
             {
               "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated_2",
-              "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
+              "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
               "effect": [
-                { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
+                { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
                 { "u_add_trait": "BEAUTIFUL3" },
                 { "u_add_effect": "effect_lilin_temporary_glorious", "duration": "PERMANENT" },
                 { "u_message": "You spin a beguiling web of illusion around yourself.", "type": "good" },
@@ -65,9 +65,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
               {
                 "u_message": "You feel a chill on your skin as you maintain your web of pleasing illusions.",
                 "type": "mixed"
@@ -108,9 +108,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "80" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "80 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "80" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "80 * lilin_has_ruach_efficiency()" ] },
               { "u_add_effect": "effect_lilin_attribute_bonuses", "duration": "PERMANENT" },
               { "u_message": "You draw on your ruach to enhance your physical abilities.", "type": "good" },
               {
@@ -160,9 +160,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
               {
                 "u_message": "You feel a chill on your skin as you maintain your enhanced physical abilities.",
                 "type": "mixed"
@@ -194,10 +194,10 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_TURN_INTO_OWL_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
               { "u_add_trait": "TURN_INTO_OWL_TRAITS" },
               { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
               {
@@ -244,9 +244,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "50" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "50 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "50" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "50 * lilin_has_ruach_efficiency()" ] },
               { "u_add_effect": "effect_lilin_bonus_healing_active", "duration": "PERMANENT" },
               { "u_message": "You pour ruach into your wounds and your body begins healing.", "type": "good" },
               { "queue_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
@@ -289,9 +289,9 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "50" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "50 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "50" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "50 * lilin_has_ruach_efficiency()" ] },
               { "u_message": "You feel icy pinpricks on your skin as your wounds heal.", "type": "mixed" },
               {
                 "if": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
@@ -383,10 +383,10 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "480" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "480 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "480" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "480 * lilin_has_ruach_efficiency()" ] },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
               { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] },
