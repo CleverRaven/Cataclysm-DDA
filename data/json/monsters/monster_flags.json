@@ -638,5 +638,10 @@
     "id": "DRACULIN_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to Chiropteran saliva. Use for any creature with nonstandard blood (ie mi-go, insects, but probably not zombies or fungalized animals, unless they have acid blood or something)."
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage/detection"
   }
 ]
