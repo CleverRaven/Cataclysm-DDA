@@ -118,7 +118,7 @@
     "base_energy_cost": 8000,
     "energy_source": "STAMINA",
     "spell_class": "NONE",
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "SPLIT_DAMAGE" ],
     "difficulty": 10,
     "max_level": 20,
     "min_damage": 30,

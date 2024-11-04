@@ -180,10 +180,7 @@
         "text": "How do I get to that farm?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
-            { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 1" ] }, { "not": { "u_has_mission": "directions_isherwood" } } ]
         },
         "effect": { "assign_mission": "directions_isherwood" },
         "switch": true
@@ -192,10 +189,7 @@
         "text": "How do I get to that lab?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
-            { "not": { "compare_string": [ "hub01", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 2" ] }, { "not": { "u_has_mission": "directions_hub01" } } ]
         },
         "effect": { "assign_mission": "directions_hub01" },
         "switch": true
@@ -204,10 +198,7 @@
         "text": "How do I get to that castle?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
-            { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 3" ] }, { "not": { "u_has_mission": "directions_exodii" } } ]
         },
         "effect": { "assign_mission": "directions_exodii" },
         "switch": true
@@ -216,22 +207,19 @@
         "text": "Where was that?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
-            { "not": { "compare_string": [ "artisans", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 4" ] }, { "not": { "u_has_mission": "directions_artisans" } } ]
         },
         "effect": { "assign_mission": "directions_artisans" },
         "switch": true
       },
       {
         "text": "Ah, that's nothing new to me.  Thanks anyway though.",
-        "topic": "TALK_NONE",
+        "topic": "TALK_DONE",
         "switch": true,
         "default": true
       },
       { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -284,7 +272,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -292,7 +280,7 @@
     "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
     "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the Exodii base.",
     "dynamic_line": "Well now, that's a hell of a story.  Some day, I'll see if we can get out there an' look into it.  Sounds like there'd be some real interestin' trade.",
-    "responses": [ { "text": "Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
   },
   {
     "type": "talk_topic",
@@ -308,7 +296,7 @@
       ]
     },
     "responses": [
-      { "text": "Thanks so much!  Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "Thanks so much!  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
       { "text": "Thanks so much!  I have to go ask a few others, talk to you later.", "topic": "TALK_DONE" }
     ]
   },
@@ -324,8 +312,8 @@
         "text": "I think they're gouging the prices for the people living there.",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Pricegouge"
       },
-      { "text": "Nothing, nothing.  Can we talk about something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
-      { "text": "Nevermind, I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "<end_talking_nevermind>  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -342,11 +330,8 @@
         "opinion": { "anger": 2, "like": -2 },
         "topic": "TALK_DONE"
       },
-      {
-        "text": "Forget I said anything.  Can we talk about something else?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
-      },
-      { "text": "Forget I said anything, I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "<end_talking_nevermind>  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -364,11 +349,8 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type"
       },
       { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
-      {
-        "text": "Forget I said anything.  Can we talk about something else?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
-      },
-      { "text": "Forget I said anything, I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "<end_talking_nevermind>  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -385,10 +367,7 @@
         "text": "What sort of \"evidence\" did you have in mind?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type"
       },
-      {
-        "text": "Forget I said anything.  Can we talk about something else?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
-      },
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
       { "text": "Forget it, since you're not interested in taking this seriously.", "topic": "TALK_DONE" }
     ]
   },
@@ -407,11 +386,8 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Who"
       },
       { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
-      {
-        "text": "Forget I said anything.  Can we talk about something else?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
-      },
-      { "text": "Let's pick this up later, I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "<end_talking_later>  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -425,10 +401,7 @@
         "topic": "TALK_DONE"
       },
       { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
-      {
-        "text": "Forget I said anything.  Can we talk about something else?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
-      },
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
       { "text": "I'm not doing any of this legwork for you, figure it out on your own.", "topic": "TALK_DONE" }
     ]
   },

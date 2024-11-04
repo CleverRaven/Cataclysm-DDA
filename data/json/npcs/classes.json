@@ -11,6 +11,12 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_NONE_HARDENED",
+    "name": { "str": "No class" },
+    "job_description": "I'm a dummy class for better NPC items later into the Cataclysm."
+  },
+  {
+    "type": "npc_class",
     "id": "NC_TEST_CLASS",
     "name": { "str": "Debug Dude" },
     "job_description": "I'm helping you test the game.",
@@ -394,6 +400,17 @@
       { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
     ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER_EX_PILOT",
+    "name": { "str": "Former Pilot" },
+    "job_description": "I just want to fly away to somewhere better.",
+    "common_spawn_weight": 0.3,
+    "traits": [ { "trait": "BGSS_Lost_Pilot_1" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "proficiencies": [ "prof_helicopter_pilot" ],
+    "skills": [ { "skill": "driving", "bonus": { "rng": [ 3, 5 ] } } ]
   },
   {
     "type": "npc_class",

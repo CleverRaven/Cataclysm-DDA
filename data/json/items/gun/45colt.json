@@ -106,6 +106,8 @@
     "//": "76.2 + 63.5 for barrel length and chamber length, revolvers just built different",
     "price": "564 USD",
     "price_postapoc": "20 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "uneven" },
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "rubber", "portion": 1 } ],
     "ammo": [ "410shot", "45colt" ],
     "dispersion": 280,
     "clip_size": 5,

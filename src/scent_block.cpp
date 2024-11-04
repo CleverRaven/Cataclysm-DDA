@@ -3,7 +3,7 @@
 
 scent_block::scent_block( const tripoint &sub, scent_map &scents )
 // NOLINTNEXTLINE(cata-use-named-point-constants)
-    : origin( sm_to_ms_copy( sub ) + point( -1, -1 ) )
+    : origin( coords::project_to<coords::ms>( tripoint_bub_sm( sub ) ).raw() + point( -1, -1 ) )
     , scents( scents )
     , modification_count( 0 )
 {

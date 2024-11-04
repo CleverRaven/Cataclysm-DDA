@@ -8,6 +8,7 @@
 #include "make_static.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "overmapbuffer.h"
 #include "timed_event.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -121,6 +122,15 @@ static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_
 static const effect_on_condition_id
 effect_on_condition_EOC_test_weapon_damage( "EOC_test_weapon_damage" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
+static const effect_on_condition_id effect_on_condition_run_eocs_1( "run_eocs_1" );
+static const effect_on_condition_id effect_on_condition_run_eocs_2( "run_eocs_2" );
+static const effect_on_condition_id effect_on_condition_run_eocs_3( "run_eocs_3" );
+static const effect_on_condition_id effect_on_condition_run_eocs_5( "run_eocs_5" );
+static const effect_on_condition_id effect_on_condition_run_eocs_7( "run_eocs_7" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes( "run_eocs_talker_mixes" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -183,7 +193,7 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     tripoint_abs_ms const orig = coord_min( first, second );
     tm.load( project_to<coords::sm>( orig ), false, false );
     for( tripoint_abs_ms p : line_to( first, second ) ) {
-        REQUIRE( tm.ter( tm.getlocal( p ) ) == ter );
+        REQUIRE( tm.ter( tm.bub_from_abs( p ) ) == ter );
     }
 }
 
@@ -1074,11 +1084,11 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     // Activate test for item
     CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
-    CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
+    CHECK( get_map().furn( get_map().bub_from_abs( pos_after ) ) == furn_f_cardboard_box );
 
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
-    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
+    CHECK( get_map().i_at( get_map().bub_from_abs( pos_after ) ).size() == 3 );
 
     // Math function test for armor
     CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
@@ -1195,7 +1205,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( npc_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_melee_attacks_character" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.name );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.get_name() );
 
     // character_melee_attacks_monster
     clear_map();
@@ -1228,7 +1238,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.name );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.get_name() );
 
     // character_ranged_attacks_monster
     clear_map();
@@ -1307,7 +1317,7 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     map &m = get_map();
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint tgt = m.getlocal( start + tripoint_north );
+    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint_north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
@@ -1334,7 +1344,7 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     g->place_player( tripoint_zero );
 
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint tgt = m.getlocal( start + tripoint_north );
+    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint_north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
@@ -1347,8 +1357,8 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
                                     globvars.get_global_value( "npctalk_var_map_test_loc_a" ) ) );
     tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
                                     globvars.get_global_value( "npctalk_var_map_test_loc_b" ) ) );
-    CHECK( m.getlocal( tmp_abs_a ) == tripoint( 70, 70, 0 ) );
-    CHECK( m.getlocal( tmp_abs_b ) == tripoint( 70, 60, 0 ) );
+    CHECK( m.bub_from_abs( tmp_abs_a ) == tripoint_bub_ms( 70, 70, 0 ) );
+    CHECK( m.bub_from_abs( tmp_abs_b ) == tripoint_bub_ms( 70, 60, 0 ) );
 
     globvars.clear_global_values();
     clear_avatar();
@@ -1402,4 +1412,91 @@ TEST_CASE( "EOC_string_test", "[eoc]" )
     CHECK( get_avatar().get_value( "npctalk_var_key1" ) == "nest2" );
     CHECK( get_avatar().get_value( "npctalk_var_key2" ) == "nest3" );
     CHECK( get_avatar().get_value( "npctalk_var_key3" ) == "nest4" );
+}
+
+TEST_CASE( "EOC_run_eocs", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_5" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_test_global_key_M" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_test_global_key_N" ).empty() );
+
+    CHECK( effect_on_condition_run_eocs_1->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_2->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_3->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_5->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_7->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_1" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_2" ) ) == Approx( 20 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_5" ) ) == Approx( 4 ) );
+
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_run_eocs_3" ).empty() );
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_run_eocs_3" ) ) == Approx( 2 ) );
+
+    set_time( calendar::turn + 8_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    CHECK( globvars.get_global_value( "npctalk_var_test_global_key_M" ) == "test_context_value_M" );
+    CHECK( globvars.get_global_value( "npctalk_var_test_global_key_N" ) == "test_context_value_N" );
+
+    globvars.clear_global_values();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map();
+    clear_npcs();
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    guy->normalize();
+    overmap_buffer.insert_npc( guy );
+    guy->spawn_at_precise( u.get_location() + tripoint_east );
+    g->load_npcs();
+    tripoint_abs_ms mon_loc = u.get_location() + tripoint_west;
+    monster *zombie = g->place_critter_at( mon_zombie, get_map().bub_from_abs( mon_loc ) );
+    REQUIRE( zombie != nullptr );
+
+    item hammer( "hammer" );
+    item_location hammer_loc( map_cursor{ guy->get_location() }, &hammer );
+    dialogue d2( get_talker_for( *guy ), get_talker_for( hammer_loc ) );
+    talker *alpha_talker = d2.actor( false );
+    talker *beta_talker = d2.actor( true );
+
+    d2.set_value( "npctalk_var_alpha_var", "u" );
+    d2.set_value( "npctalk_var_beta_var", "npc" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == alpha_talker->get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == beta_talker->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", "npc" );
+    d2.set_value( "npctalk_var_beta_var", "u" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == beta_talker->get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == alpha_talker->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", "avatar" );
+    d2.set_value( "npctalk_var_beta_var", std::to_string( guy->getID().get_value() ) );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == get_avatar().get_name() );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == guy->get_name() );
+
+    d2.set_value( "npctalk_var_alpha_var", std::string{} );
+    d2.set_value( "npctalk_var_beta_var", std::string{} );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == "mixin fail alpha" );
+    CHECK( globvars.get_global_value( "npctalk_var_beta_name" ) == "mixin fail beta" );
+
+    d2.set_value( "npctalk_var_alpha_var", mon_loc.to_string() );
+    CHECK( effect_on_condition_run_eocs_talker_mixes_loc->activate( d2 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_alpha_name" ) == zombie->get_name() );
 }

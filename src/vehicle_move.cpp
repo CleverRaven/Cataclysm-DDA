@@ -751,12 +751,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = vp.next_pos.raw();
-        veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
+        const tripoint_bub_ms dsp = vp.next_pos;
+        veh_collision coll = part_collision( p, dsp.raw(), just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
-            for( const tripoint &rotor_point : here.points_in_radius( dsp, radius ) ) {
-                veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
+            for( const tripoint_bub_ms &rotor_point : here.points_in_radius( dsp, radius ) ) {
+                veh_collision rotor_coll = part_collision( p, rotor_point.raw(), just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
                     if( just_detect ) {
@@ -889,7 +889,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             const std::set<tripoint_bub_ms> projected_points = get_projected_part_points();
             const units::angle angle =
                 move.dir() + ( coll_velocity > 0 ? 0_degrees : 180_degrees ) + 45_degrees *
-                ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
+                ( parts[part].mount.x() > pivot_point().x ? -1 : 1 );
             const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
@@ -1086,7 +1086,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 if( vpi.has_flag( "SHARP" ) ) {
                     vp.blood += 100 + 5 * dam;
                 } else if( dam > rng( 10, 30 ) ) {
-                    vp.blood += 50 + dam / 2 * 5;
+                    vp.blood += 50 + dam * 5 / 2;
                 }
 
                 check_environmental_effects = true;
@@ -1340,7 +1340,7 @@ bool vehicle::check_is_heli_landed()
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
     if( global_pos3().z == 0 ||
-        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, global_pos3() ) ) {
+        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub() ) ) {
         is_flying = false;
         return true;
     }
@@ -1662,11 +1662,11 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
     for( int part_index : wheelcache ) {
         const auto &wheel = parts[ part_index ];
         bool rails_ahead = true;
-        tripoint wheel_point;
-        coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
+        tripoint_rel_ms wheel_point;
+        coord_translate( mdir.dir(), this->pivot_point_rel(), wheel.mount,
                          wheel_point );
 
-        tripoint wheel_tripoint = global_pos3() + wheel_point;
+        tripoint_bub_ms wheel_tripoint = pos_bub() + wheel_point;
 
         // maximum number of incorrect tiles for this type of turn(diagonal or not)
         const int allowed_incorrect_tiles_diagonal = 1;
@@ -1710,9 +1710,9 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
             // if wheel that lands on rail still not found
             if( yVal == INT_MAX ) {
                 // store mount point.y of wheel
-                yVal = wheel.mount.y;
+                yVal = wheel.mount.y();
             }
-            if( yVal == wheel.mount.y ) {
+            if( yVal == wheel.mount.y() ) {
                 turning_wheels_that_are_one_axis++;
             }
             wheels_on_rail++;
@@ -1806,16 +1806,18 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
            && ( wheels_on_rail !=
                 turning_wheels_that_are_one_axis // wheels that want to turn is not on same axis
                 || all_wheels_on_one_axis ||
-                ( std::abs( rail_wheel_bounding_box.p2.x - rail_wheel_bounding_box.p1.x ) < 4 && velocity < 0 ) );
+                ( std::abs( rail_wheel_bounding_box.p2.x() - rail_wheel_bounding_box.p1.x() ) < 4 &&
+                  velocity < 0 ) );
     // allow turn for vehicles with wheel distance < 4 when moving backwards
 }
 
 vehicle *vehicle::act_on_map()
 {
-    const tripoint pt = global_pos3();
+    const tripoint_bub_ms pt = pos_bub();
     map &here = get_map();
     if( !here.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x() << "," << pt.y() << "," <<
+                      pt.z() <<
                       ")";
         stop();
         of_turn = 0;
@@ -1963,20 +1965,20 @@ vehicle *vehicle::act_on_map()
         mdir = face;
     }
 
-    tripoint dp;
+    tripoint_rel_ms dp;
     if( std::abs( velocity ) >= 20 && !falling_only ) {
         mdir.advance( velocity < 0 ? -1 : 1 );
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
+        dp.x() = mdir.dx();
+        dp.y() = mdir.dy();
     }
 
     if( should_fall ) {
-        dp.z = -1;
+        dp.z() = -1;
         is_flying = false;
     } else {
-        dp.z = requested_z_change;
+        dp.z() = requested_z_change;
         requested_z_change = 0;
-        if( dp.z > 0 && is_rotorcraft() ) {
+        if( dp.z() > 0 && is_rotorcraft() ) {
             is_flying = true;
         }
     }
@@ -2133,7 +2135,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
         const vpart_info &vpi = vp.info();
-        const tripoint pp = veh.global_part_pos3( vp );
+        const tripoint_bub_ms pp = veh.bub_part_pos( vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
@@ -2188,11 +2190,11 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        const tripoint part_pos = veh.global_part_pos3( ps );
-        if( rider->pos() != part_pos ) {
+        const tripoint_bub_ms part_pos = veh.bub_part_pos( ps );
+        if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
-                      part_pos.x, part_pos.y, part_pos.z );
+                      part_pos.x(), part_pos.y(), part_pos.z() );
             veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;
         }
@@ -2274,7 +2276,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else {
-                add_msg_if_player_sees( part_pos, m_bad,
+                add_msg_if_player_sees( part_pos.raw(), m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }
@@ -2290,9 +2292,17 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
 bool vehicle::should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
                                   const tripoint &neighbor_precalc ) const
 {
+    return vehicle::should_enable_fake( tripoint_rel_ms( fake_precalc ),
+                                        tripoint_rel_ms( parent_precalc ), tripoint_rel_ms( neighbor_precalc ) );
+}
+
+bool vehicle::should_enable_fake( const tripoint_rel_ms &fake_precalc,
+                                  const tripoint_rel_ms &parent_precalc,
+                                  const tripoint_rel_ms &neighbor_precalc ) const
+{
     // if parent's pos is diagonal to neighbor, but fake isn't, fake can fill a gap opened
-    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).abs();
-    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).abs();
+    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).raw().abs();
+    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).raw().abs();
     return ( abs_parent_neighbor_diff.x == 1 && abs_parent_neighbor_diff.y == 1 ) &&
            ( ( abs_fake_neighbor_diff.x == 1 && abs_fake_neighbor_diff.y == 0 ) ||
              ( abs_fake_neighbor_diff.x == 0 && abs_fake_neighbor_diff.y == 1 ) );
@@ -2306,17 +2316,17 @@ void vehicle::update_active_fakes()
             continue;
         }
         const vehicle_part &part_real = parts.at( part_fake.fake_part_to );
-        const tripoint &fake_precalc = part_fake.precalc[0];
-        const tripoint &real_precalc = part_real.precalc[0];
-        const vpart_edge_info &real_edge = edges[part_real.mount];
+        const tripoint_rel_ms &fake_precalc = part_fake.precalc[0];
+        const tripoint_rel_ms &real_precalc = part_real.precalc[0];
+        const vpart_edge_info &real_edge = edges[part_real.mount.raw()];
         const bool is_protrusion = part_real.info().has_flag( "PROTRUSION" );
 
         if( real_edge.forward != -1 ) {
-            const tripoint &forward = parts.at( real_edge.forward ).precalc[0];
+            const tripoint_rel_ms &forward = parts.at( real_edge.forward ).precalc[0];
             part_fake.is_active_fake = should_enable_fake( fake_precalc, real_precalc, forward );
         }
         if( real_edge.back != -1 && ( !part_fake.is_active_fake || real_edge.forward == -1 ) ) {
-            const tripoint &back = parts.at( real_edge.back ).precalc[0];
+            const tripoint_rel_ms &back = parts.at( real_edge.back ).precalc[0];
             part_fake.is_active_fake = should_enable_fake( fake_precalc, real_precalc, back );
         }
         if( is_protrusion && part_fake.fake_protrusion_on >= 0 ) {

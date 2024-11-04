@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "cata_inline.h"
-#include "coordinate_conversions.h"
 #include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -211,6 +210,14 @@ class coord_point_ob : public
             return this_as_point( this->raw().xy() );
         }
 
+        constexpr auto abs() const {
+            return coord_point_ob( this->raw().abs() );
+        }
+
+        constexpr auto rotate( int turns, const point &dim = point_south_east ) const {
+            return coord_point_ob( this->raw().rotate( turns, dim ) );
+        }
+
         friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() + r );
         }
@@ -405,6 +412,14 @@ constexpr inline auto operator-(
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point_ob<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
+}
+
+template<typename Point, origin Origin, scale Scale>
+constexpr inline auto operator-(
+    const coord_point_ob<Point, Origin, Scale> &l )
+{
+    using PointResult = decltype( Point() );
+    return coord_point_ob<PointResult, Origin, Scale>( - l.raw() );
 }
 
 // Only relative points can be multiplied by a constant
@@ -761,16 +776,20 @@ using coords::project_bounds;
 point_rel_ms rebase_rel( point_sm_ms );
 point_rel_ms rebase_rel( point_omt_ms p );
 point_rel_ms rebase_rel( point_bub_ms p );
+point_rel_sm rebase_rel( point_bub_sm p );
 point_sm_ms rebase_sm( point_rel_ms p );
 point_omt_ms rebase_omt( point_rel_ms p );
 point_bub_ms rebase_bub( point_rel_ms p );
+point_bub_sm rebase_bub( point_rel_sm p );
 
 tripoint_rel_ms rebase_rel( tripoint_sm_ms p );
 tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
 tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_rel_sm rebase_rel( tripoint_bub_sm p );
 tripoint_sm_ms rebase_sm( tripoint_rel_ms p );
 tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
 tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
+tripoint_bub_sm rebase_bub( tripoint_rel_sm p );
 
 // 'Glue' rebase operations for when a tinymap is using the underlying map operation and when a tinymap
 // has to be cast to a map to access common functionality. Note that this doesn't actually change anything
@@ -1015,10 +1034,7 @@ struct real_coords {
     void fromabs( const point &abs );
 
     // specifically for the subjective position returned by overmap::draw
-    void fromomap( const point &rel_om, const point &rel_om_pos ) {
-        const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
-        fromabs( omt_to_ms_copy( a ) );
-    }
+    void fromomap( const point &rel_om, const point &rel_om_pos );
 
     point_abs_omt abs_omt() const {
         return project_to<coords::omt>( point_abs_sm( abs_sub ) );

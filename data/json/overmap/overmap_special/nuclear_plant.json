@@ -605,6 +605,6 @@
     "city_sizes": [ 5, -1 ],
     "occurrences": [ 900, 1000 ],
     "priority": 1,
-    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
   }
 ]

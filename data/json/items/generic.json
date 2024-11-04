@@ -6,7 +6,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "animal" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -20,7 +20,7 @@
     "symbol": "$",
     "color": "red",
     "name": { "str_sp": "nearby fire" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "price": "0 cent",
     "volume": "1 ml",
     "flags": [ "PSEUDO" ]
@@ -46,7 +46,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "muscle" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -60,7 +60,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "wind" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -74,7 +74,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "sun light" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -88,7 +88,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str": "metabolism" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -102,7 +102,7 @@
     "symbol": "$",
     "color": "red",
     "name": { "str_sp": "a smoking device and a source of flame" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "price": "0 cent",
     "volume": "0 ml",
     "flags": [ "PSEUDO" ]
@@ -113,7 +113,7 @@
     "symbol": "$",
     "color": "red",
     "name": { "str_sp": "none" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "price": "0 cent",
     "volume": "0 ml",
     "flags": [ "PSEUDO" ],
@@ -315,7 +315,7 @@
     "phase": "liquid",
     "color": "white",
     "name": { "str_sp": "superglue" },
-    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favourite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
+    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
     "price": "1 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
@@ -2074,7 +2074,7 @@
     "price": "2000 kUSD",
     "price_postapoc": "30 USD",
     "//": "actually worth millions",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2086,7 +2086,7 @@
     "price": "1000 kUSD",
     "price_postapoc": "30 USD",
     "//": "given to HUB 01 for even better armor",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",

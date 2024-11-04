@@ -867,7 +867,6 @@
       "CORNERED_FIGHTER",
       "PATH_AVOID_DANGER",
       "PET_WONT_FOLLOW",
-      "PET_HARNESSABLE",
       "WARM",
       "DESTROYS",
       "CAN_BE_CULLED",
@@ -1460,13 +1459,20 @@
     "hp": 250,
     "zombify_into": "mon_zaplocanthosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a whip-like tail and tall shoulders.",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ],
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
+    ],
     "reproduction": { "baby_type": { "baby_egg": "egg_haplocanthosaurus" }, "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
     "id": "mon_amargasaurus",
     "name": { "str_sp": "amargasaurus" },
-    "copy-from": "mon_apatosaurus",
+    "copy-from": "mon_haplocanthosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
     "stomach_size": 50000,
     "speed": 100,
@@ -1505,7 +1511,7 @@
     "zombify_into": "mon_zapatosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_long_DinoMod", 30 ],
       [ "EAT_CROP", 40 ],
       [ "BROWSE", 60 ],
       [ "GRAZE", 60 ]
@@ -1618,7 +1624,6 @@
     "name": { "str": "astrodon" },
     "copy-from": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 20000 L and 20000 kg",
-    "stomach_size": 400000,
     "speed": 50,
     "attack_cost": 50,
     "melee_dice": 6,
@@ -1711,18 +1716,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "PET_MOUNTABLE",
-      "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "PET_WONT_FOLLOW", "CORNERED_FIGHTER", "EATS" ],
     "harvest": "mammal_large_leather",
     "dissect": "dissect_stego_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -1871,18 +1865,7 @@
     "description": "This heavily armored four legged dinosaur has a beak and a long tail ending in a spiked club of bone.",
     "reproduction": { "baby_type": { "baby_egg": "egg_dyoplosaurus" }, "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "PET_MOUNTABLE",
-      "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "PET_WONT_FOLLOW", "CORNERED_FIGHTER", "EATS" ]
   },
   {
     "type": "MONSTER",
@@ -1924,19 +1907,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "BASHES",
-      "PET_MOUNTABLE",
-      "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "BASHES", "PET_WONT_FOLLOW", "CORNERED_FIGHTER", "EATS" ],
     "harvest": "mammal_large_leather",
     "dissect": "dissect_stego_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -1962,18 +1933,7 @@
     "description": "This heavily armored four legged dinosaur has a horny beak, two bony rings protecting the neck, and a long tail ending in a heavy club of bone.",
     "reproduction": { "baby_type": { "baby_egg": "egg_euoplocephalus" }, "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "PET_MOUNTABLE",
-      "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "PET_WONT_FOLLOW", "CORNERED_FIGHTER", "EATS" ]
   },
   {
     "type": "MONSTER",
@@ -1994,18 +1954,7 @@
     "description": "This heavily armored four legged dinosaur has several long spikes along the back and a long spiked tail ending in a club of bone.",
     "reproduction": { "baby_type": { "baby_egg": "egg_scolosaurus" }, "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "PET_MOUNTABLE",
-      "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "PET_WONT_FOLLOW", "CORNERED_FIGHTER", "EATS" ]
   },
   {
     "type": "MONSTER",
@@ -2191,6 +2140,27 @@
     ],
     "reproduction": { "baby_type": { "baby_egg": "egg_iguanodon" }, "baby_count": 30, "baby_timer": 60 },
     "armor": { "bash": 4, "cut": 4, "bullet": 3 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_eolambia",
+    "name": { "str_sp": "eolambia" },
+    "copy-from": "mon_iguanodon",
+    "bodytype": "bear",
+    "stomach_size": 20000,
+    "speed": 90,
+    "attack_cost": 90,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "hp": 200,
+    "zombify_into": "mon_zeolambia",
+    "description": "A slender four-legged dinosaur with a long neck and beak.",
+    "special_attacks": [
+      { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
+      { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 6 } ] },
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ]
+    ],
+    "reproduction": { "baby_type": { "baby_egg": "egg_eolambia" }, "baby_count": 30, "baby_timer": 60 }
   },
   {
     "type": "MONSTER",
@@ -2698,18 +2668,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], { "id": "impale" } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "PET_MOUNTABLE",
-      "COMBAT_MOUNT",
-      "BASHES",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "BASHES", "CORNERED_FIGHTER", "EATS" ],
     "harvest": "triceratops",
     "dissect": "dissect_horns_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],

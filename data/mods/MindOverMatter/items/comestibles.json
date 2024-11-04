@@ -254,7 +254,7 @@
     "id": "egg_cockatrice",
     "name": { "str": "cockatrice egg" },
     "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COCKATRICE"
+    "rot_spawn": { "group": "GROUP_EGG_COCKATRICE" }
   },
   {
     "id": "black_nether_water",
@@ -319,5 +319,12 @@
     "flags": [ "FREEZERBURN", "INEDIBLE" ],
     "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pigeon_passenger",
+    "name": { "str": "feral pigeon egg" },
+    "copy-from": "egg_pigeon",
+    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 }
   }
 ]

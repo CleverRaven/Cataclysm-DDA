@@ -2,8 +2,8 @@
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "name": { "str_sp": "seeing this is a bug" },
-    "description": "seeing this is a bug",
+    "name": { "str_sp": "seeing this is a bug", "//~": "NO_I18N" },
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "volume": "0 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",

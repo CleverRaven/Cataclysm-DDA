@@ -311,6 +311,28 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "cabin_sevenoclock", "cabin_roof_sevenoclock" ],
+    "name": "old cabin",
+    "sym": "C",
+    "color": "green",
+    "vision_levels": "open_land",
+    "looks_like": "cabin",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "field_deathworm" ],
+    "name": "acid-scarred field",
+    "sym": ".",
+    "color": "light_green",
+    "vision_levels": "open_land",
+    "looks_like": "field",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "undine_warp_pool_surface",
     "name": "tranquil pool",
     "sym": ".",

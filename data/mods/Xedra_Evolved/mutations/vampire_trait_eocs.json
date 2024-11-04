@@ -1057,7 +1057,7 @@
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1083,7 +1083,7 @@
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_lose_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] },
               { "math": [ "u_spell_level('vampire_bat_form_fly_upward')", "=", "-1" ] }
             ]
           }
@@ -1296,12 +1296,12 @@
     "condition": {
       "and": [
         { "math": [ "u_vitamin('human_blood_vitamin')", ">", "500" ] },
-        { "math": [ "u_calories()", "<", "u_calories_needed" ] }
+        { "math": [ "u_calories('dont_affect_weariness': true)", "<", "u_calories_needed" ] }
       ]
     },
     "effect": [
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
-      { "math": [ "u_calories()", "+=", "500" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "500" ] },
       {
         "u_message": "Some of your stolen blood is consumed by your body, making it a little less gaunt.",
         "type": "good"

@@ -180,13 +180,6 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "magazines_9mm_mauser",
-    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
-    "items": [ { "item": "mausermag_10rd", "prob": 500 }, { "item": "mausermag_20rd", "prob": 50 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
     "id": "magazines_9mm_mp40",
     "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "mp40mag_32rd", "prob": 500 } ]

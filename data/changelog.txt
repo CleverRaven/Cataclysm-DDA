@@ -156,6 +156,7 @@ Added check for stealing prior to wearing
 Plastic tub audit
 Adds throwing practice tools
 Debug spawn NPC by class id
+EOCs modifying calories track spent calories
 
 
 ## Content:
@@ -337,8 +338,8 @@ Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
-Added more gunmods
-Garter Belt Variants
+Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
+fungalize stages for zombies
 
 
 ## Interface:
@@ -435,8 +436,8 @@ Custom loading screen the game deserves
 wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
-Removed descriptions for reloaded and black powder rounds
-improve contrast in uilist menus by not allowing colored text in highlighted menu items
+Only list non-zero damage types on melee weapons
+Misc. improvements to NPC goto-location options
 
 
 ## Mods:
@@ -702,6 +703,10 @@ Magiclysm] Add Bracers of Archery
 Create and use READ_IN_DARKNESS and distribute CRAFT_IN_DARKNESS to magic night vision sources
 XE Gracken Big Game Hunter profession
 Prevent Paraclesians from being born with a drivers license
+[MoM/XE Interaction] Ierde and powerful vampires are immune to telepathy
+[MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
+[Bombastic Perks/MoM] Add MoM-specific perks
+[Xedra Evolved] Dreamsmithing procgen expansion (enchants)
 
 
 ## Balance:
@@ -800,8 +805,7 @@ Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
-Survivor Half Masks no longer protect your eyes from the sun.
-Vibrator now uses an internal battery that can be charged via cable in line with similar electronics
+Make lab access shafts normally visible once spotted
 
 
 ## Bugfixes:
@@ -1050,16 +1054,15 @@ NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
-[Magiclysm] Earthshapers cannot Stone Slumber unsafely
-Audit trap difficulties
-Remove Magiclysm elf threshold requirement on Animal Kinship
-Night vision goggles no longer draw green overlay after their batteries ran out of energy
-Rewords the 'pair of butterfly swords' into a single sword.
-Scrap trader mission no longer generates duplicate refugee center
-Fix gun shy trait
-Linking of 'Heaters' wasn't implemented correctly
-Fix move cost effect of stillsuit
-Fix upgrading of zombie animals, ferrous zombies and some monstergroups tweaks
+Cabin in Safe Place scenario is now actually safe
+[MoM] NPCs can awaken in portal storms
+Start of cataclysm day and start of game day now respect season length
+Fixes #76414, Can't activate item - character instead tries to eat it.
+No longer able to wear already worn items
+Faulty guns don't lock your view
+Don't apply additional move cost for moving barefoot in deep water
+Fixed a crash when using the 'set of clothes' item
+Fix non-battery charge consumption of active items
 
 
 ## Performance:
@@ -1169,7 +1172,6 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
-Replace activity `ACT_PICKUP_MENU` with `uistate.open_menu`
 debug dialogue + talk_topic menus
 
 
