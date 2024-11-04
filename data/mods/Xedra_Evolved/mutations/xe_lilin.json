@@ -506,6 +506,28 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_REDUCED_NEEDS_WITH_RUACH",
+    "name": { "//~": "This is a reference to Proverbs 25:16", "str": "Eating Drops of Honey" },
+    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.",
+    "points": 6,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
+    "prereqs2": [  ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "values": [
+          { "value": "HUNGER", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "THIRST", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_BONUS_HEALING",
     "name": { "str": "Warm Breath" },
     "description": "Your stolen ruach speeds your healing in proportion to how much of it you have.",
