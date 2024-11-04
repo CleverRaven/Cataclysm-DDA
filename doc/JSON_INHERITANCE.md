@@ -100,7 +100,7 @@ Same as above, now with `proportional`:
 ```
 
 
-It is possible to define an `abstract` ID that exists only for other `type`s to inherit from and cannot itself be used in game.  This is done to facilitate maintanance and reduce line count.  In the following condensed example `magazine_belt` provides values common to all implemented ammo belts:
+It is possible to define an `abstract` ID that exists only for other `type`s to inherit from and cannot itself be used in game.  This is done to facilitate maintenance and reduce line count.  In the following condensed example `magazine_belt` provides values common to all implemented ammo belts:
 
 ```json
   {
