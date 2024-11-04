@@ -148,5 +148,29 @@
       { "item": "kiwi", "prob": 2 },
       { "item": "apricot", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "fetch_child_death_drops",
+    "entries": [
+      { "group": "default_innawood_zombie_clothes", "custom-flags": [ "UNDERSIZE" ], "prob": 100 },
+      { "group": "child_items", "prob": 65 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "child_items",
+    "entries": [
+      { "item": "pointy_stick", "prob": 15 },
+      { "item": "rock", "prob": 50 },
+      { "item": "feather", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "hickory_nut", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "acorns", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "straw_doll", "prob": 5 },
+      { "item": "bag_canvas_small", "prob": 10 },
+      { "group": "tools_common_small", "prob": 1, "entry-wrapper": "makeshift_sling" }
+    ]
   }
 ]
