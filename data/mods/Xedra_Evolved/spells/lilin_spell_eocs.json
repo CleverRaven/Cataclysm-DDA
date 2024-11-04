@@ -3,9 +3,14 @@
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN",
     "//": "Humans and humanlike fae give about one day's worth (240) ruach, aliens give a totally random amount, Nether creatures are a huge gamble (they could give you tons of ruach but could also absorb some from you), inhuman fae and vampires give a random amount within a few hours (20-60), animals and cyborgs give an hour's worth (5-15), insects give half of what animals give (2-7), nothing else gives any.",
+    "//2": "Ferals currently don't sleep, but future-proofing for when or if they might",
     "condition": "u_is_character",
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
+      {
+        "if": { "and": [ { "npc_has_trait": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE" }, { "u_has_effect": "asleep" } ] },
+        "then": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300) * 1.5" ] },
+        "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
+      },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
       { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
     ],
@@ -26,7 +31,11 @@
           ]
         },
         "then": [
-          { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
+          {
+            "if": { "and": [ { "npc_has_trait": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE" }, { "u_has_effect": "asleep" } ] },
+            "then": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300) * 1.5" ] },
+            "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
+          },
           { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
           { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
         ],

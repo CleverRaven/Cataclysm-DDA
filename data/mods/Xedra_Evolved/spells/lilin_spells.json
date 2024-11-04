@@ -38,7 +38,7 @@
     "max_range": 3,
     "energy_source": "STAMINA",
     "base_energy_cost": 2000,
-    "base_casting_time": 150
+    "base_casting_time": 350
   },
   {
     "id": "lilin_drain_ruach_long_ranged_spell",
@@ -58,7 +58,7 @@
     "max_range": 10,
     "energy_source": "STAMINA",
     "base_energy_cost": 2000,
-    "base_casting_time": 150
+    "base_casting_time": 350
   },
   {
     "id": "lilin_evil_eye_spell",

@@ -95,6 +95,16 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE",
+    "name": { "//~": "This is a reference to Psalm 132:4", "str": "Given Sleep to Their Eyes" },
+    "points": 2,
+    "description": "In sleep, a person's defenses are down and it is easier for the things in the night to prey upon them.  You gain additional ruach from sleeping targets.",
+    "prereqs": [ "LILIN_SLEEP_EASY_DURING_DAY" ],
+    "prereqs2": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
+    "category": [ "LILIN" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_CHANGE_WEATHER_FOG",
     "name": { "//~": "This is a reference to Job 22:14", "str": "Thick Clouds A Covering" },
     "points": 2,
@@ -169,7 +179,7 @@
     "enchantments": [
       {
         "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
-        "values": [ { "value": "SOCIAL_PERSUADE", "add": { "math": [ "12 + (12 * u_has_trait('THRESH_LILIN')" ] } } ]
+        "values": [ { "value": "SOCIAL_PERSUADE", "add": { "math": [ "12 + (12 * u_has_trait('THRESH_LILIN') )" ] } } ]
       }
     ]
   },
@@ -430,7 +440,7 @@
     "category": [ "LILIN" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
         "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": { "math": [ "0.5 + (u_vitamin('lilin_ruach_vitamin') / 2000 )" ] } } ]
       }
     ]
@@ -450,6 +460,7 @@
         "condition": {
           "and": [
             { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
             { "or": [ { "math": [ "moon_phase() ==6" ] }, { "math": [ "moon_phase() == 2" ] } ] }
           ]
         },
@@ -459,13 +470,20 @@
         "condition": {
           "and": [
             { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
             { "or": [ { "math": [ "moon_phase() == 7" ] }, { "math": [ "moon_phase() == 1" ] } ] }
           ]
         },
         "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "25 + (u_vitamin('lilin_ruach_vitamin') / 400)" ] } } ]
       },
       {
-        "condition": { "and": [ { "not": { "and": [ "is_day", "u_is_outside" ] } }, { "math": [ "moon_phase() == 0" ] } ] },
+        "condition": {
+          "and": [
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "math": [ "moon_phase() == 0" ] },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] }
+          ]
+        },
         "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "40 + (u_vitamin('lilin_ruach_vitamin') / 300)" ] } } ]
       }
     ]
