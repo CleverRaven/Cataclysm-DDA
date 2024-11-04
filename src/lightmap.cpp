@@ -488,11 +488,11 @@ void map::generate_lightmap( const int zlev )
                         add_light_from_items( p, i_at( p ) );
                     }
 
-                    const ter_id terrain = cur_submap->get_ter( { sx, sy } );
+                    const ter_id &terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
-                    const furn_id furniture = cur_submap->get_furn( {sx, sy } );
+                    const furn_id &furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
                         add_light_source( p, furniture->light_emitted );
                     }

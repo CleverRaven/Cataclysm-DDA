@@ -836,8 +836,8 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
 bool already_done( construction const &build, tripoint_bub_ms const &loc )
 {
     map &here = get_map();
-    const furn_id furn = here.furn( loc );
-    const ter_id ter = here.ter( loc );
+    const furn_id &furn = here.furn( loc );
+    const ter_id &ter = here.ter( loc );
     return !build.post_terrain.empty() &&
            ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
              ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) );
@@ -1179,8 +1179,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == ter_t_trunk ||
-            here.ter( src_loc ) == ter_t_stump ) {
+        const ter_id &t = here.ter( src_loc );
+        if( t == ter_t_trunk || t == ter_t_stump || here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {
@@ -2470,7 +2470,7 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
         you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
-    const ter_id ter = here.ter( src_loc );
+    const ter_id &ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
@@ -2666,7 +2666,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             continue;
         }
         if( act_id == ACT_MULTIPLE_FISH ) {
-            const ter_id terrain_id = here.ter( set_pt );
+            const ter_id &terrain_id = here.ter( set_pt );
             if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );
             } else {

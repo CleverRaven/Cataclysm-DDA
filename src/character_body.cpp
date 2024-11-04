@@ -472,7 +472,7 @@ void Character::update_bodytemp()
     const int climate_control_heat = climate_control.first;
     const int climate_control_chill = climate_control.second;
     const bool use_floor_warmth = can_use_floor_warmth();
-    const furn_id furn_at_pos = here.furn( pos_bub() );
+    const furn_id &furn_at_pos = here.furn( pos_bub() );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep

@@ -1853,13 +1853,27 @@ void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
     }
 }
 
+ret_val<void> jmapgen_piece_with_has_vehicle_collision::has_vehicle_collision(
+    const mapgendata &dat,
+    const tripoint_rel_ms &p ) const
+{
+    const optional_vpart_position &vp = dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                        dat.zlevel() + p.z() ) );
+    if( vp.has_value() ) {
+        return ret_val<void>::make_failure( vp.value().vehicle().disp_name() );
+    } else {
+        return ret_val<void>::make_success();
+    }
+}
+
+
 /**
  * This is a generic mapgen piece, the template parameter PieceType should be another specific
  * type of jmapgen_piece. This class contains a vector of those objects and will chose one of
  * it at random.
  */
 template<typename PieceType>
-class jmapgen_alternatively : public jmapgen_piece
+class jmapgen_alternatively : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         // Note: this bypasses virtual function system, all items in this vector are of type
@@ -1891,15 +1905,6 @@ class jmapgen_alternatively : public jmapgen_piece
                     const std::string &context ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
                 chosen->get().apply( dat, x, y, z, context );
-            }
-        }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
             }
         }
 };
@@ -2088,7 +2093,7 @@ class jmapgen_faction : public jmapgen_piece
  * Place a sign with some text.
  * "signage": the text on the sign.
  */
-class jmapgen_sign : public jmapgen_piece
+class jmapgen_sign : public jmapgen_piece_with_has_vehicle_collision
 {
     private:
         furn_id sign_furniture;
@@ -2136,15 +2141,6 @@ class jmapgen_sign : public jmapgen_piece
             signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
             return signtext;
-        }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
         }
 };
 /**
@@ -2198,7 +2194,7 @@ class jmapgen_graffiti : public jmapgen_piece
  * Place a vending machine with content.
  * "item_group": the item group that is used to generate the content of the vending machine.
  */
-class jmapgen_vending_machine : public jmapgen_piece
+class jmapgen_vending_machine : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         bool reinforced;
@@ -2225,15 +2221,6 @@ class jmapgen_vending_machine : public jmapgen_piece
             }
             dat.m.place_vending( r, chosen_id, reinforced, lootable, powered );
         }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
-        }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/, const jmapgen_int &/*z*/
@@ -2245,7 +2232,7 @@ class jmapgen_vending_machine : public jmapgen_piece
  * Place a toilet with (dirty) water in it.
  * "amount": number of water charges to place.
  */
-class jmapgen_toilet : public jmapgen_piece
+class jmapgen_toilet : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         jmapgen_int amount;
@@ -2266,21 +2253,12 @@ class jmapgen_toilet : public jmapgen_piece
                 dat.m.place_toilet( r, charges );
             }
         }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
-        }
 };
 /**
  * Place a gas pump with fuel in it.
  * "amount": number of fuel charges to place.
  */
-class jmapgen_gaspump : public jmapgen_piece
+class jmapgen_gaspump : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         jmapgen_int amount;
@@ -2320,15 +2298,6 @@ class jmapgen_gaspump : public jmapgen_piece
                 dat.m.place_gas_pump( r, charges );
             } else {
                 dat.m.place_gas_pump( r, charges, chosen_fuel );
-            }
-        }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
             }
         }
 };
@@ -2734,7 +2703,7 @@ static inclusive_rectangle<point> vehicle_bounds( const vehicle_prototype &vp )
  * "fuel": fuel status of the vehicle, see @ref vehicle::vehicle
  * "status": overall (damage) status of the vehicle, see @ref vehicle::vehicle
  */
-class jmapgen_vehicle : public jmapgen_piece
+class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<vgroup_id> type;
@@ -2779,15 +2748,6 @@ class jmapgen_vehicle : public jmapgen_piece
             }
             if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
                 dat.m.queue_main_cleanup();
-            }
-        }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
             }
         }
 
@@ -2980,7 +2940,7 @@ class jmapgen_spawn_item : public jmapgen_piece
  * Place a trap.
  * "trap": id of the trap.
  */
-class jmapgen_trap : public jmapgen_piece
+class jmapgen_trap : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<trap_id> id;
@@ -3015,15 +2975,6 @@ class jmapgen_trap : public jmapgen_piece
                 dat.m.trap_set( actual_loc, chosen_id );
             }
         }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
-        }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/, const jmapgen_int &/*z*/
@@ -3039,7 +2990,7 @@ class jmapgen_trap : public jmapgen_piece
  * Place a furniture.
  * "furn": id of the furniture.
  */
-class jmapgen_furniture : public jmapgen_piece
+class jmapgen_furniture : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<furn_id> id;
@@ -3051,21 +3002,12 @@ class jmapgen_furniture : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
-            furn_id chosen_id = id.get( dat );
+            const furn_id &chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
             if( !dat.m.furn_set( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id ) ) {
                 debugmsg( "Problem setting furniture in %s", context );
-            }
-        }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
             }
         }
 
@@ -3079,7 +3021,7 @@ class jmapgen_furniture : public jmapgen_piece
  * Place terrain.
  * "ter": id of the terrain.
  */
-class jmapgen_terrain : public jmapgen_piece
+class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
 {
     private:
         enum apply_action {
@@ -3100,13 +3042,13 @@ class jmapgen_terrain : public jmapgen_piece
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
-            ter_id chosen_id = id.get( dat );
+            const ter_id &chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
             tripoint_bub_ms p( x.get(), y.get(), dat.zlevel() + z.get() );
 
-            ter_id terrain_here = dat.m.ter( p );
+            const ter_id &terrain_here = dat.m.ter( p );
             const ter_t &chosen_ter = *chosen_id;
             const bool is_wall = chosen_ter.has_flag( ter_furn_flag::TFLAG_WALL );
             const bool place_item = chosen_ter.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM );
@@ -3233,15 +3175,6 @@ class jmapgen_terrain : public jmapgen_piece
             }
             dat.m.ter_set( p, chosen_id );
         }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
-        }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/, const jmapgen_int &/*z*/
@@ -3302,7 +3235,7 @@ class jmapgen_make_rubble : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            furn_id chosen_rubble_type = rubble_type.get( dat );
+            const furn_id &chosen_rubble_type = rubble_type.get( dat );
             ter_id chosen_floor_type = floor_type.get( dat );
             if( chosen_rubble_type.id().is_null() ) {
                 return;
@@ -3328,7 +3261,7 @@ class jmapgen_make_rubble : public jmapgen_piece
  * @param options Array of @ref computer_option
  * @param failures Array of failure effects (see @ref computer_failure)
  */
-class jmapgen_computer : public jmapgen_piece
+class jmapgen_computer : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         translation name;
@@ -3392,15 +3325,6 @@ class jmapgen_computer : public jmapgen_piece
                 cpu->set_access_denied_msg( access_denied.translated() );
             }
         }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
-        }
 };
 
 /**
@@ -3409,7 +3333,7 @@ class jmapgen_computer : public jmapgen_piece
  * "items": item group to spawn (object with usual parameters).
  * "furniture": furniture to create around it.
  */
-class jmapgen_sealed_item : public jmapgen_piece
+class jmapgen_sealed_item : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<furn_id> furniture;
@@ -3532,17 +3456,8 @@ class jmapgen_sealed_item : public jmapgen_piece
             if( item_group_spawner ) {
                 item_group_spawner->apply( dat, x, y, z,  context );
             }
-            furn_id chosen_furn = furniture.get( dat );
+            const furn_id &chosen_furn = furniture.get( dat );
             dat.m.furn_set( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_furn );
-        }
-        ret_val<void> has_vehicle_collision( const mapgendata &dat,
-                                             const tripoint_rel_ms &p ) const override {
-            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
-                return ret_val<void>::make_failure( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
-                                                    dat.zlevel() + p.z() ) ).value().vehicle().disp_name() );
-            } else {
-                return ret_val<void>::make_success();
-            }
         }
 };
 
@@ -5362,8 +5277,9 @@ ret_val<void> jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
             return ret_val<void>::make_success();
     }
     for( const tripoint_bub_ms &p : dat.m.points_in_rectangle( start, end ) ) {
-        if( dat.m.veh_at( p ) ) {
-            return ret_val<void>::make_failure( dat.m.veh_at( p ).value().vehicle().disp_name() );
+        const optional_vpart_position &vp = dat.m.veh_at( p );
+        if( vp ) {
+            return ret_val<void>::make_failure( vp.value().vehicle().disp_name() );
         }
     }
     return ret_val<void>::make_success();
@@ -6151,7 +6067,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
+                    const ter_id &fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -6179,7 +6095,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
+                    const ter_id &fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             const ter_id &maybe_flood_ter = ter( p );
@@ -8292,12 +8208,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     if( update_function->second.funcs()[0]->update_map( fake_md ).success() ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
             for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( z ) ) {
-                ter_id ter_at_pos = tmp_map.ter( pos );
+                const ter_id &ter_at_pos = tmp_map.ter( pos );
                 if( ter_at_pos != base_ter ) {
                     terrains[ter_at_pos] += 1;
                 }
                 if( tmp_map.has_furn( pos ) ) {
-                    furn_id furn_at_pos = tmp_map.furn( pos );
+                    const furn_id &furn_at_pos = tmp_map.furn( pos );
                     furnitures[furn_at_pos] += 1;
                 }
             }

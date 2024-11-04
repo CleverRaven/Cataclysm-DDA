@@ -98,12 +98,14 @@ static tripoint_omt_ms find_potential_computer_point( const tinymap &compmap )
     std::vector<tripoint_omt_ms> potential;
     std::vector<tripoint_omt_ms> last_resort;
     for( const tripoint_omt_ms &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == furn_f_console_broken ) {
+        const furn_id &f = compmap.furn( p );
+        if( f == furn_f_console_broken ) {
             broken.emplace_back( p );
         } else if( broken.empty() && compmap.ter( p ) == ter_t_floor &&
-                   compmap.furn( p ) == furn_str_id::NULL_ID() ) {
+                   f == furn_str_id::NULL_ID() ) {
             for( const tripoint_omt_ms &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.furn( p2 ) == furn_f_bed || compmap.furn( p2 ) == furn_f_dresser ) {
+                const furn_id &f = compmap.furn( p2 );
+                if( f == furn_f_bed || f == furn_f_dresser ) {
                     potential.emplace_back( p );
                     break;
                 }

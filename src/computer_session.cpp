@@ -403,10 +403,12 @@ bool computer_session::can_activate( computer_action action )
                 if( !mon ) {
                     continue;
                 }
-                if( ( here.ter( p + tripoint_north ) == ter_t_reinforced_glass &&
-                      here.ter( p + tripoint_south ) == ter_t_concrete_wall ) ||
-                    ( here.ter( p + tripoint_south ) == ter_t_reinforced_glass &&
-                      here.ter( p + tripoint_north ) == ter_t_concrete_wall ) ) {
+                const ter_id &t_north = here.ter( p + tripoint_north );
+                const ter_id &t_south = here.ter( p + tripoint_south );
+                if( ( t_north == ter_t_reinforced_glass &&
+                      t_south == ter_t_concrete_wall ) ||
+                    ( t_south == ter_t_reinforced_glass &&
+                      t_north == ter_t_concrete_wall ) ) {
                     return true;
                 }
             }
@@ -581,10 +583,12 @@ void computer_session::action_terminate()
         if( !mon ) {
             continue;
         }
-        if( ( here.ter( p + tripoint_north ) == ter_t_reinforced_glass &&
-              here.ter( p + tripoint_south ) == ter_t_concrete_wall ) ||
-            ( here.ter( p + tripoint_south ) == ter_t_reinforced_glass &&
-              here.ter( p + tripoint_north ) == ter_t_concrete_wall ) ) {
+        const ter_id &t_north = here.ter( p + tripoint_north );
+        const ter_id &t_south = here.ter( p + tripoint_south );
+        if( ( t_north == ter_t_reinforced_glass &&
+              t_south == ter_t_concrete_wall ) ||
+            ( t_south == ter_t_reinforced_glass &&
+              t_north == ter_t_concrete_wall ) ) {
             mon->die( &player_character );
         }
     }
@@ -1224,18 +1228,14 @@ void computer_session::action_srcf_seal()
     add_msg( m_warning, _( "Evacuate Immediately!" ) );
     map &here = get_map();
     for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
-        if( here.ter( p ) == ter_t_elevator || here.ter( p ) == ter_t_vat ) {
+        const ter_id &t = here.ter( p );
+        if( t == ter_t_elevator || t == ter_t_vat ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
             explosion_handler::explosion( &get_player_character(), p.raw(), 40, 0.7, true );
-        }
-        if( here.ter( p ) == ter_t_wall_glass ) {
+        } else if( t == ter_t_wall_glass || t == ter_t_sewage_pipe ||
+                   t == ter_t_sewage || t == ter_t_grate ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
-        }
-        if( here.ter( p ) == ter_t_sewage_pipe || here.ter( p ) == ter_t_sewage ||
-            here.ter( p ) == ter_t_grate ) {
-            here.make_rubble( p, furn_f_rubble_rock, true );
-        }
-        if( here.ter( p ) == ter_t_sewage_pump ) {
+        } else if( t == ter_t_sewage_pump ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
             explosion_handler::explosion( &get_player_character(), p.raw(), 50, 0.7, true );
         }
@@ -1256,16 +1256,18 @@ void computer_session::action_srcf_elevator()
     bool is_underground_elevator_exist = false;
 
     for( const tripoint_bub_ms &p : here.points_on_zlevel( 0 ) ) {
-        if( here.ter( p ) == ter_t_elevator_control_off || here.ter( p ) == ter_t_elevator_control ) {
+        const ter_id &t = here.ter( p );
+        if( t == ter_t_elevator_control_off || t == ter_t_elevator_control ) {
             surface_elevator = p;
-            is_surface_elevator_on = here.ter( p ) == ter_t_elevator_control;
+            is_surface_elevator_on = t == ter_t_elevator_control;
             is_surface_elevator_exist = true;
         }
     }
     for( const tripoint_bub_ms &p : here.points_on_zlevel( -2 ) ) {
-        if( here.ter( p ) == ter_t_elevator_control_off || here.ter( p ) == ter_t_elevator_control ) {
+        const ter_id &t = here.ter( p );
+        if( t == ter_t_elevator_control_off || t == ter_t_elevator_control ) {
             underground_elevator = p;
-            is_underground_elevator_on = here.ter( p ) == ter_t_elevator_control;
+            is_underground_elevator_on = t == ter_t_elevator_control;
             is_underground_elevator_exist = true;
         }
     }
@@ -1322,11 +1324,12 @@ void computer_session::action_irradiator()
     for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 10 ) ) {
         if( here.ter( dest ) == ter_t_rad_platform ) {
             platform_exists = true;
-            if( here.i_at( dest ).empty() ) {
+            map_stack ms = here.i_at( dest );
+            if( ms.empty() ) {
                 print_error( _( "ERROR: Processing platform empty." ) );
             } else {
                 player_character.mod_moves( -to_moves<int>( 3_seconds ) );
-                for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
+                for( auto it = ms.begin(); it != ms.end(); ++it ) {
                     // actual food processing
                     if( !it->rotten() ) {
                         it->set_flag( flag_IRRADIATED );
@@ -1446,13 +1449,14 @@ void computer_session::action_conveyor()
     bool p_exists = false;
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 10 ) ) {
-        if( here.ter( dest ) == ter_t_rad_platform ) {
+        const ter_id &t = here.ter( dest );
+        if( t == ter_t_rad_platform ) {
             platform = dest;
             p_exists = true;
-        } else if( here.ter( dest ) == ter_t_floor_red ) {
+        } else if( t == ter_t_floor_red ) {
             loading = dest;
             l_exists = true;
-        } else if( here.ter( dest ) == ter_t_floor_green ) {
+        } else if( t == ter_t_floor_green ) {
             unloading = dest;
             u_exists = true;
         }

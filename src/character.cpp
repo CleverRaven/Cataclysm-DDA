@@ -1421,18 +1421,22 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+    if( cache_has_item_with_flag( flag_ALARMCLOCK, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_WATCH, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+    if( cache_has_item_with_flag( flag_WATCH, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
 }
 
@@ -9142,8 +9146,8 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
-    const ter_id ter_at_pos = here.ter( pos );
-    const furn_id furn_at_pos = here.furn( pos );
+    const ter_id &ter_at_pos = here.ter( pos );
+    const furn_id &furn_at_pos = here.furn( pos );
 
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
@@ -10215,7 +10219,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
                               1 );
         run_cost_effect_mul( obstacle_mult, _( "Obstacle Muts." ) );
 
-        if( has_proficiency( proficiency_prof_parkour ) ) {
+        if( has_proficiency( proficiency_prof_parkour ) && !is_prone() ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
 

@@ -1724,23 +1724,23 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     if( here.ter( source_pos )->has_examine( iexamine::gaspump ) ) {
                         add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
                                  liquid.type_name( 1 ) );
-                    } else if( here.furn( source_pos )->has_examine( iexamine::fvat_full ) ) {
+                    } else if( const furn_id &f = here.furn( source_pos ); f->has_examine( iexamine::fvat_full ) ) {
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            if( here.furn( source_pos ) == furn_f_fvat_wood_full ) {
+                            if( f == furn_f_fvat_wood_full ) {
                                 here.furn_set( source_pos, furn_f_fvat_wood_empty );
                             } else {
                                 here.furn_set( source_pos, furn_f_fvat_empty );
                             }
                         }
-                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                    } else if( f->has_examine( iexamine::compost_full ) ) {
                         add_msg( _( "You squeeze the last drops of %s from the tank." ),
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                            if( f == furn_f_compost_full ) {
                                 here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
