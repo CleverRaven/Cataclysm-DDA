@@ -1087,7 +1087,7 @@
     "type": "TOOL",
     "name": { "str": "hobo candle" },
     "looks_like": "jar_3l_glass_sealed",
-    "description": "An alcohol based hobo candle, akin to a makeshift bunsen burner, held together by the hopes, dreams and gum of a survivor.  It doesn't provide very much light, but it can burn for several weeks.  You'll need a lighter or matches to light it.",
+    "description": "An gasoline based hobo candle, akin to a makeshift alcohol lamp, held together by the hopes, dreams and gum of a survivor.  It doesn't provide very much light, but it can burn for about a week.  You'll need a lighter or matches to light it.",
     "weight": "965 g",
     "volume": "3530 ml",
     "longest_side": "21 cm",
@@ -1115,7 +1115,7 @@
     "type": "TOOL",
     "copy-from": "hobo_candle",
     "name": { "str": "hobo candle" },
-    "description": "An alcohol based hobo candle, akin to a makeshift bunsen burner, held together by the hopes, dreams and gum of a survivor.  It doesn't provide very much light, but it can burn for about a week.  This hobo candle is lit.",
+    "description": "An gasoline based hobo candle, akin to a makeshift alcohol lamp, held together by the hopes, dreams and gum of a survivor.  It doesn't provide very much light, but it can burn for about a week.  This hobo candle is lit.",
     "turns_per_charge": 238,
     "use_action": [
       { "type": "firestarter", "moves": 200 },
