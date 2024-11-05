@@ -348,7 +348,7 @@
       { "item": "felinesuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
       { "item": "wool_suit_devil", "prob": 15 },
-      { "item": "wool_suit_bunny", "prob": 25 }, 
+      { "item": "wool_suit_bunny", "prob": 25 },
       { "item": "bunny_suit_playboy", "prob": 25 },
       { "item": "dinosuit", "prob": 10 },
       { "item": "sharksuit", "prob": 10 },
