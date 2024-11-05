@@ -71,6 +71,7 @@
         "topic": "TALK_NONE",
         "effect": [ "start_trade" ]
       }
-    ]
+    ],
+    "speaker_effect": [ { "sentinel": "meeting_weaponmaster", "effect": { "u_add_var": "u_met_weaponmaster", "value": "yes" } } ]
   }
 ]
