@@ -8673,8 +8673,9 @@ bool item::made_of_any_food_components( bool deep_search ) const
 
     for( const std::pair<itype_id, std::vector<item>> pair : components ) {
         for( const item &it : pair.second ) {
-            nutrients &maybe_food = it.get_comestible()->default_nutrition;
-            bool must_be_food = maybe_food.kcal() > 0 || maybe_food.vitamins().empty();
+            const auto &maybe_food = it.get_comestible();
+            bool must_be_food = maybe_food && ( maybe_food->default_nutrition.kcal() > 0 ||
+                                                !maybe_food->default_nutrition.vitamins().empty() );
             bool has_food_component = false;
             if( deep_search && !it.components.empty() ) {
                 // make true if any component has food values, even if some don't
