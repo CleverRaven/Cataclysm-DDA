@@ -42,6 +42,7 @@
     "profession": true,
     "points": 2,
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
+    "types": [ "HERITAGE" ],
     "allowed_category": [ "GRACKEN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
@@ -231,7 +232,13 @@
     "mixed_effect": true,
     "points": 1,
     "enchantments": [
-      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -1 }, { "value": "METABOLISM", "multiply": -0.8 } ] }
+      {
+        "values": [
+          { "value": "KCAL", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -0.8 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }
+        ]
+      }
     ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]

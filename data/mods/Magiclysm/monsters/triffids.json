@@ -26,6 +26,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_brambles_arc", "min_level": 5 },
         "cooldown": 25,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s waves its fronds in a deliberate pattern."
       },
       {
@@ -33,6 +34,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_summon_tanglevine", "min_level": 6 },
         "cooldown": 50,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s waves its fronds toward the ground."
       },
       {
@@ -40,6 +42,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 2 },
         "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s twitches its base and roots burst from the ground around %3$s."
       }
     ],
@@ -83,6 +86,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_cone", "min_level": 3 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s waves its fronds and pollen erupts out in a cone!"
       },
       {
@@ -90,6 +94,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_heal", "min_level": 4 },
         "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s waves its fronds and a glow surrounds %3$s."
       },
       {
@@ -97,6 +102,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_speed", "min_level": 6 },
         "cooldown": 25,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s waves its fronds and %3$s starts moving faster!"
       },
       {
@@ -104,6 +110,7 @@
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_blind", "min_level": 6 },
         "cooldown": 35,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s waves its fronds and golden pollen cascades down over %3$s!"
       }
     ],

@@ -47,7 +47,6 @@
 #include "value_ptr.h"
 #include "viewer.h"
 
-static const efftype_id effect_critter_underfed( "critter_underfed" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -149,12 +148,12 @@ item_location mdeath::splatter( monster &z )
 
     map &here = get_map();
     if( gibbable ) {
-        const auto area = here.points_in_radius( z.pos(), 1 );
+        const tripoint_range<tripoint_bub_ms> area = here.points_in_radius( z.pos_bub(), 1 );
         int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
 
         if( z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
-            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos() ) );
+            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos_bub() ) );
         }
 
         for( int i = 0; i < number_of_gibs; ++i ) {
@@ -202,7 +201,7 @@ item_location mdeath::splatter( monster &z )
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        if( z.has_effect( effect_critter_underfed ) ) {
+        if( !z.has_eaten_enough() ) {
             corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
         }
         return here.add_item_ret_loc( z.pos_bub(), corpse );
@@ -259,7 +258,7 @@ void mdeath::broken( monster &z )
                                 mags.insert( mags.end(), mag );
                                 ammo_count -= mag.type->magazine->capacity;
                             }
-                            here.spawn_items( z.pos(), mags );
+                            here.spawn_items( z.pos_bub(), mags );
                             spawned = true;
                             break;
                         }
@@ -293,7 +292,7 @@ item_location make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    if( z.has_effect( effect_critter_underfed ) ) {
+    if( !z.has_eaten_enough() ) {
         corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
     return get_map().add_item_ret_loc( z.pos_bub(), corpse );

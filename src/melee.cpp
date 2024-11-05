@@ -607,6 +607,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
     }
 
+    recalculate_enchantment_cache();
+
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_avatar() ) {
@@ -1003,7 +1005,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
-void Character::reach_attack( const tripoint &p, int forced_movecost )
+void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
 {
     static const matec_id no_technique_id( "" );
     matec_id force_technique = no_technique_id;
@@ -1031,9 +1033,9 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
     float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
     int t = 0;
     map &here = get_map();
-    std::vector<tripoint> path = line_to( pos(), p, t, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, t, 0 );
     path.pop_back(); // Last point is our critter
-    for( const tripoint &path_point : path ) {
+    for( const tripoint_bub_ms &path_point : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = creatures.creature_at( path_point );
         /** @EFFECT_MELEE decreases chance of hitting intervening target on reach attack */
@@ -1669,8 +1671,8 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint &tmp : get_map().points_in_radius( pos(), 1 ) ) {
-            if( tmp == t.pos() ) {
+        for( const tripoint_bub_ms &tmp : get_map().points_in_radius( pos_bub(), 1 ) ) {
+            if( tmp == t.pos_bub() ) {
                 continue;
             }
             monster *const mon = creatures.creature_at<monster>( tmp );
@@ -1833,7 +1835,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     }
     map &here = get_map();
     if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
-        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
+        const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
         tripoint kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
@@ -1855,7 +1857,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
             // Check if it's possible to move to the new tile
             bool move_issue =
-                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
+                g->is_dangerous_tile( prev_pos.raw() ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
@@ -1863,8 +1865,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_effect( effect_amigara ) ||
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
-                if( t.pos() != prev_pos ) {
-                    g->place_player( prev_pos );
+                if( t.pos_bub() != prev_pos ) {
+                    g->place_player( prev_pos.raw() );
                     g->on_move_effects();
                 }
             }
@@ -2860,7 +2862,7 @@ void avatar::steal( npc &target )
         return;
     }
 
-    item_location loc = game_menus::inv::steal( *this, target );
+    item_location loc = game_menus::inv::steal( target );
     if( !loc ) {
         return;
     }

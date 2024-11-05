@@ -369,7 +369,9 @@ void player_activity::deserialize( const JsonObject &data )
 
     bool is_obsolete = false;
     std::set<std::string> obs_activities {
-        "ACT_MAKE_ZLAVE" // Remove after 0.F
+        "ACT_PICKUP_MENU", // Remove after 0.I
+        "ACT_VIEW_RECIPE", // Remove after 0.I
+        "ACT_ADV_INVENTORY" // Remove after 0.I
     };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
@@ -3158,8 +3160,8 @@ void vehicle_part::deserialize( const JsonObject &data )
         variant = info().variant_default;
     }
 
-    data.read( "mount_dx", mount.x );
-    data.read( "mount_dy", mount.y );
+    data.read( "mount_dx", mount.x() );
+    data.read( "mount_dy", mount.y() );
     data.read( "open", open );
     int direction_int;
     data.read( "direction", direction_int );
@@ -3173,8 +3175,8 @@ void vehicle_part::deserialize( const JsonObject &data )
         if( std::abs( z_offset ) > 10 ) {
             data.throw_error_at( "z_offset", "z_offset out of range" );
         }
-        precalc[0].z = z_offset;
-        precalc[1].z = z_offset;
+        precalc[0].z() = z_offset;
+        precalc[1].z() = z_offset;
     }
 
     JsonArray ja_carried = data.get_array( "carried_stack" );
@@ -3198,6 +3200,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "ammo_pref", ammo_pref );
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
+    data.read( "last_charged", last_charged );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3214,8 +3217,8 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "variant", variant );
     }
     json.member( "base", base );
-    json.member( "mount_dx", mount.x );
-    json.member( "mount_dy", mount.y );
+    json.member( "mount_dx", mount.x() );
+    json.member( "mount_dy", mount.y() );
     json.member( "open", open );
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
@@ -3233,8 +3236,8 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
-    if( precalc[0].z ) {
-        json.member( "z_offset", precalc[0].z );
+    if( precalc[0].z() ) {
+        json.member( "z_offset", precalc[0].z() );
     }
     json.member( "items", items );
     json.member( "tools", tools );
@@ -3252,6 +3255,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "ammo_pref", ammo_pref );
     json.member( "locked", locked );
     json.member( "last_disconnected", last_disconnected );
+    json.member( "last_charged", last_charged );
     json.end_object();
 }
 
@@ -3259,9 +3263,9 @@ void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
 {
     data.read( "veh_name", veh_name );
     face_dir = units::from_degrees( data.get_int( "face_dir" ) );
-    data.read( "mount_x", mount.x );
-    data.read( "mount_y", mount.y );
-    data.read( "mount_z", mount.z );
+    data.read( "mount_x", mount.x() );
+    data.read( "mount_y", mount.y() );
+    data.read( "mount_z", mount.z() );
 }
 
 void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
@@ -3269,9 +3273,9 @@ void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "veh_name", veh_name );
     json.member( "face_dir", std::lround( to_degrees( face_dir ) ) );
-    json.member( "mount_x", mount.x );
-    json.member( "mount_y", mount.y );
-    json.member( "mount_z", mount.z );
+    json.member( "mount_x", mount.x() );
+    json.member( "mount_y", mount.y() );
+    json.member( "mount_z", mount.z() );
     json.end_object();
 }
 
@@ -3665,7 +3669,7 @@ void faction::serialize( JsonOut &json ) const
         json.member( rel_data.first );
         json.start_object();
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            json.member( rel_flag.first, rel_data.second.test( rel_flag.second ) );
+            json.member( rel_flag.first, rel_data.second.test( static_cast<size_t>( rel_flag.second ) ) );
         }
         json.end_object();
     }
@@ -4583,15 +4587,15 @@ void ter_furn_migrations::load( const JsonObject &jo )
     furn_str_id to_furn = furn_str_id::NULL_ID();
     if( is_ter_migration ) {
         ter_str_id from_ter;
-        mandatory( jo, true, "from_ter", from_ter );
-        mandatory( jo, true, "to_ter", to_ter );
-        optional( jo, true, "to_furn", to_furn );
+        mandatory( jo, false, "from_ter", from_ter );
+        mandatory( jo, false, "to_ter", to_ter );
+        optional( jo, false, "to_furn", to_furn, furn_str_id::NULL_ID() );
         ter_migrations.insert( std::make_pair( from_ter, std::make_pair( to_ter, to_furn ) ) );
     } else {
         furn_str_id from_furn;
-        mandatory( jo, true, "from_furn", from_furn );
-        optional( jo, true, "to_ter", to_ter );
-        mandatory( jo, true, "to_furn", to_furn );
+        mandatory( jo, false, "from_furn", from_furn );
+        optional( jo, false, "to_ter", to_ter, ter_str_id::NULL_ID() );
+        mandatory( jo, false, "to_furn", to_furn );
         furn_migrations.insert( std::make_pair( from_furn, std::make_pair( to_ter, to_furn ) ) );
     }
 }
@@ -4629,8 +4633,8 @@ void field_type_migrations::load( const JsonObject &jo )
 {
     field_type_str_id from_field;
     field_type_str_id to_field;
-    mandatory( jo, true, "from_field", from_field );
-    mandatory( jo, true, "to_field", to_field );
+    mandatory( jo, false, "from_field", from_field );
+    mandatory( jo, false, "to_field", to_field );
     field_migrations.insert( std::make_pair( from_field, to_field ) );
 }
 
@@ -4923,9 +4927,9 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                         auto migrate_terstr = [&]( ter_str_id terstr ) {
                             if( auto it = ter_migrations.find( terstr ); it != ter_migrations.end() ) {
                                 terstr = it->second.first;
-                                if( it->second.second != furn_str_id::NULL_ID() ) {
-                                    iid_furn = it->second.second.id();
-                                }
+                                iid_furn = it->second.second.id();
+                            } else {
+                                iid_furn = furn_str_id::NULL_ID().id();
                             }
                             if( terstr.is_valid() ) {
                                 iid_ter = terstr.id();

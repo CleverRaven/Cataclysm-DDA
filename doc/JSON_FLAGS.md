@@ -242,6 +242,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
 - ```TOUGH_FEET``` This armor provide effect similar to wearing a proper boots (like scale on your legs), so you don't have a debuff from not wearing footwear.
 - ```UNDERSIZE``` This clothes can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else.
+- ```UNRESTRICTED``` Can always be worn, no exceptions.
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
@@ -355,6 +356,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```COLDBLOOD3``` For cold-blooded mutations.
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLD_IMMUNE``` You are immune to cold damage.
+- ```CRAFT_IN_DARKNESS``` You can craft anything regardless of light levels.
 - ```CUT_IMMUNE``` You are immune to cutting damage.
 - ```DEAF``` Makes you deaf.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.  Also protects you from any dangerous effects of portal storms.
@@ -408,6 +410,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills.  Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills.  Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the `guilt` mondeath effect.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty.
+- ```READ_IN_DARKNESS``` You can read regardless of light level.
 - ```ROOTS2``` Gain enhanced effects from the Mycorrhizal Communion mutation.
 - ```ROOTS3``` Gain enhanced effects from the Mycorrhizal Communion mutation (slightly faster than `ROOTS2`).
 - ```SAPIOVORE``` Butcher humans without a morale penalty.
@@ -606,7 +609,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CAN_SIT``` Furniture the player can sit on.  Player sitting near furniture with the `FLAT_SURF` tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
-- ```CHOCOLATE``` Made of delicious chocolate.  Used by the My Sweet Cataclysm mod.
 - ```CLIMBABLE``` You can climb on this obstacle.
 - ```CLIMB_SIMPLE``` You never fail climbing on this obstacle.
 - ```COLLAPSES``` Has a roof that can collapse.
@@ -649,7 +651,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```LOCKED``` Is locked, requiring either external control or lockpicking to open.
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
-- ```MURKY``` Liquid taken from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NANOFAB_TABLE``` This is a nanofabricator, and it can generate items out of specific blueprints.  Hardcoded
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles.  See also `DESTROY_ITEM`.
@@ -680,7 +681,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```ROUGH``` May hurt the player's feet.
 - ```RUBBLE``` Furniture behaves like rubble: it can be cleared by the `CLEAR_RUBBLE` item action.  Can be applied to terrain, but it "clears up the nothing".
 - ```RUG``` Enables the `Remove Carpet` Construction entry.
-- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor).
 - ```SHALLOW_WATER``` This is water that is not deep enough to submerge the player.
@@ -697,10 +697,10 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```SWIMMABLE``` Player and monsters can swim through it.
 - ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
-- ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
+- ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle.  Used for fungal conversion, and also implies `CONNECT_WITH_WALL`.
@@ -1278,7 +1278,7 @@ See [Character](#character)
 - ```LAKE``` Location is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
 - ```MAN_MADE``` For location, created by human.  Used by the Innawood mod.
 - ```MI-GO``` Location is related to mi-go.
-- ```SAFE_AT_WORLDGEN``` Location will not spawn overmap monster groups during worldgen (does not affect monsters spawned by mapgen).
+- ```SAFE_AT_WORLDGEN``` Location will not spawn overmap monster groups during worldgen (does not affect monsters spawned by mapgen).  It will also cause map specials (only) with a radius for creature spawns to not spawn within their maximum radius.
 - ```TRIFFID``` Location is related to triffids.  Used to classify location.
 - ```URBAN```
 - ```WILDERNESS``` Locations that have no road connection.
@@ -1621,8 +1621,9 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA_CONTROL```This part allows for using the camera system installed on a vehicle.
 - ```CAMERA``` Vehicle part which allows looking through the installed camera system.
-- ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
+- ```CAPTURE_MONSTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.  Can only be installed on a part with `LOCKABLE_CARGO` flag.
+- ```CARGO_PASSABLE``` Items stored in vehicle part with this flag won't hinder passenger's ability to fit in comfortably into a given tile.
 - ```CARGO``` Cargo holding area.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.

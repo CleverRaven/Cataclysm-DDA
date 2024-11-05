@@ -8,7 +8,8 @@
         "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -17,11 +18,11 @@
         ".00---#y¤@@¤ |D###oo###.",
         ".0#o*o#d @@  + |d II P#.",
         ".0#&  |d     |||d h  ¤#.",
-        ".0#~ L|  b  y|z+    @@#.",
+        ".0#f L|  b  y|z+    @@#.",
         "..o   |+||||||D|T   @@#.",
         "..o     xxRRR||||+||||#.",
         "..#$sE             +__o.",
-        "..#s]]]]]   VV ~y  |ZW#.",
+        "..#s]]]]]   VV fy  |ZW#.",
         "..#H]]l]]   ||+||| |||#.",
         "..#H]]l]]  a|S__B|  +Q#.",
         "..#H]]l]]  a|88tB|+|||#.",
@@ -50,23 +51,16 @@
         "1": "t_null",
         "J": "t_null",
         "0": "t_shrub_lilac",
-        "`": "t_railing_v",
-        "]": "t_carpet_purple",
+        "`": "t_railing",
+        "]": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "i": "t_floor_noroof",
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "₸": "t_floor_noroof",
-        "l": "t_carpet_purple",
-        "Q": "t_null",
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "ʭ": "t_region_groundcover_urban"
       },
-      "furniture": {
-        "~": "f_table",
-        "$": "f_speaker_cabinet",
-        "?": "f_piano",
-        "&": "f_rack",
-        "ʭ": [ [ "f_ladder", 1 ], [ "f_null", 5 ] ]
-      },
+      "furniture": { "$": "f_speaker_cabinet", "?": "f_piano", "&": "f_rack", "ʭ": [ [ "f_ladder", 1 ], [ "f_null", 5 ] ] },
       "items": { "~": { "item": "table_foyer", "chance": 50 }, "&": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "stereo", "x": 9, "y": 7, "chance": 100 } ]
     }

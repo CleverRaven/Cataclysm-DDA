@@ -185,7 +185,7 @@
         { "u_has_effect": "effect_teleporter_attuning_to_area" }
       ]
     },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
+    "effect": [ { "u_lose_effect": "effect_teleporter_attuning_to_area" } ]
   },
   {
     "type": "effect_on_condition",

@@ -78,7 +78,7 @@
     "//": "Base widget for showing body part status; needs bodypart field defined in derived widget.",
     "type": "widget",
     "style": "text",
-    "default_clause": { "text": "--" },
+    "default_clause": { "text": { "str": "--", "//~": "NO_I18N" } },
     "copy-from": "bodypart_status_indicator_template"
   },
   {

@@ -57,6 +57,7 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
 
         std::string short_description() const override;
         int get_anger() const override;
+        int get_difficulty() const override;
         int morale_cur() const override;
         int get_friendly() const override;
         int get_size() const override;
@@ -112,6 +113,8 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void die() override;
 
         void set_all_parts_hp_cur( int ) const override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &dam ) const override;
     protected:
         talker_monster() = default;
         monster *me_mon;

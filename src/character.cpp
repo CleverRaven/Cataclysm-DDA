@@ -130,7 +130,6 @@
 class activity_actor;
 struct dealt_projectile_attack;
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -152,7 +151,6 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -276,8 +274,6 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
-static const faction_id faction_no_faction( "no_faction" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -330,6 +326,7 @@ static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
@@ -424,6 +421,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
@@ -486,6 +484,12 @@ static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
+
+static const std::string type_hair_color( "hair_color" );
+static const std::string type_hair_style( "hair_style" );
+static const std::string type_skin_tone( "skin_tone" );
+static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
 
 namespace io
 {
@@ -743,6 +747,41 @@ void Character::randomize_blood()
     my_blood_type = blood_type::blood_AB;
     blood_rh_factor = false;
 }
+void Character::randomize_cosmetics()
+{
+    randomize_cosmetic_trait( type_hair_color );
+    randomize_cosmetic_trait( type_hair_style );
+    randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
+    //arbitrary 50% chance to add beard to male characters
+    if( male && one_in( 2 ) ) {
+        randomize_cosmetic_trait( type_facial_hair );
+    } else {
+        set_mutation( trait_FACIAL_HAIR_NONE );
+    }
+}
+
+void Character::starting_inv_damage_worn( int days )
+{
+    //damage equipment depending on days passed
+    int chances_to_damage = std::max( days / 14 + rng( -3, 3 ), 0 );
+    do {
+        std::vector<item *> worn_items;
+        worn.inv_dump( worn_items );
+        if( !worn_items.empty() ) {
+            item *to_damage = random_entry( worn_items );
+            int damage_count = rng( 1, 3 );
+            bool destroy = false;
+            do {
+                destroy = to_damage->inc_damage();
+                if( destroy ) {
+                    //if the clothing was destroyed in a simulated "dangerous situation", all contained items are lost
+                    i_rem( to_damage );
+                }
+            } while( damage_count-- > 0 && !destroy );
+        }
+    } while( chances_to_damage-- > 0 );
+}
 
 field_type_id Character::bloodType() const
 {
@@ -823,17 +862,24 @@ creature_size Character::get_size() const
 
 std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
-    if( !possessive ) {
-        if( is_avatar() ) {
-            return capitalize_first ? _( "You" ) : _( "you" );
-        }
-        return get_name();
-    } else {
-        if( is_avatar() ) {
-            return capitalize_first ? _( "Your" ) : _( "your" );
-        }
-        return string_format( _( "%s's" ), get_name() );
+    return is_avatar() ? as_avatar()->display_name( possessive,
+            capitalize_first ) : as_npc()->display_name( possessive );
+}
+
+std::string Character::disp_profession() const
+{
+    if( !custom_profession.empty() ) {
+        return custom_profession;
     }
+    if( is_npc() && as_npc()->myclass != npc_class_id::NULL_ID() ) {
+        if( play_name_suffix ) {
+            return play_name_suffix.value();
+        }
+    }
+    if( prof != nullptr && prof != profession::generic() ) {
+        return prof->gender_appropriate_name( male );
+    }
+    return "";
 }
 
 std::string Character::name_and_maybe_activity() const
@@ -1375,18 +1421,22 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
-           ( here.veh_at( pos_bub() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+    if( cache_has_item_with_flag( flag_ALARMCLOCK, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag( flag_WATCH, true ) ||
-           ( here.veh_at( pos() ) &&
-             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+    if( cache_has_item_with_flag( flag_WATCH, true ) ) {
+        return true;
+    }
+    const optional_vpart_position &vp = here.veh_at( pos_bub() );
+    return ( vp && !empty( vp->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
 }
 
@@ -1563,8 +1613,8 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
 {
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
-          !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
+          !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.bub_from_abs( tripoint_abs_ms( act.coords.back() ) ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -1759,8 +1809,8 @@ void Character::forced_dismount()
         mounted_creature = nullptr;
         mon->mounted_player = nullptr;
     }
-    std::vector<tripoint> valid;
-    for( const tripoint &jk : get_map().points_in_radius( pos(), 1 ) ) {
+    std::vector<tripoint_bub_ms> valid;
+    for( const tripoint_bub_ms &jk : get_map().points_in_radius( pos_bub(), 1 ) ) {
         if( g->is_empty( jk ) ) {
             valid.push_back( jk );
         }
@@ -3453,6 +3503,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when
         rval.emplace_back( move_mode.str(), "" );
     }
     return rval;
+}
+
+void Character::zero_all_skills()
+{
+    for( Skill &skill : Skill::skills ) {
+        set_skill_level( skill.ident(), 0 );
+    }
 }
 
 SkillLevelMap Character::get_all_skills() const
@@ -6091,17 +6148,18 @@ float Character::rest_quality() const
     return rest;
 }
 
-std::string Character::extended_description() const
+std::vector<std::string> Character::extended_description() const
 {
-    std::string ss;
+    std::vector<std::string> tmp;
+    std::string name_str = colorize( get_name(), basic_symbol_color() );
     if( is_avatar() ) {
         // <bad>This is me, <player_name>.</bad>
-        ss += string_format( _( "This is you - %s." ), get_name() );
+        tmp.emplace_back( string_format( _( "This is you - %s." ), name_str ) );
     } else {
-        ss += string_format( _( "This is %s." ), get_name() );
+        tmp.emplace_back( string_format( _( "This is %s." ), name_str ) );
     }
 
-    ss += "\n--\n";
+    tmp.emplace_back( "--" );
 
     const std::vector<bodypart_id> &bps = get_all_body_parts( get_body_part_flags::only_main );
     // Find length of bp names, to align
@@ -6120,34 +6178,53 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
                 false );
+        std::pair<std::string, nc_color> hp_numbers =
+        { " " + std::to_string( get_part_hp_cur( bp ) ) + "/" + std::to_string( get_part_hp_max( bp ) ), c_white };
 
-        ss += colorize( left_justify( bp_heading, longest ), name_color );
-        ss += colorize( hp_bar.first, hp_bar.second );
-        // Trailing bars. UGLY!
-        // TODO: Integrate into get_hp_bar somehow
-        ss += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
-        ss += "\n";
+        std::string bp_stat = colorize( left_justify( bp_heading, longest ), name_color );
+        if( debug_mode ) {
+            bp_stat += colorize( hp_numbers.first, hp_numbers.second );
+        } else {
+            // Trailing bars. UGLY!
+            // TODO: Integrate into get_hp_bar somehow
+            bp_stat += colorize( hp_bar.first, hp_bar.second );
+            bp_stat += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        }
+        tmp.emplace_back( bp_stat );
     }
 
-    ss += "--\n";
-    ss += _( "Wielding:" ) + std::string( " " );
+    tmp.emplace_back( "--" );
+    std::string wielding;
     if( weapon.is_null() ) {
-        ss += _( "Nothing" );
+        wielding = _( "Nothing" );
     } else {
-        ss += weapon.tname();
+        wielding = weapon.tname();
     }
 
-    ss += "\n";
-    ss += _( "Wearing:" ) + std::string( " " );
+    tmp.emplace_back( string_format( _( "Wielding: %s" ), colorize( wielding, c_red ) ) );
+    std::string wearing = _( "Wearing:" ) + std::string( " " );
 
     const std::list<item_location> visible_worn_items = get_visible_worn_items();
     std::string worn_string = enumerate_as_string( visible_worn_items.begin(), visible_worn_items.end(),
     []( const item_location & it ) {
         return it.get_item()->tname();
     } );
-    ss += !worn_string.empty() ? worn_string : _( "Nothing" );
+    wearing += !worn_string.empty() ? worn_string : _( "Nothing" );
+    tmp.emplace_back( wearing );
 
-    return replace_colors( ss );
+    int visibility_cap = get_player_character().get_mutation_visibility_cap( this );
+    const std::string trait_str = visible_mutations( visibility_cap );
+    if( !trait_str.empty() ) {
+        tmp.emplace_back( string_format( _( "Traits: %s" ), trait_str ) );
+    }
+
+    std::vector<std::string> ret;
+    ret.reserve( tmp.size() );
+    for( const std::string &s : tmp ) {
+        ret.emplace_back( replace_colors( s ) );
+    }
+
+    return ret;
 }
 
 social_modifiers Character::get_mutation_bionic_social_mods() const
@@ -7456,8 +7533,8 @@ tripoint Character::adjacent_tile() const
     int dangerous_fields = 0;
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
-        if( p == pos() ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( p == pos_bub() ) {
             // Don't consider player position
             continue;
         }
@@ -7484,7 +7561,7 @@ tripoint Character::adjacent_tile() const
         }
 
         if( dangerous_fields == 0 ) {
-            ret.push_back( p );
+            ret.push_back( p.raw() );
         }
     }
 
@@ -7600,7 +7677,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
 
 int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 {
-    const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
+    const double multiplier = vitamin_rate( vitamin ) * 100 / 1_days;
     return std::lround( ammount * multiplier );
 }
 
@@ -8121,7 +8198,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && get_player_view().sees( pos() ) ) {
+    if( dam > 0 && get_player_view().sees( pos_bub() ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_avatar() && source ) {
@@ -8426,8 +8503,8 @@ void Character::spores()
     fungal_effects fe;
     //~spore-release sound
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
-    for( const tripoint &sporep : here.points_in_radius( pos(), 1 ) ) {
-        if( sporep == pos() ) {
+    for( const tripoint_bub_ms &sporep : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( sporep == pos_bub() ) {
             continue;
         }
         fe.fungalize( sporep, this, 0.25 );
@@ -8439,7 +8516,7 @@ void Character::blossoms()
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( pos_bub(), 2 ) ) {
         here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
@@ -8492,7 +8569,7 @@ void Character::rooted()
 // TODO: The rates for iron, calcium, and thirst should probably be pulled from the nutritional data rather than being hardcoded here, so that future balance changes don't break this.
 {
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && is_barefoot() ) {
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos_bub() ) && is_barefoot() ) {
         int time_to_full = 43200; // 12 hours
         if( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             time_to_full += -14400;    // -4 hours
@@ -8842,13 +8919,8 @@ void Character::cancel_activity()
         stop_hauling();
     }
     // Clear any backlog items that aren't auto-resume.
-    // but keep only one instance of ACT_ADV_INVENTORY
-    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
-    bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume &&
-            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+        if( backlog_item->auto_resume ) {
             backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
@@ -9067,7 +9139,6 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_CONSUME_FOOD_MENU ) ||
            has_activity( ACT_CONSUME_DRINK_MENU ) ||
            has_activity( ACT_CONSUME_MEDS_MENU ) ||
-           has_activity( ACT_VIEW_RECIPE ) ||
            has_activity( ACT_STUDY_SPELL );
 }
 
@@ -9075,8 +9146,8 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
-    const ter_id ter_at_pos = here.ter( pos );
-    const furn_id furn_at_pos = here.furn( pos );
+    const ter_id &ter_at_pos = here.ter( pos );
+    const furn_id &furn_at_pos = here.furn( pos );
 
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
@@ -9562,7 +9633,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from nearby map
     if( qty != 0_kJ && radius > 0 ) {
-        qty -= get_map().consume_ups( pos(), radius, qty );
+        qty -= get_map().consume_ups( pos_bub(), radius, qty );
     }
 
     return wanted_qty - qty;
@@ -9602,7 +9673,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos(), radius, what, qty, return_true<item>, nullptr, in_tools );
+        get_map().use_charges( pos_bub(), radius, what, qty, return_true<item>, nullptr, in_tools );
     }
     if( qty > 0 ) {
         visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
@@ -10148,7 +10219,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
                               1 );
         run_cost_effect_mul( obstacle_mult, _( "Obstacle Muts." ) );
 
-        if( has_proficiency( proficiency_prof_parkour ) ) {
+        if( has_proficiency( proficiency_prof_parkour ) && !is_prone() ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
 
@@ -10224,24 +10295,27 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         }
     }
 
-    // ROOTS3 does slow you down as your roots are probing around for nutrients,
-    // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
-    // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-    const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
-    bool no_left_shoe = false;
-    bool no_right_shoe = false;
-    if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-        no_left_shoe = true;
-    }
-    if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-        no_right_shoe = true;
-    }
-    if( no_left_shoe && no_right_shoe ) {
-        run_cost_effect_add( 16, _( "No Shoes" ) );
-    } else if( no_left_shoe ) {
-        run_cost_effect_add( 8, _( "No Left Shoe" ) );
-    } else if( no_right_shoe ) {
-        run_cost_effect_add( 8, _( "No Right Shoe" ) );
+    // Additional move cost for moving barefoot only if we're not swimming
+    if( !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ) {
+        // ROOTS3 does slow you down as your roots are probing around for nutrients,
+        // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
+        // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
+        const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
+        bool no_left_shoe = false;
+        bool no_right_shoe = false;
+        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
+            no_left_shoe = true;
+        }
+        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
+            no_right_shoe = true;
+        }
+        if( no_left_shoe && no_right_shoe ) {
+            run_cost_effect_add( 16, _( "No Shoes" ) );
+        } else if( no_left_shoe ) {
+            run_cost_effect_add( 8, _( "No Left Shoe" ) );
+        } else if( no_right_shoe ) {
+            run_cost_effect_add( 8, _( "No Right Shoe" ) );
+        }
     }
 
     if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
@@ -10315,10 +10389,10 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // TODO: fix it, see above.
     if( bay.furn( fin ) != furn_str_id::NULL_ID() ) {
-        for( const tripoint &p : bay.points_on_zlevel() ) {
+        for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id::NULL_ID() ) {
-                fin.x() = p.x;
-                fin.y() = p.y;
+                fin.x() = p.x();
+                fin.y() = p.y();
             }
         }
     }
@@ -10373,8 +10447,8 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos_bub(), critter.pos_bub(), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
-            std::vector<tripoint> path = here.find_clear_path( pos(), critter.pos() );
-            for( const tripoint &point : path ) {
+            std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub(), critter.pos_bub() );
+            for( const tripoint_bub_ms &point : path ) {
                 if( here.impassable( point ) &&
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
                        here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE,
@@ -10437,24 +10511,24 @@ void Character::echo_pulse()
         sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp." ), true,
                        "none", "none" );
     }
-    for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.sees( pos(), origin, pulse_range, false ) ) {
+    for( tripoint_bub_ms origin : points_in_radius( pos_bub(), pulse_range ) ) {
+        if( here.move_cost( origin ) == 0 && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin ) && here.sees( pos(), origin, pulse_range, false ) ) {
+        } else if( is_obstacle( origin.raw() ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
         if( !knows_trap( origin ) && tr.detected_by_echolocation() ) {
-            const std::string direction = direction_name( direction_from( pos(), origin ) );
+            const std::string direction = direction_name( direction_from( pos_bub(), origin ) );
             add_msg_if_player( m_warning, _( "You detect a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( origin, tr );
+            add_known_trap( origin.raw(), tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.sees( pos(), origin, pulse_range, false ) ) {
+        if( critter && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
@@ -10561,8 +10635,7 @@ void Character::echo_pulse()
 
 bool Character::knows_trap( const tripoint &pos ) const
 {
-    const tripoint p = get_map().getabs( pos );
-    return known_traps.count( p ) > 0;
+    return Character::knows_trap( tripoint_bub_ms( pos ) );
 }
 
 bool Character::knows_trap( const tripoint_bub_ms &pos ) const
@@ -10573,12 +10646,12 @@ bool Character::knows_trap( const tripoint_bub_ms &pos ) const
 
 void Character::add_known_trap( const tripoint &pos, const trap &t )
 {
-    const tripoint p = get_map().getabs( pos );
+    const tripoint_abs_ms p = get_map().getglobal( pos );
     if( t.is_null() ) {
-        known_traps.erase( p );
+        known_traps.erase( p.raw() );
     } else {
         // TODO: known_traps should map to a trap_str_id
-        known_traps[p] = t.id.str();
+        known_traps[p.raw()] = t.id.str();
     }
 }
 
@@ -10990,7 +11063,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11004,40 +11077,40 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
-    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
-        get_map().tr_at( pos() ).trigger( pos(), *this );
-        get_map().update_visibility_cache( pos().z );
+    if( get_map().tr_at( pos_bub() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
+        get_map().tr_at( pos_bub() ).trigger( pos(), *this );
+        get_map().update_visibility_cache( pos_bub().z() );
     }
 }
 
 void Character::stagger()
 {
     map &here = get_map();
-    std::vector<tripoint> valid_stumbles;
+    std::vector<tripoint_bub_ms> valid_stumbles;
     valid_stumbles.reserve( 11 );
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy().raw(), dest.z() - 1 );
+                valid_stumbles.emplace_back( dest + tripoint_below );
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy().raw(), dest.z() + 1 );
+                valid_stumbles.emplace_back( dest + tripoint_above );
             } else {
-                valid_stumbles.push_back( dest.raw() );
+                valid_stumbles.push_back( dest );
             }
         }
     }
     const tripoint_bub_ms below( posx(), posy(), posz() - 1 );
     if( here.valid_move( pos_bub(), below, false, true ) ) {
-        valid_stumbles.push_back( below.raw() );
+        valid_stumbles.push_back( below );
     }
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() ) {
         bool blocked = false;
-        const tripoint dest = random_entry_removed( valid_stumbles );
+        const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
         const optional_vpart_position vp_there = here.veh_at( dest );
         if( vp_there ) {
             vehicle &veh = vp_there->vehicle();
-            if( veh.enclosed_at( dest ) ) {
+            if( veh.enclosed_at( dest.raw() ) ) {
                 blocked = true;
             }
         }
@@ -11239,8 +11312,13 @@ npc_attitude Character::get_attitude() const
 
 bool Character::sees( const tripoint &t, bool, int ) const
 {
-    const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
+    return sees( tripoint_bub_ms( t ) );
+}
+
+bool Character::sees( const tripoint_bub_ms &t, bool, int ) const
+{
+    const int wanted_range = rl_dist( pos_bub(), t );
+    bool can_see = this->is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
                    Creature::sees( t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
@@ -11250,16 +11328,11 @@ bool Character::sees( const tripoint &t, bool, int ) const
     return can_see;
 }
 
-bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
-{
-    return sees( t.raw(), is_avatar, range_mod );
-}
-
 bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
-    if( std::abs( pos().z - critter.pos().z ) > fov_3d_z_range ) {
+    const int dist = rl_dist( pos_bub(), critter.pos_bub() );
+    if( std::abs( pos_bub().z() - critter.pos_bub().z() ) > fov_3d_z_range ) {
         return false;
     }
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
@@ -11270,7 +11343,7 @@ bool Character::sees( const Creature &critter ) const
     }
     // Only players can spot creatures through clairvoyance fields
     if( is_avatar() && field_fd_clairvoyant.is_valid() &&
-        get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
+        get_map().get_field( critter.pos_bub(), field_fd_clairvoyant ) ) {
         return true;
     }
     return Creature::sees( critter );
@@ -11281,7 +11354,7 @@ void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
 {
     auto_move_route = route;
     set_destination_activity( new_destination_activity );
-    destination_point.emplace( get_map().getabs( route.back() ) );
+    destination_point.emplace( get_map().getglobal( route.back() ).raw() );
 }
 
 void Character::clear_destination()
@@ -11319,7 +11392,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().bub_from_abs( *destination_point );
+           pos_bub() == get_map().bub_from_abs( tripoint_abs_ms( *destination_point ) );
 }
 
 void Character::start_destination_activity()
@@ -11346,14 +11419,14 @@ action_id Character::get_next_auto_move_direction()
 
     if( next_expected_position ) {
         // Difference between where the character is and where we expect them to be after last auto-move.
-        tripoint diff = ( pos_bub() - *next_expected_position ).raw().abs();
+        tripoint_rel_ms diff = ( pos_bub() - *next_expected_position ).abs();
         // This might differ by 1 (in z-direction), since the character might have crossed a ramp,
         // which teleported them a tile up or down. If the error is in x or y direction, we might as well
         // give them a turn to recover, as the move still might be vaild.
         // We cut off at 1 since 2 definitely results in an invalid move.
         // If the character is still stumbling or stuck,
         // they will cancel the auto-move on the next cycle (as the distance increases).
-        if( std::max( { diff.x, diff.y, diff.z } ) > 1 ) {
+        if( std::max( { diff.x(), diff.y(), diff.z()} ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
@@ -11641,7 +11714,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( this, *target, this->pos() );
+        target->deactivate( this );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
@@ -11900,7 +11973,7 @@ bool Character::add_faction_warning( const faction_id &id ) const
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_avatar() && fac->id != faction_no_faction ) {
+    if( fac != nullptr && is_avatar() && !fac->lone_wolf_faction ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
         fac->trusts_u -= 1;
@@ -12023,7 +12096,8 @@ const Character *Character::get_book_reader( const item &book,
     } else if( condition & read_condition_result::NEED_GLASSES ) {
         reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
-    } else if( condition & read_condition_result::TOO_DARK ) {
+    } else if( condition & read_condition_result::TOO_DARK &&
+               !has_flag( json_flag_READ_IN_DARKNESS ) ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -12481,7 +12555,7 @@ int Character::impact( const int force, const tripoint &p )
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
-            // TODO: Make furniture matter
+            effective_force = std::max( 0, effective_force - here.furn( p )->fall_damage_reduction );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const float swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
@@ -12490,8 +12564,28 @@ int Character::impact( const int force, const tripoint &p )
                 mod /= 1.0f + ( 0.1f * swim_skill );
             }
         }
-    }
+        //checking for items on floor
+        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        !here.items_with( p, [&]( item const & it ) {
+        return it.affects_fall();
+        } ).empty() ) {
+            std::list<item_location> fall_affecting_items =
+            here.items_with( p, [&]( const item & it ) {
+                return it.affects_fall();
+            } );
 
+            for( const item_location &floor_item : fall_affecting_items ) {
+                effective_force = std::max( 0, effective_force - floor_item.get_item()->fall_damage_reduction() );
+            }
+
+        }
+    }
+    //for wielded items
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        weapon.affects_fall() ) {
+        effective_force = std::max( 0, effective_force - weapon.fall_damage_reduction() );
+
+    }
     // Rescale for huge force
     // At >30 force, proper landing is impossible and armor helps way less
     if( effective_force > 30 ) {
@@ -12765,17 +12859,17 @@ void Character::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( const tripoint &tp : here.points_in_radius( pos(), 5 ) ) {
+    for( const tripoint_bub_ms &tp : here.points_in_radius( pos_bub(), 5 ) ) {
         const trap &tr = here.tr_at( tp );
-        if( tr.is_null() || tp == pos() ) {
+        if( tr.is_null() || tp == pos_bub() ) {
             continue;
         }
         // Note that echolocation and SONAR also do this separately in echo_pulse()
         if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
-            const std::string direction = direction_name( direction_from( pos(), tp ) );
+            const std::string direction = direction_name( direction_from( pos_bub(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( tp, tr );
+            add_known_trap( tp.raw(), tr );
         }
         if( !sees( tp ) ) {
             continue;
@@ -12785,11 +12879,11 @@ void Character::search_surroundings()
             continue;
         }
         // Chance to detect traps we haven't yet seen.
-        if( tr.detect_trap( tp, *this ) ) {
+        if( tr.detect_trap( tp.raw(), *this ) ) {
             if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
-                                                  direction_from( pos(), tp ) );
+                                                  direction_from( pos_bub(), tp ) );
                 practice_proficiency( proficiency_prof_spotting, 1_minutes );
                 // Seeing a trap set properly gives you a little bonus to trapsetting profs.
                 practice_proficiency( proficiency_prof_traps, 10_seconds );
@@ -12797,7 +12891,7 @@ void Character::search_surroundings()
                 add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                    tr.name(), direction );
             }
-            add_known_trap( tp, tr );
+            add_known_trap( tp.raw(), tr );
         }
     }
 }

@@ -333,7 +333,16 @@ class overmap
         void clear_connections_out();
         void place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
                                    om_direction::type dir );
+        // Whether the tripoint's point is true in city_tiles
+        bool is_in_city( const tripoint_om_omt &p ) const;
+        // Returns the distance to the nearest city_tile within max_dist_to_check or std::nullopt if there isn't one
+        std::optional<int> distance_to_city( const tripoint_om_omt &p,
+                                             int max_dist_to_check = OMAPX ) const;
     private:
+        // Any point that is part of or surrounded by a city
+        std::unordered_set<point_om_omt> city_tiles;
+        // Fill in any gaps in city_tiles that don't connect to the map edge
+        void flood_fill_city_tiles();
         std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)
     public:
         /** Unit test enablers to check if a given mongroup is present. */
@@ -507,7 +516,7 @@ class overmap
             const point_om_omt &dest, int z, bool must_be_unexplored ) const;
         pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
-            om_direction::type dir, size_t len ) const;
+            om_direction::type dir, size_t len );
     public:
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
@@ -540,6 +549,7 @@ class overmap
 
         // DEBUG ONLY!
         void debug_force_add_group( const mongroup &group );
+        std::vector<std::reference_wrapper<mongroup>> debug_unsafe_get_groups_at( tripoint_abs_omt &loc );
     private:
         /**
          * Iterate over the overmap and place the quota of specials.

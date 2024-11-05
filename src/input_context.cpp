@@ -134,6 +134,7 @@ static const std::string ANY_INPUT = "ANY_INPUT";
 static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 static const std::string COORDINATE = "COORDINATE";
 static const std::string TIMEOUT = "TIMEOUT";
+static const std::string QUIT = "QUIT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -445,6 +446,10 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
+        if( g->uquit == QUIT_EXIT ) {
+            result = &QUIT;
+            break;
+        }
         const std::string &action = input_to_action( next_action );
 
         //Special global key to toggle language to english and back
@@ -640,7 +645,7 @@ static const std::map<fallback_action, int> fallback_keys = {
 };
 
 keybindings_ui::keybindings_ui( bool permit_execute_action,
-                                input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
+                                input_context *parent ) : cataimgui::window( _( "KEYBINDINGS" ), ImGuiWindowFlags_NoNav )
 {
     this->ctxt = parent;
 
@@ -1142,8 +1147,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return std::nullopt;
@@ -1165,7 +1170,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     if( center_cursor ) {
         p -= view_size / 2;
     }
-    return tripoint( p, get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p.x, p.y, get_map().get_abs_sub().z() );
 }
 #endif
 
@@ -1173,9 +1178,9 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
         &capture_win ) const
 {
 #if !defined( TILES )
-    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
     if( coord3d.has_value() ) {
-        return get_coordinates( capture_win )->xy();
+        return coord3d->xy().raw();
     } else {
         return std::nullopt;
     }

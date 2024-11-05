@@ -197,7 +197,7 @@ Creature::~Creature() = default;
 
 tripoint Creature::pos() const
 {
-    return get_map().getlocal( location );
+    return Creature::pos_bub().raw();
 }
 
 tripoint_bub_ms Creature::pos_bub() const
@@ -245,7 +245,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.getlocal( loc ) ) ) {
+        if( !veh.enclosed_at( here.bub_from_abs( loc ).raw() ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();
@@ -320,7 +320,7 @@ void Creature::reset()
 
 void Creature::bleed() const
 {
-    get_map().add_splatter( bloodType(), pos() );
+    get_map().add_splatter( bloodType(), pos_bub() );
 }
 
 void Creature::reset_bonuses()
@@ -481,7 +481,7 @@ bool Creature::sees( const Creature &critter ) const
 
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
-        here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
+        here.has_field_at( critter.pos_bub(), field_fd_last_known ) && critter.is_avatar() ) {
         return true;
     }
 
@@ -699,8 +699,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
                 // Or turret wallhack for turret's car
                 // TODO: to visibility checking another way, probably using 3D FOV
-                std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
-                path_to_target.insert( path_to_target.begin(), pos() );
+                std::vector<tripoint_bub_ms> path_to_target = line_to( pos_bub(), m->pos_bub() );
+                path_to_target.insert( path_to_target.begin(), pos_bub() );
 
                 // Getting point on vehicle boundaries and on line between target and turret
                 bool continueFlag = true;
@@ -836,9 +836,9 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
     // The square above must have no floor.
     // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
-    const tripoint up = target_above ? target->pos() : pos();
-    const tripoint down = target_above ? pos() : target->pos();
-    const tripoint above{ down.xy(), up.z };
+    const tripoint_bub_ms up = target_above ? target->pos_bub() : pos_bub();
+    const tripoint_bub_ms down = target_above ? pos_bub() : target->pos_bub();
+    const tripoint_bub_ms above{ down.xy(), up.z()};
     return ( !here.has_floor( up ) || here.ter( up )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) &&
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
 }
@@ -1090,8 +1090,9 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const bool magic = proj.proj_effects.count( ammo_effect_MAGIC ) > 0;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     if( magic ) {
-        // Best possible hit
-        hit_value = -0.5;
+        // We want spells to hit all bodyparts randomly, not only torso
+        // It still gonna be torso mainly
+        hit_value = rng_float( -0.5, 1.5 );
     }
     // Range is -0.5 to 1.5 -> missed_by will be [1, 0], so the rng addition to it
     // will push it to at most 1.5 and at least -0.5
@@ -1447,16 +1448,16 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string &name, const tripoint &p )
+void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
 {
-    if( pos() == p ) {
+    if( pos_bub() == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
         return;
     }
 
-    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, 0, 0 );
     Creature *c = nullptr;
-    for( const tripoint &path_p : path ) {
+    for( const tripoint_bub_ms &path_p : path ) {
         c = get_creature_tracker().creature_at( path_p );
         if( c == nullptr && get_map().impassable( path_p ) ) {
             add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
@@ -1514,10 +1515,10 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     add_effect( effect_stumbled_into_invisible, 6_seconds );
     map &here = get_map();
     // Mark last known location, or extend duration if exists
-    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
-        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    if( here.has_field_at( player.pos_bub(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos_bub(), field_fd_last_known, 0_seconds );
     } else {
-        here.add_field( player.pos(), field_fd_last_known );
+        here.add_field( player.pos_bub(), field_fd_last_known );
     }
     moves = 0;
     return true;
@@ -3230,12 +3231,12 @@ void Creature::process_damage_over_time()
 {
     for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
         if( DoT->duration > 0_turns ) {
-            for( const bodypart_str_id &bp : DoT->bps ) {
-                const int dmg_amount = DoT->amount;
-                if( dmg_amount < 0 ) {
-                    heal_bp( bp.id(), -dmg_amount );
-                } else if( dmg_amount > 0 ) {
-                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
+            for( const bodypart_id &bp : DoT->bps ) {
+                const double dmg_amount = DoT->amount;
+                if( dmg_amount < 0.0 ) {
+                    heal_bp( bp.id(), roll_remainder( -dmg_amount ) );
+                } else if( dmg_amount > 0.0 ) {
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, roll_remainder( dmg_amount ) ) );
                 }
             }
             DoT->duration -= 1_turns;

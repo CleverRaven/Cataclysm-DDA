@@ -67,7 +67,6 @@
   {
     "type": "terrain",
     "id": "t_wall_glassteel_alarm",
-    "alias": [ "t_wall_glassteel_h_alarm", "t_wall_glassteel_v_alarm" ],
     "looks_like": "t_wall_glass",
     "name": "glassteel vault wall",
     "description": "A barrier made of glassteel, it's nothing complicated, and looks extremely fragile.  It is most definitely not fragile and it's probably alarmed in the event that someone does break through it.",
@@ -77,7 +76,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "DESTROY_ITEM" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,

@@ -908,6 +908,18 @@ std::vector<std::string> get_hotkeys( const std::string_view s )
     return hotkeys;
 }
 
+PopupFlags popup_flag_from_string( const std::string &str )
+{
+    if( str == "PF_GET_KEY" ) {
+        return PF_GET_KEY;
+    } else if( str == "PF_ON_TOP" ) {
+        return PF_ON_TOP;
+    } else if( str == "PF_FULLSCREEN" ) {
+        return PF_FULLSCREEN;
+    }
+    return PF_NONE;
+}
+
 int popup( const std::string &text, PopupFlags flags )
 {
 #if defined(__ANDROID__)
@@ -1190,6 +1202,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
+        if( i.bIsArt ) {
+            cataimgui::PushMonoFont();
+        }
         if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
@@ -1255,6 +1270,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                     cataimgui::draw_colored_text( sPost, c_white );
                 }
             }
+        }
+        if( i.bIsArt ) {
+            ImGui::PopFont();
         }
 
         // Set bIsNewLine in case the next line should always start in a new line
@@ -2571,6 +2589,7 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
+// Legacy, moved to parse_tags
 void replace_keybind_tag( std::string &input )
 {
     std::string keybind_tag_start = "<keybind:";

@@ -212,7 +212,7 @@
         [ "beaker", 1 ],
         [ "flask_hip", 1 ]
       ],
-      [ [ "wire", 1 ] ],
+      [ [ "any_wire", 1, "LIST" ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]

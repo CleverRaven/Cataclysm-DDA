@@ -172,7 +172,19 @@
     "points": 0,
     "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
     "valid": false,
-    "player_display": false
+    "player_display": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MOM_PSYCHIC_VAMPIRE",
+    "name": { "str": "Psychic Vampire" },
+    "points": 1,
+    "description": "You can drain a bit of vital energy from from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
+    "valid": false,
+    "starting_trait": true,
+    "purifiable": false,
+    "prereqs": [ "ALWAYS_GAIN_PSIONICS" ]
   },
   {
     "type": "mutation",
@@ -182,6 +194,7 @@
     "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill and biokinetic prowess increase.",
     "starting_trait": false,
     "valid": false,
+    "purifiable": false,
     "enchantments": [
       {
         "condition": { "not": "u_has_weapon" },
@@ -234,6 +247,7 @@
     "active": true,
     "activated_is_setup": true,
     "valid": false,
+    "purifiable": false,
     "activated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ],
     "deactivated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ]
   },
@@ -255,6 +269,7 @@
     "active": true,
     "activated_is_setup": true,
     "valid": false,
+    "purifiable": false,
     "activated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ],
     "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ]
   },

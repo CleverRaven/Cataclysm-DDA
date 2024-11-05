@@ -1490,8 +1490,9 @@ void ImGui::SeparatorEx(ImGuiSeparatorFlags flags, float thickness)
     else if (flags & ImGuiSeparatorFlags_Horizontal)
     {
         // Horizontal Separator
-        float x1 = window->Pos.x;
-        float x2 = window->Pos.x + window->Size.x;
+        // TODO: Remove this change when ImGui is updated to v1.90+
+        float x1 = window->DC.CursorPos.x;
+        float x2 = window->WorkRect.Max.x - 1;
 
         // FIXME-WORKRECT: old hack (#205) until we decide of consistent behavior with WorkRect/Indent and Separator
         if (g.GroupStack.Size > 0 && g.GroupStack.back().WindowID == window->ID)
@@ -5013,7 +5014,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         {
             ImU32 col = GetColorU32(is_displaying_hint ? ImGuiCol_TextDisabled : ImGuiCol_Text);
 
-            if(GImGui->IO.PreEditText && !is_multiline)
+            if (GImGui->IO.PreEditText[0] != '\0' && !is_multiline)
             {
                 const char *preEditTextEnd = GImGui->IO.PreEditText + strlen(GImGui->IO.PreEditText);
                 ImWchar wcharBuf[255] = { 0 };

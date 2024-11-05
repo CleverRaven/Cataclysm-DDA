@@ -49,12 +49,29 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "special_forest_isherwood", "lab_subway_vent_shaft_surface" ],
+    "id": "special_field_highway",
+    "copy-from": "special_field",
+    "extend": { "flags": [ "HIGHWAY", "SHOULD_NOT_SPAWN" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "special_forest", "special_forest_isherwood" ],
     "copy-from": "generic_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
     "looks_like": "forest",
+    "see_cost": "spaced_high",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft_surface",
+    "name": "Lab access shaft",
+    "sym": "L",
+    "color": "blue",
+    "vision_levels": "forested",
     "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
@@ -138,7 +155,8 @@
       "mil_base_8h1",
       "mil_base_8i1",
       "mil_base_8j1",
-      "s_gas_g0_roof"
+      "s_gas_g0_roof",
+      "hw_railings"
     ],
     "vision_levels": "roof_or_air",
     "copy-from": "generic_air"
@@ -146,8 +164,26 @@
   {
     "type": "overmap_terrain",
     "copy-from": "generic_air",
-    "id": [ "lab_subway_vent_shaft_roof", "special_air" ],
+    "id": [ "special_air", "lab_subway_vent_shaft_roof" ],
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "copy-from": "generic_air",
+    "id": "hw_reserved",
+    "//": "Has rotation so cities can judge whether it's running perpendicular/parallel",
+    "flags": [ "HIGHWAY_RESERVED", "REQUIRES_PREDECESSOR", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hw_reserved_water",
+    "copy-from": "hw_reserved",
+    "extend": { "flags": [ "RIVER", "SHOULD_NOT_SPAWN" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_road",
+    "copy-from": "road_abstract"
   },
   {
     "type": "overmap_terrain",

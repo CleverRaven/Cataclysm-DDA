@@ -100,13 +100,15 @@
     "type": "MONSTER",
     "description": "A heavily burned zombie that still reeks of charred meat.  Its now leathery flesh has mended into patches, giving it a more armored appearance.  This one appears to have metal fragments sticking out of its body.",
     "copy-from": "mon_zombie_scorched",
-    "harvest": "zombie_rust"
+    "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust"
   },
   {
     "id": "mon_zombie_fiend_rust",
     "type": "MONSTER",
     "description": "An oversized charred human form.  The remains of its burnt and blackened musculature are clearly visible between the cracks of the shell formed from its melted skin.  This one appears to have metal fragments sticking out of its body.",
     "copy-from": "mon_zombie_scorched_brute",
-    "harvest": "zombie_rust"
+    "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust"
   }
 ]

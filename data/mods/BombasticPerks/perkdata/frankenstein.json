@@ -79,7 +79,7 @@
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
     "fungalize_into": "mon_zombie_fungus",
     "flags": [

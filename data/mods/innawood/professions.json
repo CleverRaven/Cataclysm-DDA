@@ -74,7 +74,14 @@
     "description": "You've trained in the medical arts, refining natural remedies into real cures for disease.  Your tribe would have lived long and healthy lives, were they still here.",
     "points": 3,
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "chemistry" }, { "level": 1, "name": "survival" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_gross_anatomy",
+      "prof_burn_care"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -141,7 +148,16 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_fletching",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [
       { "level": 2, "name": "archery" },
       { "level": 1, "name": "gun" },
@@ -175,7 +191,14 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "survival" }
     ],
-    "proficiencies": [ "prof_spears_familiar", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_spears_familiar",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -201,7 +224,14 @@
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "survival" }
     ],
-    "proficiencies": [ "prof_spears_familiar", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_spears_familiar",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -221,7 +251,15 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_fletching", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_fletching",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [
       { "level": 2, "name": "rifle" },
       { "level": 1, "name": "gun" },
@@ -256,7 +294,7 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
     "traits": [ "OUTDOORSMAN" ],
-    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar", "prof_butchering_basic" ],
     "items": {
       "both": {
         "entries": [
@@ -351,7 +389,15 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_carving", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_carving",
+      "prof_traps",
+      "prof_trapsetting",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -508,7 +554,7 @@
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_short_swords_familiar", "prof_short_swords_pro", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_short_swords_familiar", "prof_short_swords_pro", "prof_knives_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -532,7 +578,7 @@
     "name": "Tribal Arbalist",
     "description": "From your first hunt, you showed talent with a crossbow.  While the tribe was well guarded by your aim, you're all alone now.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar", "prof_gross_anatomy" ],
     "skills": [
       { "level": 3, "name": "rifle" },
       { "level": 3, "name": "gun" },

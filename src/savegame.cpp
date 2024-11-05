@@ -112,9 +112,9 @@ void game::serialize( std::ostream &fout )
     json.member( "om_x", pos_om.x() );
     json.member( "om_y", pos_om.y() );
     // view offset
-    json.member( "view_offset_x", u.view_offset.x );
-    json.member( "view_offset_y", u.view_offset.y );
-    json.member( "view_offset_z", u.view_offset.z );
+    json.member( "view_offset_x", u.view_offset.x() );
+    json.member( "view_offset_y", u.view_offset.y() );
+    json.member( "view_offset_z", u.view_offset.z() );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -229,9 +229,9 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        data.read( "view_offset_x", u.view_offset.x );
-        data.read( "view_offset_y", u.view_offset.y );
-        data.read( "view_offset_z", u.view_offset.z );
+        data.read( "view_offset_x", u.view_offset.x() );
+        data.read( "view_offset_y", u.view_offset.y() );
+        data.read( "view_offset_z", u.view_offset.z() );
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
@@ -513,6 +513,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "city_tiles" ) {
+            om_member.read( city_tiles );
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -1249,6 +1251,9 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
+    fout << std::endl;
+
+    json.member( "city_tiles", city_tiles );
     fout << std::endl;
 
     json.member( "connections_out", connections_out );

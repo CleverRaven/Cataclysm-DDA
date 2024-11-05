@@ -61,7 +61,7 @@
     "id": "ierde_iron_armor_spell",
     "type": "SPELL",
     "name": "Invulnerable Iron Armor",
-    "description": "While on living earth or stone, the Ierde may infuse their body with the essence of iron, slowing their movement and attacks but rendering them much safer from harm.",
+    "description": "While on living earth or stone, the Ierde may infuse their body with fae iron, slowing their movement and attacks but rendering them much safer from harm.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "IERDE",
@@ -83,7 +83,7 @@
   {
     "id": "ierde_iron_armor_spell_real",
     "type": "SPELL",
-    "name": "Invulnerable Iron Armor Real",
+    "name": "Invulnerable Earthen Armor Real",
     "description": "The actual spell that summons the iron armor.  It's a bug if you have it.",
     "teachable": false,
     "valid_targets": [ "self" ],

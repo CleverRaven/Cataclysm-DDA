@@ -229,15 +229,17 @@ Field group | Description | Example
 `min_range`, `max_range`, `range_increment` | Distance from the caster to the target.  Can be omitted if the target is the caster (giving an buff/debuff, spawning an item).  <br>Note: the reality bubble diameter is ~60 tiles. | "min_range": 2, <br>"max_range": 10, <br>"range_increment": 0.5,
 `min_aoe`, `max_aoe`, `aoe_increment` | Short for "area of effect", area/zone of tiles that the spell will affect. | "min_aoe": 0, <br>"max_aoe": 5, <br>"aoe_increment": 0.1, 
 `min_accuracy`, `max_accuracy`, `accuracy_increment` | Accuracy of the spell.  -20 accuracy will cause it to always miss, 20 will cause it always hit.  Currently doesn't work. | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
-`min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: dot values are rounded up, so 1.1 will be 2. | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
+`min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: decimal values use roll_remainder(); having 0.5 would result in dot dealing 1 damage randomly every 2 seconds on average. Affected by `affected_body_parts` field | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
 `min_pierce`, `max_pierce`, `pierce_increment` | Armor "piercing", how much armor of the same `damage_type` the spell will ignore. | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
+`min_bash_scaling`, `max_bash_scaling`, `bash_scaling_increment` | Converts a spell with the "attack" effect's damage into the scaling amount of terrain damage.  | "min_bash_scaling": 1.0, <br>"max_bash_scaling": 2.0, <br>"bash_scaling_increment": 0.1,
 `base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's written in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
 `base_energy_cost`, `final_energy_cost`, `energy_increment` | Amount of energy spent for cast.  If several spells are chained, only the first one will apply the cost.  Ignored for monsters and items that cast spells. | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
 `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Allows the spell to spawn fields.  `field_id` describes which field will be spawned, `field_chance` describes the chance as ( 1 / `field_chance`).  <br>`min_field_intensity`, `max_field_intensity` and `field_intensity_increment` modify the field intensity and it's growth (e.g. fd_electricity intensity 1 is "spark", while intensity 10 is "electric cloud").  <br>`field_intensity_variance` allows to randomly increase or decrease the intensity of the spell as a percent (e.g. intensity 10 and variance 0.1 means it can grow or shrink by 10%, or go from 9 to 11). | "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
 `effect_str` | The "effect" the spell has (see [EFFECTS_JSON](EFFECTS_JSON.md)).  Varies according to the spell `effect` field. | "effect_str": "zapped", "effect_str": "mon_zombie",
 `max_level` | How much you can train the spell.  Default is 0.  Ignored for monsters and items that cast spells. | "max_level": 10,
 `difficulty` | How hard is to cast the spell.  A high difficulty spell is easier to fail, failing grants spell XP at no resource cost.  It also limits the maximum spellcasting skill that can be gained by casting it (e.g. difficulty 10 will train up to spellcasting lvl 10). | "difficulty": 7,
-`affected_body_parts` | `body_part` where the `effect_str` will occur.  Set at `torso` by default.  Currently doesn't work. | "affected_body_parts": [ "head" ] 
+`multiple_projectiles` | If value is bigger than one, instead of shooting single spell with damage X, you will shoot `multiple_projectiles` amount of projectiles with damage `damage/multiple_projectiles`, which may damage different body parts (each projectile has 75% chance to hit torso still). Doesn't interact with affected_body_parts | "multiple_projectiles": 2,
+`affected_body_parts` | `body_part` where the `attack`, `dot` or `effect_str` will occur.  For effects, set at `torso` by default. For attack and dot, picks a random bodypart, weighted by it's hit_size | "affected_body_parts": [ "head" ] 
 `extra_effects` | Allows to cast a secondary spell `id` immediately after the primary spell.  Allows for multiple `id`s. | "extra_effects": [ <br> { <br> "id": "fireball", <br> "hit_self": false, <br> "max_level": 3 <br> }, <br> { "id": "storm_chain_1" } <br>]
 `learn_spells` | Allow user to learn the spell `id` when they reach that spell level  (e.g. `"create_atomic_light": 5` means user will learn create_atomic_light when they reach level 5 of the primary spell).  Allows for multiple `id`s. | "learn_spells": { "create_atomic_light": 5, "megablast": 10 }
 `teachable` | Whether it's possible to teach this spell between characters.  Default is true. | `"teachable": true`
@@ -282,7 +284,7 @@ Flag                       | Description
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
 `NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
-`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
+`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target. For characters (NPC or Avatar) damage applies to all body parts (damage 10 would deal 10% damage for each limb). If affected_body_parts is specified, deal percentage damage only to this body parts. Works with both attacks and DOTs
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 `PERMANENT_ALL_LEVELS`     | Items spawned with this spell do not disappear even if the spell is not max level.
 `POLYMORPH_GROUP`          | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
@@ -297,6 +299,7 @@ Flag                       | Description
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
 `SPAWN_WITH_DEATH_DROPS`   | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
+`SPLIT_DAMAGE`             | If used, instead of dealing damage to a random body part, damage would be spread evenly across entire body, unless affected_body_parts is specificed. Works only on characters (NPC or Avatar), for monsters do not have limbs. Works with both attacks and DOTs
 `SWAP_POS`                 | A projectile spell swaps the positions of the caster and target.
 `TARGET_TELEPORT`          | Teleport spell changes to maximum range target with aoe as variation around target.
 `UNSAFE_TELEPORT`          | Teleport spell risks killing the caster or others.
@@ -632,13 +635,16 @@ Identifier                  | Description
 `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
+All fields except for `type` and `id` are optional.  This includes the otherwise obligatory `name` and `description`.  If a name and description are set, they will be displayed in the EFFECTS tab.
 
-There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment of something (in this case, an item):
+There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the inline enchantment inside something (in this case, an item):
 
 ```json
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
+    "name": { "str": "Invisibility" },
+    "description": "You are invisible.  Just that.",
     "condition": "ALWAYS",
     "has": "WIELD",
     "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
@@ -661,7 +667,6 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     }
   }
 ```
-Note: all fields except for `type` and `id` are optional.
 
 ```json
   {
@@ -674,7 +679,6 @@ Note: all fields except for `type` and `id` are optional.
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
   }
 ```
-
 
 ### The `relic_data` field
 
@@ -878,6 +882,7 @@ Character status value  | Description
 `PHASE_DISTANCE`        | Distance the character is able to teleport through impassible terrain.  Values less than 1 do nothing and the max distance is 48 tiles.
 `POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
+`RANGED_ARMOR_PENETRATION` | Adds armor penetration to ranged attacks.
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
 `RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
@@ -912,6 +917,7 @@ Character status value  | Description
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
+`WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 

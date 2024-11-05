@@ -244,6 +244,11 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 }
 ```
 
+# Activity Migration
+See if it is mentioned in `src/savegame_legacy.cpp`.
+
+In `src/savegame_json.cpp` in `player_activity::deserialize( const JsonObject &data )` add to `std::set<std::string> obs_activities` the activity ID with comment to remove it after the next version (after 0.B when in 0.A experimental). There should always be at least one example left.
+
 # Ammo types
 
 Ammo types don't need an infrastructure to be obsoleted, but it is required to remove all items that use this ammo type

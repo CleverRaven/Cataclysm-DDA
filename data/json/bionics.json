@@ -56,7 +56,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Arms Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Arms" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
@@ -69,8 +69,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -119,9 +117,6 @@
       "WINGS_STUB",
       "WINGS_BAT",
       "WINGS_BUTTERFLY",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ARM_FEATHERS",
@@ -155,14 +150,11 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -178,7 +170,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Head Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "protec": [
@@ -189,8 +181,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -231,9 +221,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -290,20 +277,17 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "WIDE_MOUTH",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Legs Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Legs" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
@@ -316,8 +300,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -361,9 +343,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -397,20 +376,17 @@
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Torso Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
@@ -419,8 +395,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -464,9 +438,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -490,14 +461,11 @@
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -825,6 +793,25 @@
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
+  },
+  {
+    "id": "bio_mp3",
+    "type": "bionic",
+    "name": { "str": "WearMan" },
+    "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_pseudo_items": [ "internal_mp3" ]
+  },
+  {
+    "id": "bio_voice_b",
+    "type": "bionic",
+    "name": { "str": "AudioVox" },
+    "description": "Hailing from a world choked with neon smog, and appreciated by Exodii artists, the AudioVox implant allows you to change, remodulate, and even autotune your voice.  It also causes vocalizations /(such as shouts and singing/) to be much louder.  It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout your throat.",
+    "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 25 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
+    "mutation_conflicts": [ "SCREECH" ]
   },
   {
     "id": "bio_emp",

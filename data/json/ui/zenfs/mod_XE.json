@@ -20,7 +20,12 @@
     "style": "text",
     "width": 5,
     "clauses": [
-      { "id": "not_infected", "text": "     ", "color": "black", "condition": { "not": { "u_has_effect": "vampire_virus" } } },
+      {
+        "id": "not_infected",
+        "text": { "str": "     ", "//~": "NO_I18N" },
+        "color": "black",
+        "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
       { "id": "slumber", "text": "Blood", "color": "light_gray", "condition": { "u_has_effect": "vampire_virus" } }
     ],
     "padding": 0,
@@ -32,7 +37,12 @@
     "style": "text",
     "width": 1,
     "clauses": [
-      { "id": "not_infected", "text": " ", "color": "black", "condition": { "not": { "u_has_effect": "vampire_virus" } } },
+      {
+        "id": "not_infected",
+        "text": { "str": " ", "//~": "NO_I18N" },
+        "color": "black",
+        "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
       { "id": "slumber", "text": "B", "color": "light_gray", "condition": { "u_has_effect": "vampire_virus" } }
     ],
     "padding": 0,
@@ -47,7 +57,7 @@
     "clauses": [
       {
         "id": "not_infected",
-        "text": "                    ",
+        "text": { "str": "                    ", "//~": "NO_I18N" },
         "color": "black",
         "condition": { "not": { "u_has_effect": "vampire_virus" } }
       },

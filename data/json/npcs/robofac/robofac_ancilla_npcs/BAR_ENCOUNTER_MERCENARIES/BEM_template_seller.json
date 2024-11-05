@@ -3,7 +3,7 @@
     "id": [ "BEM_TEMPLATE_SELLER_1", "BEM_TEMPLATE_SELLER_ASK" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "&The mercenary seems uncharacteristically upbeat, or perhaps just drunk.  \"Found this neat gizmo in a bank run a few days ago.\"  <mypronoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say?  It's yours for 3 coins.\"",
+      "gendered_line": "&The mercenary seems uncharacteristically upbeat, or perhaps just drunk.  \"Found this neat gizmo in a lab run a few days ago.\"  <mypronoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say?  It's yours for 3 coins.\"",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

@@ -585,11 +585,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
-          { "value": "ARMOR_HEAT", "add": -1000 },
-          { "value": "ARMOR_COLD", "multiply": 0.5 }
-        ],
+        "values": [ { "value": "ARMOR_HEAT", "multiply": -1 }, { "value": "ARMOR_COLD", "multiply": 0.5 } ],
         "ench_effects": [ { "effect": "effect_hidden_flame_immunity", "intensity": 1 } ]
       }
     ],

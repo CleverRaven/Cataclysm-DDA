@@ -952,13 +952,16 @@
     "description": "A smart lamp which can be deactivated remotely.  Currently it is turned on.",
     "power_draw": "1321 mW",
     "revert_to": "smart_lamp",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "smart_lamp",
-      "msg": "Your smart lamp turned off.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "smart_lamp",
+        "msg": "Your smart lamp turned off.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
+    ],
     "flags": [
       "NO_UNLOAD",
       "NO_RELOAD",

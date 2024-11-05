@@ -70,7 +70,7 @@
     "//2": "Water and cotton are present as tools to represent you needing or wanting to polish the casing before stringing it.",
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "//3": "Metal sawing for removing the base, rim, and primer, and filing for smoothing down the resulting edges.",
-    "components": [ [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -95,7 +95,7 @@
     "//2": "Water and cotton are present as tools to represent you needing or wanting to polish the casing before stringing it.",
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "//3": "Metal sawing for removing the base, rim, and primer, and filing for smoothing down the resulting edges.",
-    "components": [ [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -120,7 +120,7 @@
     "//2": "Water and cotton are present as tools to represent you needing or wanting to polish the casing before stringing it.",
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "//3": "Metal sawing for removing the base, rim, and primer, and filing for smoothing down the resulting edges.",
-    "components": [ [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -140,6 +140,6 @@
     "using": [ [ "cordage_short", 1 ] ],
     "//2": "The filing quality is only there to blunt the 'impossibly-sharp' monster teeth, probably not needed for other teeth.",
     "qualities": [ { "id": "FILE", "level": 1 } ],
-    "components": [ [ [ "wire", 1 ] ], [ [ "nm_teeth", 1 ] ] ]
+    "components": [ [ [ "any_wire", 1, "LIST" ] ], [ [ "nm_teeth", 1 ] ] ]
   }
 ]

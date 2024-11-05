@@ -353,6 +353,20 @@
     "duration_increment": 36000
   },
   {
+    "id": "arvore_seed_bearer_real",
+    "type": "SPELL",
+    "name": "Seed Bearer Real",
+    "description": "The actual spell that calls forth seeds.  It's a bug if you have it.",
+    "skill": "deduction",
+    "flags": [ "SPAWN_GROUP" ],
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "farming_seeds",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1
+  },
+  {
     "id": "arvore_summon_preservation_container",
     "type": "SPELL",
     "name": { "str": "To Withstand Decay" },
@@ -872,7 +886,8 @@
     "id": "arvore_traverse_the_wilds",
     "type": "SPELL",
     "name": "Traverse the Wilds",
-    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest or a swamp.",
+    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves tree to tree, stepping into an adjacent tree and then stepping out of another one within the spell's range.",
+    "message": "",
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "flags": [ "VERBAL", "SOMATIC", "SILENT" ],
@@ -895,18 +910,20 @@
     "id": "arvore_traverse_the_wilds_real",
     "type": "SPELL",
     "name": "Traverse the Wilds Real",
-    "description": "This is the actual spell that teleports you when you use Traverse the Wilds.  It's a bug if you have it directly",
+    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves tree to tree, stepping into an adjacent tree and then stepping out of another one within the spell's range.",
+    "message": "",
     "valid_targets": [ "ground", "ally", "hostile" ],
     "skill": "deduction",
     "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
     "effect": "short_range_teleport",
     "shape": "blast",
     "max_level": { "math": [ "per_to_level(1)" ] },
-    "min_aoe": 4,
-    "max_aoe": 1,
-    "aoe_increment": -0.25,
-    "min_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] }
+    "min_range": {
+      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_range": {
+      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
+    }
   },
   {
     "id": "arvore_forest_translocate",

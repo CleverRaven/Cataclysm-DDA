@@ -28,7 +28,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
 {
     clear_avatar();
     clear_npcs();
-    tripoint const npc_pos = get_avatar().pos() + tripoint_east;
+    tripoint_bub_ms const npc_pos = get_avatar().pos_bub() + tripoint_east;
     const character_id id = get_map().place_npc( npc_pos.xy(), npc_template_test_npc_trader );
     npc &guy = *g->find_npc( id );
 

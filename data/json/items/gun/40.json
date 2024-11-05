@@ -1,28 +1,5 @@
 [
   {
-    "id": "90two40",
-    "copy-from": "pistol_base",
-    "looks_like": "glock_17",
-    "type": "GUN",
-    "name": { "str": "Beretta 90-two .40 S&W" },
-    "description": "A more modern version of Beretta's popular 92 series of handguns, the 90-two performs largely the same.  The main difference is a sleeker, almost futuristic-looking design owed in large part to the polymer underbarrel rail cover.  This one is chambered in .40 S&W.",
-    "weight": "905 g",
-    "volume": "554 ml",
-    "longest_side": "250 mm",
-    "price": "650 USD",
-    "price_postapoc": "20 USD",
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "40" ],
-    "range": 1,
-    "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 504,
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "90two40mag" ] } ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "glock_22",
     "looks_like": "glock_17",
     "type": "GUN",
@@ -58,7 +35,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "glock40mag", "glock40bigmag" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -119,7 +103,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ],
@@ -187,36 +178,6 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "id": "walther_ppq_40",
-    "copy-from": "pistol_base",
-    "looks_like": "glock_17",
-    "type": "GUN",
-    "name": { "str": "Walther PPQ .40 S&W" },
-    "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .40 S&W.",
-    "weight": "625 g",
-    "volume": "440 ml",
-    "longest_side": "215 mm",
-    "barrel_length": "106 mm",
-    "price": "725 USD",
-    "price_postapoc": "20 USD",
-    "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "40" ],
-    "dispersion": 480,
-    "durability": 9,
-    "min_cycle_recoil": 504,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "200 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ]
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {

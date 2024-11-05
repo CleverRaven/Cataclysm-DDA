@@ -57,6 +57,7 @@
   * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
 * [Palettes](#palettes)
   * [Palette ids as mapgen values](#palette-ids-as-mapgen-values)
+  * [Recommended palettes to use](#recommended-palettes-to-use)
 * [Using update_mapgen](#using-update_mapgen)
   * [Overmap tile specification](#overmap-tile-specification)
     * ["assign_mission_target"](#assign_mission_target)
@@ -856,6 +857,7 @@ Example:
 | intensity | (optional, integer, array ) how concentrated the field is, from 1 to 3 or more.  Arrays are randomized.  See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
 | remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
+| chance    | (optional, integer) chance to spawn field; default `100` as 100%
 
 
 ### Place NPCs with "npcs"
@@ -1480,6 +1482,32 @@ For example, the following JSON used in a cabin mapgen definition
 ```
 causes half the cabins generated to use the regular `cabin_palette` and the
 other half to use `cabin_palette_abandoned`.
+
+## Recommended palettes to use
+
+These are a few palettes that have been generalized to be used in almost any map, usually to provide variation to terrain:
+
+| Palette                          | Usage
+| ---                              | ---
+| `parametrized_walls_palette`     | For having randomized inner and outer walls
+| `parametrized_fences_palette`    | For having randomized fences
+| `parametrized_linoleum_palette`  | For having randomized linoleum colors
+| `parametrized_carpets_palette`   | For having randomized carpet colors
+
+
+These can all be found within [common_parameters.json](/data/json/mapgen_palettes/common_parameters.json)
+
+The following are recommended for use when making houses or similar domestic environments:
+
+| Palette                          | Usage
+| ---                              | ---
+| [`domestic_general_and_variant_palette`](/data/json/mapgen_palettes/house_general_palette.json)     | A palette which has most of the things needed for houses with additional palettes available within the file
+| [`construction_general_palette`](/data/json/mapgen_palettes/construction.json)    | A palette for buildings that are under construction, for a more concrete example of using this palette, look at [house_02](/data/json/mapgen/house/house02.json)
+| [`commercial`](/data/json/mapgen_palettes/commercial.json)  | For having randomized fridges/freezers **You will still need to add the parameters to your own symbols**
+| Any in [basement.json](/data/json/mapgen_palettes/basement.json)   | Palettes for usage within basements
+| [`roof_palette`](/data/json/mapgen_palettes/roof_palette.json)   | Palette that is be used in every roof
+
+There are many more within [`/data/json/mapgen_palettes`](/data/json/mapgen_palettes/) but these are the most important ones and will be used in many buildings.
 
 # Using `update_mapgen`
 

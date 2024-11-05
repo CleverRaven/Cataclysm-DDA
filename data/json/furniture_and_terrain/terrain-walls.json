@@ -17,7 +17,6 @@
   {
     "type": "terrain",
     "id": "t_wall",
-    "alias": [ "t_wall_h", "t_wall_v" ],
     "name": "wall",
     "description": "A standard wall consisting of a wooden support structure filled with insulation and drywalled.  Painted a neutral off-white or cream color, it could use some more vibrant paint.  Looks flammable.",
     "symbol": "LINE_OXOX",
@@ -77,7 +76,6 @@
   {
     "type": "terrain",
     "id": "t_ponywall",
-    "alias": [ "t_ponywall_h", "t_ponywall_v" ],
     "name": "pony wall",
     "description": "A short divider wall consisting of a wooden support structure with drywall.  Painted an all-too-common and neutral off-white or cream color.  Looks flammable.",
     "symbol": "LINE_OXOX",
@@ -102,7 +100,6 @@
   {
     "type": "terrain",
     "id": "t_wall_r",
-    "alias": [ "t_wall_h_r", "t_wall_v_r" ],
     "looks_like": "t_wall",
     "name": "red wall",
     "description": "A wall, painted red.",
@@ -137,7 +134,6 @@
   {
     "type": "terrain",
     "id": "t_wall_w",
-    "alias": [ "t_wall_h_w", "t_wall_v_w" ],
     "looks_like": "t_wall",
     "name": "white wall",
     "description": "A wall, painted white.",
@@ -172,7 +168,6 @@
   {
     "type": "terrain",
     "id": "t_wall_b",
-    "alias": [ "t_wall_h_b", "t_wall_v_b" ],
     "looks_like": "t_wall",
     "name": "blue wall",
     "description": "A wall, painted blue.",
@@ -207,7 +202,6 @@
   {
     "type": "terrain",
     "id": "t_wall_g",
-    "alias": [ "t_wall_h_g", "t_wall_v_g" ],
     "looks_like": "t_wall",
     "name": "green wall",
     "description": "A wall, painted green.",
@@ -242,7 +236,6 @@
   {
     "type": "terrain",
     "id": "t_wall_y",
-    "alias": [ "t_wall_h_y", "t_wall_v_y" ],
     "looks_like": "t_wall",
     "name": "yellow wall",
     "description": "A wall, painted yellow.",
@@ -277,7 +270,6 @@
   {
     "type": "terrain",
     "id": "t_wall_P",
-    "alias": [ "t_wall_h_P", "t_wall_v_P" ],
     "looks_like": "t_wall",
     "name": "pink wall",
     "description": "A wall, painted pink.",
@@ -312,7 +304,6 @@
   {
     "type": "terrain",
     "id": "t_wall_p",
-    "alias": [ "t_wall_h_p", "t_wall_v_p" ],
     "looks_like": "t_wall",
     "name": "purple wall",
     "description": "A wall, painted purple.",
@@ -347,7 +338,6 @@
   {
     "type": "terrain",
     "id": "t_wall_orange",
-    "alias": [ "t_wall_h_orange", "t_wall_v_orange" ],
     "looks_like": "t_wall",
     "name": "orange wall",
     "description": "A wall, painted orange.",
@@ -382,7 +372,6 @@
   {
     "type": "terrain",
     "id": "t_wall_gray",
-    "alias": [ "t_wall_h_gray", "t_wall_v_gray" ],
     "looks_like": "t_wall",
     "name": "gray wall",
     "description": "A wall, painted gray.",
@@ -417,7 +406,6 @@
   {
     "type": "terrain",
     "id": "t_wall_brown",
-    "alias": [ "t_wall_h_brown", "t_wall_v_brown" ],
     "looks_like": "t_wall",
     "name": "brown wall",
     "description": "A wall, painted brown.",
@@ -452,7 +440,6 @@
   {
     "type": "terrain",
     "id": "t_wall_cyan",
-    "alias": [ "t_wall_h_cyan", "t_wall_v_cyan" ],
     "looks_like": "t_wall",
     "name": "cyan wall",
     "description": "A wall, painted cyan.",
@@ -487,7 +474,6 @@
   {
     "type": "terrain",
     "id": "t_wall_black",
-    "alias": [ "t_wall_h_black", "t_wall_v_black" ],
     "looks_like": "t_wall",
     "name": "black wall",
     "description": "A wall, painted black.",
@@ -522,7 +508,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_b",
-    "alias": [ "t_wood_h_b", "t_wood_v_b" ],
     "name": "blue wood wall",
     "looks_like": "t_wall_b",
     "description": "A wooden wall, painted blue.",
@@ -551,7 +536,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_g",
-    "alias": [ "t_wood_h_g", "t_wood_v_g" ],
     "name": "green wood wall",
     "looks_like": "t_wall_g",
     "description": "A wooden wall, painted green.",
@@ -580,7 +564,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_r",
-    "alias": [ "t_wood_h_r", "t_wood_v_r" ],
     "name": "red wood wall",
     "looks_like": "t_wall_r",
     "description": "A wooden wall, painted red.",
@@ -609,7 +592,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_w",
-    "alias": [ "t_wood_h_w", "t_wood_v_w" ],
     "name": "white wood wall",
     "looks_like": "t_wall_w",
     "description": "A wooden wall, painted white.",
@@ -638,7 +620,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_p",
-    "alias": [ "t_wood_h_p", "t_wood_v_p" ],
     "name": "purple wood wall",
     "looks_like": "t_wall_p",
     "description": "A wooden wall, painted purple.",
@@ -667,7 +648,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_P",
-    "alias": [ "t_wood_h_P", "t_wood_v_P" ],
     "name": "pink wood wall",
     "looks_like": "t_wall_P",
     "description": "A wooden wall, painted pink.",
@@ -696,7 +676,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_y",
-    "alias": [ "t_wood_h_y", "t_wood_v_y" ],
     "name": "yellow wood wall",
     "looks_like": "t_wall_y",
     "description": "A wooden wall, painted yellow.",
@@ -725,7 +704,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_orange",
-    "alias": [ "t_wood_h_orange", "t_wood_v_orange" ],
     "name": "orange wood wall",
     "looks_like": "t_wall_orange",
     "description": "A wooden wall, painted orange.",
@@ -754,7 +732,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_gray",
-    "alias": [ "t_wood_h_gray", "t_wood_v_gray" ],
     "name": "gray wood wall",
     "looks_like": "t_wall_gray",
     "description": "A wooden wall, painted gray.",
@@ -783,7 +760,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_brown",
-    "alias": [ "t_wood_h_brown", "t_wood_v_brown" ],
     "name": "brown wood wall",
     "looks_like": "t_wall_brown",
     "description": "A wooden wall, painted brown.",
@@ -812,7 +788,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_cyan",
-    "alias": [ "t_wood_h_cyan", "t_wood_v_cyan" ],
     "name": "cyan wood wall",
     "looks_like": "t_wall_cyan",
     "description": "A wooden wall, painted cyan.",
@@ -841,7 +816,6 @@
   {
     "type": "terrain",
     "id": "t_wood_wall_black",
-    "alias": [ "t_wood_h_black", "t_wood_v_black" ],
     "name": "black wood wall",
     "looks_like": "t_wall_black",
     "description": "A wooden wall, painted black.",
@@ -870,7 +844,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_b",
-    "alias": [ "t_concrete_h_b", "t_concrete_v_b" ],
     "name": "blue concrete wall",
     "looks_like": "t_wall_b",
     "description": "A concrete wall, painted blue.",
@@ -894,7 +867,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_g",
-    "alias": [ "t_concrete_h_g", "t_concrete_v_g" ],
     "name": "green concrete wall",
     "looks_like": "t_wall_g",
     "description": "A concrete wall, painted green.",
@@ -918,7 +890,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_r",
-    "alias": [ "t_concrete_h_r", "t_concrete_v_r" ],
     "name": "red concrete wall",
     "looks_like": "t_wall_r",
     "description": "A concrete wall, painted red.",
@@ -942,7 +913,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_w",
-    "alias": [ "t_concrete_h_w", "t_concrete_v_w" ],
     "name": "white concrete wall",
     "looks_like": "t_wall_w",
     "description": "A concrete wall, painted white.",
@@ -966,7 +936,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_p",
-    "alias": [ "t_concrete_h_p", "t_concrete_v_p" ],
     "name": "purple concrete wall",
     "looks_like": "t_wall_p",
     "description": "A concrete wall, painted purple.",
@@ -990,7 +959,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_P",
-    "alias": [ "t_concrete_h_P", "t_concrete_v_P" ],
     "name": "pink concrete wall",
     "looks_like": "t_wall_P",
     "description": "A concrete wall, painted pink.",
@@ -1014,7 +982,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_y",
-    "alias": [ "t_concrete_h_y", "t_concrete_v_y" ],
     "name": "yellow concrete wall",
     "looks_like": "t_wall_y",
     "description": "A concrete wall, painted yellow.",
@@ -1038,7 +1005,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_orange",
-    "alias": [ "t_concrete_h_orange", "t_concrete_v_orange" ],
     "name": "orange concrete wall",
     "looks_like": "t_wall_orange",
     "description": "A concrete wall, painted orange.",
@@ -1062,7 +1028,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_gray",
-    "alias": [ "t_concrete_h_gray", "t_concrete_v_gray" ],
     "name": "gray concrete wall",
     "looks_like": "t_wall_gray",
     "description": "A concrete wall, painted gray.",
@@ -1086,7 +1051,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_brown",
-    "alias": [ "t_concrete_h_browb", "t_concrete_v_brown" ],
     "name": "brown concrete wall",
     "looks_like": "t_wall_brown",
     "description": "A concrete wall, painted brown.",
@@ -1110,7 +1074,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_cyan",
-    "alias": [ "t_concrete_h_cyan", "t_concrete_v_cyan" ],
     "name": "cyan concrete wall",
     "looks_like": "t_wall_cyan",
     "description": "A concrete wall, painted cyan.",
@@ -1134,7 +1097,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall_black",
-    "alias": [ "t_concrete_h_black", "t_concrete_v_black" ],
     "name": "black concrete wall",
     "looks_like": "t_wall_p",
     "description": "A concrete wall, painted black.",
@@ -1158,7 +1120,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_b",
-    "alias": [ "t_strconc_h_b", "t_strconc_v_b" ],
     "name": "reinforced blue concrete wall",
     "looks_like": "t_wall_b",
     "description": "A reinforced concrete wall, painted blue.",
@@ -1182,7 +1143,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_g",
-    "alias": [ "t_strconc_h_g", "t_strconc_v_g" ],
     "name": "reinforced green concrete wall",
     "looks_like": "t_wall_g",
     "description": "A reinforced concrete wall, painted green.",
@@ -1206,7 +1166,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_r",
-    "alias": [ "t_strconcr_h_r", "t_strconc_v_r" ],
     "name": "reinforced red concrete wall",
     "looks_like": "t_wall_r",
     "description": "A reinforced concrete wall, painted red.",
@@ -1230,7 +1189,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_w",
-    "alias": [ "t_strconc_h_w", "t_strconc_v_w" ],
     "name": "reinforced white concrete wall",
     "looks_like": "t_wall_w",
     "description": "A reinforced concrete wall, painted white.",
@@ -1254,7 +1212,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_p",
-    "alias": [ "t_strconc_h_p", "t_strconc_v_p" ],
     "name": "reinforced purple concrete wall",
     "looks_like": "t_wall_p",
     "description": "A reinforced concrete wall, painted purple.",
@@ -1278,7 +1235,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_P",
-    "alias": [ "t_strconc_h_P", "t_strconc_v_P" ],
     "name": "reinforced pink concrete wall",
     "looks_like": "t_wall_P",
     "description": "A reinforced concrete wall, painted pink.",
@@ -1302,7 +1258,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_y",
-    "alias": [ "t_strconc_h_y", "t_strconc_v_y" ],
     "name": "reinforced yellow concrete wall",
     "looks_like": "t_wall_y",
     "description": "A reinforced concrete wall, painted yellow.",
@@ -1326,7 +1281,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_orange",
-    "alias": [ "t_strconc_h_orange", "t_strconc_v_orange" ],
     "name": "reinforced orange concrete wall",
     "looks_like": "t_wall_orange",
     "description": "A reinforced concrete wall, painted orange.",
@@ -1350,7 +1304,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_gray",
-    "alias": [ "t_strconc_h_gray", "t_strconc_v_gray" ],
     "name": "reinforced gray concrete wall",
     "looks_like": "t_wall_gray",
     "description": "A reinforced concrete wall, painted gray.",
@@ -1374,7 +1327,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_brown",
-    "alias": [ "t_strconcr_h_brown", "t_strconc_v_brown" ],
     "name": "reinforced brown concrete wall",
     "looks_like": "t_wall_brown",
     "description": "Reinforced concrete wall painted brown.",
@@ -1398,7 +1350,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_cyan",
-    "alias": [ "t_strconc_h_cyan", "t_strconc_v_cyan" ],
     "name": "reinforced cyan concrete wall",
     "looks_like": "t_wall_cyan",
     "description": "A reinforced concrete wall, painted cyan.",
@@ -1422,7 +1373,6 @@
   {
     "type": "terrain",
     "id": "t_strconc_wall_black",
-    "alias": [ "t_strconc_h_black", "t_strconc_v_black" ],
     "name": "reinforced black concrete wall",
     "looks_like": "t_wall_black",
     "description": "A reinforced concrete wall, painted black.",
@@ -1446,7 +1396,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_b",
-    "alias": [ "t_strconc_h_b", "t_strconc_v_b" ],
     "name": "simple blue concrete wall",
     "looks_like": "t_wall_b",
     "description": "A simple concrete wall, painted blue.",
@@ -1470,7 +1419,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_g",
-    "alias": [ "t_sconc_h_g", "t_sconc_v_g" ],
     "name": "simple green concrete wall",
     "looks_like": "t_wall_g",
     "description": "A simple concrete wall, painted green.",
@@ -1494,7 +1442,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_r",
-    "alias": [ "t_strconcr_h_r", "t_strconc_v_r" ],
     "name": "simple red concrete wall",
     "looks_like": "t_wall_r",
     "description": "A simple concrete wall, painted red.",
@@ -1518,7 +1465,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_w",
-    "alias": [ "t_sconc_h_w", "t_sconc_v_w" ],
     "name": "simple white concrete wall",
     "looks_like": "t_wall_w",
     "description": "A simple concrete wall, painted white.",
@@ -1542,7 +1488,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_p",
-    "alias": [ "t_sconc_h_p", "t_sconc_v_p" ],
     "name": "simple purple concrete wall",
     "looks_like": "t_wall_p",
     "description": "A simple concrete wall, painted purple.",
@@ -1566,7 +1511,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_P",
-    "alias": [ "t_sconc_h_P", "t_sconc_v_P" ],
     "name": "simple pink concrete wall",
     "looks_like": "t_wall_P",
     "description": "A simple concrete wall, painted pink.",
@@ -1590,7 +1534,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_y",
-    "alias": [ "t_sconc_h_y", "t_sconc_v_y" ],
     "name": "simple yellow concrete wall",
     "looks_like": "t_wall_y",
     "description": "A simple concrete wall, painted yellow.",
@@ -1614,7 +1557,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_orange",
-    "alias": [ "t_strconc_h_orange", "t_strconc_v_orange" ],
     "name": "simple orange concrete wall",
     "looks_like": "t_wall_orange",
     "description": "A simple concrete wall, painted orange.",
@@ -1638,7 +1580,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_gray",
-    "alias": [ "t_sconc_h_gray", "t_sconc_v_gray" ],
     "name": "simple gray concrete wall",
     "looks_like": "t_wall_gray",
     "description": "A simple concrete wall, painted gray.",
@@ -1662,7 +1603,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_brown",
-    "alias": [ "t_sconc_h_brown", "t_sconc_v_brown" ],
     "name": "simple brown concrete wall",
     "looks_like": "t_wall_brown",
     "description": "A simple concrete wall, painted brown.",
@@ -1686,7 +1626,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_cyan",
-    "alias": [ "t_sconc_h_cyan", "t_sconc_v_cyan" ],
     "name": "simple cyan concrete wall",
     "looks_like": "t_wall_cyan",
     "description": "A simple concrete wall, painted cyan.",
@@ -1710,7 +1649,6 @@
   {
     "type": "terrain",
     "id": "t_sconc_wall_black",
-    "alias": [ "t_sconc_h_black", "t_sconc_v_black" ],
     "name": "simple black concrete wall",
     "looks_like": "t_wall_p",
     "description": "A simple concrete wall, painted black.",
@@ -1911,7 +1849,6 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall",
-    "alias": [ "t_concrete_h", "t_concrete_v" ],
     "name": "concrete wall",
     "looks_like": "t_rock",
     "description": "An aesthetically pleasing design with simple lines, this type of concrete was used with a weaker chemical mixture in order to have faster setting times.  Not ideal for multi-story buildings, but still capable of supporting a roof.",
@@ -1937,7 +1874,7 @@
     "id": "t_concrete_wall_rope",
     "name": "concrete wall with ropes",
     "looks_like": "t_rock",
-    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.  Used to train parkour.",
+    "description": "A boxlike wall of concrete with ropes attached to the exterior edges.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 10,
@@ -1958,7 +1895,6 @@
   {
     "type": "terrain",
     "id": "t_wall_metal",
-    "alias": [ "t_wall_metal_h", "t_wall_metal_v" ],
     "name": "metal wall",
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching it will require specialized tools or an industrial vehicle.",
     "symbol": "LINE_OXOX",
@@ -1990,7 +1926,6 @@
   {
     "type": "terrain",
     "id": "t_wall_metal_corrugated",
-    "alias": [ "t_wall_metal_corrugated_h", "t_wall_metal_corrugated_v" ],
     "name": "corrugated metal wall",
     "description": "A wall made from a thin sheet of corrugated steel held in a frame, weather- and windproof but not very insulating or durable.",
     "looks_like": "t_wall_metal",
@@ -2321,17 +2256,7 @@
     "roof": "t_wood_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "SUPPORTS_ROOF",
-      "WALL",
-      "NO_SCENT",
-      "AUTO_WALL_SYMBOL",
-      "MINEABLE",
-      "BLOCK_WIND",
-      "WIRED_WALL"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 60,
       "str_max": 180,
@@ -2584,7 +2509,6 @@
   {
     "type": "terrain",
     "id": "t_wall_glass",
-    "alias": [ "t_wall_glass_h", "t_wall_glass_v" ],
     "name": "glass wall",
     "looks_like": "t_window",
     "description": "A barrier made of glass, it's nothing complicated, and looks extremely fragile.  Some contain glass break sensors or window sensors that trigger an alarm if the glass is damaged.",
@@ -2612,7 +2536,6 @@
   {
     "type": "terrain",
     "id": "t_wall_glass_alarm",
-    "alias": [ "t_wall_glass_h_alarm", "t_wall_glass_v_alarm" ],
     "looks_like": "t_wall_glass",
     "name": "glass wall",
     "description": "A barrier made of glass, it's nothing complicated, and looks extremely fragile.  Some contain glass break sensors or window sensors that trigger an alarm if the glass is damaged.",
@@ -2640,7 +2563,6 @@
   {
     "type": "terrain",
     "id": "t_laminated_glass",
-    "alias": [ "t_laminated_glass_h", "t_laminated_glass_v" ],
     "name": "laminated glass",
     "looks_like": "t_reinforced_glass",
     "description": "A laminated glass barrier, composed of layers of glass and plastic held together by an interlayer.",
@@ -2666,7 +2588,6 @@
   {
     "type": "terrain",
     "id": "t_ballistic_glass",
-    "alias": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
     "name": "ballistic glass",
     "looks_like": "t_reinforced_glass",
     "description": "A ballistic glass barrier, consisting of layers of laminated glass.",
@@ -2697,7 +2618,6 @@
   {
     "type": "terrain",
     "id": "t_reinforced_glass",
-    "alias": [ "t_reinforced_glass_h", "t_reinforced_glass_v" ],
     "name": "reinforced glass",
     "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.",
     "symbol": "LINE_OXOX",
@@ -2715,7 +2635,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "mc_wire", "prob": 20 } ]
     },
     "shoot": {
       "reduce_damage": [ 15, 30 ],
@@ -2748,7 +2668,7 @@
       "ter_set": "t_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -2783,7 +2703,7 @@
       "ter_set": "t_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -3144,7 +3064,7 @@
     "coverage": 20,
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 350,
       "str_max": 650,
