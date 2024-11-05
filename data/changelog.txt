@@ -1102,8 +1102,8 @@ Removes the pockets flag from the cropped hoodies
 Deployed furniture won't be floating anymore if deployed on open air
 Fix minor typos in keybinding descriptions
 NPCs stealing player default name
-fix zoo scenario spawn
-fix regression of calculation of the height of a uilist that has a desired_bounds not including a height
+Fix zoo scenario spawn
+Fix regression of calculation of the height of a uilist that has a desired_bounds not including a height
 Lowers electronic skill requirement of clay car batteries from 3 to 2
 Cotton patch can be used to stop bleeding
 
