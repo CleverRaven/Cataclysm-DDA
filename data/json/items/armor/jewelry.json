@@ -4924,7 +4924,7 @@
   {
     "id": "collar_playboy",
     "type": "ARMOR",
-    "name": { "str": "collar with bowtie" },
+    "name": { "str": "collar with bowtie", "str_pl": "collars with bowtie" },
     "description": "It's a detached collar with a bow tie, too.  It's usually worn with a sexy one-piece bunny suit and bunny ears headband.",
     "weight": "100 g",
     "volume": "100 ml",
