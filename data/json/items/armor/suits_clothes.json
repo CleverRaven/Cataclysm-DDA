@@ -919,6 +919,52 @@
     "flags": [ "VARSIZE", "HOOD" ]
   },
   {
+    "id": "wool_suit_bunny",
+    "type": "ARMOR",
+    "name": { "str": "bunny onesie" },
+    "description": "An encumbering and fluffy bunny onesie with a hood and adorned with a pair of bunny ears.  Very fluffy.",
+    "weight": "883 g",
+    "volume": "3 L",
+    "price": "80 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 80, "encumbrance": 15 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
+    ],
+    "warmth": 50,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "HOOD" ]
+  },  
+  {
+    "id": "wool_suit_bunny",
+    "type": "ARMOR",
+    "name": { "str": "bunny onesie" },
+    "description": "An encumbering and fluffy bunny onesie with a hood and adorned with a pair of bunny ears.  Very fluffy.",
+    "weight": "883 g",
+    "volume": "3 L",
+    "price": "80 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 80, "encumbrance": 15 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
+    ],
+    "warmth": 50,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "HOOD" ]
+  },
+  {
     "id": "zentai",
     "type": "ARMOR",
     "name": { "str": "zentai" },
