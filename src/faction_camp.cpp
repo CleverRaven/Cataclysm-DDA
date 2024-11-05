@@ -285,9 +285,8 @@ static tripoint_abs_omt om_target_tile(
     const tripoint_abs_omt &omt_pos, int min_range = 1, int range = 1,
     const std::vector<std::string> &possible_om_types = {}, ot_match_type match_type =
         ot_match_type::exact, bool must_see = true,
-    bool popup_notice = true,
     const tripoint_abs_omt &source = tripoint_abs_omt( -999, -999, -999 ),
-    bool bounce = false );
+    bool bounce = false, const std::optional<std::string> &message = std::nullopt );
 static void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
                            const std::string &message = "Y;X: MAX RANGE" );
 static void om_line_mark(
@@ -968,7 +967,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         const mission_id miss_id = { Camp_Clearcut, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id );
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to clear a nearby forest.\n\n"
+                                  "Send a companion to clear a nearby forest.\n"
+                                  "Note that it's likely both forest and field roads look exactly the same after having been cleared.\n\n"
                                   "Skill used: fabrication\n"
                                   "Difficulty: 1\n"
                                   "Effects:\n"
@@ -2446,8 +2446,8 @@ void basecamp::job_assignment_ui()
                     smenu.text = _( "Assign job priority (0 to disable)" );
                     int count = 0;
                     std::vector<activity_id> job_vec = cur_npc->job.get_prioritised_vector();
-                    smenu.addentry( count, true, 'C', _( "Clear all priorities" ) );
-                    count++;
+                    smenu.addentry( count++, true, 'C', _( "Clear all priorities" ) );
+                    smenu.addentry( count++, true, 'S', _( "Set all priorities" ) );
                     for( const activity_id &elem : job_vec ) {
                         player_activity test_act = player_activity( elem );
                         const int priority = cur_npc->job.get_priority_of_job( elem );
@@ -2461,16 +2461,23 @@ void basecamp::job_assignment_ui()
                     }
                     if( smenu.ret == 0 ) {
                         cur_npc->job.clear_all_priorities();
-                    } else if( smenu.ret > 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
-                        activity_id sel_job = job_vec[size_t( smenu.ret - 1 )];
+                    } else if( smenu.ret == 1 ) {
+                        const int priority = string_input_popup()
+                                             .title( _( "Priority for all jobs " ) )
+                                             .width( 20 )
+                                             .only_digits( true )
+                                             .query_int();
+                        cur_npc->job.set_all_priorities( priority );
+                    } else if( smenu.ret > 1 && smenu.ret <= static_cast<int>( job_vec.size() ) + 1 ) {
+                        activity_id sel_job = job_vec[size_t( smenu.ret - 2 )];
                         player_activity test_act = player_activity( sel_job );
                         const std::string formatted = string_format( _( "Priority for %s " ), test_act.get_verb() );
-                        const int amount = string_input_popup()
-                                           .title( formatted )
-                                           .width( 20 )
-                                           .only_digits( true )
-                                           .query_int();
-                        cur_npc->job.set_task_priority( sel_job, amount );
+                        const int priority = string_input_popup()
+                                             .title( formatted )
+                                             .width( 20 )
+                                             .only_digits( true )
+                                             .query_int();
+                        cur_npc->job.set_task_priority( sel_job, priority );
                     } else {
                         break;
                     }
@@ -2582,8 +2589,8 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
     std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail", "rural_road_forest", "rural_road_turn_forest", "rural_road_turn1_forest", "rural_road_3way_forest",
                                              "dirt_road_forest", "dirt_road_3way_forest", "dirt_road_turn_forest", "forest_trail_intersection", "special_forest", "special_forest_thick", "forest_trail_isolated", "forest_trail_end"
                                            };
-    popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type,
+                              _( "Select a forest (or road/trail) from %d to %d tiles away." ) );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -2656,9 +2663,9 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id, float exertion_
     std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water", "forest_trail"
                                                 "field"
                                               };
-    popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::type,
-                              true, true, omt_pos, true );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations,
+                              ot_match_type::type,
+                              true, omt_pos, true, _( "Select an forest, swamp, or field from %d to %d tiles away." ) );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         Character *pc = &get_player_character();
@@ -2703,9 +2710,9 @@ static const tripoint_omt_ms relay_site_stash{ 11, 10, 0 };
 void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_level )
 {
     std::vector<std::string> hide_locations = { faction_hide_site_0_string };
-    popup( _( "You must select an existing hide site." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::exact,
-                              true, true, omt_pos, true );
+                              true, omt_pos, true, string_format(
+                                  _( "Select an existing hide site from %d to %d tiles away." ), 10, 90 ) );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         Character *pc = &get_player_character();
@@ -2833,10 +2840,11 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
-    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, allowed_locations, ot_match_type::type );
-    popup( _( "Select an end point." ) );
-    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations, ot_match_type::type,
-                                            true, false, start );
+    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, allowed_locations,
+                             ot_match_type::type, true, omt_pos, _( "Select a start point from %d to %d tiles away." ) );
+    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations,
+                                            ot_match_type::type,
+                                            true, start, _( "Select an end point from %d to %d tiles away." ) );
     if( start != tripoint_abs_omt( -999, -999, -999 ) &&
         stop != tripoint_abs_omt( -999, -999, -999 ) ) {
         const recipe &making = recipe_id( miss_id.parameters ).obj();
@@ -4486,12 +4494,12 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
         return false;
     }
 
-    popup( _( "Select a tile up to %d tiles away." ), 1 );
 
     tripoint_abs_omt where( get_player_character().global_omt_location() );
 
     while( true ) {
-        where = ui::omap::choose_point( where );
+        where = ui::omap::choose_point( string_format(
+                                            _( "Select a tile up to %d tiles away." ), 1 ) );
         if( where == overmap::invalid_tripoint ) {
             return false;
         }
@@ -4568,12 +4576,12 @@ bool basecamp::survey_return( const mission_id &miss_id )
         return false;
     }
 
-    popup( _( "Select a tile up to %d tiles away." ), 1 );
 
     tripoint_abs_omt where( get_player_character().global_omt_location() );
 
     while( true ) {
-        where = ui::omap::choose_point( where );
+        where = ui::omap::choose_point( string_format(
+                                            _( "Select a tile up to %d tiles away." ), 1 ) );
         if( where == overmap::invalid_tripoint ) {
             return false;
         }
@@ -4984,22 +4992,20 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
 
 tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range, int range,
                                  const std::vector<std::string> &possible_om_types, ot_match_type match_type, bool must_see,
-                                 bool popup_notice, const tripoint_abs_omt &source, bool bounce )
+                                 const tripoint_abs_omt &source, bool bounce, const std::optional<std::string> &message )
 {
     bool errors = false;
-    if( popup_notice ) {
-        popup( _( "Select a location between  %d and  %d tiles away." ), min_range, range );
-    }
-
     std::vector<std::string> bounce_locations = { faction_hide_site_0_string };
 
     tripoint_abs_omt where;
     om_range_mark( omt_pos, range );
     om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
+    const std::string &real_message = string_format(
+                                          message ? *message : _( "Select a location from %d to %d tiles away." ), min_range, range );
     if( source == tripoint_abs_omt( -999, -999, -999 ) ) {
-        where = ui::omap::choose_point();
+        where = ui::omap::choose_point( real_message );
     } else {
-        where = ui::omap::choose_point( source );
+        where = ui::omap::choose_point( real_message, source );
     }
     om_range_mark( omt_pos, range, false );
     om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
@@ -5009,7 +5015,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     }
     int dist = rl_dist( where.xy(), omt_pos.xy() );
     if( dist > range || dist < min_range ) {
-        popup( _( "You must select a target between %d and %d range from the base.  Range: %d" ),
+        popup( _( "You must select a target from %d to %d range.  Your selection was range %d." ),
                min_range, range, dist );
         errors = true;
     }
@@ -5029,7 +5035,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
                     tripoint_abs_omt dest =
-                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, match_type, true, false,
+                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, match_type, true,
                                         omt_tgt, true );
                     om_line_mark( omt_pos, omt_tgt, false );
                     return dest;
@@ -5048,7 +5054,8 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
         }
     }
 
-    return om_target_tile( omt_pos, min_range, range, possible_om_types, match_type );
+    return om_target_tile( omt_pos, min_range, range, possible_om_types, match_type, must_see,
+                           omt_pos );
 }
 
 void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
@@ -5221,7 +5228,7 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, ot_match_type::exact, false, true, last,
+        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, ot_match_type::exact, false, last,
                                                false );
         if( spt == tripoint_abs_omt( -999, -999, -999 ) ) {
             scout_points.clear();

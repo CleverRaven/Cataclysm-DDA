@@ -2168,14 +2168,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "tutorial",
-    "copy-from": "tutorial",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mall_a_1",
     "copy-from": "mall_a_1",
     "name": "road",

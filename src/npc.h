@@ -161,6 +161,7 @@ class job_data
         std::unordered_map<std::string, time_point> fetch_history;
 
         bool set_task_priority( const activity_id &task, int new_priority );
+        void set_all_priorities( int new_priority );
         void clear_all_priorities();
         bool has_job() const;
         int get_priority_of_job( const activity_id &req_job ) const;

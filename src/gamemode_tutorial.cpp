@@ -50,21 +50,8 @@ static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
 static const ter_str_id ter_t_window( "t_window" );
 
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
-static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
-static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
 static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
-static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
 static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
-static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
-static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
-static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
-static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
-static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
-static const trap_str_id tr_tutorial_5( "tr_tutorial_5" );
-static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
-static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
-static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
-static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
 
 namespace io
 {
@@ -266,38 +253,11 @@ void tutorial_game::per_turn()
     }
 
     const trap &tr = here.tr_at( player_character.pos_bub() );
-    if( tr == tr_tutorial_1 ) {
-        add_message( tut_lesson::LESSON_LOOK );
-    } else if( tr == tr_tutorial_2 ) {
-        add_message( tut_lesson::LESSON_MOVEMENT_MODES );
-    } else if( tr == tr_tutorial_3 ) {
-        add_message( tut_lesson::LESSON_MONSTER_SIGHTED );
-    } else if( tr == tr_tutorial_4 ) {
-        add_message( tut_lesson::LESSON_REACH_ATTACK );
-    } else if( tr == tr_tutorial_5 ) {
-        add_message( tut_lesson::LESSON_HOLSTERS_WEAR );
-    } else if( tr == tr_tutorial_6 ) {
-        add_message( tut_lesson::LESSON_GUN_LOAD );
-    } else if( tr == tr_tutorial_7 ) {
-        add_message( tut_lesson::LESSON_INVENTORY );
-    } else if( tr == tr_tutorial_8 ) {
-        add_message( tut_lesson::LESSON_FLASHLIGHT );
-    } else if( tr == tr_tutorial_9 ) {
-        add_message( tut_lesson::LESSON_INTERACT );
-    } else if( tr == tr_tutorial_10 ) {
-        add_message( tut_lesson::LESSON_REMOTE_USE );
-    } else if( tr == tr_tutorial_11 ) {
+    if( tr == tr_tutorial_11 ) {
         player_character.set_hunger( 100 );
         player_character.stomach.empty();
-        add_message( tut_lesson::LESSON_CRAFTING_FOOD );
-    } else if( tr == tr_tutorial_12 ) {
-        add_message( tut_lesson::LESSON_CONSTRUCTION );
     } else if( tr == tr_tutorial_13 ) {
         player_character.set_pain( 20 );
-    } else if( tr == tr_tutorial_14 ) {
-        add_message( tut_lesson::LESSON_THROWING );
-    } else if( tr == tr_tutorial_15 ) {
-        add_message( tut_lesson::LESSON_FINALE );
     }
 }
 

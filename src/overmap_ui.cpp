@@ -854,6 +854,10 @@ static void draw_ascii(
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
 
+    if( !data.message.empty() ) {
+        corner_text.emplace_back( c_white, data.message );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( cursor_pos );
         if( !note_text.empty() ) {
@@ -1702,8 +1706,8 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             chosen_group.set_interest( new_value );
             break;
         case 1:
-            popup( _( "Select a target destination for the horde." ) );
-            horde_destination = ui::omap::choose_point( true );
+            horde_destination = ui::omap::choose_point( _( "Select a target destination for the horde." ),
+                                true );
             if( horde_destination == overmap::invalid_tripoint || horde_destination == tripoint_abs_omt_zero ) {
                 break;
             }
@@ -2496,30 +2500,26 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, bool show_debug_info )
 {
-    g->overmap_data = overmap_ui::overmap_draw_data_t();
-    g->overmap_data.origin_pos = get_player_character().global_omt_location();
-    g->overmap_data.debug_info = show_debug_info;
-    return overmap_ui::display();
+    return choose_point( message, get_player_character().global_omt_location(), show_debug_info );
 }
 
-tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, const tripoint_abs_omt &origin,
+        bool show_debug_info )
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
+    g->overmap_data.message = message;
     g->overmap_data.origin_pos = origin;
     g->overmap_data.debug_info = show_debug_info;
     return overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, int z, bool show_debug_info )
 {
-    g->overmap_data = overmap_ui::overmap_draw_data_t();
-    g->overmap_data.debug_info = show_debug_info;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = z;
-    g->overmap_data.origin_pos = pos;
-    return overmap_ui::display();
+    return choose_point( message, pos, show_debug_info );
 }
 
 void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container )
