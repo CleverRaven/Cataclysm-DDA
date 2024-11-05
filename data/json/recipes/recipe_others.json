@@ -3395,7 +3395,7 @@
     "components": [
       [ [ "gum", 3 ], [ "super_glue", 4 ], [ "bone_glue", 1 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "string_36", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "can_drink", 1 ] ]
     ]
   }
