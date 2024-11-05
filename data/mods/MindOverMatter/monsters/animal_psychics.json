@@ -433,5 +433,30 @@
       "EATS"
     ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_hellhound",
+    "copy-from": "mon_dog",
+    "type": "MONSTER",
+    "looks_like": "mon_dog",
+    "name": { "str": "hellhound" },
+    "description": "This once-average Labrador mixed-breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.  The air around it wavers like the haze over summer asphalt.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "heat", "amount": 5 } ],
+    "moral": 40,
+    "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "2 s" } ],
+    "extend": {
+      "special attacks": [
+        {
+          "id": "psi_hellhound_breathe_fire",
+          "type": "spell",
+          "spell_data": { "id": "pyrokin_flamethrower_monster", "min_level": 5 },
+          "cooldown": { "math": [ "9 + rand(18)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s barks out a stream of flame!"
+      },
+      ],
+      "flags": [ "FIREPROOF" ],
+      "armor": { "heat": 999 }
+    }
   }
 ]
