@@ -37,7 +37,7 @@
     "id": "TALK_WEAPONMASTER_INTRO_4",
     "type": "talk_topic",
     "dynamic_line": "&Still completely mute, it shows you something you had initially missed.  The entire wall behind the workbench is full of various weapons; some as big as modern rifles, a few as large as the machine guns installed on aircraft, and one that looks like a dismantled tank turret.  Melee weapons were not forgotten, from moderately-sized swords and clubs to war hammers twice the height of a human, and what you can describe only as \"boots for mecha\".  Then it points to a sign near you that shows three things: the carved pictograms of coins, some sign you are not familiar with, and a pictogram of a bullet - all things considered, this creature is either a weaponmaster, or a weapon merchant.",
-    "responses": [ { "text": "Woah.  Can i buy one?", "topic": "TALK_WEAPONMASTER_INTRO_5" } ]
+    "responses": [ { "text": "Woah.  Can I buy one?", "topic": "TALK_WEAPONMASTER_INTRO_5" } ]
   },
   {
     "id": "TALK_WEAPONMASTER_INTRO_5",
@@ -63,7 +63,7 @@
     "dynamic_line": [
       "&The Weaponmaster seems to be tinkering on something, but turns their chair to you as you approach.",
       "&The Weaponmaster seems to be cleaning some sort of weapon, but as you approach them, they signal to a bystanding worker to take the weapon, and turn to you.",
-      "&The Weaponmaster seems seems to be polishing some armor, but they turn towards you the second you enter the room."
+      "&The Weaponmaster seems to be polishing some armor, but they turn towards you the second you enter the room."
     ],
     "responses": [
       {
