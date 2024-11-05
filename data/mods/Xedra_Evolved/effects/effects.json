@@ -2544,8 +2544,8 @@
     "type": "effect_type",
     "id": "effect_lilin_owl_form_pass_through_walls",
     "//": "Allows owl form lilin with the appropriate traits to fly through walls and avoid attacks",
-    "name": [  ],
-    "desc": [  ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "enchantments": [
       {
         "condition": { "u_has_trait": "TURN_INTO_OWL_TRAITS" },
