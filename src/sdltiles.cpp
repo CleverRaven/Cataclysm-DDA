@@ -92,7 +92,7 @@ std::unique_ptr<cataimgui::client> imclient;
 #include <jni.h>
 #endif
 
-#if defined(__IPHONEOS__) || (__ANDROID__)
+#if defined(__IPHONEOS__) || defined(__ANDROID__)
 #include "action.h"
 #include "inventory.h"
 #include "map.h"
@@ -323,7 +323,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__) || !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -401,7 +401,7 @@ static void WinCreate()
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                               fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
@@ -561,7 +561,7 @@ void refresh_display()
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
     ClearScreen();
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
@@ -570,10 +570,7 @@ void refresh_display()
 #endif
 
 #if defined(__ANDROID__) || defined(__IPHONEOS__)
-    // TODO: get this thing to work on iOS
-#if defined(__ANDROID__)
     draw_terminal_size_preview();
-#endif
     if( g ) {
         draw_quick_shortcuts();
     }
@@ -2588,7 +2585,7 @@ void handle_finger_input( uint32_t ticks )
 
 bool android_is_hardware_keyboard_available()
 {
-#if defined (__ANDROID__)
+#if defined(__ANDROID__)
     JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
     jobject activity = ( jobject )SDL_AndroidGetActivity();
     jclass clazz( env->GetObjectClass( activity ) );
@@ -2597,7 +2594,7 @@ bool android_is_hardware_keyboard_available()
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
 #endif
-#if defined (__IPHONEOS__)
+#if defined(__IPHONEOS__)
     bool ans = CataclysmExperimental::isIOSKeyBoardAvailable();
 #endif
     return ans;
@@ -3597,7 +3594,7 @@ static void init_term_size_and_scaling_factor()
     scaling_factor = 1;
     point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 
     if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
         scaling_factor = 2;
@@ -3791,7 +3788,7 @@ void catacurses::init_interface()
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
     imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
     preview_terminal_height = TERMINAL_HEIGHT * fontheight;
