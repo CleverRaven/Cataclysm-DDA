@@ -2516,7 +2516,7 @@
     "id": "bunny_suit_playboy",
     "type": "ARMOR",
     "name": { "str": "bunny suit" },
-    "description": "A bunny suit, still shiny despite the time its likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
     "weight": "136 g",
     "volume": "750 ml",
     "price": "50 USD",
