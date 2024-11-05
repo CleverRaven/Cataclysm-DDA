@@ -26,6 +26,8 @@
 #include "viewer.h"
 #include "map_iterator.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
@@ -185,12 +187,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                     poor_soul->remove_effect( grab.get_id() );
                 }
                 //apply a bunch of damage to it, similar to a tear in reality
-                poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+                std::vector<bodypart_id> target_bdpts = poor_soul->get_all_body_parts(
+                        get_body_part_flags::only_main );
+                for( bodypart_id bp_id : target_bdpts ) {
+                    damage_instance bp_damage( damage_pure,
+                                               poor_soul->get_part_hp_max( bp_id ) / static_cast<float>( rng( 6,
+                                                       12 ) ) );
+                    poor_soul->deal_damage( nullptr, bp_id, bp_damage );
+                }
                 poor_soul->check_dead_state();
             }
         }
@@ -201,12 +205,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
         //throw the thing that teleported in the opposite direction as the thing it teleported into.
         g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 40, false, true );
         //do a bunch of damage to it too.
-        critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-        critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-        critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-        critter.apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-        critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-        critter.apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+        std::vector<bodypart_id> target_bdpts = critter.get_all_body_parts(
+                get_body_part_flags::only_main );
+        for( bodypart_id bp_id : target_bdpts ) {
+            damage_instance bp_damage( damage_pure,
+                                       critter.get_part_hp_max( bp_id ) / static_cast<float>( rng( 6,
+                                               12 ) ) );
+            critter.deal_damage( nullptr, bp_id, bp_damage );
+        }
         critter.check_dead_state();
     }
     //player and npc exclusive teleporting effects
