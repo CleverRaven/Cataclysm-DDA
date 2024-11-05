@@ -1082,7 +1082,7 @@ Fixed a crash when using the 'set of clothes' item
 Fix Britishisms in the JSON files.
 Fix non-battery charge consumption of active items
 [MoM] Purifiable updates
-calculate correct height when a uilist has desired_bounds not including a height
+Calculate correct height when a uilist has desired_bounds not including a height
 Fix: weariness makes hauling faster instead of slower
 Make floors under furniture correct
 Unload zone properly clears auto whitelists
