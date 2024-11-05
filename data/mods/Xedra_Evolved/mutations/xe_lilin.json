@@ -640,7 +640,7 @@
     "type": "mutation",
     "id": "LILIN_OWL_FORM_PASS_THROUGH_WALLS",
     "name": { "str": "Like an Unclean Spirit" },
-    "description": "Your owl form is half-spirit and half-flesh. You have a high chance to dodge any attacks against you, and may pass straight through walls as long as it is night.",
+    "description": "Your owl form is half spirit and half flesh.  You have a high chance to dodge any attacks against you, and may pass straight through walls as long as it is night.",
     "points": 6,
     "purifiable": false,
     "player_display": false,
