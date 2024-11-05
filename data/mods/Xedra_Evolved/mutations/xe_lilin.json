@@ -512,8 +512,9 @@
     "points": 6,
     "starting_trait": false,
     "purifiable": false,
+    "changes_to": [ "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" ],
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
-    "prereqs2": [  ],
+    "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
@@ -611,14 +612,14 @@
   },
   {
     "type": "mutation",
-    "id": "LILIN_RUACH_EFFICIENCY_UPGRADE_2",
+    "id": "LILIN_RUACH_EFFICIENCY_UPGRADE",
     "name": { "//~": "This is a reference to Jeremiah 5:27", "str": "Like a Cage Full of Birds" },
     "description": "You jealously parcel out your ruach, only spending exactly as much as you need and no more.  Powers that cost ruach have their initial and periodic costs reduced by 15%, with an additional reduction that grows based on your total amount of ruach, to a maximum reduction of 33%.  This does not reduce the continual ruach cost of staying alive.",
     "points": 10,
     "starting_trait": false,
     "purifiable": false,
     "prereqs": [ "LILIN_TEMPORARY_GLORIOUS_2" ],
-    "prereqs2": [ "LILIN_RUACH_EFFICIENCY_UPGRADE" ],
+    "prereqs2": [ "LILIN_RUACH_EFFICIENCY" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ]
   },
@@ -694,6 +695,29 @@
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_LILIN_STRIX_LEAP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN",
+    "name": { "//~": "This is a reference to Exodus 16:12", "str": "Eating Meat at Twilight" },
+    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.",
+    "points": 6,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_REDUCED_NEEDS_WITH_RUACH" ],
+    "prereqs2": [ "LILIN_BONUS_HEALING_ACTIVE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "values": [
+          { "value": "HUNGER", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "THIRST", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
