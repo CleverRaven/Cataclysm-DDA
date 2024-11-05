@@ -8,6 +8,41 @@
     "effect": [
       { "math": [ "u_val('sleepiness')", "+=", "40 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 20)" ] },
       { "math": [ "u_val('health')", "-=", "5 - (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * rng(5,10) )" ] },
+      { "if": { "math": [ "u_lilin_ruach_drained_recently", "==", "1" ] },
+        "then": [
+          { "math": [ "u_lilin_ruach_drained_recently", "==", "0" ] },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "head"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_l"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "torso"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_l"
+          }
+        ]
+      }
     ]
   },
   {
