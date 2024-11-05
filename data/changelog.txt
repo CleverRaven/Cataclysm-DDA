@@ -453,7 +453,7 @@ Add daily health widget
 Add labels to structured sidebar tiny bodygraphs
 use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
 Debug reveal map moved to overmap editor, can reveal any overmap
-wrap the text in the menu for choosing your new faction camp type
+Wrap the text in the menu for choosing your new faction camp type
 
 
 ## Mods:
