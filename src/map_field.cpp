@@ -98,9 +98,7 @@ static const material_id material_veggy( "veggy" );
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );

@@ -3999,7 +3999,7 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
             const tripoint_bub_ms &tz = t + tripoint_above;
             const bool collapse_above = one_in( collapse_check( tz ) );
 
-            if( zlevels && ( wall_tree ) && collapse_above ) {
+            if( zlevels && wall_tree && collapse_above ) {
                 collapse_at( tz, silent );
 
                 // this tile used to support a roof, now it doesn't, which means there is only
