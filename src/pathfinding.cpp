@@ -180,7 +180,8 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
         if( std::any_of( ret.begin(), ret.end(), [&pf_cache]( const tripoint & p ) {
-        constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP | PF_SMALL_PASSAGE;
+        constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP |
+                                          PF_SMALL_PASSAGE;
         return pf_cache.special[p.x][p.y] & non_normal;
         } ) ) {
             ret.clear();
@@ -256,7 +257,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
     bool done = false;
 
-    constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP | PF_SMALL_PASSAGE;
+    constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP |
+                                      PF_SMALL_PASSAGE;
     do {
         tripoint cur = pf.get_next();
 
@@ -331,17 +333,17 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     continue;
                 }
 
-                if(settings.size) {
-                    if(p_special & PF_SMALL_PASSAGE && settings.size > creature_size::medium) {
+                if( settings.size ) {
+                    if( p_special & PF_SMALL_PASSAGE && settings.size > creature_size::medium ) {
                         layer.closed[index] = true;
                         continue;
                     }
                     if( doors &&
-                            ( ( terrain.open && terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
-                              ( furniture.open && furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
-                              // Windows with curtains need to be opened twice
-                              ( terrain.open->open && terrain.open->open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ) &&
-                            settings.size > creature_size::medium) {
+                        ( ( terrain.open && terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+                          ( furniture.open && furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+                          // Windows with curtains need to be opened twice
+                          ( terrain.open->open && terrain.open->open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ) &&
+                        settings.size > creature_size::medium ) {
                         layer.closed[index] = true;
                         continue;
                     }
