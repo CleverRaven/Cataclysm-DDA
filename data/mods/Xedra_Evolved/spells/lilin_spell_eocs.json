@@ -240,7 +240,7 @@
       },
       {
         "if": { "math": [ "u_val('thirst')", ">=", "-60" ] },
-        "then": { "math": [ "u_val('thirst')", "-=", "rng(25,75)" ] }
+        "then": { "math": [ "u_val('thirst')", "-=", "rng(10,25)" ] }
       }
     ],
     "false_effect": [
@@ -266,7 +266,7 @@
           },
           {
             "if": { "math": [ "u_val('thirst')", ">=", "-60" ] },
-            "then": { "math": [ "u_val('thirst')", "-=", "rng(25,75)" ] }
+            "then": { "math": [ "u_val('thirst')", "-=", "rng(10,25)" ] }
           }
         ],
         "else": {
@@ -278,7 +278,7 @@
             },
             {
               "if": { "math": [ "u_val('thirst')", ">=", "-60" ] },
-              "then": { "math": [ "u_val('thirst')", "-=", "rng(0,50)" ] }
+              "then": { "math": [ "u_val('thirst')", "-=", "rng(0,15)" ] }
             }
           ],
           "else": {
@@ -290,7 +290,7 @@
               },
               {
                 "if": { "math": [ "u_val('thirst')", ">=", "-60" ] },
-                "then": { "math": [ "u_val('thirst')", "-=", "rng(-80,80)" ] }
+                "then": { "math": [ "u_val('thirst')", "-=", "rng(-25,25)" ] }
               }
             ],
             "else": {
@@ -311,7 +311,7 @@
                 },
                 {
                   "if": { "math": [ "u_val('thirst')", ">=", "-60" ] },
-                  "then": { "math": [ "u_val('thirst')", "-=", "rng(5,25)" ] }
+                  "then": { "math": [ "u_val('thirst')", "-=", "rng(2,6)" ] }
                 }
               ],
               "else": {
@@ -333,7 +333,7 @@
                   },
                   {
                     "if": { "math": [ "u_val('thirst')", ">=", "-60" ] },
-                    "then": { "math": [ "u_val('thirst')", "-=", "rng(5,15)" ] }
+                    "then": { "math": [ "u_val('thirst')", "-=", "rng(1,3)" ] }
                   }
                 ]
               }
