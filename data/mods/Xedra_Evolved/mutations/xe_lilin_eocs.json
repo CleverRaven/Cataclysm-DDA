@@ -1,6 +1,17 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_RUACH_DRAINED_AWAKENING_PENALTIES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "effect_lilin_ruach_drain_side_effects" },
+    "effect": [
+      { "math": [ "u_val('sleepiness')", "+=", "40 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 20)" ] },
+      { "math": [ "u_val('health')", "-=", "5 - (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * rng(5,10) )" ] },
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN_SELF",
     "recurrence": [ "6 minutes", "6 minutes" ],
     "condition": { "u_has_trait": "LILIN_TRAITS" },
