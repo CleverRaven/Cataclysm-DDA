@@ -940,7 +940,7 @@
     "warmth": 50,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "HOOD" ]
-  },  
+  },
   {
     "id": "wool_suit_bunny",
     "type": "ARMOR",
