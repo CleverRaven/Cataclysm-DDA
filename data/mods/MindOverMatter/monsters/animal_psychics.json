@@ -454,7 +454,7 @@
         {
           "id": "psi_hellhound_breathe_fire",
           "type": "spell",
-          "spell_data": { "id": "pyrokin_flamethrower_monster", "min_level": 5 },
+          "spell_data": { "id": "pyrokin_flamethrower_hellhound_monster", "min_level": 5 },
           "cooldown": { "math": [ "9 + rand(18)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s barks out a stream of flame!"
