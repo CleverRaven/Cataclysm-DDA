@@ -6,6 +6,7 @@
 #include "dialogue.h"
 #include "flag.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
@@ -465,8 +466,9 @@ void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
 
 bool npc_attack_gun::can_use( const npc &source ) const
 {
-    // can't attack with something you can't wield
-    return source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success();
+    // can't attack with something you can't wield or which lacks ammo.
+    return ( source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success()
+             && gun.ammo_data() != nullptr && gun.ammo_data()->ammo != nullptr );
 }
 
 int npc_attack_gun::base_time_penalty( const npc &source ) const
