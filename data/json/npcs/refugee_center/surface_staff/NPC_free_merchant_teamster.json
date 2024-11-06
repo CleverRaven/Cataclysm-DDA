@@ -180,10 +180,7 @@
         "text": "How do I get to that farm?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
-            { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 1" ] }, { "not": { "u_has_mission": "directions_isherwood" } } ]
         },
         "effect": { "assign_mission": "directions_isherwood" },
         "switch": true
@@ -192,10 +189,7 @@
         "text": "How do I get to that lab?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
-            { "not": { "compare_string": [ "hub01", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 2" ] }, { "not": { "u_has_mission": "directions_hub01" } } ]
         },
         "effect": { "assign_mission": "directions_hub01" },
         "switch": true
@@ -204,10 +198,7 @@
         "text": "How do I get to that castle?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
-            { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 3" ] }, { "not": { "u_has_mission": "directions_exodii" } } ]
         },
         "effect": { "assign_mission": "directions_exodii" },
         "switch": true
@@ -216,10 +207,7 @@
         "text": "Where was that?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
-            { "not": { "compare_string": [ "artisans", { "u_val": "teamster_mission_directions" } ] } }
-          ]
+          "and": [ { "math": [ "npc_randomize_dialogue_direction == 4" ] }, { "not": { "u_has_mission": "directions_artisans" } } ]
         },
         "effect": { "assign_mission": "directions_artisans" },
         "switch": true

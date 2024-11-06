@@ -40,7 +40,7 @@
       ],
       "terrain": {
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "?": "t_railing_v",
+        "?": "t_railing",
         "=": "t_floor_noroof",
         ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "`": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },

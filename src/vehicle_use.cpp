@@ -1074,11 +1074,12 @@ void vehicle::operate_planter()
         vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
+                const ter_id &t = here.ter( loc );
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( here.ter( loc ) != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( t != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( here.ter( loc ) == ter_t_dirtmound ) {
+                } else if( t == ter_t_dirtmound ) {
                     here.set( loc, ter_t_dirt, furn_f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
@@ -1319,9 +1320,9 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     insides_dirty = true;
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
-    const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
+    const tripoint_bub_ms part_location = mount_to_tripoint( parts[part_index].mount );
     here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
-    const int dist = rl_dist( get_player_character().pos(), part_location );
+    const int dist = rl_dist( get_player_character().pos_bub(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().id.str(), 100 - dist * 3 );

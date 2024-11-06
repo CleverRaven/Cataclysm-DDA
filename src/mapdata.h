@@ -507,6 +507,8 @@ struct map_data_common_t {
         // Warmth provided by the terrain (for sleeping, etc.)
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         int comfort = 0;
+        //flat damage reduction (increase if negative) on fall (some logic may apply)
+        int fall_damage_reduction = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = DEFAULT_TILE_VOLUME;
 
