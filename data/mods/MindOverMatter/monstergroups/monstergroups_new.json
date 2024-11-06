@@ -262,6 +262,11 @@
     "monsters": [ { "monster": "mon_cow_calf", "weight": 75 }, { "monster": "mon_hodag_calf", "weight": 25 } ]
   },
   {
+    "name": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dog_pup", "weight": 85 }, { "monster": "mon_hellhound_pup", "weight": 15 } ]
+  },
+  {
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 100 } ]
