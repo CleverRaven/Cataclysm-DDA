@@ -210,7 +210,7 @@
     "dynamic_line": {
       "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days')", ">=", "n_number_fabricate_wait" ],
       "yes": "Let me check…  <u_name>…  Yes, all your lumber are ready, you can pick it up.",
-      "no": "Your order?  No, sorry, we still working on it."
+      "no": "Your order?  No, sorry, we're still working on it."
     },
     "responses": [
       {
