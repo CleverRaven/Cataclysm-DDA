@@ -161,6 +161,7 @@ class job_data
         std::unordered_map<std::string, time_point> fetch_history;
 
         bool set_task_priority( const activity_id &task, int new_priority );
+        void set_all_priorities( int new_priority );
         void clear_all_priorities();
         bool has_job() const;
         int get_priority_of_job( const activity_id &req_job ) const;
@@ -253,7 +254,8 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
 enum class combat_skills : int {
     ALL = 0,
     NO_GENERAL,
-    WEAPONS_ONLY
+    WEAPONS_ONLY,
+    WEAPONS_ONLY_NO_THROW
 };
 
 enum class aim_rule : int {
@@ -819,8 +821,21 @@ class npc : public Character
          */
         void add_new_mission( mission *miss );
         void update_missions_target( character_id old_character, character_id new_character );
-        std::pair<skill_id, int> best_combat_skill( combat_skills subset ) const;
+        /**
+        @param subset - whether "combat skill" includes all combat skills, no "general" (dodge, melee, marksman) skills, or only weapons you would expect NPCs to wield
+        @param randomize - if more than one skill is tied for top, pick randomly
+        @return a pair with the skill_id (first) of the best skill, and the level (int) of that skill. If subset skills are all the same level, defaults to stabbing.
+        */
+        std::pair<skill_id, int> best_combat_skill( combat_skills subset, bool randomize = false ) const;
         void starting_weapon( const npc_class_id &type );
+        /**
+        * Adds items to a randomly generated NPC (i.e. not having a defined npc_class)
+        * As time passes, NPCs have a greater chance to get better equipment
+        * See NC_NONE_*.json and NC_NONE_HARDENED_*.json for item selection
+        */
+        void starting_inv_passtime();
+        //helper function for equipping NPCs
+        void starting_inv_wear_item( npc *who, item &it );
 
         // Save & load
         void deserialize( const JsonObject &data ) override;

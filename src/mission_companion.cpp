@@ -2799,16 +2799,17 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
-        const ter_id t = bay.ter( p );
+        const ter_id &t = bay.ter( p );
+        const ter_t &to = t.obj();
         //Open all the doors, doesn't need to be exhaustive
         const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };
         if( openable_doors.find( t.id() ) != openable_doors.end() ) {
             bay.ter_set( p, ter_t_door_o );
         } else if( t == ter_t_door_locked || t == ter_t_door_locked_peep || t == ter_t_door_locked_alarm ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            const map_bash_info &bash = to.bash;
             bay.ter_set( p, bash.ter_set );
             // Bash doors twice
-            const map_bash_info &bash_again = bay.ter( p ).obj().bash;
+            const map_bash_info &bash_again = to.bash;
             bay.ter_set( p, bash_again.ter_set );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             bay.spawn_items( p, item_group::items_from( bash_again.drop_group, calendar::turn ) );
@@ -2818,7 +2819,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         } else if( t == ter_t_door_glass_c ) {
             bay.ter_set( p, ter_t_door_glass_o );
         } else if( t == ter_t_wall && one_in( 25 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            const map_bash_info &bash = to.bash;
             bay.ter_set( p, bash.ter_set );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             bay.collapse_at( p, false );
@@ -2826,15 +2827,15 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         //Smash easily breakable stuff
         else if( const std::unordered_set<ter_str_id> weak_window_ters = {ter_t_window, ter_t_window_taped, ter_t_window_domestic, ter_t_window_boarded_noglass, ter_t_window_domestic_taped, ter_t_window_alarm_taped, ter_t_window_boarded, ter_t_curtains, ter_t_window_alarm, ter_t_window_no_curtains, ter_t_window_no_curtains_taped };
                  weak_window_ters.find( t.id() ) != weak_window_ters.end() && one_in( 4 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            const map_bash_info &bash = to.bash;
             bay.ter_set( p, bash.ter_set );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
         } else if( ( t == ter_t_wall_glass || t == ter_t_wall_glass_alarm ) && one_in( 3 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            const map_bash_info &bash = to.bash;
             bay.ter_set( p, bash.ter_set );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-        } else if( bay.has_furn( p ) && bay.furn( p ).obj().bash.str_max != -1 && one_in( 10 ) ) {
-            const map_bash_info &bash = bay.furn( p ).obj().bash;
+        } else if( bay.has_furn( p ) && to.bash.str_max != -1 && one_in( 10 ) ) {
+            const map_bash_info &bash = to.bash;
             bay.furn_set( p, bash.furn_set );
             bay.delete_signage( p );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );

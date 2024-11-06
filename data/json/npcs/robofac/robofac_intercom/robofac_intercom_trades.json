@@ -8,7 +8,7 @@
         "text": "[2 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
           { "u_spawn_item": "mask_gas_half" },
           { "u_spawn_item": "robofac_enviro_suit" },
           { "u_spawn_item": "gasfilter_med", "count": 1 },
@@ -34,7 +34,7 @@
         "text": "[1 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
-          { "u_buy_item": "RobofacCoin", "count": 1 },
+          { "u_consume_item": "RobofacCoin", "count": 1, "popup": true },
           { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40, "random": true, "search_range": 70 },
           { "npc_add_var": "dialogue_intercom_sold_local_map", "value": "yes" }
         ],
@@ -174,7 +174,7 @@
         "text": "[8 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_consume_item": "RobofacCoin", "count": 8, "popup": true },
           { "u_spawn_item": "armor_riot", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
           { "u_spawn_item": "armor_riot_arm", "count": 5 },

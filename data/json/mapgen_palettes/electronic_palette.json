@@ -17,7 +17,7 @@
       "W": "t_wall_glass",
       "w": "t_window",
       "s": "t_sidewalk",
-      "f": "t_chainfence_v",
+      "f": "t_chainfence",
       "g": "t_chaingate_c",
       "<": "t_stairs_up",
       "|": "t_ladder_up",

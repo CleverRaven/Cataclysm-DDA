@@ -24,7 +24,7 @@ void appliance_convert_examine_actor::load( const JsonObject &jo, const std::str
     mandatory( jo, false, "item", appliance_item );
 }
 
-void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &examp ) const
+void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
         return;
@@ -37,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp, vpart_appliance_from_item( appliance_item ) );
+    place_appliance( examp, vpart_appliance_from_item( appliance_item ), you );
 }
 
 void appliance_convert_examine_actor::finalize() const

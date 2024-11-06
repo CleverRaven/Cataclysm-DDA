@@ -36,7 +36,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "EMP_IMMUNE", "CRAFT_IN_DARKNESS" ]
   },
@@ -75,7 +76,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -117,7 +119,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "UNCANNY_DODGE" ]
   },
@@ -156,7 +159,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "BLEEDSLOW2" ]
   },
@@ -205,7 +209,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -246,7 +251,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "INFECTION_IMMUNE" ]
   },
@@ -285,7 +291,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -333,7 +340,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -391,7 +399,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -431,7 +440,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ],
     "enchantments": [ { "values": [ { "value": "MELEE_DAMAGE", "multiply": 1 }, { "value": "SPEED", "multiply": 0.2 } ] } ]
@@ -483,7 +493,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -527,7 +538,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -566,7 +578,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "STEADY" ]
   },
@@ -613,7 +626,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "CLIMB_NO_LADDER" ]
   },
@@ -654,7 +668,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -713,7 +728,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -753,7 +769,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "HARDTOHIT" ]
   },
@@ -794,7 +811,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -838,7 +856,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE" ]
   },
@@ -878,7 +897,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -917,7 +937,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -959,7 +980,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ALKAHEST_IMMUNE" ]
   },
@@ -1008,7 +1030,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1060,7 +1083,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE", "EMP_IMMUNE" ]
   },
@@ -1100,7 +1124,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -1151,7 +1176,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1192,7 +1218,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1244,7 +1271,8 @@
       "TUNDRA_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "READ_IN_DARKNESS" ]
   },
@@ -1288,7 +1316,8 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
   },
@@ -1327,7 +1356,8 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   }

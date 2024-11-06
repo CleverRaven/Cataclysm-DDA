@@ -201,6 +201,7 @@ Use the `Home` key to return to the top.
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
+      - [`fall_damage_reduction`](#fall_damage_reduction)
       - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
       - [`looks_like`](#looks_like)
       - [`color` or `bgcolor`](#color-or-bgcolor)
@@ -5594,6 +5595,10 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 #### `floor_bedding_warmth`
 
 Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+
+#### `fall_damage_reduction`
+
+Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
 
 #### `bonus_fire_warmth_feet`
 

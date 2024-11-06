@@ -234,7 +234,7 @@
     "looks_like": "p226_357sig",
     "type": "GUN",
     "name": { "str": "SIG pistol" },
-    "description": "A semi-automatic pistol chambered in 10mmm and accepting SIG magazines.",
+    "description": "A semi-automatic pistol chambered in 10mm and accepting SIG magazines.",
     "variant_type": "gun",
     "variants": [
       {

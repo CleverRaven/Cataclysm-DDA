@@ -874,6 +874,7 @@
     "likes_u": 30,
     "respects_u": 20,
     "known_by_u": false,
+    "limited_area_claim": true,
     "size": 1,
     "power": 1,
     "currency": "fur",

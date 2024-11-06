@@ -39,7 +39,7 @@
         ".": "t_region_groundcover_urban",
         "`": "t_sidewalk",
         "_": "t_concrete",
-        "g": "t_chainfence_v",
+        "g": "t_chainfence",
         "h": "t_chaingate_c",
         "i": "t_concrete",
         "j": "t_concrete",

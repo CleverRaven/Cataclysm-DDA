@@ -322,8 +322,9 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
         return {};
     }
 
-    // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    // if item has food components, will derive calories from that instead.
+    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) &&
+        comest.made_of_any_food_components( true ) ) {
         nutrients tally{};
         if( comest.recipe_charges == 0 ) {
             // Avoid division by zero
@@ -834,8 +835,9 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     // TODO: This condition occurs way too often. Unify it.
     // update Sep. 26 2018: this apparently still occurs way too often. yay!
-    if( is_underwater() && ( !has_trait( trait_WATERSLEEP ) ||
-                             has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
+    if( is_underwater() &&
+        ( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) ||
+          ( ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) && drinkable ) ) ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 

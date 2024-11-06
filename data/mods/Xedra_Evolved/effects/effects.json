@@ -411,7 +411,6 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_ascendant",
-    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE4 will be gated behind this.",
     "name": [ "Terminal Porphyria" ],
     "desc": [ "Your skin is deathly white and will redden and burn when exposed to the sun." ],
     "apply_message": "You've chosen to embrace this illness and enhance your curse.",
@@ -427,7 +426,6 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_post_mortal",
-    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE5 will be gated behind this.",
     "name": [ "Homo sapiens homovorus" ],
     "desc": [
       "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
@@ -904,12 +902,13 @@
     "name": [ "Evil Eye" ],
     "desc": [ "Something is definitely wrong." ],
     "rating": "bad",
+    "immune_flags": [ "EVIL_EYE_IMMUNE", "EVIL_EYE_IMMUNE_MONSTER" ],
     "show_in_info": true,
     "max_intensity": 5,
     "show_intensity": false,
     "base_mods": {
-      "hit_mod": [ -3 ],
-      "dodge_mod": [ -4 ],
+      "hit_mod": [ -2 ],
+      "dodge_mod": [ -2 ],
       "per_mod": [ -2 ],
       "health_chance": [ 20 ],
       "health_tick": [ 30 ],
@@ -2306,8 +2305,15 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_lilin_temmporary_glorious",
-    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active",
+    "id": "effect_lilin_temporary_glorious",
+    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_bonus_healing_active",
+    "//": "Hidden effects, tracking whether you have LILIN_BONUS_HEALING_ACTIVE active.",
     "name": [ "" ],
     "desc": [ "" ]
   },
@@ -2458,6 +2464,113 @@
       { "limb_score": "reaction", "modifier": 1.35 },
       { "limb_score": "block", "modifier": 1.3 },
       { "limb_score": "vision", "modifier": 1.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield_check",
+    "name": [ "Promises of undisrupted sleep" ],
+    "desc": [ "I wish you a good night." ],
+    "apply_message": "You could swear that this man wished you a good night.",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "3 seconds",
+    "show_intensity": false,
+    "max_intensity": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield",
+    "name": [ "Undisrupted sleep" ],
+    "desc": [ "Sleep well.  Nothing but you can disrupt your sleep." ],
+    "apply_message": "As you fall asleep, you feel safer than you ever were.",
+    "remove_message": "As you wake up, the feeling of safety quickly fades away.",
+    "rating": "good",
+    "max_duration": "3 days",
+    "show_intensity": false,
+    "max_intensity": 1,
+    "flags": [ "INVISIBLE", "NO_SCENT", "PAIN_IMMUNE", "BLIND", "DEAF", "LEVITATION" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPY", "add": 9999 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 500 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 500 },
+          { "value": "FORCEFIELD", "add": 1 }
+        ]
+      }
+    ],
+    "removes_effects": [ "grabbed", "bleed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_aoe_daze",
+    "name": [ "Disoriented" ],
+    "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_supernatural_disease",
+    "name": [ "Miasma" ],
+    "desc": [ { "str": "You are infected by a supernatural disease." } ],
+    "rating": "bad",
+    "max_duration": "5 h",
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.1 },
+          { "value": "ARMOR_ALL", "multiply": 0.05 },
+          { "value": "VISION_RANGE", "multiply": -0.15 },
+          { "value": "REGEN_HP", "multiply": -0.5 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.8 },
+      { "limb_score": "breathing", "modifier": 0.75 },
+      { "limb_score": "lift", "modifier": 0.75 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.85 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "vision", "modifier": 0.85 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_supernatural_disease_focused",
+    "name": [ "Devouring Plague" ],
+    "desc": [ { "str": "You are infected by a supernatural disease." } ],
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "hit_mod": [ -2 ], "dodge_mod": [ -4 ] },
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.25 },
+          { "value": "ARMOR_ALL", "multiply": 0.1 },
+          { "value": "VISION_RANGE", "multiply": -0.35 },
+          { "value": "REGEN_HP", "multiply": -0.95 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.6 },
+      { "limb_score": "breathing", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.65 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.65 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "vision", "modifier": 0.55 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }

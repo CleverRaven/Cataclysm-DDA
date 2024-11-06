@@ -3719,6 +3719,31 @@ Variables are also supported
   },
 ```
 
+#### `u_set_fac_relation`, `npc_set_fac_relation`
+Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction.
+ 
+ | Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_set_fac_relation" / "npc_set_fac_relation" | **mandatory** | string or [variable object](#variable-object) | Rule to set. See [the factions doc](FACTIONS.md#faction-relations) for a list of rules and what they cover.  |
+| "set_value_to" | optional | boolean | default true; Whether to set, or unset, this rule. | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Adds the "share public goods" rule 
+```json
+{ "u_set_fac_relation": "share public goods" }
+```
+
+Removes the "kill on sight" rule
+```json
+{ "u_set_fac_relation": "kill on sight", "set_value_to": false }
+```
+
 #### `u_add_faction_trust`
  Your character gains trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction. Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction
 
@@ -3759,6 +3784,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | "snippet" | optional | boolean | default false; if true, the effect instead display a random snippet from `u_message` | 
 | "same_snippet" | optional | boolean | default false; if true, and `snippet` is true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 | "popup" | optional | boolean | default false; if true, the message would generate a popup with `u_message` | 
+| "popup_flag" | optional | string | default PF_NONE; if specified, the popup is modified by the specified flag, for allowed values see below | 
 | "popup_w_interrupt_query" | optional | boolean | default false; if true, and `popup` is true, the popup will interrupt any activity to send a message | 
 | "interrupt_type" | optional | boolean | default is "neutral"; `distraction_type`, that would be used to interrupt, one that used in distraction manager; full list exist inactivity_type.cpp | 
 
@@ -3767,6 +3793,11 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### popup_flag
+`PF_GET_KEY` - Cancels the popup on any user input as opposed to being limited to Return, Space and Escape.
+`PF_ON_TOP` - Makes the window appear on the top of the screen (at the upper most row). Without this flag, the popup is centered on the screen.
+`PF_FULLSCREEN` makes the window have a size of `FULL_SCREEN_WIDTH` by `FULL_SCREEN_HEIGHT`. The `FULL_SCREEN` part is a misnomer from legacy code as the popup is not actually full-screen.
 
 ##### Examples
 Send a red-colored `Bad json! Bad!` message in the log 
@@ -3777,6 +3808,11 @@ Send a red-colored `Bad json! Bad!` message in the log
 Print a snippet from `local_files_simple`, and popup it. The snippet is always the same
 ```json
  { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
+```
+
+Print `uninvasive text` as a centre aligned popup at the top of the screen.
+```json
+ { "u_message": "uninvasive text", "popup": true, "popup_flag": "PF_ON_TOP" }
 ```
 
 Print a text with a context variable

@@ -1215,7 +1215,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
 
     it.spill_contents( suitable.value() );
     if( !place_appliance( tripoint_bub_ms( suitable.value() ),
-                          vpart_appliance_from_item( appliance_base ), it ) ) {
+                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
         // failed to place somehow, cancel!!
         return 0;
     }
@@ -3523,6 +3523,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
             wound.set_duration( std::max( 0_turns, dur ) );
             if( wound.get_duration() == 0_turns ) {
                 heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
+                patient.remove_effect( effect_bleed, healed );
             } else {
                 heal_msg( m_good, _( "You reduce the bleeding, but it's not stopped yet." ),
                           _( "The bleeding is reduced, but not stopped." ) );
@@ -5258,7 +5259,7 @@ bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
-        const furn_id fid = here.furn( dest );
+        const furn_id &fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {
                 return false;

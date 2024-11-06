@@ -150,6 +150,12 @@ std::queue<deferred_math> &get_deferred_math()
     return dfr_math;
 }
 
+void clear_deferred_math()
+{
+    std::queue<deferred_math> empty;
+    get_deferred_math().swap( empty );
+}
+
 std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view str, bool ass )
 {
     get_deferred_math().emplace( jo, str, ass );
@@ -581,7 +587,9 @@ void finalize_conditions()
         try {
             math.exp->parse( math.str, math.assignment, false );
         } catch( std::invalid_argument const &ex ) {
-            math.jo.throw_error_at( "math", ex.what() );
+            JsonObject jo{ std::move( math.jo ) };
+            clear_deferred_math();
+            jo.throw_error_at( "math", ex.what() );
         }
         dfr.pop();
     }

@@ -152,6 +152,10 @@ Grazing animals actually eat grass, and it regrows every season
 New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
+Added check for stealing prior to wearing
+Plastic tub audit
+Adds throwing practice tools
+Debug spawn NPC by class id
 EOCs modifying calories track spent calories
 Adds whispering fungi to fungi zombie mongroup.
 Added check for stealing prior to obtaining book to read
@@ -704,7 +708,21 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [DinoMod] Astrodon 
 [MoM] Add Alien Meadow mutable map special
 [Magiclysm] Fantasy species zombies
-[Magiclysm/Xedra Evolved] Magiclysm/xe updates for #76890
+[Magiclysm] Add `UNRESTRICTED` flag to several Magiclysm summoned items
+[Magiclysm] Rapid Regeneration's effect only triggers if you need healing
+[Xedra Evolved] Werewolves only regenerate when they need to
+[MoM] Add remaining matrix elixirs, add more drops
+[MoM] Blazing Aura is an actual aura effect and harms anyone nearby
+Tailor-made Inventor equipment
+[Magiclysm] Goblins and dwarves can craft in the dark
+Magiclysm] Add Bracers of Archery
+[DinoMod] tougher day 3 predators
+[Isolation Protocol] Add Bionic Vampire class
+[MOM] Add Mental Engineering Telepath 'Ritual' recipe
+[Xedra Evolved] Add more Selkie powers
+Create and use READ_IN_DARKNESS and distribute CRAFT_IN_DARKNESS to magic night vision sources
+XE Gracken Big Game Hunter profession
+Prevent Paraclesians from being born with a drivers license
 [MoM/XE Interaction] Ierde and powerful vampires are immune to telepathy
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
@@ -1065,21 +1083,14 @@ NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
-Fix consume activity creation from liquid handler
 Cabin in Safe Place scenario is now actually safe
-Remove tainted/human leather recipe
-Rotten blood can't be analyzed on centrifuge
 [MoM] NPCs can awaken in portal storms
-Fixing display of loudness multiplier of gunmods
-Spend time when taking off items via 'T' in item examine menu
 Start of cataclysm day and start of game day now respect season length
 Fixes #76414, Can't activate item - character instead tries to eat it.
-Forbid modding integrated tools
 No longer able to wear already worn items
 Faulty guns don't lock your view
 Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
-Fix Britishisms in the JSON files.
 Fix non-battery charge consumption of active items
 [MoM] Purifiable updates
 Calculate correct height when a uilist has desired_bounds not including a height
@@ -1215,9 +1226,9 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
-Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
 Added palettes to use parameters more generally
-
+debug dialogue + talk_topic menus
+Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
 
 ## Build:
 Support Mac arm64 build
@@ -1250,6 +1261,11 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Omit unnecessary lines from translations
+Dont extract monster guns and spells for translation
+Dont extract abstract names for translation
+Extract blood analysis descs and end screen text
+Dont extract abstract monsters and spells from data/json/monsters/
 
 
 # 0.G (Gaiman)
