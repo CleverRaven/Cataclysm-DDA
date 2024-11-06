@@ -444,6 +444,11 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "heat", "amount": 5 } ],
     "moral": 40,
     "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "2 s" } ],
+    "reproduction": {
+      "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND" },
+      "baby_count": 4,
+      "baby_timer": 270
+    },
     "extend": {
       "special attacks": [
         {
@@ -458,5 +463,15 @@
       "flags": [ "FIREPROOF" ],
       "armor": { "heat": 999 }
     }
+  },
+  {
+    "id": "mon_hellhound_pup",
+    "copy-from": "mon_dog_pup",
+    "type": "MONSTER",
+    "looks_like": "mon_dog_pup",
+    "name": { "str": "hellpup" },
+    "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.  Its breath is very hot.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
+    "upgrades": { "age_grow": 42, "into": "mon_hellhound" }
   }
 ]
