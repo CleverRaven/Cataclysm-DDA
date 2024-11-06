@@ -1368,7 +1368,11 @@ void npc::move()
         action = method_of_fleeing();
     } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
                has_effect( effect_npc_run_away ) ) {
-        action = method_of_fleeing();
+        if( rl_dist( pos(), player_character.pos() ) <= 1 ) {
+            action = method_of_attack();
+        } else {
+            action = method_of_fleeing();
+        }
     } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
                has_charges( itype_oxygen_tank, 1 ) ||
                has_charges( itype_smoxygen_tank, 1 ) ) ) {
