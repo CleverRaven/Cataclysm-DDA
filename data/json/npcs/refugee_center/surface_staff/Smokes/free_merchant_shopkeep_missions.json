@@ -21,6 +21,7 @@
     "goal_condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
       "offer": "…",
@@ -81,6 +82,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help…",
@@ -172,6 +174,7 @@
       "effect": [ { "u_spawn_item": "FMCNote", "count": 30 }, { "u_add_var": "mission_flag_FMShopkeep_Mission2", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
       "describe": "We need help…",
@@ -215,6 +218,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help…",
@@ -239,6 +243,7 @@
     "item": "ground_solar_panel",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
       "effect": [ { "u_spawn_item": "FMCNote", "count": 100 }, { "u_add_var": "mission_flag_FMShopkeep_Mission4", "value": "yes" } ]
@@ -269,6 +274,7 @@
       "effect": [ { "u_spawn_item": "FMCNote", "count": 25 }, { "u_add_var": "mission_flag_FMShopkeep_Mission5", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need help…",
       "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth.  Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",

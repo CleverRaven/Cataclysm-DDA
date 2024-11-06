@@ -59,9 +59,15 @@ std::string vpart_display::get_tileset_id() const
 vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool include_fake,
         bool below_roof, bool roof ) const
 {
+    return vehicle::get_display_of_tile( point_rel_ms( dp ), rotate, include_fake, below_roof, roof );
+}
+
+vpart_display vehicle::get_display_of_tile( const point_rel_ms &dp, bool rotate, bool include_fake,
+        bool below_roof, bool roof ) const
+{
     const int part_idx = part_displayed_at( dp, include_fake, below_roof, roof );
     if( part_idx == -1 ) {
-        debugmsg( "no display part at mount (%d, %d)", dp.x, dp.y );
+        debugmsg( "no display part at mount (%d, %d)", dp.x(), dp.y() );
         return {};
     }
 

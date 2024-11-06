@@ -24,6 +24,9 @@ void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int 
 
     bool same_line = false;
     for( const iteminfo &i : data.get_item_display() ) {
+        if( i.bIsArt ) {
+            cataimgui::PushMonoFont();
+        }
         if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
@@ -94,6 +97,9 @@ void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int 
                 cataimgui::draw_colored_text( formatted_string, base_color, wrap_width );
             }
             same_line = !i.bNewLine;
+        }
+        if( i.bIsArt ) {
+            ImGui::PopFont();
         }
     }
 }

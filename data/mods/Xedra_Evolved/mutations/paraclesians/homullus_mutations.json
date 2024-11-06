@@ -184,7 +184,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning ability.",
     "category": [ "HOMULLUS" ],
-    "prereqs": [ "INT_UP_2" ],
+    "prereqs": [ "INT_UP_2", "INT_ALPHA" ],
     "spells_learned": [ [ "homullus_add_learning_focus_spell", 1 ] ]
   },
   {
@@ -319,7 +319,7 @@
     "ugliness": 0,
     "description": "You are capable of storing power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
     "category": [ "HOMULLUS" ],
-    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "enchantments": [
       {
         "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "paraclesian_homullus_total_mutations(1) * 50000000" ] } } ]
@@ -385,7 +385,7 @@
     "ugliness": 0,
     "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power.",
     "changes_to": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
-    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "prereqs2": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
     "category": [ "HOMULLUS" ]
   },
@@ -781,13 +781,13 @@
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
     "copy-from": "BEAUTIFUL",
-    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",

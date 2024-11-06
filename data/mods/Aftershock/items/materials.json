@@ -3,7 +3,7 @@
     "type": "material",
     "id": "titanium",
     "name": "Titanium",
-    "density": 10,
+    "density": 4.502,
     "chip_resist": 20,
     "repaired_with": "afs_scrap_titanium",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],

@@ -250,12 +250,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -918,6 +918,15 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
                                     get_name() ) - 1;
+}
+
+std::string avatar::display_name( bool possessive, bool capitalize_first ) const
+{
+    if( !possessive ) {
+        return capitalize_first ? _( "You" ) : _( "you" );
+    } else {
+        return capitalize_first ? _( "Your" ) : _( "your" );
+    }
 }
 
 mfaction_id avatar::get_monster_faction() const

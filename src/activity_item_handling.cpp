@@ -772,7 +772,8 @@ bool _can_construct(
     std::optional<construction_id> const &part_con_idx )
 {
     return ( part_con_idx && *part_con_idx == check.id ) ||
-           ( check.pre_terrain != idx->post_terrain && can_construct( check, loc ) );
+           ( ( check.pre_terrain.find( idx->post_terrain ) == check.pre_terrain.end() ) &&
+             can_construct( check, loc ) );
 }
 
 construction const *
@@ -806,9 +807,9 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
         return it.group != idx->group && !it.post_terrain.empty() &&
-               it.post_terrain == idx->pre_terrain &&
+               ( idx->pre_terrain.find( it.post_terrain ) != idx->pre_terrain.end() )  &&
                // don't get stuck building and deconstructing the top level post_terrain
-               it.pre_terrain != top_idx->post_terrain &&
+               ( it.pre_terrain.find( top_idx->post_terrain ) == it.pre_terrain.end() )  &&
                ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
     } );
 
@@ -835,8 +836,8 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
 bool already_done( construction const &build, tripoint_bub_ms const &loc )
 {
     map &here = get_map();
-    const furn_id furn = here.furn( loc );
-    const ter_id ter = here.ter( loc );
+    const furn_id &furn = here.furn( loc );
+    const ter_id &ter = here.ter( loc );
     return !build.post_terrain.empty() &&
            ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
              ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) );
@@ -1178,8 +1179,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == ter_t_trunk ||
-            here.ter( src_loc ) == ter_t_stump ) {
+        const ter_id &t = here.ter( src_loc );
+        if( t == ter_t_trunk || t == ter_t_stump || here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {
@@ -2469,7 +2470,7 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
         you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
-    const ter_id ter = here.ter( src_loc );
+    const ter_id &ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
@@ -2665,7 +2666,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             continue;
         }
         if( act_id == ACT_MULTIPLE_FISH ) {
-            const ter_id terrain_id = here.ter( set_pt );
+            const ter_id &terrain_id = here.ter( set_pt );
             if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );
             } else {
@@ -2710,7 +2711,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
     const std::unordered_set<tripoint_abs_ms> &src_set, const bool check_only = false )
 {
     map &here = get_map();
-    const tripoint_abs_ms abspos = here.getglobal( you.pos() );
+    const tripoint_abs_ms abspos = here.getglobal( you.pos_bub() );
     zone_manager &mgr = zone_manager::get_manager();
 
     bool &can_do_it = act_info.can_do;
@@ -3185,7 +3186,7 @@ struct failure_reasons {
 bool generic_multi_activity_handler( player_activity &act, Character &you, bool check_only )
 {
     map &here = get_map();
-    const tripoint_abs_ms abspos = here.getglobal( you.pos() );
+    const tripoint_abs_ms abspos = here.getglobal( you.pos_bub() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone

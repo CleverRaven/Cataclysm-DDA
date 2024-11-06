@@ -524,21 +524,23 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     provisioned_pseudo_tools.clear();
 
     for( const tripoint &p : pts ) {
+        const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
-        if( m.ter( p ) == brick_oven ) {
+        if( t == brick_oven ) {
             provide_pseudo_item( itype_brick_oven_pseudo );
         }
-        const furn_t &f = m.furn( p ).obj();
-        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
-            for( const itype *ammo : f.crafting_ammo_item_types() ) {
+        const furn_id &f = m.furn( p );
+        const furn_t &fo = f.obj();
+        if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
+            for( const itype *ammo : fo.crafting_ammo_item_types() ) {
                 if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
                     // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                    const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                    const bool using_ammotype = fo.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
                     int amount = 0;
                     itype_id ammo_id = ammo->get_id();
                     // Some furniture can consume more than one item type.
@@ -584,7 +586,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+        if( f->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {

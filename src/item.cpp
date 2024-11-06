@@ -314,7 +314,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
-        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
+        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() &&
+            get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
             set_var( "zombie_form", type->source_monster->zombify_into.c_str() );
         }
     }
@@ -627,7 +628,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
-    if( !mt->zombify_into.is_empty() ) {
+    if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
         result.set_var( "zombie_form", mt->zombify_into.c_str() );
     }
 
@@ -4376,7 +4377,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
                                             bodygraph_full_body_iteminfo );
         for( const std::string &line : bg_lines ) {
-            info.emplace_back( "ARMOR", line );
+            info.emplace_back( "ARMOR", line, iteminfo::is_art );
         }
         insert_separation_line( info );
     }
@@ -6137,7 +6138,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
         if( art.is_valid() ) {
             insert_separation_line( info );
             for( const std::string &line : art->picture ) {
-                info.emplace_back( "DESCRIPTION", line );
+                info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
             }
         }
     }
@@ -7229,7 +7230,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 static units::length sawn_off_reduction( const itype *type )
 {
     int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-    return ( type->longest_side / 100 ) * barrel_percentage;
+    return type->longest_side * barrel_percentage / 100;
 }
 
 units::length item::length() const
@@ -8036,7 +8037,8 @@ void item::calc_rot( units::temperature temp, const float spoil_modifier,
         temp = std::min( temperatures::fridge, temp );
     }
 
-    rot += factor * time_delta / 1_hours * calc_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    rot += factor * time_delta / 1_seconds * calc_hourly_rotpoints_at_temp( temp ) * 1_turns /
+           ( 1_hours / 1_seconds );
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )
@@ -8658,6 +8660,30 @@ bool item::is_maybe_melee_weapon() const
     item_category_id my_cat_id = get_category_shallow().id;
     return my_cat_id == item_category_weapons || my_cat_id == item_category_spare_parts ||
            my_cat_id == item_category_tools;
+}
+
+bool item::made_of_any_food_components( bool deep_search ) const
+{
+    if( components.empty() || !get_comestible() ) {
+        return false;
+    }
+
+    for( const std::pair<itype_id, std::vector<item>> pair : components ) {
+        for( const item &it : pair.second ) {
+            const auto &maybe_food = it.get_comestible();
+            bool must_be_food = maybe_food && ( maybe_food->default_nutrition.kcal() > 0 ||
+                                                !maybe_food->default_nutrition.vitamins().empty() );
+            bool has_food_component = false;
+            if( deep_search && !it.components.empty() ) {
+                // make true if any component has food values, even if some don't
+                has_food_component |= it.made_of_any_food_components( deep_search );
+            }
+            if( must_be_food || has_food_component ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool item::has_edged_damage() const
@@ -12027,6 +12053,14 @@ itype_id item::typeId() const
     return type ? type->get_id() : itype_id::NULL_ID();
 }
 
+bool item::affects_fall() const
+{
+    return type ? type->fall_damage_reduction != 0 : false;
+}
+int item::fall_damage_reduction() const
+{
+    return type->fall_damage_reduction;
+}
 bool item::getlight( float &luminance, units::angle &width, units::angle &direction ) const
 {
     luminance = 0;
@@ -12458,7 +12492,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             return VisitResponse::NEXT;
         }
 
-        if( e->is_tool() ) {
+        if( e->is_tool() || e->is_gun() ) {
             if( e->typeId() == what || ( in_tools && e->ammo_current() == what ) ) {
                 int n;
                 if( carrier ) {
@@ -12576,6 +12610,7 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     bNewLine = !( Flags & no_newline );
     bLowerIsBetter = static_cast<bool>( Flags & lower_is_better );
     bDrawName = !( Flags & no_name );
+    bIsArt = Flags & is_art;
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, flags Flags )
@@ -13263,6 +13298,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+        get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) &&
         !mon_human->zombify_into.is_empty() ) {
         set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
@@ -13295,8 +13331,9 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 
 bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint &pos )
 {
-    if( here.furn( pos ) != furn_f_wind_mill_active &&
-        here.furn( pos ) != furn_f_water_mill_active ) {
+    const furn_id &f = here.furn( pos );
+    if( f != furn_f_wind_mill_active &&
+        f != furn_f_water_mill_active ) {
         item_counter = 0;
         return true; //destroy fake mill
     }
@@ -13310,8 +13347,9 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
 
 bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoint &pos )
 {
-    if( here.furn( pos ) != furn_f_smoking_rack_active &&
-        here.furn( pos ) != furn_f_metal_smoking_rack_active ) {
+    const furn_id &f = here.furn( pos );
+    if( f != furn_f_smoking_rack_active &&
+        f != furn_f_metal_smoking_rack_active ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }
@@ -13389,10 +13427,17 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         // If not carried by someone, but laying on the ground:
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
-            if( here.flammable_items_at( pos ) ||
-                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
-                here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, fd_fire, 1 );
+            for( const item &i : here.i_at( pos ) ) {
+                if( i.typeId() == typeId() ) {
+                    if( here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
+                        here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
+                        here.add_field( pos, fd_fire, 1 );
+                        break;
+                    }
+                } else if( i.flammable( 0 ) ) {
+                    here.add_field( pos, fd_fire, 1 );
+                    break;
+                }
             }
         }
     }
@@ -13557,6 +13602,11 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
 
 ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )
 {
+    return item::link_to( veh, point_rel_ms( mount ), link_type );
+}
+
+ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state link_type )
+{
     if( !can_link_up() ) {
         return ret_val<void>::make_failure( _( "The %s doesn't have a cable!" ), type_name() );
     }
@@ -13602,8 +13652,8 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         link().source = bio_link ? link_state::bio_cable : link_state::no_link;
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
-        link().t_abs_pos = get_map().getglobal( link().t_veh->global_pos3() );
-        link().t_mount = mount;
+        link().t_abs_pos = get_map().getglobal( link().t_veh->pos_bub() );
+        link().t_mount = mount.raw();
         link().s_bub_pos = tripoint_min; // Forces the item to check the length during process_link.
 
         update_link_traits();
@@ -13867,14 +13917,14 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     int link_vp_index = -1;
     if( link().target == link_state::vehicle_port ) {
         for( int idx : t_veh->cable_ports ) {
-            if( t_veh->part( idx ).mount == link().t_mount ) {
+            if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
                 link_vp_index = idx;
                 break;
             }
         }
     } else if( link().target == link_state::vehicle_battery ) {
         for( int idx : t_veh->batteries ) {
-            if( t_veh->part( idx ).mount == link().t_mount ) {
+            if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
                 link_vp_index = idx;
                 break;
             }
@@ -13882,7 +13932,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( link_vp_index == -1 ) {
             // Check cable_ports, since that includes appliances
             for( int idx : t_veh->cable_ports ) {
-                if( t_veh->part( idx ).mount == link().t_mount ) {
+                if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
                     link_vp_index = idx;
                     break;
                 }
@@ -13906,7 +13956,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     link().last_processed = calendar::turn;
 
     // Set the new absolute position to the vehicle's origin.
-    tripoint t_veh_bub_pos = t_veh->global_pos3();
+    tripoint_bub_ms t_veh_bub_pos = t_veh->pos_bub();
     tripoint_abs_ms new_t_abs_pos = here.getglobal( t_veh_bub_pos );
     if( link().t_abs_pos != new_t_abs_pos ) {
         link().t_abs_pos = new_t_abs_pos;
@@ -13915,7 +13965,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
     // If either of the link's connected sides moved, check the cable's length.
     if( length_check_needed ) {
-        link().length = rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
+        link().length = rl_dist( pos, t_veh_bub_pos.raw() + t_veh->part( link_vp_index ).precalc[0].raw() );
         if( check_length() ) {
             return reset_link( true, carrier, link_vp_index );
         }
@@ -14020,14 +14070,14 @@ bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
             // Find the vp_part index the cable is linked to.
             if( link().target == link_state::vehicle_port ) {
                 for( int idx : t_veh->cable_ports ) {
-                    if( t_veh->part( idx ).mount == link().t_mount ) {
+                    if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
                         vpart_index = idx;
                         break;
                     }
                 }
             } else if( link().target == link_state::vehicle_battery ) {
                 for( int idx : t_veh->batteries ) {
-                    if( t_veh->part( idx ).mount == link().t_mount ) {
+                    if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
                         vpart_index = idx;
                         break;
                     }

@@ -877,6 +877,7 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::forest, 30 );
     ret.set_cost( oter_travel_cost_type::swamp, 100 );
     ret.set_cost( oter_travel_cost_type::other, 30 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -958,8 +959,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     };
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
-    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate,
-            g->display_om_pathfinding_progress );
+    const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
+            g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
     return path.points;
 }
 
@@ -1534,7 +1535,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
-        return ter_name;
+        return ter_name + "\n" + get_origin( oter->get_type_id()->src );
     }
 
     const struct city &closest_city = *closest_cref.city;
@@ -1680,6 +1681,15 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
         }
     }
     return true;
+}
+
+bool overmapbuffer::is_in_city( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_pos;
+    tripoint_om_omt potential_city_tile;
+    std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( p );
+    overmap &target_overmap = get( overmap_pos );
+    return target_overmap.is_in_city( potential_city_tile );
 }
 
 std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(

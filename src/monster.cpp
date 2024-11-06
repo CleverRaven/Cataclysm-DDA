@@ -1075,9 +1075,11 @@ void monster::print_info_imgui() const
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         const ascii_art_id art = type->get_picture_id();
         if( art.is_valid() ) {
+            cataimgui::PushMonoFont();
             for( const std::string &line : art->picture ) {
                 cataimgui::draw_colored_text( line, c_white );
             }
+            ImGui::PopFont();
         }
     }
 }
@@ -2852,7 +2854,7 @@ void monster::process_turn()
                 if( zap != pos_bub() ) {
                     explosion_handler::emp_blast( zap.raw() ); // Fries electronics due to the intensity of the field
                 }
-                const ter_id t = here.ter( zap );
+                const ter_id &t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( this, pos(), 40, 0.8, true );
@@ -3485,7 +3487,7 @@ void monster::process_effects()
         }
     }
 
-    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
+    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
         remove_effect( effect_cramped_space );
     }
 

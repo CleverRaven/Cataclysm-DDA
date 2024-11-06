@@ -15,11 +15,6 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ], [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
-    "id": "spell_components_schematics",
-    "type": "requirement",
-    "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
-  },
-  {
     "id": "spell_components_dreamer_coin",
     "type": "requirement",
     "components": [

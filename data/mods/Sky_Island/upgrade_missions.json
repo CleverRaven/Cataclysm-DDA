@@ -2880,19 +2880,20 @@
     ],
     "components": [
       [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
-      [ [ "wood_beam", 12 ] ],
+      [ [ "wood_beam", 8 ] ],
       [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
       [
-        [ "box_small", 600 ],
-        [ "box_medium", 120 ],
-        [ "box_large", 20 ],
-        [ "box_small_metal", 150 ],
-        [ "box_medium_metal", 60 ],
-        [ "box_large_metal", 10 ],
-        [ "box_small_wood", 200 ],
-        [ "box_medium_wood", 60 ],
-        [ "box_large_wood", 10 ]
-      ]
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {
@@ -3222,19 +3223,20 @@
     ],
     "components": [
       [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
-      [ [ "wood_beam", 12 ] ],
+      [ [ "wood_beam", 8 ] ],
       [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
       [
-        [ "box_small", 600 ],
-        [ "box_medium", 120 ],
-        [ "box_large", 20 ],
-        [ "box_small_metal", 150 ],
-        [ "box_medium_metal", 60 ],
-        [ "box_large_metal", 10 ],
-        [ "box_small_wood", 200 ],
-        [ "box_medium_wood", 60 ],
-        [ "box_large_wood", 10 ]
-      ]
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {
@@ -3581,19 +3583,20 @@
     ],
     "components": [
       [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
-      [ [ "wood_beam", 12 ] ],
+      [ [ "wood_beam", 8 ] ],
       [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
       [
-        [ "box_small", 600 ],
-        [ "box_medium", 120 ],
-        [ "box_large", 20 ],
-        [ "box_small_metal", 150 ],
-        [ "box_medium_metal", 60 ],
-        [ "box_large_metal", 10 ],
-        [ "box_small_wood", 200 ],
-        [ "box_medium_wood", 60 ],
-        [ "box_large_wood", 10 ]
-      ]
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {

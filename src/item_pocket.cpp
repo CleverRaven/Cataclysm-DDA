@@ -2484,7 +2484,7 @@ units::volume pocket_data::max_contains_volume() const
         int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
         int max_count = ammo_restriction.at( ammo_type->ammo->type );
         units::volume this_volume =
-            1_ml * divide_round_up( ammo_type->volume / 1_ml * max_count, stack_size );
+            1_ml * divide_round_up( ammo_type->volume * max_count / 1_ml, stack_size );
         max_total_volume = std::max( max_total_volume, this_volume );
     }
     return max_total_volume;

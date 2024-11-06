@@ -2530,8 +2530,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
-                if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
-                    display_spell_info( menu->hovered );
+                if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < known_spells.size() ) {
+                    display_spell_info( menu->previewing );
                 }
             }
             ImGui::EndChild();
@@ -2944,7 +2944,7 @@ spell &known_magic::select_spell( Character &guy )
         -1.0,
             -1.0,
             std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
-            clamp( static_cast<int>( known_spells_sorted.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
+            clamp( static_cast<int>( known_spells_sorted.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeight(),
         };
 
     spell_menu.title = _( "Choose a Spell" );

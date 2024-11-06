@@ -59,7 +59,7 @@ int comfort_data::human_comfort_at( const tripoint &p )
 {
     const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
-    const furn_id furn = here.furn( p );
+    const furn_id &furn = here.furn( p );
     const trap &trap = here.tr_at( p );
 
     if( vp ) {
@@ -259,9 +259,9 @@ void comfort_data::response::add_try_msgs( const Character &guy ) const
             }
         } else {
             std::string name;
-            const furn_id furn = here.furn( last_position );
+            const furn_id &furn = here.furn( last_position );
             const trap &trap = here.tr_at( last_position );
-            const ter_id ter = here.ter( last_position );
+            const ter_id &ter = here.ter( last_position );
             if( furn != furn_str_id::NULL_ID() ) {
                 name = furn->name();
             } else if( !trap.is_null() ) {

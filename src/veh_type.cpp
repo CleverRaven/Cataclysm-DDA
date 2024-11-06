@@ -432,11 +432,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         JsonObject jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
-        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
-        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
+        if( jttd.has_string( "post_field" ) ) {
+            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
+            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
+            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
+        }
     }
 }
 
@@ -950,6 +952,12 @@ void vpart_info::check() const
                       id.c_str() );
         }
     }
+    if( !!transform_terrain_info && !( transform_terrain_info->post_terrain ||
+                                       transform_terrain_info->post_furniture ||
+                                       transform_terrain_info->post_field ) ) {
+        debugmsg( "transform_terrain_info must contain at least one of post_terrain, post_furniture and post_field for vehicle part %s",
+                  id.c_str() );
+    }
 }
 
 void vehicles::parts::reset()
@@ -1390,7 +1398,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.member( "id", "/TO_BE_REPLACED/" );
     json.member( "type", "vehicle" );
     json.member( "name", "/TO_BE_REPLACED/" );
-    std::map<point, std::list<const vehicle_part *>> vp_map;
+    std::map<point_rel_ms, std::list<const vehicle_part *>> vp_map;
     int mount_min_y = 123;
     int mount_max_y = -123;
     // Form a map of existing real parts
@@ -1398,12 +1406,12 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     // The parts are already in installation order
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const vehicle_part &p = vpr.part();
-        mount_max_y = mount_max_y < p.mount.y ? p.mount.y : mount_max_y;
-        mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
+        mount_max_y = mount_max_y < p.mount.y() ? p.mount.y() : mount_max_y;
+        mount_min_y = mount_min_y > p.mount.y() ? p.mount.y() : mount_min_y;
         vp_map[p.mount].push_back( &p );
     }
-    int mount_min_x = vp_map.begin()->first.x;
-    int mount_max_x = vp_map.rbegin()->first.x;
+    int mount_min_x = vp_map.begin()->first.x();
+    int mount_max_x = vp_map.rbegin()->first.x();
 
     // print the vehicle's blueprint.
     json.member( "blueprint" );
@@ -1438,8 +1446,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     };
     for( auto &vp_pos : vp_map ) {
         json.start_object();
-        json.member( "x", vp_pos.first.x );
-        json.member( "y", vp_pos.first.y );
+        json.member( "x", vp_pos.first.x() );
+        json.member( "y", vp_pos.first.y() );
 
         json.member( "parts" );
         json.start_array();

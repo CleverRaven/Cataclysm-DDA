@@ -187,8 +187,8 @@ struct uilist_entry {
  *     }
  *   }
  *   void refresh( uilist *menu ) {
- *       if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < game_z.size() ) {
- *           ImGui::TextColored( c_red, "( %s )", game_z[menu->hovered]->name() );
+ *       if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < game_z.size() ) {
+ *           ImGui::TextColored( c_red, "( %s )", game_z[menu->previewing]->name() );
  *       }
  *   }
  * }
@@ -486,7 +486,8 @@ class uilist // NOLINT(cata-xy)
         bool need_to_scroll = false;
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
-        int current_category = 0;
+        size_t current_category = 0;
+        size_t switch_to_category = 0;
 
     public:
         // Results
@@ -495,7 +496,7 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
-        int hovered = 0;
+        int previewing = 0;
 
         void set_selected( int index );
 };

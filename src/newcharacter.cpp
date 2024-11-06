@@ -366,7 +366,7 @@ static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
-    if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+    if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() && is_avatar() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
         name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
@@ -456,7 +456,9 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
     prof = scenario_from->weighted_random_profession();
+    play_name_suffix = prof->gender_appropriate_name( male );
     zero_all_skills();
+
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     starting_city = std::nullopt;
     world_origin = std::nullopt;
@@ -602,10 +604,10 @@ void Character::randomize( const bool random_scenario, bool play_now )
     reset_cardio_acc();
 
     if( is_npc() ) {
-        add_profession_items();
         as_npc()->randomize_personality();
         as_npc()->generate_personality_traits();
         initialize();
+        add_profession_items();
         as_npc()->catchup_skills();
     }
 }
@@ -618,39 +620,70 @@ void Character::add_profession_items()
     }
 
     std::list<item> prof_items = prof->items( outfit, get_mutations() );
+    std::list<item> try_adding_again;
 
-    for( item &it : prof_items ) {
-        if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
-        }
-
-        // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( json_flag_no_auto_equip ) ) {
-            it.unset_flag( json_flag_no_auto_equip );
-            inv->push_back( it );
-        } else if( it.has_flag( json_flag_auto_wield ) ) {
-            it.unset_flag( json_flag_auto_wield );
-            if( !has_wield_conflicts( it ) ) {
-                wield( it );
-            } else {
-                inv->push_back( it );
+    auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
+        for( item &it : prof_items ) {
+            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+                it.active = true;
+                it.item_counter = 450; // Give it some time to dry off
             }
-        } else if( it.is_armor() ) {
-            if( can_wear( it ).success() ) {
-                wear_item( it, false, false );
-            } else {
-                inv->push_back( it );
-            }
-        } else {
-            inv->push_back( it );
-        }
 
-        if( it.is_book() && this->is_avatar() ) {
-            as_avatar()->identify( it );
+            item_location success;
+            item *wield_or_wear = nullptr;
+            // TODO: debugmsg if food that isn't a seed is inedible
+            if( it.has_flag( json_flag_no_auto_equip ) ) {
+                it.unset_flag( json_flag_no_auto_equip );
+                success = try_add( it, nullptr, nullptr, false );
+            } else if( it.has_flag( json_flag_auto_wield ) ) {
+                it.unset_flag( json_flag_auto_wield );
+                if( !has_wield_conflicts( it ) ) {
+                    wield( it );
+                    wield_or_wear = &it;
+                    success = item_location( *this, wield_or_wear );
+                } else {
+                    success = try_add( it, nullptr, nullptr, false );
+                }
+            } else if( it.is_armor() ) {
+                if( can_wear( it ).success() ) {
+                    wear_item( it, false, false );
+                    wield_or_wear = &it;
+                    success = item_location( *this, wield_or_wear );
+                } else {
+                    success = try_add( it, nullptr, nullptr, false );
+                }
+            } else {
+                success = try_add( it, nullptr, nullptr, false );
+            }
+
+            if( it.is_book() && this->is_avatar() ) {
+                as_avatar()->identify( it );
+            }
+
+            if( !success ) {
+                failed_to_add.emplace_back( it );
+            }
+        }
+    };
+
+    //storage items may not be added first, so a second attempt is needed
+    attempt_add_items( prof_items, try_adding_again );
+    prof_items.clear();
+    attempt_add_items( try_adding_again, prof_items );
+    //if there's one item left that still can't be added, attempt to wield it
+    if( prof_items.size() == 1 ) {
+        item last_item = prof_items.front();
+        if( !has_wield_conflicts( last_item ) ) {
+            bool success_wield = wield( last_item );
+            if( success_wield ) {
+                prof_items.pop_front();
+            }
         }
     }
-
+    if( !prof_items.empty() ) {
+        debugmsg( "Failed to place %d items in inventory for profession %s", prof_items.size(),
+                  prof->gender_appropriate_name( male ) );
+    }
     recalc_sight_limits();
     calc_encumbrance();
 }
@@ -1290,10 +1323,11 @@ static std::string assemble_stat_details( avatar &u, const unsigned char sel )
         case 1: {
             description_str =
                 colorize(
-                    string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
-                    + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
-                                     u.throw_dispersion_per_dodge( false ) ),
-                    COL_STAT_BONUS );
+                    string_format( _( "Melee to-hit bonus: %+.2f" ), u.get_melee_hit_base() ),
+                    u.get_melee_hit_base() >= 0 ? COL_STAT_BONUS : COL_STAT_PENALTY );
+            description_str += colorize(
+                                   string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
+                                                  u.throw_dispersion_per_dodge( false ) ), COL_STAT_PENALTY );
             if( u.ranged_dex_mod() != 0 ) {
                 description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
                                              std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );

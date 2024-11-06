@@ -282,7 +282,6 @@
         { "item": "steel_chunk", "count": [ 4, 8 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "element", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
         { "item": "glass_shard", "count": [ 25, 100 ] },

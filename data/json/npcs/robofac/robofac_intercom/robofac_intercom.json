@@ -18,7 +18,7 @@
     "type": "npc_class",
     "id": "NC_ROBOFAC_INTERCOM",
     "name": { "str": "intercom" },
-    "job_description": "Reading this line is a bug",
+    "job_description": ".",
     "common": false,
     "bonus_str": { "rng": [ 8, 10 ] },
     "bonus_int": { "rng": [ 1, 2 ] },
@@ -223,12 +223,7 @@
       "TALK_ROBOFAC_INTERCOM_SERVICES",
       "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END",
-      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
-      "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH_END",
-      "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED",
-      "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED",
-      "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
-      "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED"
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
     ],
     "type": "talk_topic",
     "dynamic_line": {
@@ -236,7 +231,6 @@
       "no": [
         "So, do you need something?",
         "Yes, mercenary?",
-        "Mercenary.",
         "Mercenary.",
         "Well?",
         "Say it.",
@@ -593,20 +587,12 @@
     "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
     "speaker_effect": {
       "effect": [
-        {
-          "u_sell_item": "template_armor",
-          "count": 1,
-          "true_eocs": {
-            "id": "EOC_nano_ask",
-            "effect": [
-              { "u_add_faction_trust": 2 },
-              { "math": [ "u_timer_hub_rnd_u_waiting_on_armor", "=", "time('now')" ] },
-              { "u_add_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" },
-              { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
-              { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" }
-            ]
-          }
-        }
+        { "u_consume_item": "template_armor", "count": 1, "popup": true },
+        { "u_add_faction_trust": 2 },
+        { "math": [ "u_timer_hub_rnd_u_waiting_on_armor", "=", "time('now')" ] },
+        { "u_add_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" },
+        { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" }
       ],
       "sentinel": "gave_armor_template"
     },
@@ -614,11 +600,6 @@
       { "text": "Very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll see you then.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_fema_data",
-    "effect": { "u_add_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
   },
   {
     "//": "These are all dialogues related to the breadcrumb quest from the refugee center to deliver a hard drive.",
@@ -641,7 +622,10 @@
       {
         "text": "[Hand over the FEMA data.]",
         "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
-        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
+        "effect": [
+          { "u_consume_item": "fema_data", "count": 1, "popup": true },
+          { "u_add_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_END"
       },
       {
@@ -677,7 +661,10 @@
       {
         "text": "[Hand over the FEMA data.]",
         "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
-        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
+        "effect": [
+          { "u_consume_item": "fema_data", "count": 1, "popup": true },
+          { "u_add_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
       },
       {

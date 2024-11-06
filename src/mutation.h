@@ -199,6 +199,7 @@ struct mutation_branch {
         bool mixed_effect  = false;
         bool startingtrait = false;
         bool activated     = false;
+        translation activation_msg;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
         // Should it destroy gear on restricted body parts? (otherwise just pushes it off)

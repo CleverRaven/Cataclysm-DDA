@@ -5,7 +5,7 @@
     "//": "Schizophrenic beggar in the refugee center.",
     "name_unique": "Dino Dave",
     "gender": "male",
-    "name_suffix": "beggar",
+    "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_2",
     "attitude": 0,
     "mission": 7,
@@ -276,6 +276,7 @@
     "count": 40,
     "followup": "MISSION_BEGGAR_2_DUCT_TAPE",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
       "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like… like… forty?",
@@ -299,6 +300,7 @@
     "count": 200,
     "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.",
       "offer": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.  Bring me the Force!",
@@ -322,6 +324,7 @@
     "count": 10,
     "followup": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.",
       "offer": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.  I got a little more on the list, but we're more than half there.",
@@ -345,6 +348,7 @@
     "count": 10,
     "followup": "MISSION_BEGGAR_2_BOX_LARGE",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.",
       "offer": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.  Please bring me some plastic sheets.",
@@ -367,6 +371,7 @@
     "item": "box_large",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
       "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
@@ -389,6 +394,7 @@
     "goal_condition": { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I have it, I have it all, but I can't find a place to put it.  Will you ask the masters?  Maybe?  I've tried but they ignore me.",
       "offer": "I have it, I have it all, but I can't find a place to put it.  Will you ask the masters?  Maybe?  I've tried but they ignore me.  I just need a place to put it all, a place I can be safe, and not make anyone upset.",
@@ -405,7 +411,8 @@
       "effect": [
         { "math": [ "dave_castle_stage", "++" ] },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
-        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
+        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" },
+        { "mapgen_update": "beggar_2_remove_lobbycardboard", "om_terrain": "evac_center_18" }
       ]
     }
   },
@@ -474,8 +481,14 @@
     "object": {
       "set": [
         { "point": "terrain", "id": "t_door_metal_c", "x": 1, "y": 14 },
-        { "point": "terrain", "id": "t_door_metal_c", "x": 22, "y": 14 }
+        { "point": "terrain", "id": "t_door_metal_c", "x": 21, "y": 14 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "beggar_2_remove_lobbycardboard",
+    "method": "json",
+    "object": { "set": [ { "line": "furniture", "id": "f_clear", "x": 6, "y": 1, "x2": 8, "y2": 1 } ] }
   }
 ]

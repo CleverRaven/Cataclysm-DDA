@@ -1344,6 +1344,7 @@
       "ALARMCLOCK",
       "SWIM_GOGGLES",
       "SUN_GLASSES",
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "GAS_PROOF",
       "ELECTRIC_IMMUNE",
@@ -1521,6 +1522,7 @@
     "environmental_protection": 10,
     "material_thickness": 3,
     "flags": [
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -1631,6 +1633,7 @@
     },
     "environmental_protection": 80,
     "flags": [
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -3537,7 +3540,7 @@
     "volume": "2500 ml",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "brown",
     "warmth": 50,

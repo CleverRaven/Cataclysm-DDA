@@ -210,6 +210,14 @@ class coord_point_ob : public
             return this_as_point( this->raw().xy() );
         }
 
+        constexpr auto abs() const {
+            return coord_point_ob( this->raw().abs() );
+        }
+
+        constexpr auto rotate( int turns, const point &dim = point_south_east ) const {
+            return coord_point_ob( this->raw().rotate( turns, dim ) );
+        }
+
         friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() + r );
         }
@@ -404,6 +412,14 @@ constexpr inline auto operator-(
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point_ob<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
+}
+
+template<typename Point, origin Origin, scale Scale>
+constexpr inline auto operator-(
+    const coord_point_ob<Point, Origin, Scale> &l )
+{
+    using PointResult = decltype( Point() );
+    return coord_point_ob<PointResult, Origin, Scale>( - l.raw() );
 }
 
 // Only relative points can be multiplied by a constant
