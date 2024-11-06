@@ -2646,6 +2646,14 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
+#   if defined(__IPHONEOS__)
+        for( const id_and_option &renderer : renderer_list ) {
+            if( renderer.first == "meta" ) {
+                default_renderer = renderer.first;
+                break;
+            }
+        }
+#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
              default_renderer, COPT_CURSES_HIDE );
