@@ -1947,6 +1947,12 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             break;
 
         case Camp_Scouting:
+            if( miss_id.ret ) {
+                combat_mission_return( miss_id.id );
+            } else {
+                start_combat_mission( miss_id.id, MODERATE_EXERCISE );
+            }
+            break;
         case Camp_Combat_Patrol:
             if( miss_id.ret ) {
                 combat_mission_return( miss_id.id );
