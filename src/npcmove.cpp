@@ -1368,7 +1368,7 @@ void npc::move()
         action = method_of_fleeing();
     } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
                has_effect( effect_npc_run_away ) ) {
-        if( target && rl_dist( pos(), target.pos() ) <= 1 ) {
+        if( target && rl_dist( pos(), target->pos() ) <= 1 ) {
             action = method_of_attack();
         } else {
             action = method_of_fleeing();
