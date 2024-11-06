@@ -7229,7 +7229,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             p->remove_value( "remote_controlling" );
         } else {
             std::list<std::pair<tripoint_bub_ms, item *>> rc_pairs = here.get_rc_items();
-            tripoint_bub_ms rc_item_location = {999, 999, 999};
+            tripoint_bub_ms rc_item_location = overmap::invalid_tripoint_bub_ms;
             // TODO: grab the closest car or similar?
             for( auto &rc_pairs_rc_pair : rc_pairs ) {
                 if( rc_pairs_rc_pair.second->has_flag( flag_RADIOCAR ) &&
@@ -7237,7 +7237,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
                     rc_item_location = rc_pairs_rc_pair.first;
                 }
             }
-            if( rc_item_location.x() == 999 ) {
+            if( rc_item_location == overmap::invalid_tripoint_bub_ms ) {
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return 1;
             } else {

@@ -3617,7 +3617,7 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 
 void npc::reset_companion_mission()
 {
-    comp_mission.position = tripoint_abs_omt( -999, -999, -999 );
+    comp_mission.position = overmap::invalid_tripoint;
     reset_miss_id( comp_mission.miss_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
