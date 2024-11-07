@@ -1196,11 +1196,7 @@
       {
         "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
         "time_in_future": [
-          {
-            "math": [
-              "2 - min( ( (u_spell_level('vita_return_from_death') / 25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1) "
-            ]
-          },
+        1,
           {
             "math": [
               "3 - min( ( (u_spell_level('vita_return_from_death') / 25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 2) "
