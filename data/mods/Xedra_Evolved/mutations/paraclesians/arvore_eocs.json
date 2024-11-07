@@ -367,7 +367,7 @@
     "id": "EOC_ARVORE_VINE_DRAG_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "arvore_vine_drag_spell",
@@ -452,7 +452,7 @@
       { "u_add_effect": "downed", "duration": 1 },
       { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
       { "u_spawn_item": "corpse_painful" },
-      { "queue_eocs": "EOC_PERENNIAL_REBIRTH_FINALIZE", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_PERENNIAL_REBIRTH_FINALIZE", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -756,7 +756,7 @@
       },
       { "u_cast_spell": { "id": "arvore_turn_into_tree_banish", "message": "" } },
       {
-        "run_eoc_with": "EOC_NULL",
+        "run_eocs": "EOC_NULL",
         "beta_loc": { "global_val": "arvore_tree_transform_target" },
         "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
       }
@@ -793,7 +793,7 @@
             "true_eocs": [ { "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
           },
           {
-            "run_eoc_with": "EOC_NULL",
+            "run_eocs": "EOC_NULL",
             "beta_loc": { "global_val": "arvore_tree_transform_target" },
             "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
           }

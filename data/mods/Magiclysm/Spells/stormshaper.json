@@ -1126,7 +1126,7 @@
       { "u_add_trait": "PHEROMONE_AMPHIBIAN" },
       { "u_add_trait": "AMPHIBIAN" },
       {
-        "queue_eocs": "EOC_LOSE_CLOAK_OF_FROG_MUTATIONS",
+        "run_eocs": "EOC_LOSE_CLOAK_OF_FROG_MUTATIONS",
         "time_in_future": [
           { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 3750) + 15000) * transformation_proficiency_modifier()" ] },
           {

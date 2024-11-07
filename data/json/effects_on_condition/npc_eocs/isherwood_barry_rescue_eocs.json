@@ -249,7 +249,7 @@
               },
               { "u_teleport": { "global_val": "barry_return_home_map" }, "force": true },
               {
-                "queue_eocs": { "id": "EOC_BARRY_CHECK_IF_HOME_DEACTIVATE", "effect": { "math": [ "barry_travelling_home", "=", "2" ] } },
+                "run_eocs": { "id": "EOC_BARRY_CHECK_IF_HOME_DEACTIVATE", "effect": { "math": [ "barry_travelling_home", "=", "2" ] } },
                 "time_in_future": 25
               },
               { "u_spawn_item": "NC_Isherwood_Barry_equip", "use_item_group": true, "force_equip": true },
@@ -288,7 +288,7 @@
                   "om_special": "Barry's Mi-Go Scout Tower"
                 },
                 { "math": [ "currently_invading_map", "=", "0" ] },
-                { "queue_eocs": "isherwood_mission_damage_flee_message", "time_in_future": 1 }
+                { "run_eocs": "isherwood_mission_damage_flee_message", "time_in_future": 1 }
               ]
             }
           ],
@@ -439,13 +439,13 @@
       { "mapgen_update": "LUKE_REMOVE_TRUCK", "om_terrain": "trailhead_shack_z0" },
       { "math": [ "isherwood_luke_truck_status", "++" ] }
     ],
-    "false_effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
+    "false_effect": [ { "run_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BARRY_ISHERWOOD_DIE",
     "eoc_type": "NPC_DEATH",
-    "effect": [ { "queue_eocs": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT", "time_in_future": 1 } ]
+    "effect": [ { "run_eocs": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT", "time_in_future": 1 } ]
   },
   {
     "type": "effect_on_condition",

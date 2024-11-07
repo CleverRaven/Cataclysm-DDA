@@ -96,7 +96,7 @@
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 6, "popup": true },
           {
-            "run_eoc_with": "EOC_INTERCOM_SPAWN_ARMOR_SET",
+            "run_eocs": "EOC_INTERCOM_SPAWN_ARMOR_SET",
             "variables": { "armor_type": "robofac_armor_pieces_military" }
           },
           { "u_lose_var": "dialogue_hub_rnd_u_can_buy_armor" }
@@ -370,7 +370,7 @@
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 6, "popup": true },
           {
-            "run_eoc_with": "EOC_INTERCOM_SPAWN_ARMOR_SET",
+            "run_eocs": "EOC_INTERCOM_SPAWN_ARMOR_SET",
             "variables": { "armor_type": "robofac_armor_pieces_military" }
           }
         ],
@@ -474,7 +474,7 @@
         "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">=", "time('1 d')" ] },
         "effect": [
           {
-            "run_eoc_with": "EOC_INTERCOM_SPAWN_ARMOR_SET",
+            "run_eocs": "EOC_INTERCOM_SPAWN_ARMOR_SET",
             "variables": { "armor_type": { "u_val": "dialogue_hub_rnd_u_armor_type" } }
           },
           { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },

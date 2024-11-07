@@ -86,7 +86,7 @@
               { "u_add_effect": "eyegleam", "duration": "PERMANENT" },
               { "u_message": "Your eyes gleam red momentarily as they drink in all available light.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_EYEGLEAM_maintenance" ],
+                "run_eocs": [ "EOC_EYEGLEAM_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
@@ -120,7 +120,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" },
-              { "queue_eocs": "EOC_EYEGLEAM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_EYEGLEAM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -165,7 +165,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_EYEGLEAM_maintenance" ],
+                "run_eocs": [ "EOC_EYEGLEAM_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
@@ -200,7 +200,7 @@
               { "u_add_effect": "effect_vampiric_strength", "duration": "PERMANENT" },
               { "u_message": "You feel a surge of power as blood floods your muscles.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
@@ -210,7 +210,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate vigor mortis.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRIC_STRENGTH_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRIC_STRENGTH_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -254,7 +254,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
@@ -288,7 +288,7 @@
               { "u_add_effect": "effect_vampiric_resilience", "duration": "PERMANENT" },
               { "u_message": "You feel a surge of power as blood fortifies your flesh.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
@@ -298,7 +298,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate sanguine resilience.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRIC_RESILIENCE_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRIC_RESILIENCE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -342,7 +342,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
@@ -427,7 +427,7 @@
               { "u_lose_effect": "bleed", "target_part": "arm_l" },
               { "u_lose_effect": "bleed", "target_part": "arm_r" },
               {
-                "queue_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
+                "run_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 275))"
@@ -437,7 +437,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate coagulant weave.", "type": "bad" },
-              { "queue_eocs": "EOC_COAGULANTWEAVE_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_COAGULANTWEAVE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -481,7 +481,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
+                "run_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 275))"
@@ -567,7 +567,7 @@
               { "u_add_effect": "effect_vampiric_dodge", "duration": "PERMANENT" },
               { "u_message": "You begin dodging with preternatural agility.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
@@ -577,7 +577,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate flow like blood.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRIC_DODGE_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRIC_DODGE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -621,7 +621,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
@@ -699,7 +699,7 @@
               { "u_add_trait": "VAMPIRE_BEAST_CLAWS_active" },
               { "u_message": "Your fingers twist into sharp claws.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits() * 300))"
@@ -709,7 +709,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate your claws of the beast.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRE_BEAST_CLAWS_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_BEAST_CLAWS_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -750,7 +750,7 @@
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "62" ] },
               { "u_message": "You feel a momentary warmth as you maintain your sharp claws.", "type": "mixed" },
               {
-                "queue_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
+                "run_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits() * 300))"
@@ -829,7 +829,7 @@
               { "u_add_effect": "haste", "duration": "PERMANENT" },
               { "u_message": "You movements accelerate to superhuman levels.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_BLOODHASTE_maintenance" ],
+                "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
@@ -839,7 +839,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate blood-driven speed.", "type": "bad" },
-              { "queue_eocs": "EOC_BLOODHASTE_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_BLOODHASTE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -877,7 +877,7 @@
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "375" ] },
               { "u_message": "You feel a momentary warmth as you maintain your superhuman speed.", "type": "mixed" },
               {
-                "queue_eocs": [ "EOC_BLOODHASTE_maintenance" ],
+                "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
@@ -1065,7 +1065,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to transform into a bat.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRE_BAT_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_BAT_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1079,7 +1079,7 @@
             "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
             "effect": [
               { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
-              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 },
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 },
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_lose_trait": "ECHOLOCATION" },
@@ -1121,7 +1121,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to transform into a wolf.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRE_WOLF_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_WOLF_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1172,7 +1172,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to transform into mist.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1218,7 +1218,7 @@
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your mist form.", "type": "bad" },
               { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivated" },
-              { "queue_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1336,7 +1336,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to shroud yourself in shadow.", "type": "bad" },
-              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1379,7 +1379,7 @@
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain the shadows surrounding you.", "type": "bad" },
               { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
-              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1505,7 +1505,7 @@
               ]
             },
             { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
-            { "queue_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
+            { "run_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
             {
               "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
               "type": "good"

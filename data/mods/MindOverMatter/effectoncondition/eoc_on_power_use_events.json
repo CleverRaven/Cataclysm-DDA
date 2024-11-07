@@ -36,7 +36,7 @@
           {
             "id": "EOC_PSI_NO_COMBAT_POWER_CHARACTER_DAMAGE_CHECK_2",
             "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-            "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+            "effect": [ { "run_eocs": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
           }
         ]
       }
@@ -54,7 +54,7 @@
           {
             "id": "EOC_PSI_NO_COMBAT_POWER_MONSTER_DAMAGE_CHECK_2",
             "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-            "effect": [ { "run_eoc_with": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+            "effect": [ { "run_eocs": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
           }
         ]
       }
@@ -496,7 +496,7 @@
       { "u_add_effect": "downed", "duration": 5 },
       { "u_add_effect": "motor_seizure", "duration": 4 },
       { "u_add_effect": "stunned", "duration": 1 },
-      { "queue_eocs": "EOC_ELECTRO_OVERLOAD_ZAP", "time_in_future": [ "1 minutes", "45 minutes" ] }
+      { "run_eocs": "EOC_ELECTRO_OVERLOAD_ZAP", "time_in_future": [ "1 minutes", "45 minutes" ] }
     ]
   },
   {
@@ -701,7 +701,7 @@
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
     },
-    "effect": [ { "queue_eocs": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_2", "time_in_future": 0 } ]
+    "effect": [ { "run_eocs": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_2", "time_in_future": 0 } ]
   },
   {
     "type": "effect_on_condition",
