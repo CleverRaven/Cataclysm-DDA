@@ -156,17 +156,18 @@ void trap::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     if( jo.has_member( "spell_data" ) ) {
-        if( act != trapfunc::cast_spell ) {
+        //This is kinda ugly but idk how to do it better bc std::function doesn't support normal equality
+        if( act.target_type() != trap_function_from_string( "spell" ).target_type() ) {
             jo.throw_error_at( "spell_data",
                                "Can't use \"spell_data\" without specifying \"action\": \"spell\"" );
         }
         optional( jo, was_loaded, "spell_data", spell_data );
     }
     if( jo.has_member( "eocs" ) ) {
-        if( act != trapfunc::eocs ) {
+        if( act.target_type() != trap_function_from_string( "eocs" ).target_type() ) {
             jo.throw_error_at( "eocs", "Can't use \"eocs\" without specifying \"action\": \"eocs\"" );
         }
-        for( JsonValue jv : jsobj.get_array( "eocs" ) ) {
+        for( JsonValue jv : jo.get_array( "eocs" ) ) {
             eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
         }
     }
