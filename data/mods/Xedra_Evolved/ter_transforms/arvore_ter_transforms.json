@@ -84,6 +84,11 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_wall_top",
+    "terrain": [ { "result": [ "t_barkfloor_no_roof" ], "valid_terrain": [ "t_open_air" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_arvore_wood_floor",
     "terrain": [
       {
