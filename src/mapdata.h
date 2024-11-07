@@ -540,7 +540,11 @@ struct map_data_common_t {
 
         // The color the sym will draw in on the GUI.
         std::array<nc_color, NUM_SEASONS> color_;
-        void load_symbol( const JsonObject &jo, const std::string &context );
+        /**
+        * If "copy-from" doesn't exist, loads ASCII symbol and color
+        * NOTE: completely independent of "looks_like"
+        */
+        void load_symbol_color( const JsonObject &jo, const std::string &context );
 
         std::string looks_like;
 
