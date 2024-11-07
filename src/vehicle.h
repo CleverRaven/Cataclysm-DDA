@@ -1628,6 +1628,9 @@ class vehicle
         // get air acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle hs fuel for are included
         int rotor_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        // get air acceleration gained by combined power of all engines. If fueled == true,
+        // then only engines which the vehicle hs fuel for are included
+        int air_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
         // Get acceleration for the current movement mode
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
 
@@ -1648,6 +1651,8 @@ class vehicle
         int max_water_velocity( bool fueled = true ) const;
         // get maximum air velocity based on rotor physics
         int max_rotor_velocity( bool fueled = true ) const;
+        // get maximum air velocity for non-rotors vehicles
+        int max_air_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1659,6 +1664,9 @@ class vehicle
         // get safe air velocity gained by combined power of all engines.
         // if fueled == true, then only the engines which the vehicle hs fuel for are included
         int safe_rotor_velocity( bool fueled = true ) const;
+        // get safe air velocity gained by combined power of all engines.
+        // if fueled == true, then only the engines which the vehicle hs fuel for are included
+        int safe_air_velocity( bool fueled = true ) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_water_velocity( bool fueled = true ) const;
@@ -1747,6 +1755,10 @@ class vehicle
         // of non-simple parts
         bool is_flyable() const;
         void set_flyable( bool val );
+        // aircraft is currenly any flying vehicle that doesn't have rotors
+        double lift_thrust_of_aircraft( bool fuelled, bool safe = false ) const;
+        bool has_sufficient_airlift() const;
+        bool is_aircraft() const;
         // Would interacting with this part prevent the vehicle from being flyable?
         bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
         bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;

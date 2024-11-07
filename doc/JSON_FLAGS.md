@@ -1654,6 +1654,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.
+- ```GRANT_FLYWORTHY``` Installing a part with this flag on a vehicle allows to make it fly if the player can fly aircraft.  This is disticnt from rotor-based aircraft and thus does not restrict modifications nor reparations.  The removal or destruction of this part will cause the vehicle to stop being able to fly.
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HANDHELD_BATTERY_MOUNT``` Same as `BATTERY_MOUNT`, but for handheld battery mount.
 - ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.

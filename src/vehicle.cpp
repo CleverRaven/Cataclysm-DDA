@@ -133,6 +133,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string flag_GRANT_FLYWORTHY( "GRANT_FLYWORTHY" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
@@ -1514,6 +1515,10 @@ int vehicle::install_part( const point &dp, vehicle_part &&vp )
         debugmsg( "installing %s would make invalid vehicle: %s", vpi.id.str(), valid_mount.str() );
         return -1;
     }
+        if( vpi.has_flag( flag_GRANT_FLYWORTHY ) ) {
+        // Installing a part that grants flyworthiness allows the vehicle to fly.
+            set_flyable( true );
+    }
     // Should be checked before installing the part
     bool enable = false;
     if( vp.is_engine() ) {
@@ -1575,6 +1580,10 @@ int vehicle::install_part( const point_rel_ms &dp, vehicle_part &&vp )
     if( !valid_mount.success() ) {
         debugmsg( "installing %s would make invalid vehicle: %s", vpi.id.str(), valid_mount.str() );
         return -1;
+    }
+        if( vpi.has_flag( flag_GRANT_FLYWORTHY ) ) {
+        // Installing a part that grants flyworthiness allows the vehicle to fly.
+            set_flyable( true );
     }
     // Should be checked before installing the part
     bool enable = false;
@@ -4078,6 +4087,16 @@ int vehicle::rotor_acceleration( const bool fueled, int at_vel_in_vmi ) const
     return cmps_to_vmiph( accel_at_vel );
 }
 
+int vehicle::air_acceleration( const bool fueled, int at_vel_in_vmi ) const
+{
+    ( void )at_vel_in_vmi;
+    if( !( engine_on || is_flying ) ) {
+        return 0;
+    }
+    const int accel_at_vel = 100 * lift_thrust_of_aircraft( fueled ) / to_kilogram( total_mass() );
+    return cmps_to_vmiph( accel_at_vel );
+}
+
 int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( !( engine_on || skidding ) ) {
@@ -4140,6 +4159,9 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
         return water_acceleration( fueled, at_vel_in_vmi );
     } else if( is_rotorcraft() && is_flying ) {
         return rotor_acceleration( fueled, at_vel_in_vmi );
+    }
+    else if( is_aircraft() && is_flying ) {
+        return air_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
 }
@@ -4217,10 +4239,19 @@ int vehicle::max_rotor_velocity( const bool fueled ) const
     return std::min( 25501, mps_to_vmiph( max_air_mps ) );
 }
 
+int vehicle::max_air_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( lift_thrust_of_aircraft( fueled ) / coeff_air_drag() );
+    // air vehicles have their speed capped the same way helicopters do.
+    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
+}
+
 int vehicle::max_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return max_rotor_velocity( fueled );
+    } else if( is_flying && is_aircraft() ) {
+        return max_air_velocity( fueled );
     } else if( is_watercraft() ) {
         return max_water_velocity( fueled );
     } else {
@@ -4258,6 +4289,13 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
 
+int vehicle::safe_air_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( lift_thrust_of_aircraft( fueled,
+                                          true ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
@@ -4271,6 +4309,8 @@ int vehicle::safe_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return safe_rotor_velocity( fueled );
+    } else if( is_flying && is_aircraft() ) {
+        return safe_air_velocity( fueled );
     } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
     } else {
@@ -4692,6 +4732,29 @@ bool vehicle::is_rotorcraft() const
            has_sufficient_rotorlift();
 }
 
+double vehicle::lift_thrust_of_aircraft( const bool fuelled, const bool safe ) const
+{
+
+    double engine_power_in_hp = 0.00134102 * units::to_watt( total_power( fuelled, safe ) );
+    double lift_thrust = 8.8658  * engine_power_in_hp;
+    add_msg_debug( debugmode::DF_VEHICLE,
+                   "lift thrust in lbs of %s = %f, engine power in hp %f, thrust in newtons : %f",
+                   name, lift_thrust, engine_power_in_hp, lift_thrust * 4.45 );
+    return lift_thrust * 4.45;
+}
+
+bool vehicle::has_sufficient_airlift() const
+{
+    // comparison of newton to newton - convert kg to newton.
+    return lift_thrust_of_aircraft( true ) > to_kilogram( total_mass() ) * 9.8;
+}
+
+bool vehicle::is_aircraft() const
+{
+    return rotors.empty() && has_driver() &&
+           has_sufficient_airlift();
+}
+
 bool vehicle::is_flyable() const
 {
     return flyable;
@@ -4735,7 +4798,10 @@ bool vehicle::would_repair_prevent_flyable( const vehicle_part &vp, const Charac
 
 bool vehicle::would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const
 {
-    if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
+    if( flyable && rotors.empty() && vp.info().has_flag( "GRANT_FLYWORTHY" ) ) {
+    return true;
+    } 
+    else if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
         return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
@@ -4860,8 +4926,13 @@ float vehicle::k_traction( float wheel_traction_area ) const
     if( in_deep_water ) {
         return can_float() ? 1.0f : -1.0f;
     }
-    if( is_flying ) {
-        return is_rotorcraft() ? 1.0f : -1.0f;
+    if( is_flying && (is_rotorcraft() || is_aircraft)) {
+        // I'M IN THE AIR
+        return 1.0f;
+    }
+    if( is_flying && !is_rotorcraft() && !is_aircraft) {
+        // I'M IN THE AIR BUT I CAN'T FLY
+        return 0.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
@@ -5071,9 +5142,13 @@ float vehicle::steering_effectiveness() const
         // I'M ON A BOAT
         return can_float() ? 1.0f : 0.0f;
     }
-    if( is_flying ) {
+    if( is_flying && (is_rotorcraft() || is_aircraft)) {
         // I'M IN THE AIR
-        return is_rotorcraft() ? 1.0f : 0.0f;
+        return 1.0f;
+    }
+    if( is_flying && !is_rotorcraft() && !is_aircraft) {
+        // I'M IN THE AIR BUT I CAN'T FLY
+        return -1.0f;
     }
     // irksome special case for boats in shallow water
     if( is_watercraft() && can_float() ) {
@@ -6419,8 +6494,8 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_velocity != velocity ) {
         thrust( cruise_velocity > velocity ? 1 : -1 );
-    } else if( is_rotorcraft() && velocity == 0 ) {
-        // rotorcraft uses fuel for hover
+    } else if(( is_rotorcraft() || is_aircraft()) && velocity == 0 ) {
+        // air vehicles uses fuel for hover
         // whether it's flying or not is checked inside thrust function
         thrust( 0 );
     }
@@ -7865,6 +7940,11 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
     if( mod_hp( vp, -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !vpi.has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
+            set_flyable( false );
+        }
+
+        if( is_flyable() && rotors.empty() && vpi.has_flag( flag_GRANT_FLYWORTHY ) ) {
+            // If the part that grants flyworthiness is broken, remove flyworthiness.
             set_flyable( false );
         }
 

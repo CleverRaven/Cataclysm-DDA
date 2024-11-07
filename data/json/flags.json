@@ -2597,5 +2597,10 @@
     "id": "CRAFT_IN_DARKNESS",
     "type": "json_flag",
     "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "GRANT_FLYWORTHY",
+    "type": "json_flag",
+    "info": "This can be installed on a vehicle to make it flyworthy and allow it to move while airborne.  You still need to know how to pilot such vehicles and breaking this part will cause the vehicle to no longer be able to fly."
   }
 ]
