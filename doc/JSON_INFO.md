@@ -3060,7 +3060,7 @@ See [MUTATIONS.md](MUTATIONS.md)
     "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
     "comfort": 0, // Same property affecting furniture and terrain
     "floor_bedding_warmth": -500, // Same property affecting furniture and terrain. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
-    "eocs": [ "EOC_COOL_EOC_TRAP" ], // array of eocs to trigger, only usable with "action": "eocs"
+    "eocs": [ "EOC_COOL_EOC_TRAP" ], // array of eocs to trigger, only usable with "action": "eocs". The alpha talker is the creature that triggered the trap and the trap's location is passed as a context variable trap_location for use with ranged traps. Items can't currently trigger eoc traps.
     "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell(), only usable with "action": "spell"
     "trigger_weight": "200 g", // If an item with this weight or more is thrown onto the trap, it triggers. Defaults to 500 grams.
     "drops": [ "beartrap" ], // ID of item spawned when disassembled

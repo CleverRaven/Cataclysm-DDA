@@ -370,14 +370,17 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::eocs( const tripoint &p, Creature *critter, item *it )
+bool trapfunc::eocs( const tripoint &p, Creature *critter, item * )
 {
+    if( !critter ) {
+        //TODO: Pass the item as a talker somehow taking into account we don't have the item's tripoint in the case of ranged traps so something like get_talker_for( item_location( map_cursor( tripoint_bub_ms( p ) ), it ) ) isn't enough (and didn't work for non ranged traps on testing anyway)
+        return false;
+    }
     map &here = get_map();
     trap tr = here.tr_at( p );
     const tripoint_abs_ms trap_location = get_map().getglobal( p );
     for( const effect_on_condition_id &eoc : tr.eocs ) {
-        dialogue d( !!it ? get_talker_for( item_location( map_cursor( tripoint_bub_ms( p ) ),
-                                           it ) ) : get_talker_for( critter ), nullptr );
+        dialogue d( get_talker_for( critter ), nullptr );
         write_var_value( var_type::context, "npctalk_var_trap_location", &d, trap_location.to_string() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
