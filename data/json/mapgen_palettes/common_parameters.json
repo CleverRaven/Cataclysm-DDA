@@ -84,6 +84,18 @@
   },
   {
     "type": "palette",
+    "id": "parametrized_outer_doors_palette",
+    "//": "Use to randomly assign doors",
+    "parameters": {
+      "outer_door_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_door_c", 2 ], [ "t_door_elocked", 1 ], [ "t_door_locked", 4 ] ] }
+      }
+    },
+    "terrain": { "*": { "param": "outer_door_type", "fallback": "t_door_locked" } }
+  },
+  {
+    "type": "palette",
     "id": "parametrized_carpets_palette",
     "//": "Use to randomly assign carpet colors",
     "parameters": {
