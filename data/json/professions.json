@@ -7913,7 +7913,7 @@
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "camera_pro", "charges": 300 },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "wearable_light" }
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 56, "container-item": "wearable_light" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
