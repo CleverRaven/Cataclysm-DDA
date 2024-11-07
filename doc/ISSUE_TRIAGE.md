@@ -18,7 +18,7 @@ Look at new issues or revisit old issues after a while and apply various labels:
 ### Is this a bug report or a feature request?
 Sometimes this is simple, is the game crashing, is it losing save data? If so it's definitely a bug.
 Likewise, new content or new ways to interact with the game are always feature requests.
-Other times this is a surprisingly tricky question. "the game isn't working like I expect it to" doesn't actually mean the game is doing anything wrong, and even if it is (i.e. it sets up an expectation but doesn't meet it), the problem might be where the expectation is set rather than the point where the expectation is (not) met.
+Other times this is a surprisingly tricky question. "The game isn't working like I expect it to" doesn't actually mean the game is doing anything wrong, and even if it is (i.e. it sets up an expectation but doesn't meet it), the problem might be where the expectation is set rather than the point where the expectation is (not) met.
 
 At the end of the day, this is a judgement call about what the triager understands the game to be designed to do vs what it's actually doing. If the game's behavior is consistent with the design of the game, we'd call that a request to change it a feature request, if the game is not acting as designed, then it's a bug.
 
