@@ -15,7 +15,7 @@
     "label": "Ruach Numbers",
     "arrange": "minimum_columns",
     "width": 58,
-    "widgets": [ "spacebar_separator_2", "ruach_counter_numbers" ]
+    "widgets": [ "spacebar_separator_2", "ruach_counter_spacebar_numbers" ]
   },
   {
     "id": "ruach_counter_meter",
@@ -91,6 +91,21 @@
   },
   {
     "id": "ruach_counter_numbers",
+    "type": "widget",
+    "style": "text",
+    "label": "Ruach",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "ruach_numbers",
+        "text": "<color_green><u_val:ruach_amount_for_graph></color>     Max: <color_green><u_val:ruach_max_amount_for_graph></color>     Days: <color_green><u_val:ruach_days_left></color>",
+        "parse_tags": true
+      }
+    ],
+    "padding": 0
+  },
+  {
+    "id": "ruach_counter_spacebar_numbers",
     "type": "widget",
     "style": "text",
     "label": "Ruach",
