@@ -444,11 +444,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "heat", "amount": 5 } ],
     "moral": 40,
     "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "2 s" } ],
-    "reproduction": {
-      "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND" },
-      "baby_count": 4,
-      "baby_timer": 270
-    },
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND" }, "baby_count": 4, "baby_timer": 270 },
     "extend": {
       "special attacks": [
         {
@@ -458,7 +454,7 @@
           "cooldown": { "math": [ "9 + rand(18)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s barks out a stream of flame!"
-      },
+        }
       ],
       "flags": [ "FIREPROOF" ],
       "armor": { "heat": 999 }
