@@ -1524,7 +1524,7 @@ update_mapgen updates an existing overmap tile.  These fields provide a way to s
 ### "assign_mission_target"
 
 assign_mission_target assigns an overmap tile as the target of a mission.  Any update_mapgen in the same scope will
-update that overmap tile.  The closet overmap terrain with the required terrain ID will be used, and if there is no
+update that overmap tile.  The closest overmap terrain with the required terrain ID will be used, and if there is no
 matching terrain, an overmap special of om_special type will be created and then the om_terrain within that special will
 be used.
 
