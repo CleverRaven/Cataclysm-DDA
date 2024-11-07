@@ -264,14 +264,18 @@
     "name": "GROUP_PET_DOGS",
     "type": "monstergroup",
     "default": "mon_dog",
-    "monsters": [ { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 25, "starts": "90 days", "cost_multiplier": 0 }
+    ]
   },
   {
     "name": "GROUP_STRAY_DOGS",
     "type": "monstergroup",
     "default": "mon_dog",
     "monsters": [
-      { "monster": "mon_hellhound", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 3, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 15, "starts": "90 days", "cost_multiplier": 0 },
       { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 }
     ]
   },
@@ -284,7 +288,10 @@
   {
     "name": "GROUP_ANIMALPOUND_DOGS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 15, "starts": "90 days", "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",

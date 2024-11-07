@@ -503,7 +503,7 @@
     "description": "Spray fire in a cone in front of you, if you're a hellhound.",
     "message": "",
     "teachable": false,
-    "valid_targets": [ "hostile", "ground", "ally" ],
+    "valid_targets": [ "hostile" ],
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
