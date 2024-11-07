@@ -276,9 +276,14 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
+
+#if defined(__ANDROID__)
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
+#endif
+
+#if defined(__IPHONEOS__)
+    window_flags = SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
@@ -306,9 +311,7 @@ static void WinCreate()
     SDL_SetHint( SDL_HINT_MOUSE_TOUCH_EVENTS, "0" );
     SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
 #endif
-#endif
 
-#if defined(__IPHONEOS__)
 #if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
     SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
 #endif
@@ -505,9 +508,7 @@ extern "C" {
 #endif
 
 } // "C"
-#endif
 
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
 SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
 {
     // If the display buffer aspect ratio is wider than the display,
@@ -3106,7 +3107,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3164,7 +3165,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(__IPHONEOS__))
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3969,11 +3970,12 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 #if defined(__ANDROID__) || defined(__IPHONEOS__)
         android_vibrate();
 #endif
-    } else if( last_input.type == input_event_t::gamepad ) {
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
-        android_vibrate();
-#endif
     }
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
+    else if( last_input.type == input_event_t::gamepad ) {
+        android_vibrate();
+    }
+#endif
 
     return last_input;
 }
