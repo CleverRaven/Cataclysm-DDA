@@ -94,6 +94,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_outer_doors_palette" ],
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
@@ -184,16 +185,6 @@
       "X": "t_region_groundcover_urban",
       ".": "t_region_groundcover_urban",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
-      "*": [
-        [ "t_door_locked_peep", 2 ],
-        "t_door_locked_alarm",
-        [ "t_door_locked", 10 ],
-        [ "t_door_elocked_peep", 4 ],
-        "t_door_elocked_alarm",
-        [ "t_door_elocked", 15 ],
-        "t_door_c",
-        [ "t_door_o", 2 ]
-      ],
       "^": "t_gutter_downspout",
       "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
       "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
