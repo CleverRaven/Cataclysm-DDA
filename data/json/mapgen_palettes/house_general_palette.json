@@ -94,7 +94,7 @@
         }
       }
     },
-    "palettes": [ "parametrized_outer_doors_palette" ],
+    "palettes": [ "parametrized_exterior_doors_palette" ],
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
