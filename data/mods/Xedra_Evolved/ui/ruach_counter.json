@@ -167,7 +167,7 @@
                 },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "11" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "20" ] }
                   ]
                 }
@@ -178,7 +178,7 @@
                 { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "21" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "40" ] }
                   ]
                 }
@@ -189,7 +189,7 @@
                 { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "31" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "60" ] }
                   ]
                 }
@@ -200,7 +200,7 @@
                 { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "41" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "80" ] }
                   ]
                 }
@@ -223,7 +223,7 @@
                 },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "21" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "30" ] }
                   ]
                 }
@@ -234,7 +234,7 @@
                 { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "41" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "60" ] }
                   ]
                 }
@@ -245,7 +245,7 @@
                 { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "61" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "90" ] }
                   ]
                 }
@@ -256,7 +256,7 @@
                 { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
                 {
                   "and": [
-                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+                    { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "81" ] },
                     { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<=", "120" ] }
                   ]
                 }
