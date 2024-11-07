@@ -446,7 +446,7 @@
     "morale": 40,
     "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "4 s" } ],
     "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES" }, "baby_count": 4, "baby_timer": 270 },
-    "//": "For some reason, extending special attacks does not work",
+    "//": "FIXME: For some reason, extending special attacks does not work",
     "special_attacks": [
       [ "EAT_FOOD", 100 ],
       [ "PARROT_AT_DANGER", 0 ],
