@@ -577,11 +577,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     jo.read( "looks_like", looks_like );
 
     load_season_array( jo, "symbol", context, symbol_, [&jo]( const std::string & str ) {
-        if( str == "LINE_XOXO" ) {
-            return LINE_XOXO;
-        } else if( str == "LINE_OXOX" ) {
-            return LINE_OXOX;
-        } else if( str.length() != 1 ) {
+        if( str.length() != 1 ) {
             jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
         }
         return static_cast<int>( str[0] );
