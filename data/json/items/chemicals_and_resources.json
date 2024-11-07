@@ -2119,7 +2119,7 @@
     "name": { "str_sp": "exodii ceramic patch" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "A patch kit produced by the Exodii for repairing their nanotube-infused ceramics. Requires a kiln.",
+    "description": "A patch kit produced by the Exodii for repairing their nanotube-infused ceramics.  Requires a kiln.",
     "material": [ "exodii_ceramic" ],
     "volume": "250 ml",
     "weight": "225 g",
