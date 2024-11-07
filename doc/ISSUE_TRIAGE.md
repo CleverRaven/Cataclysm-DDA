@@ -13,7 +13,7 @@ Look at new issues or revisit old issues after a while and apply various labels:
     2. check for validity
 3. if feature suggestion:
     1. evaluate for validity
-4. in either case, also apply labels indicating what areas of the game it immpacts, i.e. content/json vs features/code, items vs monsters vs translation etc.
+4. in either case, also apply labels indicating what areas of the game it impacts, i.e. content/json vs features/code, items vs monsters vs translation etc.
 
 ### Is this a bug report or a feature request?
 Sometimes this is simple, is the game crashing, is it losing save data? If so it's definitely a bug.
