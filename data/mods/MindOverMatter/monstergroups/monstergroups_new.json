@@ -70,9 +70,9 @@
     "name": "GROUP_FERAL_TELEPORTER",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_feral_human_clair", "weight": 25 },
-      { "monster": "mon_feral_human_clair2", "weight": 8 },
-      { "monster": "mon_feral_human_clair3", "weight": 1 }
+      { "monster": "mon_feral_human_porter", "weight": 25 },
+      { "monster": "mon_feral_human_porter2", "weight": 8 },
+      { "monster": "mon_feral_human_porter3", "weight": 1 }
     ]
   },
   {
