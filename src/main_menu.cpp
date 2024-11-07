@@ -707,7 +707,7 @@ bool main_menu::opening_screen()
 #endif
 
     while( !start ) {
-        if( g->uquit == QUIT_EXIT ) {
+        if( are_we_quitting() ) {
             return false;
         }
 
