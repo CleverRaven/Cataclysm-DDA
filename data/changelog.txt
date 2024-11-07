@@ -85,7 +85,7 @@ Rework Character::overmap_sight_range to allow night overmap sight through mutat
 re-add pre-seeded hordes, make them unconditional, and show up even with wandering hordes disabled
 Allow for a "variant" field when using the add_trait effect
 There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free to add content for it.
-Make run_eocs/run_eocs support variable objects
+Make run_eocs/queue_eocs support variable objects
 Protein bars now give character a psychological trauma
 Adds sand to ocean beaches
 Toggle to highlight OMTs revealed by maps
