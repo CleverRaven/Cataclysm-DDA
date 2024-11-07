@@ -7913,7 +7913,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
-          { "item": "camera_pro", "charges": 56 },
+          { "item": "camera_pro", "charges": 300 },
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 56, "container-item": "wearable_light" }
         ]
       },
