@@ -12,7 +12,8 @@
       { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ], "starts": "21 days" },
       { "monster": "mon_hodag", "weight": 10, "starts": "180 days" },
       { "monster": "mon_bandersnatch", "weight": 5 },
-      { "monster": "mon_fear_hawk", "weight": 10 }
+      { "monster": "mon_fear_hawk", "weight": 10 },
+      { "monster": "mon_hellhound", "weight": 75 }
     ]
   },
   {
@@ -264,7 +265,7 @@
   {
     "name": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_dog_pup", "weight": 85 }, { "monster": "mon_hellhound_pup", "weight": 15 } ]
+    "monsters": [ { "monster": "mon_dog_pup", "weight": 80 }, { "monster": "mon_hellhound_pup", "weight": 20 } ]
   },
   {
     "name": "GROUP_EGG_COCKATRICE",

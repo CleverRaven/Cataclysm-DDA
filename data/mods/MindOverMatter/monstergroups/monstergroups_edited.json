@@ -261,16 +261,30 @@
     "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days" }, { "monster": "mon_psi_gremlin", "weight": 2 } ]
   },
   {
+    "name": "GROUP_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog",
+    "monsters": [ { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 } ]
+  },
+  {
     "name": "GROUP_STRAY_DOGS",
     "type": "monstergroup",
     "default": "mon_dog",
-    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_hellhound", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 }
+    ]
   },
   {
     "name": "GROUP_MUTANT_PET_DOGS",
     "type": "monstergroup",
     "default": "mon_dog_mutant_mongrel",
     "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_ANIMALPOUND_DOGS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
