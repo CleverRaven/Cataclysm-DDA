@@ -1124,7 +1124,6 @@
             }
           ]
         }
-
       },
       {
         "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l')", ">=", "1" ] },
