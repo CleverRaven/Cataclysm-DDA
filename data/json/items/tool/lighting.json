@@ -644,14 +644,14 @@
     "volume": "712 ml",
     "longest_side": "16 cm",
     "price": "65 USD",
-    "price_postapoc": "30 cent",
-    "material": [ "thermo_resin" ],
+    "price_postapoc": "2 USD",
+    "material": [ "thermo_resin", "aluminum" ],
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
     "armor_data": {
-      "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 1, "specifically_covers": [ "torso_hanging_front" ] } ]
+      "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
     },
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP", "BELTED" ],
     "use_action": [
