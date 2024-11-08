@@ -662,7 +662,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalculate_bodyparts();
     }
 
-    for( const std::pair<mtype_id, int> &moncam : branch.moncams ) {
+    for( const std::pair<const mtype_id, int> &moncam : branch.moncams ) {
         remove_moncam( moncam.first );
     }
 

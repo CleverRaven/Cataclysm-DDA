@@ -2783,7 +2783,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     // Background spells
     if( !sorted_hobbies[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Background spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> &spell_pair : sorted_hobbies[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_hobbies[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
