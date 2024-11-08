@@ -68,6 +68,7 @@ static const limb_score_id limb_score_manip( "manip" );
 static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
+static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
 static const std::string flag_NO_MANIP( "NO_MANIP" );
 
 enum TAB_MODE {
@@ -88,7 +89,7 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
     {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
     {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
     {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slowed to %d%%: %s" )},
-    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%% due to amount of manipulators" )},
+    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%%: %s" )},
     {NORMAL_CRAFTING, to_translation( "craftable" )}
 };
 
@@ -2304,6 +2305,27 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec,
                                       Character &crafter )
 {
+    int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
+                            limb_score_manip ) * 100;
+    int mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 100 : ( 1.0 +
+                    crafter.enchantment_cache->get_value_multiply( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER ) ) *
+                    100;
+
+    std::stringstream modifiers_list;
+    if( limb_modifier != 100 ) {
+        if( limb_modifier < 100 ) {
+            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        } else {
+            modifiers_list << _( "extra manipulators" ) << " " << limb_modifier << "%";
+        }
+    }
+    if( mut_multi != 100 ) {
+        if( !modifiers_list.str().empty() ) {
+            modifiers_list << ", ";
+        }
+        modifiers_list << _( "traits" ) << " " << mut_multi << "%";
+    }
+
     if( crafter.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_DARK_TO_CRAFT ).translated() );
     } else if( crafter.crafting_speed_multiplier( rec ) <= 0.0f ) {
@@ -2311,13 +2333,13 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
-                                limb_score_manip ) * 100;
         int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
                          1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
 
-        std::stringstream modifiers_list;
         if( morale_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
             modifiers_list << _( "morale" ) << " " << morale_modifier << "%";
         }
         if( lighting_modifier < 100 ) {
@@ -2325,12 +2347,6 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
                 modifiers_list << ", ";
             }
             modifiers_list << _( "lighting" ) << " " << lighting_modifier << "%";
-        }
-        if( limb_modifier < 100 ) {
-            if( !modifiers_list.str().empty() ) {
-                modifiers_list << ", ";
-            }
-            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
         }
         if( pain_multi < 100 ) {
             if( !modifiers_list.str().empty() ) {
@@ -2346,7 +2362,8 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) > 1.0f ) {
         right_print( w, 0, 1, i_green,
                      string_format( craft_speed_reason_strings.at( FAST_CRAFTING ).translated(),
-                                    static_cast<int>( crafter.crafting_speed_multiplier( rec ) * 100 ) ) );
+                                    static_cast<int>( crafter.crafting_speed_multiplier( rec ) * 100 ),
+                                    modifiers_list.str() ) );
     } else {
         right_print( w, 0, 1, i_green, craft_speed_reason_strings.at( NORMAL_CRAFTING ).translated() );
     }
