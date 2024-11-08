@@ -23,21 +23,6 @@ extension UIScreen {
     }
 }
 
-extension UIApplication {
-    var keyWindow: UIWindow? {
-        // Get connected scenes
-        return self.connectedScenes
-            // Keep only active scenes, onscreen and visible to the user
-            .filter { $0.activationState == .foregroundActive }
-            // Keep only the first `UIWindowScene`
-            .first(where: { $0 is UIWindowScene })
-            // Get its associated windows
-            .flatMap({ $0 as? UIWindowScene })?.windows
-            // Finally, keep only the key window
-            .first(where: \.isKeyWindow)
-    }   
-}
-
 extension SDLUIKitDelegate {
     class func getAppDelegateClassName() -> String? {
         return NSStringFromClass(AppDelegate.self.self)
@@ -59,15 +44,16 @@ public func vibrateDevice() {
 
 class AppDelegate : SDLUIKitDelegate
 {
-    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
-    {
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         os_log("Calling from SWIFT")
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
-    func viewDidLoad() {
-        super.viewDidLoad()
-        let safeareainsets = UIApplication.keywindow.safeAreaInsets
+    func viewDidAppear(_ animated: Bool) {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let safeareainsets = window?.safeAreaInsets
         iossetvisibledisplayframe(safeareainsets.left, safeareainsets.top, safeareainsets.right, safeareainsets.bottom)
     }
 }
