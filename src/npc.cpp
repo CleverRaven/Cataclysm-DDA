@@ -183,6 +183,12 @@ bool job_data::set_task_priority( const activity_id &task, int new_priority )
     }
     return false;
 }
+void job_data::set_all_priorities( int new_priority )
+{
+    for( auto &elem : task_priorities ) {
+        elem.second = new_priority;
+    }
+}
 void job_data::clear_all_priorities()
 {
     for( auto &elem : task_priorities ) {
@@ -255,7 +261,8 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true,
+                                           get_size() );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }

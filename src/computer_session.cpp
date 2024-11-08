@@ -744,7 +744,8 @@ void computer_session::action_miss_disarm()
 void computer_session::action_miss_launch()
 {
     // Target Acquisition.
-    const tripoint_abs_omt target( ui::omap::choose_point( 0 ) );
+    const tripoint_abs_omt target( ui::omap::choose_point(
+                                       _( "Choose a target for the nuclear missile." ), 0 ) );
     if( target == overmap::invalid_tripoint ) {
         add_msg( m_info, _( "Target acquisition canceled." ) );
         return;

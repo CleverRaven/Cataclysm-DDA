@@ -993,30 +993,31 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         }
     }
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
-        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
-        if( bash_info.str_min == -1 ) {
+        const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
+        if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
-        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
-            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+            sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
+                           "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
-            here.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
-            mod_moves( - bash_info.fd_bash_move_cost );
-            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
+            here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            mod_moves( - bash_info->fd_bash_move_cost );
+            add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
             ret.success = true;
             return ret;
         } else {
-            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+            sounds::sound( smashp, bash_info->sound_fail_vol, sounds::sound_t::combat, bash_info->sound_fail,
                            true, "smash",
                            "field" );
 
-            ret.resistance = bash_info.str_min;
+            ret.resistance = bash_info->str_min;
             ret.did_smash = true;
             return ret;
         }
@@ -1123,7 +1124,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             // Bash not effective
             g->draw_async_anim( smashp, "bash_ineffective" );
             if( one_in( 10 ) ) {
-                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash ) {
                     // %s is the smashed furniture
                     add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
                 } else {

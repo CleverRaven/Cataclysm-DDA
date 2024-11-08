@@ -42,6 +42,7 @@ struct overmap_path_params {
     std::map<oter_travel_cost_type, int> travel_cost_per_type;
     bool avoid_danger = true;
     bool only_known_by_player = true;
+    bool allow_diagonal = false;
 
     void set_cost( const oter_travel_cost_type &type, int v ) {
         travel_cost_per_type.emplace( type, v );

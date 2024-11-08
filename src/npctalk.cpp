@@ -62,6 +62,7 @@
 #include "npctalk.h"
 #include "npctalk_rules.h"
 #include "npctrade.h"
+#include "npc_class.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -1567,7 +1568,11 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
             npc *npc_actor = d.actor( true )->get_npc();
             if( npc_actor ) {
-                d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
+                if( npc_actor->myclass->bye_message_override.empty() ) {
+                    d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
+                } else {
+                    d.actor( true )->say( npc_actor->myclass->bye_message_override.translated() );
+                }
             }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
@@ -1689,7 +1694,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return actor( true )->get_npc()->chat_snippets().snip_bye.translated();
+        npc *guy = actor( true )->get_npc();
+        if( guy->myclass->bye_message_override.empty() ) {
+            return guy->chat_snippets().snip_bye.translated();
+        } else {
+            return guy->myclass->bye_message_override.translated();
+        }
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
@@ -2437,6 +2447,38 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, spell_id( var )->description.translated() );
+        } else if( tag.find( "<keybind:" ) == 0 ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            std::string keybind = var;
+
+            //deal with category specific binds like <keybind:TARGET:PREV_TARGET>
+            size_t pos_category_split = var.find( ':' );
+
+            std::string category = "DEFAULTMODE";
+            if( pos_category_split != std::string::npos ) {
+                category = var.substr( 0, pos_category_split );
+                keybind = var.substr( pos_category_split + 1 );
+            }
+            input_context ctxt( category );
+
+            std::string keybind_desc;
+            std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
+            if( keys.empty() ) { // Display description for unbound keys
+                keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+
+                if( !ctxt.is_registered_action( keybind ) ) {
+                    debugmsg( "Keybind specified by <keybind:%s> is invalid/missing", var );
+                }
+            } else {
+                keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
+                    return colorize( '\'' + k.long_description() + '\'', c_yellow );
+                }, enumeration_conjunction::or_ );
+            }
+
+            phrase.replace( fa, l, keybind_desc );
         } else if( tag.find( "<city>" ) == 0 ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
@@ -4742,6 +4784,8 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
+    const PopupFlags popup_flag = jo.has_member( "popup_flag" ) ?
+                                  popup_flag_from_string( jo.get_string( "popup_flag" ) ) : PF_NONE;
     str_or_var interrupt_type;
     if( jo.has_member( "interrupt_type" ) ) {
         interrupt_type = get_str_or_var( jo.get_member( "interrupt_type" ), "interrupt_type", true );
@@ -4755,8 +4799,8 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     } else {
         type_string.str_val = "neutral";
     }
-    return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string,
-                     popup_msg, popup_w_interrupt_query_msg, interrupt_type, global, is_npc]
+    return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
+                     popup_w_interrupt_query_msg, popup_flag, interrupt_type, global, is_npc]
     ( dialogue const & d ) {
         Character const *target;
         if( global ) {
@@ -4828,7 +4872,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             }
         }
         if( popup_msg ) {
-            popup( translated_message );
+            popup( translated_message, popup_flag );
             g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {

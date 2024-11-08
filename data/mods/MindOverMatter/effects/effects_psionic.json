@@ -2419,24 +2419,11 @@
   {
     "type": "effect_type",
     "id": "effect_vita_super_heal",
+    "name": [ "Anabolic Rejuvenation" ],
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "30 seconds",
-              "spell_effects": [ { "id": "vita_super_heal_healing" }, { "id": "vita_super_heal_drain" } ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -2444,26 +2431,7 @@
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "1 seconds",
-              "spell_effects": [
-                { "id": "vita_super_heal_healing" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" }
-              ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",

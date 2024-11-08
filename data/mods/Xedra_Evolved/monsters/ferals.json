@@ -64,5 +64,29 @@
       "WIELDED_WEAPON"
     ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
+  },
+  {
+    "id": "mon_feral_zebra_agent_p90",
+    "type": "MONSTER",
+    "name": "heavily armed zebra agent",
+    "copy-from": "mon_feral_zebra_agent",
+    "starting_ammo": { "57mm": 50 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "feral_p90",
+        "ammo_type": "57mm",
+        "fake_skills": [ [ "gun", 1 ], [ "smg", 2 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "require_targeting_player": false,
+        "description": "The deranged agent fires their P90!"
+      }
+    ],
+    "death_drops": "feral_agent_p90_death_drops"
   }
 ]
