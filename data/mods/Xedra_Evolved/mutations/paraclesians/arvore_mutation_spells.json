@@ -633,12 +633,30 @@
     "skill": "deduction",
     "max_level": 20,
     "difficulty": 6,
-    "effect": "ter_transform",
-    "effect_str": "ter_arvore_wood_wall",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GROWING_WOOD_WALLS_WALL",
     "shape": "blast",
     "min_range": 1,
     "max_range": 4,
     "range_increment": 0.25
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GROWING_WOOD_WALLS_WALL",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      {
+        "npc_transform_radius": 0,
+        "ter_furn_transform": "ter_arvore_wood_wall",
+        "target_var": { "context_val": "spell_location" }
+      },
+      { "location_variable_adjust": { "context_val": "spell_location" }, "z_adjust": 1 },
+      {
+        "npc_transform_radius": 0,
+        "ter_furn_transform": "ter_arvore_wood_wall_top",
+        "target_var": { "context_val": "spell_location" }
+      }
+    ]
   },
   {
     "id": "arvore_growing_wood_walls_floor",
