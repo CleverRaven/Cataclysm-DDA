@@ -645,7 +645,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                 damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
                 dot_data.amount /= target_bdpts.size();
                 cr->add_damage_over_time( dot_data );
-            } else if( !target_bdpts.empty() ) {
+            } else if( sp.bps_affected() > 0 ) {
                 cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
             } else {
                 cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
