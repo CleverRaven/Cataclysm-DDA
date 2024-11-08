@@ -181,7 +181,12 @@
     },
     "end": {
       "effect": [
-        { "queue_eocs": "godco_place_warehouse_new", "time_in_future": "336 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "queue_eocs": "godco_place_warehouse_new",
+          "time_in_future": "336 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 137 }
       ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
@@ -973,7 +978,12 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
-        { "queue_eocs": "godco_place_herb_garden_new", "time_in_future": "72 hours" }
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "queue_eocs": "godco_place_herb_garden_new",
+          "time_in_future": "72 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        }
       ],
       "opinion": { "trust": 3, "value": 2 }
     },
@@ -1248,7 +1258,12 @@
     "end": {
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
-        { "queue_eocs": "godco_place_wall_new", "time_in_future": "432 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "queue_eocs": "godco_place_wall_new",
+          "time_in_future": "432 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 40 }
       ],
       "opinion": { "trust": 2, "value": 1 }
