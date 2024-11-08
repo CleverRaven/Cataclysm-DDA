@@ -110,6 +110,8 @@ class npc_class
         item_group_id carry_override;
         item_group_id weapon_override;
 
+        translation bye_message_override;
+
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
         // the int is what level the spell starts at
