@@ -10045,18 +10045,19 @@ tripoint_abs_ms map::getglobal( const tripoint &p ) const
 
 tripoint_abs_ms map::getglobal( const tripoint_bub_ms &p ) const
 {
-    return project_to<coords::ms>( abs_sub.xy() ) + p.raw();
+    return tripoint_abs_ms{ p.x() + abs_ms.x(), p.y() + abs_ms.y(), p.z() };
 }
 
 tripoint_bub_ms map::bub_from_abs( const tripoint_abs_ms &p ) const
 {
-    return tripoint_bub_ms() + ( p - project_to<coords::ms>( abs_sub.xy() ) );
+    return tripoint_bub_ms { p.x() - abs_ms.x(), p.y() - abs_ms.y(), p.z()};
 }
 
 void map::set_abs_sub( const tripoint_abs_sm &p )
 {
     abs_sub = p;
-}
+    abs_ms = point_abs_ms{ project_to<coords::ms>( abs_sub.xy() ) };
+};
 
 tripoint_abs_sm map::get_abs_sub() const
 {
