@@ -3,7 +3,10 @@
     "type": "effect_on_condition",
     "id": "godco_place_coop_new",
     "global": false,
-    "effect": [ { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7" }, { "math": [ "darryl_building_coop", "=", "2" ] } ]
+    "effect": [
+      { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7", "target_var": { "context_val": "search_locale" } },
+      { "math": [ "darryl_building_coop", "=", "2" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
