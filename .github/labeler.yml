@@ -180,6 +180,7 @@
   - "**/**mapgen**"
   - "**/mapgen**"
   - "**/mapgen/**"
+  - "**/**palette**"
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
