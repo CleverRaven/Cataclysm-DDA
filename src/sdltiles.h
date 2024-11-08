@@ -46,6 +46,10 @@ void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
 void toggle_fullscreen_window();
 
+#if defined(__IPHONEOS__)
+void iossetvisibledisplayframe( int left, int top, int right, int bottom );
+#endif
+
 struct window_dimensions {
     point scaled_font_size;
     point window_pos_cell;

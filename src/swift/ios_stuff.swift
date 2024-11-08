@@ -44,12 +44,7 @@ public func vibrateDevice() {
 
 class AppDelegate : SDLUIKitDelegate
 {
-    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        os_log("Calling from SWIFT")
-        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    }
-
-    func viewDidAppear(_ animated: Bool) {
+    func viewDidLoad() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
