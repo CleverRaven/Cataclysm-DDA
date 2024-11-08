@@ -3,10 +3,19 @@
     "id": "spacebar_ruach_counter_block",
     "type": "widget",
     "style": "layout",
-    "label": "Ruach",
+    "label": "Ruach Descriptor",
     "arrange": "minimum_columns",
     "width": 58,
     "widgets": [ "spacebar_separator_2", "ruach_counter_meter" ]
+  },
+  {
+    "id": "spacebar_ruach_numbers_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "Ruach Numbers",
+    "arrange": "minimum_columns",
+    "width": 58,
+    "widgets": [ "spacebar_separator_2", "ruach_counter_spacebar_numbers" ]
   },
   {
     "id": "ruach_counter_meter",
@@ -76,6 +85,38 @@
             { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "2400" ] }
           ]
         }
+      }
+    ],
+    "padding": 0
+  },
+  {
+    "id": "ruach_counter_numbers",
+    "type": "widget",
+    "style": "text",
+    "label": "Ruach",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "ruach_numbers",
+        "text": "<color_green><u_val:ruach_amount_for_graph></color>     Max: <color_green><u_val:ruach_max_amount_for_graph></color>     Days: <color_green><u_val:ruach_days_left></color>",
+        "parse_tags": true,
+        "condition": { "u_has_trait": "LILIN_TRAITS" }
+      }
+    ],
+    "padding": 0
+  },
+  {
+    "id": "ruach_counter_spacebar_numbers",
+    "type": "widget",
+    "style": "text",
+    "label": "Ruach",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "ruach_numbers",
+        "text": "<color_green><u_val:ruach_amount_for_graph></color>          Max: <color_green><u_val:ruach_max_amount_for_graph></color>          Days: <color_green><u_val:ruach_days_left></color>",
+        "parse_tags": true,
+        "condition": { "u_has_trait": "LILIN_TRAITS" }
       }
     ],
     "padding": 0
