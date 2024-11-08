@@ -218,6 +218,44 @@ bool string_id<enchantment>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
+template<typename TKey>
+void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
+                            const std::string &array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+                            std::map<TKey, dbl_or_var> &mult_map )
+{
+    if( !is_child && jo.has_array( array_key ) ) {
+        for( const JsonObject &value_obj : jo.get_array( array_key ) ) {
+
+            TKey value;
+            if constexpr( std::is_same_v<TKey, enchant_vals::mod> ) {
+                value = io::string_to_enum<enchant_vals::mod>( value_obj.get_string( type_key ) );
+            } else {
+                value = TKey( value_obj.get_string( type_key ) );
+            }
+
+            if( value_obj.has_member( "add" ) ) {
+                dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
+                // mandatory( jo, true, value_obj.get_string( type_key ), value );
+                // for whatever reason doesn't clang good with enchant_vals::mod
+                add_map.emplace( value, add );
+            }
+
+            if( value_obj.has_member( "multiply" ) ) {
+                dbl_or_var mult;
+                if( value_obj.has_float( "multiply" ) ) {
+                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
+                } else {
+                    mult = get_dbl_or_var( value_obj, "multiply", false );
+
+                }
+                // mandatory( jo, true, value_obj.get_string( type_key ), value );
+                mult_map.emplace( value, mult );
+            }
+
+        }
+    }
+}
+
 void enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
@@ -436,64 +474,15 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
     optional( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description );
 
-    if( !is_child && jo.has_array( "values" ) ) {
-        for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
-                                            ( value_obj.get_string( "value" ) );
-            dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
-            values_add.emplace( value, add );
-            dbl_or_var mult = get_dbl_or_var( value_obj, "multiply", false );
-            if( value_obj.has_member( "multiply" ) ) {
-                if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
-                }
-            }
-            values_multiply.emplace( value, mult );
-        }
-    }
+    load_add_and_multiply<enchant_vals::mod>( jo, is_child, "values", "value", values_add,
+            values_multiply );
 
-    // note: if we add another map to enchantment that looks exactly the same as this,
-    // i believe it would then be the time to consider using a template to read this in
-    if( !is_child && jo.has_array( "skills" ) ) {
-        for( const JsonObject value_obj : jo.get_array( "skills" ) ) {
-            const skill_id value = skill_id( value_obj.get_string( "value" ) );
-            if( value_obj.has_member( "add" ) ) {
-                dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
-                skill_values_add.emplace( value, add );
-            }
-            if( value_obj.has_member( "multiply" ) ) {
-                dbl_or_var mult;
-                if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
-                } else {
-                    mult = get_dbl_or_var( value_obj, "multiply", false );
+    load_add_and_multiply<skill_id>( jo, is_child, "skills", "value", skill_values_add,
+                                     skill_values_multiply );
 
-                }
-                skill_values_multiply.emplace( value, mult );
-            }
-        }
-    }
+    load_add_and_multiply<damage_type_id>( jo, is_child, "melee_damage_bonus", "type",
+                                           damage_values_add, damage_values_multiply );
 
-    // bold of you to assume i know templates
-    if( !is_child && jo.has_array( "melee_damage_bonus" ) ) {
-        for( const JsonObject value_obj : jo.get_array( "melee_damage_bonus" ) ) {
-            const damage_type_id value = damage_type_id( value_obj.get_string( "type" ) );
-            if( value_obj.has_member( "add" ) ) {
-                dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
-                damage_values_add.emplace( value, add );
-            }
-            if( value_obj.has_member( "multiply" ) ) {
-                dbl_or_var mult;
-                if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
-                } else {
-                    mult = get_dbl_or_var( value_obj, "multiply", false );
-
-                }
-                damage_values_multiply.emplace( value, mult );
-            }
-        }
-    }
 }
 
 void enchant_cache::load( const JsonObject &jo, const std::string_view,
