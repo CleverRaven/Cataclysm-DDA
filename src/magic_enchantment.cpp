@@ -703,10 +703,10 @@ void enchant_cache::force_add( const enchant_cache &rhs )
         skill_values_multiply[pair_values.first] += pair_values.second;
     }
 
-    for( const std::pair<const damage_type_id, int> &pair_values : rhs.damage_values_add ) {
+    for( const std::pair<const damage_type_id, double> &pair_values : rhs.damage_values_add ) {
         damage_values_add[pair_values.first] += pair_values.second;
     }
-    for( const std::pair<const damage_type_id, int> &pair_values :
+    for( const std::pair<const damage_type_id, double> &pair_values :
          rhs.damage_values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
