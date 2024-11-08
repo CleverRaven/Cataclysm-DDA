@@ -4871,12 +4871,15 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
                 continue;
             }
             if( bring_back ) {
-                for( const item &itm : item_group::items_from( ter_tgt.bash.drop_group,
-                        calendar::turn ) ) {
-                    comp.companion_mission_inv.push_back( itm );
+                const std::optional<map_ter_bash_info> &bash = ter_tgt.bash;
+                if( bash ) {
+                    for( const item &itm : item_group::items_from( ter_tgt.bash->drop_group,
+                            calendar::turn ) ) {
+                        comp.companion_mission_inv.push_back( itm );
+                    }
+                    harvested++;
+                    target_bay.ter_set( p, ter_tgt.bash->ter_set );
                 }
-                harvested++;
-                target_bay.ter_set( p, ter_tgt.bash.ter_set );
             }
         }
     }

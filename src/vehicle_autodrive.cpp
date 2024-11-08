@@ -778,7 +778,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
-    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
+    } else if( terrain_type.is_smashable() ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
     } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
