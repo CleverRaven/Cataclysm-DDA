@@ -1000,6 +1000,7 @@ void Character::initialize( bool learn_recipes )
             my_mutations[mut].powered = true;
         }
     }
+    trait_flag_cache.clear();
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
