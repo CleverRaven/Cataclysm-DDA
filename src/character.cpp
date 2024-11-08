@@ -9799,7 +9799,7 @@ Character::moncam_cache_t Character::get_active_moncams() const
 {
     moncam_cache_t ret;
     for( monster const &mon : g->all_monsters() ) {
-        for( std::pair<mtype_id, int> const &moncam : get_moncams() ) {
+        for( const std::pair<const mtype_id, int> &moncam : get_moncams() ) {
             if( mon.type->id == moncam.first && mon.friendly != 0 &&
                 rl_dist( get_avatar().get_location(), mon.get_location() ) < moncam.second ) {
                 ret.insert( { &mon, mon.get_location() } );
