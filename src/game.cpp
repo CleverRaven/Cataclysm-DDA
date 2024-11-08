@@ -1723,7 +1723,7 @@ units::temperature_delta get_convection_temperature( const tripoint &location )
                                         units::from_fahrenheit_delta( fd_fire->get_intensity_level().convection_temperature_mod ) :
                                         units::from_kelvin_delta( 0 );
     // Modifier from fields
-    for( auto fd : here.field_at( location ) ) {
+    for( auto &fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
             lava_mod = units::from_kelvin_delta( 0 );
@@ -1955,7 +1955,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
                 if( rate.success() ) {
                     best_rate = hint_rating::good;
                     return VisitResponse::ABORT;
-                } else if( rate.value() != INEDIBLE || rate.value() != INEDIBLE_MUTATION ) {
+                } else if( rate.value() != INEDIBLE && rate.value() != INEDIBLE_MUTATION ) {
                     best_rate = hint_rating::iffy;
                 }
             }

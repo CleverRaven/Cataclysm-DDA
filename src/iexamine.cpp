@@ -6162,7 +6162,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+    for( const std::pair<const string_id<itype>, int> &mill_type_count : millable_counts ) {
         item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
         const recipe rec = *source.type->milling_data->recipe_;

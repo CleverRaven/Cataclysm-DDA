@@ -386,7 +386,7 @@ void bodygraph_display::draw_partlist()
     werase( w_partlist );
     int y = 0;
     for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
-        const auto bgt = partlist[i];
+        const auto &bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
                           std::get<1>( bgt )->name.translated();

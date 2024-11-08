@@ -362,7 +362,7 @@ static void finalize_item_counts( std::unordered_map<itype_id, float> &item_coun
                 }
             }
         }
-        for( std::pair<const itype_id, int> demographics : category.second.item_weights ) {
+        for( const std::pair<const itype_id, int> &demographics : category.second.item_weights ) {
             item_counts[demographics.first] = 0.0;
         }
     }

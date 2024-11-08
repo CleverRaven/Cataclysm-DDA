@@ -272,7 +272,7 @@ std::function<double( dialogue & )> faction_food_supply_eval( char /* scope */,
 {
     return [fac_val = params[0]]( dialogue & d ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
-        return fac->food_supply.calories;
+        return static_cast<double>( fac->food_supply.calories );
     };
 }
 
