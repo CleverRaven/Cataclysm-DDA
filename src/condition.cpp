@@ -390,7 +390,7 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue con
         }
     }
     if( !d.has_actor( is_npc ) ) {
-        debugmsg( "Tried to access location of invalid %s talker. %s", is_npc ? "beta" : "alpha",
+        debugmsg( "Tried to access location of invalid %s talker.  %s", is_npc ? "beta" : "alpha",
                   d.get_callstack() );
         return tripoint_abs_ms( tripoint_min );
     }

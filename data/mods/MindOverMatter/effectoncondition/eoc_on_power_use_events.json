@@ -134,7 +134,12 @@
         { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_biokinesis" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -173,7 +178,12 @@
         { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_clairsentience" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -216,7 +226,12 @@
         { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_electrokinesis" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -256,7 +271,12 @@
         { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_photokinesis" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -299,7 +319,12 @@
         { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_pyrokinesis" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -338,7 +363,12 @@
         { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_telekinesis" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -377,7 +407,12 @@
         { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_telepathy" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -420,7 +455,12 @@
         { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_teleportation" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
@@ -459,7 +499,12 @@
         { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
         {
           "or": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            {
+              "and": [
+                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "not": { "u_has_proficiency": "prof_contemplation_vitakinesis" } }
+              ]
+            },
             { "math": [ "_success", "==", "false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
