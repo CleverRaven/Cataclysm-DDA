@@ -227,16 +227,10 @@ void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
         for( const JsonObject &value_obj : jo.get_array( array_key ) ) {
 
             TKey value;
-            if constexpr( std::is_same_v<TKey, enchant_vals::mod> ) {
-                value = io::string_to_enum<enchant_vals::mod>( value_obj.get_string( type_key ) );
-            } else {
-                value = TKey( value_obj.get_string( type_key ) );
-            }
+            mandatory( value_obj, false, type_key, value );
 
             if( value_obj.has_member( "add" ) ) {
                 dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
-                // mandatory( jo, true, value_obj.get_string( type_key ), value );
-                // for whatever reason doesn't clang good with enchant_vals::mod
                 add_map.emplace( value, add );
             }
 
@@ -248,7 +242,6 @@ void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
                     mult = get_dbl_or_var( value_obj, "multiply", false );
 
                 }
-                // mandatory( jo, true, value_obj.get_string( type_key ), value );
                 mult_map.emplace( value, mult );
             }
 
