@@ -12,23 +12,8 @@
           ]
         },
         { "math": [ "magic_potential", ">", "0" ] },
-        {
-          "not": {
-            "u_has_any_trait": [
-              "DREAMLESS",
-              "CHANGELING_MAGIC",
-              "NATIVE_SHAPESHIFTER",
-              "LILIN_TRAITS",
-              "ARVORE",
-              "IERDE",
-              "HOMULLUS",
-              "SALAMANDER",
-              "SYLPH",
-              "UNDINE",
-              "VAMPIRE"
-            ]
-          }
-        }
+        { "not": { "u_has_trait": "DREAMLESS" } },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
       ]
     }
   },
