@@ -2419,6 +2419,7 @@
   {
     "type": "effect_type",
     "id": "effect_vita_super_heal",
+    "name": [ "Anabolic Rejuvenation" ],
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
