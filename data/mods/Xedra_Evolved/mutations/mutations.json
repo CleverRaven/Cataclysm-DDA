@@ -164,7 +164,8 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL", "HEMOVORE" ]
+    "flags": [ "CANNIBAL", "HEMOVORE" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
