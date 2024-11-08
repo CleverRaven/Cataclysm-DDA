@@ -383,14 +383,18 @@ str_translation_or_var get_str_translation_or_var(
 
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d, bool is_npc )
 {
-    tripoint_abs_ms target_pos = get_map().getglobal( d.actor( is_npc )->pos() );
     if( var.has_value() ) {
         std::string value = read_var_value( var.value(), d );
         if( !value.empty() ) {
-            target_pos = tripoint_abs_ms( tripoint::from_string( value ) );
+            return tripoint_abs_ms( tripoint::from_string( value ) );
         }
     }
-    return target_pos;
+    if( !d.has_actor( is_npc ) ) {
+        debugmsg( "Tried to access location of invalid %s talker.  %s", is_npc ? "beta" : "alpha",
+                  d.get_callstack() );
+        return tripoint_abs_ms( tripoint_min );
+    }
+    return get_map().getglobal( d.actor( is_npc )->pos() );
 }
 
 template<class T>

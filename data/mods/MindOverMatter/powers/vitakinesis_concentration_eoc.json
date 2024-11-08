@@ -468,6 +468,21 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_vita_super_heal", "duration": "PERMANENT" },
       {
+        "run_eocs": "EOC_VITAKIN_SUPER_HEAL_RUN_HEALING",
+        "time_in_future": [
+          {
+            "math": [
+              "20 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 17) "
+            ]
+          },
+          {
+            "math": [
+              "35 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 28) "
+            ]
+          }
+        ]
+      },
+      {
         "run_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
           {
