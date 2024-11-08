@@ -65,8 +65,7 @@ class AppDelegate : SDLUIKitDelegate
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
-    override func viewDidLoad()
-    {
+    func viewDidLoad() {
         super.viewDidLoad()
         let safeareainsets = UIApplication.keywindow.safeAreaInsets
         iossetvisibledisplayframe(safeareainsets.left, safeareainsets.top, safeareainsets.right, safeareainsets.bottom)
