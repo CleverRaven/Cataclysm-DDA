@@ -1111,26 +1111,20 @@
             { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
           ]
         },
-        "then": [
-          {
-            "math": [ "u_hp('arm_l')", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-          },
-          {
-            "math": [ "u_hp('arm_r')", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-          },
-          {
-            "math": [ "u_hp('leg_l')", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-          },
-          {
-            "math": [ "u_hp('leg_r')", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-          },
-          {
-            "math": [ "u_hp('torso')", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-          },
-          {
-            "math": [ "u_hp('head')", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-          }
-        ]
+       "then": {
+          "foreach": "array",
+          "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+          "var": { "context_val": "id" },
+          "effect": [
+            {
+              "if": { "math": [ "u_hp(_id)", "<", "u_hp_max(_id)" ] },
+              "then": {
+                "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
+              }
+            }
+          ]
+        }
+
       },
       {
         "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l')", ">=", "1" ] },
