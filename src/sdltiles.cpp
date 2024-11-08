@@ -507,6 +507,16 @@ extern "C" {
     }
 #endif
 
+#if defined(__IPHONEOS__)
+    void iossetvisibledisplayframe(int left, int top, int right, int bottom){
+        has_visible_display_frame = true;
+        visible_display_frame_dirty = true;
+        visible_display_frame.x = left;
+        visible_display_frame.y = top;
+        visible_display_frame.w = right - left;
+        visible_display_frame.h = bottom - top;
+    }
+#endif
 } // "C"
 
 SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
@@ -532,7 +542,6 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         dstrect.w = WindowHeightLessShortcuts * DisplayBufferAspect;
         dstrect.h = WindowHeightLessShortcuts;
     }
-#if defined(__ANDROID__)
     // Make sure the destination rectangle fits within the visible area
     if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
         int vdf_right = visible_display_frame.x + visible_display_frame.w;
@@ -544,7 +553,6 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
             dstrect.h = vdf_bottom - dstrect.y;
         }
     }
-#endif
     return dstrect;
 }
 #endif
