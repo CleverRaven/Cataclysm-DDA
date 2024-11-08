@@ -32,7 +32,7 @@
         "ssssssssssssss$$s$$ss4ss",
         "ssssssssssssssssssssssss"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "$": "t_region_shrub_decorative",
@@ -160,7 +160,7 @@
         " ##.Id-dI..^.Id#s##ww##s",
         "  ##############ssssssss"
       ],
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_carpets_palette", "parametrized_highrise_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "$": "t_region_shrub_decorative",

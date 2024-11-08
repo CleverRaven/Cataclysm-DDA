@@ -274,7 +274,7 @@
   {
     "type": "palette",
     "id": "airport_palette",
-    "palettes": [ "parametrized_walls_palette" ],
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "│": "t_null",
       " ": "t_region_groundcover_urban",

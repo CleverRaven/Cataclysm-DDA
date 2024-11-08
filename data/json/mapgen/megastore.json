@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "megastore",
-    "palettes": [ "parametrized_walls_palette" ],
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "│": "t_hole",
       " ": "t_region_groundcover_urban",
