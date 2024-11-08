@@ -283,7 +283,7 @@ static void WinCreate()
 #endif
 
 #if defined(__IPHONEOS__)
-    window_flags = SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
+    window_flags = SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
@@ -326,7 +326,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) || !defined(__IPHONEOS__) || !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) || !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.

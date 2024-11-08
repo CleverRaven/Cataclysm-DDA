@@ -97,6 +97,7 @@ targets:
         LIBRARY_SEARCH_PATHS:
           - ../build/libs/
           - $(inherited)
+        SWIFT_OBJC_BRIDGING_HEADER: "swift/CataclysmExperimental-Bridging-Header.h"
         GCC_PREPROCESSOR_DEFINITIONS: 
           - GIT_VERSION 
           - TILES 
