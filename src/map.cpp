@@ -7892,15 +7892,18 @@ int map::coverage( const tripoint &p ) const
 
 int map::coverage( const tripoint_bub_ms &p ) const
 {
-    if( const furn_id &obstacle_f = furn( p ) ) {
-        return obstacle_f->coverage;
-    }
     if( const optional_vpart_position vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+        }
+        std::optional<vpart_reference> part = vp->part_with_feature( VPFLAG_OBSTACLE, true, true );
+        if( !( part && part->has_feature( VPFLAG_OPENABLE ) && part->part().open ) &&
+            !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
             return 45;
         }
+    }
+    if( const furn_id &obstacle_f = furn( p ) ) {
+        return obstacle_f->coverage;
     }
     return ter( p )->coverage;
 }
