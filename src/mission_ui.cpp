@@ -266,10 +266,9 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
 void mission_ui_impl::draw_selected_description( std::vector<mission *> missions,
         int &selected_mission )
 {
-    // roughly 6 lines of header info. title+tab+objective+table headers+2 lines worth of padding between those four
-    const float header_height = ImGui::GetTextLineHeight() * 6;
-    if( ImGui::BeginChildFrame( ImGui::GetID( "##DESCRIPTION_DISPLAY" ),
-                                ImVec2( table_column_width * 1.15, window_height - header_height ) ) ) {
+    ImVec2 display_rect = ImGui::GetContentRegionAvail();
+    display_rect.x = display_rect.x - ImGui::GetStyle().ScrollbarSize; // leave room for it!
+    if( ImGui::BeginChildFrame( ImGui::GetID( "##DESCRIPTION_DISPLAY" ), display_rect ) ) {
         if( scroll_up_this_frame ) {
             ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
         } else if( scroll_dn_this_frame ) {
@@ -301,7 +300,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
             }
             parse_tags( parsed_description, get_player_character(), get_player_character() );
         }
-        cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
+        cataimgui::draw_colored_text( parsed_description, c_unset, display_rect.x );
         if( miss->has_deadline() ) {
             const time_point deadline = miss->get_deadline();
             if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
