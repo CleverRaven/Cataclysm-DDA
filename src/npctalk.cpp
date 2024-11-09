@@ -5135,7 +5135,7 @@ talk_effect_fun_t::func f_attack( const JsonObject &jo, std::string_view member,
 {
     str_or_var force_technique = get_str_or_var( jo.get_member( member ), member, true );
     bool allow_special = jo.get_bool( "allow_special", true );
-    bool allow_unarmed = jo.get_bool( "allow_unarmed", true );;
+    bool allow_unarmed = jo.get_bool( "allow_unarmed", true );
     dbl_or_var forced_movecost = get_dbl_or_var( jo, "forced_movecost", false, -1.0 );
 
     return [is_npc, allow_special, force_technique, allow_unarmed,
