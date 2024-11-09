@@ -19,6 +19,7 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -52,7 +53,6 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-#include "cata_imgui.h"
 #include "imgui/imgui.h"
 
 class demo_ui : public cataimgui::window
@@ -68,10 +68,18 @@ class demo_ui : public cataimgui::window
         void on_resized() override {
             init();
         };
+
+    private:
+        std::shared_ptr<cataimgui::Paragraph> stuff;
 };
 
 demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) )
 {
+    // char *text = "Some long text that will wrap around nicely. </color> <color_green><color_red>Some red text in the </color>middle.</color>  Some long text that will <color_light_blue_yellow>wrap around nicely.";
+    std::string text =
+        "Some long text that will wrap around nicely.  <color_red>Some red text in the middle.</color>  Some long text that will wrap around nicely.";
+    stuff = std::make_shared<cataimgui::Paragraph>();
+    stuff->append_colored_text( text, c_white );
 }
 
 cataimgui::bounds demo_ui::get_bounds()
@@ -81,7 +89,85 @@ cataimgui::bounds demo_ui::get_bounds()
 
 void demo_ui::draw_controls()
 {
+#ifndef TUI
     ImGui::ShowDemoWindow();
+#endif
+
+#ifdef TUI
+    ImGui::SetNextWindowPos( { 0, 0 }, ImGuiCond_Once );
+    ImGui::SetNextWindowSize( { 60, 40 }, ImGuiCond_Once );
+#else
+    ImGui::SetNextWindowSize( { 620, 900 }, ImGuiCond_Once );
+#endif
+    if( ImGui::Begin( "test" ) ) {
+#ifdef TUI
+        static float wrap_width = 50.0f;
+        ImGui::SliderFloat( "Wrap width", &wrap_width, 1, 60, "%.0f" );
+        float marker_size = 0.0f;
+#else
+        static float wrap_width = 200.0f;
+        ImGui::SliderFloat( "Wrap width", &wrap_width, -20, 600, "%.0f" );
+        float marker_size = ImGui::GetTextLineHeight();
+#endif
+
+#define WRAP_START()                                                           \
+    ImDrawList *draw_list = ImGui::GetWindowDrawList();                        \
+    ImVec2 pos = ImGui::GetCursorScreenPos();                                  \
+    ImVec2 marker_min = ImVec2(pos.x + wrap_width, pos.y);                     \
+    ImVec2 marker_max =                                                        \
+            ImVec2(pos.x + wrap_width + marker_size, pos.y + marker_size);         \
+    ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + wrap_width);
+
+#define WRAP_END()                                                             \
+    draw_list->AddRectFilled(marker_min, marker_max,                           \
+                             IM_COL32(255, 0, 255, 255));                      \
+    ImGui::PopTextWrapPos();
+
+        // three sentences in a nicely–wrapped paragraph
+        if( ImGui::CollapsingHeader( "Plain wrapped text" ) ) {
+            WRAP_START();
+            ImGui::TextWrapped( "%s",
+                                "Some long text that will wrap around nicely.  Some red text in the middle.  Some long text that will wrap around nicely." );
+            WRAP_END();
+            ImGui::NewLine();
+        }
+
+        if( ImGui::CollapsingHeader( "Styled Paragraph" ) ) {
+            WRAP_START();
+            cataimgui::TextStyled( stuff, wrap_width );
+            WRAP_END();
+            ImGui::NewLine();
+        }
+
+        if( ImGui::CollapsingHeader( "Unstyled Paragraph" ) ) {
+            WRAP_START();
+            cataimgui::TextUnstyled( stuff, wrap_width );
+            WRAP_END();
+            ImGui::NewLine();
+        }
+
+        if( ImGui::CollapsingHeader( "Styled Paragraph, no allocations" ) ) {
+            WRAP_START();
+            cataimgui::TextParagraph( c_white, "Some long text that will wrap around nicely.", wrap_width );
+            cataimgui::TextParagraph( c_red, "  Some red text in the middle.", wrap_width );
+            cataimgui::TextParagraph( c_white, "  Some long text that will wrap around nicely.", wrap_width );
+            ImGui::NewLine();
+            WRAP_END();
+            ImGui::NewLine();
+        }
+
+        if( ImGui::CollapsingHeader( "Naive attempt" ) ) {
+            WRAP_START();
+            // same three sentences, but the color breaks the wrapping
+            ImGui::TextUnformatted( "Some long text that will wrap around nicely." );
+            ImGui::SameLine();
+            ImGui::TextColored( c_red, "%s", "Some red text in the middle." );
+            ImGui::SameLine();
+            ImGui::TextUnformatted( "Some long text that will wrap around nicely." );
+            WRAP_END();
+        }
+    }
+    ImGui::End();
 }
 
 void demo_ui::init()
