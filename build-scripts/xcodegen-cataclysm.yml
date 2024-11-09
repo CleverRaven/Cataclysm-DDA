@@ -47,6 +47,7 @@ targets:
         buildPhase: sources
         includes:
           - "**/swift/*.swift"
+          - "**/swift/*.h"
           - "**/third-party/imgui/*.cpp"
           - "**/third-party/imgui/*.h"
           - "*.cpp"
@@ -89,6 +90,7 @@ targets:
         CMAKE_CXX_STANDARD_REQUIRED: ON
         CMAKE_CXX_EXTENSIONS: OFF
         CLANG_WARN_DOCUMENTATION_COMMENTS: false
+        CLANG_ENABLE_MODULES: YES
         GCC_WARN_64_TO_32_BIT_CONVERSION: No
         SWIFT_OBJC_INTEROP_MODE: objcxx
         HEADER_SEARCH_PATHS: 
