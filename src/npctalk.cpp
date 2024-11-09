@@ -62,6 +62,7 @@
 #include "npctalk.h"
 #include "npctalk_rules.h"
 #include "npctrade.h"
+#include "npc_class.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -1567,7 +1568,11 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
             npc *npc_actor = d.actor( true )->get_npc();
             if( npc_actor ) {
-                d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
+                if( npc_actor->myclass->bye_message_override.empty() ) {
+                    d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
+                } else {
+                    d.actor( true )->say( npc_actor->myclass->bye_message_override.translated() );
+                }
             }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
@@ -1689,7 +1694,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return actor( true )->get_npc()->chat_snippets().snip_bye.translated();
+        npc *guy = actor( true )->get_npc();
+        if( guy->myclass->bye_message_override.empty() ) {
+            return guy->chat_snippets().snip_bye.translated();
+        } else {
+            return guy->myclass->bye_message_override.translated();
+        }
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );

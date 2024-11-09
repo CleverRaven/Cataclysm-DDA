@@ -294,9 +294,17 @@ class overmap
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
         /**
-         * Dummy value, used to indicate that a point returned by a function is invalid.
+         * Dummy value, used to indicate that a tripoint returned by a function is invalid.
          */
         static constexpr tripoint_abs_omt invalid_tripoint{ tripoint_min };
+        /**
+         * Dummy value, used to indicate that a tripoint returned by a function is invalid.
+         */
+        static constexpr tripoint_bub_ms invalid_tripoint_bub_ms{ tripoint_min };
+        /**
+         * Dummy value, used to indicate that a point returned by a function is invalid.
+         */
+        static constexpr point invalid_point{ point_min };
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
