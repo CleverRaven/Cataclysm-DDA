@@ -3930,7 +3930,7 @@ int map::collapse_check( const tripoint_bub_ms &p ) const
     int num_supports = p.z() == OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
     if( p.z() > -OVERMAP_DEPTH ) {
-        const tripoint_bub_ms &pbelow = tripoint_bub_ms( p.xy(), p.z() - 1 );
+        const tripoint_bub_ms &pbelow = p + tripoint_below;
         for( const tripoint_bub_ms &tbelow : points_in_radius( pbelow, 1 ) ) {
             if( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, tbelow ) ) {
                 num_supports += 1;
@@ -3975,7 +3975,8 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
                        const bool destroy_pos )
 {
     const bool supports = was_supporting || has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p );
-    const bool wall = was_supporting || has_flag( ter_furn_flag::TFLAG_WALL, p );
+    const bool wall_tree = was_supporting || has_flag( ter_furn_flag::TFLAG_WALL, p ) ||
+                           has_flag( ter_furn_flag::TFLAG_TREE, p );
     // don't bash again if the caller already bashed here
     if( destroy_pos ) {
         destroy( p, silent );
@@ -3988,34 +3989,19 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
     if( supports && !still_supports ) {
         for( const tripoint_bub_ms &t : points_in_radius( p, 1 ) ) {
             // If z-levels are off, tz == t, so we end up skipping a lot of stuff to avoid bugs.
-            const tripoint_bub_ms &tz = tripoint_bub_ms( t.xy(), t.z() + 1 );
-            // if nothing above us had the chance of collapsing, move on
-            if( !one_in( collapse_check( tz ) ) ) {
-                continue;
-            }
-            // if a wall collapses, walls without support from below risk collapsing and
-            //propagate the collapse upwards
-            if( zlevels && wall && p == t && has_flag( ter_furn_flag::TFLAG_WALL, tz ) ) {
+            const tripoint_bub_ms &tz = t + tripoint_above;
+            const bool collapse_above = one_in( collapse_check( tz ) );
+
+            if( zlevels && wall_tree && collapse_above ) {
                 collapse_at( tz, silent );
-            }
-            // floors without support from below risk collapsing into open air and can propagate
-            // the collapse horizontally but not vertically
-            if( p != t && ( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, t ) &&
-                            has_flag( ter_furn_flag::TFLAG_COLLAPSES, t ) ) ) {
-                collapse_at( t, silent );
-            }
-            // this tile used to support a roof, now it doesn't, which means there is only
-            // open air above us
-            if( zlevels ) {
-                // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
-                // a wall which doesn't make sense.
-                if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
-                    furn_set( tz, furn_str_id::NULL_ID() );
-                    ter_set( tz, ter_t_open_air );
-                    Creature *critter = get_creature_tracker().creature_at( tz );
-                    if( critter != nullptr ) {
-                        creature_on_trap( *critter );
-                    }
+
+                // this tile used to support a roof, now it doesn't, which means there is only
+                // open air above us
+                furn_set( tz, furn_str_id::NULL_ID() );
+                ter_set( tz, ter_t_open_air );
+                Creature *critter = get_creature_tracker().creature_at( tz );
+                if( critter != nullptr ) {
+                    creature_on_trap( *critter );
                 }
             }
         }
