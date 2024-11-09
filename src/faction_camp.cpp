@@ -23,6 +23,7 @@
 #include "colony.h"
 #include "color.h"
 #include "coordinates.h"
+#include "crafting_gui.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -83,6 +84,8 @@
 class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const efftype_id effect_HACK_camp_vision_for_npc( "HACK_camp_vision_for_npc" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
@@ -788,8 +791,12 @@ void talk_function::basecamp_mission( npc &p )
 
 void basecamp::add_available_recipes( mission_data &mission_key, mission_kind kind,
                                       const point &dir,
-                                      const std::map<recipe_id, translation> &craft_recipes )
+                                      const std::unordered_set<recipe_id> &craft_recipes )
 {
+    // FIXME: parameters "DUMMY_RECIPE_REPLACED_IN_CAMP" need to be replaced before comp is sent on mission!
+    const mission_id miss_id = {kind, "DUMMY_RECIPE_REPLACED_IN_CAMP", {}, dir};
+    mission_key.add_start( miss_id, "Crafting", "GUI-based crafting from the 21st century", true );
+    /*
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
     for( const auto &recipe_data : craft_recipes ) {
         const mission_id miss_id = {kind, recipe_data.first.str(), {}, dir};
@@ -800,6 +807,7 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
                              _inv, recp.get_component_filter() );
         mission_key.add_start( miss_id, title_e, entry, craftable );
     }
+    */
 }
 
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
@@ -1231,10 +1239,11 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
     }
 
-    std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
+    std::unordered_set<recipe_id> craft_recipes = recipe_deck_all();
     {
         mission_id miss_id = { Camp_Crafting, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id, true );
+        // WTF?
         if( npc_list.size() < 3 ) {
             add_available_recipes( mission_key, Camp_Crafting, dir, craft_recipes );
         }
@@ -3520,53 +3529,95 @@ void basecamp::start_combat_mission( const mission_id &miss_id, float exertion_l
 
 void basecamp::start_crafting( const std::string &type, const mission_id &miss_id )
 {
-    const std::map<recipe_id, translation> &recipes = recipe_deck( type );
-    const auto it = recipes.find( recipe_id( miss_id.parameters ) );
-    if( it != recipes.end() ) {
-        const recipe &making = it->first.obj();
-
-        if( !making.deduped_requirements().can_make_with_inventory(
-                _inv, making.get_component_filter() ) ) {
-            popup( _( "You don't have the materials to craft that" ) );
-            return;
-        }
-
-        int batch_size = 1;
-        string_input_popup popup_input;
-        int batch_max = recipe_batch_max( making );
-        const std::string title = string_format( _( "Batch crafting %s [MAX: %d]: " ),
-                                  making.result_name( /*decorated=*/true ), batch_max );
-        popup_input.title( title ).edit( batch_size );
-
-        if( popup_input.canceled() || batch_size <= 0 ) {
-            return;
-        }
-        if( batch_size > recipe_batch_max( making ) ) {
-            popup( _( "Your batch is too large!" ) );
-            return;
-        }
-
-        mapgen_arguments arg;  //  Created with a default value.
-        basecamp_action_components components( making, arg, batch_size, *this );
-        if( !components.choose_components() ) {
-            return;
-        }
-
-        time_duration work_days = base_camps::to_workdays( making.batch_duration( get_player_character(),
-                                  batch_size ) );
-        npc_ptr comp = start_mission( miss_id, work_days, true,
-                                      _( "begins to work…" ), false, {}, making.exertion_level(),
-                                      making.required_skills );
-        if( comp != nullptr ) {
-            components.consume_components();
-            for( const item &results : making.create_results( batch_size ) ) {
-                comp->companion_mission_inv.add_item( results );
+    int num_to_make = 1;
+    npc dummy;
+    for( auto &some_known_recipe : recipe_deck_all() ) {
+        dummy.learn_recipe( &*some_known_recipe );
+    }
+    for( npc_ptr guy : assigned_npcs ) {
+        if( guy.get() ) {
+            // give the dummy a combination of all their skills
+            for( auto &skill_level_pair : guy->get_all_skills() ) {
+                if( skill_level_pair.second.level() > dummy.get_skill_level( skill_level_pair.first ) ) {
+                    dummy.set_skill_level( skill_level_pair.first, skill_level_pair.second.level() );
+                }
             }
-            for( const item &byproducts : making.create_byproducts( batch_size ) ) {
-                comp->companion_mission_inv.add_item( byproducts );
+            // and their proficiencies
+            for( auto &some_proficiency : guy->known_proficiencies() ) {
+                dummy.add_proficiency( some_proficiency, true, true );
             }
         }
+    }
+
+    // Force dummy to always be able to see for crafting. We don't care if it's dark out.
+    dummy.add_effect( effect_HACK_camp_vision_for_npc, 1_turns, true );
+
+    validate_sort_points();
+    form_crafting_inventory( get_camp_map() );
+
+
+    std::pair<Character *, const recipe *> crafter_recipe_pair = select_crafter_and_crafting_recipe(
+                num_to_make, recipe_id(), &dummy, "", true, &_inv );
+    if( !crafter_recipe_pair.second ) {
+        return; // player aborted crafting
+    }
+    const recipe *making = crafter_recipe_pair.second;
+
+    // Cut into below code, send them out on companion mission, same return. Use crafting GUI to filter whether
+    // recipe is legal
+
+    uilist choose_crafter;
+    choose_crafter.title = _( "Choose a NPC to craft" );
+    int i = 0;
+    for( npc_ptr guy : assigned_npcs ) {
+        if( guy.get() ) {
+            const recipe *r = crafter_recipe_pair.second;
+            bool has_skills = r->skill_used.is_null() ||
+                              guy->get_skill_level( r->skill_used ) >= r->get_difficulty( *guy );
+            bool has_profs = r->character_has_required_proficiencies( *guy );
+            bool is_available_for_work = !guy->has_companion_mission();
+            bool can_be_picked = has_skills && has_profs && is_available_for_work;
+            std::string refusal_reason;
+            if( !has_skills ) {
+                refusal_reason = _( "lacks necessary skills" );
+            } else if( !has_profs ) {
+                refusal_reason = _( "lacks necessary proficiencies" );
+            } else if( !is_available_for_work ) {
+                refusal_reason = _( "already working on something else" );
+            }
+            // FIXME: Isn't there a smarter way to do this??
+            std::string refuse_string = string_format( "<color_red>%s</color>", refusal_reason );
+            choose_crafter.addentry_col( i, can_be_picked, input_event(), guy->disp_name(), refuse_string );
+            i++;
+        }
+    }
+
+    choose_crafter.query();
+
+    if( choose_crafter.ret < 0 || choose_crafter.ret >= assigned_npcs.size() ) {
+        return; // player aborted selection
+    }
+
+    mapgen_arguments arg;  //  Created with a default value.
+    basecamp_action_components components( *making, arg, num_to_make, *this );
+    if( !components.choose_components() ) {
         return;
+    }
+
+    time_duration work_days = base_camps::to_workdays( making->batch_duration( get_player_character(),
+                              num_to_make ) );
+    // FIXME: Should use selected crafter, not query again!
+    npc_ptr comp = start_mission( miss_id, work_days, true,
+                                  _( "begins to work…" ), false, {}, making->exertion_level(),
+                                  making->required_skills );
+    if( comp != nullptr ) {
+        components.consume_components();
+        for( const item &results : making->create_results( num_to_make ) ) {
+            comp->companion_mission_inv.add_item( results );
+        }
+        for( const item &byproducts : making->create_byproducts( num_to_make ) ) {
+            comp->companion_mission_inv.add_item( byproducts );
+        }
     }
 }
 

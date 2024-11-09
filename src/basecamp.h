@@ -284,6 +284,8 @@ class basecamp
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
         // from a building
         std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
+        // All recipes known by NPCs stationed here + all recipes provided by all expansions
+        std::unordered_set<recipe_id> recipe_deck_all() const;
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
@@ -332,7 +334,7 @@ class basecamp
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
-                                    const std::map<recipe_id, translation> &craft_recipes );
+                                    const std::unordered_set<recipe_id> &craft_recipes );
 
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
