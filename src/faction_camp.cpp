@@ -1410,12 +1410,23 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
     {
         if( directions.size() < 8 ) {
             bool free_non_field_found = false;
+            bool possible_expansion_found = false;
 
             for( const auto &dir : base_camps::all_directions ) {
-                if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() &&
-                    overmap_buffer.ter_existing( omt_pos + dir.first ) != oter_id( "field" ) ) {
-                    free_non_field_found = true;
-                    break;
+                if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() ) {
+                    const oter_id &omt_ref = overmap_buffer.ter( omt_pos + dir.first );
+                    if( !free_non_field_found && omt_ref != oter_id( "field" ) ) {
+                        free_non_field_found = true;
+                    }
+                    if( !possible_expansion_found ) {
+                        const std::optional<mapgen_arguments> *maybe_args =
+                            overmap_buffer.mapgen_args( omt_pos + dir.first );
+                        possible_expansion_found = recipe_group::has_recipes_by_id( "all_faction_base_expansions",
+                                                   omt_ref, maybe_args );
+                    }
+                    if( free_non_field_found && possible_expansion_found ) {
+                        break;
+                    }
                 }
             }
 
@@ -1448,22 +1459,6 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                     bool avail = update_time_left( entry, npc_list );
                     mission_key.add_return( miss_id, _( "Recover Field Surveyor" ),
                                             entry, avail );
-                }
-            }
-
-            bool possible_expansion_found = false;
-
-            for( const auto &dir : base_camps::all_directions ) {
-                if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() ) {
-                    const oter_id &omt_ref = overmap_buffer.ter( omt_pos + dir.first );
-                    const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args(
-                                omt_pos + dir.first );
-                    const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions",
-                                                 omt_ref, maybe_args );
-                    if( !pos_expansions.empty() ) {
-                        possible_expansion_found = true;
-                        break;
-                    }
                 }
             }
 
