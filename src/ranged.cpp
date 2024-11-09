@@ -807,8 +807,8 @@ bool Character::handle_gun_damage( item &it )
         it.inc_damage();
     }
     if( !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-        if( it.ammo_data() != nullptr && ( ( it.ammo_data()->ammo->recoil < it.min_cycle_recoil() ) ||
-                                           ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
+        if( it.has_ammo_data() && ( ( it.ammo_data()->ammo->recoil < it.min_cycle_recoil() ) ||
+                                    ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
             it.faults_potential().count( fault_gun_chamber_spent ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
@@ -2172,12 +2172,12 @@ static projectile make_gun_projectile( const item &gun )
 
     auto &fx = proj.proj_effects;
 
-    if( ( gun.ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
+    if( ( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
         fx.count( ammo_effect_SHOT ) || fx.count( ammo_effect_BOUNCE ) ) {
         fx.insert( ammo_effect_WIDE );
     }
 
-    if( gun.ammo_data() ) {
+    if( gun.has_ammo_data() ) {
         const auto &ammo = gun.ammo_data()->ammo;
 
         // Some projectiles have a chance of being recoverable
@@ -2312,7 +2312,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    if( ammo_data() ) {
+    if( has_ammo_data() ) {
         noise += ammo_data()->ammo->loudness;
     }
     for( const item *mod : gunmods() ) {

@@ -468,7 +468,7 @@ bool npc_attack_gun::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield or which lacks ammo.
     return ( source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success() )
-           && gun.ammo_data() != nullptr && gun.ammo_data()->ammo != nullptr;
+           && gun.has_ammo();
 }
 
 int npc_attack_gun::base_time_penalty( const npc &source ) const
