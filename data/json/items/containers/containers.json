@@ -4608,6 +4608,33 @@
     "melee_damage": { "bash": 20 }
   },
   {
+    "id": "nitrox_canister",
+    "type": "TOOL",
+    "category": "tool_magazine",
+    "name": { "str": "nitrox container" },
+    "description": "A small tank of nitrox, a mixture of nitrogen and oxygen used for diving.",
+    "weight": "25 g",
+    "volume": "755 ml",
+    "longest_side": "12 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "nitrox": 3 }
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
     "id": "small_propane_tank",
     "type": "TOOL",
     "category": "tool_magazine",

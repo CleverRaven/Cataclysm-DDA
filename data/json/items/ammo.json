@@ -1384,7 +1384,7 @@
     "name": { "str_sp": "nitrox" },
     "symbol": "=",
     "color": "white",
-    "container": "bottle_plastic",
+    "container": "nitrox_canister",
     "sealed": false,
     "description": "A mixture of oxygen and nitrogen in proportions suitable for sustaining divers.",
     "volume": "250 ml",
