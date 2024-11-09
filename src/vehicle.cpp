@@ -3045,6 +3045,7 @@ std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const st
     return vehicle::get_parts_at( tripoint_bub_ms( pos ), flag, condition );
 }
 
+// NOLINTNEXTLINE(readability-make-member-function-const)
 std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint_bub_ms &pos,
         const std::string &flag,
         const part_status_flag condition )
