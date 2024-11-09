@@ -49,6 +49,6 @@ class AppDelegate : SDLUIKitDelegate
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
         let safeareainsets = window?.safeAreaInsets
-        iossetvisibledisplayframe(safeareainsets.left, safeareainsets.top, safeareainsets.right, safeareainsets.bottom)
+        iossetvisibledisplayframe(Int32(safeareainsets?.left), Int32(safeareainsets?.top), Int32(safeareainsets?.right), Int32(safeareainsets?.bottom))
     }
 }
