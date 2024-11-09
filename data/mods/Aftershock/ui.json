@@ -42,8 +42,16 @@
     "label": "SHIELD",
     "label_align": "right",
     "text_align": "right",
-    "widgets": [ "shield_layout_1", "shield_rad_warning" ],
+    "widgets": [ "shield_layout_1", "shield_layout_2" ],
     "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_layout_2",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "label": "SHIELD",
+    "widgets": [ "shield_empty", "shield_rad_warning" ]
   },
   {
     "id": "shield_layout_1",
@@ -51,7 +59,7 @@
     "style": "layout",
     "arrange": "rows",
     "label": "SHIELD",
-    "widgets": [ "shield_gauge", "shield_power_gauge" ]
+    "widgets": [ "shield_title", "shield_gauge", "shield_power_gauge" ]
   },
   {
     "id": "shield_gauge",
@@ -292,32 +300,26 @@
       {
         "text": "  ☢DNGR☢",
         "color": "red",
-        "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
+        "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_ratio", ">=", "0" ] } ] }
       }
     ],
-    "default_clause": {
-      "text": "  ☢DNGR☢",
-      "color": "dark_gray",
-      "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
-    },
+    "default_clause": { "text": "  ☢DNGR☢", "color": "dark_gray" },
     "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   },
   {
-    "id": "shield_heat_warning",
+    "id": "shield_title",
     "type": "widget",
+    "width": 8,
     "style": "text",
-    "clauses": [
-      {
-        "text": "  !HEAT!",
-        "color": "red",
-        "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
-      }
-    ],
-    "default_clause": {
-      "text": "  !HEAT!",
-      "color": "dark_gray",
-      "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_rad_fails", "==", "1" ] } ] }
-    },
+    "string": "SHIELDING:",
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_empty",
+    "type": "widget",
+    "width": 8,
+    "style": "text",
+    "string": "",
     "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   }
 ]

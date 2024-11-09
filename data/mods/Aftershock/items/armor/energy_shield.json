@@ -38,25 +38,9 @@
     ]
   },
   {
-    "id": "spawn_shield",
-    "type": "SPELL",
-    "name": "Spawn Riemann Shield",
-    "description": "Creates a shield.",
-    "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "NO_FAIL", "CONCENTRATE", "SOMATIC", "PERMANENT_ALL_LEVELS", "NO_EXPLOSION_SFX" ],
-    "min_range": 0,
-    "max_range": 0,
-    "min_damage": 1,
-    "max_damage": 1,
-    "effect": "spawn_item",
-    "effect_str": "afs_energy_shield",
-    "shape": "blast",
-    "max_level": 1
-  },
-  {
     "id": "afs_backpack_shieldgen",
     "type": "TOOL_ARMOR",
-    "name": { "str": "SHD-1k Riemman Generator" },
+    "name": { "str": "SHD-1k Riemman Shield Generator" },
     "description": "A backpack mounted shield generator for infantry use, capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consuption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",
     "weight": "10 kg",
     "volume": "18000 ml",
@@ -68,7 +52,7 @@
     "looks_like": "backpack",
     "color": "brown",
     "warmth": 10,
-    "charges_per_use": 1,
+    "charges_per_use": 400,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -94,6 +78,7 @@
               "shield_max_hp": "600",
               "shield_regen": "1",
               "shield_regen_rate": "1",
+              "bionic": "0",
               "turn_cost": "1",
               "success_message": "a",
               "failure_message": "b"
@@ -115,7 +100,7 @@
   {
     "id": "afs_backpack_shieldgen_on",
     "type": "TOOL_ARMOR",
-    "name": { "str": "SHD-1k Riemman Generator (ACTIVE)" },
+    "name": { "str": "SHD-1k Riemman Shield Generator (active)", "str_pl": "SHD-1k Riemman Shield Generators (active)" },
     "copy-from": "afs_backpack_shieldgen",
     "description": "A backpack mounted shield generator for infantry use, capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consumption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",
     "power_draw": "100000 mW",
@@ -137,10 +122,28 @@
       "effect_on_conditions": [
         {
           "id": "afs_backpack_shieldgen_tick",
-          "effect": { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] }
+          "condition": "has_alpha",
+          "effect": { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] },
+          "false_effect": { "transform_item": "afs_backpack_shieldgen" }
         }
       ]
     }
+  },
+  {
+    "id": "spawn_shield",
+    "type": "SPELL",
+    "name": "Spawn Riemann Shield",
+    "description": "Creates a shield.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_FAIL", "CONCENTRATE", "SOMATIC", "PERMANENT_ALL_LEVELS", "NO_EXPLOSION_SFX" ],
+    "min_range": 0,
+    "max_range": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "afs_energy_shield",
+    "shape": "blast",
+    "max_level": 1
   },
   {
     "id": "EOC_start_shield",
@@ -155,7 +158,11 @@
           { "transform_item": { "context_val": "transform_target" }, "active": true },
           { "math": [ "_shield_uid", "=", "rand(1200)" ] },
           { "math": [ "n_shield_gen_uid", "=", "_shield_uid" ] },
-          { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] },
+          {
+            "if": { "math": [ "_is_bionic" ] },
+            "then": [ { "math": [ "u_shield_power_ratio", "=", "u_val('power_percentage')" ] } ],
+            "else": [ { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] } ]
+          },
           {
             "u_run_inv_eocs": "all",
             "search_data": [ { "id": [ "afs_energy_shield" ] } ],
@@ -167,7 +174,7 @@
                   { "math": [ "n_shield_turn", "=", "0" ] },
                   { "math": [ "n_SHIELD_REGEN", "=", "0" ] },
                   { "math": [ "n_SHIELD_REGEN_RATE", "=", "0" ] },
-                  { "math": [ "n_ENERGY_SHIELD_HP", "=", "_shield_max_hp" ] },
+                  { "math": [ "n_ENERGY_SHIELD_HP", "=", "_shield_max_hp*0.1" ] },
                   { "math": [ "n_ENERGY_SHIELD_MAX_HP", "=", "_shield_max_hp" ] },
                   { "math": [ "n_SHIELD_REGEN", "=", "_shield_regen" ] },
                   { "math": [ "n_SHIELD_REGEN_RATE", "=", "shield_regen_rate" ] },
@@ -232,6 +239,45 @@
       { "transform_item": { "context_val": "transform_target" } },
       { "u_remove_item_with": "afs_energy_shield" },
       { "math": [ "u_shield_ratio", "=", "-1" ] }
+    ]
+  },
+  {
+    "//": "This bit is only here to do a final update of the UI when a generator is dropped.",
+    "id": "EOC_check_drop_shield_gen",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_DROP", { "context_val": "activity" } ] },
+        { "math": [ "u_shield_power_ratio", ">=", "0" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_shield_power_ratio", "=", "-1" ] },
+      {
+        "//": "We check if we have another shield generator to update the UI power gauge.",
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true, "flags": [ "SHIELD_GENERATOR" ] } ],
+        "true_eocs": [
+          {
+            "id": "_afs_drop_update_power",
+            "effect": [ { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_detonate_shield",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_armor_destroyed",
+    "condition": { "and": [ { "compare_string": [ "afs_energy_shield", { "context_val": "itype" } ] } ] },
+    "effect": [
+      { "math": [ "u_shield_ratio", "=", "-1" ] },
+      { "u_emit": "heavy_rad_glimmer", "chance_mult": 2 },
+      { "u_message": "The shield blasts you with radiation as it dissipates.", "type": "bad" }
     ]
   }
 ]
