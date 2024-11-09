@@ -44,11 +44,15 @@ public func vibrateDevice() {
 
 class AppDelegate : SDLUIKitDelegate
 {
-    func viewDidLoad() {
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
+    {
+        os_log("Calling from SWIFT")
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
         let safeareainsets = window?.safeAreaInsets
-        iossetvisibledisplayframe(Int32(safeareainsets?.left), Int32(safeareainsets?.top), Int32(safeareainsets?.right), Int32(safeareainsets?.bottom))
+        // Yeah i know it's extremely dirty
+        iossetvisibledisplayframe(Int32(safeareainsets?.left ?? 9999), Int32(safeareainsets?.top ?? 9999), Int32(safeareainsets?.right ?? 9999), Int32(safeareainsets?.bottom ?? 9999))
+        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 }
