@@ -44,7 +44,7 @@ public func vibrateDevice() {
 
 class AppDelegate : SDLUIKitDelegate
 {
-    override func viewDidLoad() {
+    func viewDidLoad() {
         super.viewDidLoad()
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
