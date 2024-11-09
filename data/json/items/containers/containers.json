@@ -4624,7 +4624,7 @@
     "color": "green",
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE",
+        "pocket_type": "CONTAINER",
         "airtight": true,
         "watertight": true,
         "rigid": true
