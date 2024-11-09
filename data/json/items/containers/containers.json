@@ -4614,7 +4614,7 @@
     "name": { "str": "pressurized canister" },
     "description": "A small tank for containing pressurized gases.",
     "weight": "25 g",
-    "volume": "755 ml",
+    "volume": "350 ml",
     "longest_side": "12 cm",
     "price": "20 USD",
     "price_postapoc": "5 USD",
@@ -4622,7 +4622,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "airtight": true, "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "airtight": true, "watertight": true, "rigid": true, "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g" } ],
     "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1 }
   },
