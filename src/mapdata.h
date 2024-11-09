@@ -69,7 +69,7 @@ struct map_ter_bash_info : map_common_bash_info {
 };
 struct map_furn_bash_info : map_common_bash_info {
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
-    map_furn_bash_info() = default;;
+    map_furn_bash_info() = default;
     void load( const JsonObject &jo, bool was_loaded, const std::string &context );
     void check( const std::string &id ) const;
 };

@@ -1547,7 +1547,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
-                std::string desc = cur_recipe->description.translated() + "\n\n";;
+                std::string desc = cur_recipe->description.translated() + "\n\n";
                 desc += list_nested( *crafter, cur_recipe, available_recipes );
                 fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
