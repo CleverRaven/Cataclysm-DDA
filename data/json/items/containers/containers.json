@@ -4608,11 +4608,11 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "id": "nitrox_canister",
+    "id": "pressurized_canister",
     "type": "TOOL",
     "category": "tool_magazine",
-    "name": { "str": "nitrox container" },
-    "description": "A small tank of nitrox, a mixture of nitrogen and oxygen used for diving.",
+    "name": { "str": "pressurized canister" },
+    "description": "A small tank for containing pressurized gases.",
     "weight": "25 g",
     "volume": "755 ml",
     "longest_side": "12 cm",
@@ -4627,8 +4627,7 @@
         "pocket_type": "MAGAZINE",
         "airtight": true,
         "watertight": true,
-        "rigid": true,
-        "ammo_restriction": { "nitrox": 3 }
+        "rigid": true
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
