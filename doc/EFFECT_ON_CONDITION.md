@@ -3455,7 +3455,9 @@ Your character or the npc will forget the recipe
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_forget_recipe" / "npc_forget_recipe" | **mandatory** | string or [variable object](#variable-object) | recipe, that would be forgotten |
+| "u_forget_recipe" / "npc_forget_recipe" | **mandatory** | string or [variable object](#variable-object) | recipe/recipe category to be forgotten |
+| "category" | optional, defaults to false unless subcategory is specified | bool | whether the above field should be interpreted as a category instead of a singular recipe |
+| "subcategory" | optional | string or [variable object](#variable-object) | recipe subcategory of the specified category to be forgotten |
 
 ##### Valid talkers:
 
@@ -3467,6 +3469,16 @@ Your character or the npc will forget the recipe
 You forget the recipe `inventor_research_base_1`
 ```json
 { "u_forget_recipe": "inventor_research_base_1" }
+```
+
+You forget all recipes in the `CC_XEDRA` category
+```json
+{ "u_forget_recipe": "CC_XEDRA", "category": true }
+```
+
+You forget all recipes in the `CC_XEDRA_MISC` subcategory of `CC_XEDRA`
+```json
+{ "u_forget_recipe": "CC_XEDRA", "subcategory": "CC_XEDRA_MISC" }
 ```
 
 You forget a recipe, that was passes by `recipe_id` context value
