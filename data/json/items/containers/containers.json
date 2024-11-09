@@ -4622,8 +4622,16 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "airtight": true, "watertight": true, "rigid": true, "max_contains_volume": "250 ml",
-        "max_contains_weight": "50 g" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g"
+      }
+    ],
     "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1 }
   },
