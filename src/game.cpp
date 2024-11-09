@@ -12375,7 +12375,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
         if( player_displace ) {
             u.setpos( *displace );
-            u.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );;
+            u.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
             add_msg( _( "You push past %s blocking the way." ), crit_name );
         }
     }

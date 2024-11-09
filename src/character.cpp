@@ -1239,7 +1239,7 @@ ret_val<void> Character::can_try_dodge( bool ignore_dodges_left ) const
         add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
         return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
                                             :
-                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
+                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );
     }
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( get_dodges_left() <= 0 && !ignore_dodges_left ) {
@@ -10058,7 +10058,7 @@ ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const
         return ret_val<crush_tool_type>::make_success( tool_type );
     } else {
         return ret_val<crush_tool_type>::make_failure( tool_type,
-                _( "You don't have the tools to crush frozen liquids." ) );;
+                _( "You don't have the tools to crush frozen liquids." ) );
     }
 }
 

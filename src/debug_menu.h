@@ -8,12 +8,11 @@
 #include <string>
 #include <string_view>
 
-#include "coords_fwd.h"
+#include "coordinates.h"
 
 class Character;
 class Creature;
 struct mongroup;
-struct tripoint;
 
 template <typename E> struct enum_traits;
 
@@ -24,7 +23,6 @@ enum class debug_menu_index : int {
     WISH,
     SHORT_TELEPORT,
     LONG_TELEPORT,
-    REVEAL_MAP,
     SPAWN_NPC,
     SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
@@ -164,6 +162,8 @@ Container string_to_iterable( const std::string_view str, const std::string_view
 }
 
 bool is_debug_character();
+void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p = std::nullopt );
+void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p = std::nullopt );
 
 /* Merges iterable elements into std::string with
  * @param delimiter between them

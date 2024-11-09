@@ -52,7 +52,8 @@
         "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ]
       }
     ],
-    "activated_eocs": [ "EOC_LILIN_SPEND_RUACH_FOR_POWERS" ]
+    "activated_eocs": [ "EOC_LILIN_SPEND_RUACH_FOR_POWERS" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",

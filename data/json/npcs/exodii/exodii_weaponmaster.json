@@ -19,6 +19,7 @@
     "traits": [
       { "trait": "EXODII_BODY_9" },
       { "trait": "IGNORE_SOUND" },
+      { "trait": "MUTE" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],

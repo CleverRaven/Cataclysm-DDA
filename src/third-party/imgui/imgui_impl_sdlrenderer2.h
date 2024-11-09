@@ -15,6 +15,10 @@
 #include <functional>
 #include "imgui.h"      // IMGUI_IMPL_API
 
+// NOLINTBEGIN
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+
 struct SDL_Renderer;
 
 IMGUI_IMPL_API bool     ImGui_ImplSDLRenderer2_Init(SDL_Renderer* renderer);
@@ -28,3 +32,6 @@ IMGUI_IMPL_API bool     ImGui_ImplSDLRenderer2_CreateFontsTexture();
 IMGUI_IMPL_API void     ImGui_ImplSDLRenderer2_DestroyFontsTexture();
 IMGUI_IMPL_API bool     ImGui_ImplSDLRenderer2_CreateDeviceObjects();
 IMGUI_IMPL_API void     ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
+
+#pragma GCC diagnostic pop
+// NOLINTEND
