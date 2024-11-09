@@ -1361,6 +1361,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
             { "pt_BR", R"(Português (Brasil))" },
+            { "pt_PT", R"(Português (Portugal))" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
