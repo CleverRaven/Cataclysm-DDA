@@ -4623,13 +4623,7 @@
     "symbol": ";",
     "color": "green",
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "airtight": true,
-        "watertight": true,
-        "rigid": true,
-        "ammo_restriction": { "nitrox": 3 }
-      }
+      { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "nitrox": 3 } }
     ],
     "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1 }
