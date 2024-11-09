@@ -29,6 +29,7 @@
 #include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
+#include "crafting_gui.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_helpers.h"
@@ -4752,14 +4753,14 @@ talk_effect_fun_t::func f_forget_recipe( const JsonObject &jo, std::string_view 
     return [forgotten_recipe, use_subcategory, forgotten_recipe_is_category,
                       forgotten_recipe_subcategory, is_npc]( dialogue const & d ) {
         if( forgotten_recipe_is_category ) {
-            const recipe_subset known_recipes = d.actor( is_npc )->get_available_recipes();
+            const recipe_subset &known_recipes = d.actor( is_npc )->get_character()->get_learned_recipes();
             const crafting_category_id category_to_use( forgotten_recipe.evaluate( d ) );
             const std::string subcategory_to_forget = !forgotten_recipe_subcategory ? "" :
                     forgotten_recipe_subcategory.value().evaluate( d );
             const std::vector<const recipe *> recipes_to_forget =
                 recipes_from_cat( known_recipes, category_to_use, subcategory_to_forget ).first;
             for( const recipe *recipe_to_forget : recipes_to_forget ) {
-                d.actor( is_npc )->forget_recipe( recipe_to_forget );
+                d.actor( is_npc )->forget_recipe( recipe_to_forget->ident() );
             }
         } else {
             const recipe_id &r = recipe_id( forgotten_recipe.evaluate( d ) );
