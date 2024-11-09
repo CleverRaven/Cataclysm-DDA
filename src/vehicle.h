@@ -1544,6 +1544,8 @@ class vehicle
         units::power total_accessory_epower() const;
         // Total power draw from all cable-connected devices. Is cleared every turn during idle().
         units::power linked_item_epower_this_turn; // NOLINT(cata-serialize)
+        // Total power draw from all battery chargers. Is cleared every turn during idle().
+        units::power recharge_epower_this_turn; // NOLINT(cata-serialize)
         // Net power draw or drain on batteries.
         units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
