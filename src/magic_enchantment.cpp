@@ -220,11 +220,11 @@ bool string_id<enchantment>::is_valid() const
 
 template<typename TKey>
 void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
-                            const std::string &array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+                            const std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
                             std::map<TKey, dbl_or_var> &mult_map )
 {
     if( !is_child && jo.has_array( array_key ) ) {
-        for( const JsonObject &value_obj : jo.get_array( array_key ) ) {
+        for( const JsonObject value_obj : jo.get_array( array_key ) ) {
 
             TKey value;
             mandatory( value_obj, false, type_key, value );
