@@ -261,9 +261,9 @@
             }
           ]
         },
-        "values": [
+        "melee_damage_bonus": [
           {
-            "value": "ITEM_DAMAGE_BIO",
+            "type": "biological",
             "add": {
               "math": [ "3 + (u_effect_intensity('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ]
             }
@@ -285,9 +285,9 @@
             }
           ]
         },
-        "values": [
+        "melee_damage_bonus": [
           {
-            "value": "ITEM_DAMAGE_BIO",
+            "type": "biological",
             "add": {
               "math": [ "2 + (u_effect_intensity('effect_lilin_attribute_bonuses') * 2) + (u_vitamin('lilin_ruach_vitamin') / 2000)" ]
             }
@@ -298,11 +298,11 @@
         "condition": {
           "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] } }, { "math": [ "moon_phase() == 8" ] } ]
         },
-        "values": [ { "value": "ITEM_DAMAGE_BIO", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
+        "melee_damage_bonus": [ { "type": "biological", "add": { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') / 3000)" ] } } ]
       },
       {
         "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "and": [ "is_day", "u_is_outside" ] } } ] },
-        "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 1 } ]
+        "melee_damage_bonus": [ { "type": "biological", "add": 1 } ]
       }
     ]
   },

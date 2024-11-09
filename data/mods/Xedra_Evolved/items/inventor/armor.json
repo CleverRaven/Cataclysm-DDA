@@ -569,7 +569,7 @@
           "has": "WORN",
           "condition": "ACTIVE",
           "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
-          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
+          "melee_damage_bonus": [ { "type": "electric", "add": 10 } ]
         }
       ]
     },

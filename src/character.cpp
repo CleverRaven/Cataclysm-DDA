@@ -3743,7 +3743,7 @@ int Character::smash_ability() const
         ret += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
     } else if( get_wielded_item() ) {
         ret += get_wielded_item()->damage_melee( damage_bash );
-        ret = calculate_by_enchantment( ret, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
+        ret = enchantment_cache->modify_melee_damage( damage_bash, ret );
     }
 
     if( !has_weapon() ) {
