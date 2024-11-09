@@ -97,7 +97,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 8, "cut": 20, "acid": 6, "bullet": 9, "electric": 10 },
+    "resist": { "bash": 8, "cut": 20, "acid": 6, "bullet": 9, "electric": 10, "heat": 30 },
     "repair_difficulty": 4
   },
   {
