@@ -159,13 +159,13 @@ void trap::load( const JsonObject &jo, const std::string_view )
         //This is kinda ugly but idk how to do it better bc std::function doesn't support normal equality
         if( act.target_type() != trap_function_from_string( "spell" ).target_type() ) {
             jo.throw_error_at( "spell_data",
-                               "Can't use \"spell_data\" without specifying \"action\": \"spell\"" );
+                               R"(Can't use "spell_data" without specifying "action": "spell")" );
         }
         optional( jo, was_loaded, "spell_data", spell_data );
     }
     if( jo.has_member( "eocs" ) ) {
         if( act.target_type() != trap_function_from_string( "eocs" ).target_type() ) {
-            jo.throw_error_at( "eocs", "Can't use \"eocs\" without specifying \"action\": \"eocs\"" );
+            jo.throw_error_at( "eocs", R"(Can't use "eocs" without specifying "action": "eocs")" );
         }
         for( JsonValue jv : jo.get_array( "eocs" ) ) {
             eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
