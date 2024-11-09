@@ -4622,14 +4622,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "airtight": true,
-        "watertight": true,
-        "rigid": true
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "airtight": true, "watertight": true, "rigid": true } ],
     "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1 }
   },
