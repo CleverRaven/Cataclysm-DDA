@@ -1,6 +1,30 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_SLEEPING_SEIZED_BY_LILIT_WARNING",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "LILIN_TRAITS" } },
+        { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
+        { "not": "is_day" },
+        { "not": "u_is_outside" },
+        { "x_in_y_chance": { "x": 1, "y": 3 } },
+        { "math": [ "time_since('cataclysm', 'unit':'days')", "<=", "7" ] },
+        { "not": { "u_has_effect": "effect_lilin_attack_warning_cooldown" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "The night was a little rough.  You tossed and turned, aware of every single noise and creak of wood in a way you never were before all of this happened, before you finally fell asleep.  You weren't attacked and woke up without trouble, but you have to wonder if it's really safe, sleeping alone like this in an abandoned building?",
+        "popup": true
+      },
+      { "u_add_effect": "effect_lilin_attack_warning_cooldown", "duration": "7 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SLEEPING_SEIZED_BY_LILIT",
     "eoc_type": "EVENT",
     "required_event": "character_falls_asleep",

@@ -2290,6 +2290,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_attack_warning_cooldown",
+    "//": "Hidden effect, used as a blocker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_vampire_immune",
     "//": "Hidden effects, prevents you from being vampirized",
     "name": [ "" ],
