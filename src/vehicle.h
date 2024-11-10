@@ -1564,6 +1564,11 @@ class vehicle
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
+        * @return true if at least one of the connected batteries has any charge left
+        */
+        bool is_battery_available() const;
+
+        /**
         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
         * @return battery charge in kJ from all connected batteries
         */

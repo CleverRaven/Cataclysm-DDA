@@ -5844,6 +5844,20 @@ static void distribute_charge_evenly( const std::map<vpart_reference, float> &ba
     }
 }
 
+bool vehicle::is_battery_available() const
+{
+    for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
+        const vehicle &veh = *pair.first;
+        for( const int part_idx : veh.batteries ) {
+            const vehicle_part &vp = veh.parts[part_idx];
+            if( vp.ammo_remaining() > 0 ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 int64_t vehicle::battery_left( bool apply_loss ) const
 {
     int64_t ret = 0;
