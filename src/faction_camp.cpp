@@ -1984,7 +1984,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
 npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration duration,
                                  bool must_feed, const std::string &desc, bool /*group*/,
                                  const std::vector<item *> &equipment, float exertion_level,
-                                 const std::map<skill_id, int> &required_skills, npc_ptr preselected_choice )
+                                 const std::map<skill_id, int> &required_skills, const npc_ptr &preselected_choice )
 {
     if( must_feed && fac()->food_supply.kcal() < time_to_food( duration, exertion_level ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
@@ -3512,10 +3512,10 @@ void basecamp::start_crafting( const mission_id &miss_id )
 {
     int num_to_make = 1;
     npc dummy;
-    for( auto &some_known_recipe : recipe_deck_all() ) {
+    for( const recipe_id &some_known_recipe : recipe_deck_all() ) {
         dummy.learn_recipe( &*some_known_recipe );
     }
-    for( npc_ptr guy : assigned_npcs ) {
+    for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {
             // give the dummy a combination of all their skills
             for( auto &skill_level_pair : guy->get_all_skills() ) {
@@ -3547,7 +3547,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     uilist choose_crafter;
     choose_crafter.title = _( "Choose a NPC to craft" );
     int i = 0;
-    for( npc_ptr guy : assigned_npcs ) {
+    for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {
             const recipe *r = crafter_recipe_pair.second;
             bool has_skills = r->skill_used.is_null() ||

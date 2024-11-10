@@ -367,7 +367,7 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {},
-                               npc_ptr preselected_choice = nullptr );
+                               const npc_ptr &preselected_choice = nullptr );
         comp_list start_multi_mission( const mission_id &miss_id,
                                        bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..

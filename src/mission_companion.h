@@ -185,7 +185,7 @@ npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &
                             const std::string &desc, const mission_id &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
                             const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false,
-                            npc_ptr preselected_choice = nullptr );
+                            const npc_ptr &preselected_choice = nullptr );
 
 ///All of these missions are associated with the ranch camp and need to be updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const mission_id &miss_id );

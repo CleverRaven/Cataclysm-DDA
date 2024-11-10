@@ -412,7 +412,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 std::unordered_set<recipe_id> basecamp::recipe_deck_all() const
 {
     std::unordered_set<recipe_id> known_recipes;
-    for( npc_ptr guy : assigned_npcs ) {
+    for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {
             for( const recipe *rec : guy->get_learned_recipes() ) {
                 known_recipes.insert( rec->ident() );
@@ -420,10 +420,10 @@ std::unordered_set<recipe_id> basecamp::recipe_deck_all() const
         }
     }
 
-    for( auto exp_iter = expansions.begin(); exp_iter != expansions.end(); exp_iter++ ) {
-        for( const auto &provides : exp_iter->second.provides ) {
+    for( const auto &exp_data_pair : expansions ) {
+        for( const auto &provides : exp_data_pair.second.provides ) {
             const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
-            for( std::pair<const recipe_id, translation> rec_list : test_s ) {
+            for( const std::pair<const recipe_id, translation> &rec_list : test_s ) {
                 known_recipes.insert( rec_list.first );
             }
         }

@@ -1297,7 +1297,8 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
 npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::map<skill_id, int> &required_skills, bool silent_failure, npc_ptr preselected_choice )
+        const std::map<skill_id, int> &required_skills, bool silent_failure,
+        const npc_ptr &preselected_choice )
 {
     npc_ptr comp = preselected_choice ? preselected_choice : companion_choose( required_skills,
                    silent_failure );
