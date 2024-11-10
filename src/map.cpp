@@ -10048,7 +10048,7 @@ void map::set_abs_sub( const tripoint_abs_sm &p )
 {
     abs_sub = p;
     abs_ms = point_abs_ms{ project_to<coords::ms>( abs_sub.xy() ) };
-};
+}
 
 tripoint_abs_sm map::get_abs_sub() const
 {
