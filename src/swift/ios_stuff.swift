@@ -52,7 +52,7 @@ class AppDelegate : SDLUIKitDelegate
         let window = windowScene?.windows.first
         let safeareainsets = window?.safeAreaInsets
         // Yeah i know it's extremely dirty
-        iossetvisibledisplayframe(Int32(safeareainsets?.left ?? 9999), Int32(safeareainsets?.top ?? 9999), Int32(safeareainsets?.right ?? 9999), Int32(safeareainsets?.bottom ?? 9999))
+        //iossetvisibledisplayframe(Int32(safeareainsets?.left ?? 9999), Int32(safeareainsets?.top ?? 9999), Int32(safeareainsets?.right ?? 9999), Int32(safeareainsets?.bottom ?? 9999))
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 }

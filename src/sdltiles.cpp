@@ -2916,20 +2916,20 @@ static void CheckMessages()
                 quick_shortcuts_toggle_handled = true;
                 refresh_display();
 
-#if defined(__ANDROID__)
                 // Display an Android toast message
                 {
-                    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-                    jobject activity = ( jobject )SDL_AndroidGetActivity();
-                    jclass clazz( env->GetObjectClass( activity ) );
-                    jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
-                                            "Shortcuts hidden" );
-                    jmethodID method_id = env->GetMethodID( clazz, "toast", "(Ljava/lang/String;)V" );
-                    env->CallVoidMethod( activity, method_id, toast_message );
-                    env->DeleteLocalRef( activity );
-                    env->DeleteLocalRef( clazz );
-                }
+#if defined(__ANDROID__)
+                                        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+                                        jobject activity = ( jobject )SDL_AndroidGetActivity();
+                                        jclass clazz( env->GetObjectClass( activity ) );
+                                        jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
+                                                                "Shortcuts hidden" );
+                                        jmethodID method_id = env->GetMethodID( clazz, "toast", "(Ljava/lang/String;)V" );
+                                        env->CallVoidMethod( activity, method_id, toast_message );
+                                        env->DeleteLocalRef( activity );
+                                        env->DeleteLocalRef( clazz );
 #endif
+                }
             }
         }
 
@@ -3503,9 +3503,9 @@ static void CheckMessages()
 
                                     quick_shortcuts_toggle_handled = true;
                                     //TODO: get some equivalent to iOS
-#if defined(__ANDROID__)
                                     // Display an Android toast message
                                     {
+#if defined(__ANDROID__)
                                         JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
                                         jobject activity = ( jobject )SDL_AndroidGetActivity();
                                         jclass clazz( env->GetObjectClass( activity ) );
@@ -3515,8 +3515,8 @@ static void CheckMessages()
                                         env->CallVoidMethod( activity, method_id, toast_message );
                                         env->DeleteLocalRef( activity );
                                         env->DeleteLocalRef( clazz );
-                                    }
 #endif
+                                    }
                                 } else {
                                     last_input = input_event( three_tap_key, input_event_t::keyboard_char );
                                 }
