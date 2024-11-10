@@ -12,7 +12,7 @@
 #include "math_parser.h"
 
 class math_exp;
-struct dialogue;
+struct const_dialogue;
 struct diag_value;
 using diag_array = std::vector<diag_value>;
 
@@ -68,10 +68,10 @@ struct diag_value {
 
     // evaluate and possibly convert the parameter to this type.
     // These do not throw and they're meant to be used at runtime
-    double dbl( dialogue const &d ) const;
-    std::string str( dialogue const &d ) const;
-    var_info var( dialogue const &/* d */ ) const;
-    diag_array const &array( dialogue const &/* d */ ) const;
+    double dbl( const_dialogue const &d ) const;
+    std::string str( const_dialogue const &d ) const;
+    var_info var( const_dialogue const &/* d */ ) const;
+    diag_array const &array( const_dialogue const &/* d */ ) const;
 
     impl_t data;
 };

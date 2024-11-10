@@ -1822,7 +1822,7 @@ void npc::on_attacked( const Creature &attacker )
     }
 }
 
-int npc::assigned_missions_value()
+int npc::assigned_missions_value() const
 {
     int ret = 0;
     for( ::mission *m : chatbin.missions_assigned ) {
