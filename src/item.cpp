@@ -5458,11 +5458,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     std::map<damage_type_id, int> dmg_types;
     for( const damage_type &dt : damage_type::get_all() ) {
-        if( dt.physical && dt.melee_only ) {
-            int val = damage_melee( dt.id );
-            if( val ) {
-                dmg_types.emplace( dt.id, val );
-            }
+        int val = damage_melee( dt.id );
+        if( val ) {
+            dmg_types.emplace( dt.id, val );
         }
     }
 
@@ -5474,9 +5472,6 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
         }
         for( const auto &dmg_type : dmg_types ) {
-            if( !dmg_type.first->melee_only ) {
-                continue;
-            }
             info.emplace_back( "BASE", sep + uppercase_first_letter( dmg_type.first->name.translated() ) + ": ",
                                "", iteminfo::no_newline, dmg_type.second );
             sep = space;
@@ -6368,7 +6363,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
-    } else if( is_relic() && !has_flag( flag_MUNDANE ) ) {
+    } else if( ( is_relic() && !has_flag( flag_MUNDANE ) ) || has_flag( flag_RELIC_PINK ) ) {
         ret = c_pink;
     } else if( is_bionic() ) {
         if( player_character.is_installable( this, false ).success() &&

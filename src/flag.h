@@ -292,6 +292,7 @@ extern const flag_id flag_REBREATHER;
 extern const flag_id flag_RECHARGE;
 extern const flag_id flag_REDUCED_BASHING;
 extern const flag_id flag_REDUCED_WEIGHT;
+extern const flag_id flag_RELIC_PINK;
 extern const flag_id flag_RELOAD_AND_SHOOT;
 extern const flag_id flag_RELOAD_EJECT;
 extern const flag_id flag_RELOAD_ONE;

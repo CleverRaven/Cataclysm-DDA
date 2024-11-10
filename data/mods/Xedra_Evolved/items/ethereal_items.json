@@ -87,13 +87,19 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD",
+      "RELIC_PINK"
+    ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "cold", "add": 10 } ] } ]
-    },
     "category": "weapons",
-    "melee_damage": { "bash": 2, "stab": 31 }
+    "melee_damage": { "bash": 2, "stab": 31, "cold": 10 }
   },
   {
     "id": "dagger_dreamdross",
@@ -375,9 +381,6 @@
     ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 0 } ] } ]
-    },
     "melee_damage": { "bash": 1 }
   },
   {

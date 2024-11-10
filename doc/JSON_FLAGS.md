@@ -843,6 +843,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```REBREATHER``` If you wear this item, your oxygen won't fall lower than 12 (default is ~50).
 - ```REDUCED_BASHING``` Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` Gunmod flag; reduces the item's base weight by 25%.
+- ```RELIC_PINK``` - Changes the color of item to pink, same as any another item with magical properties
 - ```REQUIRES_TINDER``` Requires tinder to be present on the tile this item tries to start a fire on.
 - ```ROBOFAC_ROBOT_MEDIUM``` This item is a medium-size Hub 01 drone, and you can store it in specific slot in drone-tech harness.
 - ```ROBOFAC_ROBOT_SMALL``` This item is a small-size Hub 01 drone, and you can store it in specific slot in drone-tech harness.

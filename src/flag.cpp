@@ -287,6 +287,7 @@ const flag_id flag_REBREATHER( "REBREATHER" );
 const flag_id flag_RECHARGE( "RECHARGE" );
 const flag_id flag_REDUCED_BASHING( "REDUCED_BASHING" );
 const flag_id flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
+const flag_id flag_RELIC_PINK( "RELIC_PINK" );
 const flag_id flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 const flag_id flag_RELOAD_EJECT( "RELOAD_EJECT" );
 const flag_id flag_RELOAD_ONE( "RELOAD_ONE" );
