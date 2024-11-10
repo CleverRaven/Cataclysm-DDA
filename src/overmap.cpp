@@ -3933,7 +3933,17 @@ static std::map<std::string, std::string> oter_id_migrations;
 void overmap::load_oter_id_migration( const JsonObject &jo )
 {
     for( const JsonMember &kv : jo.get_object( "oter_ids" ) ) {
-        oter_id_migrations.emplace( kv.name(), kv.get_string() );
+        const std::string old_id = kv.name();
+        const std::string new_id = kv.get_string();
+        // Allow overriding migrations for omts moved to mods
+        if( old_id == new_id ) {
+            if( auto it = oter_id_migrations.find( old_id ); it != oter_id_migrations.end() ) {
+                oter_id_migrations.erase( it );
+            }
+        } else {
+            // Allow overriding migrations for mods that have better omts to use
+            oter_id_migrations.insert_or_assign( old_id, new_id );
+        }
     }
 }
 
