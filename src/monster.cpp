@@ -1085,6 +1085,10 @@ void monster::print_info_imgui() const
 std::vector<std::string> monster::extended_description() const
 {
     std::vector<std::string> tmp;
+    // Reserve the number of elements we know we will need.
+    // Likely we will need more, but it's best to leave that to
+    // exponential growth.
+    tmp.reserve( 12 );
 
     tmp.emplace_back( get_origin( type->src ) );
     tmp.emplace_back( "--" );

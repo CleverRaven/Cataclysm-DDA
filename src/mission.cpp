@@ -406,6 +406,7 @@ void mission::wrap_up()
                 items, grp_type, matches,
                 container, itype_null, specific_container_required );
 
+            comps.reserve( matches.size() );
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.emplace_back( cnt.first, cnt.second );
 

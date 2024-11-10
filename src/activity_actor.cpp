@@ -7372,14 +7372,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
             src_veh = &ovp->vehicle();
             src_part = ovp->part_index();
-            for( item &it : ovp->items() ) {
+            vehicle_stack vp_items = ovp->items();
+            items.reserve( vp_items.size() );
+            for( item &it : vp_items ) {
                 items.emplace_back( &it, true );
             }
         } else {
             src_veh = nullptr;
             src_part = -1;
         }
-        for( item &it : here.i_at( src_loc ) ) {
+        map_stack map_items = here.i_at( src_loc );
+        items.reserve( items.size() + map_items.size() );
+        for( item &it : map_items ) {
             items.emplace_back( &it, false );
         }
 
@@ -7954,11 +7958,13 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     }
 
     std::vector<item_comp> comps;
+    comps.reserve( 2 );
     comps.emplace_back( itype_water, requirements.water );
     comps.emplace_back( itype_water_clean, requirements.water );
     p.consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
+    comps1.reserve( 3 );
     comps1.emplace_back( itype_soap, requirements.cleanser );
     comps1.emplace_back( itype_detergent, requirements.cleanser );
     comps1.emplace_back( itype_liquid_soap, requirements.cleanser );

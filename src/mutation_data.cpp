@@ -1150,6 +1150,7 @@ shared_ptr_fast<Trait_group> mutation_branch::get_group( const
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
 {
     std::vector<trait_group::Trait_group_tag> rval;
+    rval.reserve( trait_groups.size() );
     for( auto &group : trait_groups ) {
         rval.push_back( group.first );
     }

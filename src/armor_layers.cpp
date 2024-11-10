@@ -333,6 +333,7 @@ std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const bool display_median, const damage_type_id &type )
 {
     std::vector<std::pair<std::string, std::string>> subvalues;
+    subvalues.reserve( 2 + ( display_median ? 1 : 0 ) );
     subvalues.emplace_back( _( "Worst:" ), string_format( "%.2f",
                             worst_res.type_resist( type ) ) );
     if( display_median ) {

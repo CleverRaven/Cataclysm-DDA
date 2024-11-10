@@ -1616,6 +1616,7 @@ void basecamp::choose_new_leader()
         return;
     }
     std::vector<std::string> choices;
+    choices.reserve( 3 );
     int choice = 0;
     choices.emplace_back _( "autocratic" );
     choices.emplace_back _( "sortition" );
@@ -4405,6 +4406,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
+        rec_options.reserve( 4 );
         rec_options.emplace_back( _( "Increase Food" ) );
         rec_options.emplace_back( _( "Decrease Food" ) );
         rec_options.emplace_back( _( "Make Offer" ) );
@@ -5077,6 +5079,7 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
             note_pts.emplace_back( pos );
         }
     } else {
+        note_pts.reserve( range * 4 - 4 );
         //North Limit
         for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
             note_pts.emplace_back( x, origin.y() - range, origin.z() );

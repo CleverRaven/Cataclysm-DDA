@@ -1118,6 +1118,7 @@ void vehicle::operate_scoop()
         sounds::sound( bub_part_pos( scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint_bub_ms> parts_points;
+        parts_points.reserve( 8 );
         for( const tripoint_bub_ms &current :
              here.points_in_radius( bub_part_pos( scoop ), 1 ) ) {
             parts_points.push_back( current );

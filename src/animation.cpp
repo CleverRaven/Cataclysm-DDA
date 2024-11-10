@@ -769,6 +769,7 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     }
 
     std::vector<tripoint_bub_ms> temp;
+    temp.reserve( points.size() );
     for( const tripoint &it : points ) {
         const tripoint_bub_ms tmp = tripoint_bub_ms( it );
         temp.push_back( tmp );
