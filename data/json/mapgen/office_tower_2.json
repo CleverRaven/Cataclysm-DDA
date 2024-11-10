@@ -373,7 +373,7 @@
     "object": {
       "fill_ter": "t_open_air",
       "palettes": [ "parametrized_highrise_walls_palette" ],
-      "place_terrain": [ { "ter": { "param": "exterior_wall_type", "fallback": "t_concrete_wall" }, "x": 0, "y": 23 } ]
+      "place_terrain": [ { "ter": { "param": "exterior_highrise_wall_type", "fallback": "t_concrete_wall" }, "x": 0, "y": 23 } ]
     }
   }
 ]
