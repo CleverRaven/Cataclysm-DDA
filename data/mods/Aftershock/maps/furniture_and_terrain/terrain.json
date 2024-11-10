@@ -42,7 +42,7 @@
     "looks_like": "t_wall_glass",
     "name": "clearcrete wall",
     "description": "A barrier made of clearcrete, perfect for greenhouses but looks extremely fragile.  It is most definitely not fragile, and it's probably alarmed in the event of a breach.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_clearcrete_roof",

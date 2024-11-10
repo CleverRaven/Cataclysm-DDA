@@ -177,7 +177,7 @@ player_activity veh_interact::serialize_activity()
     const point_rel_ms q = veh->coord_translate( pt ? pt->mount : veh->part( 0 ).mount );
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
-    for( const tripoint &p : veh->get_points( true ) ) {
+    for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
         res.coord_set.insert( here.getglobal( p ).raw() );
     }
     res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );   // values[0]
@@ -2316,15 +2316,15 @@ void veh_interact::display_veh()
     if( debug_mode ) {
         // show CoM, pivot in debug mode
 
-        const point &pivot = veh->pivot_point();
-        const point &com = veh->local_center_of_mass();
+        const point_rel_ms &pivot = veh->pivot_point();
+        const point_rel_ms &com = veh->local_center_of_mass();
 
-        mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x, com.y );
+        mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x(), com.y() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x, pivot.y );
+        mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x(), pivot.y() );
 
-        const point com_s = ( com + dd ).rotate( 3 ) + h_size;
-        const point pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
+        const point com_s = ( com.raw() + dd ).rotate( 3 ) + h_size;
+        const point pivot_s = ( pivot.raw() + dd ).rotate( 3 ) + h_size;
 
         for( int x = 0; x < getmaxx( w_disp ); ++x ) {
             if( x <= com_s.x ) {
@@ -3088,7 +3088,7 @@ void veh_interact::complete_vehicle( Character &you )
     }
 
     vehicle &veh = ovp->vehicle();
-    const point d( you.activity.values[4], you.activity.values[5] );
+    const point_rel_ms d( you.activity.values[4], you.activity.values[5] );
     const vpart_id part_id( you.activity.str_values[0] );
     const vpart_info &vpinfo = part_id.obj();
 
@@ -3136,7 +3136,7 @@ void veh_interact::complete_vehicle( Character &you )
             const int partnum = veh.install_part( d, part_id, std::move( base ), installed_with );
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s",
-                          d.x, d.y, part_id.c_str() );
+                          d.x(), d.y(), part_id.c_str() );
                 break;
             }
             ::vehicle_part &vp_new = veh.part( partnum );
@@ -3146,15 +3146,15 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Need map-relative coordinates to compare to output of look_around.
             // Need to call coord_translate() directly since it's a new part.
-            const point q = veh.coord_translate( d );
+            const point_rel_ms q = veh.coord_translate( d );
 
             if( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                orient_part( &veh, vpinfo, partnum, q );
+                orient_part( &veh, vpinfo, partnum, q.raw() );
             }
 
-            const tripoint_bub_ms vehp = veh.pos_bub() + tripoint( q, 0 );
+            const tripoint_bub_ms vehp = veh.pos_bub() + tripoint_rel_ms( q, 0 );
             // TODO: allow boarding for non-players as well.
             Character *const pl = get_creature_tracker().creature_at<Character>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
@@ -3341,7 +3341,7 @@ void veh_interact::complete_vehicle( Character &you )
                 veh.part_removal_cleanup();
                 // Ensure the position, pivot, and precalc points are up-to-date
                 veh.pos -= veh.pivot_anchor[0];
-                veh.precalc_mounts( 0, veh.turn_dir, point() );
+                veh.precalc_mounts( 0, veh.turn_dir, point_rel_ms_zero );
                 here.rebuild_vehicle_level_caches();
 
                 if( auto newpart = here.veh_at( act_pos ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {

@@ -1161,8 +1161,8 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
     const map &here = get_map();
-    const furn_id f = here.furn( p );
-    const ter_id t = here.ter( p );
+    const furn_id &f = here.furn( p );
+    const ter_id &t = here.ter( p );
     if( con.pre_specials.size() > 1 ) { // pre-functions
         for( const auto &special : con.pre_specials ) {
             if( !special( p ) ) {
@@ -1572,10 +1572,10 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
         if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
             return false;
         }
-        return here.furn( p ).obj().deconstruct.can_do;
+        return !!here.furn( p ).obj().deconstruct;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return here.ter( p ).obj().deconstruct.can_do;
+    return !!here.ter( p ).obj().deconstruct;
 }
 
 bool construct::check_up_OK( const tripoint_bub_ms & )
@@ -1733,7 +1733,8 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
 
     veh->name = name;
-    const int partnum = veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
+    const int partnum = veh->install_part( point_rel_ms_zero, vpart_from_item( base.typeId() ),
+                                           item( base ) );
     veh->part( partnum ).set_flag( vp_flag::unsalvageable_flag );
 
     // Update the vehicle cache immediately,
@@ -1788,21 +1789,21 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
-        if( !f.deconstruct.can_do ) {
+        if( !f.deconstruct ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        if( f.deconstruct.furn_set.str().empty() ) {
+        if( f.deconstruct->furn_set.str().empty() ) {
             here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
-            here.furn_set( p, f.deconstruct.furn_set );
+            here.furn_set( p, f.deconstruct->furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         const std::vector<item *> drop = here.spawn_items( p,
-                                         item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
-        if( f.deconstruct.skill.has_value() ) {
-            deconstruction_practice_skill( f.deconstruct.skill.value() );
+                                         item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+        if( f.deconstruct->skill.has_value() ) {
+            deconstruction_practice_skill( f.deconstruct->skill.value() );
         }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
         if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
@@ -1825,11 +1826,11 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         here.delete_signage( p );
     } else {
         const ter_t &t = here.ter( p ).obj();
-        if( !t.deconstruct.can_do ) {
+        if( !t.deconstruct ) {
             add_msg( _( "That %s can not be disassembled!" ), t.name() );
             return;
         }
-        if( t.deconstruct.deconstruct_above ) {
+        if( t.deconstruct->deconstruct_above ) {
             const tripoint_bub_ms top = p + tripoint_above;
             if( here.has_furn( top ) ) {
                 add_msg( _( "That %s can not be disassembled, since there is furniture above it." ), t.name() );
@@ -1837,11 +1838,11 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             }
             done_deconstruct( top, player_character );
         }
-        here.ter_set( p, t.deconstruct.ter_set );
+        here.ter_set( p, t.deconstruct->ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
-        if( t.deconstruct.skill.has_value() ) {
-            deconstruction_practice_skill( t.deconstruct.skill.value() );
+        here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
+        if( t.deconstruct->skill.has_value() ) {
+            deconstruction_practice_skill( t.deconstruct->skill.value() );
         }
     }
 }
@@ -2001,9 +2002,10 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &p, Cha
         here.ter_set( p, ter_t_dirt );
     }
 
-    if( here.ter( p ) == ter_t_clay ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_clay ) {
         add_msg( _( "You gather some clay." ) );
-    } else if( here.ter( p ) == ter_t_sand ) {
+    } else if( t == ter_t_sand ) {
         add_msg( _( "You gather some sand." ) );
     } else {
         // Fall through to an undefined material.
@@ -2053,10 +2055,11 @@ void construct::remove_above( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
-    ter_id roof = here.ter( p ).obj().roof;
+    const ter_id &t = here.ter( p );
+    const ter_id &roof = t.obj().roof;
     if( !roof ) {
         debugmsg( "add_roof post_ter called on terrain lacking roof definition, %s.",
-                  here.ter( p ).id().c_str() );
+                  t.id().c_str() );
     }
     here.ter_set( p + tripoint_above, roof );
 }
@@ -2088,34 +2091,39 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
             }
             return ret;
         };
-        auto deconstruction_will_practice_skill = [ &who ]( auto & skill ) {
+        auto deconstruction_will_practice_skill = [&who]( auto & skill ) {
             return who.get_skill_level( skill.id ) >= skill.min &&
                    who.get_skill_level( skill.id ) < skill.max;
         };
 
-        if( here.has_furn( p ) ) {
-            const furn_t &f = here.furn( p ).obj();
-            if( !!f.deconstruct.skill &&
-                deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
+        auto deconstruct_query = [&who, &cancel_construction, &deconstruction_will_practice_skill,
+              &deconstruct_items]( map_common_deconstruct_info & deconstruct, std::string & name ) {
+            if( !!deconstruct.skill &&
+                deconstruction_will_practice_skill( deconstruct.skill.value() ) ) {
                 cancel_construction = !who.query_yn(
                                           _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
-                                          f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
+                                          name, deconstruct_items( deconstruct.drop_group ), deconstruct.skill->id.obj().name() );
             } else {
                 cancel_construction = !who.query_yn(
                                           _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
-                                          f.name(), deconstruct_items( f.deconstruct.drop_group ) );
+                                          name, deconstruct_items( deconstruct.drop_group ) );
+            }
+        };
+
+        std::string tname;
+        if( here.has_furn( p ) ) {
+            const furn_t &f = here.furn( p ).obj();
+            if( f.deconstruct ) {
+                map_furn_deconstruct_info deconstruct = f.deconstruct.value();
+                tname = f.name();
+                deconstruct_query( deconstruct, tname );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
-            if( !!t.deconstruct.skill &&
-                deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
-                cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
-                                          t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
-            } else {
-                cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
-                                          t.name(), deconstruct_items( t.deconstruct.drop_group ) );
+            if( t.deconstruct ) {
+                map_ter_deconstruct_info deconstruct = t.deconstruct.value();
+                tname = t.name();
+                deconstruct_query( deconstruct, tname );
             }
         }
         if( cancel_construction ) {

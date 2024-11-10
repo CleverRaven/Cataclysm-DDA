@@ -2293,6 +2293,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
                              sub_body_part_sub_limb_debug, &mon, bp );
         damage_instance dealt_damage = base_damage;
+        dealt_damage = guy.modify_damage_dealt_with_enchantments( dealt_damage );
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
         for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
@@ -7660,10 +7661,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     if( !this->is_comestible() ) {
         return false;
     }
-    // We need this function to get all vitamins including from inheritance.
-    // But we don't care about calories, so we can just pass a dummy.
-    npc dummy;
-    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    const nutrients food_item = default_character_compute_effective_nutrients( *this );
     for( auto const& [vit_id, amount] : food_item.vitamins() ) {
         if( vit_id == v ) {
             if( amount > 0 ) {
@@ -8673,8 +8671,9 @@ bool item::made_of_any_food_components( bool deep_search ) const
 
     for( const std::pair<itype_id, std::vector<item>> pair : components ) {
         for( const item &it : pair.second ) {
-            nutrients &maybe_food = it.get_comestible()->default_nutrition;
-            bool must_be_food = maybe_food.kcal() > 0 || maybe_food.vitamins().empty();
+            const auto &maybe_food = it.get_comestible();
+            bool must_be_food = maybe_food && ( maybe_food->default_nutrition_read_only().kcal() > 0 ||
+                                                !maybe_food->default_nutrition_read_only().vitamins().empty() );
             bool has_food_component = false;
             if( deep_search && !it.components.empty() ) {
                 // make true if any component has food values, even if some don't
@@ -13333,8 +13332,9 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 
 bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint &pos )
 {
-    if( here.furn( pos ) != furn_f_wind_mill_active &&
-        here.furn( pos ) != furn_f_water_mill_active ) {
+    const furn_id &f = here.furn( pos );
+    if( f != furn_f_wind_mill_active &&
+        f != furn_f_water_mill_active ) {
         item_counter = 0;
         return true; //destroy fake mill
     }
@@ -13348,8 +13348,9 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
 
 bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoint &pos )
 {
-    if( here.furn( pos ) != furn_f_smoking_rack_active &&
-        here.furn( pos ) != furn_f_metal_smoking_rack_active ) {
+    const furn_id &f = here.furn( pos );
+    if( f != furn_f_smoking_rack_active &&
+        f != furn_f_metal_smoking_rack_active ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }
@@ -13681,12 +13682,12 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     }
 
     // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                ( veh.global_square_location() + veh.coord_translate( mount ) ).raw(),
-                veh.global_square_location().raw() );
-    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                ( link().t_abs_pos + prev_veh->coord_translate( link().t_mount ) ).raw(),
-                link().t_abs_pos.raw() );
+    const std::pair<tripoint_abs_ms, tripoint_abs_ms> prev_part_target = std::make_pair(
+                veh.global_square_location() + veh.coord_translate( mount ),
+                veh.global_square_location() );
+    const std::pair<tripoint_abs_ms, tripoint_abs_ms> sel_part_target = std::make_pair(
+                link().t_abs_pos + prev_veh->coord_translate( link().t_mount ),
+                link().t_abs_pos );
 
     for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
         if( vpr.part().target.first == prev_part_target.first &&

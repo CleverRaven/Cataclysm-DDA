@@ -75,20 +75,25 @@ void display_editor();
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false );
 
 /**
- * Same as above but start at z-level z instead of players
- * current z-level, x and y are taken from the players position.
+ * Interactive point choosing; used as the map screen.
+ * The map is initially center at the players x and y
+ * location and the given z level.
+ * @returns The absolute coordinates of the chosen point or
+ * invalid_point if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( int z, bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false );
+
 /**
  * Interactive point choosing; used as the map screen.
  * The map is initially centered on the @ref origin.
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const tripoint_abs_omt &origin, bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message, const tripoint_abs_omt &origin,
+                               bool show_debug_info = false );
 
 void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
 
@@ -114,6 +119,8 @@ struct overmap_draw_data_t {
     bool show_explored = true;
     // currently fast traveling
     bool fast_traveling = false;
+    // message to display while using the map
+    std::string message;
 
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );

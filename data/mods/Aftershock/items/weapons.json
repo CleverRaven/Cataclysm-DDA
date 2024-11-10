@@ -136,7 +136,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
+          "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
           "name": { "str": "Ice Fists" },
           "description": "Strikes from this weapon can freeze targets solid."
         }

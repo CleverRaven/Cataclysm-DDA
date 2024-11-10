@@ -1253,6 +1253,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_craft_in_darkness",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_no_mind_problems",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
@@ -2287,6 +2295,21 @@
     "desc": [
       "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_attack_warning_cooldown",
+    "//": "Hidden effect, used as a blocker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_health_effects_of_draining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
   },
   {
     "type": "effect_type",

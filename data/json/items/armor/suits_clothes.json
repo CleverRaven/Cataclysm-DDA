@@ -916,7 +916,22 @@
     ],
     "warmth": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "HOOD" ]
+    "flags": [ "VARSIZE", "HOOD" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "devil_onesie",
+        "name": { "str": "devil onesie" },
+        "description": "An encumbering red wool suit with a hood adorned with cartoonish devil horns and a devil's tail on the back.  It's for those who want to feel devilishly warm in their sleep.",
+        "color": "red"
+      },
+      {
+        "id": "bunny_onesie",
+        "name": { "str": "bunny onesie" },
+        "description": "An encumbering and fluffy bunny onesie with a hood and adorned with a pair of bunny ears.  Very fluffy.",
+        "color": "light_gray"
+      }
+    ]
   },
   {
     "id": "zentai",

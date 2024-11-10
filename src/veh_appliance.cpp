@@ -76,9 +76,9 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
             // transform the deploying item into what it *should* be before storing it
             copied.convert( vpinfo.base_item );
         }
-        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
+        partnum = veh->install_part( point_rel_ms_zero, vpart, std::move( copied ) );
     } else {
-        partnum = veh->install_part( point_zero, vpart );
+        partnum = veh->install_part( point_rel_ms_zero, vpart );
     }
     if( partnum == -1 ) {
         // unrecoverable, failed to be installed somehow
@@ -112,7 +112,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p.raw(), trip.raw() );
+                veh->connect( p, trip );
                 connected_vehicles.insert( &veh_target );
             }
         }
@@ -403,7 +403,7 @@ void veh_app_interact::refill()
         act.str_values.push_back( pt->info().id.str() );
         const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
-        for( const tripoint &p : veh->get_points( true ) ) {
+        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
             act.coord_set.insert( here.getglobal( p ).raw() );
         }
         act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
@@ -492,7 +492,7 @@ void veh_app_interact::remove()
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
-        for( const tripoint &p : veh->get_points( true ) ) {
+        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
             act.coord_set.insert( here.getglobal( p ).raw() );
         }
         const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
@@ -526,7 +526,7 @@ void veh_app_interact::disconnect()
 void veh_app_interact::plug()
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
-    const tripoint pos = veh->global_part_pos3( part );
+    const tripoint_bub_ms pos = veh->bub_part_pos( part );
     item cord( "power_cord" );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {

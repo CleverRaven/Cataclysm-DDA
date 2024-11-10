@@ -281,6 +281,14 @@
   },
   {
     "type": "effect_type",
+    "id": "eff_monster_immune_to_telepathy",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "You have a shield up to prevent telepathic detection and attack." ],
+    "show_in_info": true,
+    "max_intensity": 20
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],

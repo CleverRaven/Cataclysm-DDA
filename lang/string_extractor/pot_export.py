@@ -7,14 +7,42 @@ import polib
 from .message import messages, occurrences
 
 
-def deduplciate(comments):
-    """Remove duplicate comment lines while preserving order."""
-    seen = set()
+def process_comments(comments, origins, obsolete_paths):
     result = []
+
+    # remove duplicate comment lines while preserving order
+    seen = set()
     for comment in comments:
         if comment not in seen:
             result.append(comment)
             seen.add(comment)
+
+    # add 'obsolete' comment if this string
+    # has only obsolete files in the origins
+    obsolete_count = 0
+    for origin in origins:
+        is_obsolete = False
+
+        if "obsolet" in origin:
+            # if the file path contains "obsolete"/"obsoletion"
+            is_obsolete = True
+        else:
+            # if the file path matches the obsolete paths
+            # explicitly specified in the '-D' arguments
+            for o_path in obsolete_paths:
+                p = os.path.commonpath([o_path, origin])
+                if p in obsolete_paths:
+                    is_obsolete = True
+                    break
+        if is_obsolete:
+            obsolete_count += 1
+
+    if obsolete_count == len(origins):
+        return [
+            "[DEPRECATED] Don't translate this line.",
+            "This string is from an obsolete source "
+            "and will no longer be used in the game."
+        ]
     return result
 
 
@@ -71,7 +99,8 @@ def sanitize_plural_colissions(reference):
                         messages[pair][0].text_plural = entry.msgid_plural
 
 
-def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
+def write_to_pot(fp, with_header=True, pkg_name=None,
+                 sanitize=None, obsolete_paths=[]):
     if sanitize:
         sanitize_plural_colissions(sanitize)
     if with_header:
@@ -93,7 +122,7 @@ def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
         origin = " ".join(sorted(origins))
 
         # translator comments
-        for line in deduplciate(comments):
+        for line in process_comments(comments, origins, obsolete_paths):
             print("#. ~ {}".format(line), file=fp)
 
         # reference
