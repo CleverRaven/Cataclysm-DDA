@@ -1,3 +1,41 @@
 [
-  
+  {
+    "id": "SUS_exodii_storage_lowvalue",
+    "type": "item_group",
+    "copy-from": "SUS_exodii_storage_lowvalue",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "si_exodii_cbms_low_value", "prob": 20 } ] }
+  },
+  {
+    "id": "SUS_exodii_storage_medvalue",
+    "type": "item_group",
+    "copy-from": "SUS_exodii_storage_medvalue",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        {
+          "collection": [ { "group": "si_exodii_cbms_low_value", "prob": 50 }, { "group": "si_exodii_cbms_med_value", "prob": 20 } ],
+          "prob": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "SUS_exodii_storage_highvalue",
+    "type": "item_group",
+    "copy-from": "SUS_exodii_storage_highvalue",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        {
+          "collection": [
+            { "group": "si_exodii_cbms_low_value", "prob": 80 },
+            { "group": "si_exodii_cbms_med_value", "prob": 50 },
+            { "group": "si_exodii_cbms_high_value", "prob": 20 }
+          ],
+          "prob": 25
+        }
+      ]
+    }
+  }
 ]
