@@ -1688,7 +1688,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 const int total_damage = loc->gun_damage( true ).total_damage();
 
-                if( loc->has_ammo_data() && loc->ammo_remaining() ) {
+                if( loc->has_ammo() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
                     const damage_instance &damage = loc->ammo_data()->ammo->damage;
                     if( !damage.empty() ) {

@@ -10590,7 +10590,7 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
     int dispPerDamage = get_option< int >( "DISPERSION_PER_GUN_DAMAGE" );
     dispersion_sum += damage_level() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
-    if( with_ammo && has_ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         dispersion_sum += ammo_data()->ammo->dispersion_considering_length( barrel_length() );
     }
     if( !with_scaling ) {
@@ -10643,7 +10643,7 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
         ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
     }
 
-    if( with_ammo && has_ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         if( shot ) {
             ret.add( ammo_data()->ammo->shot_damage.di_considering_length( bl ) );
         } else {
@@ -10728,7 +10728,7 @@ int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) cons
     handling = std::pow( wt, 0.8 ) * std::pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
-    if( has_ammo_data() ) {
+    if( has_ammo() ) {
         qty += ammo_data()->ammo->recoil;
     }
 
@@ -10763,7 +10763,7 @@ int item::gun_range( bool with_ammo ) const
         ret += mod->type->gunmod->range;
         range_multiplier *= mod->type->gunmod->range_multiplier;
     }
-    if( with_ammo && has_ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         ret += ammo_data()->ammo->range;
         range_multiplier *= ammo_data()->ammo->range_multiplier;
     }
@@ -11400,7 +11400,7 @@ std::set<ammo_effect_str_id> item::ammo_effects( bool with_ammo ) const
     }
 
     std::set<ammo_effect_str_id> res = type->gun->ammo_effects;
-    if( with_ammo && has_ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
 
