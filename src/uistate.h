@@ -161,7 +161,6 @@ class uistatedata
         bool distraction_withdrawal = true;
         bool distraction_all = true; // NOLINT(cata-serialize)
         bool numpad_navigation = false;
-        bool is_toggle = false; // NOLINT(cata-serialize)
 
         // V Menu Stuff
         int list_item_sort = 0;

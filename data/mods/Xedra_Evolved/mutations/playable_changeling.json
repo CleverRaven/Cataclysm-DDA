@@ -48,7 +48,8 @@
     "description": "This provides the school trait for Changeling magic.  It should not be visible.",
     "valid": false,
     "purifiable": false,
-    "player_display": false
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",

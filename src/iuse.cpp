@@ -2495,7 +2495,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
         p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );;
+                              purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -2808,8 +2808,8 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint &pos )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->prying->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->prying->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->prying->valid();
         }
         return false;
     };
@@ -4555,7 +4555,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     }
 
     if( !drew_blood ) {
-        return std::nullopt;;
+        return std::nullopt;
     }
 
     blood.set_item_temperature( blood_temp );
@@ -4692,7 +4692,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint & )
     };
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id, &here]( const tripoint & pnt ) {
-        const ter_id type = here.ter( pnt );
+        const ter_id &type = here.ter( pnt );
         const bool is_allowed_terrain = allowed_ter_id.find( type.id() ) != allowed_ter_id.end();
         return is_allowed_terrain;
     };
@@ -4740,8 +4740,8 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint & )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->oxytorch->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->oxytorch->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->oxytorch->valid();
         }
         return false;
     };
@@ -4784,8 +4784,8 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->hacksaw->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->hacksaw->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->hacksaw->valid();
         }
         return false;
     };
@@ -4827,8 +4827,8 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint & )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->boltcut->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->boltcut->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->boltcut->valid();
         }
         return false;
     };
@@ -5877,7 +5877,7 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
         const std::vector<std::string> &flags, const std::vector<ter_str_id> &ter_whitelist )
 {
     map &here = get_map();
-    const ter_id ter = here.ter( point );
+    const ter_id &ter = here.ter( point );
     std::string name = colorize( ter->name(), ter->color() );
     const std::string &graffiti_message = here.graffiti_at( point );
 
@@ -5913,7 +5913,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
 {
     item_found = false;
     map &here = get_map();
-    const furn_id furn = here.furn( center_point );
+    const furn_id &furn = here.furn( center_point );
     if( furn != furn_str_id::NULL_ID() && furn.is_valid() ) {
         std::string furn_str = colorize( furn->name(), c_yellow );
         std::string sign_message = here.get_signage( center_point );
@@ -6334,8 +6334,8 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_
         found_item_aim_point = !item.is_null();
     }
 
-    const ter_id ter_aim = here.ter( aim_point );
-    const furn_id furn_aim = here.furn( aim_point );
+    const ter_id &ter_aim = here.ter( aim_point );
+    const furn_id &furn_aim = here.furn( aim_point );
 
     if( !description_figures_status.empty() ) {
         std::string names = enumerate_as_string( description_figures_status.begin(),
@@ -7229,7 +7229,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             p->remove_value( "remote_controlling" );
         } else {
             std::list<std::pair<tripoint_bub_ms, item *>> rc_pairs = here.get_rc_items();
-            tripoint_bub_ms rc_item_location = {999, 999, 999};
+            tripoint_bub_ms rc_item_location = overmap::invalid_tripoint_bub_ms;
             // TODO: grab the closest car or similar?
             for( auto &rc_pairs_rc_pair : rc_pairs ) {
                 if( rc_pairs_rc_pair.second->has_flag( flag_RADIOCAR ) &&
@@ -7237,7 +7237,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
                     rc_item_location = rc_pairs_rc_pair.first;
                 }
             }
-            if( rc_item_location.x() == 999 ) {
+            if( rc_item_location == overmap::invalid_tripoint_bub_ms ) {
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return 1;
             } else {

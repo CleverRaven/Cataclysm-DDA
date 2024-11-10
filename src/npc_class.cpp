@@ -266,6 +266,7 @@ void npc_class::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
+    optional( jo, was_loaded, "bye_message_override", bye_message_override );
 
     if( jo.has_member( "traits" ) ) {
         traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );

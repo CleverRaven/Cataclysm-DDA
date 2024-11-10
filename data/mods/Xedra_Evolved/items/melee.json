@@ -53,7 +53,8 @@
         {
           "has": "WIELD",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 }, { "value": "ATTACK_SPEED", "add": -20 } ]
+          "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
+          "values": [ { "value": "ATTACK_SPEED", "add": -20 } ]
         }
       ]
     }
