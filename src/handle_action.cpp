@@ -567,7 +567,7 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    veh->pldrive( get_avatar(), p.xy(), p.z );
+    veh->pldrive( get_avatar(), p.x, p.y, p.z );
 }
 
 static void pldrive( point d )
@@ -763,7 +763,7 @@ static void grab()
         //solid vehicles can't be grabbed while boarded
         const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
         if( vp_boarded ) {
-            const std::set<tripoint> grabbed_veh_points = vp->vehicle().get_points();
+            const std::set<tripoint_bub_ms> grabbed_veh_points = vp->vehicle().get_points();
             if( &vp_boarded->vehicle() == &vp->vehicle() &&
                 !empty( vp->vehicle().get_avail_parts( VPFLAG_OBSTACLE ) ) ) {
                 add_msg( m_info, _( "You can't move the %s while you're boarding it." ), veh_name );
@@ -1769,7 +1769,7 @@ static void fire()
     }
     // try firing turrets
     if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
-        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
+        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos_bub() ) ) {
             if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
                 return;
             }
