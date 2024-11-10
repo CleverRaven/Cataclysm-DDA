@@ -6913,7 +6913,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     veh->turn_dir = dir;
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
     // that the mount at (0,0) is located at the spawn position.
-    veh->precalc_mounts( 0, dir, point() );
+    veh->precalc_mounts( 0, dir, point_rel_ms_zero );
 
     std::unique_ptr<vehicle> placed_vehicle_up =
         add_vehicle_to_map( std::move( veh ), merge_wrecks );
@@ -7006,7 +7006,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              */
             std::unique_ptr<RemovePartHandler> handler_ptr;
             bool did_merge = false;
-            for( const tripoint &map_pos : first_veh->get_points( true ) ) {
+            for( const tripoint_bub_ms &map_pos : first_veh->get_points( true ) ) {
                 std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
