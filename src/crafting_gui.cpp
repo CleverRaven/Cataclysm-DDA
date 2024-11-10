@@ -1589,7 +1589,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.emplace_back( *crafter, chosen, i );
+                    available.emplace_back( *crafter, chosen, i, camp_crafting, inventory_override );
                 }
                 indent.assign( current.size(), 0 );
             } else {
