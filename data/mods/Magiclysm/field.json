@@ -10,7 +10,7 @@
             "effect_id": "vault_atmosphere",
             "body_part": "mouth",
             "intensity": 1,
-            "min_duration": "200 seconds",
+            "min_duration": "250 seconds",
             "max_duration": "750 seconds",
             "immune_inside_vehicle": false
           }
