@@ -1,6 +1,56 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_RUACH_DRAINED_AWAKENING_PENALTIES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "effect_lilin_ruach_drain_side_effects" },
+    "effect": [
+      { "math": [ "u_val('sleepiness')", "+=", "40 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 20)" ] },
+      {
+        "u_add_effect": "effect_lilin_health_effects_of_draining",
+        "duration": { "math": [ "10 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * rng(10,20) )" ] }
+      },
+      {
+        "if": { "math": [ "u_lilin_ruach_drained_recently", "==", "1" ] },
+        "then": [
+          { "math": [ "u_lilin_ruach_drained_recently", "=", "0" ] },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "head"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_l"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "torso"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_l"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN_SELF",
     "recurrence": [ "6 minutes", "6 minutes" ],
     "condition": { "u_has_trait": "LILIN_TRAITS" },

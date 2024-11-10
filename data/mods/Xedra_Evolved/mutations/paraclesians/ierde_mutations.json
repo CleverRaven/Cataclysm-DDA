@@ -152,6 +152,21 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_CRAFT_IN_DARKNESS",
+    "name": { "str": "Sense the Smallest Tremor" },
+    "points": 3,
+    "description": "The Ierde's ability to sense small movements is heightened to such a degree that with small movements of their fingers, they can sense the exact shape and position of objects nearby.  They can craft in darkness, as long as \"The Soil Knows Those Who Tread Upon It\" is active.",
+    "prereqs": [ "IERDE_DETECT_NEARBY_MONSTERS_EARTH" ],
+    "category": [ "IERDE" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_effect": "effect_ierde_sense_nearby_monsters" },
+        "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_SMASHING_PUNCH",
     "name": { "str": "Avalanche Blow" },
     "points": 3,

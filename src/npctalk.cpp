@@ -191,7 +191,7 @@ struct item_search_data {
     bool wielded_only;
     bool held_only;
 
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
     bool has_condition = false;
 
     explicit item_search_data( const JsonObject &jo ) {
@@ -264,7 +264,7 @@ struct item_search_data {
         held_only = jo.get_bool( "held_only", false );
     }
 
-    bool check( const Character *guy, const item_location &loc, const dialogue &d ) {
+    bool check( const Character *guy, const item_location &loc, const_dialogue const &d ) {
 
         bool match;
 
@@ -385,7 +385,7 @@ struct item_search_data {
         }
 
         if( has_condition ) {
-            dialogue dial( d.actor( false )->clone(), get_talker_for( loc ) );
+            const_dialogue dial( d.const_actor( false )->const_clone(), get_const_talker_for( loc ) );
             if( !condition( dial ) ) {
                 return false;
             }
@@ -1778,7 +1778,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 {
     talk_response result = talk_response();
     result.truetext = no_translation( text );
-    result.truefalse_condition = []( const dialogue & ) {
+    result.truefalse_condition = []( const_dialogue const & ) {
         return true;
     };
     result.success.next_topic = talk_topic( r );
@@ -2070,13 +2070,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
 }
 
-static int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
+static int parse_mod( const_dialogue const &d, const std::string &attribute, const int factor )
 {
-    return d.actor( true )->parse_mod( attribute, factor ) + d.actor( false )->parse_mod( attribute,
-            factor );
+    return d.const_actor( true )->parse_mod( attribute, factor ) +
+           d.const_actor( false )->parse_mod( attribute, factor );
 }
 
-static int total_price( const talker &seller, const itype_id &item_type )
+static int total_price( const_talker const &seller, const itype_id &item_type )
 {
     int price = 0;
     item tmp( item_type );
@@ -2095,9 +2095,9 @@ static int total_price( const talker &seller, const itype_id &item_type )
     return price;
 }
 
-int talk_trial::calc_chance( dialogue &d ) const
+int talk_trial::calc_chance( const_dialogue const &d ) const
 {
-    if( d.actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+    if( d.const_actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
     int chance = difficulty;
@@ -2109,7 +2109,8 @@ int talk_trial::calc_chance( dialogue &d ) const
             chance = 100;
             break;
         case TALK_TRIAL_SKILL_CHECK:
-            chance = d.actor( false )->get_skill_level( skill_id( skill_required ) ) >= difficulty ? 100 : 0;
+            chance = d.const_actor( false )->get_skill_level( skill_id( skill_required ) ) >= difficulty ? 100 :
+                     0;
             break;
         case TALK_TRIAL_CONDITION:
             if( condition ) {
@@ -2119,15 +2120,16 @@ int talk_trial::calc_chance( dialogue &d ) const
             }
             break;
         case TALK_TRIAL_LIE:
-            chance += d.actor( false )->trial_chance_mod( "lie" ) + d.actor( true )->trial_chance_mod( "lie" );
+            chance += d.const_actor( false )->trial_chance_mod( "lie" ) + d.const_actor(
+                          true )->trial_chance_mod( "lie" );
             break;
         case TALK_TRIAL_PERSUADE:
-            chance += d.actor( false )->trial_chance_mod( "persuade" ) +
-                      d.actor( true )->trial_chance_mod( "persuade" );
+            chance += d.const_actor( false )->trial_chance_mod( "persuade" ) +
+                      d.const_actor( true )->trial_chance_mod( "persuade" );
             break;
         case TALK_TRIAL_INTIMIDATE:
-            chance += d.actor( false )->trial_chance_mod( "intimidate" ) +
-                      d.actor( true )->trial_chance_mod( "intimidate" );
+            chance += d.const_actor( false )->trial_chance_mod( "intimidate" ) +
+                      d.const_actor( true )->trial_chance_mod( "intimidate" );
             break;
     }
     for( const auto &this_mod : modifiers ) {
@@ -2244,23 +2246,25 @@ int topic_category( const talk_topic &the_topic )
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type )
 {
-    dialogue d( get_talker_for( u ), get_talker_for( me ) );
+    const_dialogue d( get_const_talker_for( u ), get_const_talker_for( me ) );
     parse_tags( phrase, u, me, d, item_type );
 }
 
-void parse_tags( std::string &phrase, const Character &u, const Character &me, const dialogue &d,
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const_dialogue const &d,
                  const itype_id &item_type )
 {
-    parse_tags( phrase, *get_talker_for( u ), *get_talker_for( me ), d, item_type );
+    parse_tags( phrase, *get_const_talker_for( u ), *get_const_talker_for( me ), d, item_type );
 }
 
-void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
+void parse_tags( std::string &phrase, const_talker const &u, const_talker const &me,
+                 const_dialogue const &d,
                  const itype_id &item_type )
 {
     phrase = SNIPPET.expand( phrase );
 
-    const Character *u_chr = u.get_character();
-    const Character *me_chr = me.get_character();
+    const Character *u_chr = u.get_const_character();
+    const Character *me_chr = me.get_const_character();
     size_t fa;
     size_t fb;
     size_t fa_;
@@ -2533,51 +2537,51 @@ void dialogue::add_topic( const talk_topic &topic )
     }
 }
 
-void dialogue::set_value( const std::string &key, const std::string &value )
+void const_dialogue::set_value( const std::string &key, const std::string &value )
 {
     context[key] = value;
 }
 
-void dialogue::remove_value( const std::string &key )
+void const_dialogue::remove_value( const std::string &key )
 {
     context->erase( key );
 }
 
-std::string dialogue::get_value( const std::string &key ) const
+std::string const_dialogue::get_value( const std::string &key ) const
 {
     return maybe_get_value( key ).value_or( std::string{} );
 }
 
-std::optional<std::string> dialogue::maybe_get_value( const std::string &key ) const
+std::optional<std::string> const_dialogue::maybe_get_value( const std::string &key ) const
 {
     auto it = context->find( key );
     return it == context->end() ? std::nullopt : std::optional<std::string> { it->second };
 }
 
-void dialogue::set_conditional( const std::string &key,
-                                const std::function<bool( dialogue & )> &value )
+void const_dialogue::set_conditional( const std::string &key,
+                                      const std::function<bool( const_dialogue const & )> &value )
 {
     conditionals[key] = value;
 }
 
-bool dialogue::evaluate_conditional( const std::string &key, dialogue &d )
+bool const_dialogue::evaluate_conditional( const std::string &key, const_dialogue const &d ) const
 {
     auto it = conditionals->find( key );
     return ( it == conditionals->end() ) ? false : it->second( d );
 }
 
-const std::unordered_map<std::string, std::string> &dialogue::get_context() const
+const std::unordered_map<std::string, std::string> &const_dialogue::get_context() const
 {
     return context;
 }
 
-const std::unordered_map<std::string, std::function<bool( dialogue & )>>
-        &dialogue::get_conditionals() const
+const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>>
+        &const_dialogue::get_conditionals() const
 {
     return conditionals;
 }
 
-void dialogue::amend_callstack( const std::string &value )
+void const_dialogue::amend_callstack( const std::string &value )
 {
     if( !callstack.empty() ) {
         callstack += " \\ " + value;
@@ -2586,12 +2590,22 @@ void dialogue::amend_callstack( const std::string &value )
     }
 }
 
-std::string dialogue::get_callstack() const
+std::string const_dialogue::get_callstack() const
 {
     if( !callstack.empty() ) {
         return "Callstack: " + callstack;
     }
     return "";
+}
+
+const_talker *const_dialogue::const_actor( bool is_beta ) const
+{
+    if( !has_beta && is_beta ) {
+        debugmsg( "Tried to use an invalid beta talker.  %s", get_callstack() );
+    } else if( !has_alpha && !is_beta ) {
+        debugmsg( "Tried to use an invalid alpha talker.  %s", get_callstack() );
+    }
+    return ( is_beta ? beta : alpha ).get();
 }
 
 talker *dialogue::actor( const bool is_beta ) const
@@ -2616,18 +2630,19 @@ talker *dialogue::actor( const bool is_beta ) const
     return ( is_beta ? beta : alpha ).get();
 }
 
-bool dialogue::has_actor( bool is_beta ) const
+bool const_dialogue::has_actor( bool is_beta ) const
 {
     return is_beta ? has_beta : has_alpha;
 }
 
-dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.has_alpha )
+const_dialogue::const_dialogue( const const_dialogue &d )
+    : has_beta( d.has_beta ), has_alpha( d.has_alpha )
 {
     if( has_alpha ) {
-        alpha = d.actor( false )->clone();
+        alpha = d.const_actor( false )->const_clone();
     }
     if( has_beta ) {
-        beta = d.actor( true )->clone();
+        beta = d.const_actor( true )->const_clone();
     }
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
@@ -2641,40 +2656,38 @@ dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.h
     callstack = d.callstack;
 }
 
-dialogue::dialogue( std::unique_ptr<talker> alpha_in,
-                    std::unique_ptr<talker> beta_in ) : alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) )
+dialogue::dialogue( const dialogue &d ) : const_dialogue( d )
 {
-    has_alpha = alpha != nullptr;
-    has_beta = beta != nullptr;
-    if( !has_alpha && !has_beta ) {
-        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
+    if( has_alpha ) {
+        alpha = d.actor( false )->clone();
+    }
+    if( has_beta ) {
+        beta = d.actor( true )->clone();
     }
 }
 
-dialogue::dialogue( std::unique_ptr<talker> alpha_in,
-                    std::unique_ptr<talker> beta_in,
-                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond ) : alpha( std::move(
-                                    alpha_in ) ), beta( std::move( beta_in ) ), conditionals( cond )
+dialogue::dialogue( const_dialogue const &d ) : const_dialogue( d )
 {
-    has_alpha = alpha != nullptr;
-    has_beta = beta != nullptr;
-    if( !has_alpha && !has_beta ) {
-        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
-    }
 }
 
-dialogue::dialogue( std::unique_ptr<talker> alpha_in,
-                    std::unique_ptr<talker> beta_in,
-                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
-                    const std::unordered_map<std::string, std::string> &ctx ) : alpha( std::move( alpha_in ) ),
-    beta( std::move( beta_in ) ), context( ctx ), conditionals( cond )
+const_dialogue::const_dialogue( std::unique_ptr<const_talker> alpha_in,
+                                std::unique_ptr<const_talker> beta_in,
+                                const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond,
+                                const std::unordered_map<std::string, std::string> &ctx )
+    : alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) ), context( ctx ), conditionals( cond )
 {
-    has_alpha = alpha != nullptr;
-    has_beta = beta != nullptr;
+    has_alpha = static_cast<bool>( alpha );
+    has_beta = static_cast<bool>( beta );
+}
 
-    if( !has_alpha && !has_beta ) {
-        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
-    }
+dialogue::dialogue(
+    std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+    const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond,
+    const std::unordered_map<std::string, std::string> &ctx )
+    : const_dialogue( alpha_in ? alpha_in->const_clone() : nullptr,
+                      beta_in ? beta_in->const_clone() : nullptr, cond, ctx ),
+      alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) )
+{
 }
 
 talk_data talk_response::create_option_line( dialogue &d, const input_event &hotkey,
@@ -3249,8 +3262,8 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
         for( const effect_on_condition_id &eoc : eocs ) {
             // Check if item is outdated.
             if( loc.get_item() ) {
-                dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
-                                               d.get_conditionals(), d.get_context() );
+                dialogue newDialog( d.actor( is_npc )->clone(), get_talker_for( loc ),
+                                    d.get_conditionals(), d.get_context() );
                 eoc->activate( newDialog );
             }
         }
@@ -4806,7 +4819,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
         if( global ) {
             target = &get_player_character();
         } else {
-            target = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
+            target = d.actor( is_npc )->get_const_character();
         }
         if( !target || target->is_npc() ) {
             return;
@@ -4945,16 +4958,8 @@ talk_effect_fun_t::func f_open_dialogue( const JsonObject &jo, std::string_view 
         } else if( !actual_topic.empty() ) {
             get_avatar().talk_to( get_talker_for( std::vector<std::string> { actual_topic } ), false, false,
                                   true );
-        } else if( d.actor( true )->get_character() != nullptr ) {
-            get_avatar().talk_to( get_talker_for( d.actor( true )->get_character() ) );
-        } else if( d.actor( true )->get_creature() != nullptr ) {
-            get_avatar().talk_to( get_talker_for( d.actor( true )->get_creature() ) );
-        } else if( d.actor( true )->get_monster() != nullptr ) {
-            get_avatar().talk_to( get_talker_for( d.actor( true )->get_monster() ) );
-        } else if( d.actor( true )->get_item() != nullptr ) {
-            get_avatar().talk_to( get_talker_for( d.actor( true )->get_item() ) );
-        } else if( d.actor( true )->get_computer() != nullptr ) {
-            get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ), false, true );
+        } else {
+            get_avatar().talk_to( d.actor( true )->clone() );
         }
         run_eoc_vector( true_eocs, d );
     };
@@ -5135,7 +5140,7 @@ talk_effect_fun_t::func f_attack( const JsonObject &jo, std::string_view member,
 {
     str_or_var force_technique = get_str_or_var( jo.get_member( member ), member, true );
     bool allow_special = jo.get_bool( "allow_special", true );
-    bool allow_unarmed = jo.get_bool( "allow_unarmed", true );;
+    bool allow_unarmed = jo.get_bool( "allow_unarmed", true );
     dbl_or_var forced_movecost = get_dbl_or_var( jo, "forced_movecost", false, -1.0 );
 
     return [is_npc, allow_special, force_technique, allow_unarmed,
@@ -5269,7 +5274,7 @@ talk_effect_fun_t::func f_set_condition( const JsonObject &jo, std::string_view 
     str_or_var value;
     value = get_str_or_var( jo.get_member( member ), member );
 
-    std::function<bool( dialogue & )> cond;
+    std::function<bool( const_dialogue const & )> cond;
     read_condition( jo, "condition", cond, false );
     return [value, cond]( dialogue & d ) {
         d.set_conditional( value.evaluate( d ), cond );
@@ -5673,9 +5678,9 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
     if( jo.has_member( "iterations" ) ) {
         iterations = get_dbl_or_var( jo, "iterations" );
     }
-    std::optional<std::function<bool( dialogue & )>> cond;
+    std::optional<std::function<bool( const_dialogue const & )>> cond;
     if( jo.has_object( "condition" ) ) {
-        std::function<bool( dialogue & )> cond_;
+        std::function<bool( const_dialogue const & )> cond_;
         read_condition( jo, "condition", cond_, false );
         cond = { std::move( cond_ ) };
     }
@@ -6141,7 +6146,7 @@ talk_effect_fun_t::func f_map_run_eocs( const JsonObject &jo, std::string_view m
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    std::function<bool( dialogue & )> cond;
+    std::function<bool( const_dialogue const & )> cond;
     read_condition( jo, "condition", cond, true );
     dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
 
@@ -6219,7 +6224,7 @@ talk_effect_fun_t::func f_weighted_list_eocs( const JsonObject &jo,
 talk_effect_fun_t::func f_if( const JsonObject &jo, std::string_view member,
                               const std::string_view src )
 {
-    std::function<bool( dialogue & )> cond;
+    std::function<bool( const_dialogue const & )> cond;
     talk_effect_t then_effect;
     talk_effect_t else_effect;
     read_condition( jo, std::string( member ), cond, false );
@@ -7509,7 +7514,7 @@ void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member
 
 talk_response::talk_response()
 {
-    truefalse_condition = []( const dialogue & ) {
+    truefalse_condition = []( const_dialogue const & ) {
         return true;
     };
     mission_selected = nullptr;
@@ -7532,7 +7537,7 @@ talk_response::talk_response( const JsonObject &jo, const std::string_view src )
         truefalse_jo.read( "false", falsetext );
     } else {
         jo.read( "text", truetext );
-        truefalse_condition = []( const dialogue & ) {
+        truefalse_condition = []( const_dialogue const & ) {
             return true;
         };
     }
@@ -7874,7 +7879,7 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
 json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
         const std::string &id, const std::string_view src )
 {
-    std::function<bool( dialogue & )> tmp_condition;
+    std::function<bool( const_dialogue const & )> tmp_condition;
     read_condition( jo, "condition", tmp_condition, true );
     talk_effect_t tmp_effect = talk_effect_t( jo, "effect", src );
     get_raw_debug_fields( jo, debug_info );

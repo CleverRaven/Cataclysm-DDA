@@ -89,9 +89,10 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
-                 const dialogue &d, const itype_id &item_type = itype_id::NULL_ID() );
+                 const_dialogue const &d, const itype_id &item_type = itype_id::NULL_ID() );
 
-void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
+void parse_tags( std::string &phrase, const_talker const &u, const_talker const &me,
+                 const_dialogue const &d,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
 /*
@@ -882,7 +883,7 @@ class npc : public Character
         * towards the player.
         */
         void on_attacked( const Creature &attacker );
-        int assigned_missions_value();
+        int assigned_missions_value() const;
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;

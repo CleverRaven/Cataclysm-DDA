@@ -126,7 +126,7 @@
     "volume": "2750 ml",
     "longest_side": "120cm",
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 10 } ] } ]
     },
     "use_action": [
       {
@@ -156,7 +156,7 @@
     "techniques": [ "RSTRIKE", "WBLOCK_1", "RAPID" ],
     "weapon_category": [ "KNIVES" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 5 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 5 } ] } ]
     },
     "use_action": [
       {
@@ -196,7 +196,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "weapon_category": [ "GREAT_SWORDS" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 15 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 15 } ] } ]
     },
     "use_action": [
       {
@@ -236,7 +236,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 11 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 11 } ] } ]
     },
     "use_action": [
       {
@@ -266,7 +266,7 @@
     "techniques": [ "RSTRIKE", "WBLOCK_1", "SWEEP" ],
     "weapon_category": [ "MACES" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 13 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 13 } ] } ]
     },
     "use_action": [
       {

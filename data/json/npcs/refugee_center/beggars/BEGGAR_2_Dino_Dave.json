@@ -246,7 +246,6 @@
         { "finish_mission": "MISSION_BEGGAR_2_PERMISSION", "success": true },
         { "npc_first_topic": "TALK_DINODAVE_1" },
         { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
-        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" },
         { "npc_teleport": { "global_val": "dave_castle" } }
       ]
     },
@@ -428,12 +427,6 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "cardboard_castle_1_roof",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "cardboard_castle_1_roof" ], "x": 0, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "cardboard_castle_1_main",
     "//": "First iteration of Dino Dave's cardboard castle - main floor.",
@@ -453,7 +446,8 @@
         "_": "f_cardboard_floor",
         "C": "f_cardboard_box",
         "B": "f_floor_mattress"
-      }
+      },
+      "place_nested": [ { "chunks": [ "cardboard_castle_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
