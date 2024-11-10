@@ -43,7 +43,7 @@
     "id": "t_gutter",
     "description": "Channels water from the roof towards the ground, it looks flimsy.",
     "name": "rain gutter",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "looks_like": "t_metal_floor",
     "color": "white",
     "move_cost": 3,

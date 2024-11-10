@@ -200,7 +200,8 @@ Errorlessly obsolete an id
 
 # Overmap terrain migration
 
-Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
+Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
+If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
 ```json
   {
