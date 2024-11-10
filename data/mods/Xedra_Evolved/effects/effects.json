@@ -2297,6 +2297,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_health_effects_of_draining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_vampire_immune",
     "//": "Hidden effects, prevents you from being vampirized",
     "name": [ "" ],
