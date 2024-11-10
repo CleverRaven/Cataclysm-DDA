@@ -7661,10 +7661,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     if( !this->is_comestible() ) {
         return false;
     }
-    // We need this function to get all vitamins including from inheritance.
-    // But we don't care about calories, so we can just pass a dummy.
-    npc dummy;
-    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    const nutrients food_item = default_character_compute_effective_nutrients( *this );
     for( auto const& [vit_id, amount] : food_item.vitamins() ) {
         if( vit_id == v ) {
             if( amount > 0 ) {
@@ -8675,8 +8672,8 @@ bool item::made_of_any_food_components( bool deep_search ) const
     for( const std::pair<itype_id, std::vector<item>> pair : components ) {
         for( const item &it : pair.second ) {
             const auto &maybe_food = it.get_comestible();
-            bool must_be_food = maybe_food && ( maybe_food->default_nutrition.kcal() > 0 ||
-                                                !maybe_food->default_nutrition.vitamins().empty() );
+            bool must_be_food = maybe_food && ( maybe_food->default_nutrition_read_only().kcal() > 0 ||
+                                                !maybe_food->default_nutrition_read_only().vitamins().empty() );
             bool has_food_component = false;
             if( deep_search && !it.components.empty() ) {
                 // make true if any component has food values, even if some don't

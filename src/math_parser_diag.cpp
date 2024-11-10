@@ -1593,8 +1593,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
             }
             item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
             if( it && *it ) {
-                npc dummy;
-                return dummy.compute_effective_nutrients( *it->get_item() ).kcal();
+                return default_character_compute_effective_nutrients( *it->get_item() ).kcal();
             }
         }
         debugmsg( "For calories(), talker is not character nor item" );

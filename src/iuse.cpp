@@ -1234,7 +1234,7 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint & 
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins() );
+    p->vitamins_mod( default_character_compute_effective_nutrients( *it ).vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
             mutagen_technique::injected_smart_purifier );
     return 1;
@@ -1615,7 +1615,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
         if( !mon->has_fully_eaten() && mon->has_flag( mon_flag_EATS ) ) {
-            int kcal = it->get_comestible()->default_nutrition.kcal();
+            int kcal = default_character_compute_effective_nutrients( *it ).kcal();
             mon->mod_amount_eaten( kcal );
             if( mon->has_fully_eaten() ) {
                 p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
