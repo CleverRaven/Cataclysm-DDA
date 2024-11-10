@@ -35,6 +35,38 @@
   },
   {
     "type": "palette",
+    "id": "parametrized_highrise_walls_palette",
+    "//": "Intended as a palette for randomized walls for multi-story buildings",
+    "parameters": {
+      "interior_highrise_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_strconc_wall", 2 ],
+            [ "t_strconc_wall_b", 1 ],
+            [ "t_strconc_wall_g", 1 ],
+            [ "t_strconc_wall_r", 2 ],
+            [ "t_strconc_wall_w", 1 ],
+            [ "t_strconc_wall_p", 1 ],
+            [ "t_strconc_wall_P", 2 ],
+            [ "t_strconc_wall_y", 1 ],
+            [ "t_strconc_wall_orange", 1 ],
+            [ "t_strconc_wall_gray", 2 ],
+            [ "t_strconc_wall_brown", 1 ],
+            [ "t_strconc_wall_cyan", 1 ],
+            [ "t_strconc_wall_black", 1 ]
+          ]
+        }
+      },
+      "exterior_highrise_wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_strconc_wall", 1 ] ] } }
+    },
+    "terrain": {
+      "|": { "param": "interior_highrise_wall_type", "fallback": "t_strconc_wall" },
+      "#": { "param": "exterior_highrise_wall_type", "fallback": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "palette",
     "id": "parametrized_fences_palette",
     "//": "Intended as a palette for randomized fences",
     "parameters": {
