@@ -295,15 +295,8 @@ void veh_app_interact::draw_info()
     }
 
     // Other power output
-    if( veh->has_part( "RECHARGE" ) ) {
-        units::power rate = veh->recharge_epower_this_turn;
-        print_charge( _( "Appliance power consumption: " ), rate, row );
-        row++;
-    }
-
-    // Other power output
-    if( !veh->accessories.empty() ) {
-        units::power rate = veh->total_accessory_epower();
+    if( !veh->accessories.empty() || veh->has_part( "RECHARGE" ) ) {
+        units::power rate = veh->total_accessory_epower() + veh->recharge_epower_this_turn;
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
