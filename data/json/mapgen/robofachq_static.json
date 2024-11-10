@@ -248,7 +248,7 @@
         "M": "t_ramp_down_high",
         "m": "t_ramp_down_low"
       },
-      "furniture": { "7": "f_filing_cabinet", "8": "f_crate_c", "9": "f_crate_c", "L": "f_street_light", ":": "f_small_satelitte_dish" },
+      "furniture": { "7": "f_filing_cabinet", "8": "f_crate_c", "9": "f_crate_c", "L": "f_street_light", ":": "f_small_satellite_dish" },
       "items": {
         "9": { "item": "MRE", "chance": 100, "repeat": 50 },
         "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],

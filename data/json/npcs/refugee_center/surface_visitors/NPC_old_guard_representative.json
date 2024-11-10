@@ -190,6 +190,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
       "describe": "We need help…",
@@ -221,6 +222,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
       "describe": "We need help…",
@@ -248,6 +250,7 @@
       "effect": [ { "math": [ "old_guard_rep_scouting", "=", "1" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
       "describe": "Got a weird one for you this time…",
@@ -277,6 +280,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
@@ -316,6 +320,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER_BEGIN",
     "dialogue": {
       "describe": "We need help…",
@@ -338,6 +343,7 @@
     "difficulty": 5,
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER",
     "dialogue": {
       "describe": "I don't need anything major for now, Marshal.  Well, except…",
@@ -372,6 +378,7 @@
     "difficulty": 5,
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER",
     "dialogue": {
       "describe": "We need more help…",

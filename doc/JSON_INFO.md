@@ -201,6 +201,7 @@ Use the `Home` key to return to the top.
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
+      - [`fall_damage_reduction`](#fall_damage_reduction)
       - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
       - [`looks_like`](#looks_like)
       - [`color` or `bgcolor`](#color-or-bgcolor)
@@ -5196,11 +5197,11 @@ oxytorch: {
 ```
 
 #### `prying`
-(Optional) Data for using with pyring tools
+(Optional) Data for using with prying tools
 ```cpp
 "prying": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
-    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "duration": "1 seconds", // (optional) time required for prying, default is 1 second
     "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
     "byproducts": [ // (optional) list of items that will be spawned when finished successfully
         {
@@ -5594,6 +5595,10 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 #### `floor_bedding_warmth`
 
 Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+
+#### `fall_damage_reduction`
+
+Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
 
 #### `bonus_fire_warmth_feet`
 

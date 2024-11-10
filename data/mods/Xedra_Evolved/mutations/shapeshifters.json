@@ -40,7 +40,8 @@
     ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "flags": [ "MEND_ALL" ],
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -68,6 +69,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_activated" ],
+    "processed_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_healing" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_deactivated" ]
   },
   {
@@ -112,27 +114,6 @@
       {
         "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },
         "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
-      },
-      {
-        "condition": {
-          "or": [
-            { "math": [ "u_pain()", ">", "0" ] },
-            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
-          ]
-        },
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "6 seconds",
-              "spell_effects": [ { "id": "goblin_fruit_regeneration_spell" }, { "id": "shapeshifter_remove_pain_spell" } ]
-            }
-          ]
-        }
       }
     ],
     "flags": [ "NO_SPELLCASTING", "PRED3", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],

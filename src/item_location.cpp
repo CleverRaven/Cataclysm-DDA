@@ -266,7 +266,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos().raw() );
+            mv += 100 * rl_dist( ch.pos_bub(), cur.pos() );
 
             // TODO: handle unpacking costs
 
@@ -1165,7 +1165,7 @@ std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );
 }
-std::unique_ptr<talker> get_talker_for( const item_location &it )
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it )
 {
     return std::make_unique<talker_item_const>( &it );
 }

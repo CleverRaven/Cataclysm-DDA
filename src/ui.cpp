@@ -746,9 +746,12 @@ void uilist::calc_data()
     calculated_menu_size.x += calculated_hotkey_width + padding;
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
-    float max_avail_height = ImGui::GetMainViewport()->Size.y;
+    float max_avail_height = 0.9 * ImGui::GetMainViewport()->Size.y;
     if( desired_bounds.has_value() ) {
-        max_avail_height = desired_bounds.value().h;
+        float desired_height = desired_bounds.value().h;
+        if( desired_height != -1 ) {
+            max_avail_height = std::min( max_avail_height, desired_height );
+        }
     }
     calculated_menu_size.y = std::min( max_avail_height - additional_height +
                                        ( s.FramePadding.y * 2.0 ),
@@ -766,6 +769,21 @@ void uilist::calc_data()
     calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
                           + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
     calculated_bounds.h = calculated_menu_size.y + additional_height;
+
+    if( desired_bounds.has_value() ) {
+        cataimgui::bounds b = desired_bounds.value();
+        bool h_neg = b.h < 0.0f;
+        bool w_neg = b.w < 0.0f;
+        bool both_neg = h_neg && w_neg;
+        if( !both_neg ) {
+            if( h_neg ) {
+                desired_bounds->h = calculated_bounds.h;
+            }
+            if( w_neg ) {
+                desired_bounds->w = calculated_bounds.w;
+            }
+        }
+    }
 
     if( longest_line_width > calculated_menu_size.x ) {
         calculated_menu_size.x = longest_line_width;
@@ -1025,7 +1043,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
-        } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
+        } else if( ( allow_cancel && ret_act == "UILIST.QUIT" ) ||
+                   ( are_we_quitting() && ret_act == "QUIT" ) ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_WAIT_INPUT;

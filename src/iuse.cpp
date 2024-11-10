@@ -596,7 +596,7 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint & )
     p->use_charges_if_avail( itype_fire, 1 );
     cig.active = true;
     p->inv->add_item( cig, false, true );
-    p->add_msg_if_player( m_neutral, _( "You light a %s." ), cig.tname() );
+    p->add_msg_if_player( m_neutral, _( "You light a %s." ), it->tname() );
 
     // Parting messages
     if( it->typeId() == itype_joint ) {
@@ -1234,7 +1234,7 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint & 
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins() );
+    p->vitamins_mod( default_character_compute_effective_nutrients( *it ).vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
             mutagen_technique::injected_smart_purifier );
     return 1;
@@ -1615,7 +1615,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
         if( !mon->has_fully_eaten() && mon->has_flag( mon_flag_EATS ) ) {
-            int kcal = it->get_comestible()->default_nutrition.kcal();
+            int kcal = default_character_compute_effective_nutrients( *it ).kcal();
             mon->mod_amount_eaten( kcal );
             if( mon->has_fully_eaten() ) {
                 p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
@@ -2495,9 +2495,9 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
         p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );;
+                              purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
-        get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
+        get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
         if( to_consume > 0 ) {
             p->use_amount( itype_pur_tablets, to_consume );
@@ -2532,7 +2532,7 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint &
         return ( !e->empty() && e->has_item_with( []( const item & it ) {
             return it.typeId() == itype_water;
         } ) ) || ( e->typeId() == itype_water &&
-                   get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.position() ) );
+                   get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub() ) );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     if( !obj ) {
@@ -2560,7 +2560,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoi
     auto radios = p->cache_get_items_with( itype_radio_on );
     // If we don't wield the radio, also check on the ground
     if( radios.empty() ) {
-        map_stack items = get_map().i_at( p->pos() );
+        map_stack items = get_map().i_at( p->pos_bub() );
         for( item &an_item : items ) {
             if( an_item.typeId() == itype_radio_on ) {
                 radios.push_back( &an_item );
@@ -2808,8 +2808,8 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint &pos )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->prying->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->prying->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->prying->valid();
         }
         return false;
     };
@@ -4555,7 +4555,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     }
 
     if( !drew_blood ) {
-        return std::nullopt;;
+        return std::nullopt;
     }
 
     blood.set_item_temperature( blood_temp );
@@ -4692,7 +4692,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint & )
     };
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id, &here]( const tripoint & pnt ) {
-        const ter_id type = here.ter( pnt );
+        const ter_id &type = here.ter( pnt );
         const bool is_allowed_terrain = allowed_ter_id.find( type.id() ) != allowed_ter_id.end();
         return is_allowed_terrain;
     };
@@ -4740,8 +4740,8 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint & )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->oxytorch->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->oxytorch->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->oxytorch->valid();
         }
         return false;
     };
@@ -4784,8 +4784,8 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->hacksaw->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->hacksaw->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->hacksaw->valid();
         }
         return false;
     };
@@ -4827,8 +4827,8 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint & )
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->boltcut->valid();
-        } else if( !here.ter( pnt )->is_null() ) {
-            return here.ter( pnt )->boltcut->valid();
+        } else if( const ter_id &t = here.ter( pnt ); !t->is_null() ) {
+            return t->boltcut->valid();
         }
         return false;
     };
@@ -4960,7 +4960,7 @@ static bool heat_item( Character &p )
         return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
-                 get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
+                 get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub() ) );
     }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5877,7 +5877,7 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
         const std::vector<std::string> &flags, const std::vector<ter_str_id> &ter_whitelist )
 {
     map &here = get_map();
-    const ter_id ter = here.ter( point );
+    const ter_id &ter = here.ter( point );
     std::string name = colorize( ter->name(), ter->color() );
     const std::string &graffiti_message = here.graffiti_at( point );
 
@@ -5913,7 +5913,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
 {
     item_found = false;
     map &here = get_map();
-    const furn_id furn = here.furn( center_point );
+    const furn_id &furn = here.furn( center_point );
     if( furn != furn_str_id::NULL_ID() && furn.is_valid() ) {
         std::string furn_str = colorize( furn->name(), c_yellow );
         std::string sign_message = here.get_signage( center_point );
@@ -6334,8 +6334,8 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_
         found_item_aim_point = !item.is_null();
     }
 
-    const ter_id ter_aim = here.ter( aim_point );
-    const furn_id furn_aim = here.furn( aim_point );
+    const ter_id &ter_aim = here.ter( aim_point );
+    const furn_id &furn_aim = here.furn( aim_point );
 
     if( !description_figures_status.empty() ) {
         std::string names = enumerate_as_string( description_figures_status.begin(),
@@ -7229,7 +7229,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             p->remove_value( "remote_controlling" );
         } else {
             std::list<std::pair<tripoint_bub_ms, item *>> rc_pairs = here.get_rc_items();
-            tripoint_bub_ms rc_item_location = {999, 999, 999};
+            tripoint_bub_ms rc_item_location = overmap::invalid_tripoint_bub_ms;
             // TODO: grab the closest car or similar?
             for( auto &rc_pairs_rc_pair : rc_pairs ) {
                 if( rc_pairs_rc_pair.second->has_flag( flag_RADIOCAR ) &&
@@ -7237,7 +7237,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
                     rc_item_location = rc_pairs_rc_pair.first;
                 }
             }
-            if( rc_item_location.x() == 999 ) {
+            if( rc_item_location == overmap::invalid_tripoint_bub_ms ) {
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return 1;
             } else {
@@ -7702,8 +7702,8 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
                 mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
             }
 
-            const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
-                                        it->type->tool->power_draw ) / 1000;
+            const int all_charges = charges_to_start + mealtime * units::to_watt(
+                                        it->type->tool->power_draw ) / 1000 / 1000;
 
             if( it->ammo_remaining( p, true ) < all_charges ) {
 
@@ -8345,7 +8345,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
                    ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                      itm.where() == item_location::type::container ||
-                     get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
+                     get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub() ) );
         }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
         if( !loc ) {
             return false;

@@ -28,7 +28,8 @@
     "points": -1,
     "starting_trait": true,
     "valid": false,
-    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
+    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)",
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -127,6 +128,35 @@
   },
   {
     "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFIMMUNE",
+    "copy-from": "INFIMMUNE",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GENERIC_UNCANNY_DODGE_TRAIT",
+    "name": { "str": "The Trait That Gives you Uncanny Dodge" },
+    "description": "The Uncanny Dodge flag only works on traits or bionics, so this is a trait for powers that grant it.",
+    "points": 1,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,
@@ -135,7 +165,8 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL", "HEMOVORE" ]
+    "flags": [ "CANNIBAL", "HEMOVORE" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",

@@ -126,6 +126,7 @@ static bool need_invalidate_framebuffers = false;
 palette_array windowsPalette;
 
 static Font_Ptr font;
+static Font_Ptr gui_font;
 static Font_Ptr map_font;
 static Font_Ptr overmap_font;
 
@@ -1106,6 +1107,20 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     for( om_vehicle &v : overmap_buffer.get_vehicle( center_pos ) ) {
         notes_window_text.emplace_back( c_white, v.name );
     }
+
+    if( ! g->overmap_data.message.empty() ) {
+        const int padding = 2;
+        SDL_Rect message_background_rect = {
+            0,
+            0,
+            fontwidth * utf8_width( g->overmap_data.message ) + padding * 2,
+            fontheight + padding * 2
+        };
+        geometry->rect( renderer, message_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_string( *font, renderer, geometry, g->overmap_data.message, point( padding, padding ),
+                     cata_cursesport::colorpairs[c_white.to_color_pair_index()].FG );
+    }
+
 
     if( !notes_window_text.empty() && !fast_traveling ) {
         constexpr int padding = 2;
@@ -3522,8 +3537,9 @@ static void CheckMessages()
         try_sdl_update();
     }
     if( quit ) {
-        catacurses::endwin();
-        exit( 0 );
+        if( g->uquit != quit_status::QUIT_EXIT_PENDING ) {
+            g->uquit = quit_status::QUIT_EXIT;
+        }
     }
 }
 
@@ -3731,6 +3747,8 @@ void catacurses::init_interface()
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
+    gui_font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
+               windowsPalette, fl.gui_typeface, fl.fontsize, fl.fontblending );
     map_font = std::make_unique<FontFallbackList>( renderer, format, fl.map_fontwidth,
                fl.map_fontheight,
                windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
@@ -3739,7 +3757,7 @@ void catacurses::init_interface()
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-    imclient->load_fonts( font, windowsPalette, fl.typeface );
+    imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
@@ -3780,6 +3798,7 @@ void catacurses::endwin()
     fartilecontext.reset();
     overmap_tilecontext.reset();
     font.reset();
+    gui_font.reset();
     map_font.reset();
     overmap_font.reset();
     ui_manager::reset();

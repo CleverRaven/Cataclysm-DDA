@@ -403,5 +403,21 @@
     "price_postapoc": "20 USD",
     "symbol": "&",
     "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "glassblowers_crucible",
+    "name": { "str": "disconnected glassblower's crucible" },
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
+    "//": "Loosely based off Jen-Ken Kiln - Crucible 1813, but homemade",
+    "weight": "50 kg",
+    "material": [ "steel", "clay" ],
+    "volume": "62500 ml",
+    "longest_side": "100 cm",
+    "price": "2179 USD",
+    "price_postapoc": "25 USD",
+    "symbol": "o",
+    "color": "brown"
   }
 ]

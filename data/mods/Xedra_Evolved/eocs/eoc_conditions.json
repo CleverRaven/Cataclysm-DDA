@@ -1,0 +1,23 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS",
+    "condition": {
+      "not": {
+        "u_has_any_trait": [
+          "CHANGELING_MAGIC",
+          "NATIVE_SHAPESHIFTER",
+          "LILIN_TRAITS",
+          "ARVORE",
+          "IERDE",
+          "HOMULLUS",
+          "SALAMANDER",
+          "SYLPH",
+          "UNDINE",
+          "VAMPIRE"
+        ]
+      }
+    },
+    "effect": [  ]
+  }
+]

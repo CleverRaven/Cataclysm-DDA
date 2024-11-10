@@ -1377,8 +1377,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     here.prev_o = o;
 
     you.prepare_map_memory_region(
-        here.getglobal( tripoint( min_mm_reg, center.z ) ),
-        here.getglobal( tripoint( max_mm_reg, center.z ) )
+        here.getglobal( tripoint_bub_ms( min_mm_reg.x, min_mm_reg.y, center.z ) ),
+        here.getglobal( tripoint_bub_ms( max_mm_reg.x, max_mm_reg.y, center.z ) )
     );
 
     //set up a default tile for the edges outside the render area
@@ -1819,8 +1819,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( is_isometric() && top_any_tile_range.contains( colrow ) ) {
                 continue;
             }
-            const tripoint p( mem_x, mem_y, center.z );
-            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            const tripoint_bub_ms p( mem_x, mem_y, center.z );
+            lit_level lighting = ch.visibility_cache[p.x()][p.y()];
             // `apply_vision_effects` does not memorize anything so we only need
             // to call `would_apply_vision_effects` here.
             if( would_apply_vision_effects( here.get_visibility( lighting, cache ) ) ) {
@@ -1830,19 +1830,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             std::array<bool, 5> invisible;
             invisible[0] = false;
             for( int i = 0; i < 4; i++ ) {
-                const tripoint np = p + neighborhood[i];
-                invisible[1 + i] = apply_visible( np, ch, here );
+                const tripoint_bub_ms np = p + neighborhood[i];
+                invisible[1 + i] = apply_visible( np.raw(), ch, here );
             }
             //calling draw to memorize (and only memorize) everything.
             //bypass cache check in case we learn something new about the terrain's connections
-            draw_terrain( p, lighting, height_3d, invisible, true );
+            draw_terrain( p.raw(), lighting, height_3d, invisible, true );
             if( here.memory_cache_dec_is_dirty( p ) ) {
                 you.memorize_clear_decoration( here.getglobal( p ), "" );
-                draw_furniture( p, lighting, height_3d, invisible, true );
-                draw_trap( p, lighting, height_3d, invisible, true );
-                draw_part_con( p, lighting, height_3d, invisible, true );
-                draw_vpart_no_roof( p, lighting, height_3d, invisible, true );
-                draw_vpart_roof( p, lighting, height_3d, invisible, true );
+                draw_furniture( p.raw(), lighting, height_3d, invisible, true );
+                draw_trap( p.raw(), lighting, height_3d, invisible, true );
+                draw_part_con( p.raw(), lighting, height_3d, invisible, true );
+                draw_vpart_no_roof( p.raw(), lighting, height_3d, invisible, true );
+                draw_vpart_roof( p.raw(), lighting, height_3d, invisible, true );
                 here.memory_cache_dec_set_dirty( p, false );
             }
         }
@@ -3552,7 +3552,7 @@ bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &heig
     // FIXME: fix tripoint type
     if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr && !invisible[0] ) {
         avatar &you = get_avatar();
-        std::string const &trname = tr_unfinished_construction.str();;
+        std::string const &trname = tr_unfinished_construction.str();
         if( here.memory_cache_dec_is_dirty( p ) ) {
             you.memorize_decoration( here.getglobal( p ), trname, 0, 0 );
         }
@@ -3596,15 +3596,16 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
     const auto fld_override = field_override.find( tripoint_bub_ms( p ) );
     const bool fld_overridden = fld_override != field_override.end();
     map &here = get_map();
+    const field &f = here.field_at( p );
     const field_type_id &fld = fld_overridden ?
-                               fld_override->second : here.field_at( p ).displayed_field_type();
+                               fld_override->second : f.displayed_field_type();
     bool ret_draw_field = false;
     bool ret_draw_items = false;
     // go through each field and draw it
     if( !fld_overridden ) {
         const maptile &tile = here.maptile_at( p );
 
-        for( const std::pair<const field_type_id, field_entry> &fd_pr : here.field_at( p ) ) {
+        for( const std::pair<const field_type_id, field_entry> &fd_pr : f ) {
             const field_type_id &fld = fd_pr.first;
             if( !invisible[0] && fld.obj().display_field ) {
                 const lit_level lit = ll;
@@ -4989,7 +4990,7 @@ void cata_tiles::get_terrain_orientation( const tripoint_bub_ms &p, int &rota, i
     };
 
     // get terrain at x,y
-    const ter_id tid = ter( p, invisible[0] );
+    const ter_id &tid = ter( p, invisible[0] );
     if( tid == ter_str_id::NULL_ID() ) {
         subtile = 0;
         rota = 0;

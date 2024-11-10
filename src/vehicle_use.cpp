@@ -960,15 +960,15 @@ void vehicle::crash_terrain_around()
     }
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
-        tripoint crush_target( 0, 0, -OVERMAP_LAYERS );
-        const tripoint start_pos = vp.pos();
+        tripoint_bub_ms crush_target( 0, 0, -OVERMAP_LAYERS );
+        const tripoint_bub_ms start_pos = vp.pos_bub();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             crush_target.z == -OVERMAP_LAYERS; i++ ) {
-            tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
+             crush_target.z() == -OVERMAP_LAYERS; i++ ) {
+            tripoint_bub_ms cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
-                busy_pos |= vp_tmp.pos() == cur_pos;
+                busy_pos |= vp_tmp.pos_bub() == cur_pos;
             }
             for( const std::string &flag : ttd.pre_flags ) {
                 if( here.has_flag( flag, cur_pos ) && !busy_pos ) {
@@ -978,7 +978,7 @@ void vehicle::crash_terrain_around()
             }
         }
         //target chosen
-        if( crush_target.z != -OVERMAP_LAYERS ) {
+        if( crush_target.z() != -OVERMAP_LAYERS ) {
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
@@ -1074,11 +1074,12 @@ void vehicle::operate_planter()
         vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
+                const ter_id &t = here.ter( loc );
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( here.ter( loc ) != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( t != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( here.ter( loc ) == ter_t_dirtmound ) {
+                } else if( t == ter_t_dirtmound ) {
                     here.set( loc, ter_t_dirt, furn_f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
@@ -1146,7 +1147,7 @@ void vehicle::operate_scoop()
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
-                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
+                                              that_item_there->volume() * 2 / units::legacy_volume_factor + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
@@ -1319,9 +1320,9 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     insides_dirty = true;
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
-    const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
+    const tripoint_bub_ms part_location = mount_to_tripoint( parts[part_index].mount );
     here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
-    const int dist = rl_dist( get_player_character().pos(), part_location );
+    const int dist = rl_dist( get_player_character().pos_bub(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().id.str(), 100 - dist * 3 );

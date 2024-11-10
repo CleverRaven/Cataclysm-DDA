@@ -191,55 +191,59 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
-bool map::build_vision_transparency_cache( const int zlev )
+bool map::build_vision_transparency_cache( int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
-    auto &transparency_cache = map_cache.transparency_cache;
-    auto &vision_transparency_cache = map_cache.vision_transparency_cache;
-
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+    cata::mdarray<float, point_bub_ms> &transparency_cache = map_cache.transparency_cache;
+    cata::mdarray<float, point_bub_ms> &vision_transparency_cache = map_cache.vision_transparency_cache;
 
     Character &player_character = get_player_character();
     const tripoint_bub_ms p = player_character.pos_bub();
 
     if( p.z() != zlev ) {
+        // Just copy the transparency cache and be done with it.
+        memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
         return false;
     }
 
     bool dirty = false;
 
+    std::vector<tripoint_bub_ms> solid_tiles;
+
     // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
     // If you change this, also consider creature::sees and map::obstacle_coverage.
-    bool is_crouching = player_character.is_crouching();
-    bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
-                       player_character.is_running();
-    bool is_prone = player_character.is_prone();
-    static move_mode_id previous_move_mode = player_character.current_movement_mode();
+    const bool is_crouching = player_character.is_crouching();
+    const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
+                             player_character.is_running();
+    const bool is_prone = player_character.is_prone();
 
-    for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( ( is_crouching || is_prone || low_profile ) && coverage( loc ) >= 30 ) {
-            // If we're crouching or prone behind an obstacle, we can't see past it.
-            if( vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID ||
-                previous_move_mode != player_character.current_movement_mode() ) {
-                previous_move_mode = player_character.current_movement_mode();
-                vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
-                dirty = true;
+    if( is_crouching || is_prone || low_profile ) {
+        for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
+            if( loc != p && coverage( loc ) >= 30 ) {
+                // If we're crouching or prone behind an obstacle, we can't see past it.
+                dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
+                solid_tiles.emplace_back( loc );
             }
         }
     }
 
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
     for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
-            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
-            dirty = true;
+        if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) && loc != p ) {
+            dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
+            solid_tiles.emplace_back( loc );
         }
+    }
+
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
+    // The tile player is standing on should always be visible
+    if( inbounds( p ) ) {
+        vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    }
+
+    for( const tripoint_bub_ms loc : solid_tiles ) {
+        vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
     }
 
     return dirty;
@@ -484,11 +488,11 @@ void map::generate_lightmap( const int zlev )
                         add_light_from_items( p, i_at( p ) );
                     }
 
-                    const ter_id terrain = cur_submap->get_ter( { sx, sy } );
+                    const ter_id &terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
-                    const furn_id furniture = cur_submap->get_furn( {sx, sy } );
+                    const furn_id &furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
                         add_light_source( p, furniture->light_emitted );
                     }
@@ -1128,18 +1132,18 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
                     for( int sz = origin.z() - 1; sz >= min_z; --sz ) {
-                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
+                        const tripoint_bub_ms p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
-                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
+                        if( ( *seen_caches[cache_z] )[p.x()][p.y()] == 0.0f ) {
                             break;
                         }
                         // Or floor reached
-                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
+                        if( ( *floor_caches[cache_z] ) [p.x()][p.y()] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin.raw(), p ) > 100 : ledge_coverage( player_character,
+                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character,
                                     p ) > 100 ) {
-                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
+                                ( *seen_caches[cache_z] )[p.x()][p.y()] = 0.0f;
                             }
                             break;
                         }

@@ -3416,6 +3416,8 @@ Likvidator
 Likvidators
 lil
 Lila
+lilin
+Lilit
 lilypad
 Lima
 limbed
@@ -5204,6 +5206,7 @@ RPK
 RTG
 RTGs
 Ru
+ruach
 Rubaiyat
 rubbles
 Rubik
@@ -5910,6 +5913,7 @@ streetwear
 stressfully
 striders
 strigoi
+strix
 strobing
 strobus
 Stromer

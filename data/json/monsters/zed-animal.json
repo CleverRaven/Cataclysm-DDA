@@ -85,7 +85,6 @@
   },
   {
     "id": "mon_zombie_dog",
-    "alias": "mon_zombie_fast",
     "type": "MONSTER",
     "name": { "str": "zombie dog" },
     "description": "The deformed, animated corpse of a canine; a sinewy beast which can easily outpace its two-legged friends.",

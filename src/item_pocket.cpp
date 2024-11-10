@@ -1249,6 +1249,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                            contains_weight() ) );
         info.emplace_back( weight_to_info( cont_type_str, _( " of " ),
                                            weight_capacity() ) );
+        info.back().bNewLine = true;
     } else {
         // With ammo_restriction, total capacity does not matter, but show current volume/weight
         info.emplace_back( vol_to_info( cont_type_str, _( "Volume: " ),
@@ -2484,7 +2485,7 @@ units::volume pocket_data::max_contains_volume() const
         int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
         int max_count = ammo_restriction.at( ammo_type->ammo->type );
         units::volume this_volume =
-            1_ml * divide_round_up( ammo_type->volume / 1_ml * max_count, stack_size );
+            1_ml * divide_round_up( ammo_type->volume * max_count / 1_ml, stack_size );
         max_total_volume = std::max( max_total_volume, this_volume );
     }
     return max_total_volume;

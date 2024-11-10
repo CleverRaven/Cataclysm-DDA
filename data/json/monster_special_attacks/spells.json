@@ -1109,13 +1109,14 @@
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "effect_str": "stunned",
+    "min_range": 4,
     "max_range": 4,
     "shape": "blast",
     "message": "",
     "min_duration": 100,
     "max_duration": 400,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "extra_effects": [ { "id": "flatlander_attack_nausea", "hit_self": true } ]
+    "extra_effects": [ { "id": "flatlander_attack_nausea" } ]
   },
   {
     "type": "SPELL",

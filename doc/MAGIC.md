@@ -172,7 +172,7 @@ Effect                 | Description
 `charm_monster`        | Charms a monster that has less hp than damage() for approximately duration().
 `dash`                 | Dashes forward up to range and hits targets in a cone at the target.
 `directed_push`        | Pushes `valid_targets` in aoe away from the target location, with a distance of damage().  Negative values pull instead.
-`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster.
+`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
 `flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
@@ -655,6 +655,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
     "intermittent_activation": {
       "effects": [
         {
@@ -919,21 +920,6 @@ Character status value  | Description
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
 `WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
-
-
-Melee-only enchantment values | Description
----                           |---
-`ITEM_DAMAGE_ACID`            | 
-`ITEM_DAMAGE_BASH`            | 
-`ITEM_DAMAGE_BIO`             | 
-`ITEM_DAMAGE_BULLET`          | 
-`ITEM_DAMAGE_COLD`            | 
-`ITEM_DAMAGE_CUT`             | 
-`ITEM_DAMAGE_ELEC`            | 
-`ITEM_DAMAGE_HEAT`            | 
-`ITEM_DAMAGE_PURE`            | 
-`ITEM_DAMAGE_STAB`            | 
-
 
 Enchanted item value | Description
 ---                  |---

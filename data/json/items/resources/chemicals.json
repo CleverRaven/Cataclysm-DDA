@@ -182,7 +182,7 @@
     "id": "abstract_hair_dye",
     "category": "other",
     "price": "20 USD",
-    "price_postapoc": "30 USD",
+    "price_postapoc": "50 cent",
     "name": { "str_sp": "hair dye" },
     "description": "Some hair dye.",
     "symbol": "o",

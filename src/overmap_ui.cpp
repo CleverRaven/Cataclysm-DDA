@@ -854,6 +854,10 @@ static void draw_ascii(
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
 
+    if( !data.message.empty() ) {
+        corner_text.emplace_back( c_white, data.message );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( cursor_pos );
         if( !note_text.empty() ) {
@@ -1151,10 +1155,11 @@ static void draw_om_sidebar( ui_adaptor &ui,
     };
 
     if( data.debug_editor ) {
-        print_hint( "PLACE_TERRAIN", c_light_blue );
-        print_hint( "PLACE_SPECIAL", c_light_blue );
-        print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+        print_hint( "REVEAL_MAP", c_light_blue );
         print_hint( "LONG_TELEPORT", c_light_blue );
+        print_hint( "PLACE_SPECIAL", c_light_blue );
+        print_hint( "PLACE_TERRAIN", c_light_blue );
+        print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
         ++y;
     }
@@ -1505,7 +1510,10 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
+        ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "zoom_out" );
         ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "CONFIRM_MULTIPLE" );
         ctxt.register_action( "ROTATE" );
         ctxt.register_action( "QUIT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1555,9 +1563,11 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                 mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
-            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Apply" ),
+            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place" ),
+                       ctxt.get_desc( "CONFIRM_MULTIPLE" ) );
+            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[%s] Place and close" ),
                        ctxt.get_desc( "CONFIRM" ) );
-            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
+            mvwprintz( w_editor, point( 1, 14 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wnoutrefresh( w_editor );
         } );
 
@@ -1570,7 +1580,13 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
-            } else if( action == "CONFIRM" ) { // Actually modify the overmap
+            } else if( action == "zoom_out" ) {
+                g->zoom_out_overmap();
+                om_ui.mark_resize();
+            } else if( action == "zoom_in" ) {
+                g->zoom_in_overmap();
+                om_ui.mark_resize();
+            } else if( action == "CONFIRM" || action == "CONFIRM_MULTIPLE" ) { // Actually modify the overmap
                 if( terrain ) {
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, om_vision_level::full );
@@ -1583,7 +1599,9 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                         }
                     }
                 }
-                break;
+                if( action == "CONFIRM" ) {
+                    break;
+                }
             } else if( action == "ROTATE" && can_rotate ) {
                 uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
                 if( terrain ) {
@@ -1689,8 +1707,8 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             chosen_group.set_interest( new_value );
             break;
         case 1:
-            popup( _( "Select a target destination for the horde." ) );
-            horde_destination = ui::omap::choose_point( true );
+            horde_destination = ui::omap::choose_point( _( "Select a target destination for the horde." ),
+                                true );
             if( horde_destination == overmap::invalid_tripoint || horde_destination == tripoint_abs_omt_zero ) {
                 break;
             }
@@ -1768,7 +1786,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         params = overmap_path_params::for_player();
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos_bub() ) ||
             is_water_body( dest_ter ) ) {
             params.set_cost( oter_travel_cost_type::water, 100 );
         }
@@ -1923,6 +1941,7 @@ static tripoint_abs_omt display()
         ictxt.register_action( "SET_SPECIAL_ARGS" );
         ictxt.register_action( "LONG_TELEPORT" );
         ictxt.register_action( "MODIFY_HORDE" );
+        ictxt.register_action( "REVEAL_MAP" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -2137,7 +2156,8 @@ static tripoint_abs_omt display()
             action = "QUIT";
         } else if( action == "MODIFY_HORDE" ) {
             modify_horde_func( curs );
-            action = "QUIT";
+        } else if( action == "REVEAL_MAP" ) {
+            debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }
@@ -2483,30 +2503,26 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, bool show_debug_info )
 {
-    g->overmap_data = overmap_ui::overmap_draw_data_t();
-    g->overmap_data.origin_pos = get_player_character().global_omt_location();
-    g->overmap_data.debug_info = show_debug_info;
-    return overmap_ui::display();
+    return choose_point( message, get_player_character().global_omt_location(), show_debug_info );
 }
 
-tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, const tripoint_abs_omt &origin,
+        bool show_debug_info )
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
+    g->overmap_data.message = message;
     g->overmap_data.origin_pos = origin;
     g->overmap_data.debug_info = show_debug_info;
     return overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, int z, bool show_debug_info )
 {
-    g->overmap_data = overmap_ui::overmap_draw_data_t();
-    g->overmap_data.debug_info = show_debug_info;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = z;
-    g->overmap_data.origin_pos = pos;
-    return overmap_ui::display();
+    return choose_point( message, pos, show_debug_info );
 }
 
 void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container )

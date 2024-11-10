@@ -1129,7 +1129,7 @@ int outfit::swim_modifier( const int swim_skill ) const
     int ret = 0;
     if( swim_skill < 10 ) {
         for( const item &i : worn ) {
-            ret += i.volume() / 125_ml * ( 10 - swim_skill );
+            ret += i.volume() * ( 10 - swim_skill ) / 125_ml;
         }
     }
     return ret;
@@ -1963,6 +1963,11 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             destroyed_armor_msg( guy, pre_damage_name );
             armor_destroyed = true;
             armor.on_takeoff( guy );
+
+            item_location loc = item_location( guy, &armor );
+            cata::event e = cata::event::make<event_type::character_armor_destroyed>( guy.getID(),
+                            armor.typeId() );
+            get_event_bus().send_with_talker( &guy, &loc, e );
             for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                 worn_remains.push_back( *it );
             }
