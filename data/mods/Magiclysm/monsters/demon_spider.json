@@ -1,16 +1,5 @@
 [
   {
-    "type": "SPECIES",
-    "id": "DEMON_SPIDER",
-    "description": "a huge spider",
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "demon_spider",
-    "base_faction": "spider"
-  },
-  {
 	"abstract": "demon_spider_base",
 	"type": "MONSTER",
 	"name": "base demon spider",
