@@ -25,6 +25,12 @@
     "path_settings": { "max_dist": 21, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_mammal_fur",
     "dissect": "dissect_feline_sample_huge",
+	"families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology"
+    ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_yulecat_cub" }, "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
     "grab_strength": 50,
@@ -108,6 +114,7 @@
     "dodge": 6,
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
+	"weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "fear_triggers": [ "HURT", "FIRE" ],
     "tracking_distance": 8,
