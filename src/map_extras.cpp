@@ -445,10 +445,10 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
         }
         if( !one_in( 4 ) ) {
-            wreckage->smash( m, 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+            wreckage->smash( m, 0.8f, 1.2f, 1.0f, { dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 }, 6 + dice( 1,
                              10 ) );
         } else {
-            wreckage->smash( m, 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+            wreckage->smash( m, 0.1f, 0.9f, 1.0f, { dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 }, 6 + dice( 1,
                              10 ) );
         }
     }
@@ -1360,7 +1360,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             } else {
                 tripoint_abs_omt pos = project_to<coords::omt>( m.getglobal( loc ) );
                 oter_id terrain_type = overmap_buffer.ter( pos );
-                tripoint veh_origin = vehicle.v->global_pos3();
+                tripoint_bub_ms veh_origin = vehicle.v->pos_bub();
                 debugmsg( "burned_ground_parser: Vehicle %s (origin %s; rotation (%f,%f)) has "
                           "out of bounds part at %s in terrain_type %s\n",
                           vehicle.v->name, veh_origin.to_string(),
@@ -1505,18 +1505,18 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     }
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
-    std::vector<tripoint> points;
+    std::vector<tripoint_bub_ms> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        std::set<tripoint> occupied = vehicle.v->get_points();
-        for( const tripoint &t : occupied ) {
+        std::set<tripoint_bub_ms> occupied = vehicle.v->get_points();
+        for( const tripoint_bub_ms &t : occupied ) {
             points.push_back( t );
         }
     }
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( const tripoint &tri : points ) {
+    for( const tripoint_bub_ms &tri : points ) {
         m.furn_set( tri, furn_f_wreckage );
     }
 
