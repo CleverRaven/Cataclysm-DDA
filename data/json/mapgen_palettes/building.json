@@ -11,11 +11,12 @@
         "default": { "distribution": [ [ "null_palette", 400 ], [ "standard_building_vandalized_palette", 600 ] ] }
       }
     },
-    "palettes": [ "standard_building_shared_palette", { "param": "building_variant_palette" }, [ "parametrized_walls_palette" ] ]
+    "palettes": [ "standard_building_shared_palette", { "param": "building_variant_palette" }, "parametrized_walls_palette" ]
   },
   {
     "type": "palette",
     "id": "standard_building_shared_palette",
+    "palettes": [ "parametrized_walls_palette" ],
     "furniture": { "S": "f_sink" },
     "terrain": {
       ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
