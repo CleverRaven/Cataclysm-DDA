@@ -637,7 +637,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     tileray tdir( to_angle( facing ) );
     ret.tdir = tdir;
     std::map<int, std::pair<int, int>> extent_map;
-    const point_rel_ms pivot = driven_veh.pivot_point_rel();
+    const point_rel_ms pivot = driven_veh.pivot_point();
     for( const vehicle_part &part : driven_veh.parts ) {
         if( part.removed ) {
             continue;
@@ -1268,11 +1268,11 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     std::vector<std::tuple<point, int, std::string>> ret;
 
     const tripoint_abs_ms veh_pos = global_square_location();
-    if( autodrive_local_target != tripoint_zero ) {
-        ret.emplace_back( ( autodrive_local_target - veh_pos.raw() ).xy(), catacurses::red, "T" );
+    if( autodrive_local_target != tripoint_abs_ms_zero ) {
+        ret.emplace_back( ( autodrive_local_target - veh_pos ).xy().raw(), catacurses::red, "T" );
     }
-    for( const point &pt_elem : collision_check_points ) {
-        ret.emplace_back( pt_elem - veh_pos.raw().xy(), catacurses::yellow, "C" );
+    for( const point_abs_ms &pt_elem : collision_check_points ) {
+        ret.emplace_back( pt_elem.raw() - veh_pos.raw().xy(), catacurses::yellow, "C" );
     }
 
     if( !active_autodrive_controller ) {
@@ -1422,7 +1422,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
             // nothing we can do about it now, hope we don't crash!
             break;
         }
-        pldrive( driver, { signum( turn_delta ), 0 } );
+        pldrive( driver, signum( turn_delta ), 0 );
     }
     // Don't do anything else below; the driver's turn may be over (moves <= 0) so
     // any extra actions would be "cheating".
@@ -1442,7 +1442,7 @@ void vehicle::stop_autodriving( bool apply_brakes )
     is_patrolling = false;
     is_following = false;
     autopilot_on = false;
-    autodrive_local_target = tripoint_zero;
+    autodrive_local_target = tripoint_abs_ms_zero;
     collision_check_points.clear();
     active_autodrive_controller.reset();
 }
