@@ -11,7 +11,7 @@
             "body_part": "mouth",
             "intensity": 1,
             "min_duration": "250 seconds",
-            "max_duration": "750 seconds"
+            "max_duration": "750 seconds",
             "immune_inside_vehicle": false
           }
         ]
