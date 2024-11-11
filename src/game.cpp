@@ -313,9 +313,9 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
+static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
-static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 
 static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
 static const mod_id MOD_INFORMATION_dda( "dda" );

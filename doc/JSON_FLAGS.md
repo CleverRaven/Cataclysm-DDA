@@ -434,6 +434,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
+- ```VINE_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom.
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall.  Chance to slip and fall each step.
 - ```WATERWALKING``` You can walk across the surface of the water as though it were solid ground.  Should usually be combined with `ITEM_WATERPROOFING` to protect items as well.
@@ -446,7 +447,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
 - ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
-- ```VINE_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
 
