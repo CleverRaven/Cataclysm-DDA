@@ -328,7 +328,11 @@
         ]
       },
       {
-        "math": [ "u_electrokin_personal_battery_power_count", "=", "( (u_spell_level('electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling" ]
+        "math": [
+          "u_electrokin_personal_battery_power_count",
+          "=",
+          "( (u_spell_level('electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        ]
       },
       { "u_message": "begin with val:<u_val:electrokin_personal_battery_power_count>" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT" }
@@ -344,8 +348,16 @@
       { "math": [ "u_electrokin_personal_battery_item_count", "=", "0" ] },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_GET_ITEM_COUNT" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" },
-      { "math": [ "u_electrokin_personal_battery_max_indv_power", "=", "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)" ] },
-      { "u_message": "u_electrokin_personal_battery_max_indv_power=<u_val:electrokin_personal_battery_max_indv_power>" },
+      {
+        "math": [
+          "u_electrokin_personal_battery_max_indv_power",
+          "=",
+          "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)"
+        ]
+      },
+      {
+        "u_message": "u_electrokin_personal_battery_max_indv_power=<u_val:electrokin_personal_battery_max_indv_power>"
+      },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS" }
     ]
   },
@@ -353,7 +365,12 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS",
     "//": "power uncharged items",
-    "condition": { "and": [ { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] }, { "math": [ "u_electrokin_personal_battery_item_count", ">=", "1" ] } ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
+        { "math": [ "u_electrokin_personal_battery_item_count", ">=", "1" ] }
+      ]
+    },
     "effect": [
       { "u_message": "pb power" },
       {
@@ -363,27 +380,51 @@
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_DISTRIBUTION",
             "//": "if there is enough power to be distributed to many items",
-            "condition": { "and": [ { "math": [ "n_val('power')", "<", "n_val('power_max')" ] }, { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] }, { "math": [ "u_electrokin_personal_battery_max_indv_power", ">=", "1" ] } ] },
+            "condition": {
+              "and": [
+                { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+                { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
+                { "math": [ "u_electrokin_personal_battery_max_indv_power", ">=", "1" ] }
+              ]
+            },
             "effect": [
               { "u_message": "pb power distribute ind" },
               {
-                "math": [ "u_electrokin_personal_battery_power_count_used", "=", "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_max_indv_power )" ]
+                "math": [
+                  "u_electrokin_personal_battery_power_count_used",
+                  "=",
+                  "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_max_indv_power )"
+                ]
               },
               { "math": [ "n_val('power')", "+=", "u_electrokin_personal_battery_power_count_used" ] },
-              { "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ] }
+              {
+                "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ]
+              }
             ]
           },
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_SINGLE",
             "//": "if there is not enough power to distribute to many items but enough power for a single item",
-            "condition": { "and": [ { "math": [ "n_val('power')", "<", "n_val('power_max')" ] }, { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] }, { "math": [ "u_electrokin_personal_battery_max_indv_power", "<", "1" ] } ] },
+            "condition": {
+              "and": [
+                { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+                { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
+                { "math": [ "u_electrokin_personal_battery_max_indv_power", "<", "1" ] }
+              ]
+            },
             "effect": [
               { "u_message": "pb power single ind" },
               {
-                "math": [ "u_electrokin_personal_battery_power_count_used", "=", "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_power_count )" ]
+                "math": [
+                  "u_electrokin_personal_battery_power_count_used",
+                  "=",
+                  "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_power_count )"
+                ]
               },
               { "math": [ "n_val('power')", "+=", "u_electrokin_personal_battery_power_count_used" ] },
-              { "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ] }
+              {
+                "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ]
+              }
             ]
           }
         ]
@@ -415,14 +456,24 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT",
     "//": "Reduce item count if the total chargeable power / uncharged item count is less than 1.",
-    "condition": { "and": [ { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] }, { "math": [ "u_electrokin_personal_battery_item_count", ">=", "1" ] }, { "math": [ "u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count", "<", "1" ] } ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
+        { "math": [ "u_electrokin_personal_battery_item_count", ">=", "1" ] },
+        {
+          "math": [ "u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count", "<", "1" ]
+        }
+      ]
+    },
     "effect": [
       { "math": [ "u_electrokin_personal_battery_item_count", "--" ] },
       { "u_message": "pb ammend item count to <u_val:electrokin_personal_battery_item_count>" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" }
     ],
     "false_effect": [
-      { "u_message": "pb ammend item count false power_count:<u_val:electrokin_personal_battery_power_count>, <u_val:electrokin_personal_battery_item_count>" }
+      {
+        "u_message": "pb ammend item count false power_count:<u_val:electrokin_personal_battery_power_count>, <u_val:electrokin_personal_battery_item_count>"
+      }
     ]
   },
   {
