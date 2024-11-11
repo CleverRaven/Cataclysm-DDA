@@ -311,7 +311,6 @@
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_BEGIN",
     "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
     "effect": [
-      { "u_message": "pb begin" },
       {
         "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_BEGIN",
         "time_in_future": [
@@ -334,7 +333,6 @@
           "( (u_spell_level('electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
         ]
       },
-      { "u_message": "begin with val:<u_val:electrokin_personal_battery_power_count>" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT" }
     ]
   },
@@ -344,7 +342,6 @@
     "//": "recursively runs until available power is < 1 or all items are charged",
     "condition": { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
     "effect": [
-      { "u_message": "pb effect" },
       { "math": [ "u_electrokin_personal_battery_item_count", "=", "0" ] },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_GET_ITEM_COUNT" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" },
@@ -354,9 +351,6 @@
           "=",
           "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)"
         ]
-      },
-      {
-        "u_message": "u_electrokin_personal_battery_max_indv_power=<u_val:electrokin_personal_battery_max_indv_power>"
       },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS" }
     ]
@@ -372,7 +366,6 @@
       ]
     },
     "effect": [
-      { "u_message": "pb power" },
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "uses_energy": true } ],
@@ -386,7 +379,6 @@
               ]
             },
             "effect": [
-              { "u_message": "pb power distribute ind" },
               {
                 "if": { "math": [ "u_electrokin_personal_battery_max_indv_power", ">=", "1" ] },
                 "then": {
@@ -427,7 +419,6 @@
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_GET_ITEM_COUNT",
     "//": "get total items without max power",
     "effect": [
-      { "u_message": "pb get item count" },
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "uses_energy": true } ],
@@ -438,8 +429,7 @@
             "effect": [ { "math": [ "u_electrokin_personal_battery_item_count", "++" ] } ]
           }
         ]
-      },
-      { "u_message": "pb item count=<u_val:electrokin_personal_battery_item_count>" }
+      }
     ]
   },
   {
@@ -457,13 +447,7 @@
     },
     "effect": [
       { "math": [ "u_electrokin_personal_battery_item_count", "--" ] },
-      { "u_message": "pb ammend item count to <u_val:electrokin_personal_battery_item_count>" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" }
-    ],
-    "false_effect": [
-      {
-        "u_message": "pb ammend item count false power_count:<u_val:electrokin_personal_battery_power_count>, <u_val:electrokin_personal_battery_item_count>"
-      }
     ]
   },
   {
@@ -492,8 +476,7 @@
           }
         ]
       }
-    ],
-    "false_effect": [  ]
+    ]
   },
   {
     "type": "effect_on_condition",
