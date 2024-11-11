@@ -3588,19 +3588,19 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
 
     // apply healing over time effects
     if( bandages_power > 0 ) {
-        int bandages_intensity = get_bandaged_level( healer );
+        int bandages_intensity = std::max( 1, get_bandaged_level( healer ) );
         patient.add_effect( effect_bandaged, 1_turns, healed );
         effect &e = patient.get_effect( effect_bandaged, healed );
-        e.set_duration( e.get_int_dur_factor() * ( bandages_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
-        int disinfectant_intensity = get_disinfected_level( healer );
+        int disinfectant_intensity = std::max( 1, get_disinfected_level( healer ) );
         patient.add_effect( effect_disinfected, 1_turns, healed );
         effect &e = patient.get_effect( effect_disinfected, healed );
-        e.set_duration( e.get_int_dur_factor() * ( disinfectant_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * disinfectant_intensity;
