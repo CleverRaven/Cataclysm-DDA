@@ -437,7 +437,8 @@
             }
           ]
         },
-        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 } ],
+        "melee_damage_bonus": [ { "type": "electric", "add": 3 } ]
       }
     ]
   },
@@ -810,7 +811,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
       }
     ]
   },

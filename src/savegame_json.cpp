@@ -2521,6 +2521,8 @@ void monster::load( const JsonObject &data )
     data.read( "baby_timer", baby_timer );
     if( baby_timer && *baby_timer == calendar::before_time_starts ) {
         baby_timer.reset();
+    } else if( reproduces && type->baby_timer && !baby_timer ) {  // Remove after 0.I
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
@@ -3189,12 +3191,12 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "items", items );
     data.read( "tools", tools );
     data.read( "salvageable", salvageable );
-    data.read( "target_first_x", target.first.x );
-    data.read( "target_first_y", target.first.y );
-    data.read( "target_first_z", target.first.z );
-    data.read( "target_second_x", target.second.x );
-    data.read( "target_second_y", target.second.y );
-    data.read( "target_second_z", target.second.z );
+    data.read( "target_first_x", target.first.x() );
+    data.read( "target_first_y", target.first.y() );
+    data.read( "target_first_z", target.first.z() );
+    data.read( "target_second_x", target.second.x() );
+    data.read( "target_second_y", target.second.y() );
+    data.read( "target_second_z", target.second.z() );
     data.read( "ammo_pref", ammo_pref );
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
@@ -3240,15 +3242,15 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "items", items );
     json.member( "tools", tools );
     json.member( "salvageable", salvageable );
-    if( target.first != tripoint_min ) {
-        json.member( "target_first_x", target.first.x );
-        json.member( "target_first_y", target.first.y );
-        json.member( "target_first_z", target.first.z );
+    if( target.first != tripoint_abs_ms_min ) {
+        json.member( "target_first_x", target.first.x() );
+        json.member( "target_first_y", target.first.y() );
+        json.member( "target_first_z", target.first.z() );
     }
-    if( target.second != tripoint_min ) {
-        json.member( "target_second_x", target.second.x );
-        json.member( "target_second_y", target.second.y );
-        json.member( "target_second_z", target.second.z );
+    if( target.second != tripoint_abs_ms_min ) {
+        json.member( "target_second_x", target.second.x() );
+        json.member( "target_second_y", target.second.y() );
+        json.member( "target_second_z", target.second.z() );
     }
     json.member( "ammo_pref", ammo_pref );
     json.member( "locked", locked );
@@ -3283,16 +3285,16 @@ void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
 void label::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
-    data.read( "x", x );
-    data.read( "y", y );
+    data.read( "x", x() );
+    data.read( "y", y() );
     data.read( "text", text );
 }
 
 void label::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "x", x );
-    json.member( "y", y );
+    json.member( "x", x() );
+    json.member( "y", y() );
     json.member( "text", text );
     json.end_object();
 }
@@ -3475,11 +3477,11 @@ void vehicle::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-    tripoint other_tow_temp_point;
+    tripoint_bub_ms other_tow_temp_point;
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->global_part_pos3( tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );

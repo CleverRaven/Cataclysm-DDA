@@ -932,15 +932,15 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "warped_pond_location" },
+          "target_var": { "global_val": "warped_pond_location" },
           "message": "Select nearby water source"
         },
         "then": {
           "if": {
             "or": [
-              { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_water_pump", "loc": { "context_val": "warped_pond_location" } }
+              { "map_terrain_with_flag": "LIQUID", "loc": { "global_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_wooden_well", "loc": { "global_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_water_pump", "loc": { "global_val": "warped_pond_location" } }
             ]
           },
           "then": {

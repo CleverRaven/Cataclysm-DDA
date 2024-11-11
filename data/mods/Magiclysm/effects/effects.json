@@ -694,10 +694,7 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
-      }
+      { "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ], "melee_damage_bonus": [ { "type": "cut", "add": 17 } ] }
     ]
   },
   {

@@ -1420,11 +1420,11 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     for( int x = mount_max_x; x >= mount_min_x; x-- ) {
         std::string row;
         for( int y = mount_min_y; y <= mount_max_y; y++ ) {
-            if( veh.part_displayed_at( point( x, y ), false, true, true ) == -1 ) {
+            if( veh.part_displayed_at( point_rel_ms( x, y ), false, true, true ) == -1 ) {
                 row += " ";
                 continue;
             }
-            const vpart_display &c = veh.get_display_of_tile( point( x, y ), false, false, true, true );
+            const vpart_display &c = veh.get_display_of_tile( point_rel_ms( x, y ), false, false, true, true );
             row += utf32_to_utf8( c.symbol );
         }
         json.write( row );

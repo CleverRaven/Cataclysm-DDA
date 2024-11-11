@@ -1234,7 +1234,7 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint & 
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins() );
+    p->vitamins_mod( default_character_compute_effective_nutrients( *it ).vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
             mutagen_technique::injected_smart_purifier );
     return 1;
@@ -1615,7 +1615,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
         if( !mon->has_fully_eaten() && mon->has_flag( mon_flag_EATS ) ) {
-            int kcal = it->get_comestible()->default_nutrition.kcal();
+            int kcal = default_character_compute_effective_nutrients( *it ).kcal();
             mon->mod_amount_eaten( kcal );
             if( mon->has_fully_eaten() ) {
                 p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
@@ -2495,7 +2495,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
         p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );;
+                              purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -3858,12 +3858,35 @@ static std::string get_music_description()
 }
 
 void iuse::play_music( Character *p, const tripoint &source, const int volume,
-                       const int max_morale )
+                       const int max_morale, bool play_sounds )
 {
-    // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
-    // the other characters around should be able to profit as well.
-    const bool do_effects = p && p->can_hear( source, volume ) && !p->in_sleep_state();
     std::string sound = "music";
+
+    auto lambda_should_do_effects = [&source, &volume]( Character * p ) {
+        return p && p->can_hear( source, volume ) && !p->in_sleep_state();
+    };
+
+    auto lambda_add_music_effects = [&max_morale, &volume]( Character & guy ) {
+        guy.add_effect( effect_music, 1_turns );
+        guy.add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
+        // mp3 player reduces hearing
+        if( volume == 0 ) {
+            guy.add_effect( effect_earphones, 1_turns );
+        }
+    };
+
+    // check NPCs that can hear the source of the music
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_active() && lambda_should_do_effects( &guy ) ) {
+            lambda_add_music_effects( guy );
+        }
+    }
+
+    // player is not a NPC so they need to check separately
+    Character &player_character = get_player_character();
+    if( lambda_should_do_effects( &player_character ) ) {
+        lambda_add_music_effects( player_character );
+    }
 
     if( calendar::once_every( time_duration::from_minutes(
                                   get_option<int>( "DESCRIBE_MUSIC_FREQUENCY" ) ) ) ) {
@@ -3872,23 +3895,14 @@ void iuse::play_music( Character *p, const tripoint &source, const int volume,
         if( !music.empty() ) {
             sound = music;
             // descriptions aren't printed for sounds at our position
-            if( do_effects && p->pos() == source ) {
+            if( lambda_should_do_effects( p ) && p->pos() == source ) {
                 p->add_msg_if_player( _( "You listen to %s" ), music );
             }
         }
     }
 
-    if( volume != 0 ) {
+    if( volume != 0 && play_sounds ) {
         sounds::ambient_sound( source, volume, sounds::sound_t::music, sound );
-    }
-
-    if( do_effects ) {
-        p->add_effect( effect_music, 1_turns );
-        p->add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
-        // mp3 player reduces hearing
-        if( volume == 0 ) {
-            p->add_effect( effect_earphones, 1_turns );
-        }
     }
 }
 
@@ -4555,7 +4569,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     }
 
     if( !drew_blood ) {
-        return std::nullopt;;
+        return std::nullopt;
     }
 
     blood.set_item_temperature( blood_temp );
@@ -7356,7 +7370,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
 
     for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *&v = veh.v;
-        if( rl_dist( center, v->global_pos3() ) < 40 &&
+        if( rl_dist( center, v->pos_bub().raw() ) < 40 &&
             v->fuel_left( itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
@@ -7366,7 +7380,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     std::vector<tripoint> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->global_pos3() );
+        locations.push_back( veh->pos_bub().raw() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 
@@ -7461,9 +7475,9 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
         const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( electronics_parts.begin()->pos() );
+            veh->interact_with( electronics_parts.begin()->pos_bub() );
         } else {
-            veh->interact_with( rctrl_parts.begin()->pos() );
+            veh->interact_with( rctrl_parts.begin()->pos_bub() );
         }
     }
 

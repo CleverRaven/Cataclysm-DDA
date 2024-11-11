@@ -69,7 +69,7 @@ struct map_ter_bash_info : map_common_bash_info {
 };
 struct map_furn_bash_info : map_common_bash_info {
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
-    map_furn_bash_info() = default;;
+    map_furn_bash_info() = default;
     void load( const JsonObject &jo, bool was_loaded, const std::string &context );
     void check( const std::string &id ) const;
 };
@@ -540,7 +540,11 @@ struct map_data_common_t {
 
         // The color the sym will draw in on the GUI.
         std::array<nc_color, NUM_SEASONS> color_;
-        void load_symbol( const JsonObject &jo, const std::string &context );
+        /**
+        * If "copy-from" doesn't exist, loads ASCII symbol and color
+        * NOTE: completely independent of "looks_like"
+        */
+        void load_symbol_color( const JsonObject &jo, const std::string &context );
 
         std::string looks_like;
 
