@@ -237,7 +237,7 @@
     "volume": "1500 ml",
     "longest_side": "40 cm",
     "material": [ "concentrated_mana" ],
-    "techniques": [ "PRECISE", "WIDE", "SWEEP", "RELIC_PINK" ],
+    "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
     "flags": [
       "REACH_ATTACK",
       "REACH3",
@@ -251,7 +251,8 @@
       "FIRESTARTER",
       "LIGHT_8",
       "FLAMING",
-      "FIRE"
+      "FIRE",
+      "RELIC_PINK"
     ],
     "to_hit": 3,
     "category": "weapons",
