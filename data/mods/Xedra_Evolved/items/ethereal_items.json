@@ -90,7 +90,7 @@
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "cold", "add": 10 } ] } ]
     },
     "category": "weapons",
     "melee_damage": { "bash": 2, "stab": 31 }
@@ -376,7 +376,7 @@
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "pure", "add": 0 } ] } ]
     },
     "melee_damage": { "bash": 1 }
   },
@@ -407,11 +407,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
+          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ],
           "values": [
             { "value": "ATTACK_SPEED", "multiply": -0.2 },
             { "value": "FORCEFIELD", "add": 0.1 },
-            { "value": "PAIN_REMOVE", "add": 45 },
-            { "value": "ITEM_DAMAGE_BASH", "add": 10 }
+            { "value": "PAIN_REMOVE", "add": 45 }
           ]
         }
       ]

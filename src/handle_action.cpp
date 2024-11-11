@@ -334,7 +334,7 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
-            if( g->uquit == QUIT_EXIT ) {
+            if( are_we_quitting() ) {
                 break;
             }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
@@ -567,7 +567,7 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    veh->pldrive( get_avatar(), p.xy(), p.z );
+    veh->pldrive( get_avatar(), p.x, p.y, p.z );
 }
 
 static void pldrive( point d )
@@ -763,7 +763,7 @@ static void grab()
         //solid vehicles can't be grabbed while boarded
         const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
         if( vp_boarded ) {
-            const std::set<tripoint> grabbed_veh_points = vp->vehicle().get_points();
+            const std::set<tripoint_bub_ms> grabbed_veh_points = vp->vehicle().get_points();
             if( &vp_boarded->vehicle() == &vp->vehicle() &&
                 !empty( vp->vehicle().get_avail_parts( VPFLAG_OBSTACLE ) ) ) {
                 add_msg( m_info, _( "You can't move the %s while you're boarding it." ), veh_name );
@@ -993,30 +993,31 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         }
     }
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
-        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
-        if( bash_info.str_min == -1 ) {
+        const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
+        if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
-        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
-            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+            sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
+                           "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
-            here.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
-            mod_moves( - bash_info.fd_bash_move_cost );
-            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
+            here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            mod_moves( - bash_info->fd_bash_move_cost );
+            add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
             ret.success = true;
             return ret;
         } else {
-            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+            sounds::sound( smashp, bash_info->sound_fail_vol, sounds::sound_t::combat, bash_info->sound_fail,
                            true, "smash",
                            "field" );
 
-            ret.resistance = bash_info.str_min;
+            ret.resistance = bash_info->str_min;
             ret.did_smash = true;
             return ret;
         }
@@ -1123,7 +1124,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             // Bash not effective
             g->draw_async_anim( smashp, "bash_ineffective" );
             if( one_in( 10 ) ) {
-                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash ) {
                     // %s is the smashed furniture
                     add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
                 } else {
@@ -1768,7 +1769,7 @@ static void fire()
     }
     // try firing turrets
     if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
-        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
+        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos_bub() ) ) {
             if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
                 return;
             }
@@ -3117,7 +3118,7 @@ bool game::handle_action()
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
 
-    if( uquit == QUIT_EXIT ) {
+    if( are_we_quitting() ) {
         return false;
     }
 

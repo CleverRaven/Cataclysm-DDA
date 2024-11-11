@@ -183,6 +183,12 @@ bool job_data::set_task_priority( const activity_id &task, int new_priority )
     }
     return false;
 }
+void job_data::set_all_priorities( int new_priority )
+{
+    for( auto &elem : task_priorities ) {
+        elem.second = new_priority;
+    }
+}
 void job_data::clear_all_priorities()
 {
     for( auto &elem : task_priorities ) {
@@ -255,7 +261,8 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true,
+                                           get_size() );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
@@ -1761,7 +1768,7 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             const auto &points_to_check = wrapped_veh.v->immediate_path();
-            point p( get_map().getglobal( pos_bub() ).xy().raw() );
+            point_abs_ms p( get_map().getglobal( pos_bub() ).xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }
@@ -1815,7 +1822,7 @@ void npc::on_attacked( const Creature &attacker )
     }
 }
 
-int npc::assigned_missions_value()
+int npc::assigned_missions_value() const
 {
     int ret = 0;
     for( ::mission *m : chatbin.missions_assigned ) {
@@ -3611,7 +3618,7 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 
 void npc::reset_companion_mission()
 {
-    comp_mission.position = tripoint_abs_omt( -999, -999, -999 );
+    comp_mission.position = overmap::invalid_tripoint;
     reset_miss_id( comp_mission.miss_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {

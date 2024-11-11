@@ -32,7 +32,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "heat", "add": 7 } ] } ]
     },
     "armor": [
       {
@@ -63,7 +63,7 @@
     "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
     "proportional": { "price": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 11 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "heat", "add": 11 } ] } ]
     },
     "relative": { "to_hit": 1 }
   },
@@ -75,7 +75,7 @@
     "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
     "proportional": { "price": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 15 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "melee_damage_bonus": [ { "type": "heat", "add": 15 } ] } ]
     },
     "relative": { "to_hit": 2 }
   },

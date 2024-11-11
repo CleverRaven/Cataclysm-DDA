@@ -3,9 +3,9 @@
     "type": "enchantment",
     "id": "ench_sylph_fulgurating_strikes_basic",
     "condition": "ALWAYS",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ELEC",
+        "type": "electric",
         "add": {
           "math": [
             "rand(u_spell_level('zap_electrical_emission') + u_spell_level('sylph_call_lightning') + u_spell_level('sylph_crash_of_lightning'))"

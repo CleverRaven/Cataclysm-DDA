@@ -224,7 +224,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     // As float to avoid rounding too many times
-    float kcal = comest.get_comestible()->default_nutrition.kcal();
+    float kcal = comest.get_comestible()->default_nutrition_read_only().kcal();
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
     bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
@@ -262,7 +262,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         return {};
     }
 
-    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins();
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition_read_only().vitamins();
 
     // for actual vitamins convert RDA to a internal value
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -310,6 +310,12 @@ static nutrients compute_default_effective_nutrients( const item &comest,
         ret.set_vitamin( vit.first, vit.second );
     }
     return ret;
+}
+
+extern nutrients default_character_compute_effective_nutrients( const item &comest )
+{
+    static npc dummy;
+    return dummy.compute_effective_nutrients( comest );
 }
 
 // Calculate the nutrients that the given character would receive from consuming

@@ -1365,7 +1365,8 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint_bub_ms const p = tripoint_bub_ms( _rotate_point_sm( { v->global_pos3().xy(), movez }, erot,
+        tripoint_bub_ms const p = tripoint_bub_ms( _rotate_point_sm( { v->pos_bub().xy().raw(), movez},
+                                  erot,
                                   sm_orig.raw() ) );
         here.displace_vehicle( *v, p - v->pos_bub() );
         v->turn( erot * 90_degrees );
@@ -1713,7 +1714,8 @@ void iexamine::portable_structure( Character &you, const tripoint_bub_ms &examp 
         }
         radius = actor.radius;
     } else {
-        radius = std::max( 1, fid->bash.collapse_radius );
+        const std::optional<map_furn_bash_info> &furn_bash = fid.obj().bash;
+        radius = std::max( 1, furn_bash ? furn_bash->collapse_radius : 0 );
     }
 
     if( !query_yn( _( "Take down the %s?" ), name ) ) {

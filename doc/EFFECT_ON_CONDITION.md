@@ -67,7 +67,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | Talk with monster                                | player (Avatar)             | monster (monster)           |
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
 | furniture: "examine_action"                      | player (Avatar)             | NONE                        |
-| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
+| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) | `spell_location`, location variable, location of target for use primarily when the target isn't a creature
 | monster_attack: "eoc"                          | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
 | use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
 | tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
@@ -1398,6 +1398,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_falls_asleep | triggers in the moment character actually falls asleep; trigger includes cases where character sleep for a short time because of sleepiness or drugs; duration of the sleep can be changed mid sleep because of hurt/noise/light/pain thresholds and another factors | { "character", `character_id` }, { "duration", `int_` (in seconds) } | character / NONE |
 | character_wields_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wield |
 | character_wears_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
+| character_armor_destroyed | triggers when a worn armor is set to be destroyed from damage. The armor still exists but will be destroyed immediately after the EOCs finish running. | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
 | consumes_marloss_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | crosses_marloss_threshold | | { "character", `character_id` } | character / NONE |
 | crosses_mutation_threshold | | { "character", `character_id` },<br/> { "category", `mutation_category_id` }, | character / NONE |
@@ -3784,6 +3785,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | "snippet" | optional | boolean | default false; if true, the effect instead display a random snippet from `u_message` | 
 | "same_snippet" | optional | boolean | default false; if true, and `snippet` is true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 | "popup" | optional | boolean | default false; if true, the message would generate a popup with `u_message` | 
+| "popup_flag" | optional | string | default PF_NONE; if specified, the popup is modified by the specified flag, for allowed values see below | 
 | "popup_w_interrupt_query" | optional | boolean | default false; if true, and `popup` is true, the popup will interrupt any activity to send a message | 
 | "interrupt_type" | optional | boolean | default is "neutral"; `distraction_type`, that would be used to interrupt, one that used in distraction manager; full list exist inactivity_type.cpp | 
 
@@ -3792,6 +3794,11 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### popup_flag
+`PF_GET_KEY` - Cancels the popup on any user input as opposed to being limited to Return, Space and Escape.
+`PF_ON_TOP` - Makes the window appear on the top of the screen (at the upper most row). Without this flag, the popup is centered on the screen.
+`PF_FULLSCREEN` makes the window have a size of `FULL_SCREEN_WIDTH` by `FULL_SCREEN_HEIGHT`. The `FULL_SCREEN` part is a misnomer from legacy code as the popup is not actually full-screen.
 
 ##### Examples
 Send a red-colored `Bad json! Bad!` message in the log 
@@ -3802,6 +3809,11 @@ Send a red-colored `Bad json! Bad!` message in the log
 Print a snippet from `local_files_simple`, and popup it. The snippet is always the same
 ```json
  { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
+```
+
+Print `uninvasive text` as a centre aligned popup at the top of the screen.
+```json
+ { "u_message": "uninvasive text", "popup": true, "popup_flag": "PF_ON_TOP" }
 ```
 
 Print a text with a context variable

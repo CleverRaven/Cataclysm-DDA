@@ -555,8 +555,9 @@ void vehicle_part::unset_crew()
 
 void vehicle_part::reset_target( const tripoint_bub_ms &pos )
 {
-    target.first = pos.raw();
-    target.second = pos.raw();
+    const tripoint_abs_ms tgt = get_map().getglobal( pos );
+    target.first = tgt;
+    target.second = tgt;
 }
 
 bool vehicle_part::is_engine() const

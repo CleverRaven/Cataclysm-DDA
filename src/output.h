@@ -483,7 +483,7 @@ std::vector<std::string> get_hotkeys( std::string_view s );
  *
  * The message is a printf-like string. It may contain @ref color_tags, which are used while printing.
  *
- * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
+ * - PF_GET_KEY cancels the popup on *any* user input.
  *   Without the flag the popup is only canceled when the user enters new-line, Space and Escape.
  *   This flag is passed by @ref popup_getkey.
  * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
@@ -502,6 +502,8 @@ enum PopupFlags {
     PF_ON_TOP      = 1 << 2,
     PF_FULLSCREEN  = 1 << 3,
 };
+
+PopupFlags popup_flag_from_string( const std::string &str );
 
 template<typename ...Args>
 inline int popup_getkey( const char *const mes, Args &&... args )

@@ -104,11 +104,6 @@
     "//": "This monster is part of a hive mind"
   },
   {
-    "id": "TEEP_IMMUNE",
-    "type": "monster_flag",
-    "//": "Immune to telepathic damage"
-  },
-  {
     "id": "TELEPORT_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to forcible teleportation"

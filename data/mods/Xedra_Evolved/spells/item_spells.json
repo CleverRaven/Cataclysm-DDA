@@ -145,6 +145,27 @@
     "max_duration": 432000
   },
   {
+    "id": "cosmic_dagwood_regeneration",
+    "type": "SPELL",
+    "name": "rejuvenation",
+    "//": "Used for the cosmic dagwood inventor item, not castable",
+    "description": "This spell regenerates health (limb health) for a short period",
+    "valid_targets": [ "self" ],
+    "base_energy_cost": 0,
+    "energy_increment": 0,
+    "final_energy_cost": 0,
+    "flags": [ "SILENT", "NO_LEGS", "SPLIT_DAMAGE" ],
+    "difficulty": 0,
+    "shape": "blast",
+    "message": "The sandwich is a flavor beyond time and space, and as you lick your fingers clean you feel your youth return to you - Wait, no, Your wounds are just healing.",
+    "effect": "attack",
+    "spell_class": "NONE",
+    "min_dot": -10,
+    "max_dot": -10,
+    "min_duration": 1500,
+    "max_duration": 1500
+  },
+  {
     "id": "bio_explosion",
     "type": "SPELL",
     "name": "Biotic Blast",

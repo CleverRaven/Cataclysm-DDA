@@ -114,7 +114,7 @@ struct mut_personality_score {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( dialogue & )>trigger;
+    std::function<bool( const_dialogue const & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
