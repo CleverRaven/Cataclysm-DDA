@@ -158,7 +158,6 @@ Adds throwing practice tools
 Debug spawn NPC by class id
 EOCs modifying calories track spent calories
 Allow PCs/NPCs to move diagonally during overmap pathfinding
-.5L glass jars and glass seasoning bottles can be used for molotov cocktails
 
 
 ## Content:
@@ -342,8 +341,6 @@ Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
-Add `IRRITANT_IMMUNE` to `rm13_armor_on` `phase_immersion_suit` and combat exoskeletons
-New mad genius recipe for a healing sandwich
 
 
 ## Interface:
@@ -717,19 +714,7 @@ Prevent Paraclesians from being born with a drivers license
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
 [Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
-[Xedra Evolved] Add Forestwalker trait to Arvore
-The empty trait prevents the player from getting attunements
-buff minireactor and make plutonium cells more compact
-[Sky Island] Re-add zombie bio operators to Sky Island
-[Xedra Evolved] Add direct number ruach gauge for lilin
-[Xedra Evolved] Move werewolf healing over to EoC
-[MoM] Update Anabolic Rejuvenation and Accelerated Resuscitation with EoCified healing
-[MoM] Insight proficiencies prevent overload from high Nether Attunement
-[MoM] Add the hellhound, a pyrokinetic dog
-[MoM] Add MIND_SEEING flag, give it to the hidebehind, rework hidebehind so it uses its powers to hide (and thus you can see it if you have Telepathic Shield up)
 [Xedra Evolved] Only humans can learn dream magick
-[DinoMod] predator nest improvements
-[Xedra Evolved] Add new Ierde trait
 [Xedra Evolved] Add (very small) chance of being attacked by a lilit in your sleep
 
 
@@ -830,9 +815,6 @@ Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
-Adjust headlamp to match flashlight
-Scouting is less exercise than Combat Patrol
-Sugar recipes changes
 NPCs can funk out to music, too.
 
 
@@ -1091,21 +1073,6 @@ Faulty guns don't lock your view
 Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix non-battery charge consumption of active items
-Fix firearm repair kit to accept medium batteries akin to a soldering iron
-Fix a crash when examining or eating certain food items
-[Sky Island] Fix side room recipe volume
-Pathfinding accounts for SMALL_PASSAGE
-[Innawood/Xedra Evolved] Fix double id
-Garage no longer spawns chairs on grates
-[MoM] Fix `GROUP_FERAL_TELEPORTER` mongroup
-Missing drill requirement for Aluminum Tank (100 L) installation.
-.303 Charger doesn't spawn loaded
-[Magiclysm] Add `FERAL` species to all fantasy ferals
-[Xedra Evolved] Fix talker errors with a couple lilin spells
-Reduces hair dye barter price to a reasonable amount.
-Tweaks for visibility checks regarding vehicles and furniture
-[MoM] Fix swapped min/max in overload chance on failed channeling
-Aftershock: fix placement of the landing pad
 
 
 ## Performance:
