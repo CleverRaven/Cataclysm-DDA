@@ -68,7 +68,7 @@
     "responses": [
       {
         "text": "[With a familiar movement, you place a variety of valuables onto the counter, proposing a trade.]",
-        "topic": "TALK_NONE",
+        "topic": "TALK_DONE",
         "effect": [ "start_trade" ]
       }
     ],

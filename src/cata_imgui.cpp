@@ -332,6 +332,8 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
         AddGlyphRangesFromCLDRForPL( b );
     } else if( lang == "pt_BR" ) {
         AddGlyphRangesFromCLDRForPT( b );
+    } else if( lang == "pt_PT" ) {
+        AddGlyphRangesFromCLDRForPT( b );
     } else if( lang == "ru" ) {
         AddGlyphRangesFromCLDRForRU( b );
     } else if( lang == "sr" ) {

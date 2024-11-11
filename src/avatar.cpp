@@ -688,7 +688,7 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
                         memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }

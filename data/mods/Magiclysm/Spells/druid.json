@@ -1115,11 +1115,11 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "druid_treeshape_location" },
+          "target_var": { "global_val": "druid_treeshape_location" },
           "message": "Select nearby tree"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_treeshape_location" } },
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "druid_treeshape_location" } },
           "then": [
             {
               "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",

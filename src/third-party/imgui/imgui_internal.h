@@ -42,9 +42,6 @@ Index of this file:
 */
 
 #pragma once
-// NOLINTBEGIN
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
 
 #ifndef IMGUI_DISABLE
 
@@ -3312,5 +3309,3 @@ extern const char*  ImGuiTestEngine_FindItemDebugLabel(ImGuiContext* ctx, ImGuiI
 #endif
 
 #endif // #ifndef IMGUI_DISABLE
-#pragma GCC diagnostic pop
-// NOLINTEND

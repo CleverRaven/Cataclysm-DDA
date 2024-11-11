@@ -109,6 +109,7 @@
         "                                                   ;.......,,.......;                                                   ",
         "                                                   ;................;                                                   "
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         "%": "t_region_tree_shade",
         " ": "t_region_groundcover",
@@ -130,7 +131,6 @@
         "É": "t_pavement",
         ",": "t_pavement_y",
         ";": "t_sidewalk",
-        "|": "t_wall_w",
         "+": "t_door_glass_white_c",
         "*": "t_door_c",
         "b": "t_concrete",

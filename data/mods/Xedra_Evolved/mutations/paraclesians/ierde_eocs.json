@@ -7,7 +7,13 @@
         { "math": [ "u_val('pos_z')", "<=", "-1" ] },
         {
           "and": [
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            {
+              "or": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" }
+              ]
+            },
             { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
             { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
             { "not": { "u_is_on_terrain": "t_fungus" } },
@@ -29,7 +35,13 @@
         { "math": [ "u_val('pos_z')", "<=", "-1" ] },
         {
           "and": [
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            {
+              "or": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" }
+              ]
+            },
             { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
             { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
             { "not": { "u_is_on_terrain": "t_fungus" } },
@@ -67,7 +79,13 @@
             { "math": [ "u_val('pos_z')", ">=", "1" ] },
             {
               "or": [
-                { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
+                {
+                  "and": [
+                    { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
+                    { "not": { "u_is_on_terrain": "t_rock_floor" } },
+                    { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } }
+                  ]
+                },
                 { "u_is_on_terrain": "t_grass_alien" },
                 { "u_is_on_terrain": "t_vitrified_sand" },
                 { "u_is_on_terrain": "t_pit_corpsed" },
