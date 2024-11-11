@@ -69,6 +69,7 @@
       { "monster": "mon_zachycephalosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zeptoceratops", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zzuniceratops", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zokiceratops", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_ztyracosaurus", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zentrosaurus", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zeiniosaurus", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
@@ -609,6 +610,11 @@
     "type": "monstergroup",
     "name": "GROUP_zzuniceratops_UPGRADE",
     "monsters": [ { "monster": "mon_suniceratops", "weight": 600 }, { "monster": "mon_zzuniceratops_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zokiceratops_UPGRADE",
+    "monsters": [ { "monster": "mon_sokiceratops", "weight": 600 }, { "monster": "mon_zokiceratops_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
