@@ -406,7 +406,7 @@
             ],
             "false_effect": [
               {
-                "if": { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "CYBORG" } ] },
+                "if": { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "RENFIELD" }, { "u_has_species": "CYBORG" } ] },
                 "then": [
                   { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
                   {
@@ -454,6 +454,22 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_MESMERISM_REMOVAL_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "stunned" }, { "u_has_effect": "effect_lilin_mesmerize_tracker" } ] },
+    "effect": [ { "u_lose_effect": "effect_lilin_mesmerize_tracker" }, { "u_lose_effect": "stunned" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_MESMERISM_REMOVAL_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "stunned" }, { "u_has_effect": "effect_lilin_mesmerize_tracker" } ] },
+    "effect": [ { "u_lose_effect": "effect_lilin_mesmerize_tracker" }, { "u_lose_effect": "stunned" } ]
   },
   {
     "type": "effect_on_condition",
