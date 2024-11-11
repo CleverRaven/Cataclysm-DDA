@@ -1637,7 +1637,7 @@ void computer_session::failure_secubots()
     const tripoint_range<tripoint> range =
         get_map().points_in_radius( get_player_character().pos(), 3 );
     if( g->place_critter_within( mon_secubot, range ) ) {
-        add_msg( m_warning, _( "Secubot emerge from compartment in the floor." ) );
+        add_msg( m_warning, _( "Secubot emerges from compartment in the floor." ) );
     }
 }
 
