@@ -364,7 +364,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS",
-    "//": "power uncharged items",
+    "//": "power uncharged items and calls the main eoc to deal with any remaining power left over",
     "condition": {
       "and": [
         { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
@@ -379,46 +379,36 @@
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_DISTRIBUTION",
-            "//": "if there is enough power to be distributed to many items",
             "condition": {
               "and": [
                 { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
-                { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
-                { "math": [ "u_electrokin_personal_battery_max_indv_power", ">=", "1" ] }
+                { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] }
               ]
             },
             "effect": [
               { "u_message": "pb power distribute ind" },
               {
+                "if": { "math": [ "u_electrokin_personal_battery_max_indv_power", ">=", "1" ] },
+                "then": {
+                  "math": [
+                    "u_electrokin_personal_battery_power_count_used",
+                    "=",
+                    "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_max_indv_power )"
+                  ]
+                },
+                "else": {
+                  "math": [
+                    "u_electrokin_personal_battery_power_count_used",
+                    "=",
+                    "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_power_count )"
+                  ]
+                }
+              },
+              {
                 "math": [
                   "u_electrokin_personal_battery_power_count_used",
                   "=",
                   "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_max_indv_power )"
-                ]
-              },
-              { "math": [ "n_val('power')", "+=", "u_electrokin_personal_battery_power_count_used" ] },
-              {
-                "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ]
-              }
-            ]
-          },
-          {
-            "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_SINGLE",
-            "//": "if there is not enough power to distribute to many items but enough power for a single item",
-            "condition": {
-              "and": [
-                { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
-                { "math": [ "u_electrokin_personal_battery_power_count", ">=", "1" ] },
-                { "math": [ "u_electrokin_personal_battery_max_indv_power", "<", "1" ] }
-              ]
-            },
-            "effect": [
-              { "u_message": "pb power single ind" },
-              {
-                "math": [
-                  "u_electrokin_personal_battery_power_count_used",
-                  "=",
-                  "min( n_val('power_max') - n_val('power'), u_electrokin_personal_battery_power_count )"
                 ]
               },
               { "math": [ "n_val('power')", "+=", "u_electrokin_personal_battery_power_count_used" ] },
