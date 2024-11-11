@@ -261,7 +261,7 @@
     "harvest": "bulette",
     "dissect": "dissect_bulette_sample_large",
 	"weakpoint_sets": [
-	  "wps_natural_armored"
+	  "wps_natural_armor"
     ],
     "families": [
       "prof_gross_anatomy",
