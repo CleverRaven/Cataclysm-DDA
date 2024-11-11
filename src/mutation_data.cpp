@@ -679,7 +679,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
             }
         }
-        for( const std::pair<species_id, int> elem : an_id ) {
+        for( const std::pair<const species_id, int> &elem : an_id ) {
             if( !elem.first.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
             }

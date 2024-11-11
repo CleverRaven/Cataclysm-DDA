@@ -159,7 +159,7 @@
         "type": "good",
         "popup": true
       },
-      { "u_lose_var": "u_dont_know_about_farm", "type": "general", "context": "knowledge" },
+      { "u_lose_var": "general_knowledge_u_dont_know_about_farm" },
       {
         "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "then": [

@@ -12,11 +12,8 @@
         "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
       },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
-      { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" },
-      {
-        "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },
-        "then": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_GAIN_SUSTENANCE", "alpha_talker": "avatar", "beta_talker": "u" } ]
-      }
+      { "math": [ "u_lilin_ruach_drained_recently", "=", "1" ] },
+      { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
     ],
     "false_effect": [
       {
@@ -90,12 +87,13 @@
                 "if": {
                   "or": [
                     { "u_has_species": "CYBORG" },
-                    { "u_has_species": "MAMMAL" },
-                    { "u_has_species": "AMPHIBIAN" },
-                    { "u_has_species": "BIRD" },
-                    { "u_has_species": "REPTILE" },
-                    { "u_has_species": "FISH" },
-                    { "u_has_species": "KRAKEN" }
+                    { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "u_has_species": "KRAKEN" },
+                    { "test_eoc": "EOC_CONDITIONS_LILIN_DINOMOD_RUACH_DRAIN" }
                   ]
                 },
                 "then": [
@@ -122,7 +120,11 @@
                       "type": "good"
                     },
                     { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
-                  ]
+                  ],
+                  "else": {
+                    "npc_message": "You try to absorb the <u_name>'s ruach but get only fragments.  Not enough to for a mouthful.",
+                    "type": "bad"
+                  }
                 }
               }
             }
@@ -487,27 +489,32 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AOE_LINE_DISEASE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "240 * lilin_has_ruach_efficiency()" ] },
+    "condition": "has_alpha",
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240 * lilin_has_ruach_efficiency()" ] },
-      { "npc_message": "You summon a wind filled with pestilence.", "type": "neutral" },
       {
-        "u_add_effect": "effect_lilin_supernatural_disease",
-        "duration": [
+        "if": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
+        "then": [
+          { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+          { "npc_message": "You summon a wind filled with pestilence.", "type": "neutral" },
           {
-            "math": [
-              "1 + ( (u_vitamin('lilin_ruach_vitamin') * 0.09) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
-            ]
-          },
-          {
-            "math": [
-              "15 + ( (u_vitamin('lilin_ruach_vitamin') * 0.24) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+            "u_add_effect": "effect_lilin_supernatural_disease",
+            "duration": [
+              {
+                "math": [
+                  "1 + ( (n_vitamin('lilin_ruach_vitamin') * 0.09) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+                ]
+              },
+              {
+                "math": [
+                  "15 + ( (n_vitamin('lilin_ruach_vitamin') * 0.24) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+                ]
+              }
             ]
           }
-        ]
+        ],
+        "else": [ { "npc_message": "You don't have enough ruach to summon the miasma!", "type": "bad" } ]
       }
-    ],
-    "false_effect": { "npc_message": "You don't have enough ruach to summon the miasma!", "type": "bad" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -521,12 +528,12 @@
         "duration": [
           {
             "math": [
-              "1 + ( (u_vitamin('lilin_ruach_vitamin') * 0.03) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+              "1 + ( (n_vitamin('lilin_ruach_vitamin') * 0.03) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
             ]
           },
           {
             "math": [
-              "15 + ( (u_vitamin('lilin_ruach_vitamin') * 0.09) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+              "15 + ( (n_vitamin('lilin_ruach_vitamin') * 0.09) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
             ]
           }
         ]
@@ -536,44 +543,44 @@
         "then": [
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(4,8) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
             "bodypart": "head"
           },
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(4,8) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
             "bodypart": "arm_l"
           },
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(4,8) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
             "bodypart": "arm_r"
           },
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(4,8) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
             "bodypart": "torso"
           },
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(4,8) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
             "bodypart": "leg_r"
           },
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(4,8) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
             "bodypart": "leg_l"
           }
         ],
         "else": [
           {
             "u_deal_damage": "biological",
-            "amount": { "math": [ "rng(10,35) * max( (u_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] }
+            "amount": { "math": [ "rng(10,35) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] }
           }
         ]
       }
     ],
-    "false_effect": { "npc_message": "You don't have enough ruach to summon the miasma!", "type": "bad" }
+    "false_effect": { "npc_message": "You don't have enough ruach to enhance the miasma around <u_name>!", "type": "bad" }
   },
   {
     "type": "effect_on_condition",

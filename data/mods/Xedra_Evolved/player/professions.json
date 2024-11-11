@@ -803,5 +803,72 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "cryptid_hunter",
+    "name": "Cryptid Hunter",
+    "description": "You spent months trying to find one of these elusive creatures, searching all over the country in the hopes of proving beyond doubt that they exist.  You recently found enough trustworthy information to write down a map that will certainly lead you to a cryptid.  Now that the supernatural is undeniable you feel that you should find a cryptid anyway, if only to say that you didn't do all this work for nothing.",
+    "//": "This grants a map to a random cryptid and a note with basic info on said cryptid.  Otherwise a version of the park ranger with less gear and without the weapons as they explored far and wide in search of cryptids without having combat training.",
+    "//2": "No camera because their plan is to locate and bring back a cryptid, not take photographies that will be accused of being edited.",
+    "npc_background": "BG_survival_story_WORKER_PUBLIC",
+    "points": 3,
+    "proficiencies": [ "prof_driver", "prof_wound_care" ],
+    "skills": [
+      { "level": 5, "name": "survival" },
+      { "level": 5, "name": "firstaid" },
+      { "level": 5, "name": "driving" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "boots_hiking" },
+          { "item": "diving_watch" },
+          { "item": "e_tool" },
+          { "item": "knife_folding" },
+          { "item": "multitool" },
+          { "item": "pants" },
+          { "item": "rollmat" },
+          { "item": "socks" },
+          { "item": "travelpack" },
+          { "item": "vest" },
+          { "item": "water_clean" },
+          { "item": "whistle_multitool" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_flashlight" },
+          { "group": "charged_two_way_radio" },
+          { "group": "random_cryptid_map" },
+          { "group": "full_1st_aid" },
+          { "item": "black_pen", "charges": 100 },
+          { "item": "lighter", "charges": 100 },
+          { "item": "permanent_marker", "charges": 500 },
+          { "item": "tshirt" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "random_cryptid_map",
+    "//": "This item group gives a random cryptid map and the associated notes when starting as a cryptid hunter.  The probabilities are intended to be equal with each other.",
+    "subtype": "distribution",
+    "items": [ { "group": "deathworm_map", "prob": 50 }, { "group": "sevenoclock_map", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "deathworm_map",
+    "entries": [ { "item": "deathworm_map" }, { "item": "deathworm_note" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "sevenoclock_map",
+    "entries": [ { "item": "sevenoclock_map" }, { "item": "sevenoclock_note" } ]
   }
 ]

@@ -1109,7 +1109,7 @@
       {
         "text": "I appreciate the credit.  I've got your payment now.",
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_consume_item": "RobofacCoin", "count": 8, "popup": true },
           { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"

@@ -78,7 +78,8 @@ construction setup_testcase( Character &u, std::string const &constr,
 
     zone_manager &zmgr = zone_manager::get_manager();
     shared_ptr_fast<blueprint_options> options =
-        make_shared_fast<blueprint_options>( build.pre_terrain, build.group, build.id );
+        make_shared_fast<blueprint_options>( build.pre_terrain.empty() ? "" : *
+                build.pre_terrain.begin(), build.group, build.id );
 
     map &here = get_map();
     tripoint_abs_ms const loot_abs = here.getglobal( loot_loc );
@@ -128,7 +129,8 @@ void run_test_case( Character &u )
         construction const build =
             setup_testcase( u, "test_constr_door", tri_door, tripoint_bub_ms() );
         REQUIRE( u.sees( tri_door ) );
-        here.ter_set( tri_door, ter_id( build.pre_terrain ) );
+        here.ter_set( tri_door, ter_id( build.pre_terrain.empty() ? "" : *
+                                        build.pre_terrain.begin() ) );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
     }
@@ -139,7 +141,8 @@ void run_test_case( Character &u )
         tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
             setup_testcase( u, "test_constr_door", tri_window, tripoint_bub_ms() );
-        here.ter_set( tri_window, ter_id( build.pre_terrain ) );
+        here.ter_set( tri_window, ter_id( build.pre_terrain.empty() ? "" : *
+                                          build.pre_terrain.begin() ) );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.post_terrain ) );
     }
@@ -181,7 +184,7 @@ void run_test_case( Character &u )
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_t_window_empty );
-        REQUIRE( build.pre_terrain != "t_window_empty" );
+        REQUIRE( ( build.pre_terrain.empty() ? "" : * ( build.pre_terrain.begin() ) ) != "t_window_empty" );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_t_window_boarded_noglass );
     }
@@ -236,11 +239,13 @@ void run_test_case( Character &u )
         }
         construction const build =
             setup_testcase( u, "test_constr_door", tri_window, tripoint_bub_ms() );
-        here.ter_set( tri_window, ter_id( build.pre_terrain ) );
+        here.ter_set( tri_window, ter_id( build.pre_terrain.empty() ? "" : *
+                                          build.pre_terrain.begin() ) );
         REQUIRE( u.sees( tri_window ) );
         REQUIRE( route_adjacent( u, tri_window ).empty() );
         run_activities( u, build.time * 10 );
-        REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain ) );
+        REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain.empty() ? "" : *
+                 ( build.pre_terrain.begin() ) ) );
     }
 
     SECTION( "multiple-step construction activity with fetch required" ) {

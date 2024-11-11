@@ -411,7 +411,6 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_ascendant",
-    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE4 will be gated behind this.",
     "name": [ "Terminal Porphyria" ],
     "desc": [ "Your skin is deathly white and will redden and burn when exposed to the sun." ],
     "apply_message": "You've chosen to embrace this illness and enhance your curse.",
@@ -427,7 +426,6 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_post_mortal",
-    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE5 will be gated behind this.",
     "name": [ "Homo sapiens homovorus" ],
     "desc": [
       "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
@@ -1252,6 +1250,14 @@
       }
     ],
     "flags": [ "BLEEDSLOW1" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_craft_in_darkness",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -2292,6 +2298,21 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_attack_warning_cooldown",
+    "//": "Hidden effect, used as a blocker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_health_effects_of_draining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_vampire_immune",
     "//": "Hidden effects, prevents you from being vampirized",
     "name": [ "" ],
@@ -2468,6 +2489,42 @@
       { "limb_score": "vision", "modifier": 1.35 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield_check",
+    "name": [ "Promises of undisrupted sleep" ],
+    "desc": [ "I wish you a good night." ],
+    "apply_message": "You could swear that this man wished you a good night.",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "3 seconds",
+    "show_intensity": false,
+    "max_intensity": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield",
+    "name": [ "Undisrupted sleep" ],
+    "desc": [ "Sleep well.  Nothing but you can disrupt your sleep." ],
+    "apply_message": "As you fall asleep, you feel safer than you ever were.",
+    "remove_message": "As you wake up, the feeling of safety quickly fades away.",
+    "rating": "good",
+    "max_duration": "3 days",
+    "show_intensity": false,
+    "max_intensity": 1,
+    "flags": [ "INVISIBLE", "NO_SCENT", "PAIN_IMMUNE", "BLIND", "DEAF", "LEVITATION" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPY", "add": 9999 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 500 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 500 },
+          { "value": "FORCEFIELD", "add": 1 }
+        ]
+      }
+    ],
+    "removes_effects": [ "grabbed", "bleed" ]
   },
   {
     "type": "effect_type",

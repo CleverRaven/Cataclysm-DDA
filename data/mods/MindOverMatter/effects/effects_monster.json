@@ -109,6 +109,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_heightened_reflex",
+    "name": [ "Heightened Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "show_in_info": true,
+    "removes_effects": [ "blind", "deaf" ],
+    "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 }, { "value": "SPEED", "multiply": 0.17 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_heightened_reflex_enhanced",
+    "name": [ "Heightened Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "show_in_info": true,
+    "removes_effects": [ "blind", "deaf" ],
+    "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.2 }, { "value": "SPEED", "multiply": 0.35 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_psi_biokin3_hurricane_blows",
     "//": "Hidden effect, used to prep for feral biokinetics using Hurricane Blows",
     "name": [ "" ],
@@ -120,6 +140,22 @@
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ "One Perfect Rock" ],
     "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_neuro_acceleration",
+    "name": [ "Neuro-Acceleration" ],
+    "desc": [ "You are enhancing your speed." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_neuro_acceleration_enhanced",
+    "name": [ "Neuro-Acceleration" ],
+    "desc": [ "You are enhancing your speed." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.4 } ] } ]
   },
   {
     "type": "effect_type",
@@ -242,6 +278,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_monster_immune_to_telepathy",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "You have a shield up to prevent telepathic detection and attack." ],
+    "show_in_info": true,
+    "max_intensity": 20
   },
   {
     "type": "effect_type",

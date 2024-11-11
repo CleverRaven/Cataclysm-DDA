@@ -1,8 +1,5 @@
 #include "cata_imgui.h"
 
-#include <stack>
-#include <type_traits>
-
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -10,7 +7,6 @@
 #include <imgui/imgui_freetype.h>
 
 #include "color.h"
-#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "system_locale.h"
@@ -335,6 +331,8 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
     } else if( lang == "pl" ) {
         AddGlyphRangesFromCLDRForPL( b );
     } else if( lang == "pt_BR" ) {
+        AddGlyphRangesFromCLDRForPT( b );
+    } else if( lang == "pt_PT" ) {
         AddGlyphRangesFromCLDRForPT( b );
     } else if( lang == "ru" ) {
         AddGlyphRangesFromCLDRForRU( b );
@@ -1041,4 +1039,21 @@ void cataimgui::PushMonoFont()
 #ifdef TILES
     ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[1] );
 #endif
+}
+
+bool cataimgui::BeginRightAlign( const char *str_id )
+{
+    if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
+        ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch );
+
+        ImGui::TableNextColumn();
+        ImGui::TableNextColumn();
+        return true;
+    }
+    return false;
+}
+
+void cataimgui::EndRightAlign()
+{
+    ImGui::EndTable();
 }
