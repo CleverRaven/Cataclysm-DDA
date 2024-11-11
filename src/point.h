@@ -482,7 +482,8 @@ std::optional<Point> find_point_closest_first( const Point &center, int min_dist
     d.x += 1;
 
     for( int i = 0; i < *n; i++ ) {
-        const Point next = Point::make_unchecked( center + p );
+        // FIXME: Ugly but we don't know the type of center + p.
+        const Point next = Point{ (center + p).x(), (center + p).y(), (center + p).z() };
         if( predicate_fn( next ) ) {
             return next;
         }
