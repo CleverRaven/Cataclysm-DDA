@@ -1643,7 +1643,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             if( has_draw_override( pos.raw() ) || has_memory_at( pos_global ) ||
                                 ( critter &&
                                   ( critter->has_flag( mon_flag_ALWAYS_VISIBLE )
-                                    || you.sees_with_infrared( *critter )
                                     || you.sees_with_specials( *critter ) ) ) ) {
                                 invisible[0] = true;
                             } else {
@@ -4038,8 +4037,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     // Check if the player can actually see the critter. We don't care if
     // it's via infrared or not, just whether or not they're seen. If not,
     // we can bail.
-    if( !you.sees( *critter ) &&
-        !( you.sees_with_infrared( *critter ) || you.sees_with_specials( *critter ) ) ) {
+    if( !you.sees( *critter ) && !( you.sees_with_specials( *critter ) ) ) {
         return false;
     }
 
@@ -4083,10 +4081,9 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         const Creature &critter = *pcritter;
 
         if( !you.sees( critter ) ) {
-            if( you.sees_with_infrared( critter ) ||
-                you.sees_with_specials( critter ) ) {
-                return draw_from_id_string( "infrared_creature", TILE_CATEGORY::NONE, empty_string,
-                                            p, 0, 0, lit_level::LIT, false, height_3d );
+            if( you.sees_with_specials( critter ) ) {
+                return draw_from_id_string( you.enchantment_cache->get_vision_tile( you, *pcritter ),
+                                            TILE_CATEGORY::NONE, empty_string, p, 0, 0, lit_level::LIT, false, height_3d );
             }
             return false;
         }
@@ -4149,12 +4146,12 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
         // scope_is_blocking is true if player is aiming and aim FOV limits obscure that position
         const bool scope_is_blocking = you.is_avatar() && you.as_avatar()->cant_see( p );
-        const bool sees_with_infrared = !scope_is_blocking && you.sees_with_infrared( *pcritter );
-        if( sees_with_infrared || you.sees_with_specials( *pcritter ) ) {
+        const bool sees_with_specials = !scope_is_blocking && you.sees_with_specials( *pcritter );
+        if( sees_with_specials ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
-            return draw_from_id_string( "infrared_creature", TILE_CATEGORY::NONE, empty_string, p,
-                                        0, 0, lit_level::LIT, false, height_3d );
+            return draw_from_id_string( you.enchantment_cache->get_vision_tile( you, *pcritter ),
+                                        TILE_CATEGORY::NONE, empty_string, p, 0, 0, lit_level::LIT, false, height_3d );
         } else {
             return false;
         }

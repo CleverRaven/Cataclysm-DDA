@@ -2243,14 +2243,14 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
-void parse_tags( std::string &phrase, const Character &u, const Character &me,
+void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const itype_id &item_type )
 {
     const_dialogue d( get_const_talker_for( u ), get_const_talker_for( me ) );
     parse_tags( phrase, u, me, d, item_type );
 }
 
-void parse_tags( std::string &phrase, const Character &u, const Character &me,
+void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const_dialogue const &d,
                  const itype_id &item_type )
 {

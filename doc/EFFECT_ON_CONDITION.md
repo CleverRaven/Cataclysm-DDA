@@ -1079,6 +1079,23 @@ NPC is dead
 ```json
 { "not": "npc_is_alive" }
 ```
+
+### `u_is_warm`, `npc_is_warm`
+- type: simple string
+- return true if alpha or beta talker is warm-blooded (does it have WARM flag)
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"npc_is_warm"
+```
+
 ### `u_exists`, `npc_exists`
 - type: simple string
 - return true if alpha or beta talker is not null
@@ -1315,6 +1332,78 @@ You can see selected location.
     "then": { "u_message": "You can see <context_val:pos>." },
     "else": { "u_message": "You can't see <context_val:pos>." }
   }
+}
+```
+
+### `u_see_npc`, `npc_see_you`
+- type: simple string
+- return true if alpha talker can see beta talker, or vice versa
+- require both talkers to be presented
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_see_npc"
+```
+
+```json
+{ "not": "npc_see_you" }
+```
+
+### `u_see_npc_loc`, `npc_see_you_loc`
+- type: simple string
+- return true if beta talker' position is visible from the alpha talker position, and vice versa
+- doesn't check vision condition, can return true even if one or other is blind or it is a night
+- require both talkers to be presented
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_see_npc_loc"
+```
+
+```json
+{ "not": "npc_see_you_loc" }
+```
+
+### `line_of_sight`
+- Checks if two points are visible to each other
+- Works at night
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "line_of_sight" | **mandatory** | int,  or [variable object](#variable-object) | Distance that would be checked |
+| "loc_1" | **mandatory** | [variable object](#variable-object) | One of two points of the line |
+| "loc_2" | **mandatory** | [variable object](#variable-object) | Second of two points of the line |
+| "with_fields" | optional | bool | If false, ignores opaque fields. Default true |
+
+#### Examples
+
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_line_check",
+  "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_1" } },
+      { "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_2" } },
+      {
+        "if": { "line_of_sight": 60, "loc_1": { "context_val": "loc_1" }, "loc_2": { "context_val": "loc_2" } },
+        "then": { "u_message": "Can see each other" },
+        "else": { "u_message": "Cannot see each other" }
+      }
+  ]
 }
 ```
 

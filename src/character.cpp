@@ -246,6 +246,7 @@ static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
 static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
@@ -310,7 +311,6 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
-static const json_character_flag json_flag_INFRARED( "INFRARED" );
 static const json_character_flag json_flag_INSECTBLOOD( "INSECTBLOOD" );
 static const json_character_flag json_flag_INVERTEBRATEBLOOD( "INVERTEBRATEBLOOD" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
@@ -1699,6 +1699,7 @@ void Character::mount_creature( monster &z )
     // some rideable mechs have night-vision
     recalc_sight_limits();
     if( is_avatar() && z.has_flag( mon_flag_MECH_RECON_VISION ) ) {
+        add_effect( effect_mech_recon_vision, 1_turns, true );
         // mech night-vision counts as optics for overmap sight range.
         g->update_overmap_seen();
     }
@@ -1796,6 +1797,7 @@ bool Character::is_mounted() const
 void Character::forced_dismount()
 {
     remove_effect( effect_riding );
+    remove_effect( effect_mech_recon_vision );
     bool mech = false;
     if( mounted_creature ) {
         auto *mon = mounted_creature.get();
@@ -1909,6 +1911,7 @@ void Character::dismount()
         }
 
         remove_effect( effect_riding );
+        remove_effect( effect_mech_recon_vision );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
         if( critter->has_flag( mon_flag_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
@@ -2643,13 +2646,6 @@ void Character::recalc_sight_limits()
     }
     if( has_trait( trait_BIRD_EYE ) ) {
         vision_mode_cache.set( BIRD_EYE );
-    }
-
-    // Not exactly a sight limit thing, but related enough
-    if( has_flag( json_flag_INFRARED ) || has_worn_module_with_flag( flag_IR_EFFECT ) ||
-        worn_with_flag( flag_IR_EFFECT ) || ( is_mounted() &&
-                mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
-        vision_mode_cache.set( IR_VISION );
     }
 
     if( has_flag( json_flag_SUPER_CLAIRVOYANCE ) ) {
@@ -5999,6 +5995,10 @@ float Character::active_light() const
 
 bool Character::sees_with_specials( const Creature &critter ) const
 {
+    if( enchantment_cache->get_vision_distance( *this, critter ) ) {
+        return true;
+    }
+
     const double sight_range_electric = calculate_by_enchantment( 0.0,
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
@@ -10414,17 +10414,6 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     bay.add_item_or_charges( fin, body );
 }
 
-bool Character::sees_with_infrared( const Creature &critter ) const
-{
-    if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
-        return false;
-    }
-
-    map &here = get_map();
-
-    return here.sees( pos_bub(), critter.pos_bub(), unimpaired_range(), false );
-}
-
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
@@ -10444,7 +10433,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos_bub(), critter.pos_bub(), 100 ) );
+        bool can_see = ( ( sees( critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub(), critter.pos_bub(), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub(), critter.pos_bub() );

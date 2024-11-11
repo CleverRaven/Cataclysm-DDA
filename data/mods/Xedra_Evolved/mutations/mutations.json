@@ -411,7 +411,7 @@
     "valid": false,
     "name": { "str": "Crimson Vision" },
     "description": "Your vision has improved and now you can see flowing blood in the vein, like bright trails in the dark.",
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",

@@ -195,6 +195,11 @@ int talker_monster_const::get_weight() const
     return units::to_milligram( me_mon_const->get_weight() );
 }
 
+bool talker_monster_const::is_warm() const
+{
+    return me_mon_const->is_warm();
+}
+
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;

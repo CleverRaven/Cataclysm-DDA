@@ -231,6 +231,10 @@ class enchantment
         double get_value_add( enchant_vals::mod value, const Character &guy ) const;
         double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
+        bool get_vision_distance( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_description( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_tile( const Character &guy, const Creature &critter ) const;
+
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
         // does the enchantment modify bodyparts?
         bool modifies_bodyparts() const;
@@ -270,6 +274,22 @@ class enchantment
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
 
+        struct special_vision_descriptions {
+            std::string id;
+            std::string description;
+            std::function<bool( const_dialogue const & )> condition;
+        };
+
+        struct special_vision {
+            std::vector<special_vision_descriptions> special_vision_descriptions_vector;
+            std::function<bool( const_dialogue const & )> condition;
+            dbl_or_var range;
+            // todo: add boolean to see/not see with aiming the gun, in cata_tiles::draw_critter_at(), sees_with_specials block
+            // and boolean for precision to be used in calculate_aim_cap()
+        };
+
+        std::vector<special_vision> special_vision_vector;
+
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
@@ -306,6 +326,9 @@ class enchant_cache : public enchantment
 
         int get_skill_value_add( const skill_id &value ) const;
         int get_damage_add( const damage_type_id &value ) const;
+        bool get_vision_distance( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_description( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_tile( const Character &guy, const Creature &critter ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
         double get_damage_multiply( const damage_type_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
@@ -352,6 +375,15 @@ class enchant_cache : public enchantment
         std::map<damage_type_id, double> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, double> damage_values_multiply; // NOLINT(cata-serialize)
 
+        using special_vision_descriptions = enchantment::special_vision_descriptions;
+
+        struct special_vision {
+            std::vector<special_vision_descriptions> special_vision_descriptions_vector;
+            std::function<bool( const_dialogue const & )> condition;
+            double range;
+        };
+
+        std::vector<special_vision> special_vision_vector;
 };
 
 template <typename E> struct enum_traits;

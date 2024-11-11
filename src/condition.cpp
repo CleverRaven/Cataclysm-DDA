@@ -1341,6 +1341,13 @@ conditional_t::func f_is_alive( bool is_npc )
     };
 }
 
+conditional_t::func f_is_warm( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_warm();
+    };
+}
+
 conditional_t::func f_exists( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
@@ -1402,6 +1409,35 @@ conditional_t::func f_player_see( bool is_npc )
             return get_player_view().sees( *c );
         } else {
             return get_player_view().sees( d.const_actor( is_npc )->pos() );
+        }
+    };
+}
+
+conditional_t::func f_see_opposite( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        if( d.const_actor( is_npc )->get_const_creature() &&
+            d.const_actor( !is_npc )->get_const_creature() ) {
+            return d.const_actor( is_npc )->get_const_creature()->sees(
+                       *d.const_actor( !is_npc )->get_const_creature() );
+        } else {
+            return false;
+        }
+    };
+}
+
+conditional_t::func f_see_opposite_coordinates( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        if( d.const_actor( is_npc )->get_const_creature() &&
+            d.const_actor( !is_npc )->get_const_creature() ) {
+            tripoint_bub_ms alpha_pos = d.const_actor( is_npc )->get_const_creature()->pos_bub();
+            tripoint_bub_ms beta_pos = d.const_actor( !is_npc )->get_const_creature()->pos_bub();
+            int alpha_vision = 500; // function is made specifically to bypass light level, and the only way to pick the creature vision distance is affected by light level
+
+            return get_map().sees( alpha_pos, beta_pos, alpha_vision );
+        } else {
+            return false;
         }
     };
 }
@@ -1657,6 +1693,23 @@ conditional_t::func f_one_in_chance( const JsonObject &jo, std::string_view memb
     dbl_or_var dov = get_dbl_or_var( jo, member );
     return [dov]( const_dialogue const & d ) {
         return one_in( dov.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var range = get_dbl_or_var( jo, member );
+    var_info loc_var_1 = read_var_info( jo.get_object( "loc_1" ) );
+    var_info loc_var_2 = read_var_info( jo.get_object( "loc_2" ) );
+    bool with_fields = true;
+    if( jo.has_bool( "with_fields" ) ) {
+        with_fields = jo.get_bool( "with_fields" );
+    }
+    return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
+        tripoint_bub_ms loc_1 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_1, d, false ) );
+        tripoint_bub_ms loc_2 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_2, d, false ) );
+
+        return get_map().sees( loc_1, loc_2, range.evaluate( d ), with_fields );
     };
 }
 
@@ -2614,6 +2667,7 @@ parsers = {
     {"u_know_recipe", jarg::member, &conditional_fun::f_u_know_recipe },
     {"one_in_chance", jarg::member | jarg::array, &conditional_fun::f_one_in_chance },
     {"x_in_y_chance", jarg::object, &conditional_fun::f_x_in_y_chance },
+    {"line_of_sight", jarg::member, &conditional_fun::f_line_of_sight },
     {"u_has_worn_with_flag", "npc_has_worn_with_flag", jarg::member, &conditional_fun::f_has_worn_with_flag },
     {"u_has_wielded_with_flag", "npc_has_wielded_with_flag", jarg::member, &conditional_fun::f_has_wielded_with_flag },
     {"u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category", jarg::member, &conditional_fun::f_has_wielded_with_weapon_category },
@@ -2693,6 +2747,7 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_fun::f_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_fun::f_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_fun::f_is_alive },
+    {"u_is_warm", "npc_is_warm", &conditional_fun::f_is_warm },
     {"u_exists", "npc_exists", &conditional_fun::f_exists },
     {"u_is_avatar", "npc_is_avatar", &conditional_fun::f_is_avatar },
     {"u_is_npc", "npc_is_npc", &conditional_fun::f_is_npc },
@@ -2702,6 +2757,8 @@ parsers_simple = {
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
     {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
+    {"u_see_npc", "npc_see_u", &conditional_fun::f_see_opposite },
+    {"u_see_npc_loc", "npc_see_u_loc", &conditional_fun::f_see_opposite_coordinates },
     {"has_alpha", &conditional_fun::f_has_alpha },
     {"has_beta", &conditional_fun::f_has_beta },
 };

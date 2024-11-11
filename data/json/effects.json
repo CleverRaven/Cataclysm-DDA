@@ -848,6 +848,14 @@
   },
   {
     "type": "effect_type",
+    "id": "mech_recon_vision",
+    "//": "is applied when you ride a mech. Ideally should be jsonified in some way",
+    "name": [ "" ],
+    "desc": [ "." ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE", "nvg_great_mech" ]
+  },
+  {
+    "type": "effect_type",
     "id": "onfire",
     "name": [ "On Fire" ],
     "desc": [ "Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames." ],

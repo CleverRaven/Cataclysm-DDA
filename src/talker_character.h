@@ -185,6 +185,7 @@ class talker_character_const: virtual public const_talker
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         bool get_is_alive() const override;
+        bool is_warm() const override;
 
         bool can_see() const override;
         bool can_see_location( const tripoint &pos ) const override;

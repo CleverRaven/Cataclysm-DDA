@@ -139,6 +139,9 @@ class const_talker
             return false;
         }
 
+        virtual bool is_warm() const {
+            return false;
+        }
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
             return 0;

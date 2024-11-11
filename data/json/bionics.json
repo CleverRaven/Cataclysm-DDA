@@ -1106,7 +1106,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
