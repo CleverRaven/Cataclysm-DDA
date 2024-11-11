@@ -1634,13 +1634,10 @@ void computer_session::failure_manhacks()
 
 void computer_session::failure_secubots()
 {
-    int num_robots = 1;
     const tripoint_range<tripoint> range =
         get_map().points_in_radius( get_player_character().pos(), 3 );
-    for( int i = 0; i < num_robots; i++ ) {
-        if( g->place_critter_within( mon_secubot, range ) ) {
-            add_msg( m_warning, _( "Secubots emerge from compartments in the floor." ) );
-        }
+    if( g->place_critter_within( mon_secubot, range ) ) {
+        add_msg( m_warning, _( "Secubot emerge from compartment in the floor." ) );
     }
 }
 
