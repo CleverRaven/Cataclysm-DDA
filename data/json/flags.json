@@ -1622,6 +1622,11 @@
     "type": "json_flag"
   },
   {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
+    "type": "json_flag"
+  },
+  {
     "id": "MUTAGEN_SAMPLE",
     "type": "json_flag",
     "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
