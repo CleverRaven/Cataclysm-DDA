@@ -8963,7 +8963,7 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
     }
 
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-    for( const std::pair<material_id, int> mat : made_of() ) {
+    for( const std::pair<const material_id, int> &mat : made_of() ) {
         const int val = ( mat.first->chip_resist() * mat.second ) / total;
         res = worst ? std::min( res, val ) : std::max( res, val );
     }
@@ -10464,7 +10464,7 @@ const material_type &item::get_random_material() const
     std::vector<material_id> matlist;
     const std::map<material_id, int> &mats = made_of();
     matlist.reserve( mats.size() );
-    for( auto mat : mats ) {
+    for( const std::pair<const material_id, int> &mat : mats ) {
         matlist.emplace_back( mat.first );
     }
     return *random_entry( matlist, material_id::NULL_ID() );
@@ -10475,7 +10475,7 @@ const material_type &item::get_base_material() const
     const std::map<material_id, int> &mats = made_of();
     const material_type *m = &material_id::NULL_ID().obj();
     int portion = 0;
-    for( const std::pair<material_id, int> mat : mats ) {
+    for( const std::pair<const material_id, int> &mat : mats ) {
         if( mat.second > portion ) {
             portion = mat.second;
             m = &mat.first.obj();
@@ -12070,7 +12070,7 @@ bool item::flammable( int threshold ) const
 
     int flammability = 0;
     units::volume volume_per_turn = 0_ml;
-    for( const std::pair<material_id, int> m : mats ) {
+    for( const std::pair<const material_id, int> &m : mats ) {
         const mat_burn_data &bd = m.first->burn_data( 1 );
         if( bd.immune ) {
             // Made to protect from fire
