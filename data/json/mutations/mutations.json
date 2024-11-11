@@ -8000,6 +8000,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "attacks": [
       {
@@ -8024,6 +8025,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "active": true,
     "cost": 90,

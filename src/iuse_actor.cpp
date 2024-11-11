@@ -1659,7 +1659,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
-    for( std::pair<material_id, int> mat : cut.get_item()->made_of() ) {
+    for( const std::pair<const material_id, int> &mat : cut.get_item()->made_of() ) {
         mat_set.insert( mat.first );
     }
 

@@ -464,6 +464,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_dry_rock_wall_halfway",
+    "group": "remove_rock_wall",
+    "//": "Cuts out a segment of half complete stone wall, and then breaks it apart for disposal.",
+    "category": "DECONSTRUCT",
+    "time": "180 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "byproducts": [ { "item": "field_stone", "count": 500 } ],
+    "pre_terrain": "t_drystone_wall_half",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_dry_rock_wall",
+    "group": "remove_rock_wall",
+    "//": "Cuts out a segment of half complete stone wall, and then breaks it apart for disposal.",
+    "category": "DECONSTRUCT",
+    "time": "360 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "byproducts": [ { "item": "field_stone", "count": 1000 } ],
+    "pre_terrain": "t_drystone_wall",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_brick_wall",
     "group": "remove_brick_wall",
     "//": "Cuts a segment of brick wall out very neatly, and then breaks it apart for disposal.",

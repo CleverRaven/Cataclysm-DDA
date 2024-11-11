@@ -3166,7 +3166,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 8, 18 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
+      "items": [ { "item": "field_stone", "count": [ 900, 980 ] }, { "item": "pebble", "count": [ 200, 380 ] } ]
     }
   },
   {
@@ -3188,7 +3188,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
+      "items": [ { "item": "rock", "count": [ 400, 480 ] }, { "item": "pebble", "count": [ 50, 120 ] } ]
     }
   },
   {
