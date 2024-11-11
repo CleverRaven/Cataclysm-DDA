@@ -2449,6 +2449,7 @@
     "id": "mon_zuniceratops",
     "name": { "str_sp": "zuniceratops" },
     "copy-from": "mon_leptoceratops",
+    "bodytype": "elephant",
     "volume": "175 L",
     "weight": "175 kg",
     "stomach_size": 3500,
