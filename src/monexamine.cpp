@@ -670,7 +670,8 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( attach_bag, true, 'b', _( "Attach a bag to the %s" ), pet_name );
     }
     if( z.has_effect( effect_harnessed ) ) {
-        amenu.addentry( mon_harness_remove, true, 'H', _( "Remove the vehicle harness from the %s" ), pet_name );
+        amenu.addentry( mon_harness_remove, true, 'H', _( "Remove the vehicle harness from the %s" ),
+                        pet_name );
     }
     if( z.has_effect( effect_monster_armor ) ) {
         amenu.addentry( mon_armor_remove, true, 'a', _( "Remove armor from the %s" ), pet_name );
