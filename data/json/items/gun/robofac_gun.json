@@ -311,6 +311,36 @@
     "description": "This weapon is fitted with long barrel with \"00 CQC\" stamped into the metal."
   },
   {
+    "id": "robofac_gun_300",
+    "looks_like": "retool_ar15_300blk",
+    "//": "based off attributes of the SMGs and https://www.silencershop.com/gemtech-integra-upper.html",
+    "weight": "750 g",
+    "volume": "500 ml",
+    "integral_volume": "250 ml",
+    "integral_weight": "750 g",
+    "integral_longest_side": "15 cm",
+    "longest_side": "40 cm",
+    "barrel_length": "432 mm",
+    "price": "500 USD",
+    "price_postapoc": "30 USD",
+    "type": "GUNMOD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "robofac_gun" ],
+    "name": { "str_sp": "HWP SOCOM configuration" },
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
+    "install_time": "1 m",
+    "ammo_modifier": [ "300blk" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "handling_modifier": 2,
+    "loudness_modifier": -50,
+    "damage_modifier": { "damage_type": "bullet", "amount": 4 },
+    "overwrite_min_cycle_recoil": 1000,
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \".300 BLK SOCOM\" stamped into the metal and an integrated suppressor. It feeds from 5.56 magazines."
+  },
+  {
     "id": "robofac_gun_40mm",
     "copy-from": "launcher_base",
     "looks_like": "mark19",
@@ -420,9 +450,9 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223" ],
+    "ammo_type": [ "223, 300blk" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
   },
   {
     "id": "xedra40",
@@ -430,7 +460,7 @@
     "name": { "str": "prototype 40-round 5.56 magazine" },
     "description": "A high-capacity 40-round box magazine.",
     "copy-from": "robofac40",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
   },
   {
     "id": "robofacmultimag",
@@ -567,10 +597,10 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223" ],
+    "ammo_type": [ "223", "300blk" ],
     "flags": [ "MAG_BULKY" ],
     "mag_jam_mult": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100, "300blk": 100 } } ]
   },
   {
     "id": "robofac60_123ln",
