@@ -492,7 +492,7 @@ You need one entry per mapgen ID:
 4. `"name"` how the name displays on the overmap.
 5. `"sym"` the symbol displayed on the overmap. If left out, the carrots will be used `v<>^`
 6. `"color"` color for overmap symbol.
-7. `"mondenstiy"` sets the default monster density for this overmap tile.  You'll use this for general zombie spawns and reserve the mapgen monster entries for special spawns for that location (e.g. a pet store's pets).
+7. `"mondensity"` sets the default monster density for this overmap tile.  You'll use this for general zombie spawns and reserve the mapgen monster entries for special spawns for that location (e.g. a pet store's pets).
 8. `"extend"` many of these flags will be used by NPCs in the future for their AI, try to add flags appropriate for your location.  Others further define the mapgen, like having sidewalks generate.
 
 For further information see: [Overmap Terrain section of doc/OVERMAP.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/OVERMAP.md#overmap-terrain).
