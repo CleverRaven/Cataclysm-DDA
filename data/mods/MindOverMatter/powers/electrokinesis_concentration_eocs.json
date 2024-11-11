@@ -424,7 +424,7 @@
         "search_data": [ { "uses_energy": true } ],
         "true_eocs": [
           {
-            "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER_3",
+            "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_GET_ITEM_COUNT_2",
             "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
             "effect": [ { "math": [ "u_electrokin_personal_battery_item_count", "++" ] } ]
           }
