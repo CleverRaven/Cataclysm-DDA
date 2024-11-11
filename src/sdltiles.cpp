@@ -508,7 +508,7 @@ extern "C" {
 #endif
 } // "C"
 
-#if defined(__IPHONEOS__)
+/*#if defined(__IPHONEOS__)
 void iossetvisibledisplayframe(int left, int top, int right, int bottom){
     has_visible_display_frame = true;
     visible_display_frame_dirty = true;
@@ -517,7 +517,7 @@ void iossetvisibledisplayframe(int left, int top, int right, int bottom){
     visible_display_frame.w = right - left;
     visible_display_frame.h = bottom - top;
 }
-#endif
+#endif*/
 
 SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
 {
@@ -543,7 +543,7 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         dstrect.h = WindowHeightLessShortcuts;
     }
     // Make sure the destination rectangle fits within the visible area
-    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
+/*    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
         int vdf_right = visible_display_frame.x + visible_display_frame.w;
         int vdf_bottom = visible_display_frame.y + visible_display_frame.h;
         if( vdf_right < dstrect.x + dstrect.w ) {
@@ -552,7 +552,7 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         if( vdf_bottom < dstrect.y + dstrect.h ) {
             dstrect.h = vdf_bottom - dstrect.y;
         }
-    }
+    } */
     return dstrect;
 }
 #endif
@@ -570,7 +570,7 @@ void refresh_display()
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
     ClearScreen();
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
+#if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
