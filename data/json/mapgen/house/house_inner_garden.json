@@ -36,7 +36,6 @@
         "8": "t_wall_glass",
         "#": "t_rock_wall",
         "]": "t_door_glass_c",
-        "%": "t_wall_w",
         "F": "t_concrete",
         "U": "t_thconc_floor",
         "N": "t_thconc_floor"
