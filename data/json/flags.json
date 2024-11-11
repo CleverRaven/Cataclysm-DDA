@@ -2464,9 +2464,9 @@
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
   },
   {
-	"id": "VINE_RAPPEL",
-	"type": "json_flag",
-	"info": "The character can use vines to safely rappel down sheer drops."
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
   },
   {
     "id": "ANIMALDISCORD",

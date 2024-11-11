@@ -12398,11 +12398,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( rope_ladder ) {
         if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
             here.furn_set( u.pos_bub(), furn_f_web_up );
-        } 
-        else if( u.has_flag( json_flag_VINE_RAPPEL ) ) {
+        } else if( u.has_flag( json_flag_VINE_RAPPEL ) ) {
             here.furn_set( u.pos_bub(), furn_f_vine_up );
-        }
-        else { 
+        } else {
             here.furn_set( u.pos_bub(), furn_f_rope_up );
         }
     }
