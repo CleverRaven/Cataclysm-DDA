@@ -185,6 +185,17 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_MESMERIZE_TARGET",
+    "name": { "//~": "This is a reference to Jeremiah 10:14", "str": "Senseless and Without Knowledge" },
+    "points": 5,
+    "description": "You can temporarily beguile a single human or avian target, causing them to stand senseless or wander in a daze.  Any damage will bring the target out of their trance.",
+    "prereqs": [ "LILIN_BONUS_PERSUASION" ],
+    "prereqs2": [ "LILIN_TEMPORARY_GLORIOUS", "LILIN_TEMPORARY_GLORIOUS_2" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_mesmerize_target_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_AOE_LINE_DISEASE",
     "name": { "str": "Unleash the Night-Wind" },
     "points": 4,

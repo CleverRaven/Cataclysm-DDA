@@ -2471,6 +2471,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_mesmerize_tracker",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You are in a daze." ],
+    "apply_message": "",
+    "remove_message": "You snap out of your trance.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_aoe_daze",
     "name": [ "Disoriented" ],
     "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],

@@ -346,9 +346,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_EVIL_EYE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency_beta()" ] },
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency_beta()" ] },
       {
         "npc_message": "You glare balefully at <u_name> and project all of your malice into your gaze.",
         "type": "neutral"
@@ -370,6 +370,90 @@
       }
     ],
     "false_effect": { "npc_message": "You don't have enough ruach for your malice to affect your target.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_MESMERIZE_TARGET",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "320 * lilin_has_ruach_efficiency_beta()" ] },
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "320 * lilin_has_ruach_efficiency_beta()" ] },
+      {
+        "math": [
+          "u_lilin_mesmerize_duration",
+          "=",
+          "rng( ( 48 + (n_vitamin('lilin_ruach_vitamin') / 13 ) + (npc_has_trait('BEAUTIFUL3') * rng(60,180) ) ),( 96 + (n_vitamin('lilin_ruach_vitamin') / 27 ) + (npc_has_trait('BEAUTIFUL3') * rng(120,360) ) ) )"
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_MESMERIZE_TARGET_2",
+            "condition": "u_is_character",
+            "//": "If you're not totally immune, there's always a chance mesmerism will work",
+            "effect": [
+              {
+                "if": { "not": { "u_has_worn_with_flag": "WARDING_SYMBOL" } },
+                "then": [
+                  { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                  {
+                    "u_add_effect": "effect_lilin_mesmerize_tracker",
+                    "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                  },
+                  { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                ],
+                "else": { "npc_message": "Your target's protective charm means the beguilement fails to take effect!", "type": "bad" }
+              }
+            ],
+            "false_effect": [
+              {
+                "if": { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "CYBORG" } ] },
+                "then": [
+                  { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                  {
+                    "u_add_effect": "effect_lilin_mesmerize_tracker",
+                    "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                  },
+                  { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                ],
+                "else": {
+                  "if": { "or": [ { "u_has_species": "BIRD" } ] },
+                  "then": [
+                    { "math": [ "u_lilin_mesmerize_duration", "=", "u_lilin_mesmerize_duration * 2" ] },
+                    { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                    {
+                      "u_add_effect": "effect_lilin_mesmerize_tracker",
+                      "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                    },
+                    { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                  ],
+                  "else": {
+                    "if": {
+                      "or": [
+                        { "u_has_species": "IERDE" },
+                        { "u_has_species": "ARVORE" },
+                        { "u_has_species": "UNDINE" },
+                        { "u_has_species": "SYLPH" },
+                        { "u_has_species": "SALAMANDER" },
+                        { "u_has_species": "VAMPIRE" }
+                      ]
+                    },
+                    "then": [
+                      { "math": [ "u_lilin_mesmerize_duration", "=", "u_lilin_mesmerize_duration * 0.75" ] },
+                      { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                      {
+                        "u_add_effect": "effect_lilin_mesmerize_tracker",
+                        "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                      },
+                      { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -412,9 +496,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_DISEASE_ENHANCEMENT_DAMAGE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180 * lilin_has_ruach_efficiency()" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180 * lilin_has_ruach_efficiency_beta()" ] },
     "effect": [
-      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180 * lilin_has_ruach_efficiency_beta()" ] },
       { "npc_message": "You infuse your ruach into the plague-infected <u_name>.", "type": "neutral" },
       {
         "u_add_effect": "effect_lilin_supernatural_disease_focused",
