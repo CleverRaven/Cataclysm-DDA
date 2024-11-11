@@ -273,7 +273,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
-        std::function<bool( dialogue & )> dialog_condition; // NOLINT(cata-serialize)
+        std::function<bool( const_dialogue const & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };

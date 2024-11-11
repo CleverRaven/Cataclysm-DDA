@@ -31,6 +31,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "field_stone",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "field stone" },
+    "description": "A medium, flatish, heavy rock, big enough and flat enough to be used as a block in field stone walls.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "2628 g",
+    "volume": "1 L",
+    "longest_side": "35 cm",
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "type": "GENERIC",
     "id": "rock_large",
     "symbol": ";",
     "color": "brown",

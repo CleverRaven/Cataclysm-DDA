@@ -287,6 +287,7 @@ static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_WATERWALKING( "WATERWALKING" );
 
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
+static const furn_str_id furn_f_vine_up( "f_vine_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -312,6 +313,7 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
+static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
@@ -1746,7 +1748,7 @@ units::temperature_delta get_convection_temperature( const tripoint &location )
                                         units::from_fahrenheit_delta( fd_fire->get_intensity_level().convection_temperature_mod ) :
                                         units::from_kelvin_delta( 0 );
     // Modifier from fields
-    for( auto fd : here.field_at( location ) ) {
+    for( auto &fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
             lava_mod = units::from_kelvin_delta( 0 );
@@ -1978,7 +1980,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
                 if( rate.success() ) {
                     best_rate = hint_rating::good;
                     return VisitResponse::ABORT;
-                } else if( rate.value() != INEDIBLE || rate.value() != INEDIBLE_MUTATION ) {
+                } else if( rate.value() != INEDIBLE && rate.value() != INEDIBLE_MUTATION ) {
                     best_rate = hint_rating::iffy;
                 }
             }
@@ -2739,8 +2741,8 @@ void game::setremoteveh( vehicle *veh )
     }
 
     std::stringstream remote_veh_string;
-    const tripoint vehpos = veh->global_pos3();
-    remote_veh_string << vehpos.x << ' ' << vehpos.y << ' ' << vehpos.z;
+    const tripoint_bub_ms vehpos = veh->pos_bub();
+    remote_veh_string << vehpos.x() << ' ' << vehpos.y() << ' ' << vehpos.z();
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
@@ -2841,7 +2843,7 @@ bool game::query_exit_to_OS()
 
 bool game::is_game_over()
 {
-    if( uquit == QUIT_EXIT ) {
+    if( are_we_quitting() ) {
         return query_exit_to_OS();
     }
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
@@ -5599,7 +5601,7 @@ void game::control_vehicle()
 {
     if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
         for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            remote_veh->interact_with( vpr.pos() );
+            remote_veh->interact_with( vpr.pos_bub() );
             return;
         }
     }
@@ -5713,7 +5715,7 @@ void game::control_vehicle()
     if( veh ) {
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
-        for( const tripoint &target : veh->get_points() ) {
+        for( const tripoint_bub_ms &target : veh->get_points() ) {
             u.memorize_clear_decoration( m.getglobal( target ), "vp_" );
             m.memory_cache_dec_set_dirty( target, true );
         }
@@ -10049,7 +10051,7 @@ void game::reload_weapon( bool try_everything )
     // If we make it here and haven't found anything to reload, start looking elsewhere.
     const optional_vpart_position ovp = m.veh_at( u.pos_bub() );
     if( ovp ) {
-        const turret_data turret = ovp->vehicle().turret_query( ovp->pos() );
+        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_bub() );
         if( turret.can_reload() ) {
             item::reload_option opt = u.select_ammo( turret.base(), true );
             if( opt ) {
@@ -12419,6 +12421,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( rope_ladder ) {
         if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
             here.furn_set( u.pos_bub(), furn_f_web_up );
+        } else if( u.has_flag( json_flag_VINE_RAPPEL ) ) {
+            here.furn_set( u.pos_bub(), furn_f_vine_up );
         } else {
             here.furn_set( u.pos_bub(), furn_f_rope_up );
         }
@@ -14031,4 +14035,9 @@ weather_manager &get_weather()
 global_variables &get_globals()
 {
     return g->global_variables_instance;
+}
+
+bool are_we_quitting()
+{
+    return g && ( g->uquit == QUIT_EXIT || g->uquit == QUIT_EXIT_PENDING );
 }

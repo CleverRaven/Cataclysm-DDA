@@ -346,7 +346,7 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
     return retval;
 }
 
-bool effect_on_condition::check_deactivate( dialogue &d ) const
+bool effect_on_condition::check_deactivate( const_dialogue const &d ) const
 {
     if( !has_deactivate_condition || has_false_effect ) {
         return false;
@@ -354,7 +354,7 @@ bool effect_on_condition::check_deactivate( dialogue &d ) const
     return deactivate_condition( d );
 }
 
-bool effect_on_condition::test_condition( dialogue &d ) const
+bool effect_on_condition::test_condition( const_dialogue const &d ) const
 {
     return !has_condition || condition( d );
 }

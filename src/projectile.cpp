@@ -144,7 +144,7 @@ static void foamcrete_build( const tripoint_bub_ms &p )
     }
 }
 
-void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
                          const std::set<ammo_effect_str_id> &effects, const int dealt_damage )
 {
     map &here = get_map();

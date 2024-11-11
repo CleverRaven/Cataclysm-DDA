@@ -180,7 +180,7 @@ bool is_assign_target( thingie const &thing )
            std::holds_alternative<func_diag_ass>( thing.data );
 }
 
-std::vector<double> _eval_params( std::vector<thingie> const &params, dialogue &d )
+std::vector<double> _eval_params( std::vector<thingie> const &params, const_dialogue const &d )
 {
     std::vector<double> elems( params.size() );
     std::transform( params.begin(), params.end(), elems.begin(),
@@ -219,17 +219,17 @@ func_jmath::func_jmath( std::vector<thingie> &&params_,
                         jmath_func_id const &id_ ) : params( params_ ),
     id( id_ ) {}
 
-double func::eval( dialogue &d ) const
+double func::eval( const_dialogue const &d ) const
 {
     return f( _eval_params( params, d ) );
 }
 
-double func_jmath::eval( dialogue &d ) const
+double func_jmath::eval( const_dialogue const &d ) const
 {
     return id->eval( d, _eval_params( params, d ) );
 }
 
-double var::eval( dialogue &d ) const
+double var::eval( const_dialogue const &d ) const
 {
     std::string const str = read_var_value( varinfo, d );
     if( str.empty() ) {
@@ -247,7 +247,7 @@ oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
     r( std::make_shared<thingie>( std::move( r_ ) ) ),
     op( op_ ) {}
 
-double oper::eval( dialogue &d ) const
+double oper::eval( const_dialogue const &d ) const
 {
     return ( *op )( l->eval( d ), r->eval( d ) );
 }
@@ -261,7 +261,7 @@ ternary::ternary( thingie cond_, thingie mhs_, thingie rhs_ )
       mhs( std::make_shared<thingie>( std::move( mhs_ ) ) ),
       rhs( std::make_shared<thingie>( std::move( rhs_ ) ) ) {}
 
-double ternary::eval( dialogue &d ) const
+double ternary::eval( const_dialogue const &d ) const
 {
     return cond->eval( d ) > 0 ? mhs->eval( d ) : rhs->eval( d );
 }
@@ -296,7 +296,7 @@ class math_exp::math_exp_impl
             }
             return true;
         }
-        double eval( dialogue &d ) const {
+        double eval( const_dialogue const &d ) const {
             return tree.eval( d );
         }
 
@@ -860,7 +860,7 @@ math_exp::~math_exp() = default;
 math_exp::math_exp( math_exp &&/* other */ ) noexcept = default;
 math_exp &math_exp::operator=( math_exp &&/* other */ )  noexcept = default;
 
-double math_exp::eval( dialogue &d ) const
+double math_exp::eval( const_dialogue const &d ) const
 {
     return impl->eval( d );
 }

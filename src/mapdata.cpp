@@ -507,7 +507,7 @@ ter_t null_terrain_t()
 
 template<typename C, typename F>
 void load_season_array( const JsonObject &jo, const std::string &key, const std::string &context,
-                        C &container, F load_func )
+                        const bool ignore_absent_key, C &container, F load_func )
 {
     if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );
@@ -529,7 +529,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, const std:
     } else if( jo.has_member( key ) ) {
         jo.throw_error_at(
             key, string_format( "Expected '%s' member to be string or array", key ) );
-    } else {
+    } else if( !ignore_absent_key ) {
         jo.throw_error(
             string_format( "Expected '%s' member in %s but none was found", key, context ) );
     }
@@ -569,19 +569,13 @@ void map_data_common_t::examine( Character &you, const tripoint_bub_ms &examp ) 
     examine_actor->call( you, examp );
 }
 
-void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &context )
+void map_data_common_t::load_symbol_color( const JsonObject &jo, const std::string &context )
 {
-    if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
-        looks_like = jo.get_string( "copy-from" );
-    }
-    jo.read( "looks_like", looks_like );
+    const bool no_copy_symbol_color = jo.has_member( "copy-from" );
 
-    load_season_array( jo, "symbol", context, symbol_, [&jo]( const std::string & str ) {
-        if( str == "LINE_XOXO" ) {
-            return LINE_XOXO;
-        } else if( str == "LINE_OXOX" ) {
-            return LINE_OXOX;
-        } else if( str.length() != 1 ) {
+    load_season_array( jo, "symbol", context, no_copy_symbol_color,
+    symbol_, [&jo]( const std::string_view str ) {
+        if( str.length() != 1 ) {
             jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
         }
         return static_cast<int>( str[0] );
@@ -592,13 +586,14 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", context, color_, []( const std::string_view str ) {
+        load_season_array( jo, "color", context, no_copy_symbol_color,
+        color_, []( const std::string_view str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
     } else if( has_bgcolor ) {
-        load_season_array( jo, "bgcolor", context, color_, bgcolor_from_string );
-    } else {
+        load_season_array( jo, "bgcolor", context, no_copy_symbol_color, color_, bgcolor_from_string );
+    } else if( !no_copy_symbol_color ) {
         jo.throw_error( R"(Missing member: one of: "color", "bgcolor" must exist.)" );
     }
 }
@@ -940,6 +935,10 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description );
 
+    if( jo.has_member( "copy-from" ) ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    optional( jo, was_loaded, "looks_like", looks_like );
     optional( jo, was_loaded, "comfort", comfort, 0 );
 
     if( jo.has_member( "connect_groups" ) ) {
@@ -1048,7 +1047,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
 
-    load_symbol( jo, "terrain " + id.str() );
+    load_symbol_color( jo, "terrain " + id.str() );
 
     trap = tr_null;
 
@@ -1232,16 +1231,16 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "fall_damage_reduction", fall_damage_reduction, 0 );
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
-    mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
-    load_symbol( jo, "furniture " + id.str() );
+    load_symbol_color( jo, "furniture " + id.str() );
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );

@@ -521,13 +521,13 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     int range_total = 0;
     for( vehicle_part *t : turrets ) {
         int range = veh.turret_query( *t ).range();
-        tripoint pos = veh.global_part_pos3( *t );
+        tripoint_bub_ms pos = veh.bub_part_pos( *t );
 
         int res = 0;
-        res = std::max( res, rl_dist( you.pos(), pos + point( range, 0 ) ) );
-        res = std::max( res, rl_dist( you.pos(), pos + point( -range, 0 ) ) );
-        res = std::max( res, rl_dist( you.pos(), pos + point( 0, range ) ) );
-        res = std::max( res, rl_dist( you.pos(), pos + point( 0, -range ) ) );
+        res = std::max( res, rl_dist( you.pos_bub(), pos + point( range, 0 ) ) );
+        res = std::max( res, rl_dist( you.pos_bub(), pos + point( -range, 0 ) ) );
+        res = std::max( res, rl_dist( you.pos_bub(), pos + point( 0, range ) ) );
+        res = std::max( res, rl_dist( you.pos_bub(), pos + point( 0, -range ) ) );
         range_total = std::max( range_total, res );
     }
 
@@ -807,8 +807,8 @@ bool Character::handle_gun_damage( item &it )
         it.inc_damage();
     }
     if( !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-        if( it.ammo_data() != nullptr && ( ( it.ammo_data()->ammo->recoil < it.min_cycle_recoil() ) ||
-                                           ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
+        if( it.has_ammo() && ( ( it.ammo_data()->ammo->recoil < it.min_cycle_recoil() ) ||
+                               ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
             it.faults_potential().count( fault_gun_chamber_spent ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
@@ -998,7 +998,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
     bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos_bub() ) || is_prone();
     if( !bipod ) {
         if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
-            bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
+            bipod = vp->vehicle().has_part( pos_bub(), "MOUNTABLE" );
         }
     }
 
@@ -2172,12 +2172,12 @@ static projectile make_gun_projectile( const item &gun )
 
     auto &fx = proj.proj_effects;
 
-    if( ( gun.ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
+    if( ( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
         fx.count( ammo_effect_SHOT ) || fx.count( ammo_effect_BOUNCE ) ) {
         fx.insert( ammo_effect_WIDE );
     }
 
-    if( gun.ammo_data() ) {
+    if( gun.has_ammo() ) {
         const auto &ammo = gun.ammo_data()->ammo;
 
         // Some projectiles have a chance of being recoverable
@@ -2312,7 +2312,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    if( ammo_data() ) {
+    if( has_ammo() ) {
         noise += ammo_data()->ammo->loudness;
     }
     for( const item *mod : gunmods() ) {
