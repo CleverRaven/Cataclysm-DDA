@@ -5854,7 +5854,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             }
 
             if( is_running ) {
-                cur_veh.recharge_epower_this_turn -= units::from_watt( recharge_part.info().bonus );
+                cur_veh.recharge_epower_this_turn -= units::from_watt( static_cast<std::int64_t>
+                                                     ( recharge_part.info().bonus ) );
             }
 
         }
