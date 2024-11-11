@@ -21,6 +21,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "cata_bitset.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
@@ -1288,6 +1289,19 @@ class vehicle
          *  @param enabled if set part must also be enabled to be considered
          */
         bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
+
+        /**
+         *  Check if vehicle has at least one unbroken part with each of the specified flags
+         *
+         *  e.g. has_parts({"F1", "F2", "F3"}), the first bit will hold whether the vehicle has
+         *      F1, the second F2, and so on.
+         *
+         *  @param flags Specified flags to search parts for. This should be <= 56 entries long.
+         *  @param enabled if set part must also be enabled to be considered
+         *  @returns true if part is found for each flag. The index of the resultant bitset is the
+         *      same as in flags.
+         */
+        tiny_bitset has_parts( const std::vector<std::string> &flags, bool enabled = false ) const;
 
         /**
          *  Get all enabled, available, unbroken vehicle parts at specified position

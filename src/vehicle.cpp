@@ -24,6 +24,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_assert.h"
+#include "cata_bitset.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
@@ -3032,6 +3033,28 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
     return false;
 }
 
+tiny_bitset vehicle::has_parts( const std::vector<std::string> &flags, bool enabled ) const
+{
+    tiny_bitset ret = tiny_bitset( flags.size() );
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        vehicle_part &part = vpr.part();
+        if( !part.removed && ( !enabled || part.enabled ) && !part.is_broken() ) {
+            // Check whether the part has any of the flags we are looking for
+            for( int i = 0; i < flags.size(); i++ ) {
+                const std::string &flag = flags[i];
+                if( part.info().has_flag( flag ) ) {
+                    ret.set( i );
+                }
+            }
+            // Exit early if we have found parts matching each flag.
+            if( ret.all() ) {
+                return ret;
+            }
+        }
+    }
+    return ret;
+}
+
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
 {
     const tripoint relative_pos = pos - global_pos3();
@@ -3669,9 +3692,8 @@ bool vehicle::has_driver() const
 
 Character *vehicle::get_driver() const
 {
-    // TODO: Gotta be a better way than this...
-    for( const vpart_reference &vp : get_all_parts() ) {
-        Character *occupant = vp.get_passenger();
+    for( const int vp : boarded_parts() ) {
+        Character *occupant = get_passenger( vp );
         if( occupant && player_in_control( *occupant ) ) {
             return occupant;
         }
@@ -6031,15 +6053,17 @@ void vehicle::idle( bool on_map )
         }
     }
 
-    if( has_part( "STEREO", true ) ) {
+    tiny_bitset flags = has_parts( { "STEREO", "CHIMES", "CRASH_TERRAIN_AROUND" }, true );
+
+    if( flags.test( 0 ) ) {
         play_music();
     }
 
-    if( has_part( "CHIMES", true ) ) {
+    if( flags.test( 1 ) ) {
         play_chimes();
     }
 
-    if( has_part( "CRASH_TERRAIN_AROUND", true ) ) {
+    if( flags.test( 2 ) ) {
         crash_terrain_around();
     }
 
@@ -6064,16 +6088,17 @@ void vehicle::idle( bool on_map )
 
 void vehicle::on_move()
 {
-    if( has_part( "TRANSFORM_TERRAIN", true ) ) {
+    tiny_bitset part_flags = has_parts( { "TRANSFORM_TERRAIN", "SCOOP", "PLANTER", "REAPER" }, true );
+    if( part_flags.test( 0 ) ) {
         transform_terrain();
     }
-    if( has_part( "SCOOP", true ) ) {
+    if( part_flags.test( 1 ) ) {
         operate_scoop();
     }
-    if( has_part( "PLANTER", true ) ) {
+    if( part_flags.test( 2 ) ) {
         operate_planter();
     }
-    if( has_part( "REAPER", true ) ) {
+    if( part_flags.test( 3 ) ) {
         operate_reaper();
     }
 
