@@ -455,6 +455,20 @@ inline constexpr const std::array<tripoint, 8> eight_horizontal_neighbors = { {
     }
 };
 
+/* Return points in a clockwise spiral from min_dist to max_dist, inclusive, ordered by
+ * the closest points first. The distance is calculated using roguelike distances, so
+ * movement in any direction only counts as 1.
+ *
+ * The predicate function is evaluated on each point. If the function returns true, the
+ * point is returned. If the predicate function never returns true then std::nullopt is
+ * returned once max_dist is reached.
+ *
+ * @param center The center of the spiral.
+ * @param min_dist minimum distance to start the spiral from.
+ * @param max_dist greatest distance from the centre that the spiral will go to.
+ * @returns std::nullopt if min_dist > max_dist or predicate_fn evaluated to true for
+ *      no points.
+ */
 template <typename PredicateFn, typename Point>
 std::optional<Point> find_point_closest_first( const Point &center, int min_dist, int max_dist,
         PredicateFn &&predicate_fn )
@@ -483,7 +497,7 @@ std::optional<Point> find_point_closest_first( const Point &center, int min_dist
 
     for( int i = 0; i < *n; i++ ) {
         // FIXME: Ugly but we don't know the type of center + p.
-        const Point next = Point{ (center + p).x(), (center + p).y(), (center + p).z() };
+        const Point next = Point{ ( center + p ).x, ( center + p ).y, ( center + p ).z };
         if( predicate_fn( next ) ) {
             return next;
         }
