@@ -1360,8 +1360,8 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "nb", R"(Norsk)" },
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
+            { "pt", R"(Português (Portugal))" },
             { "pt_BR", R"(Português (Brasil))" },
-            { "pt_PT", R"(Português (Portugal))" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
@@ -4244,10 +4244,10 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "pt" ) {
+            std::locale::global( std::locale( "pt.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
-        } else if( lang == "pt_PT" ) {
-            std::locale::global( std::locale( "pt_PT.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
         } else if( lang == "sr" ) {
