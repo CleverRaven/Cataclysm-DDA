@@ -455,15 +455,8 @@
     "vision_day": 10,
     "vision_night": 10,
     "harvest": "shrieker",
-	"weakpoint_sets": [
-      "wps_fungaloid"
-    ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_fungaloid_basic",
-      "prof_wp_fungaloid_advanced"
-    ],
+    "weakpoint_sets": [ "wps_fungaloid" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_fungaloid_basic", "prof_wp_fungaloid_advanced" ],
     "special_attacks": [ [ "SHRIEK_ALERT", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
