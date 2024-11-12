@@ -65,7 +65,7 @@
     "type": "MONSTER",
     "id": "mon_owlbear_zombie",
     "name": "zowlbear",
-	"copy-from": "mon_owlbear",
+    "copy-from": "mon_owlbear",
     "description": "This horrible mutant monster has been zombified.  Though it looks weaker than its living counterpart, you feel much more hostility from its black oily eyes.",
     "default_faction": "zombie",
     "bodytype": "bear",
