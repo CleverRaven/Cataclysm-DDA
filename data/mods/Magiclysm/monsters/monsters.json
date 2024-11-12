@@ -423,12 +423,8 @@
     "vision_night": 20,
     "harvest": "stirge",
     "dissect": "dissect_stirge_sample_small",
-	"weakpoint_sets": [ "wps_bird_body" ],
-	"families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_wp_flying"
-    ],
+    "weakpoint_sets": [ "wps_bird_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_flying" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
