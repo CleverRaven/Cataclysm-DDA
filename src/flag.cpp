@@ -103,6 +103,7 @@ const flag_id flag_EFFECT_LIMB_SCORE_MOD( "EFFECT_LIMB_SCORE_MOD" );
 const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL( "EFFECT_LIMB_SCORE_MOD_LOCAL" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ELECTRONIC( "ELECTRONIC" );
+const flag_id flag_ENERGY_SHIELD( "ENERGY_SHIELD" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 const flag_id flag_EXO_ARM_PLATE( "EXO_ARM_PLATE" );
 const flag_id flag_EXO_BOOT_PLATE( "EXO_BOOT_PLATE" );

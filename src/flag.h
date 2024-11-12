@@ -111,6 +111,7 @@ extern const flag_id flag_EFFECT_LIMB_SCORE_MOD;
 extern const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL;
 extern const flag_id flag_ELECTRIC_IMMUNE;
 extern const flag_id flag_ELECTRONIC;
+extern const flag_id flag_ENERGY_SHIELD;
 extern const flag_id flag_ETHEREAL_ITEM;
 extern const flag_id flag_EXO_ARM_PLATE;
 extern const flag_id flag_EXO_BOOT_PLATE;

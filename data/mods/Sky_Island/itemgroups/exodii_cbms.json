@@ -1,0 +1,91 @@
+[
+  {
+    "id": "SUS_exodii_storage_lowvalue",
+    "type": "item_group",
+    "copy-from": "SUS_exodii_storage_lowvalue",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "si_exodii_cbms_low_value", "prob": 20 } ] }
+  },
+  {
+    "id": "SUS_exodii_storage_medvalue",
+    "type": "item_group",
+    "copy-from": "SUS_exodii_storage_medvalue",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        {
+          "collection": [
+            { "group": "si_exodii_cbms_low_value", "prob": 50, "count": [ 1, 2 ] },
+            { "group": "si_exodii_cbms_med_value", "prob": 20 }
+          ],
+          "prob": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "SUS_exodii_storage_highvalue",
+    "type": "item_group",
+    "copy-from": "SUS_exodii_storage_highvalue",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        {
+          "collection": [
+            { "group": "si_exodii_cbms_low_value", "prob": 80, "count": [ 1, 3 ] },
+            { "group": "si_exodii_cbms_med_value", "prob": 50, "count": [ 1, 2 ] },
+            { "group": "si_exodii_cbms_high_value", "prob": 20 }
+          ],
+          "prob": 25
+        }
+      ]
+    }
+  },
+  {
+    "id": "si_exodii_cbms_low_value",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [ { "item": "bio_power_storage", "prob": 90 }, { "item": "bio_power_storage_mkII", "prob": 10 } ],
+        "prob": 80
+      },
+      { "group": "Zomborg_CBM_harvest_structural", "prob": 40 },
+      { "group": "Zomborg_CBM_harvest_utility", "prob": 60 },
+      { "group": "Zomborg_CBM_harvest_charging_tools", "prob": 30 }
+    ]
+  },
+  {
+    "id": "si_exodii_cbms_med_value",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [ { "item": "bio_power_storage", "prob": 90 }, { "item": "bio_power_storage_mkII", "prob": 10 } ],
+        "prob": 30
+      },
+      { "group": "Zomborg_CBM_harvest_structural", "prob": 40 },
+      { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 30 },
+      { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 },
+      {
+        "distribution": [
+          { "group": "Zomborg_CBM_harvest_melee_weapons", "prob": 70 },
+          { "group": "Zomborg_CBM_harvest_ranged_weapons", "prob": 40 }
+        ],
+        "prob": 30
+      },
+      { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 }
+    ]
+  },
+  {
+    "id": "si_exodii_cbms_high_value",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 60 },
+      { "group": "Zomborg_CBM_harvest_fancy_defense", "prob": 50 },
+      { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 30 },
+      { "group": "Zomborg_CBM_harvest_expensive_combat_systems", "prob": 20 }
+    ]
+  }
+]
