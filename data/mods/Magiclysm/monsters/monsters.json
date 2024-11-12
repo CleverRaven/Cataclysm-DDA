@@ -150,15 +150,8 @@
     "anger_triggers": [  ],
     "harvest": "mammal_small_parabolan_wool",
     "dissect": "dissect_cattle_sample_single",
-	"weakpoint_sets": [
-      "wps_animal_quadruped"
-    ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_ungulate"
-    ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "upgrades": { "age_grow": 240, "into": "mon_nightmare_sheep" },
     "//": "Puberty reached in 6-9 months.",
