@@ -335,7 +335,7 @@
     "ammo_modifier": [ "300blk" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 15,
-    "handling_modifier": 3, 
+    "handling_modifier": 3,
     "loudness_modifier": -75,
     "overwrite_min_cycle_recoil": 1200,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short, thick barrel with \".300 BLACKOUT\" stamped into the metal, and a large integrated suppressor.  It feeds from 5.56 magazines."
