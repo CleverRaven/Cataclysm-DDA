@@ -544,7 +544,7 @@
     "type": "MONSTER",
     "name": { "str": "winter wolf", "str_pl": "winter wolves" },
     "description": "A pure white dire wolf.  If you squint, you can see a faint mist surrounding its coat, and ice shards slowly descend from its breath.",
-	"copy-from": "mon_wolf",
+    "copy-from": "mon_wolf",
     "default_faction": "wolf",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
