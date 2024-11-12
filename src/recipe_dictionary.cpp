@@ -1,6 +1,7 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <chrono>
 #include <iterator>
 #include <memory>
 #include <unordered_map>
@@ -286,10 +287,13 @@ std::vector<const recipe *> recipe_subset::search(
     std::vector<const recipe *> res;
     size_t i = 0;
     ctxt.register_action( "QUIT" );
-    ctxt.set_timeout( 10 );
+    std::chrono::steady_clock::time_point next_input_check = std::chrono::steady_clock::now();
     for( const recipe *r : recipes ) {
-        if( ctxt.handle_input() == "QUIT" ) {
-            return res;
+        if( std::chrono::steady_clock::now() > next_input_check ) {
+            next_input_check = std::chrono::steady_clock::now() + std::chrono::milliseconds( 250 );
+            if( ctxt.handle_input( 1 ) == "QUIT" ) {
+                return res;
+            }
         }
         if( progress_callback ) {
             progress_callback( i, recipes.size() );
