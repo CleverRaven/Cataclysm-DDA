@@ -458,8 +458,17 @@
     "type": "MAGAZINE",
     "name": { "str": "prototype 40-round 5.56 magazine" },
     "description": "A high-capacity 40-round box magazine.",
-    "copy-from": "robofac40",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40, "300blk": 40 } } ]
+    "weight": "265 g",
+    "volume": "390 ml",
+    "longest_side": "236 mm",
+    "price": "85 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40 } } ]
   },
   {
     "id": "robofacmultimag",
