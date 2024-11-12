@@ -256,15 +256,8 @@
     "dodge": 2,
     "harvest": "bulette",
     "dissect": "dissect_bulette_sample_large",
-	"weakpoint_sets": [
-	  "wps_natural_armor"
-    ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_nat_armored"
-    ],
+    "weakpoint_sets": [ "wps_natural_armor" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_nat_armored" ],
     "anger_triggers": [ "SOUND" ],
     "special_attacks": [
       {
