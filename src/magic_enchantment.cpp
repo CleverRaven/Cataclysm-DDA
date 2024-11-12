@@ -686,13 +686,13 @@ void enchant_cache::serialize( JsonOut &jsout ) const
 
     jsout.member( "special_vision" );
     jsout.start_array();
-    for( const special_vision struc : special_vision_vector ) {
+    for( const special_vision &struc : special_vision_vector ) {
         jsout.start_object();
         // jsout.member( "condition", struc.condition );
         jsout.member( "distance", struc.range );
         jsout.member( "descriptions" );
         jsout.start_array();
-        for( const special_vision_descriptions struc_desc : struc.special_vision_descriptions_vector ) {
+        for( const special_vision_descriptions &struc_desc : struc.special_vision_descriptions_vector ) {
             jsout.start_object();
             jsout.member( "id", struc_desc.id );
             // jsout.member( "text_condition", struc_desc.condition );
@@ -1047,7 +1047,7 @@ bool enchantment::get_vision_distance( const Character &guy, const Creature &cri
     const double distance = rl_dist_exact( guy.pos(), critter.pos() );
     const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
 
-    for( const special_vision struc : special_vision_vector ) {
+    for( const special_vision &struc : special_vision_vector ) {
         if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
             return true;
         }
@@ -1063,7 +1063,7 @@ std::string enchantment::get_vision_description( const Character &guy,
     const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
     const double distance = rl_dist_exact( guy.pos(), critter.pos() );
 
-    for( const special_vision struc : special_vision_vector ) {
+    for( const special_vision &struc : special_vision_vector ) {
         if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
             for( enchantment::special_vision_descriptions desc : struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
@@ -1083,7 +1083,7 @@ std::string enchantment::get_vision_tile( const Character &guy, const Creature &
     const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
     const double distance = rl_dist_exact( guy.pos(), critter.pos() );
 
-    for( const special_vision struc : special_vision_vector ) {
+    for( const special_vision &struc : special_vision_vector ) {
         if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
             for( enchantment::special_vision_descriptions desc : struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
@@ -1142,7 +1142,7 @@ bool enchant_cache::get_vision_distance( const Character &guy, const Creature &c
     const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
     const double distance = rl_dist_exact( guy.pos(), critter.pos() );
 
-    for( const special_vision struc : special_vision_vector ) {
+    for( const special_vision &struc : special_vision_vector ) {
         if( struc.range >= distance && struc.condition( d ) ) {
             return true;
         }
@@ -1157,7 +1157,7 @@ std::string enchant_cache::get_vision_description( const Character &guy,
     const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
     const double distance = rl_dist_exact( guy.pos(), critter.pos() );
 
-    for( const  special_vision struc : special_vision_vector ) {
+    for( const  special_vision &struc : special_vision_vector ) {
         if( struc.range >= distance && struc.condition( d ) ) {
             for( enchantment::special_vision_descriptions  desc : struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
@@ -1176,7 +1176,7 @@ std::string enchant_cache::get_vision_tile( const Character &guy, const Creature
     const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
     const double distance = rl_dist_exact( guy.pos(), critter.pos() );
 
-    for( const special_vision struc : special_vision_vector ) {
+    for( const special_vision &struc : special_vision_vector ) {
         if( struc.range >= distance && struc.condition( d ) ) {
             for( enchantment::special_vision_descriptions desc : struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
