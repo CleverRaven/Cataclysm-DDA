@@ -329,7 +329,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP STEALTH configuration" },
+    "name": { "str_sp": "HWP blackout configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "300blk" ],
