@@ -1065,7 +1065,8 @@ std::string enchantment::get_vision_description( const Character &guy,
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
-            for( enchantment::special_vision_descriptions desc : struc.special_vision_descriptions_vector ) {
+            for( const enchantment::special_vision_descriptions &desc :
+                 struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
                     return desc.description;
                 }
@@ -1085,7 +1086,8 @@ std::string enchantment::get_vision_tile( const Character &guy, const Creature &
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
-            for( enchantment::special_vision_descriptions desc : struc.special_vision_descriptions_vector ) {
+            for( const enchantment::special_vision_descriptions &desc :
+                 struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
                     return desc.id;
                 }
@@ -1159,7 +1161,8 @@ std::string enchant_cache::get_vision_description( const Character &guy,
 
     for( const  special_vision &struc : special_vision_vector ) {
         if( struc.range >= distance && struc.condition( d ) ) {
-            for( enchantment::special_vision_descriptions  desc : struc.special_vision_descriptions_vector ) {
+            for( const enchantment::special_vision_descriptions  &desc :
+                 struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
                     return desc.description;
                 }
@@ -1178,7 +1181,8 @@ std::string enchant_cache::get_vision_tile( const Character &guy, const Creature
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.range >= distance && struc.condition( d ) ) {
-            for( enchantment::special_vision_descriptions desc : struc.special_vision_descriptions_vector ) {
+            for( const enchantment::special_vision_descriptions &desc :
+                 struc.special_vision_descriptions_vector ) {
                 if( desc.condition( d ) ) {
                     return desc.id;
                 }
