@@ -322,7 +322,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) || !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__) || !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
