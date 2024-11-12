@@ -3,7 +3,7 @@
     "abstract": "demon_spider_base",
     "type": "MONSTER",
     "name": "base demon spider",
-    "description": "abstract demon spider. you should't see this",
+    "description": "abstract demon spider. you shouldn't see this",
     "hp": 45,
     "volume": "30 L",
     "weight": "40750 g",
