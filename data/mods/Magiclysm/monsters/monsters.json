@@ -193,15 +193,8 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "harvest": "mammal_large_parabolan_wool",
     "dissect": "dissect_cattle_sample_small",
-	"weakpoint_sets": [
-      "wps_animal_quadruped"
-    ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_ungulate"
-    ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_hunllef_lamb" }, "baby_count": 1, "baby_timer": 275 },
     "//": "Sheep are seasonal breeders. The natural sexual season is positioned so that lambs will be born in the spring when the weather is warmer and grass is available.",
     "baby_flags": [ "SPRING" ],
