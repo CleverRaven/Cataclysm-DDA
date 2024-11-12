@@ -285,7 +285,12 @@ std::vector<const recipe *> recipe_subset::search(
 
     std::vector<const recipe *> res;
     size_t i = 0;
+    ctxt.register_action( "QUIT" );
+    ctxt.set_timeout( 10 );
     for( const recipe *r : recipes ) {
+        if( ctxt.handle_input() == "QUIT" ) {
+            return res;
+        }
         if( progress_callback ) {
             progress_callback( i, recipes.size() );
         }
