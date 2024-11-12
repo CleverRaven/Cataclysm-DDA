@@ -23,7 +23,7 @@
     "id": "mon_demon_spiderling",
     "type": "MONSTER",
     "name": "demon spiderling",
-	"copy-from": "demon_spider_base",
+    "copy-from": "demon_spider_base",
     "description": "Despite it being the size of a small dog, you can tell this is a very young spider.  Its red color is why you gave it this name; you have never seen this creature before the Cataclysm.  It is quick, and its large fangs drip with venom.",
     "diff": 2,
     "aggression": -10,
