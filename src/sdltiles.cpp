@@ -277,13 +277,9 @@ static void WinCreate()
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
-#endif
-
-#if defined(__IPHONEOS__)
-    window_flags = SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
@@ -553,6 +549,11 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
             dstrect.h = vdf_bottom - dstrect.y;
         }
     } */
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.x: " << dstrect.x;
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.y: " << dstrect.y;
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.w: " << dstrect.w;
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.h: " << dstrect.h;
+
     return dstrect;
 }
 #endif
