@@ -97,7 +97,7 @@
     "name": { "str": "salamagman hand axe" },
     "symbol": ";",
     "color": "light_gray",
-    "description": "A one handed combat axe, the blade is slightly larger than a tomahawk.",
+    "description": "A one-handed combat axe, the blade is slightly larger than a tomahawk.",
     "material": [ "tezcatlipocas_blood" ],
     "volume": "750 ml",
     "weight": "792 g",
