@@ -383,7 +383,7 @@
         "math": [
           "u_lilin_mesmerize_duration",
           "=",
-          "rng( ( 48 + (n_vitamin('lilin_ruach_vitamin') / 13 ) + (npc_has_trait('BEAUTIFUL3') * rng(60,180) ) ),( 96 + (n_vitamin('lilin_ruach_vitamin') / 27 ) + (npc_has_trait('BEAUTIFUL3') * rng(120,360) ) ) )"
+          "rng( ( 48 + (n_vitamin('lilin_ruach_vitamin') / 13 ) + (n_has_trait('BEAUTIFUL3') * rng(60,180) ) ),( 96 + (n_vitamin('lilin_ruach_vitamin') / 27 ) + (n_has_trait('BEAUTIFUL3') * rng(120,360) ) ) )"
         ]
       },
       {
