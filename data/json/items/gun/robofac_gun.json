@@ -337,7 +337,7 @@
     "dispersion_modifier": 12,
     "loudness_modifier": -75,
     "overwrite_min_cycle_recoil": 1200,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long, thick, heavy barrel with \".300 BLK STEALTH\" stamped into the metal, and an integrated suppressor sitting flush with it. It feeds from 5.56 magazines."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \".300 BLACKOUT\" stamped into the metal, and a large integrated suppressor.  It feeds from 5.56 magazines."
   },
   {
     "id": "robofac_gun_40mm",
