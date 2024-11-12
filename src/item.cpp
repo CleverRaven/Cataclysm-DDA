@@ -341,6 +341,12 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         activate();
     }
 
+    if( has_flag( flag_ENERGY_SHIELD ) ) {
+        const islot_armor *sh = find_armor_data();
+        set_var( "npctalk_var_MAX_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
+        set_var( "npctalk_var_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
+    }
+
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
         for( item_pocket *pocket : contents.get_all_standard_pockets() ) {
             pocket->settings.set_collapse( true );
@@ -5458,11 +5464,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     std::map<damage_type_id, int> dmg_types;
     for( const damage_type &dt : damage_type::get_all() ) {
-        if( dt.physical && dt.melee_only ) {
-            int val = damage_melee( dt.id );
-            if( val ) {
-                dmg_types.emplace( dt.id, val );
-            }
+        int val = damage_melee( dt.id );
+        if( val ) {
+            dmg_types.emplace( dt.id, val );
         }
     }
 
@@ -5474,9 +5478,6 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
         }
         for( const auto &dmg_type : dmg_types ) {
-            if( !dmg_type.first->melee_only ) {
-                continue;
-            }
             info.emplace_back( "BASE", sep + uppercase_first_letter( dmg_type.first->name.translated() ) + ": ",
                                "", iteminfo::no_newline, dmg_type.second );
             sep = space;
@@ -6368,7 +6369,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
-    } else if( is_relic() && !has_flag( flag_MUNDANE ) ) {
+    } else if( ( is_relic() && !has_flag( flag_MUNDANE ) ) || has_flag( flag_RELIC_PINK ) ) {
         ret = c_pink;
     } else if( is_bionic() ) {
         if( player_character.is_installable( this, false ).success() &&
@@ -9040,9 +9041,25 @@ int item::repairable_levels() const
            : damage() > degradation(); // partial level of damage can still be repaired
 }
 
-item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &premitigated,
+        const bodypart_id &bp,
         double enchant_multiplier )
 {
+    //Energy shields aren't damaged by attacks but do get their health variable reduced.  They are also only
+    //damaged by the damage types they actually protect against.
+    if( has_var( "npctalk_var_ENERGY_SHIELD_HP" ) && resist( du.type, false, bp ) > 0.0f ) {
+        double shield_hp = get_var( "npctalk_var_ENERGY_SHIELD_HP", 0.0 );
+        shield_hp -= premitigated.amount;
+        set_var( "npctalk_var_ENERGY_SHIELD_HP", shield_hp );
+        if( shield_hp > 0 ) {
+            return armor_status::UNDAMAGED;
+        } else {
+            //Shields deliberately ignore the enchantment multiplier, as the health mechanic wouldn't make sense otherwise.
+            mod_damage( itype::damage_scale * 6 );
+            return armor_status::DESTROYED;
+        }
+    }
+
     if( has_flag( flag_UNBREAKABLE ) || enchant_multiplier <= 0.0f ) {
         return armor_status::UNDAMAGED;
     }
@@ -9053,8 +9070,9 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
-    // Fragile items take damage if the block more than 15% of their armor value
-    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
+    // Fragile items take damage if they block more than 15% of their armor value, this uses the pre-mitigated damage.
+    if( has_flag( flag_FRAGILE ) &&
+        premitigated.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
         return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
                armor_status::DAMAGED;
     }
