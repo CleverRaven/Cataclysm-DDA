@@ -159,6 +159,7 @@ Debug spawn NPC by class id
 EOCs modifying calories track spent calories
 NPC factions get mad if you mess with their property by smashing or deconstructing it etc
 obsolete generic NPC common classes; use the avatar character generator instead
+Allow PCs/NPCs to move diagonally during overmap pathfinding
 
 
 ## Content:
@@ -442,6 +443,11 @@ Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
 Missions track when they were completed/failed
 Add activity to continually bash something until it's destroyed
+Option to set all of a companion's job priorities at once
+Replace popups with informative message when choosing point(s) on the map
+The mission UI can scroll to read longer description
+Added information to crafting menu about crafting speed modifier gained by mutations
+Improved text wrapping in spellbook and spellcasting menus
 
 
 ## Mods:
@@ -712,6 +718,9 @@ Prevent Paraclesians from being born with a drivers license
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
 [DinoMod] eolambia
+[Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
+[Xedra Evolved] Only humans can learn dream magick
+[Xedra Evolved] Add (very small) chance of being attacked by a lilit in your sleep
 
 
 ## Balance:
@@ -811,6 +820,7 @@ Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
+NPCs can funk out to music, too.
 
 
 ## Bugfixes:
@@ -1102,6 +1112,8 @@ NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 Fix lag examining large stacks of crafted items
 Reduce unnecessary/duplicate checks for dangerous tiles
+Cache the absolute map square position of the first submap
+Cache mutation trait flags
 
 
 ## Infrastructure:
@@ -1186,6 +1198,11 @@ Mod Compatibility 2: Prevent Error from duplicate ids within mod_interactions fo
 Remove duplicated code to generate origin string
 Add controlling_vehicle EOC condition
 debug dialogue + talk_topic menus
+Tutorial content moved to a mod, keybind snippets work outside of tutorial
+Spell activated EoCs are passed the target as a context val location variable spell_location
+terrain/furniture: code deduplication and improved copy-from support
+Add a new event for when worn armor is detroyed by damage.
+allow furniture/terrain copy-from for symbol, color
 
 ## Build:
 Support Mac arm64 build
@@ -1208,6 +1225,7 @@ stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
 Fixed Linux experimental build automation issues caused by SDL dependencies
+Allow the game to build on OSX
 
 
 ## I18N and A11Y:
@@ -1222,6 +1240,8 @@ Dont extract monster guns and spells for translation
 Dont extract abstract names for translation
 Extract blood analysis descs and end screen text
 Dont extract abstract monsters and spells from data/json/monsters/
+Add Portuguese translation
+Obsolete strings now have a comment with an explanation
 
 
 # 0.G (Gaiman)

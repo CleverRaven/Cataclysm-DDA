@@ -1130,7 +1130,7 @@ void enchant_cache::activate_passive( Character &guy ) const
     if( emitter ) {
         get_map().emit_field( guy.pos_bub(), *emitter );
     }
-    for( const std::pair<efftype_id, int> eff : ench_effects ) {
+    for( const std::pair<const efftype_id, int> &eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :

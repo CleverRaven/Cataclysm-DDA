@@ -48,15 +48,10 @@
     "name": { "str": "frostrimed estoc" },
     "copy-from": "mirror_march_estoc",
     "description": "This sword is covered in shifting frost and seems to move of its own volition in your hands.",
+    "extend": { "flags": [ "RELIC_PINK" ] },
+    "relative": { "melee_damage": { "cold": 9 } },
     "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "condition": "ALWAYS",
-          "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
-          "values": [ { "value": "ATTACK_SPEED", "add": -20 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {

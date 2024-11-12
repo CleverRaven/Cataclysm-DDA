@@ -703,7 +703,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     // Add martial arts
     learn_ma_styles_from_traits();
     // Add spells for magiclysm mod
-    for( std::pair<spell_id, int> spell_pair : myclass->_starting_spells ) {
+    for( const std::pair<const spell_id, int> &spell_pair : myclass->_starting_spells ) {
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level( *this ) ) {
@@ -1768,7 +1768,7 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             const auto &points_to_check = wrapped_veh.v->immediate_path();
-            point p( get_map().getglobal( pos_bub() ).xy().raw() );
+            point_abs_ms p( get_map().getglobal( pos_bub() ).xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }

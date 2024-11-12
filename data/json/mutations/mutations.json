@@ -3610,7 +3610,7 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 4,
-    "enchantments": [ { "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ],
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
     "prereqs": [ "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ]
@@ -3804,7 +3804,12 @@
     "points": 1,
     "vitamin_cost": 60,
     "visibility": 1,
-    "enchantments": [ { "melee_damage_bonus": [ { "type": "stab", "add": 0.5 } ] } ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "math": [ "u_encumbrance('hand_l') + u_encumbrance('hand_r') <= 0" ] } ] },
+        "melee_damage_bonus": [ { "type": "stab", "add": 0.5 } ]
+      }
+    ],
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
@@ -4195,7 +4200,7 @@
     "vitamin_cost": 60,
     "visibility": 5,
     "ugliness": 4,
-    "enchantments": [ { "melee_damage_bonus": [ { "type": "acid", "add": { "math": [ "rng(2, 3)" ] } } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "acid", "add": 3 } ] } ],
     "description": "The skin on your hands is now a mucous membrane that produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
     "prereqs": [ "SLIMY" ],
     "category": [ "SLIME" ],
@@ -8000,6 +8005,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "attacks": [
       {
@@ -8024,6 +8030,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "active": true,
     "cost": 90,
