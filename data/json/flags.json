@@ -2294,6 +2294,11 @@
     "inherit": false
   },
   {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
+  },
+  {
     "id": "ROBOFAC_ROBOT_MEDIUM",
     "type": "json_flag",
     "info": "A medium drone sold by Hub 01."
