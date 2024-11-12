@@ -596,10 +596,10 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": [ "223" ],
     "flags": [ "MAG_BULKY" ],
     "mag_jam_mult": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100, "300blk": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   },
   {
     "id": "robofac60_123ln",
