@@ -673,8 +673,8 @@ There are two possible syntaxes.  The first is by defining an enchantment object
         "descriptions": [ // if condition is true, this will assign a dedicated id (used for tiles) and text, depending on text_condition
           { 
             "id": "infrared_creature_tiny", 
-            "text_condition": { "math": [ "n_val('size') == 1" ] }, // be sure to not use condition, that can change in between moves (like any math with random result, `rand(1)` etc); 
-                        // while text with tags is stored and re-evaluated only when cursor chages it's position, tiles are re-evaluated every frame, even on pause
+            "text_condition": { "math": [ "n_val('size') == 1" ] }, // be sure to not use condition that can change in between moves (like any math with random result, `rand(1)` etc); 
+                        // while text with tags is stored and re-evaluated only when cursor changes its position, tiles are re-evaluated every frame, even on pause
             "text": "Message 1."
           },
           {

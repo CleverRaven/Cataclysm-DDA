@@ -66,7 +66,7 @@
           {
             "id": "infrared_creature_medium",
             "text_condition": { "math": [ "n_val('size') == 3" ] },
-            "text": "You see a medium figure radiating heat"
+            "text": "You see a medium figure radiating heat."
           },
           {
             "id": "infrared_creature_large",
@@ -81,7 +81,7 @@
           {
             "id": "infrared_creature_medium",
             "text_condition": { "math": [ "true" ] },
-            "text": "You see a figure radiating heat"
+            "text": "You see a figure radiating heat."
           }
         ]
       }
@@ -109,7 +109,7 @@
           {
             "id": "infrared_creature_medium",
             "text_condition": { "math": [ "n_val('size') == 3" ] },
-            "text": "You see a medium figure radiating heat"
+            "text": "You see a medium figure radiating heat."
           },
           {
             "id": "infrared_creature_large",
@@ -124,7 +124,7 @@
           {
             "id": "infrared_creature_medium",
             "text_condition": { "math": [ "true" ] },
-            "text": "You see a figure radiating heat"
+            "text": "You see a figure radiating heat."
           }
         ]
       }
@@ -139,7 +139,6 @@
           { "u_has_effect": "smoke", "bodypart": "mouth" },
           { "u_has_effect": "asthma" },
           { "u_has_effect": "tpollen" },
-          { "u_has_effect": "asthma" },
           { "u_has_effect": "hay_fever" },
           "u_is_underwater"
         ]
