@@ -1,32 +1,23 @@
 [
   {
-	"abstract": "demon_spider_base",
-	"type": "MONSTER",
-	"name": "base demon spider",
-	"description": "abstract demon spider. you should't see this",
-	"hp": 45,
-	"volume": "30 L",
-	"weight": "40750 g",
-	"symbol": "s",
-	"color": "red",
-	"default_faction": "demon_spider",
-	"bodytype": "spider",
-	"speed": 150,
-	"species": [ "DEMON_SPIDER" ],
-	"material": [ "iflesh", "demon_chitin" ],
-	"harvest": "demon_spider",
-	"flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
-	"weakpoint_sets": [
-      "wps_arthropod",
-      "wps_arthropod_spider"
-    ],
-	"families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_basic_bug",
-      "prof_wp_spider"
-	]
+    "abstract": "demon_spider_base",
+    "type": "MONSTER",
+    "name": "base demon spider",
+    "description": "abstract demon spider. you should't see this",
+    "hp": 45,
+    "volume": "30 L",
+    "weight": "40750 g",
+    "symbol": "s",
+    "color": "red",
+    "default_faction": "demon_spider",
+    "bodytype": "spider",
+    "speed": 150,
+    "species": [ "DEMON_SPIDER" ],
+    "material": [ "iflesh", "demon_chitin" ],
+    "harvest": "demon_spider",
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ]
   },
   {
     "id": "mon_demon_spiderling",
