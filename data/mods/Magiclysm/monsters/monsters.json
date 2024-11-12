@@ -951,15 +951,8 @@
     "vision_night": 15,
     "harvest": "zombie_animal",
     "//": "Not a zombie, but otyughs are so filthy and diseased their meat is tainted anyway.",
-	"weakpoint_sets": [
-      "wps_animal_quadruped"
-    ],
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_ungulate"
-    ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "grab_strength": 60,
     "special_attacks": [
       {
