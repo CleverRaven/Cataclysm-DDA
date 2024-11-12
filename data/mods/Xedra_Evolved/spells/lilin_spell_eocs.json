@@ -78,12 +78,13 @@
                 "if": {
                   "or": [
                     { "u_has_species": "CYBORG" },
-                    { "u_has_species": "MAMMAL" },
-                    { "u_has_species": "AMPHIBIAN" },
-                    { "u_has_species": "BIRD" },
-                    { "u_has_species": "REPTILE" },
-                    { "u_has_species": "FISH" },
-                    { "u_has_species": "KRAKEN" }
+                    { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "u_has_species": "KRAKEN" },
+                    { "test_eoc": "EOC_CONDITIONS_LILIN_DINOMOD_RUACH_DRAIN" }
                   ]
                 },
                 "then": [
@@ -110,7 +111,11 @@
                       "type": "good"
                     },
                     { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
-                  ]
+                  ],
+                  "else": {
+                    "npc_message": "You try to absorb the <u_name>'s ruach but get only fragments.  Not enough to for a mouthful.",
+                    "type": "bad"
+                  }
                 }
               }
             }

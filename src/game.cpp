@@ -287,6 +287,7 @@ static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_WATERWALKING( "WATERWALKING" );
 
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
+static const furn_str_id furn_f_vine_up( "f_vine_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -312,6 +313,7 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
+static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
@@ -1723,7 +1725,7 @@ units::temperature_delta get_convection_temperature( const tripoint &location )
                                         units::from_fahrenheit_delta( fd_fire->get_intensity_level().convection_temperature_mod ) :
                                         units::from_kelvin_delta( 0 );
     // Modifier from fields
-    for( auto fd : here.field_at( location ) ) {
+    for( auto &fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
             lava_mod = units::from_kelvin_delta( 0 );
@@ -1955,7 +1957,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
                 if( rate.success() ) {
                     best_rate = hint_rating::good;
                     return VisitResponse::ABORT;
-                } else if( rate.value() != INEDIBLE || rate.value() != INEDIBLE_MUTATION ) {
+                } else if( rate.value() != INEDIBLE && rate.value() != INEDIBLE_MUTATION ) {
                     best_rate = hint_rating::iffy;
                 }
             }
@@ -12396,6 +12398,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( rope_ladder ) {
         if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
             here.furn_set( u.pos_bub(), furn_f_web_up );
+        } else if( u.has_flag( json_flag_VINE_RAPPEL ) ) {
+            here.furn_set( u.pos_bub(), furn_f_vine_up );
         } else {
             here.furn_set( u.pos_bub(), furn_f_rope_up );
         }

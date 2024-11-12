@@ -2404,7 +2404,7 @@ struct mutable_overmap_phase_remainder {
     ) const {
         int context_mandatory_joins_shortfall = 0;
 
-        for( const mutable_overmap_piece_candidate piece : rule.pieces( origin, dir ) ) {
+        for( const mutable_overmap_piece_candidate &piece : rule.pieces( origin, dir ) ) {
             if( !overmap::inbounds( piece.pos ) ) {
                 return std::nullopt;
             }
@@ -2421,7 +2421,7 @@ struct mutable_overmap_phase_remainder {
 
         std::vector<om_pos_dir> suppressed_joins;
 
-        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> p :
+        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> &p :
              rule.outward_joins( origin, dir ) ) {
             const om_pos_dir &pos_d = p.first;
             const mutable_overmap_terrain_join &ter_join = *p.second;
@@ -2800,7 +2800,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             if( rule ) {
                 const tripoint_om_omt &satisfy_origin = satisfy_result.origin;
                 om_direction::type rot = satisfy_result.dir;
-                for( const mutable_overmap_piece_candidate piece : rule->pieces( satisfy_origin, rot ) ) {
+                for( const mutable_overmap_piece_candidate &piece : rule->pieces( satisfy_origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
                     add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
                 }
@@ -6620,7 +6620,7 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
     // track which subgraph each point belongs to
     std::vector<int> subgraphs( points.size(), -1 );
 
-    for( edge candidate : edges ) {
+    for( const edge &candidate : edges ) {
         const size_t i = candidate.second.first;
         const size_t j = candidate.second.second;
         bool connect = false;
