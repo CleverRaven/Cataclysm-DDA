@@ -14,7 +14,7 @@
     "name": { "str": "Slice n' Dice" },
     "points": 0,
     "description": "You've become very skilled with cutting weapons of all sorts, and know how to use them better.",
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "cut", "add": 5 } ] } ],
+    "enchantments": [ { "condition": { "math": [ "u_melee_damage('cut') > 1" ] }, "melee_damage_bonus": [ { "type": "cut", "add": 5 } ] } ],
     "category": [ "perk" ]
   },
   {
@@ -23,7 +23,9 @@
     "name": { "str": "Bash n' Mash" },
     "points": 0,
     "description": "You've become very skilled with blunt instruments of all sorts, and know how to use them better.",
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "bash", "add": 5 } ] } ],
+    "enchantments": [
+      { "condition": { "math": [ "u_melee_damage('bash') > 1" ] }, "melee_damage_bonus": [ { "type": "bash", "add": 5 } ] }
+    ],
     "category": [ "perk" ]
   },
   {
@@ -32,7 +34,9 @@
     "name": { "str": "Knifey" },
     "points": 0,
     "description": "You're very in tune with the ways of stabbing somebody.",
-    "enchantments": [ { "melee_damage_bonus": [ { "type": "stab", "add": 5 } ] } ],
+    "enchantments": [
+      { "condition": { "math": [ "u_melee_damage('stab') > 1" ] }, "melee_damage_bonus": [ { "type": "stab", "add": 5 } ] }
+    ],
     "category": [ "perk" ]
   },
   {
