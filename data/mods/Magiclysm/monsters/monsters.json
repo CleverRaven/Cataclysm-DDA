@@ -630,7 +630,7 @@
     "vision_day": 83,
     "vision_night": 60,
     "harvest": "exempt",
-	"weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "weakpoints": [
       {
         "id": "wing",
