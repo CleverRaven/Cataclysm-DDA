@@ -25,12 +25,8 @@
     "path_settings": { "max_dist": 25 },
     "harvest": "owlbear",
     "dissect": "dissect_owlbear_sample_large",
-	"weakpoint_sets": [ "wps_animal_quadruped" ],
-	"families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology"
-    ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_type": { "baby_egg": "egg_owlbear_rock" }, "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "//grab": "Assuming they are grabbing you with their paws",
