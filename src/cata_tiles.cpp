@@ -4037,7 +4037,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     // Check if the player can actually see the critter. We don't care if
     // it's via infrared or not, just whether or not they're seen. If not,
     // we can bail.
-    if( !you.sees( *critter ) && !( you.sees_with_specials( *critter ) ) ) {
+    if( !you.sees( *critter ) && !you.sees_with_specials( *critter ) ) {
         return false;
     }
 
