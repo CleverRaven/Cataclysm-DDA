@@ -415,6 +415,12 @@ struct islot_armor {
          */
         int warmth = 0;
         /**
+         * The max health of an energy shield type armor.  Value is completely ignored if the
+         * ENERGY_SHIELD flag is not set.  This value and "energy_shield_hp" are then stored
+         * through item variables so that they might be manipulated with EOCS and magic.
+         */
+        int max_energy_shield_hp = 0;
+        /**
          * Whether this is a power armor item.
          */
         bool power_armor = false;
