@@ -540,7 +540,7 @@
     "id": "quiver_simple_cloth",
     "type": "ARMOR",
     "name": { "str": "simple cloth quiver" },
-    "description": "A simple quiver made out of cloth that can be adjusted to hold various types of arrows, bolts and spears of different lengths.  Takes slightly longer to pull ammunition from than a regular quiver.  Use insert to store arrows, bolts, fishing spears or atlatl spears.",
+    "description": "A simple quiver made out of cloth that can be adjusted to hold various types of arrows, bolts, and spears of different lengths.  Takes slightly longer to pull ammunition from than a regular quiver.  Use insert to store arrows, bolts, fishing spears, or atlatl spears.",
     "weight": "200 g",
     "volume": "500 ml",
     "price": "5 USD",
