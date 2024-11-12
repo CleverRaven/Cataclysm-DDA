@@ -2431,6 +2431,7 @@
     "id": "mon_leptoceratops",
     "name": { "str_sp": "leptoceratops" },
     "copy-from": "mon_aquilops",
+    "looks_like": "mon_triceratops",
     "volume": "100 L",
     "weight": "100 kg",
     "stomach_size": 2000,
