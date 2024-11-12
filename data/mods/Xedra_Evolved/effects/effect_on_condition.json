@@ -17,11 +17,9 @@
     "recurrence": [ "8 hours", "72 hours" ],
     "condition": { "and": [ { "one_in_chance": 6 }, { "not": "is_day" }, "u_can_see", "u_is_outside" ] },
     "effect": [ 
-      { "if": { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ],
-        "then": { "u_message": "XE_NIGHT_MESSAGES_CLEAR_1", "snippet": true } 
-      },
-      { "if": { "is_weather": "cloudy" },
-        "then": { "u_message": "XE_NIGHT_MESSAGES_CLOUDY_1", "snippet": true } 
+      { "if": { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] },
+        "then": { "u_message": "XE_NIGHT_MESSAGES_CLEAR_1", "snippet": true },
+        "else": { "u_message": "XE_NIGHT_MESSAGES_CLOUDY_1", "snippet": true }
       }
     ]
   },
