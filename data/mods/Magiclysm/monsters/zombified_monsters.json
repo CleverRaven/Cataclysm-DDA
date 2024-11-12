@@ -56,7 +56,7 @@
     "dodge": 5,
     "vision_night": 12,
     "harvest": "orc",
-	"weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 24, "cut": 31, "bullet": 23 }
