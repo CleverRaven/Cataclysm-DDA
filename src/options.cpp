@@ -4245,7 +4245,7 @@ void options_manager::update_global_locale()
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
         } else if( lang == "pt" ) {
-            std::locale::global( std::locale( "pt.UTF-8" ) );
+            std::locale::global( std::locale( "pt_PT.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {
