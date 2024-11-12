@@ -40,8 +40,8 @@
   {
     "id": "mon_demon_spider",
     "type": "MONSTER",
-	"name": "demon spider",
-	"copy-from": "demon_spider_base",
+    "name": "demon spider",
+    "copy-from": "demon_spider_base",
     "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscous black liquid that sizzles when it touches the ground.",
     "diff": 7,
     "weight": "125 kg",
