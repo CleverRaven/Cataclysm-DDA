@@ -370,13 +370,13 @@
     "value": 0,
     "count": 1,
     "goal_condition": {
-      "or": [
-        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      "u_has_items_sum": [
+        { "item": "egg_spider_cellar", "amount": 1 },
+        { "item": "egg_spider_jumping", "amount": 1 },
+        { "item": "egg_spider_trapdoor", "amount": 1 },
+        { "item": "egg_spider_web", "amount": 1 },
+        { "item": "egg_spider_widow", "amount": 1 },
+        { "item": "egg_spider_wolf", "amount": 1 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -397,7 +397,16 @@
       "effect": [
         { "u_spawn_item": "270win_jsp", "count": 4 },
         { "u_spawn_item": "icon", "count": 5 },
-        { "run_eocs": "EOC_MISSION_GODCO_TROPHY2_done" }
+        {
+          "u_consume_item_sum": [
+            { "item": "egg_spider_cellar", "amount": 1 },
+            { "item": "egg_spider_jumping", "amount": 1 },
+            { "item": "egg_spider_trapdoor", "amount": 1 },
+            { "item": "egg_spider_web", "amount": 1 },
+            { "item": "egg_spider_widow", "amount": 1 },
+            { "item": "egg_spider_wolf", "amount": 1 }
+          ]
+        }
       ],
       "opinion": { "trust": 2, "value": 2 }
     },
