@@ -53,7 +53,7 @@
       { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
     ]
   },
-    {
+  {
     "id": "demon_spider_queen",
     "type": "harvest",
     "//": "separate harvest entry for future special alchemical items",
