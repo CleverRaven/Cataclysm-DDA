@@ -754,5 +754,16 @@
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ],
     "spells_learned": [ [ "lilin_instant_heal_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_PREVENT_DEATH_TRIGGER",
+    "name": { "str": "All Their Days They Eat in Darkness" },
+    "points": 15,
+    "description": "When taking fatal damage, instead of dying you assume the form of an owl, allowing you to fly away from danger and recover.  This does not function during the day, if you are out of ruach, or if you are killed by fire.",
+    "prereqs": [ "LILIN_INSTANT_HEAL" ],
+    "prereqs2": [ "LILIN_OWL_FORM_PASS_THROUGH_WALLS" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
   }
 ]
