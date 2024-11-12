@@ -181,11 +181,7 @@
     "vision_night": 10,
     "path_settings": { "max_dist": 3, "avoid_traps": false, "avoid_sharp": false },
     "harvest": "zombie_fur",
-	"families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology"
-    ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 8 }, [ "scratch", 6 ] ],
