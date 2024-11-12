@@ -486,16 +486,8 @@
     "dodge": 6,
     "harvest": "mammal_tiny",
     "dissect": "dissect_batrachian_sample_single",
-	"families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_basic_amphibian"
-    ],
-    "weakpoint_sets": [
-      "wps_amphibian_body",
-      "wps_amphibian_frog"
-    ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
+    "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
