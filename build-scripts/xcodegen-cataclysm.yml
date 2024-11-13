@@ -34,8 +34,6 @@ targets:
         UISupportedInterfaceOrientations: 
           - UIInterfaceOrientationLandscapeLeft 
           - UIInterfaceOrientationLandscapeRight
-          - UIInterfaceOrientationPortraitUpsideDown
-          - UIInterfaceOrientationPortrait
         UILaunchStoryboardName: LaunchScreen
         CFBundleIconFile: AppIcon.icns
         UIApplicationSupportsIndirectInputEvents: true
@@ -47,7 +45,6 @@ targets:
         buildPhase: sources
         includes:
           - "**/swift/*.swift"
-          - "**/swift/*.h"
           - "**/third-party/imgui/*.cpp"
           - "**/third-party/imgui/*.h"
           - "*.cpp"
@@ -99,7 +96,6 @@ targets:
         LIBRARY_SEARCH_PATHS:
           - ../build/libs/
           - $(inherited)
-        SWIFT_OBJC_BRIDGING_HEADER: "../src/swift/CataclysmExperimental-Bridging-Header.h"
         GCC_PREPROCESSOR_DEFINITIONS: 
           - GIT_VERSION 
           - TILES 
