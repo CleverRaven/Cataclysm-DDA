@@ -4622,7 +4622,7 @@ void map::batter( const tripoint_bub_ms &p, int power, int tries, const bool sil
 void map::crush( const tripoint_bub_ms &p )
 {
     creature_tracker &creatures = get_creature_tracker();
-    Character *crushed_player = creatures.creature_at<Character>( p );
+    Character *crushed_player = creatures.creature_at<Character>( this->getglobal( p ) );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
