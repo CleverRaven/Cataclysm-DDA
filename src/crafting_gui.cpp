@@ -1589,7 +1589,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 static_popup popup;
                 std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
                 static constexpr std::chrono::milliseconds update_interval( 500 );
-
+                // Get a key description for the cancel button.
+                // Rather than propagating the context, create a new one here as a one-off.
+                // See register_action( "QUIT" ) in recipe_dictionary.cpp (line 289 when this was commited).
+                input_context dummy;
+                dummy.register_action( "QUIT" );
+                std::string cancel_btn = dummy.get_button_text( "QUIT", _( "Cancel" ) );
                 std::function<void( size_t, size_t )> progress_callback =
                 [&]( size_t at, size_t out_of ) {
                     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -1598,7 +1603,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     }
                     last_update = now;
                     double percent = 100.0 * at / out_of;
-                    popup.message( _( "Searching… %3.0f%%\n" ), percent );
+                    popup.message( _( "Searching… %3.0f%%\n%s\n" ), percent, cancel_btn );
                     ui_manager::redraw();
                     refresh_display();
                     inp_mngr.pump_events();
