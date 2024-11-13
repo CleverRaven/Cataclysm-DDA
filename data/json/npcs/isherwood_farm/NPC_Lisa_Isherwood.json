@@ -91,7 +91,7 @@
         "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", ">=", "time('1 h')" ] } ]
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa >= time('1 h')" ] } ]
         }
       },
       {

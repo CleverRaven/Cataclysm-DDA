@@ -1285,21 +1285,21 @@
         "run_eocs": [
           {
             "id": "large_printout_portal_storm_data_ping",
-            "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+            "condition": { "math": [ "u_portal_storm_record >= 25" ] },
             "effect": [ { "u_message": "The NRE recorder emits a three beep sequence!", "type": "info" } ],
             "false_effect": [
               {
                 "run_eocs": [
                   {
                     "id": "medium_printout_portal_storm_data_ping",
-                    "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+                    "condition": { "math": [ "u_portal_storm_record >= 3" ] },
                     "effect": [ { "u_message": "The NRE recorder emits a two beep sequence!", "type": "info" } ],
                     "false_effect": [
                       {
                         "run_eocs": [
                           {
                             "id": "small_printout_portal_storm_data_ping",
-                            "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+                            "condition": { "math": [ "u_portal_storm_record >= 1" ] },
                             "effect": [ { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
                           }
                         ]
@@ -1364,7 +1364,7 @@
       "run_eocs": [
         {
           "id": "large_printout_portal_storm_data",
-          "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+          "condition": { "math": [ "u_portal_storm_record >= 25" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "large_printout_portal_storm_data", "count": 1 },
@@ -1373,7 +1373,7 @@
         },
         {
           "id": "medium_printout_portal_storm_data",
-          "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+          "condition": { "math": [ "u_portal_storm_record >= 3" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "medium_printout_portal_storm_data", "count": 1 },
@@ -1382,7 +1382,7 @@
         },
         {
           "id": "small_printout_portal_storm_data",
-          "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+          "condition": { "math": [ "u_portal_storm_record >= 1" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "small_printout_portal_storm_data", "count": 1 },
@@ -1391,7 +1391,7 @@
         },
         {
           "id": "printout_nre_anomaly_data",
-          "condition": { "math": [ "u_generic_nre_anomaly", ">=", "1" ] },
+          "condition": { "math": [ "u_generic_nre_anomaly >= 1" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "nre_anomaly_printout_data", "count": { "u_val": "generic_nre_anomaly", "default": 1 } },

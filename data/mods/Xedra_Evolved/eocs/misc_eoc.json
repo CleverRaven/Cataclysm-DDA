@@ -147,7 +147,7 @@
         "run_eocs": [
           {
             "id": "STORMWROUGHT_BLOOD_FULL_CHARGE",
-            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "25" ] },
+            "condition": { "math": [ "u_stormwrought_blood_charge >= 25" ] },
             "effect": [
               { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
               { "u_remove_item_with": "stormwrought_blood_itert" },
@@ -159,7 +159,7 @@
                 "run_eocs": [
                   {
                     "id": "STORMWROUGHT_BLOOD_HIGH_CHARGE",
-                    "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "10" ] },
+                    "condition": { "math": [ "u_stormwrought_blood_charge >= 10" ] },
                     "effect": [
                       {
                         "u_message": "The stormwrought blood boils intensely for a moment before returning to its inert state.",
@@ -171,7 +171,7 @@
                         "run_eocs": [
                           {
                             "id": "STORMWROUGHT_BLOOD_LOW_CHARGE",
-                            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "1" ] },
+                            "condition": { "math": [ "u_stormwrought_blood_charge >= 1" ] },
                             "effect": [ { "u_message": "The stormwrought blood boils a little, then becomes inert again.", "type": "info" } ]
                           }
                         ]

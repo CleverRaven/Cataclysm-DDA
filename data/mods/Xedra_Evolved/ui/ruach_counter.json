@@ -37,7 +37,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] },
             { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<", "241" ] }
           ]
         }
@@ -48,7 +48,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "241" ] },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 241" ] },
             { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<", "481" ] }
           ]
         }
@@ -59,7 +59,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "480" ] },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 480" ] },
             { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<", "1201" ] }
           ]
         }
@@ -70,7 +70,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1200" ] },
+            { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1200" ] },
             { "math": [ "u_vitamin('lilin_ruach_vitamin')", "<", "2401" ] }
           ]
         }
@@ -82,7 +82,7 @@
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
             { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
-            { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "2400" ] }
+            { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 2400" ] }
           ]
         }
       }

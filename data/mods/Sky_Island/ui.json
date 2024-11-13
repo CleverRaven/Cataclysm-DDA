@@ -69,7 +69,7 @@
         "id": "eight_left",
         "text": "+-+-+-+-+-+-+-+",
         "color": "green",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", ">=", "8" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft >= 8" ] } ] }
       },
       {
         "id": "seven_left",

@@ -136,7 +136,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_biokinesis" } }
               ]
             },
@@ -180,7 +180,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_clairsentience" } }
               ]
             },
@@ -228,7 +228,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_electrokinesis" } }
               ]
             },
@@ -273,7 +273,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_photokinesis" } }
               ]
             },
@@ -321,7 +321,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_pyrokinesis" } }
               ]
             },
@@ -365,7 +365,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_telekinesis" } }
               ]
             },
@@ -409,7 +409,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_telepathy" } }
               ]
             },
@@ -457,7 +457,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_teleportation" } }
               ]
             },
@@ -501,7 +501,7 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_vitakinesis" } }
               ]
             },
@@ -555,7 +555,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
     "effect": [
       {
         "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
@@ -582,7 +582,7 @@
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
         {
           "x_in_y_chance": {
             "x": {
@@ -667,7 +667,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
     "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "15" ] } ]
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
@@ -675,7 +675,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
     "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "20" ] } ]
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus') >= 20" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
@@ -687,7 +687,7 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]
@@ -700,7 +700,7 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_val('focus')", ">=", "15" ] }
+        { "math": [ "u_val('focus') >= 15" ] }
       ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]

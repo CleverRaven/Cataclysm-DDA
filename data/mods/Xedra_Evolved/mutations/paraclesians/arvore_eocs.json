@@ -521,13 +521,13 @@
     "type": "effect_on_condition",
     "id": "EOC_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
-    "condition": { "math": [ "u_calories()", ">=", "118000" ] },
+    "condition": { "math": [ "u_calories() >= 118000" ] },
     "effect": [  ],
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_SUN_FOODS_ON_KCAL_2",
-          "condition": { "and": [ { "math": [ "u_calories()", "<=", "179999" ] }, { "math": [ "u_calories()", ">=", "75000" ] } ] },
+          "condition": { "and": [ { "math": [ "u_calories()", "<=", "179999" ] }, { "math": [ "u_calories() >= 75000" ] } ] },
           "effect": [ { "math": [ "u_calories()", "+=", "7" ] } ],
           "false_effect": {
             "run_eocs": [
@@ -645,7 +645,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "ARVORE" },
-        { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "1" ] },
+        { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
         {
           "or": [
             { "not": { "u_know_recipe": "create_chair_wood_treesung" } },
@@ -731,7 +731,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_REDUCE_THIRST",
-    "condition": { "math": [ "u_val('thirst')", ">=", "-50" ] },
+    "condition": { "math": [ "u_val('thirst') >= -50" ] },
     "effect": [ { "math": [ "u_val('thirst')", "-=", "1" ] } ]
   },
   {

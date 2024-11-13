@@ -348,7 +348,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
-            { "math": [ "u_characters_nearby('radius': 50, 'attitude': 'any')", ">=", "15" ] }
+            { "math": [ "u_characters_nearby('radius': 50, 'attitude': 'any') >= 15" ] }
           ]
         }
       ]

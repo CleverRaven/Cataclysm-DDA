@@ -120,7 +120,7 @@
           "//": "Weapon will be concerned for you if you're significantly injured.",
           "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
           "else": {
-            "if": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
+            "if": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10) >= 1" ] } ] },
             "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
             "else": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" }
           }

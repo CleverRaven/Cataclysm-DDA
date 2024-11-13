@@ -65,7 +65,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_UNMUTE_BIRD",
-    "condition": { "math": [ "u_progress_unmute_bird", ">=", "7" ] },
+    "condition": { "math": [ "u_progress_unmute_bird >= 7" ] },
     "effect": [
       { "u_lose_trait": "MUTE_BIRD" },
       { "u_add_trait": "MUTE_BIRD_OK" },
@@ -82,7 +82,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_UNMUTE_CEPH",
-    "condition": { "math": [ "u_progress_unmute_ceph", ">=", "7" ] },
+    "condition": { "math": [ "u_progress_unmute_ceph >= 7" ] },
     "effect": [
       { "u_lose_trait": "MUTE_CEPH" },
       { "u_add_trait": "MUTE_CEPH_OK" },
@@ -101,7 +101,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_UNMUTE_GASTROPOD",
-    "condition": { "math": [ "u_progress_unmute_gastropod", ">=", "10" ] },
+    "condition": { "math": [ "u_progress_unmute_gastropod >= 10" ] },
     "effect": [
       { "u_lose_trait": "MUTE_GASTROPOD" },
       { "u_add_trait": "MUTE_GASTROPOD_OK" },
@@ -120,7 +120,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_UNMUTE_INSECT",
-    "condition": { "math": [ "u_progress_unmute_insect", ">=", "7" ] },
+    "condition": { "math": [ "u_progress_unmute_insect >= 7" ] },
     "effect": [
       { "u_lose_trait": "MUTE_INSECT" },
       { "u_add_trait": "MUTE_INSECT_OK" },
@@ -139,7 +139,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_UNMUTE_SLIME",
-    "condition": { "math": [ "u_progress_unmute_slime", ">=", "15" ] },
+    "condition": { "math": [ "u_progress_unmute_slime >= 15" ] },
     "effect": [
       { "u_lose_trait": "MUTE_SLIME" },
       { "u_add_trait": "MUTE_SLIME_OK" },

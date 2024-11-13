@@ -794,7 +794,7 @@
       {
         "text": "This is a driving test response.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_skill('driving')", ">=", "7" ] }
+        "condition": { "math": [ "u_skill('driving') >= 7" ] }
       }
     ]
   },
@@ -833,21 +833,21 @@
       { "text": "Two == five.", "topic": "TALK_DONE", "condition": { "math": [ "2 == 5" ] } },
       { "text": "Two != five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "!=", "5" ] } },
       { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<=", "5" ] } },
-      { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">=", "5" ] } },
+      { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 >= 5" ] } },
       { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<", "5" ] } },
       { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">", "5" ] } },
       { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
       { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
       { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "5" ] } },
       { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "5" ] } },
-      { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "5" ] } },
+      { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 5" ] } },
       { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "5" ] } },
       { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "5" ] } },
       { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
       { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
       { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "2" ] } },
       { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "2" ] } },
-      { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "2" ] } },
+      { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 2" ] } },
       { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "2" ] } },
       { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "2" ] } }
     ]
@@ -968,7 +968,7 @@
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_skill('driving')", ">=", "5" ] }
+        "condition": { "math": [ "u_skill('driving') >= 5" ] }
       },
       {
         "text": "Temperature is 21.",
@@ -1033,7 +1033,7 @@
       {
         "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('exp')", ">=", "35" ] }
+        "condition": { "math": [ "u_val('exp') >= 35" ] }
       },
       {
         "text": "Highest spell level in school test_trait is 1.",

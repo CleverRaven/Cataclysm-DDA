@@ -141,7 +141,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_raidlength1" } },
             { "math": [ "longerraids == 0" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_raidlength1" } ],
@@ -153,7 +153,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_raidlength2" } },
             { "math": [ "longerraids == 1" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_raidlength2" } ],
@@ -173,7 +173,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_roofsunlock" } },
             { "math": [ "roofsunlocked == 0" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_roofsunlock" } ],
@@ -185,7 +185,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_labsunlock" } },
             { "math": [ "labsunlocked == 0" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_labsunlock" } ],
@@ -203,7 +203,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security2" } },
             { "math": [ "securitylevel == 1" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security2" } ],
@@ -215,7 +215,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security3" } },
             { "math": [ "securitylevel == 2" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security3" } ],
@@ -227,7 +227,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security4" } },
             { "math": [ "securitylevel == 3" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security4" } ],
@@ -239,7 +239,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security5" } },
             { "math": [ "securitylevel == 4" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security5" } ],
@@ -265,7 +265,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability2" } },
             { "math": [ "bonuspulses == 1" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability2" } ],
@@ -277,7 +277,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability3" } },
             { "math": [ "bonuspulses == 2" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability3" } ],
@@ -289,7 +289,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability4" } },
             { "math": [ "bonuspulses == 3" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability4" } ],
@@ -317,7 +317,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting3" } },
             { "math": [ "scoutingdistancetargets == 2" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting3" } ],
@@ -337,7 +337,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting5" } },
             { "math": [ "scoutingdistancetargets == 6" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting5" } ],
@@ -365,7 +365,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing3" } },
             { "math": [ "scoutingdistancelanding == 8" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing3" } ],
@@ -385,7 +385,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing5" } },
             { "math": [ "scoutingdistancelanding == 16" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing5" } ],
@@ -411,7 +411,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_exit2" } },
             { "math": [ "bonusexits == 1" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_exit2" } ],
@@ -439,7 +439,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions3" } },
             { "math": [ "bonusmissions == 2" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions3" } ],
@@ -451,7 +451,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_hardmissions1" } },
             { "math": [ "hardmissions == 0" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_hardmissions1" } ],
@@ -463,7 +463,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_hardmissions2" } },
             { "math": [ "hardmissions == 10" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_hardmissions2" } ],
@@ -511,7 +511,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_bigroom3" } },
             { "math": [ "skyisland_build_bigroom == 2" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_bigroom3" } ],
@@ -523,7 +523,7 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_bigroom4" } },
             { "math": [ "skyisland_build_bigroom == 3" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_bigroom4" } ],
@@ -534,7 +534,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom1" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "skyisland_build_bigroom >= 1" ] },
             { "math": [ "skyisland_build_westroom == 0" ] }
           ]
         },
@@ -547,8 +547,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom2" } },
             { "math": [ "skyisland_build_westroom == 1" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "skyisland_build_bigroom >= 1" ] },
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom2" } ],
@@ -560,8 +560,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom3" } },
             { "math": [ "skyisland_build_westroom == 2" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
-            { "math": [ "islandrank", ">=", "3" ] }
+            { "math": [ "skyisland_build_bigroom >= 2" ] },
+            { "math": [ "islandrank >= 3" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom3" } ],
@@ -573,8 +573,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom4" } },
             { "math": [ "skyisland_build_westroom == 3" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
-            { "math": [ "islandrank", ">=", "3" ] }
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
+            { "math": [ "islandrank >= 3" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom4" } ],
@@ -585,10 +585,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_west_side_rooms" } },
-            { "math": [ "skyisland_build_westroom", ">=", "3" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_westroom >= 3" ] },
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
             { "math": [ "skyisland_build_west_side_rooms == 0" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_west_side_rooms" } ],
@@ -599,7 +599,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom1" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "skyisland_build_bigroom >= 1" ] },
             { "math": [ "skyisland_build_eastroom == 0" ] }
           ]
         },
@@ -612,8 +612,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom2" } },
             { "math": [ "skyisland_build_eastroom == 1" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "skyisland_build_bigroom >= 1" ] },
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom2" } ],
@@ -625,8 +625,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom3" } },
             { "math": [ "skyisland_build_eastroom == 2" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
-            { "math": [ "islandrank", ">=", "3" ] }
+            { "math": [ "skyisland_build_bigroom >= 2" ] },
+            { "math": [ "islandrank >= 3" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom3" } ],
@@ -638,8 +638,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom4" } },
             { "math": [ "skyisland_build_eastroom == 3" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
-            { "math": [ "islandrank", ">=", "3" ] }
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
+            { "math": [ "islandrank >= 3" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom4" } ],
@@ -650,10 +650,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_east_side_rooms" } },
-            { "math": [ "skyisland_build_eastroom", ">=", "3" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_eastroom >= 3" ] },
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
             { "math": [ "skyisland_build_east_side_rooms == 0" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_east_side_rooms" } ],
@@ -664,7 +664,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_northroom1" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "skyisland_build_bigroom >= 1" ] },
             { "math": [ "skyisland_build_northroom == 0" ] }
           ]
         },
@@ -677,8 +677,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_northroom2" } },
             { "math": [ "skyisland_build_northroom == 1" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
-            { "math": [ "islandrank", ">=", "2" ] }
+            { "math": [ "skyisland_build_bigroom >= 1" ] },
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_northroom2" } ],
@@ -690,8 +690,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_northroom3" } },
             { "math": [ "skyisland_build_northroom == 2" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
-            { "math": [ "islandrank", ">=", "3" ] }
+            { "math": [ "skyisland_build_bigroom >= 2" ] },
+            { "math": [ "islandrank >= 3" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_northroom3" } ],
@@ -703,8 +703,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_northroom4" } },
             { "math": [ "skyisland_build_northroom == 3" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
-            { "math": [ "islandrank", ">=", "3" ] }
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
+            { "math": [ "islandrank >= 3" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_northroom4" } ],
@@ -715,10 +715,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_north_side_rooms" } },
-            { "math": [ "skyisland_build_northroom", ">=", "3" ] },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_northroom >= 3" ] },
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
             { "math": [ "skyisland_build_north_side_rooms == 0" ] },
-            { "math": [ "islandrank", ">=", "4" ] }
+            { "math": [ "islandrank >= 4" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_north_side_rooms" } ],
@@ -729,7 +729,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_centralskylight2" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "skyisland_build_bigroom >= 2" ] },
             { "math": [ "skyisland_build_centralskylight == 0" ] }
           ]
         },
@@ -741,7 +741,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_centralskylight3" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_bigroom >= 3" ] },
             { "math": [ "skyisland_build_centralskylight == 1" ] }
           ]
         },
@@ -753,7 +753,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_BUILD_centralskylight4" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "4" ] },
+            { "math": [ "skyisland_build_bigroom >= 4" ] },
             { "math": [ "skyisland_build_centralskylight == 2" ] }
           ]
         },
@@ -765,8 +765,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_bunker_temperature_adaptation" } },
-            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
-            { "math": [ "islandrank", ">=", "3" ] },
+            { "math": [ "skyisland_build_bigroom >= 2" ] },
+            { "math": [ "islandrank >= 3" ] },
             { "math": [ "skyisland_bunker_temperature_adaptation == 0" ] }
           ]
         },
@@ -777,10 +777,10 @@
         "text": "One of my bunker constructions had an error.  Could you help me fix it?",
         "condition": {
           "or": [
-            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
-            { "math": [ "skyisland_build_northroom", ">=", "2" ] },
-            { "math": [ "skyisland_build_westroom", ">=", "2" ] },
-            { "math": [ "skyisland_build_eastroom", ">=", "2" ] }
+            { "math": [ "skyisland_build_bigroom >= 2" ] },
+            { "math": [ "skyisland_build_northroom >= 2" ] },
+            { "math": [ "skyisland_build_westroom >= 2" ] },
+            { "math": [ "skyisland_build_eastroom >= 2" ] }
           ]
         },
         "topic": "SKYISLAND_FIX_CONSTRUCTIONS"

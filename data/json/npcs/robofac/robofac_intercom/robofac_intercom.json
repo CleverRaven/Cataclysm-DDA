@@ -33,7 +33,7 @@
         "group": "NC_ROBOFAC_INTERCOM_trade_armor",
         "rigid": true,
         "condition": {
-          "or": [ { "math": [ "u_hub01_good_candidate == 1" ] }, { "math": [ "u_hub01_completed_missions", ">=", "2" ] } ]
+          "or": [ { "math": [ "u_hub01_good_candidate == 1" ] }, { "math": [ "u_hub01_completed_missions >= 2" ] } ]
         },
         "refusal": "You're not yet qualified to buy this"
       },

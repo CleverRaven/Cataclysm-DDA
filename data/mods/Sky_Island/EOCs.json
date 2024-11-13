@@ -125,7 +125,7 @@
     "type": "effect_on_condition",
     "id": "EOC_progressgate1",
     "//": "Checks to see if you have successfully completed 5 raids and makes Rank Up 1 available if so.",
-    "condition": { "and": [ { "math": [ "islandrank == 0" ] }, { "math": [ "raidswon", ">=", "10" ] } ] },
+    "condition": { "and": [ { "math": [ "islandrank == 0" ] }, { "math": [ "raidswon >= 10" ] } ] },
     "effect": [
       {
         "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
@@ -138,7 +138,7 @@
     "type": "effect_on_condition",
     "id": "EOC_progressgate2",
     "//": "Checks to see if you have successfully completed 10 raids and makes Rank Up 2 available if so.",
-    "condition": { "and": [ { "math": [ "islandrank == 2" ] }, { "math": [ "raidswon", ">=", "20" ] } ] },
+    "condition": { "and": [ { "math": [ "islandrank == 2" ] }, { "math": [ "raidswon >= 20" ] } ] },
     "effect": [
       {
         "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult.  The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful.  Your mouth tastes of blood.  As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
@@ -812,7 +812,7 @@
     "eoc_type": "EVENT",
     "//": "Delete after 0.I",
     "required_event": "game_load",
-    "condition": { "math": [ "islandrank", ">=", "2" ] },
+    "condition": { "math": [ "islandrank >= 2" ] },
     "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
   },
   {

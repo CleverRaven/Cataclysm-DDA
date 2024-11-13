@@ -150,13 +150,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
-    "condition": { "math": [ "vampire_total_tier_one_traits()", ">=", "4" ] },
+    "condition": { "math": [ "vampire_total_tier_one_traits() >= 4" ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
-    "condition": { "math": [ "vampire_total_tier_two_traits()", ">=", "4" ] },
+    "condition": { "math": [ "vampire_total_tier_two_traits() >= 4" ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {
@@ -384,7 +384,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "math": [ "u_effect_intensity('vampire_virus')", ">=", "1" ] }
+              { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] }
             ]
           },
           "effect": {

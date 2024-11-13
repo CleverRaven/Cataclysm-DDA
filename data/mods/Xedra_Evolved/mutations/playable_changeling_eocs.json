@@ -702,7 +702,7 @@
     "id": "EOC_BROWNIE_HOME_TELEPORT_SET_DESTINATION",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus", ">=", "12" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus >= 12" ] } ] },
     "effect": [ { "u_location_variable": { "u_val": "brownie_home_teleport_loc" } } ]
   },
   {
@@ -780,7 +780,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK",
-    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "condition": { "math": [ "u_val('mana') >= 1" ] },
     "effect": [
       {
         "run_eocs": [
@@ -1157,7 +1157,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
-    "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+    "condition": { "math": [ "u_val('mana') >= 2" ] },
     "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
     "false_effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
@@ -1183,7 +1183,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
@@ -1244,7 +1244,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
@@ -1303,7 +1303,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
@@ -1362,7 +1362,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
@@ -1419,7 +1419,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
@@ -1473,7 +1473,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },

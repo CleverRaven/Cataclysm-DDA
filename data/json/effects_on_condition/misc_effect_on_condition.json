@@ -112,7 +112,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_discover_zomborg",
-    "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_zomborg') >= 1" ] },
     "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
   },
   {

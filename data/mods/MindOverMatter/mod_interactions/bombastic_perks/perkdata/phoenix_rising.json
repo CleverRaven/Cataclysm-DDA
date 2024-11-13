@@ -5,7 +5,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
-      "and": [ { "u_has_trait": "perk_phoenix_rising" }, { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "155" ] } ]
+      "and": [ { "u_has_trait": "perk_phoenix_rising" }, { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] } ]
     },
     "effect": [
       {

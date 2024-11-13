@@ -346,7 +346,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_family1",
         "condition": {
           "and": [
-            { "math": [ "barry_PTSD_freakouts", ">=", "1" ] },
+            { "math": [ "barry_PTSD_freakouts >= 1" ] },
             {
               "and": [
                 { "not": { "npc_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 } },

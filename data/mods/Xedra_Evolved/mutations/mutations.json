@@ -528,7 +528,7 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 1800" ] },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "4400" ] }
           ]
         },
@@ -539,7 +539,7 @@
         ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "4400" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 4400" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },

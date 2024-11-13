@@ -228,7 +228,7 @@
     "id": "EOC_HEDGE_ACTIVITY_LEVEL_BREAKS_INCREASE_HEALING_RATE",
     "recurrence": 1,
     "condition": {
-      "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level')", ">=", "3" ] } ]
+      "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level') >= 3" ] } ]
     },
     "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
   },
@@ -317,7 +317,7 @@
       },
       {
         "if": {
-          "and": [ { "math": [ "u_val('intelligence')", ">=", "4" ] }, { "u_has_effect": "effect_skinchanged_animalistic_mind" } ]
+          "and": [ { "math": [ "u_val('intelligence') >= 4" ] }, { "u_has_effect": "effect_skinchanged_animalistic_mind" } ]
         },
         "then": [
           { "u_lose_effect": "effect_skinchanged_animalistic_mind" },

@@ -94,7 +94,7 @@
         "text": "Have you had any ideas for what your family could do?",
         "condition": {
           "and": [
-            { "math": [ "npc_timer_thinking_about_plan", ">=", "time('1 h')" ] },
+            { "math": [ "npc_timer_thinking_about_plan >= time('1 h')" ] },
             { "math": [ "isherwood_barry_rescued == 0" ] }
           ]
         },
@@ -107,7 +107,7 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
             { "math": [ "isherwood_family_coming == 0" ] },
             { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
-            { "math": [ "npc_isherwood_barry_rescue_attempts", ">=", "1" ] }
+            { "math": [ "npc_isherwood_barry_rescue_attempts >= 1" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
@@ -119,7 +119,7 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
             { "math": [ "isherwood_family_coming == 1" ] },
             { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
-            { "math": [ "npc_isherwood_barry_rescue_attempts", ">=", "1" ] }
+            { "math": [ "npc_isherwood_barry_rescue_attempts >= 1" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2"
@@ -168,10 +168,10 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             {
               "and": [
-                { "not": { "math": [ "isherwood_gear_retrival_armor_body_count", ">=", "1" ] } },
-                { "not": { "math": [ "isherwood_gear_retrival_helmet_count", ">=", "1" ] } },
-                { "not": { "math": [ "isherwood_gear_retrival_armor_arm_count", ">=", "1" ] } },
-                { "not": { "math": [ "isherwood_gear_retrival_armor_leg_count", ">=", "1" ] } }
+                { "not": { "math": [ "isherwood_gear_retrival_armor_body_count >= 1" ] } },
+                { "not": { "math": [ "isherwood_gear_retrival_helmet_count >= 1" ] } },
+                { "not": { "math": [ "isherwood_gear_retrival_armor_arm_count >= 1" ] } },
+                { "not": { "math": [ "isherwood_gear_retrival_armor_leg_count >= 1" ] } }
               ]
             },
             { "math": [ "isherwood_gear_status", "<", "1" ] }

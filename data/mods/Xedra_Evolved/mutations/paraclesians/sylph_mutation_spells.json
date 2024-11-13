@@ -19,8 +19,8 @@
     "id": "ench_sylph_fulgurating_strikes_advanced",
     "condition": {
       "or": [
-        { "math": [ "u_spell_level('sylph_call_lightning')", ">=", "10" ] },
-        { "math": [ "u_spell_level('sylph_crash_of_lightning')", ">=", "5" ] }
+        { "math": [ "u_spell_level('sylph_call_lightning') >= 10" ] },
+        { "math": [ "u_spell_level('sylph_crash_of_lightning') >= 5" ] }
       ]
     },
     "hit_you_effect": [ { "id": "sylph_fulgurating_strikes_lightning_fields", "hit_self": false, "once_in": 3 } ]

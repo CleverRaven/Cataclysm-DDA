@@ -116,7 +116,7 @@
     "id": "TALK_BLACKSMITH_ARMOR_READY",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "time_since(u_timer_artisans_u_waiting_on_armor, 'unit':'days')", ">=", "u_number_artisans_blacksmith_wait*7" ],
+      "math": [ "time_since(u_timer_artisans_u_waiting_on_armor, 'unit':'days') >= u_number_artisans_blacksmith_wait*7" ],
       "yes": "It's all done!  Sorry for the long wait; hopefully it's worth it.  If you need it refitted, let me know.",
       "no": "Still working on it."
     },
@@ -124,7 +124,7 @@
       {
         "text": "Thanks.",
         "condition": {
-          "math": [ "time_since(u_timer_artisans_u_waiting_on_armor, 'unit':'days')", ">=", "u_number_artisans_blacksmith_wait*7" ]
+          "math": [ "time_since(u_timer_artisans_u_waiting_on_armor, 'unit':'days') >= u_number_artisans_blacksmith_wait*7" ]
         },
         "switch": true,
         "effect": [

@@ -13,7 +13,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "and": [ { "math": [ "u_spell_level('telepathic_concentration')", ">=", "5" ] } ] }
+            { "and": [ { "math": [ "u_spell_level('telepathic_concentration') >= 5" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -21,7 +21,7 @@
         { "not": { "u_know_recipe": "practice_telepathic_shield" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_shield') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telepathic_shield" },
@@ -45,7 +45,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "and": [ { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "6" ] } ] }
+            { "and": [ { "math": [ "u_spell_level('telepathic_mind_sense') >= 6" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -54,7 +54,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mesmerize')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mesmerize') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -81,8 +81,8 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_concentration')", ">=", "6" ] },
-                { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "5" ] }
+                { "math": [ "u_spell_level('telepathic_concentration') >= 6" ] },
+                { "math": [ "u_spell_level('telepathic_mind_sense') >= 5" ] }
               ]
             }
           ]
@@ -92,7 +92,7 @@
         { "not": { "u_know_recipe": "practice_telepathic_morale" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_morale') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telepathic_morale" },
@@ -118,8 +118,8 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "7" ] },
-                { "math": [ "u_spell_level('telepathic_morale')", ">=", "4" ] }
+                { "math": [ "u_spell_level('telepathic_mind_sense') >= 7" ] },
+                { "math": [ "u_spell_level('telepathic_morale') >= 4" ] }
               ]
             }
           ]
@@ -129,7 +129,7 @@
         { "not": { "u_know_recipe": "practice_telepathic_blast" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telepathic_blast" },
@@ -153,7 +153,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
-            { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
+            { "math": [ "u_spell_level('telepathic_morale') >= 8" ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -164,7 +164,7 @@
     "deactivate_condition": {
       "or": [
         { "not": { "u_has_trait": "TELEPATH" } },
-        { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] }
+        { "math": [ "u_spell_level('telepathic_animal_mind_control') >= 1" ] }
       ]
     },
     "effect": [
@@ -194,11 +194,11 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('telepathic_blast') >= 6" ] },
+                    { "math": [ "u_spell_level('telepathic_morale') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telepathic_morale')", ">=", "4" ] }
+                { "math": [ "u_spell_level('telepathic_morale') >= 4" ] }
               ]
             }
           ]
@@ -209,7 +209,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_confusion') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -236,8 +236,8 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_blast')", ">=", "8" ] },
-                { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
+                { "math": [ "u_spell_level('telepathic_blast') >= 8" ] },
+                { "math": [ "u_spell_level('telepathic_morale') >= 8" ] }
               ]
             }
           ]
@@ -247,7 +247,7 @@
         { "not": { "u_know_recipe": "practice_telepathic_fear" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_fear') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telepathic_fear" },
@@ -273,12 +273,12 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_confusion')", ">=", "8" ] },
+                { "math": [ "u_spell_level('telepathic_confusion') >= 8" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "11" ] },
-                    { "math": [ "u_spell_level('telepathic_shield')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('telepathic_morale') >= 6" ] },
+                    { "math": [ "u_spell_level('telepathic_blast') >= 11" ] },
+                    { "math": [ "u_spell_level('telepathic_shield') >= 8" ] }
                   ]
                 }
               ]
@@ -291,7 +291,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_invisibility') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -320,11 +320,11 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "11" ] },
-                    { "math": [ "u_spell_level('telepathic_fear')", ">=", "7" ] }
+                    { "math": [ "u_spell_level('telepathic_blast') >= 11" ] },
+                    { "math": [ "u_spell_level('telepathic_fear') >= 7" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telepathic_shield')", ">=", "5" ] }
+                { "math": [ "u_spell_level('telepathic_shield') >= 5" ] }
               ]
             }
           ]
@@ -335,7 +335,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast_radius') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -360,7 +360,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
-            { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "10" ] }
+            { "math": [ "u_spell_level('telepathic_animal_mind_control') >= 10" ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -369,7 +369,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_beast_taming')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_beast_taming') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -398,15 +398,15 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('telepathic_morale') >= 12" ] },
+                    { "math": [ "u_spell_level('telepathic_invisibility') >= 6" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telepathic_fear')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telepathic_confusion')", ">=", "7" ] }
+                    { "math": [ "u_spell_level('telepathic_fear') >= 5" ] },
+                    { "math": [ "u_spell_level('telepathic_animal_mind_control') >= 8" ] },
+                    { "math": [ "u_spell_level('telepathic_confusion') >= 7" ] }
                   ]
                 }
               ]
@@ -419,7 +419,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mind_control') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -446,12 +446,12 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "10" ] },
-                { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "6" ] },
+                { "math": [ "u_spell_level('telepathic_mind_sense') >= 10" ] },
+                { "math": [ "u_spell_level('telepathic_blast_radius') >= 6" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('telepathic_morale') >= 12" ] },
+                    { "math": [ "u_spell_level('telepathic_invisibility') >= 6" ] }
                   ]
                 }
               ]
@@ -463,7 +463,7 @@
         { "not": { "u_know_recipe": "practice_telepathic_network" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_network') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telepathic_network" },

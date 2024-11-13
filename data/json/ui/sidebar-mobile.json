@@ -1147,7 +1147,7 @@
         "id": "very dark",
         "text": { "str": "☼", "//~": "NO_I18N" },
         "color": "c_dark_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", ">=", "5" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 5" ] }
       }
     ],
     "type": "widget"
@@ -1499,7 +1499,7 @@
         "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
         }
       },
       {
@@ -1507,7 +1507,7 @@
         "text": { "str": "  ██", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
         }
       },
       {
@@ -1515,7 +1515,7 @@
         "text": { "str": "    ", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= 0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
         }
       },
       {
@@ -1988,7 +1988,7 @@
         "id": "extreme",
         "text": "Extreme    ",
         "color": "red",
-        "condition": { "math": [ "u_val('activity_level')", ">=", "5" ] }
+        "condition": { "math": [ "u_val('activity_level') >= 5" ] }
       }
     ],
     "type": "widget"

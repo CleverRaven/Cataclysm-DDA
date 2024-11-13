@@ -135,7 +135,7 @@
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
-        "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
+        "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
         "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
@@ -248,7 +248,7 @@
       { "//~": "That was a good exchange", "str": "For a card an' a wink, eh?" }
     ],
     "speaker_effect": {
-      "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
+      "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
       "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [

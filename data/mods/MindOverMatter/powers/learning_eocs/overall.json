@@ -9,7 +9,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSI_STUDYING_POWER_INTEGER_TICK_OVER",
-            "condition": { "math": [ "u_psi_studying_tick_experience_counter", ">=", "1" ] },
+            "condition": { "math": [ "u_psi_studying_tick_experience_counter >= 1" ] },
             "effect": [
               { "math": [ "u_spell_exp(u_latest_studied_power_name)", "+=", "1" ] },
               { "math": [ "u_psi_studying_tick_experience_counter", "-=", "1" ] }
@@ -64,7 +64,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION_2",
-            "condition": { "math": [ "u_val('focus')", ">=", "25" ] },
+            "condition": { "math": [ "u_val('focus') >= 25" ] },
             "effect": [ { "math": [ "u_val('focus')", "-=", "rand(1)" ] } ]
           }
         ]

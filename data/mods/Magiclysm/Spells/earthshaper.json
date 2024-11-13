@@ -963,7 +963,7 @@
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
+    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
     "effect": [
       { "u_lose_effect": "effect_tremorsense" },
       {

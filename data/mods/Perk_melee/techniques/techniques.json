@@ -22,7 +22,7 @@
     "required_char_flags_all": [ "MELEE_PERK_STAGGER_STRIKE" ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo')", ">", "2" ] },
         { "not": { "npc_has_effect": "stunned" } }
       ]
@@ -75,7 +75,7 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum')", ">", "2" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
@@ -169,7 +169,7 @@
     "melee_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }

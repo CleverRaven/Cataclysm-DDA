@@ -41,7 +41,7 @@
         "text": "",
         "color": "white",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= 0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
         }
       },
       {
@@ -49,7 +49,7 @@
         "text": "Slaked",
         "color": "green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
         }
       },
       {
@@ -57,7 +57,7 @@
         "text": "Hydrated",
         "color": "green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
         }
       },
       {

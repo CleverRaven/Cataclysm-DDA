@@ -49,7 +49,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_LOCAL",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_local') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_local", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -82,7 +82,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_CREATE_LIGHT",
-        "condition": { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_create_light') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_create_light", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -115,7 +115,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT",
-        "condition": { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_snuff_light') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_snuff_light", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -203,7 +203,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_up_enemy')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_up_enemy') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_up_enemy", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -291,7 +291,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_dodge') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_dodge", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -379,7 +379,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_beam') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_beam", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -467,7 +467,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE",
-        "condition": { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_camouflage", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -555,7 +555,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY",
-        "condition": { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_rad_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -644,7 +644,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_arms') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_arms", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -733,7 +733,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY",
-        "condition": { "math": [ "u_spell_level('photokinetic_hide_ugly')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_hide_ugly", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -822,7 +822,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_image')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_image') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_image", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -910,7 +910,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_RADIO",
-        "condition": { "math": [ "u_spell_level('photokinetic_radio')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_radio') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_radio", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -998,7 +998,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS",
-        "condition": { "math": [ "u_spell_level('photokinetic_stun_robots')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_stun_robots') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_stun_robots", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1087,7 +1087,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY",
-        "condition": { "math": [ "u_spell_level('photokinetic_invisibility')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_invisibility') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1176,7 +1176,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_flash') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1265,7 +1265,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE",
-        "condition": { "math": [ "u_spell_level('photokinetic_blinding_glare')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_blinding_glare') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_blinding_glare", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1354,7 +1354,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_disintegrate')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_disintegrate') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_disintegrate", "target_var": { "u_val": "latest_studied_power_name" } },
           {

@@ -277,7 +277,7 @@
               "condition": {
                 "or": [
                   { "math": [ "u_hp('ALL')", "<=", "(u_hp_max('bp_null') * 0.7)" ] },
-                  { "math": [ "u_effect_intensity('bleed')", ">=", "3" ] }
+                  { "math": [ "u_effect_intensity('bleed') >= 3" ] }
                 ]
               },
               "effect": [

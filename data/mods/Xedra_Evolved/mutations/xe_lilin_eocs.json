@@ -61,7 +61,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN_SELF_2",
-    "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] } ] },
     "effect": [
       { "u_lose_effect": "effect_lilin_no_ruach" },
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "--" ] },
@@ -111,7 +111,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_SPEND_RUACH_FOR_POWERS",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240" ] },
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
       { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "+=", "0.75" ] },
@@ -144,7 +144,7 @@
     },
     "effect": [
       {
-        "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "if": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] },
         "then": [
           {
             "u_message": "Under the light of the moon, you realize a new way to use your stolen ruach to empower yourself.",
@@ -186,7 +186,7 @@
     "//": "Split EoC to allow the deactivate_condition to run",
     "deactivate_condition": {
       "or": [
-        { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell') >= 0" ] },
         { "not": { "u_has_trait": "LILIN_TRAITS" } }
       ]
     },
@@ -195,7 +195,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE_FALLBACK_2",
-            "condition": { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell')", ">=", "0" ] },
+            "condition": { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell') >= 0" ] },
             "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell')", "=", "-1" ] } ]
           }
         ]

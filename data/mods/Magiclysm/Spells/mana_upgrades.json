@@ -20,7 +20,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_GRANT_MANA_ADD1",
-    "condition": { "and": [ "is_day", { "math": [ "u_val('pos_z')", ">=", "1" ] } ] },
+    "condition": { "and": [ "is_day", { "math": [ "u_val('pos_z') >= 1" ] } ] },
     "effect": [
       {
         "run_eocs": [
@@ -82,7 +82,7 @@
       "and": [
         { "math": [ "time_since('midnight', 'unit': 'hours') >= 11" ] },
         { "math": [ "time_since('midnight', 'unit': 'hours') <= 13" ] },
-        { "math": [ "u_val('pos_z')", ">=", "4" ] }
+        { "math": [ "u_val('pos_z') >= 4" ] }
       ]
     },
     "effect": [

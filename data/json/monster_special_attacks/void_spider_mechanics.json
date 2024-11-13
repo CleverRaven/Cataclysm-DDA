@@ -274,7 +274,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_DISTURBED_NEST",
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('mon_void_spider')", ">=", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_void_spider') >= 1" ] },
     "effect": [
       { "u_message": "The shadows of frenzied limbs slip into reality", "type": "info" },
       {

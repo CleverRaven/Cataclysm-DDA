@@ -16,7 +16,7 @@
     "sound_category": "sunny",
     "priority": 10,
     "condition": {
-      "and": [ "is_day", { "math": [ "weather('pressure')", ">=", "1020" ] }, { "math": [ "weather('humidity')", "<", "70" ] } ]
+      "and": [ "is_day", { "math": [ "weather('pressure') >= 1020" ] }, { "math": [ "weather('humidity')", "<", "70" ] } ]
     }
   },
   {
@@ -36,7 +36,7 @@
     "rains": false,
     "sound_category": "cloudy",
     "priority": 20,
-    "condition": { "and": [ { "math": [ "weather('humidity')", ">=", "40" ] }, { "math": [ "weather('pressure')", "<", "1010" ] } ] }
+    "condition": { "and": [ { "math": [ "weather('humidity') >= 40" ] }, { "math": [ "weather('pressure')", "<", "1010" ] } ] }
   },
   {
     "id": "light_drizzle",
@@ -58,7 +58,7 @@
     "sound_category": "drizzle",
     "required_weathers": [ "cloudy" ],
     "priority": 30,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "96" ] }, { "math": [ "weather('pressure')", "<", "1003" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 96" ] }, { "math": [ "weather('pressure')", "<", "1003" ] } ] }
   },
   {
     "id": "drizzle",
@@ -80,7 +80,7 @@
     "sound_category": "drizzle",
     "required_weathers": [ "light_drizzle" ],
     "priority": 40,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
   },
   {
     "id": "rain",
@@ -102,7 +102,7 @@
     "sound_category": "rainy",
     "required_weathers": [ "light_drizzle", "drizzle" ],
     "priority": 50,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
   },
   {
     "id": "rainstorm",
@@ -126,8 +126,8 @@
     "priority": 60,
     "condition": {
       "and": [
-        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 33 )" ] },
-        { "math": [ "weather('windpower')", ">=", "15" ] }
+        { "math": [ "weather('temperature') >= from_fahrenheit( 33 )" ] },
+        { "math": [ "weather('windpower') >= 15" ] }
       ]
     }
   },
@@ -242,7 +242,7 @@
     "condition": {
       "and": [
         { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] },
-        { "math": [ "weather('windpower')", ">=", "15" ] }
+        { "math": [ "weather('windpower') >= 15" ] }
       ]
     }
   },

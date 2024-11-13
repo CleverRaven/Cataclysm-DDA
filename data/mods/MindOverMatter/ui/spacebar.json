@@ -32,7 +32,7 @@
         "text": "<color_green>Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
           ]
         }
@@ -42,7 +42,7 @@
         "text": "<color_green>Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "35" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 35" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
           ]
         }
@@ -52,7 +52,7 @@
         "text": "<color_light_green>Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "55" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
           ]
         }
@@ -62,7 +62,7 @@
         "text": "<color_light_green>Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "75" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
           ]
         }
@@ -72,7 +72,7 @@
         "text": "<color_yellow>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "95" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 95" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
           ]
         }
@@ -82,7 +82,7 @@
         "text": "<color_yellow>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "115" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
           ]
         }
@@ -92,7 +92,7 @@
         "text": "<color_light_red>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
           ]
         }
@@ -102,7 +102,7 @@
         "text": "<color_light_red>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "155" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
           ]
         }
@@ -112,7 +112,7 @@
         "text": "<color_red>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
           ]
         }
@@ -122,7 +122,7 @@
         "text": "<color_red>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "195" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
           ]
         }
@@ -132,7 +132,7 @@
         "text": "<color_pink>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "215" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
           ]
         }
@@ -140,7 +140,7 @@
       {
         "id": "visible_12",
         "text": "<color_pink>Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ≔≕Ψ</color>",
-        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] }
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 235" ] }
       }
     ],
     "padding": 0

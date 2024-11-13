@@ -17,7 +17,7 @@
       {
         "if": {
           "and": [
-            { "math": [ "u_addiction_intensity('test_caffeine')", ">=", "8" ] },
+            { "math": [ "u_addiction_intensity('test_caffeine') >= 8" ] },
             { "math": [ "rand(392)", "<", "u_addiction_intensity('test_caffeine')" ] }
           ]
         },

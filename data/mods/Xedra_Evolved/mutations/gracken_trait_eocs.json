@@ -7,7 +7,7 @@
     "deactivate_condition": { "not": { "u_has_trait": "RADIOTROPHIC" } },
     "effect": [
       {
-        "if": { "math": [ "u_val('rad')", ">=", "100" ] },
+        "if": { "math": [ "u_val('rad') >= 100" ] },
         "then": [ { "math": [ "u_calories()", "+=", "3" ] }, { "math": [ "u_val('rad')", "-=", "1" ] } ]
       },
       {

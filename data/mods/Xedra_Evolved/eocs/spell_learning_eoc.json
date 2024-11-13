@@ -180,19 +180,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_2",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "3" ] },
+    "condition": { "math": [ "u_skill('deduction') >= 3" ] },
     "effect": [ { "math": [ "u_spell_level(_xe_spell_2)", "++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_3",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "6" ] },
+    "condition": { "math": [ "u_skill('deduction') >= 6" ] },
     "effect": [ { "math": [ "u_spell_level(_xe_spell_3)", "++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_4",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "8" ] },
+    "condition": { "math": [ "u_skill('deduction') >= 8" ] },
     "effect": [ { "math": [ "u_spell_level(_xe_spell_4)", "++" ] } ]
   },
   {

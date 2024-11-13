@@ -50,7 +50,7 @@
       {
         "text": "I am ready to leave this world for yours.",
         "topic": "TALK_OUTWORLD_CONFIRM",
-        "condition": { "math": [ "Boann_Quests_Completed", ">=", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed >= 10" ] }
       },
       {
         "text": "I'd like some advice about the Jabberwock.",
@@ -286,7 +286,7 @@
       "math": [ "Boann_Quests_Accepted == 10" ],
       "yes": "I have no other quests for you.  Once you'll have completed them all, you'll become part of my court and allowed to move offworld when you will wish so.",
       "no": {
-        "math": [ "Boann_Quests_Completed", ">=", "6" ],
+        "math": [ "Boann_Quests_Completed >= 6" ],
         "yes": "(Boann hands you a list) Here is a list of the quests to complete to become part of my court.  They are very difficult, but their rewards will be worth it.",
         "no": {
           "math": [ "Boann_Quests_Accepted == 6" ],
@@ -366,7 +366,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" } },
-            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "math": [ "Boann_Quests_Completed >= 6" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_bring_triffid_heart" } ] } }
           ]
         },
@@ -377,7 +377,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_KILL_TITAN_BEETLE_FOR_BOANN" } },
-            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "math": [ "Boann_Quests_Completed >= 6" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_titan_beetle" } ] } }
           ]
         },
@@ -388,7 +388,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" } },
-            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "math": [ "Boann_Quests_Completed >= 6" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_bring_shadow_piece" } ] } }
           ]
         },
@@ -399,7 +399,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" } },
-            { "math": [ "Boann_Quests_Completed", ">=", "6" ] },
+            { "math": [ "Boann_Quests_Completed >= 6" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "completed_boann_kill_star_crown_hound" } ] } }
           ]
         },

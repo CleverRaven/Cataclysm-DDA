@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
-    "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
+    "condition": { "math": [ "telepathically_stole_recently >= 1" ] },
     "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
   },
   {
@@ -106,7 +106,7 @@
             { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
           ]
         },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "effect": [
@@ -185,7 +185,7 @@
             { "compare_string": [ "downed", { "context_val": "effect" } ] }
           ]
         },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]

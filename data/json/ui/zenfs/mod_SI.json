@@ -48,7 +48,7 @@
         "id": "eight_left",
         "text": { "str": "  +-+-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "green",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", ">=", "8" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft >= 8" ] } ] }
       },
       {
         "id": "seven_left",

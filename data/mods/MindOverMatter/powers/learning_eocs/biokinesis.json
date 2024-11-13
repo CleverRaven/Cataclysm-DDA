@@ -15,8 +15,8 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "3" ] }
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 4" ] },
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 3" ] }
               ]
             }
           ]
@@ -27,7 +27,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_breathe_skin') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -52,7 +52,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] }
+            { "math": [ "u_spell_level('biokin_physical_enhance') >= 6" ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -61,7 +61,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_flexibility') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -90,14 +90,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('biokin_enhance_mobility') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 5" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('biokin_reflex_enhance') >= 5" ] },
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 8" ] }
                   ]
                 }
               ]
@@ -109,7 +109,7 @@
         { "not": { "u_know_recipe": "practice_biokin_dash" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_dash')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_dash') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_biokin_dash" },
@@ -137,14 +137,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 8" ] },
+                    { "math": [ "u_spell_level('biokin_overcome_pain') >= 6" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('biokin_climate_control')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_flexibility') >= 7" ] },
+                    { "math": [ "u_spell_level('biokin_climate_control') >= 6" ] }
                   ]
                 }
               ]
@@ -157,7 +157,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_armor_skin') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -186,11 +186,11 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "9" ] },
-                    { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 9" ] },
+                    { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] }
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 5" ] }
               ]
             }
           ]
@@ -201,7 +201,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_climate_control') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -230,11 +230,11 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_dash') >= 8" ] },
+                    { "math": [ "u_spell_level('biokin_enhance_mobility') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "5" ] }
+                { "math": [ "u_spell_level('biokin_breathe_skin') >= 5" ] }
               ]
             }
           ]
@@ -245,7 +245,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_adrenaline') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -274,18 +274,18 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "4" ] },
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] }
+                    { "math": [ "u_spell_level('biokin_dash') >= 10" ] },
+                    { "math": [ "u_spell_level('biokin_combat_dance') >= 4" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 10" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('biokin_reflex_enhance') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_flexibility') >= 9" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "4" ] }
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 4" ] }
               ]
             }
           ]
@@ -296,7 +296,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_enhance_mobility') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -323,8 +323,8 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] }
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 6" ] },
+                { "math": [ "u_spell_level('biokin_armor_skin') >= 6" ] }
               ]
             }
           ]
@@ -335,7 +335,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hammerhand') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -362,12 +362,12 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 6" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline') >= 8" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('biokin_dash') >= 8" ] },
+                    { "math": [ "u_spell_level('biokin_flexibility') >= 8" ] }
                   ]
                 }
               ]
@@ -380,7 +380,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_reflex_enhance') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -409,14 +409,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "9" ] },
-                    { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('biokin_breathe_skin') >= 9" ] },
+                    { "math": [ "u_spell_level('biokin_armor_skin') >= 9" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('biokin_climate_control')", ">=", "10" ] }
+                    { "math": [ "u_spell_level('biokin_hammerhand') >= 7" ] },
+                    { "math": [ "u_spell_level('biokin_climate_control') >= 10" ] }
                   ]
                 }
               ]
@@ -429,7 +429,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_sealed_system') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -456,11 +456,11 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_climate_control') >= 8" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 12" ] }
                   ]
                 }
               ]
@@ -473,7 +473,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -500,12 +500,12 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
-                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "10" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 10" ] },
+                { "math": [ "u_spell_level('biokin_reflex_enhance') >= 10" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('biokin_dash') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 9" ] }
                   ]
                 }
               ]
@@ -518,7 +518,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_combat_dance') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -545,8 +545,8 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] }
+                { "math": [ "u_spell_level('biokin_combat_dance') >= 6" ] },
+                { "math": [ "u_spell_level('biokin_dash') >= 12" ] }
               ]
             }
           ]
@@ -557,7 +557,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_perfected_motion') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -584,11 +584,11 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "10" ] },
+                { "math": [ "u_spell_level('biokin_combat_dance') >= 10" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "14" ] },
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('biokin_reflex_enhance') >= 14" ] },
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 12" ] }
                   ]
                 }
               ]
@@ -601,7 +601,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hurricane_blows') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },

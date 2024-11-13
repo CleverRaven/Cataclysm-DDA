@@ -509,7 +509,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "math": [ "u_mission_cleanup_promises_Boris_mission_1", ">=", "5" ] },
+    "goal_condition": { "math": [ "u_mission_cleanup_promises_Boris_mission_1 >= 5" ] },
     "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

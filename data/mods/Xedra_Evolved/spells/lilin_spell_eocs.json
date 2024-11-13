@@ -141,7 +141,7 @@
             "if": {
               "and": [
                 { "math": [ "rand(1) == 1" ] },
-                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
+                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] }
               ]
             },
             "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
@@ -150,7 +150,7 @@
             "if": {
               "and": [
                 { "math": [ "rand(2) == 2" ] },
-                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
+                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] }
               ]
             },
             "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
@@ -189,13 +189,13 @@
             "if": {
               "and": [
                 { "math": [ "rand(1) == 1" ] },
-                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
+                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] }
               ]
             },
             "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
           },
           {
-            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },
+            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] },
             "then": {
               "u_add_effect": "staggered_character",
               "intensity": 1,
@@ -210,7 +210,7 @@
             "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
           },
           {
-            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },
+            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] },
             "then": {
               "u_add_effect": "staggered",
               "intensity": 1,
@@ -224,7 +224,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_EVIL_EYE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "60" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin') >= 60" ] },
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60" ] },
       {
@@ -252,7 +252,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AOE_DAZE",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "160" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 160" ] },
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "160" ] },
       { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } },
@@ -268,7 +268,7 @@
     "condition": "has_alpha",
     "effect": [
       {
-        "if": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
+        "if": { "math": [ "n_vitamin('lilin_ruach_vitamin') >= 240" ] },
         "then": [
           { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
           { "npc_message": "You summon a wind filled with pestilence.", "type": "neutral" },
@@ -295,7 +295,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_DISEASE_ENHANCEMENT_DAMAGE",
-    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "180" ] },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin') >= 180" ] },
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180" ] },
       { "npc_message": "You infuse your ruach into the plague-infected <u_name>.", "type": "neutral" },
@@ -361,7 +361,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AVOID_SLEEP",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "300" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 300" ] },
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300" ] },
       { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
@@ -383,7 +383,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "240" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
               { "u_message": "A thick fog begins to rise.", "type": "neutral" },
@@ -432,7 +432,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_SPEED_BOOST",
-    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360" ] },
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 360" ] },
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360" ] },
       {
@@ -489,7 +489,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_INSTANT_HEAL_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1200" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1200" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200" ] },
               { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },

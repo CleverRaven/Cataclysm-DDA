@@ -54,7 +54,7 @@
         "condition": {
           "or": [
             { "math": [ "!has_var(n_timer_teamster_directions_recycler)" ] },
-            { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(n_timer_teamster_directions_recycler) >= time('2 d')" ] }
           ]
         },
         "effect": [

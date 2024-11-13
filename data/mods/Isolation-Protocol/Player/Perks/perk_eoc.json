@@ -48,7 +48,7 @@
         "u_run_monster_eocs": [
           {
             "id": "_EOC_ISO_GEAS",
-            "condition": { "math": [ "u_val('difficulty')", ">=", "30" ] },
+            "condition": { "math": [ "u_val('difficulty') >= 30" ] },
             "effect": [ { "run_eocs": "geas_monster", "beta_talker": "avatar" } ]
           }
         ],

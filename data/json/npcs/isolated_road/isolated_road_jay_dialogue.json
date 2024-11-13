@@ -69,7 +69,7 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) >= time('1 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount == 200" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
@@ -80,7 +80,7 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('5 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) >= time('5 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount == 800" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]

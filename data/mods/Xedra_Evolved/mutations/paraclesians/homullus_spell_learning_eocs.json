@@ -80,7 +80,7 @@
     "id": "EOC_LEVELER_HOMULLUS_CHARM_FERALS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_charm_feral_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_charm_feral_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_charm_feral_spell')", "<", "int_to_level(1)" ] }
       ]
     },
@@ -98,7 +98,7 @@
     "id": "EOC_LEVELER_HOMULLUS_SUMMON_FERALS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_summon_feral_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_summon_feral_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_summon_feral_spell')", "<", "35" ] }
       ]
     },
@@ -116,7 +116,7 @@
     "id": "EOC_LEVELER_HOMULLUS_SELF_DECEPTION",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_self_deception_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_self_deception_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_self_deception_spell')", "<", "per_to_level(1)" ] }
       ]
     },
@@ -134,7 +134,7 @@
     "id": "EOC_LEVELER_HOMULLUS_INVISIBLE_TO_HUMANS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_invisible_to_humans_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_invisible_to_humans_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_invisible_to_humans_spell')", "<", "int_to_level(1)" ] }
       ]
     },
@@ -152,7 +152,7 @@
     "id": "EOC_LEVELER_HOMULLUS_REDUCED_VISIBILITY_ALLY",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell')", "<", "int_to_level(1)" ] }
       ]
     },
@@ -172,7 +172,7 @@
     "id": "EOC_LEVELER_HOMULLUS_RESTORE_POWER",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_restore_power_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_restore_power_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_restore_power_spell')", "<", "int_to_level(1)" ] }
       ]
     },
@@ -190,7 +190,7 @@
     "id": "EOC_LEVELER_HOMULLUS_ADD_LEARNING_FOCUS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_add_learning_focus_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_add_learning_focus_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_add_learning_focus_spell')", "<", "int_to_level(1)" ] }
       ]
     },
@@ -208,7 +208,7 @@
     "id": "EOC_LEVELER_HOMULLUS_ROAD_TRANSLOCATION",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_road_translocate_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_road_translocate_spell') >= 0" ] },
         { "math": [ "u_spell_level('homullus_road_translocate_spell')", "<", "per_to_level(1)" ] }
       ]
     },
@@ -226,7 +226,7 @@
     "id": "EOC_LEVELER_HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('homullus_cultivate_goblin_fruit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_cultivate_goblin_fruit') >= 0" ] },
         { "math": [ "u_spell_level('homullus_cultivate_goblin_fruit')", "<", "int_to_level(1)" ] }
       ]
     },
@@ -244,7 +244,7 @@
     "id": "EOC_LEVELER_HOMULLUS_MAKE_GOSSAMER",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
     },
