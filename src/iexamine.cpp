@@ -4611,7 +4611,7 @@ void trap::examine( const tripoint &examp ) const
     // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
     if( easy_take_down() || ( id == tr_telepad &&
                               ( player_character.worn_with_flag(
-                                    json_flag_DIMENSIONAL_ANCHOR ) || 
+                                    json_flag_DIMENSIONAL_ANCHOR ) ||
                                 player_character.has_flag(
                                     json_flag_DIMENSIONAL_ANCHOR ) ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
