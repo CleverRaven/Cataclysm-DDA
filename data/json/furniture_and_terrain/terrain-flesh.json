@@ -24,7 +24,7 @@
     "id": "t_concrete_wall_flesh",
     "name": "overgrown wall",
     "description": "A concrete wall overgrown by a grotesque grid of veins and knotted flesh.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "magenta_yellow",
     "move_cost": 0,
     "coverage": 100,

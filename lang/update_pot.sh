@@ -47,6 +47,8 @@ if ! lang/extract_json_strings.py \
         -X data/json/npcs/TALK_TEST.json \
         -X data/core/sentinels.json \
         -X data/raw/color_templates/no_bright_background.json \
+        -D data/mods/BlazeIndustries \
+        -D data/mods/desert_region \
         -n "$package $version" \
         -r lang/po/gui.pot \
         -o lang/po/json.pot

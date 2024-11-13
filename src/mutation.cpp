@@ -37,6 +37,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
@@ -135,20 +136,27 @@ bool Character::has_trait_variant( const trait_and_var &test ) const
 
 bool Character::has_trait_flag( const json_character_flag &b ) const
 {
-    // UGLY, SLOW, should be cached as my_mutation_flags or something
+    auto iter = trait_flag_cache.find( b );
+    if( iter != trait_flag_cache.end() ) {
+        return iter->second;
+    }
+
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
+            trait_flag_cache[b] = true;
             return true;
         } else if( mut_data.activated ) {
             Character &player = get_player_character();
             if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
                 ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
+                trait_flag_cache[b] = true;
                 return true;
             }
         }
     }
 
+    trait_flag_cache[b] = false;
     return false;
 }
 
@@ -301,6 +309,8 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     if( !trait.obj().vanity ) {
         mutation_effect( trait, false );
     }
+
+    trait_flag_cache.clear();
 }
 
 void Character::do_mutation_updates()
@@ -333,6 +343,7 @@ void Character::set_mut_variant( const trait_id &trait, const mutation_variant *
     auto mutit = my_mutations.find( trait );
     if( mutit != my_mutations.end() ) {
         mutit->second.variant = variant;
+        trait_flag_cache.clear();
     }
 }
 
@@ -356,6 +367,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     if( !mut.vanity ) {
         mutation_loss_effect( trait );
     }
+    trait_flag_cache.clear();
     do_mutation_updates();
 }
 
@@ -372,6 +384,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     if( has_trait( target ) ) {
         my_mutations[target].powered = start_powered;
     }
+    trait_flag_cache.clear();
 }
 
 bool Character::can_power_mutation( const trait_id &mut ) const
@@ -555,6 +568,7 @@ void Character::recalculate_size()
             size_class = creature_size::medium;
         }
     }
+    path_settings->size = size_class;
 }
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
@@ -626,14 +640,14 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         return true;
     } );
 
-    for( std::pair<mtype_id, int> moncam : branch.moncams ) {
+    for( const std::pair<const mtype_id, int> &moncam : branch.moncams ) {
         add_moncam( moncam );
     }
 
     if( branch.starts_active ) {
         my_mutations[mut].powered = true;
     }
-
+    trait_flag_cache.clear();
     on_mutation_gain( mut );
 }
 
@@ -660,10 +674,11 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalculate_bodyparts();
     }
 
-    for( std::pair<mtype_id, int> moncam : branch.moncams ) {
+    for( const std::pair<const mtype_id, int> &moncam : branch.moncams ) {
         remove_moncam( moncam.first );
     }
 
+    trait_flag_cache.clear();
     on_mutation_loss( mut );
 }
 
@@ -695,6 +710,7 @@ void Character::set_cost_timer( const trait_id &mut, time_duration set )
     const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
     if( iter != my_mutations.end() ) {
         iter->second.charge = set;
+        trait_flag_cache.clear();
     } else if( all_iter == all_mut.end() ) {
         // don't have the mutation and don't have it from an item
         debugmsg( "Tried to set cost timer of %s but doesn't have this mutation.", mut.c_str() );
@@ -806,6 +822,8 @@ void Character::activate_mutation( const trait_id &mut )
                            mutation_name( mut ) );
         return;
     }
+
+    trait_flag_cache.clear();
     if( tdata.powered && tdata.charge > 0_turns ) {
         // Already-on units just lose a bit of charge
         tdata.charge -= 1_turns;
@@ -977,6 +995,7 @@ void Character::activate_mutation( const trait_id &mut )
 void Character::deactivate_mutation( const trait_id &mut )
 {
     my_mutations[mut].powered = false;
+    trait_flag_cache.clear();
 
     // Handle stat changes from deactivation
     apply_mods( mut, false );

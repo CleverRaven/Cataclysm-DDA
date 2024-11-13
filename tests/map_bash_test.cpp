@@ -100,10 +100,10 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
     const tripoint_bub_ms test_pt( 40, 40, 0 );
 
     // Assumptions
-    REQUIRE( furn_test_f_bash_persist->bash.str_min == 4 );
-    REQUIRE( furn_test_f_bash_persist->bash.str_max == 100 );
-    REQUIRE( ter_test_t_bash_persist->bash.str_min == 4 );
-    REQUIRE( ter_test_t_bash_persist->bash.str_max == 100 );
+    REQUIRE( furn_test_f_bash_persist->bash->str_min == 4 );
+    REQUIRE( furn_test_f_bash_persist->bash->str_max == 100 );
+    REQUIRE( ter_test_t_bash_persist->bash->str_min == 4 );
+    REQUIRE( ter_test_t_bash_persist->bash->str_max == 100 );
 
     SECTION( "bashing a furniture to completion leaves behind no map bash info" ) {
         here.furn_set( test_pt, furn_test_f_bash_persist );

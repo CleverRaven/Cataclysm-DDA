@@ -9,7 +9,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "white",
     "bash": {
       "str_min": 200,
@@ -30,7 +30,7 @@
     "name": "broken treads",
     "description": "A large set of broken and frozen over vehicle treads.",
     "flags": [ "NOITEM", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT", "SHORT" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "white",
     "move_cost": 5,
     "bash": {
@@ -54,7 +54,7 @@
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "white",
     "bash": {
       "str_min": 350,
@@ -77,7 +77,7 @@
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
     "flags": [ "SUPPORTS_ROOF", "CONTAINER", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "white",
     "bash": {
       "str_min": 200,
@@ -146,7 +146,7 @@
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "PERMEABLE", "MINEABLE" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "white",
     "bash": {
       "str_min": 20,
@@ -169,7 +169,7 @@
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "white",
     "open": "t_afs_gun_ship_hull_hatch_o",
     "bash": {
@@ -602,7 +602,7 @@
     "description": "The diamond cubic lattice distorts distant light sources into eight pointed stars.  The galactic core is visible through the glass, but no spacer would ever give it more than a passing glance.",
     "roof": "t_metal_flat_roof",
     "looks_like": "t_reinforced_glass",
-    "symbol": "LINE_XOXO",
+    "symbol": "#",
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 100,
@@ -627,7 +627,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "bash": { "str_min": 4000, "str_max": 8000, "sound": "whump!", "sound_fail": "whump!", "ter_set": "t_afs_augustmoon_hull_wall" },
     "color": "white"
   },
