@@ -17,12 +17,30 @@
   {
     "id": "surface_heat",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+    "extend": {
+      "tools": [
+        [
+          [ "pyrokinetic_fire_tool", -1 ],
+          [ "pyrokinetic_fire_tool_four_arms", -1 ],
+          [ "pyrokinetic_fire_tool_six_arms", -1 ],
+          [ "pyrokinetic_fire_tool_eight_arms", -1 ]
+        ]
+      ]
+    }
   },
   {
     "id": "water_boiling_heat",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+    "extend": {
+      "tools": [
+        [
+          [ "pyrokinetic_fire_tool", -1 ],
+          [ "pyrokinetic_fire_tool_four_arms", -1 ],
+          [ "pyrokinetic_fire_tool_six_arms", -1 ],
+          [ "pyrokinetic_fire_tool_eight_arms", -1 ]
+        ]
+      ]
+    }
   },
   {
     "id": "welding_standard",
@@ -83,6 +101,6 @@
   {
     "id": "eggs_bird",
     "type": "requirement",
-    "extend": { "components": [ [ [ "egg_cockatrice", 1 ] ] ] }
+    "extend": { "components": [ [ [ "egg_cockatrice", 1 ], [ "egg_pigeon_passenger", 1 ] ] ] }
   }
 ]

@@ -1,0 +1,15 @@
+[
+  {
+    "copy-from": "mon_renfield",
+    "id": "mon_renfield",
+    "type": "MONSTER",
+    "name": { "str": "renfield" },
+    "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE_INNAWOOD" }
+  },
+  {
+    "copy-from": "mon_fetch_child",
+    "id": "mon_fetch_child",
+    "type": "MONSTER",
+    "death_drops": "fetch_child_death_drops"
+  }
+]

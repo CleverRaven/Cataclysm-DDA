@@ -295,7 +295,6 @@
     "//": "First item in the components list is serving as a torsion wrench. Many small flat items can be jammed in and turned to apply torsion.  Second item in the list is the pick itself which has to be a small, bent bit of wire or pin.",
     "components": [
       [
-        [ "wire", 1 ],
         [ "hairpin", 1 ],
         [ "fc_hairpin", 1 ],
         [ "copper_hairpin", 1 ],
@@ -305,24 +304,9 @@
         [ "knife_small", 1 ],
         [ "knife_butter", 1 ],
         [ "fork", 1 ],
-        [ "lc_wire", 1 ],
-        [ "hc_wire", 1 ],
-        [ "ch_wire", 1 ],
-        [ "lc_wire", 1 ],
-        [ "mc_wire", 1 ],
-        [ "qt_wire", 1 ]
+        [ "any_wire", 1, "LIST" ]
       ],
-      [
-        [ "wire", 1 ],
-        [ "hairpin", 1 ],
-        [ "cable", 1 ],
-        [ "lc_wire", 1 ],
-        [ "hc_wire", 1 ],
-        [ "ch_wire", 1 ],
-        [ "lc_wire", 1 ],
-        [ "mc_wire", 1 ],
-        [ "qt_wire", 1 ]
-      ]
+      [ [ "hairpin", 1 ], [ "cable", 1 ], [ "any_wire", 1, "LIST" ] ]
     ]
   },
   {
@@ -539,7 +523,7 @@
     ],
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 100 ], [ "cordage", 2 ] ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "any_wire", 2, "LIST" ] ] ]
   },
   {
     "result": "jack",
@@ -876,7 +860,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "wire", 4 ] ] ]
+    "components": [ [ [ "lc_wire", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -922,7 +906,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ] ]
+    "using": [ [ "steel_chunk_any", 1 ] ]
   },
   {
     "type": "recipe",
@@ -1041,7 +1025,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "wire_mesh", 1 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "wire_mesh", 1 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
     "result": "sieve_primitive",
@@ -1512,7 +1496,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 3 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1583,19 +1567,6 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "components": [ [ [ "pot_canning_clay", 1 ] ], [ [ "clay_pot", 1 ] ], [ [ "fire_brick", 2 ] ], [ [ "clay_lump", 3 ] ] ]
-  },
-  {
-    "result": "bathroom_scale",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 10 ] ], [ [ "clockworks", 2 ] ] ]
   },
   {
     "type": "recipe",

@@ -59,7 +59,7 @@
     "effect_str": "downed",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground", "none" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "max_level": 10,
     "min_damage": 2,
@@ -110,6 +110,7 @@
     "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_HANDS" ],
+    "multiple_projectiles": { "math": [ "rng(3, 8)" ] },
     "components": "spell_components_shardspray",
     "effect": "attack",
     "shape": "cone",
@@ -164,7 +165,7 @@
     "name": "Shardstorm",
     "description": "Creates an omnidirectional spray of razor sharp metal shards all around you.",
     "valid_targets": [ "hostile", "ally", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "SPLIT_DAMAGE" ],
     "min_damage": 20,
     "max_damage": 60,
     "damage_increment": 2.0,
@@ -404,7 +405,7 @@
     "name": "Petrifying Touch Moves Removing",
     "description": "Delete some amount of moves from monster, and inflict DoT.  You can see it only in debug mode.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "effect": "mod_moves",
     "shape": "blast",
     "min_damage": -1000,
@@ -425,7 +426,7 @@
     "shape": "blast",
     "components": "spell_components_reactive_armor",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_HANDS", "RANDOM_DURATION" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_HANDS", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
     "max_level": 20,
     "min_damage": 20,
     "max_damage": 200,
@@ -456,7 +457,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS", "SPLIT_DAMAGE" ],
     "max_level": 20,
     "min_damage": 16,
     "max_damage": 106,
@@ -1146,8 +1147,8 @@
     "shape": "blast",
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
-    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (6000 * enhancement_proficiency_modifier() )" ] },
-    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (800 * enhancement_proficiency_modifier() )" ] }
+    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (6000 * (1 / enhancement_proficiency_modifier() ) )" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (800 * (1 / enhancement_proficiency_modifier() ) )" ] }
   },
   {
     "type": "effect_on_condition",
@@ -1191,11 +1192,23 @@
               "max_radius": 0
             },
             {
-              "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
-              "type": "good"
-            },
-            { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
-            { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+              "if": { "map_terrain_id": "t_rock", "loc": { "u_val": "earthshaper_sleep_in_earth" } },
+              "then": [
+                {
+                  "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
+                  "type": "good"
+                },
+                { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
+                { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+              ],
+              "else": [
+                {
+                  "u_message": "As you nearly complete the spell, you stop in your tracks.  There's something odd about the ground below you, and sinking into it would be too dangerous.",
+                  "type": "mixed"
+                },
+                { "math": [ "u_val('mana')", "+=", "(800 * (1 / enhancement_proficiency_modifier() ) )" ] }
+              ]
+            }
           ],
           "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
         }

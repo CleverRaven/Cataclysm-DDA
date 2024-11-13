@@ -1,20 +1,26 @@
 [
   {
-    "id": "migo_plate_overgrown",
+    "abstract": "migo_plate_base",
+    "name": "generic migo plate",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "overgrown iridescent carapace plate" },
-    "description": "A chunk of otherworldly carapace that looks like it was at one point shaped like armor, but is now bulky and overgrown with sharp pieces jutting out haphazardly.  Scarred into the outer surface you can barely make out the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
-    "weight": "2800 g",
-    "volume": "1533 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "alien_carapace", "flesh" ],
     "symbol": ",",
     "color": "dark_gray",
+    "damage_verb": "crumbles as blood oozes from its insides"
+  },
+  {
+    "id": "migo_plate_overgrown",
+    "type": "ARMOR",
+    "category": "armor",
+    "copy-from": "migo_plate_base",
+    "name": { "str": "overgrown iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that looks like it was at one point shaped like armor, but is now bulky and overgrown with sharp pieces jutting out haphazardly.  Scarred into the outer surface you can barely make out the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
+    "weight": "2800 g",
+    "volume": "1533 ml",
     "material_thickness": 10,
     "non_functional": "migo_plate",
-    "damage_verb": "crumbles as blood oozes from its insides",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
     "armor": [
       {
@@ -33,18 +39,13 @@
     "id": "migo_plate",
     "type": "ARMOR",
     "category": "armor",
+    "copy-from": "migo_plate_base",
     "name": { "str": "iridescent carapace plate" },
     "description": "A chunk of otherworldly carapace that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  Scarred into the outer surface is the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
     "weight": "2000 g",
     "volume": "1533 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "alien_carapace", "flesh" ],
-    "symbol": ",",
-    "color": "dark_gray",
     "material_thickness": 8,
     "non_functional": "migo_plate_undergrown",
-    "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
     "countdown_interval": "24 hours",
     "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
@@ -67,18 +68,13 @@
     "id": "migo_plate_undergrown",
     "type": "ARMOR",
     "category": "armor",
+    "copy-from": "migo_plate_base",
     "name": { "str": "undergrown iridescent carapace plate" },
     "description": "A chunk of otherworldly carapace that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  Scarred into the outer surface is the label \"STRIKE FACE\".  The armor coverage is spotty and it appears to be oozing and pulsing like it is in pain.",
     "weight": "1500 g",
     "volume": "1533 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "alien_carapace", "flesh" ],
-    "symbol": ",",
-    "color": "dark_gray",
     "material_thickness": 6,
     "non_functional": "migo_plate_naked",
-    "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
     "countdown_interval": "24 hours",
     "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
@@ -101,6 +97,7 @@
     "id": "migo_plate_naked",
     "type": "ARMOR",
     "category": "armor",
+    "copy-from": "migo_plate_base",
     "name": { "str": "plate of scarred flesh", "str_pl": "plates of scarred flesh" },
     "description": "A chunk of otherworldly flesh that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  There is no armor left on this plate, just a mass of writhing alien flesh oozing in pain.  However, it looks like it is slowly growing back.",
     "weight": "1000 g",
@@ -124,7 +121,95 @@
         "specifically_covers": [ "torso_upper" ],
         "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
       }
-    ]
+    ],
+    "delete": { "material": [ "alien_carapace" ] }
+  },
+  {
+    "id": "migo_sideplate_overgrown",
+    "type": "ARMOR",
+    "copy-from": "migo_plate_overgrown",
+    "name": { "str": "overgrown iridescent carapace side plate" },
+    "non_functional": "migo_sideplate",
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ],
+    "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
+    "delete": { "flags": [ "ABLATIVE_LARGE" ] },
+    "proportional": { "volume": 0.5, "weight": 0.5 }
+  },
+  {
+    "id": "migo_sideplate",
+    "type": "ARMOR",
+    "copy-from": "migo_plate",
+    "name": { "str": "iridescent carapace side plate" },
+    "non_functional": "migo_sideplate_undergrown",
+    "revert_to": "migo_sideplate_overgrown",
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 32,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ],
+    "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
+    "delete": { "flags": [ "ABLATIVE_LARGE" ] },
+    "proportional": { "volume": 0.5, "weight": 0.5 }
+  },
+  {
+    "id": "migo_sideplate_undergrown",
+    "type": "ARMOR",
+    "copy-from": "migo_plate_undergrown",
+    "name": { "str": "undergrown iridescent carapace side plate" },
+    "non_functional": "migo_sideplate_naked",
+    "revert_to": "migo_sideplate",
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 29,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ],
+    "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
+    "delete": { "flags": [ "ABLATIVE_LARGE" ] },
+    "proportional": { "volume": 0.5, "weight": 0.5 }
+  },
+  {
+    "id": "migo_sideplate_naked",
+    "type": "ARMOR",
+    "copy-from": "migo_plate_naked",
+    "name": { "str": "small plate of scarred flesh", "str_pl": "small plates of scarred flesh" },
+    "revert_to": "migo_sideplate_undergrown",
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 0,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
+      }
+    ],
+    "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
+    "delete": { "flags": [ "ABLATIVE_LARGE" ] },
+    "proportional": { "volume": 0.5, "weight": 0.5 }
   },
   {
     "id": "migo_skin",
@@ -237,7 +322,6 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "plastic", "steel" ],
     "symbol": ",",
     "color": "red",
@@ -365,7 +449,6 @@
     "volume": "1 L",
     "price": "49 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
     "material": [ "monolith" ],
     "symbol": "[",
     "color": "dark_gray",

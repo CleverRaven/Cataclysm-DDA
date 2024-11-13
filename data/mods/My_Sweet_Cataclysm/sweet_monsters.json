@@ -67,7 +67,7 @@
     "vision_night": 3,
     "harvest": "marshmallow_boy",
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_buff" },
-    "reproduction": { "baby_egg": "marshmallow", "baby_count": 5, "baby_timer": 14 },
+    "reproduction": { "baby_type": { "baby_egg": "marshmallow" }, "baby_count": 5, "baby_timer": 14 },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
   },
   {
@@ -94,7 +94,7 @@
     "harvest": "marshmallow_boy",
     "special_attacks": [ [ "SMASH", 30 ] ],
     "upgrades": { "half_life": 21, "into": "mon_marshmallow_goliath" },
-    "reproduction": { "baby_egg": "marshmallow", "baby_count": 7, "baby_timer": 12 },
+    "reproduction": { "baby_type": { "baby_egg": "marshmallow" }, "baby_count": 7, "baby_timer": 12 },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON", "PUSH_VEH" ],
     "armor": { "bash": 2, "cut": 3, "bullet": 2 }
   },
@@ -122,7 +122,7 @@
     "vision_night": 4,
     "harvest": "marshmallow_boy",
     "special_attacks": [ [ "SMASH", 20 ] ],
-    "reproduction": { "baby_egg": "marshmallow", "baby_count": 10, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "marshmallow" }, "baby_count": 10, "baby_timer": 10 },
     "flags": [
       "SEES",
       "HEARS",
@@ -159,7 +159,7 @@
     "color": "white_magenta",
     "harvest": "armored_marshmallow_boy",
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_buff_armored" },
-    "reproduction": { "baby_egg": "smores", "baby_count": 5, "baby_timer": 14 },
+    "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 5, "baby_timer": 14 },
     "armor": { "bash": 3, "cut": 4, "bullet": 3 }
   },
   {
@@ -172,7 +172,7 @@
     "color": "yellow_magenta",
     "harvest": "armored_marshmallow_boy",
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_goliath_armored" },
-    "reproduction": { "baby_egg": "smores", "baby_count": 7, "baby_timer": 12 },
+    "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 7, "baby_timer": 12 },
     "armor": { "bash": 6, "cut": 7, "bullet": 6 }
   },
   {
@@ -184,7 +184,7 @@
     "copy-from": "mon_marshmallow_goliath",
     "symbol": "M",
     "color": "brown_magenta",
-    "reproduction": { "baby_egg": "smores", "baby_count": 10, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 10, "baby_timer": 10 },
     "armor": { "bash": 9, "cut": 11, "bullet": 9 }
   },
   {
@@ -233,7 +233,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "harvest": "gummy_bear",
-    "reproduction": { "baby_egg": "candy3", "baby_count": 1, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "candy3" }, "baby_count": 1, "baby_timer": 10 },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ],
     "armor": { "bash": 2 }
   },
@@ -279,7 +279,7 @@
         "infection_chance": 50
       }
     ],
-    "reproduction": { "baby_egg": "candy3gator", "baby_count": 1, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "candy3gator" }, "baby_count": 1, "baby_timer": 10 },
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS", "ATTACKMON" ],
@@ -339,7 +339,7 @@
     "vision_night": 3,
     "harvest": "cracker_boy",
     "special_attacks": [ [ "scratch", 10 ] ],
-    "reproduction": { "baby_egg": "grahmcrackers", "baby_count": 3, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "grahmcrackers" }, "baby_count": 3, "baby_timer": 20 },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ],
     "armor": { "cut": 20, "stab": 27, "bullet": 27 }
   },
@@ -353,7 +353,7 @@
     "description": "An animal cracker largemouth bass.  It leaps from the water in pursuit of food.",
     "harvest": "cracker_boy",
     "material": [ "wheat", "junk" ],
-    "reproduction": { "baby_egg": "grahmcrackers_roe", "baby_count": 3, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "grahmcrackers_roe" }, "baby_count": 3, "baby_timer": 20 }
   },
   {
     "id": "mon_cookie",
@@ -384,7 +384,7 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER" ],
-    "reproduction": { "baby_egg": "cookies", "baby_count": 10, "baby_timer": 5 }
+    "reproduction": { "baby_type": { "baby_egg": "cookies" }, "baby_count": 10, "baby_timer": 5 }
   },
   {
     "id": "mon_cookie_hydra",
@@ -405,7 +405,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
     "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
-    "reproduction": { "baby_egg": "cookies_egg", "baby_count": 1, "baby_timer": 5 }
+    "reproduction": { "baby_type": { "baby_egg": "cookies_egg" }, "baby_count": 1, "baby_timer": 5 }
   },
   {
     "id": "mon_cookie_hydra_youth",
@@ -455,7 +455,7 @@
     "harvest": "gum_spider",
     "emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
-    "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 },
+    "reproduction": { "baby_type": { "baby_egg": "gum" }, "baby_count": 10, "baby_timer": 5 },
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
@@ -485,7 +485,66 @@
     "harvest": "caff_gum_spider",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "reproduction": { "baby_type": { "baby_egg": "caff_gum" }, "baby_count": 10, "baby_timer": 5 },
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
+  },
+  {
+    "id": "mon_spider_gum_baby",
+    "type": "MONSTER",
+    "name": { "str": "gum spiderling" },
+    "description": "A large wad of living gum morphed into a spider.",
+    "default_faction": "chewgum",
+    "bodytype": "spider",
+    "species": [ "CHEWGUM" ],
+    "volume": "800 ml",
+    "weight": "800 g",
+    "hp": 2,
+    "speed": 90,
+    "material": [ "junk" ],
+    "symbol": "n",
+    "color": "light_green",
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "dodge": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "harvest": "gum_spider",
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "upgrades": { "age_grow": 30, "into": "mon_spider_gum" },
+    "armor": { "bash": 0, "cut": 0, "bullet": 0 }
+  },
+  {
+    "id": "mon_gum_spider_wolf_baby",
+    "type": "MONSTER",
+    "name": { "str": "caffeinated gum spiderling" },
+    "description": "A large wad of living gum morphed into a spider.  This one shakes and fidgets as it struggles to steady its feet.",
+    "default_faction": "chewgum",
+    "bodytype": "spider",
+    "species": [ "CHEWGUM" ],
+    "volume": "800 ml",
+    "weight": "800 g",
+    "hp": 2,
+    "speed": 90,
+    "material": [ "junk" ],
+    "symbol": "n",
+    "color": "light_red",
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "dodge": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "harvest": "caff_gum_spider",
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "upgrades": { "age_grow": 30, "into": "mon_gum_spider_wolf" },
+    "armor": { "bash": 0, "cut": 0, "bullet": 0 }
   },
   {
     "id": "mon_cow_calf_choc",
@@ -524,7 +583,7 @@
     "harvest": "choc_cows",
     "starting_ammo": { "milk_raw_choc": 40 },
     "biosignature": { "biosig_item": "feces_candy", "biosig_timer": "1 d" },
-    "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cow_calf_choc" }, "baby_count": 1, "baby_timer": 343 },
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -540,7 +599,7 @@
     "hp": 65,
     "speed": 45,
     "material": [ "sugar" ],
-    "reproduction": { "baby_monster": "mon_licorice_snake_hatchling", "baby_count": 20, "baby_timer": 245 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_licorice_snake_hatchling" }, "baby_count": 20, "baby_timer": 245 },
     "symbol": "~",
     "color": "red",
     "morale": 100,

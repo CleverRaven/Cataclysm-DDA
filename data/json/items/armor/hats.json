@@ -212,7 +212,15 @@
     "weight": "733 g",
     "volume": "1500 ml",
     "material_thickness": 0.2,
-    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "1 mm",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
@@ -772,8 +780,8 @@
       },
       {
         "id": "grey_hat_hard",
-        "name": { "str": "grey hard hat" },
-        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "name": { "str": "gray hard hat" },
+        "description": "It's colored gray, commonly used by visitors to any worksite.",
         "color": "light_gray",
         "weight": 5,
         "append": true
@@ -965,8 +973,8 @@
       },
       {
         "id": "grey_hat_hard",
-        "name": { "str": "grey summer hard hat" },
-        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "name": { "str": "gray summer hard hat" },
+        "description": "It's colored gray, commonly used by visitors to any worksite.",
         "color": "light_gray",
         "weight": 5,
         "append": true

@@ -30,6 +30,7 @@
     "//": "Copied from 7.62x54R Clip.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
+    "category": "ammo",
     "name": { "str": ".303 5-round charger clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five .303 British rounds into a magazine.",
     "weight": "9 g",
@@ -38,7 +39,6 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "count": 5,
     "ammo_type": [ "303" ],
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "303": 5 } } ]

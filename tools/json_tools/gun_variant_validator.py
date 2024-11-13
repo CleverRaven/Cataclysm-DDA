@@ -111,7 +111,6 @@ NAME_CHECK_BLACKLIST = {
     "weatherby_5",
     "win70",
     "mr73",
-    "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
     "p226_357sig",

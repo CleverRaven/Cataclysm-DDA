@@ -26,6 +26,7 @@ enum class widget_var : int {
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     sleepiness,        // Current sleepiness, integer
     health,         // Current hidden health value, -200 to +200
+    daily_health,   // Current daily health value, -200 to +200
     mana,           // Current available mana, integer
     max_mana,       // Current maximum mana, integer
     power_percentage, // Bionic power, relative to capacity
@@ -54,6 +55,7 @@ enum class widget_var : int {
     body_graph_wet,        // Body graph showing color-coded body part wetness
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
     carry_weight_text,   // Weight carried, relative to capacity, in %
+    carry_weight_value, // Weight carried, formatted as "current/max"
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
@@ -168,7 +170,7 @@ struct widget_clause {
         bool has_condition = false;
         // Whether parse tags in this clause
         bool should_parse_tags = false;
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;
 

@@ -3,8 +3,11 @@
     "abstract": "spare_part",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str_sp": "spare parts" },
-    "description": "Items which are not themselves useful but are instead requirements for crafting or repairs",
+    "name": { "str_sp": "spare parts", "//~": "NO_I18N" },
+    "description": {
+      "str": "Items which are not themselves useful but are instead requirements for crafting or repairs",
+      "//~": "NO_I18N"
+    },
     "symbol": ";",
     "color": "dark_gray"
   },

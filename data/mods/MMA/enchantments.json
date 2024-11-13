@@ -3,28 +3,22 @@
     "type": "enchantment",
     "id": "DRUNKEN_UNARMED",
     "condition": { "not": "u_has_weapon" },
-    "values": [
-      {
-        "value": "ITEM_DAMAGE_BASH",
-        "add": { "math": [ "rng(u_effect_intensity('drunk') * 1.8, u_effect_intensity('drunk') * 4 )" ] }
-      }
+    "melee_damage_bonus": [
+      { "type": "bash", "add": { "math": [ "rng(u_effect_intensity('drunk') * 1.8, u_effect_intensity('drunk') * 4 )" ] } }
     ]
   },
   {
     "type": "enchantment",
     "id": "DRUNKEN_ARMED",
     "condition": "u_has_weapon",
-    "values": [
-      {
-        "value": "ITEM_DAMAGE_BASH",
-        "add": { "math": [ "rng(u_effect_intensity('drunk') * 1.2, u_effect_intensity('drunk') * 2.6 )" ] }
-      }
+    "melee_damage_bonus": [
+      { "type": "bash", "add": { "math": [ "rng(u_effect_intensity('drunk') * 1.2, u_effect_intensity('drunk') * 2.6 )" ] } }
     ]
   },
   {
     "type": "enchantment",
     "id": "KI_STRIKE",
     "condition": { "not": "u_has_weapon" },
-    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') * 2" ] } } ]
+    "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('unarmed') * 2" ] } } ]
   }
 ]

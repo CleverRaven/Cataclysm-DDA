@@ -30,7 +30,7 @@
         "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_pizzaiolo_u_helped_pizzaiolo" } ] },
         "effect": [ "follow", { "npc_lose_var": "dialogue_pizzaiolo_u_helped_pizzaiolo" } ]
       },
-      { "text": "Goodbye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -72,7 +72,7 @@
     "responses": [
       { "text": "Sure, <name_g>.  <end_talking>", "topic": "TALK_DONE", "effect": "follow" },
       {
-        "text": "Maybe later.",
+        "text": "<end_talking_later>",
         "topic": "TALK_DONE",
         "effect": [
           { "npc_first_topic": "TALK_pizzaiolo_1" },
@@ -182,7 +182,7 @@
     "dialogue": {
       "describe": "-",
       "offer": "I need to make a last step to achieve my revenge, and the step is - my pizza parlor.  Before <the_cataclysm>, the bank took my place, and now, some <swear> <name_b>s occupied it and made it their base!  <swear> unbelievable, I tell ya.  It's time for me to fight back, deal with this <swear> <name_b>s and regain my honor.  Are you with me, <name_g>?",
-      "accepted": "<very> good.  Let's go.",
+      "accepted": "<very> good.  <lets_go>",
       "rejected": "What?!  Why do you… ah, forget it.",
       "advice": "These <name_b>s might be heavily armed, so we need to prepare to face them.",
       "inquire": "I'm waiting.",

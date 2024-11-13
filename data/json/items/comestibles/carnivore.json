@@ -3,7 +3,7 @@
     "abstract": "flesh",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str_sp": "meat/fish" },
+    "name": { "str_sp": "meat/fish", "//~": "NO_I18N" },
     "material": [ "flesh" ],
     "symbol": "%",
     "color": "red",
@@ -1764,7 +1764,7 @@
     "spoils_in": "6 hours",
     "use_action": [ "POISON" ],
     "price_postapoc": "10 cent",
-    "description": "A carefully folded poisonous raw skin harvested from an unnatural creature.  You can cure it for storage and tanning.",
+    "description": "A carefully folded raw skin harvested from an unnatural creature.  The smell of rot is overwhelming, and it has an ghastly unnatural feeling with a wide variety of cuts, divots, and malformed lumps covering the sickly green-gray skin.  This can't be used for anything useful.",
     "price": "0 cent"
   },
   {
@@ -1786,7 +1786,7 @@
     "id": "raw_hleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw human skin" },
-    "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a human.  Despite some dubious historical accounts, the usefulness of human skin is limited, and can't be made into leather.  The skin is still edible, if you're that desperate.",
     "material": [ "hflesh" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
@@ -1795,7 +1795,7 @@
     "id": "raw_demihumanleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw demihuman skin" },
-    "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a demihuman.  Despite being from a human-enough body, the leather has this distinct unnatural and alien feeling to it, and would be a very poor substitute for leather.  The skin is still edible, if you're that desperate.",
     "material": [ "flesh" ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
@@ -1828,7 +1828,7 @@
     "copy-from": "raw_fur",
     "spoils_in": "6 hours",
     "use_action": [ "POISON" ],
-    "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
+    "description": "A carefully folded raw pelt harvested from an unnatural creature.  The smell of rot is overwhelming, with bits of flesh cling to the mangy, sickly patches of fur still present on the pelt.  This can't be used for anything useful.",
     "price": "0 cent"
   },
   {

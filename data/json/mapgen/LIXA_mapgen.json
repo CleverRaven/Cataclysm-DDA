@@ -157,7 +157,7 @@
         ",": "t_thconc_floor",
         "h": "t_thconc_floor",
         "l": "t_thconc_floor",
-        "/": "t_strconc_wall",
+        "/": "t_lixa_wall",
         "w": "t_window_bars",
         "d": [ "t_door_metal_c", "t_door_metal_o" ]
       },
@@ -207,7 +207,7 @@
         "l": "t_thconc_floor",
         "s": "t_thconc_floor",
         "T": "t_thconc_floor",
-        "/": "t_strconc_wall",
+        "/": "t_lixa_wall",
         "w": "t_window_bars",
         "e": "t_gates_mech_control",
         "D": "t_door_metal_locked",
@@ -345,7 +345,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
     }
   },
   {
@@ -404,7 +404,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
     }
   },
   {
@@ -805,7 +805,7 @@
         "    //________________//",
         "    //________________//"
       ],
-      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+      "terrain": { "_": "t_open_air_rooved", "/": "t_lixa_wall" }
     }
   },
   {
@@ -840,7 +840,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+      "terrain": { "_": "t_open_air_rooved", "/": "t_lixa_wall" }
     }
   },
   {

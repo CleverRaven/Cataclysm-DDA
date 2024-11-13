@@ -1,0 +1,20 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SKY_ISLAND_WEREWOLF",
+    "name": "Werewolf, Natural-born (Species)",
+    "description": "You had no idea what was going on the first time it happened, when you woke up with mud on your bare feet and a sour taste in your mouth, but you were soon found.  The People of the Moon, they called themselves, and they said you were one of them.  A werewolf.  You lived out in the wilderness for a while but didn't entirely abandon human civilization, and when the Cataclysm hit you ignored the evacuation warnings and struck it out on your own.  Maybe some of the People are still out there.",
+    "points": 3,
+    "traits": [ "NATIVE_SHAPESHIFTER", "WEREWOLF_ANIMAL_FORM", "WEREWOLF_HYBRID_FORM" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SKY_ISLAND_LILIT",
+    "name": "Lilit (Species)",
+    "description": "For most or all of your life, you've had a secret; you are a predator.  While you don't need to drink blood or eat flesh or anything so crude, you must absorb the spiritual essence, the \"ruach\", of living beings in order to maintain your health and vitality.  You had to hide your condition before the Cataclysm, especially as things became stranger in the years leading up to it, but now you don't have to hide anymore.  On the other hand, your potential ruach supply has taken a drastic decline.",
+    "points": 3,
+    "traits": [ "LILIN_TRAITS", "LILIN_DRAIN_RUACH_MELEE" ]
+  }
+]

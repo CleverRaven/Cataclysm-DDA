@@ -175,7 +175,7 @@
       [ "sling", 1 ],
       [ "stock accessory", 2 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_sr77_45mag" ] } ],
     "melee_damage": { "bash": 10 }
   }

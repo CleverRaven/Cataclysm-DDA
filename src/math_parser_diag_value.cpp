@@ -33,6 +33,11 @@ template<class C, class R = C, bool at_runtime = false>
 constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
 {
     return std::visit( overloaded{
+        []( std::monostate const &/* std */ ) -> R
+        {
+            static R null_R{};
+            return null_R;
+        },
         []( C const & v ) -> R
         {
             return v;
@@ -66,9 +71,13 @@ double diag_value::dbl() const
     return _diag_value_at_parse_time<double>( data );
 }
 
-double diag_value::dbl( dialogue const &d ) const
+double diag_value::dbl( const_dialogue const &d ) const
 {
     return std::visit( overloaded{
+        []( std::monostate const &/* std */ )
+        {
+            return 0.0;
+        },
         []( double v )
         {
             return v;
@@ -92,8 +101,7 @@ double diag_value::dbl( dialogue const &d ) const
         },
         [&d]( math_exp const & v )
         {
-            // FIXME: maybe re-constify eval paths?
-            return v.eval( const_cast<dialogue &>( d ) );
+            return v.eval( d );
         },
         []( diag_array const & )
         {
@@ -114,9 +122,13 @@ std::string_view diag_value::str() const
     return _diag_value_at_parse_time<std::string, std::string_view>( data );
 }
 
-std::string diag_value::str( dialogue const &d ) const
+std::string diag_value::str( const_dialogue const &d ) const
 {
     return std::visit( overloaded{
+        []( std::monostate const &/* std */ )
+        {
+            return std::string{};
+        },
         []( double v )
         {
             // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -133,7 +145,7 @@ std::string diag_value::str( dialogue const &d ) const
         [&d]( math_exp const & v )
         {
             // NOLINTNEXTLINE(cata-translate-string-literal)
-            return string_format( "%g", v.eval( const_cast<dialogue &>( d ) ) );
+            return string_format( "%g", v.eval( d ) );
         },
         []( diag_array const & )
         {
@@ -154,9 +166,19 @@ var_info diag_value::var() const
     return _diag_value_at_parse_time<var_info>( data );
 }
 
+var_info diag_value::var( const_dialogue const &/* d */ ) const
+{
+    return _diag_value_at_parse_time<var_info, var_info const &, true>( data );
+}
+
 bool diag_value::is_array() const
 {
     return std::holds_alternative<diag_array>( data );
+}
+
+bool diag_value::is_empty() const
+{
+    return std::holds_alternative<std::monostate>( data );
 }
 
 diag_array const &diag_value::array() const
@@ -164,7 +186,7 @@ diag_array const &diag_value::array() const
     return _diag_value_at_parse_time<diag_array, diag_array const &>( data );
 }
 
-diag_array const &diag_value::array( dialogue const &/* d */ ) const
+diag_array const &diag_value::array( const_dialogue const &/* d */ ) const
 {
     return _diag_value_at_parse_time<diag_array, diag_array const &, true>( data );
 }

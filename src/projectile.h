@@ -7,8 +7,8 @@
 #include <set>
 
 #include "compatibility.h"
+#include "coordinates.h"
 #include "damage.h"
-#include "point.h"
 
 class Creature;
 class item;
@@ -70,11 +70,11 @@ struct dealt_projectile_attack {
     projectile proj; // What we used to deal the attack
     Creature *hit_critter; // The critter that stopped the projectile or null
     dealt_damage_instance dealt_dam; // If hit_critter isn't null, hit data is written here
-    tripoint end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
+    tripoint_bub_ms end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
     double missed_by; // Accuracy of dealt attack
 };
 
-void apply_ammo_effects( const Creature *source, const tripoint &p,
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
                          const std::set<ammo_effect_str_id> &effects, int dealt_damage );
 int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
 

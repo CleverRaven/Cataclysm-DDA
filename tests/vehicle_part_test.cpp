@@ -126,7 +126,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_vehicles();
     set_time_to_day();
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &character = get_player_character();
     character.toggle_trait( trait_DEBUG_CNF );
     const item backpack( "backpack" );
@@ -137,7 +137,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     // Shift skill levels by one to ensure successful crafting
     // after the change in https://github.com/CleverRaven/Cataclysm-DDA/pull/61985
     character.set_skill_level( recipe.skill_used, recipe.difficulty + 1 );
-    for( const std::pair<skill_id, int> req : recipe.required_skills ) {
+    for( const std::pair<const skill_id, int> &req : recipe.required_skills ) {
         character.set_skill_level( req.first, req.second + 1 );
     }
     for( const recipe_proficiency &prof : recipe.proficiencies ) {
@@ -205,7 +205,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     clear_vehicles();
     set_time( midday );
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     const int water_charges = 8;
     Character &character = get_player_character();
     const item backpack( "backpack" );

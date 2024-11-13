@@ -73,6 +73,7 @@
       {
         "id": "armor_thick",
         "name": "a thick part of the exoskeleton",
+        "is_good": false,
         "armor_mult": { "all": 1.5 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
@@ -329,6 +330,7 @@
       {
         "id": "armor_thick",
         "name": "a thick part of its armor",
+        "is_good": false,
         "armor_mult": { "all": 1.5 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },

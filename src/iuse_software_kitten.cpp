@@ -125,9 +125,7 @@ void robot_finds_kitten::show() const
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
-        for( int c = 0; c < rfkCOLS; c++ ) {
-            mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
-        }
+        mvwhline( w, point( 0, 2 ), BORDER_COLOR, '_', rfkCOLS );
         wmove( w, kitten.pos );
         draw_kitten();
 
@@ -172,9 +170,11 @@ void robot_finds_kitten::show() const
             break;
         case ui_state::bogus_message: {
             std::vector<std::string> bogusvstr = foldstring( this_bogus_message, rfkCOLS );
+            wattron( w, c_white );
             for( size_t c = 0; c < bogusvstr.size(); c++ ) {
-                mvwprintz( w, point( 0, c ), c_white, bogusvstr[c] );
+                mvwprintw( w, point( 0, c ), bogusvstr[c] );
             }
+            wattroff( w, c_white );
             break;
         }
         case ui_state::end_animation: {

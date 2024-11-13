@@ -161,7 +161,7 @@
     "eoc_type": "EVENT",
     "required_event": "loses_mutation",
     "condition": { "and": [ { "compare_string": [ "BEAK", { "context_val": "trait" } ] } ] },
-    "effect": { "queue_eocs": "EOC_MUTE_BEAK_LOSE_2", "time_in_future": 1 }
+    "effect": { "run_eocs": "EOC_MUTE_BEAK_LOSE_2", "time_in_future": 1 }
   },
   {
     "type": "effect_on_condition",
@@ -194,7 +194,7 @@
         { "compare_string": [ "GASTROPOD_EXTREMITY3", { "context_val": "trait" } ] }
       ]
     },
-    "effect": [ { "queue_eocs": "EOC_MUTE_GASTROPOD_LOSE_2", "time_in_future": 1 } ]
+    "effect": [ { "run_eocs": "EOC_MUTE_GASTROPOD_LOSE_2", "time_in_future": 1 } ]
   },
   {
     "type": "effect_on_condition",

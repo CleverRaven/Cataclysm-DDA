@@ -2,8 +2,11 @@
   {
     "abstract": "mon_snake_abstract",
     "type": "MONSTER",
-    "name": { "str": "abstract snake" },
-    "description": "This is an abstract monster for other snakes to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+    "name": { "str": "abstract snake", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an abstract monster for other snakes to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+      "//~": "NO_I18N"
+    },
     "default_faction": "snake_small",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
@@ -48,8 +51,11 @@
   {
     "abstract": "mon_snakelet_abstract",
     "type": "MONSTER",
-    "name": { "str": "abstract snakelet" },
-    "description": "This is an abstract monster for other snakelets to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+    "name": { "str": "abstract snakelet", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an abstract monster for other snakelets to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+      "//~": "NO_I18N"
+    },
     "copy-from": "mon_snake_abstract",
     "volume": "10 ml",
     "weight": "10 g",
@@ -64,8 +70,11 @@
   {
     "abstract": "mon_turtle_abstract",
     "type": "MONSTER",
-    "name": { "str": "abstract turtle" },
-    "description": "This is an abstract monster for other turtles to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+    "name": { "str": "abstract turtle", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an abstract monster for other turtles to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+      "//~": "NO_I18N"
+    },
     "default_faction": "turtle_small",
     "bodytype": "turtle",
     "categories": [ "WILDLIFE" ],
@@ -96,8 +105,11 @@
   {
     "abstract": "mon_turtle_baby_abstract",
     "type": "MONSTER",
-    "name": { "str": "abstract turtle hatchling" },
-    "description": "This is an abstract monster for other turtle hatchlings to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+    "name": { "str": "abstract turtle hatchling", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an abstract monster for other turtle hatchlings to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+      "//~": "NO_I18N"
+    },
     "copy-from": "mon_turtle_abstract",
     "volume": "15 ml",
     "weight": "15 g",
@@ -113,7 +125,7 @@
     "name": { "str": "timber rattlesnake snakelet" },
     "description": "A timber rattlesnake in its hatchling stage.  It will eventually grow a rattle and learn how to hunt.",
     "copy-from": "mon_snakelet_abstract",
-    "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
+    "upgrades": { "age_grow": 1460, "into": "mon_rattlesnake" },
     "extend": { "flags": [ "VENOM" ] }
   },
   {
@@ -131,7 +143,7 @@
     "special_attacks": [ [ "RATTLE", 6 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 10, "baby_timer": 135 },
+    "reproduction": { "baby_type": { "baby_monster_group": "REPRODUCTION_MUT_RATTLESNAKE" }, "baby_count": 10, "baby_timer": 135 },
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "extend": { "flags": [ "BADVENOM" ] }
@@ -143,7 +155,7 @@
     "description": "A common species of snake found all across North America.",
     "copy-from": "mon_snake_abstract",
     "default_faction": "snake_tiny_aquatic",
-    "reproduction": { "baby_monster": "mon_gartersnake_baby", "baby_count": 10, "baby_timer": 90 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_gartersnake_baby" }, "baby_count": 10, "baby_timer": 90 },
     "//": "The numbers here can technically go up to 80 snakelets, with averages reaching 40, but lets be honest the game couldn't handle that.",
     "baby_flags": [ "SUMMER" ]
   },
@@ -154,7 +166,7 @@
     "description": "A garter snake in its juvenile stage.",
     "copy-from": "mon_snakelet_abstract",
     "default_faction": "snake_tiny_aquatic",
-    "upgrades": { "age_grow": 136, "into": "mon_gartersnake" }
+    "upgrades": { "age_grow": 544, "into": "mon_gartersnake" }
   },
   {
     "id": "mon_wormsnake",
@@ -170,7 +182,7 @@
     "speed": 70,
     "vision_day": 6,
     "vision_night": 6,
-    "reproduction": { "baby_egg": "egg_wormsnake", "baby_count": 8, "baby_timer": 50 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_wormsnake" }, "baby_count": 8, "baby_timer": 50 },
     "biosignature": { "biosig_item": "shed_snakeskin_little", "biosig_timer": 180 },
     "extend": { "flags": [ "CAN_DIG" ], "fear_triggers": [ "SOUND", "BRIGHT_LIGHT" ] }
   },
@@ -181,7 +193,7 @@
     "description": "A worm snake in its hatchling stage.  Not that much smaller than an adult, actually.",
     "default_faction": "lizard_tiny",
     "copy-from": "mon_snakelet_abstract",
-    "upgrades": { "age_grow": 75, "into": "mon_wormsnake" },
+    "upgrades": { "age_grow": 300, "into": "mon_wormsnake" },
     "extend": { "fear_triggers": [ "BRIGHT_LIGHT" ] }
   },
   {
@@ -193,7 +205,7 @@
     "volume": "370 ml",
     "weight": "370 g",
     "hp": 2,
-    "reproduction": { "baby_egg": "egg_turtle_painted", "baby_count": 8, "baby_timer": 40 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_turtle_painted" }, "baby_count": 8, "baby_timer": 40 },
     "baby_flags": [ "SUMMER" ]
   },
   {
@@ -202,7 +214,7 @@
     "name": { "str": "painted turtle hatchling" },
     "description": "A painted turtle in its hatchling stage.",
     "copy-from": "mon_turtle_baby_abstract",
-    "upgrades": { "age_grow": 548, "into": "mon_turtle_painted" },
+    "upgrades": { "age_grow": 2190, "into": "mon_turtle_painted" },
     "//": "In northmost regions of the range we're looking at 6 years as an absolute minimum to reach adulthood."
   },
   {
@@ -220,7 +232,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "reproduction": { "baby_egg": "egg_turtle_snapping_common", "baby_count": 25, "baby_timer": 103 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_turtle_snapping_common" }, "baby_count": 25, "baby_timer": 103 },
     "//": "Similar to the garter snake, we're reaching 80 at maximum estimates, but that is a deeply unserious amount of baby turtles for the game to handle.",
     "baby_flags": [ "SUMMER" ]
   },
@@ -231,7 +243,7 @@
     "description": "A common snapping turtle in its hatchling stage.",
     "copy-from": "mon_turtle_baby_abstract",
     "default_faction": "turtle_small_predator",
-    "upgrades": { "age_grow": 1095, "into": "mon_turtle_snapping_common" },
+    "upgrades": { "age_grow": 4380, "into": "mon_turtle_snapping_common" },
     "//": "12 years to reach maturity. It should probably be 15 years, because we're reaching the Northern range of the species in the setting, but odds are nobody is ever gonna see those grow to adulthood anyway."
   },
   {
@@ -263,7 +275,7 @@
     "harvest": "mammal_tiny",
     "dissect": "dissect_lizard_sample_single",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "SOUND" ],
-    "reproduction": { "baby_egg": "egg_skink_fivelined", "baby_count": 18, "baby_timer": 55 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_skink_fivelined" }, "baby_count": 18, "baby_timer": 55 },
     "baby_flags": [ "SUMMER" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "HARDTOSHOOT", "PATH_AVOID_DANGER", "ANIMAL" ]
   },
@@ -279,7 +291,7 @@
     "morale": -20,
     "vision_day": 16,
     "vision_night": 3,
-    "upgrades": { "age_grow": 75, "into": "mon_skink_fivelined" },
+    "upgrades": { "age_grow": 300, "into": "mon_skink_fivelined" },
     "//": "Sexual maturity at 2-3 years, but there's no way in hell they don't reach adult size before that, so we take 10 months as a fairly safe guesstimate.",
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -303,7 +315,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 240 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_s" }, "baby_count": 13, "baby_timer": 240 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
     "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 180 },
@@ -370,7 +382,7 @@
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 15, "baby_timer": 120 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_big_s" }, "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
@@ -423,7 +435,7 @@
     ],
     "regenerates": 2,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 20, "baby_timer": 90 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_big_s" }, "baby_count": 20, "baby_timer": 90 },
     "//babies": "Rattlesnake's gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
@@ -495,18 +507,9 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
-    "description": "A speckled, grey-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
+    "description": "A speckled, gray-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
     "color": "dark_gray",
     "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_LEO" }
-  },
-  {
-    "id": "mon_pattern_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_leo_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_pattern_frog" }
   },
   {
     "id": "mon_bullfrog_tadpole",
@@ -518,16 +521,7 @@
     "volume": "240 ml",
     "weight": "120 g",
     "hp": 2,
-    "upgrades": { "age_grow": 91, "into": "mon_bullfrog_frog" }
-  },
-  {
-    "id": "mon_strange_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_bullfrog_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_strange_frog" }
+    "upgrades": { "age_grow": 91, "into_group": "GROUP_TADPOLE_BULLFROG" }
   },
   {
     "id": "mon_fowler_tadpole",
@@ -535,17 +529,8 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 8, "into": "mon_fowler_toad" },
+    "upgrades": { "age_grow": 8, "into_group": "GROUP_TADPOLE_FOWLER" },
     "extend": { "flags": [ "POISON" ] }
-  },
-  {
-    "id": "mon_foul_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_fowler_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 8, "into": "mon_foul_toad" }
   },
   {
     "id": "mon_freedom_tadpole",
@@ -553,20 +538,8 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 15, "into": "mon_freedom_toad" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_FREEDOM" },
     "extend": { "flags": [ "POISON" ] }
-  },
-  {
-    "id": "mon_odd_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_freedom_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "volume": "240 ml",
-    "weight": "120 g",
-    "hp": 2,
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_odd_toad" }
   },
   {
     "id": "mon_peeper_tadpole",
@@ -575,16 +548,7 @@
     "name": { "str": "tadpole" },
     "description": "A tiny larval frog.  Almost solid black, this one is barely a speck in the water around it.",
     "color": "dark_gray",
-    "upgrades": { "age_grow": 15, "into": "mon_peeper_frog" }
-  },
-  {
-    "id": "mon_vocal_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_peeper_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_vocal_frog" }
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_PEEPER" }
   },
   {
     "id": "mon_gray_tadpole",
@@ -593,16 +557,7 @@
     "name": { "str": "tadpole" },
     "description": "This rather unique tadpole might be mistaken for a small fish.  It sports a very broad tail with bright red-orange coloration at its end, dotted with black spots.",
     "color": "red",
-    "upgrades": { "age_grow": 15, "into": "mon_gray_frog" }
-  },
-  {
-    "id": "mon_shift_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_gray_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_shift_frog" }
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_GRAY" }
   },
   {
     "id": "mon_mink_tadpole",
@@ -613,35 +568,13 @@
     "upgrades": { "age_grow": 91, "into": "mon_mink_frog" }
   },
   {
-    "id": "mon_tail_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_mink_tadpole",
-    "description": "This strange tadpole is mostly tail.  The tail itself appears to have exceptional strength and flexibility, for a tadpole.  It may be able to use it for more than swimming.",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "speed": 60,
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_tail_frog" },
-    "delete": { "flags": [ "AQUATIC" ] }
-  },
-  {
     "id": "mon_pickerel_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
     "description": "This yellowish tadpole is covered in flecks of brown and cream coloring.  Its eyes rest close together on a notably pointed face.",
     "name": { "str": "tadpole" },
     "color": "yellow",
-    "upgrades": { "age_grow": 22, "into": "mon_pickerel_frog" },
-    "extend": { "flags": [ "POISON" ] }
-  },
-  {
-    "id": "mon_palette_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_pickerel_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_palette_frog" },
+    "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_PICKEREL" },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -703,7 +636,7 @@
     "id": "mon_pattern_bigtad",
     "type": "MONSTER",
     "copy-from": "mon_proxy_bigtad",
-    "description": "A giant, grey-brown tadpole.  Its body is covered in irregular, chaotic speckles of pitch black and chalk white.",
+    "description": "A giant, gray-brown tadpole.  Its body is covered in irregular, chaotic speckles of pitch black and chalk white.",
     "name": { "str": "giant tadpole" },
     "color": "dark_gray",
     "upgrades": { "age_grow": 22, "into": "mon_pattern_bigfrog" },
@@ -735,6 +668,23 @@
     "name": { "str": "giant tadpole" },
     "upgrades": { "age_grow": 10, "into": "mon_odd_bigfrog" },
     "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_vocal_bigtad",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_bigtad",
+    "description": "A much larger than average tadpole.  Despite its unusual size, it is hard to make out any features from its dark, almost black, tint.",
+    "name": { "str": "giant tadpole" },
+    "upgrades": { "age_grow": 10, "into_group": "GROUP_BIGTAD_VOCAL" }
+  },
+  {
+    "id": "mon_shift_bigtad",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_bigtad",
+    "color": "red",
+    "description": "This tadpole's expanded size only eccentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
+    "name": { "str": "giant tadpole" },
+    "upgrades": { "age_grow": 10, "into": "mon_shift_bigfrog" }
   },
   {
     "abstract": "mon_proxy_frog",
@@ -771,7 +721,7 @@
     "copy-from": "mon_proxy_frog",
     "description": "Leopard frogs are named for the brown spots on their backs and legs.  Although limited by size, they too are voracious predators.",
     "name": { "str": "leopard frog" },
-    "reproduction": { "baby_egg": "egg_leo_frog", "baby_count": 6, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_leo_frog" }, "baby_count": 6, "baby_timer": 20 }
   },
   {
     "id": "mon_pattern_frog",
@@ -782,7 +732,6 @@
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -796,7 +745,7 @@
     "hp": 4,
     "color": "green",
     "harvest": "bullfrog",
-    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bullfrog_frog" }, "baby_count": 16, "baby_timer": 26 }
   },
   {
     "id": "mon_strange_frog",
@@ -817,7 +766,7 @@
     "copy-from": "mon_proxy_frog",
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
     "name": { "str": "Fowler's toad" },
-    "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fowler_toad" }, "baby_count": 8, "baby_timer": 36 },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -838,7 +787,7 @@
     "copy-from": "mon_proxy_frog",
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
     "name": { "str": "American toad" },
-    "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_freedom_toad" }, "baby_count": 8, "baby_timer": 36 },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -864,7 +813,7 @@
     "weight": "4 g",
     "hp": 1,
     "special_attacks": [ [ "PARROT", 30 ], { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
-    "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_peeper_frog" }, "baby_count": 8, "baby_timer": 20 }
   },
   {
     "id": "mon_vocal_frog",
@@ -886,7 +835,7 @@
     "weight": "10 g",
     "hp": 2,
     "color": "light_gray",
-    "reproduction": { "baby_egg": "egg_gray_frog", "baby_count": 8, "baby_timer": 26 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_gray_frog" }, "baby_count": 8, "baby_timer": 26 },
     "extend": { "flags": [ "CAMOUFLAGE" ] }
   },
   {
@@ -909,7 +858,7 @@
     "weight": "10 g",
     "hp": 2,
     "color": "green",
-    "reproduction": { "baby_egg": "egg_mink_frog", "baby_count": 8, "baby_timer": 26 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_mink_frog" }, "baby_count": 8, "baby_timer": 26 }
   },
   {
     "id": "mon_tail_frog",
@@ -929,7 +878,7 @@
     "volume": "150 ml",
     "weight": "10 g",
     "hp": 2,
-    "reproduction": { "baby_egg": "egg_pickerel_frog", "baby_count": 8, "baby_timer": 26 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pickerel_frog" }, "baby_count": 8, "baby_timer": 26 },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -953,7 +902,7 @@
     "weight": "10 g",
     "hp": 2,
     "color": "green",
-    "reproduction": { "baby_egg": "egg_green_frog", "baby_count": 8, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_green_frog" }, "baby_count": 8, "baby_timer": 20 }
   },
   {
     "id": "mon_wood_frog",
@@ -964,7 +913,7 @@
     "volume": "150 ml",
     "weight": "10 g",
     "hp": 2,
-    "reproduction": { "baby_egg": "egg_wood_frog", "baby_count": 8, "baby_timer": 36 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_wood_frog" }, "baby_count": 8, "baby_timer": 36 }
   },
   {
     "id": "mon_spade_frog",
@@ -975,7 +924,7 @@
     "volume": "150 ml",
     "weight": "10 g",
     "hp": 2,
-    "reproduction": { "baby_egg": "egg_spade_frog", "baby_count": 8, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_spade_frog" }, "baby_count": 8, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "FALL", "WINTER" ],
     "extend": { "flags": [ "POISON" ] }
   },
@@ -1081,7 +1030,7 @@
     "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
     "zombify_into": "mon_zombullfrog",
-    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_strange_bigfrog" }, "baby_count": 12, "baby_timer": 20 },
     "delete": { "flags": [ "SWARMS" ] }
   },
   {
@@ -1093,7 +1042,7 @@
     "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
     "zombify_into": "mon_toad_zombie",
-    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_odd_bigfrog" }, "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "POISON" ] },
     "delete": { "flags": [ "SWARMS" ] }
   },
@@ -1101,7 +1050,7 @@
     "id": "mon_pattern_bigfrog",
     "type": "MONSTER",
     "name": { "str": "staticskin frog" },
-    "description": "Bioluminescent trails trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are instead fragmented collages of grey and black pigment over pale skin.  Its vestigial gills have grown into something else.  You can see them bulging the flesh under its mouth.",
+    "description": "Bioluminescent trails trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are instead fragmented collages of gray and black pigment over pale skin.  Its vestigial gills have grown into something else.  You can see them bulging the flesh under its mouth.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
@@ -1117,7 +1066,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pattern_bigfrog" }, "baby_count": 12, "baby_timer": 20 }
   },
   {
     "id": "mon_foul_bigfrog",
@@ -1157,7 +1106,7 @@
     ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
     "zombify_into": "mon_toad_zombie",
-    "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 12, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_foul_bigfrog" }, "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "When possible, add an AOE burst & temporary trail of slippery, toxic grease on several hour cooldown.  The toad can expel grease like a squid with ink.  The grease offgasses into something between tear gas and a blister agent, hence the smell.  NO_BREATHE flag is to prevent self-gassing."
   },
@@ -1201,7 +1150,7 @@
     "fear_triggers": [ "HURT", "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "PLAYER_CLOSE", "MATING_SEASON" ],
     "zombify_into": "mon_zombtreefrog",
-    "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 12, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_vocal_bigfrog" }, "baby_count": 12, "baby_timer": 20 },
     "delete": { "flags": [ "SWARMS" ] },
     "harvest": "bullfrog",
     "//": "Give climbing (Z axis) ability when available."
@@ -1249,15 +1198,15 @@
     "armor": { "bash": 5, "acid": 2, "heat": 5, "electric": 4 },
     "vision_night": 35,
     "zombify_into": "mon_frog_shadow",
-    "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 12, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_shift_bigfrog" }, "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "CAMOUFLAGE" ] },
     "//": "Give climbing (Z axis) ability when available."
   },
   {
     "abstract": "mon_proxy_giganfrog",
     "type": "MONSTER",
-    "name": { "str": "giant proxy frog" },
-    "description": "This frog is much too big to be real, must be a bug",
+    "name": { "str": "giant proxy frog", "//~": "NO_I18N" },
+    "description": { "str": "This frog is much too big to be real, must be a bug", "//~": "NO_I18N" },
     "default_faction": "frog",
     "bodytype": "frog",
     "species": [ "AMPHIBIAN" ],
@@ -1321,7 +1270,7 @@
     "color": "light_green",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_STRANGE_MEGA" },
     "zombify_into": "mon_zombullfrog",
-    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 18, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_strange_bigfrog" }, "baby_count": 18, "baby_timer": 20 }
   },
   {
     "id": "mon_odd_giganfrog",
@@ -1331,7 +1280,7 @@
     "copy-from": "mon_proxy_giganfrog",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_ODD_MEGA" },
     "zombify_into": "mon_toad_zombie",
-    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_odd_bigfrog" }, "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -1379,7 +1328,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pattern_bigfrog" }, "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "SWARMS" ] }
   },
   {
@@ -1421,15 +1370,15 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_FOUL_MEGA" },
     "zombify_into": "mon_toad_zombie",
-    "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_foul_bigfrog" }, "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE", "SWARMS" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
   },
   {
     "abstract": "mon_proxy_megafrog",
     "type": "MONSTER",
-    "name": { "str": "mega proxy frog" },
-    "description": "You can only imagine the size of the (de)bugs that drew out this enormous frog",
+    "name": { "str": "mega proxy frog", "//~": "NO_I18N" },
+    "description": { "str": "You can only imagine the size of the (de)bugs that drew out this enormous frog", "//~": "NO_I18N" },
     "default_faction": "frog",
     "bodytype": "frog",
     "species": [ "AMPHIBIAN" ],
@@ -1516,7 +1465,7 @@
       [ "SHRIEK_STUN", 5 ]
     ],
     "zombify_into": "mon_frog_dad",
-    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 32, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_strange_bigfrog" }, "baby_count": 32, "baby_timer": 20 }
   },
   {
     "id": "mon_odd_megafrog",
@@ -1526,7 +1475,7 @@
     "copy-from": "mon_proxy_megafrog",
     "armor": { "bash": 18, "cut": 18, "bullet": 12, "electric": 4 },
     "zombify_into": "mon_toad_wart",
-    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 32, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_odd_bigfrog" }, "baby_count": 32, "baby_timer": 20 },
     "extend": { "flags": [ "POISON" ] },
     "//": "Simple wallowing, likes to create deep pits and lay in them."
   },
@@ -1586,7 +1535,7 @@
     ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_toad_bone",
-    "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 32, "baby_timer": 20 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_foul_bigfrog" }, "baby_count": 32, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
   }

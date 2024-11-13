@@ -59,8 +59,8 @@
         "symbols": "━━┃━━━┃━",
         "symbols_broken": "#"
       },
-      { "id": "nw_edge", "label": "Front Left Corner", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
-      { "id": "ne_edge", "label": "Front Right Corner", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "nw_edge", "label": "Front Left Corner", "symbols": "┌┌└┘┘┘┐┌", "symbols_broken": "#" },
+      { "id": "ne_edge", "label": "Front Right Corner", "symbols": "┐┐┌└└└┘┐", "symbols_broken": "#" },
       { "id": "vertical_left", "label": "Left Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
       { "id": "vertical_right", "label": "Right Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
       { "id": "vertical_T_left", "label": "Left T Joint", "symbols": "[\\-/[\\-/", "symbols_broken": "#" },

@@ -11,7 +11,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "wire", 3 ], [ "cable", 30 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "any_wire", 3, "LIST" ], [ "cable", 30 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -408,7 +408,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "any_wire", 1, "LIST" ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 10 ] ],
       [ [ "cable", 5 ] ]

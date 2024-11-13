@@ -33,7 +33,6 @@
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
 #include "coords_fwd.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -68,6 +67,7 @@ class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
@@ -520,6 +520,8 @@ struct run_cost_effect {
     float plus = 0;
 };
 
+nutrients default_character_compute_effective_nutrients( const item &comest );
+
 class Character : public Creature, public visitable
 {
     public:
@@ -586,6 +588,9 @@ class Character : public Creature, public visitable
 
         const profession *prof;
         std::set<const profession *> hobbies;
+        void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
+
 
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint_rel_ms grab_point;
@@ -739,11 +744,13 @@ class Character : public Creature, public visitable
         /** Recalculate size class of character **/
         void recalculate_size();
 
-        /** Returns either "you" or the player's name. capitalize_first assumes
-            that the character's name is already upper case and uses it only for
-            possessive "your" and "you"
+        /** Displays character name with a npc_class/profession suffix
         **/
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        /** Returns the player's profession or an NPC's suffix if they have one
+        * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
+        **/
+        std::string disp_profession() const;
         virtual std::string name_and_maybe_activity() const;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
@@ -773,6 +780,7 @@ class Character : public Creature, public visitable
 
         //returns character's profession
         const profession *get_profession() const;
+        void add_profession_items();
         //returns the hobbies
         std::set<const profession *> get_hobbies() const;
 
@@ -1113,8 +1121,6 @@ class Character : public Creature, public visitable
 
         double recoil = MAX_RECOIL;
 
-        std::string custom_profession;
-
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
 
@@ -1127,12 +1133,13 @@ class Character : public Creature, public visitable
         bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random technique/vector/contact area set from the  possible techs */
         std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> pick_technique(
-            Creature &t, const item_location &weap,
-            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
+            Creature const &t, const item_location &weap,
+            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} )
+        const;
         // Filter techniques per tech, return a tech/vector/sublimb set
         std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-                evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
-                                    bool crit = false, bool dodge_counter = false, bool block_counter = false );
+                evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
+                                    bool crit = false, bool dodge_counter = false, bool block_counter = false ) const;
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
@@ -1152,7 +1159,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
-        void reach_attack( const tripoint &p, int forced_movecost = -1 );
+        void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
@@ -1231,9 +1238,9 @@ class Character : public Creature, public visitable
         bool can_autolearn( const matype_id &ma_id ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique );
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<Creature *> &targets );
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique ) const;
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique,
+                                  std::vector<Creature *> &targets ) const;
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
@@ -1332,6 +1339,10 @@ class Character : public Creature, public visitable
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
         void randomize_cosmetic_trait( const std::string &mutation_type );
+        /** Damages worn equipment
+        @param days - simulated number of in-game days passed
+        */
+        void starting_inv_damage_worn( int days );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -1386,9 +1397,17 @@ class Character : public Creature, public visitable
         bool has_flag( const json_character_flag &flag ) const;
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
+
+    private:
+        // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.
+        mutable std::map<const json_character_flag, bool> trait_flag_cache;
+
+    public:
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
-
+        /** Returns the vector of all traits in category, good/bad/any */
+        std::vector<trait_id> get_in_category( const mutation_category_id &categ,
+                                               mut_count_type count_type ) const;
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id &, const std::string & = "" );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
@@ -1608,6 +1627,11 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that tree has */
+        int get_total_in_category( const mutation_category_id &categ, mut_count_type count_type ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that character has */
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const;
         /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
         bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */
@@ -2414,6 +2438,9 @@ class Character : public Creature, public visitable
         std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
 
         // --------------- Skill Stuff ---------------
+
+        //sets all skills to 0 so that they're guaranteed to be in the map
+        void zero_all_skills();
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
@@ -2635,7 +2662,7 @@ class Character : public Creature, public visitable
         nc_color symbol_color() const override;
         const std::string &symbol() const override;
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
 
         std::string mutation_name( const trait_id &mut ) const;
         std::string mutation_desc( const trait_id &mut ) const;
@@ -2695,6 +2722,11 @@ class Character : public Creature, public visitable
         std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
         std::optional<std::string> play_name;
+        // In-game name suffix, either a profession or npc class, variable
+        std::optional<std::string> play_name_suffix;
+        // In-game customized suffix, set by player OR temp professison for NPC
+        std::string custom_profession;
+
         bool male = false;
 
         std::vector<effect_on_condition_id> death_eocs;
@@ -2713,7 +2745,7 @@ class Character : public Creature, public visitable
         // Items currently being hauled
         std::vector<item_location> haul_list;
 
-        tripoint view_offset;
+        mutable tripoint_rel_ms view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
@@ -2752,7 +2784,8 @@ class Character : public Creature, public visitable
 
         int avg_nat_bpm;
         void randomize_heartrate();
-
+        void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
@@ -3133,7 +3166,7 @@ class Character : public Creature, public visitable
          *  @return number of shots actually fired
          */
 
-        int fire_gun( const tripoint &target, int shots = 1 );
+        int fire_gun( const tripoint_bub_ms &target, int shots = 1 );
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
@@ -3141,10 +3174,11 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
+        int fire_gun( const tripoint_bub_ms &target, int shots, item &gun,
+                      item_location ammo = item_location() );
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
+        dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
+                                            const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
     protected:
         void on_damage_of_type( const effect_source &source, int adjusted_damage,

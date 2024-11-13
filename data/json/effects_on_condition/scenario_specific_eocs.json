@@ -59,13 +59,13 @@
         "max_radius": 0
       },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "x_adjust": 11, "y_adjust": 11 },
-      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 0, "z_override": true },
-      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 1, "z_override": true },
-      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       {
         "u_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],

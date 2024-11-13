@@ -1413,7 +1413,7 @@
     "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "red_phosphorous_small", 3 ], [ "gunpowder", 30 ] ] ]
   },
   {
-    "result": "wire",
+    "result": "lc_wire",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
@@ -1452,6 +1452,7 @@
         [ "sheet_metal", -1 ],
         [ "fire_brick", -1 ],
         [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
         [ "anvil_bronze", -1 ],
         [ "casting_mold_small", -1 ]
       ],

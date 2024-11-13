@@ -15,7 +15,7 @@
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your fulgurating strikes!", "type": "bad" },
       { "u_lose_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
-      { "queue_eocs": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_deactivate_future", "time_in_future": 0 }
     ]
   },
   {

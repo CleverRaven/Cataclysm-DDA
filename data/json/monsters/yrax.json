@@ -368,6 +368,7 @@
     "description": "A kite shaped blade of metal, darting through air and foes by indiscernible means.",
     "default_faction": "yrax",
     "weight": "374 g",
+    "species": [ "ROBOT" ],
     "volume": "500 ml",
     "vision_day": 50,
     "vision_night": 20,

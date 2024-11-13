@@ -50,6 +50,7 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+class const_talker;
 class translation;
 namespace catacurses
 {
@@ -502,7 +503,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string &name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint_bub_ms &p );
 
         /**
          * If training_level is anything but 0, the check will only train target's skill to that level
@@ -1181,7 +1182,7 @@ class Creature : public viewer
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
-        virtual std::string extended_description() const = 0;
+        virtual std::vector<std::string> extended_description() const = 0;
 
         /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
@@ -1346,6 +1347,6 @@ class Creature : public viewer
         void print_proj_avoid_msg( Creature *source, viewer &player_view ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
-std::unique_ptr<talker> get_talker_for( const Creature &me );
+std::unique_ptr<const_talker> get_const_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

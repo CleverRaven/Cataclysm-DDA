@@ -528,7 +528,7 @@
     "id": "shotgun_triple",
     "copy-from": "shotgun_s",
     "type": "GUN",
-    "name": { "str": "triple-barrelled shotgun" },
+    "name": { "str": "triple-barreled shotgun" },
     "description": "A pretty modern-looking shotgun that has three barrels.",
     "variant_type": "gun",
     "variants": [
@@ -640,14 +640,14 @@
     "id": "dp_12",
     "copy-from": "shotgun_pump",
     "type": "GUN",
-    "name": { "str": "double-barrelled pump shotgun" },
+    "name": { "str": "double-barreled pump shotgun" },
     "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "dp_12",
         "name": { "str": "DP-12" },
-        "description": "A bullpup, 12-gauge, pump-action, double-barrelled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
+        "description": "A bullpup, 12-gauge, pump-action, double-barreled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
       }
     ],
     "weight": "4989 g",
@@ -811,7 +811,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
+    "flags": [ "NO_TURRET", "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -902,7 +902,7 @@
         "id": "tar_12p",
         "name": { "str": "Tokarev TAR 12P" },
         "weight": 327,
-        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilise MKA 1919 magazines of different sizes."
+        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
@@ -914,7 +914,7 @@
         "id": "boss25",
         "name": { "str": "BOSS 25" },
         "weight": 299,
-        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilise MKA 1919 magazines of different sizes."
+        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12s",

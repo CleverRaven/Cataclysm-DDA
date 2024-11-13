@@ -15,5 +15,12 @@
     "intensity": 1,
     "chance": 100,
     "qty": 1
+  },
+  {
+    "id": "emit_obscuring_fog",
+    "type": "emit",
+    "field": "fd_obscuring_fog",
+    "intensity": 3,
+    "qty": 80
   }
 ]

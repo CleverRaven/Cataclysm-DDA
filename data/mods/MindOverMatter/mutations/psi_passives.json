@@ -160,14 +160,11 @@
     "enchantments": [
       {
         "values": [
-          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATHIC')))" ] } },
-          {
-            "value": "SOCIAL_LIE",
-            "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATHIC')))" ] }
-          },
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATH')))" ] } },
+          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATH')))" ] } },
           {
             "value": "SOCIAL_PERSUADE",
-            "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATHIC')))" ] }
+            "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATH')))" ] }
           }
         ]
       }
