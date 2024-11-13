@@ -421,9 +421,9 @@ TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
-    tripoint loc = get_avatar().pos() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
-    test_monster.set_baby_timer( calendar::turn - 1_days );
+    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_eggs = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
@@ -443,9 +443,9 @@ TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
-    tripoint loc = get_avatar().pos() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
-    test_monster.set_baby_timer( calendar::turn - 1_days );
+    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_egg_group = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
@@ -465,9 +465,9 @@ TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
 {
     clear_map();
     creature_tracker &creatures = get_creature_tracker();
-    tripoint loc = get_avatar().pos() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon", loc );
-    test_monster.set_baby_timer( calendar::turn - 1_days );
+    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_babies = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
@@ -487,9 +487,9 @@ TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
 {
     clear_map();
     creature_tracker &creatures = get_creature_tracker();
-    tripoint loc = get_avatar().pos() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon_group", loc );
-    test_monster.set_baby_timer( calendar::turn - 1_days );
+    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_baby_mongroup = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
