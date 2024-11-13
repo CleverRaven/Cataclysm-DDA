@@ -2787,6 +2787,18 @@
   },
   {
     "type": "mutation",
+    "id": "M_ANCHOR",
+    "name": "Mycus Stability",
+    "points": 8,
+    "description": "As the world ages, we encounter increasingly more discordant phenomena where normal physics temporarily break down.  Local physiology seems to attract unwanted attention and is frayed as exposure continues.  To facilitate steady future development, we have adapted via further intertwining Mycus into the very identity of our flesh, allowing us to ward off whatever it is that seeks to harm us.",
+    "purifiable": false,
+    "category": [ "MYCUS" ],
+    "prereqs": [ "M_SKIN3" ],
+    "threshreq": [ "THRESH_MYCUS" ],
+    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF" ]
+  },
+  {
+    "type": "mutation",
     "id": "SPARSE_SCALES",
     "name": { "str": "Sparse Scales" },
     "points": 2,

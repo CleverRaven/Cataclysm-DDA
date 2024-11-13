@@ -97,7 +97,7 @@ extern const flag_id flag_DEAF;
 extern const flag_id flag_DECAYS_IN_AIR;
 extern const flag_id flag_DIAMOND;
 extern const flag_id flag_DIG_TOOL;
-extern const flag_id flag_DIMENSIONAL_ANCHOR;
+extern const flag_id json_flag_DIMENSIONAL_ANCHOR;
 extern const flag_id flag_DIRTY;
 extern const flag_id flag_DISABLE_SIGHTS;
 extern const flag_id flag_DROP_ACTION_ONLY_IF_LIQUID;
