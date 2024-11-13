@@ -155,9 +155,9 @@ Morphic Sizing flag for summoned/magickal items
 Pet feeding tweaks
 Adds a baseball bat recipe
 Flagify animal empathy/discord traits
-dialogue debug: toggle display of conditionals/effects
+Dialogue debug: toggle display of conditionals/effects
 Character randomization sometimes produces 'crossdressing' characters
-dialogue: JSON fields for displaying hidden responses
+Dialogue: JSON fields for displaying hidden responses
 Added check for stealing prior to inserting items into container
 Make garlic smokable
 Grazing animals actually eat grass, and it regrows every season
@@ -344,7 +344,7 @@ Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
 Adds new end screen for thresh types, and a unique one.
 Overhaul gun spawning
-fungal brute and hulk
+Fungal brute and hulk
 Massive expansion of dialogues and messages for various categories
 Make more zombies wear wedding rings
 
@@ -801,7 +801,7 @@ Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Remove itch from conjunctivitis and make it even shorter when irrigated
 Electronic devices spawn rate rework
-crashed planes have no ferals
+Crashed planes have no ferals
 Replace land mines with bear traps in the bandit cabin
 Human lard less dense
 Ballista is no longer pure magic
