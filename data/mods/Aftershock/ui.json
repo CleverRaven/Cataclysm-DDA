@@ -216,12 +216,12 @@
       {
         "id": "full1",
         "text": "<color_light_red>▂                  </color>",
-        "condition": { "math": [ "u_shield_ratio", ">=", "0.00" ] }
+        "condition": { "math": [ "u_shield_ratio", ">", "0.00" ] }
       },
       {
         "id": "empty",
         "text": "<color_red>      OFFLINE      </color>",
-        "condition": { "math": [ "u_shield_ratio", "<", "0.00" ] }
+        "condition": { "math": [ "u_shield_ratio", "<=", "0.00" ] }
       }
     ],
     "flags": [ "W_NO_PADDING" ]
