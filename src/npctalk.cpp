@@ -3871,7 +3871,7 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         int count_present = 0;
         Character *you = d.actor( is_npc )->get_character();
         inventory inventory_and_around = you->crafting_inventory( you->pos(), PICKUP_RANGE );
-        std::vector<item_comp> writing_tools;
+        std::vector<item_comp> items_to_remove_vector;
 
         for( const auto &pair : item_and_amount ) {
             int amount_to_remove = 0;
@@ -3887,8 +3887,8 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
 
             if( percent <= 1.0 ) {
                 // either lack or just right amount of items to consume
-                writing_tools = { { item_to_remove, static_cast<int>( count_present ) } };
-                you->consume_items( writing_tools );
+                items_to_remove_vector = { { item_to_remove, static_cast<int>( count_present ) } };
+                you->consume_items( items_to_remove_vector );
 
             } else {
                 // too much items to consume, consuming only to hit 1.00 percent
@@ -3899,8 +3899,8 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
                     percent += ratio / count_present;
                     ++amount_to_remove;
                 }
-                writing_tools = { { item_to_remove, amount_to_remove } };
-                you->consume_items( writing_tools );
+                items_to_remove_vector = { { item_to_remove, amount_to_remove } };
+                you->consume_items( items_to_remove_vector );
             }
         }
     };
