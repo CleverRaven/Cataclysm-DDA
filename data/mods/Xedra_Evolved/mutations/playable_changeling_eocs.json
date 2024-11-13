@@ -1538,7 +1538,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
-    "condition": { "math": [ "magic_weather_dense_fog", "!=", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
     "effect": [
       { "u_message": "A thick fog begins to rise.", "type": "neutral" },
       { "math": [ "magic_weather_dense_fog", "=", "1" ] },

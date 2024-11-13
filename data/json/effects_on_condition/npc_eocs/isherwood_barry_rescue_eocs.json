@@ -11,7 +11,7 @@
           { "math": [ "currently_invading_map", "=", "1" ] }
         ],
         "else": {
-          "if": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+          "if": { "math": [ "isherwood_family_coming != 1" ] },
           "then": [
             {
               "u_location_variable": { "global_val": "invasion_map" },
@@ -46,7 +46,7 @@
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
-          "if": { "math": [ "isherwood_gear_status", "!=", "1" ] },
+          "if": { "math": [ "isherwood_gear_status != 1" ] },
           "then": {
             "mapgen_update": "nest_Isherwood_chris_add",
             "om_terrain": "isherwood_barry_rescue_field",
@@ -68,7 +68,7 @@
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
-          "if": { "and": [ { "math": [ "isherwood_lisa_coming == 1" ] }, { "math": [ "isherwood_gear_status", "!=", "1" ] } ] },
+          "if": { "and": [ { "math": [ "isherwood_lisa_coming == 1" ] }, { "math": [ "isherwood_gear_status != 1" ] } ] },
           "then": {
             "mapgen_update": "nest_Isherwood_lisa_add",
             "om_terrain": "isherwood_barry_rescue_field",
@@ -146,8 +146,8 @@
     "required_event": "avatar_enters_omt",
     "condition": {
       "and": [
-        { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
-        { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        { "math": [ "isherwood_barry_rescued != 1" ] },
+        { "math": [ "isherwood_family_coming != 1" ] },
         { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] },
         { "u_near_om_location": "horse_farm_isherwood_13", "range": 30 }
       ]

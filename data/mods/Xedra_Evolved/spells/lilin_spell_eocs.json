@@ -377,7 +377,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG",
-    "condition": { "math": [ "magic_weather_dense_fog", "!=", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
     "effect": [
       {
         "run_eocs": [

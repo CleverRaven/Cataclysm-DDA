@@ -445,7 +445,7 @@
     "//": "This same EoC will account for other weapons with the BLESSED_WEAPON flag--it also requires the presence of the HEDGE_ENCHANTED flag to trigger damage removing the enchantment",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
-    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits", "!=", "false" ] } ] },
+    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits != false" ] } ] },
     "effect": [
       {
         "run_eocs": [

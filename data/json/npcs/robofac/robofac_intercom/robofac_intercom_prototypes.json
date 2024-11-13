@@ -79,7 +79,7 @@
         "text": "Have you decoded the disk?",
         "condition": {
           "and": [
-            { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
+            { "math": [ "hub01_uhmwpe_researched != 1" ] },
             { "math": [ "has_var(u_dialogue_hub_rnd_u_gave_armor_disk)" ] }
           ]
         },
@@ -209,7 +209,7 @@
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
         "condition": {
           "and": [
-            { "math": [ "hub01_hwp_exotic_researched", "!=", "1" ] },
+            { "math": [ "hub01_hwp_exotic_researched != 1" ] },
             { "math": [ "!has_var(u_dialogue_hub_rnd_u_project_ongoing)" ] },
             { "math": [ "has_var(u_dialogue_hub_rnd_u_has_researched_gun)" ] },
             {

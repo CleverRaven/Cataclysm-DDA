@@ -14,7 +14,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
-        { "math": [ "u_teleportation_gateway_updated", "!=", "1" ] },
+        { "math": [ "u_teleportation_gateway_updated != 1" ] },
         { "math": [ "u_spell_level('teleport_gateway') == -1" ] }
       ]
     },
@@ -28,7 +28,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
-        { "math": [ "u_teleportation_gateway_updated", "!=", "1" ] },
+        { "math": [ "u_teleportation_gateway_updated != 1" ] },
         { "math": [ "u_spell_level('teleport_gateway') >= 1" ] }
       ]
     },

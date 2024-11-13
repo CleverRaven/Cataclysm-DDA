@@ -1222,7 +1222,7 @@
         {
           "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
         },
-        { "math": [ "_success", "!=", "false" ] }
+        { "math": [ "_success != false" ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
@@ -1258,7 +1258,7 @@
         {
           "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
         },
-        { "math": [ "_success", "!=", "false" ] }
+        { "math": [ "_success != false" ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]

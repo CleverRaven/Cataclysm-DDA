@@ -166,12 +166,12 @@
         "run_eocs": [
           {
             "id": "eoc_start_update_quadraphract_walkers",
-            "condition": { "math": [ "updating_quadraphracts", "!=", "1" ] },
+            "condition": { "math": [ "updating_quadraphracts != 1" ] },
             "effect": [ { "run_eocs": "eoc_update_quadraphract_walkers" } ]
           },
           {
             "id": "quadraphract_setup",
-            "condition": { "math": [ "u_setup", "!=", "1" ] },
+            "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
               {
                 "run_eocs": [

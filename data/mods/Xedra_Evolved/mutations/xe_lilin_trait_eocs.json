@@ -338,7 +338,7 @@
         { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
         { "x_in_y_chance": { "x": { "math": [ "max( (u_vitamin('lilin_ruach_vitamin') / 1000) , 1)" ] }, "y": 10 } },
         { "not": "u_has_weapon" },
-        { "math": [ "_hits", "!=", "false" ] }
+        { "math": [ "_hits != false" ] }
       ]
     },
     "effect": [
@@ -361,7 +361,7 @@
         { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
         { "x_in_y_chance": { "x": { "math": [ "max( (u_vitamin('lilin_ruach_vitamin') / 1000) , 1)" ] }, "y": 10 } },
         { "not": "u_has_weapon" },
-        { "math": [ "_hits", "!=", "false" ] }
+        { "math": [ "_hits != false" ] }
       ]
     },
     "effect": [

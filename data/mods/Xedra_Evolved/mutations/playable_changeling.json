@@ -524,7 +524,7 @@
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders", "!=", "0" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders != 0" ] } ] },
         "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] } } ]
       }
     ]

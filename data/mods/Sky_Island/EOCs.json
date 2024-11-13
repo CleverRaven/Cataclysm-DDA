@@ -726,7 +726,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.  UPDATE THE NUMBER IN THE CONDITION BELOW AS VERSIONS UPDATE, THAT'S WHAT DETERMINES WHAT THE OFFICIAL CURRENT VERSION OF THIS MOD IS.",
-    "condition": { "math": [ "versionupdate", "!=", "1" ] },
+    "condition": { "math": [ "versionupdate != 1" ] },
     "effect": [
       { "u_message": "Your save was last used with an older version of Sky Island.  Attempting to update…", "popup": true },
       {
@@ -747,7 +747,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.",
-    "condition": { "math": [ "versionupdate", "!=", "1" ] },
+    "condition": { "math": [ "versionupdate != 1" ] },
     "effect": [
       {
         "if": { "math": [ "versionupdate < 1" ] },

@@ -164,7 +164,7 @@
     "recurrence": [ "1 seconds", "5 seconds" ],
     "global": true,
     "condition": { "or": [ { "math": [ "cause_early_portal_storm == 1" ] }, { "math": [ "cause_portal_storm == 1" ] } ] },
-    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
+    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm != 1" ] }, { "math": [ "cause_portal_storm != 1" ] } ] },
     "effect": "next_weather"
   },
   {
@@ -173,7 +173,7 @@
     "recurrence": [ "45 seconds", "90 seconds" ],
     "global": true,
     "condition": { "or": [ { "math": [ "cause_early_portal_storm == 1" ] }, { "math": [ "cause_portal_storm == 1" ] } ] },
-    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
+    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm != 1" ] }, { "math": [ "cause_portal_storm != 1" ] } ] },
     "effect": [
       {
         "location_variable_adjust": { "global_val": "portal_storm_center" },
@@ -277,7 +277,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EXPAND",
-    "condition": { "math": [ "portal_storm_distance", "!=", "0" ] },
+    "condition": { "math": [ "portal_storm_distance != 0" ] },
     "effect": [
       { "math": [ "portal_storm_distant_distance", "++" ] },
       { "math": [ "portal_storm_close_distance", "++" ] },
@@ -396,7 +396,7 @@
         { "math": [ "portal_dungeon_level == 0" ] },
         "u_is_outside",
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "math": [ "talked_to_storm", "!=", "1" ] },
+        { "math": [ "talked_to_storm != 1" ] },
         { "x_in_y_chance": { "x": 7, "y": 10 } }
       ]
     },
@@ -1061,7 +1061,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_EXIT",
-    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
+    "condition": { "math": [ "portal_dungeon_level != 0" ] },
     "effect": [
       { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       {
@@ -1138,7 +1138,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
+    "condition": { "math": [ "portal_dungeon_level != 0" ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",

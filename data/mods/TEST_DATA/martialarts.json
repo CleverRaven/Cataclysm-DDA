@@ -50,7 +50,7 @@
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }

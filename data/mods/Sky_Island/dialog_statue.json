@@ -94,7 +94,7 @@
       },
       {
         "text": "Heal me.  (Costs 4 Warp Shards)",
-        "condition": { "math": [ "islandrank", "!=", "0" ] },
+        "condition": { "math": [ "islandrank != 0" ] },
         "effect": [ { "run_eocs": [ "EOC_HEAL_NEWBIE" ] } ],
         "topic": "SKYISLAND_SERVICES"
       },

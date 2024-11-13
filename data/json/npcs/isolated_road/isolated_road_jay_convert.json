@@ -158,7 +158,7 @@
         "text": "5.56x45.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "556" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 556" ] },
             { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
@@ -169,7 +169,7 @@
         "text": "7.62x51.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "76251" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 76251" ] },
             { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
@@ -180,7 +180,7 @@
         "text": "7.62x39.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "76239" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 76239" ] },
             { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
@@ -191,7 +191,7 @@
         "text": ".300 AAC.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "300" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 300" ] },
             { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },

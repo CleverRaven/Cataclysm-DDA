@@ -1042,8 +1042,8 @@
         "u_is_avatar",
         { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
         { "math": [ "time_since(u_timer_time_of_last_succession) < time_between_succession" ] },
-        { "math": [ "u_hp('torso')", "!=", "0" ] },
-        { "math": [ "u_hp('head')", "!=", "0" ] }
+        { "math": [ "u_hp('torso') != 0" ] },
+        { "math": [ "u_hp('head') != 0" ] }
       ]
     },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",

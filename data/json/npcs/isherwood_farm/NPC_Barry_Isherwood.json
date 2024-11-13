@@ -132,7 +132,7 @@
       },
       {
         "text": "Yeah, Chris did, we're taking you home.",
-        "condition": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
@@ -153,7 +153,7 @@
     "responses": [
       {
         "text": "Okay, me too, let's go.",
-        "condition": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
@@ -165,7 +165,7 @@
       },
       {
         "text": "All right, we're leaving, but you better not test me again.",
-        "condition": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
@@ -222,7 +222,7 @@
       {
         "text": "That shouldn't take long, I brought some of your family with me.  Let's get you home.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "math": [ "isherwood_family_coming", "!=", "1" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ] },
+        "condition": { "and": [ { "math": [ "isherwood_family_coming != 1" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ] },
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },

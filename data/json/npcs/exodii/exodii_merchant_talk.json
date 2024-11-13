@@ -1126,7 +1126,7 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } },
-            { "math": [ "exodii_knows_hub01", "!=", "1" ] }
+            { "math": [ "exodii_knows_hub01 != 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
@@ -1137,7 +1137,7 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } },
-            { "math": [ "warehouse_was_found", "!=", "1" ] },
+            { "math": [ "warehouse_was_found != 1" ] },
             { "math": [ "exodii_knows_hub01 == 1" ] }
           ]
         },

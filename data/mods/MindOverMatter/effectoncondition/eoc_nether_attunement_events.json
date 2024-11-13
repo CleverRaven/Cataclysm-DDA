@@ -1478,7 +1478,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_NEAR_NETHER_3",
-                    "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "!=", "1" ] },
+                    "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation != 1" ] },
                     "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] } ],
                     "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] } ]
                   }
@@ -1500,7 +1500,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_IN_NETHER_3",
-                    "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "!=", "1" ] },
+                    "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation != 1" ] },
                     "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 1" ] } ],
                     "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2)" ] } ]
                   }
