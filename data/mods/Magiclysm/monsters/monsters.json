@@ -585,19 +585,6 @@
     "vision_day": 83,
     "vision_night": 60,
     "harvest": "exempt",
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "weakpoints": [
-      {
-        "id": "wing",
-        "name": "the wings",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "point": 0.25 },
-        "effects": [ { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
-        "coverage": 12
-      }
-    ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "special_attacks": [
       {
         "id": "smash",
