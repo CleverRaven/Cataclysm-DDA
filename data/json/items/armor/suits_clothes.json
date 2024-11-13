@@ -34,6 +34,7 @@
     "price_postapoc": "80 cent",
     "material": [ "lycra" ],
     "symbol": "[",
+    "looks_like": "jumpsuit",
     "color": "blue",
     "warmth": 15,
     "material_thickness": 1,
