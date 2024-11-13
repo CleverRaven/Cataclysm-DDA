@@ -758,7 +758,7 @@
   {
     "type": "mutation",
     "id": "LILIN_PREVENT_DEATH_TRIGGER",
-    "name": { "str": "All Their Days They Eat in Darkness" },
+    "name": { "//~": "This is a reference to Isaiah 66:24", "str": "Their Worm Shall Not Die" },
     "points": 15,
     "description": "When taking fatal damage, instead of dying you assume the form of an owl, allowing you to fly away from danger and recover.  This does not function during the day, if you are out of ruach, or if you are killed by fire.",
     "prereqs": [ "LILIN_INSTANT_HEAL" ],
