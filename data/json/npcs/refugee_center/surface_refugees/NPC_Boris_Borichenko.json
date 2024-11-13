@@ -97,7 +97,7 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } },
-            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "2" ] }
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1 == 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith2"
@@ -108,7 +108,7 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } },
-            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "3" ] }
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1 == 3" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith3"
@@ -119,7 +119,7 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } },
-            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "4" ] }
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1 == 4" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith4"

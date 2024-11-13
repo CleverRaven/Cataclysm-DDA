@@ -193,7 +193,7 @@
     "melee_allowed": true,
     "weighting": 10,
     "weapon_categories_allowed": [ "QUARTERSTAVES", "LONG_SWORDS", "MEDIUM-SWORDS", "LONG_THRUSTING_SWORDS", "FENCING_WEAPONRY" ],
-    "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum')", "==", "1" ] } ] },
+    "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') == 1" ] } ] },
     "condition_desc": "* Requires <info>momentum(1)</info> to trigger.",
     "mult_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.1 }, { "stat": "movecost", "scale": 0.5 } ],
     "attack_vectors": [ "vector_null" ]

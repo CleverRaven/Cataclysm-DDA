@@ -446,7 +446,7 @@
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
             { "math": [ "!has_var(u_dialogue_hub_rnd_u_can_buy_armor)" ] },
-            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] }
+            { "math": [ "hub01_uhmwpe_researched == 1" ] }
           ]
         },
         "effect": [

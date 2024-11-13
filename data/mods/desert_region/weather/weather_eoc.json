@@ -55,12 +55,12 @@
         "or": [
           { "is_weather": "dust_storm" },
           { "is_weather": "early_dust_storm" },
-          { "math": [ "cause_dust_storm", "==", "1" ] },
-          { "math": [ "cause_early_dust_storm", "==", "1" ] },
+          { "math": [ "cause_dust_storm == 1" ] },
+          { "math": [ "cause_early_dust_storm == 1" ] },
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "math": [ "cause_portal_storm", "==", "1" ] },
-          { "math": [ "cause_early_portal_storm", "==", "1" ] }
+          { "math": [ "cause_portal_storm == 1" ] },
+          { "math": [ "cause_early_portal_storm == 1" ] }
         ]
       }
     },
@@ -99,7 +99,7 @@
     "id": "EOC_CAUSE_DUST_STORM",
     "global": true,
     "//": "This sets up all the variables for the start of a dust storm.",
-    "condition": { "not": { "or": [ { "is_weather": "dust_storm" }, { "math": [ "cause_dust_storm", "==", "1" ] } ] } },
+    "condition": { "not": { "or": [ { "is_weather": "dust_storm" }, { "math": [ "cause_dust_storm == 1" ] } ] } },
     "effect": [
       { "math": [ "cause_early_dust_storm", "=", "0" ] },
       { "math": [ "cause_dust_storm", "=", "1" ] },
@@ -128,8 +128,8 @@
       "or": [
         { "is_weather": "dust_storm" },
         { "is_weather": "early_dust_storm" },
-        { "math": [ "cause_dust_storm", "==", "1" ] },
-        { "math": [ "cause_early_dust_storm", "==", "1" ] }
+        { "math": [ "cause_dust_storm == 1" ] },
+        { "math": [ "cause_early_dust_storm == 1" ] }
       ]
     },
     "effect": [

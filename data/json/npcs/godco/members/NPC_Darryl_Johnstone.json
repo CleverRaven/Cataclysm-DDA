@@ -126,7 +126,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "math": [ "darryl_building_coop", "==", "2" ] },
+            { "math": [ "darryl_building_coop == 2" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] }
           ]
         },

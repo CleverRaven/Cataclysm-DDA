@@ -5,11 +5,11 @@
     "recurrence": 1000,
     "condition": {
       "and": [
-        { "math": [ "nunez_travel_stage", "==", "1" ] },
+        { "math": [ "nunez_travel_stage == 1" ] },
         { "math": [ "nunez_travel_timer", "<", "time_since('cataclysm', 'unit': 'days')" ] }
       ]
     },
-    "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
+    "deactivate_condition": { "math": [ "nunez_travel_stage == 2" ] },
     "effect": [
       { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
       { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },

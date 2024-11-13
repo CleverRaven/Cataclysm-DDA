@@ -568,7 +568,7 @@
         "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and a bottle of wine appears before you."
       },
       {
-        "if": { "math": [ "rand(1)", "==", "1" ] },
+        "if": { "math": [ "rand(1) == 1" ] },
         "then": [ { "u_spawn_item": "wine_riesling", "container": "bottle_glass", "count": 3, "suppress_message": true } ],
         "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
       }

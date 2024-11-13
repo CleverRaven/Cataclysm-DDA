@@ -268,7 +268,7 @@
             { "u_has_trait": "THRESH_HOMULLUS" }
           ]
         },
-        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any')", "==", "0" ] }
+        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any') == 0" ] }
       ]
     },
     "effect": [

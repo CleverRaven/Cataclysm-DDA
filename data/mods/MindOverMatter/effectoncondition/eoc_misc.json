@@ -55,7 +55,7 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
-        { "math": [ "_success", "==", "false" ] }
+        { "math": [ "_success == false" ] }
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(25 * _difficulty)" ] } ]

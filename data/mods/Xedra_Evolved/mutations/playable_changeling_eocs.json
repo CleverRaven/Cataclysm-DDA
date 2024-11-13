@@ -767,7 +767,7 @@
         "npc_must_see": true
       },
       {
-        "if": { "math": [ "brownie_home_teleport", "==", "0" ] },
+        "if": { "math": [ "brownie_home_teleport == 0" ] },
         "then": [
           { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
           { "u_message": "You slip through the door and head straight home.", "type": "good" }
@@ -1570,7 +1570,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
-    "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
@@ -1703,7 +1703,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END",
-    "condition": { "math": [ "magic_weather_lightning", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_lightning == 1" ] },
     "effect": [
       { "math": [ "u_weather_change_limit", "=", "0" ] },
       { "u_lose_effect": "effect_controlling_weather" },

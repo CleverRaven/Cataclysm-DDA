@@ -77,7 +77,7 @@
       {
         "text": "Hi, what have you been up to lately.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALK2",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued", "==", "1" ] } ] }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued == 1" ] } ] }
       },
       {
         "text": "Can I hear your ideas about the world ending, now that we saved Barry?",
@@ -85,7 +85,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+            { "math": [ "isherwood_barry_rescued == 1" ] },
             { "compare_string": [ "yes", { "u_val": "u_heard_about_chris_ideas" } ] }
           ]
         }
@@ -95,7 +95,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_timer_thinking_about_plan", ">=", "time('1 h')" ] },
-            { "math": [ "isherwood_barry_rescued", "==", "0" ] }
+            { "math": [ "isherwood_barry_rescued == 0" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
@@ -105,7 +105,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-            { "math": [ "isherwood_family_coming", "==", "0" ] },
+            { "math": [ "isherwood_family_coming == 0" ] },
             { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
             { "math": [ "npc_isherwood_barry_rescue_attempts", ">=", "1" ] }
           ]
@@ -117,7 +117,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-            { "math": [ "isherwood_family_coming", "==", "1" ] },
+            { "math": [ "isherwood_family_coming == 1" ] },
             { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
             { "math": [ "npc_isherwood_barry_rescue_attempts", ">=", "1" ] }
           ]
@@ -149,10 +149,10 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             {
               "and": [
-                { "math": [ "isherwood_gear_retrival_armor_body_count", "==", "5" ] },
-                { "math": [ "isherwood_gear_retrival_helmet_count", "==", "5" ] },
-                { "math": [ "isherwood_gear_retrival_armor_arm_count", "==", "5" ] },
-                { "math": [ "isherwood_gear_retrival_armor_leg_count", "==", "5" ] }
+                { "math": [ "isherwood_gear_retrival_armor_body_count == 5" ] },
+                { "math": [ "isherwood_gear_retrival_helmet_count == 5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_arm_count == 5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_leg_count == 5" ] }
               ]
             },
             { "math": [ "isherwood_gear_status", "<", "1" ] }
@@ -346,7 +346,7 @@
       {
         "text": "Do you think, monsters that kidnaped Barry are responsible for end of the world?",
         "topic": "TALK_CHRIS_THEORIES2",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued", "==", "1" ] } ] }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued == 1" ] } ] }
       },
       { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
       {
@@ -671,10 +671,10 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             {
               "and": [
-                { "math": [ "isherwood_gear_retrival_armor_body_count", "==", "5" ] },
-                { "math": [ "isherwood_gear_retrival_helmet_count", "==", "5" ] },
-                { "math": [ "isherwood_gear_retrival_armor_arm_count", "==", "5" ] },
-                { "math": [ "isherwood_gear_retrival_armor_leg_count", "==", "5" ] }
+                { "math": [ "isherwood_gear_retrival_armor_body_count == 5" ] },
+                { "math": [ "isherwood_gear_retrival_helmet_count == 5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_arm_count == 5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_leg_count == 5" ] }
               ]
             },
             { "math": [ "isherwood_gear_status", "<", "1" ] }

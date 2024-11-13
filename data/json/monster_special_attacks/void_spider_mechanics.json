@@ -212,7 +212,7 @@
             "condition": {
               "and": [
                 { "or": [ { "u_has_effect": "webbed" }, { "u_has_effect": "grabbed" } ] },
-                { "math": [ "u_monsters_nearby('mon_void_spider')", "==", "1" ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider') == 1" ] },
                 { "math": [ "u_monsters_nearby('mon_void_spider_maw')", "<", "4" ] }
               ]
             },

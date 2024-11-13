@@ -90,7 +90,7 @@
     "id": "EOC_ISO_BIO_VAMPIRE_RESTORE",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "and": [ { "math": [ "u_bionic_in_melee", "==", "1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
+    "condition": { "and": [ { "math": [ "u_bionic_in_melee == 1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
     "//": "* in math is so the number before the * is kJ of bionic power restored",
     "effect": [
       { "math": [ "u_val('power')", "+=", "1.75 * 1000000" ] },

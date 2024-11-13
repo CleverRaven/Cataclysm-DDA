@@ -29,7 +29,7 @@
         "id": "out_of_ruach",
         "text": "Starving",
         "color": "c_pink",
-        "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", "==", "0" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') == 0" ] } ] }
       },
       {
         "id": "ruach_level_1",

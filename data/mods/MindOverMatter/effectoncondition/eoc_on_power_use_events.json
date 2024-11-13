@@ -140,7 +140,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_biokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -184,7 +184,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_clairsentience" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -232,7 +232,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_electrokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -277,7 +277,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_photokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -325,7 +325,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_pyrokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -369,7 +369,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_telekinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -413,7 +413,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_telepathy" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -461,7 +461,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_teleportation" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -505,7 +505,7 @@
                 { "not": { "u_has_proficiency": "prof_contemplation_vitakinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -569,7 +569,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", "==", "concentration_calculations() + 1" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') == concentration_calculations() + 1" ] },
     "effect": [
       { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
       { "u_lose_effect": "effect_psi_intense_concentration" },

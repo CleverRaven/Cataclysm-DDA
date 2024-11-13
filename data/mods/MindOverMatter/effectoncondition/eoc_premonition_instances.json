@@ -58,8 +58,8 @@
         "or": [
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "math": [ "cause_portal_storm", "==", "1" ] },
-          { "math": [ "cause_early_portal_storm", "==", "1" ] }
+          { "math": [ "cause_portal_storm == 1" ] },
+          { "math": [ "cause_early_portal_storm == 1" ] }
         ]
       }
     },

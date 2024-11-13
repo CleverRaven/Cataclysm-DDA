@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_difficultysafeguard",
     "//": "This EOC gets called after a teleport is initialized but before it is finished.  It basically just checks if you're running an older save or somehow missed the difficulty assignment.",
-    "condition": { "math": [ "has_set_difficulty", "==", "0" ] },
+    "condition": { "math": [ "has_set_difficulty == 0" ] },
     "effect": [
       {
         "u_message": "You haven't selected a difficulty.  This could be because you're playing an old save.\n\nYour current difficulty has been set to Normal.  In this setting, you will have 4 hours in every expedition to reach the exit and leave safely.  After this, warp sickness sets in and applies heavy debuffs until you exit.  After 6 hours, warp disintegration begins, and you will rapidly lose health until you exit or die.",
@@ -107,7 +107,7 @@
     "type": "effect_on_condition",
     "id": "EOC_award_material_tokens",
     "//": "If you got home via an exit portal, award material tokens based on raid length.",
-    "condition": { "math": [ "gettokens", "==", "1" ] },
+    "condition": { "math": [ "gettokens == 1" ] },
     "effect": [
       { "math": [ "gettokens", "=", "0" ] },
       { "math": [ "owed_material_tokens", "=", "lengthofthisraid * 75 + 50" ] },
@@ -125,7 +125,7 @@
     "type": "effect_on_condition",
     "id": "EOC_progressgate1",
     "//": "Checks to see if you have successfully completed 5 raids and makes Rank Up 1 available if so.",
-    "condition": { "and": [ { "math": [ "islandrank", "==", "0" ] }, { "math": [ "raidswon", ">=", "10" ] } ] },
+    "condition": { "and": [ { "math": [ "islandrank == 0" ] }, { "math": [ "raidswon", ">=", "10" ] } ] },
     "effect": [
       {
         "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
@@ -138,7 +138,7 @@
     "type": "effect_on_condition",
     "id": "EOC_progressgate2",
     "//": "Checks to see if you have successfully completed 10 raids and makes Rank Up 2 available if so.",
-    "condition": { "and": [ { "math": [ "islandrank", "==", "2" ] }, { "math": [ "raidswon", ">=", "20" ] } ] },
+    "condition": { "and": [ { "math": [ "islandrank == 2" ] }, { "math": [ "raidswon", ">=", "20" ] } ] },
     "effect": [
       {
         "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult.  The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful.  Your mouth tastes of blood.  As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
@@ -311,7 +311,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HEAL_NEWBIE",
     "//": "Runs when using the HEAL function from the Heart of the Island.  Runs a checklist.  If you're under a certain amount of won raids, it heals you for free.  If you're over and you have 4 warp shards, it takes those and heals you.  If you can't pay, it does nothing.",
-    "condition": { "math": [ "islandrank", "==", "0" ] },
+    "condition": { "math": [ "islandrank == 0" ] },
     "effect": [
       { "run_eocs": [ "EOC_healall" ] },
       {

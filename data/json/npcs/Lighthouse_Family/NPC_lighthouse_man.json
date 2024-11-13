@@ -129,7 +129,7 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "math": [ "n_count_cleaning_lighthouse_man", "==", "0" ] },
+            { "math": [ "n_count_cleaning_lighthouse_man == 0" ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]

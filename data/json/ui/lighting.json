@@ -15,19 +15,19 @@
         "id": "cloudy",
         "text": "cloudy",
         "color": "white",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "2" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 2" ] }
       },
       {
         "id": "shady",
         "text": "shady",
         "color": "light_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "3" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 3" ] }
       },
       {
         "id": "dark",
         "text": "dark",
         "color": "dark_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "4" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 4" ] }
       },
       {
         "id": "very dark",

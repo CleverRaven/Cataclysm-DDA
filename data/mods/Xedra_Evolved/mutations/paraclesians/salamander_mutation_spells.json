@@ -17,7 +17,7 @@
     "condition": {
       "or": [
         { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "math": [ "u_salamander_near_fire == 1" ] },
         { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
@@ -29,7 +29,7 @@
     "condition": {
       "or": [
         { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "math": [ "u_salamander_near_fire == 1" ] },
         { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },

@@ -409,7 +409,7 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
     "condition": {
-      "and": [ { "math": [ "old_guard_rep_scouting", "==", "1" ] }, { "u_near_om_location": "exodii_base_x0y3z0", "range": 0 } ]
+      "and": [ { "math": [ "old_guard_rep_scouting == 1" ] }, { "u_near_om_location": "exodii_base_x0y3z0", "range": 0 } ]
     },
     "effect": [
       { "math": [ "old_guard_rep_scouting", "=", "0" ] },

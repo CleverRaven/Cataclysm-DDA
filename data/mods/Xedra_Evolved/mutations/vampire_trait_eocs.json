@@ -102,13 +102,13 @@
                         {
                           "and": [
                             { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
-                            { "math": [ "u_effect_intensity('vampire_virus_ascendant')", "==", "1" ] }
+                            { "math": [ "u_effect_intensity('vampire_virus_ascendant') == 1" ] }
                           ]
                         },
                         {
                           "and": [
                             { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
-                            { "math": [ "u_effect_intensity('vampire_virus_post_mortal')", "==", "1" ] }
+                            { "math": [ "u_effect_intensity('vampire_virus_post_mortal') == 1" ] }
                           ]
                         }
                       ]
@@ -933,7 +933,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_EARTH_SLUMBER_activated_2",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == -9" ] } },
     "effect": [
       {
         "run_eocs": {

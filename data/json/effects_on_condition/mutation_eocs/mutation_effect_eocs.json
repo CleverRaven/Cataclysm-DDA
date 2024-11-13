@@ -721,7 +721,7 @@
     "condition": {
       "and": [
         { "u_has_flag": "SOCIAL2" },
-        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies')", "==", "0" ] },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies') == 0" ] },
         { "not": { "u_has_effect": "took_prozac" } },
         { "not": { "u_has_effect": "valium" } },
         { "not": { "u_has_effect": "took_xanax" } },
@@ -747,7 +747,7 @@
       "and": [
         { "u_has_flag": "ASOCIAL1" },
         { "not": { "u_has_effect": "took_prozac" } },
-        { "math": [ "u_characters_nearby('radius': 30)", "==", "0" ] },
+        { "math": [ "u_characters_nearby('radius': 30) == 0" ] },
         { "not": { "u_has_effect": "narcosis" } }
       ]
     },
@@ -764,7 +764,7 @@
     "condition": {
       "and": [
         { "u_has_flag": "ASOCIAL2" },
-        { "math": [ "u_characters_nearby('radius': 30)", "==", "0" ] },
+        { "math": [ "u_characters_nearby('radius': 30) == 0" ] },
         { "not": { "u_has_effect": "took_prozac" } },
         { "not": { "u_has_effect": "narcosis" } }
       ]

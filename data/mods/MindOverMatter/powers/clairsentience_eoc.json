@@ -232,7 +232,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "effect_clair_astral_projection" },
-        { "or": [ { "u_has_effect": "winded" }, { "math": [ "u_val('stamina')", "==", "0" ] } ] }
+        { "or": [ { "u_has_effect": "winded" }, { "math": [ "u_val('stamina') == 0" ] } ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE" } ]

@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHANGING_LIMB_SETUP",
     "//": "Get the timer started, it should be added to all first-level changing traits",
-    "condition": { "math": [ "u_limb_progress_timer", "==", "0" ] },
+    "condition": { "math": [ "u_limb_progress_timer == 0" ] },
     "effect": [ { "math": [ "u_limb_progress_timer", "=", "time('now')" ] } ]
   },
   {

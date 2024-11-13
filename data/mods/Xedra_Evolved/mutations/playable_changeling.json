@@ -337,8 +337,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.33 } ]
@@ -359,8 +359,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.75 } ]
@@ -381,8 +381,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 1.5 } ]

@@ -140,7 +140,7 @@
           {
             "if": {
               "and": [
-                { "math": [ "rand(1)", "==", "1" ] },
+                { "math": [ "rand(1) == 1" ] },
                 { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
               ]
             },
@@ -149,7 +149,7 @@
           {
             "if": {
               "and": [
-                { "math": [ "rand(2)", "==", "2" ] },
+                { "math": [ "rand(2) == 2" ] },
                 { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
               ]
             },
@@ -188,7 +188,7 @@
           {
             "if": {
               "and": [
-                { "math": [ "rand(1)", "==", "1" ] },
+                { "math": [ "rand(1) == 1" ] },
                 { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
               ]
             },
@@ -421,7 +421,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
-    "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
@@ -480,7 +480,7 @@
       "and": [
         "u_is_outside",
         { "not": "is_day" },
-        { "not": { "math": [ "moon_phase()", "==", "0" ] } },
+        { "not": { "math": [ "moon_phase() == 0" ] } },
         { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] }
       ]
     },
@@ -525,7 +525,7 @@
     ],
     "false_effect": [
       {
-        "if": { "math": [ "moon_phase()", "==", "0" ] },
+        "if": { "math": [ "moon_phase() == 0" ] },
         "then": { "u_message": "You cannot heal yourself during the new moon!", "type": "bad" },
         "else": {
           "if": { "or": [ { "not": "u_is_outside" }, "is_day" ] },

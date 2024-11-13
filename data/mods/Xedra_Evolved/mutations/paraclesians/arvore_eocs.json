@@ -86,12 +86,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST",
-    "condition": { "math": [ "u_arvore_is_in_forest", "==", "1" ] }
+    "condition": { "math": [ "u_arvore_is_in_forest == 1" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD",
-    "condition": { "math": [ "u_arvore_is_in_wilderness", "==", "1" ] }
+    "condition": { "math": [ "u_arvore_is_in_wilderness == 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -550,7 +550,7 @@
       "run_eocs": [
         {
           "id": "EOC_ARVORE_OVERGROWTH_2",
-          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "condition": { "math": [ "u_val('pos_z') == 0" ] },
           "effect": [ { "u_cast_spell": { "id": "arvore_overgrowth_spell_real" } } ],
           "false_effect": { "u_message": "You must be on the surface and not on a building's upper stories to cast Overgrowth!", "type": "bad" }
         }
@@ -581,7 +581,7 @@
         "run_eocs": [
           {
             "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING_2",
-            "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+            "condition": { "math": [ "u_val('pos_z') == 0" ] },
             "effect": [
               { "u_cast_spell": { "id": "arvore_verdant_mother_damage_zombies_and_aliens" } },
               { "u_cast_spell": { "id": "arvore_verdant_mother_heal_animals" } },

@@ -449,7 +449,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_IN_EARTH",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == -9" ] } },
     "effect": [
       {
         "run_eocs": {
@@ -502,7 +502,7 @@
     "eoc_type": "EVENT",
     "//": "No cheating and teleporting out to keep your buffs",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "IERDE_STONE_SLEEP" } ] },
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z') == -9" ] } }, { "u_has_trait": "IERDE_STONE_SLEEP" } ] },
     "effect": [ { "u_lose_trait": "IERDE_STONE_SLEEP" } ]
   },
   {

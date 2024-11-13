@@ -506,7 +506,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_equals_assign",
-    "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
     "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
   },
   {

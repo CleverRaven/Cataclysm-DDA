@@ -1105,10 +1105,10 @@
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
           "no": [
             {
-              "math": [ "exodii_knows_hub01", "==", "1" ],
+              "math": [ "exodii_knows_hub01 == 1" ],
               "yes": [
                 {
-                  "math": [ "warehouse_was_found", "==", "1" ],
+                  "math": [ "warehouse_was_found == 1" ],
                   "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
                   "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
                 }
@@ -1138,7 +1138,7 @@
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } },
             { "math": [ "warehouse_was_found", "!=", "1" ] },
-            { "math": [ "exodii_knows_hub01", "==", "1" ] }
+            { "math": [ "exodii_knows_hub01 == 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro"

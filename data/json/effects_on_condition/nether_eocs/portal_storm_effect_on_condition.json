@@ -133,8 +133,8 @@
         "or": [
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "math": [ "cause_portal_storm", "==", "1" ] },
-          { "math": [ "cause_early_portal_storm", "==", "1" ] }
+          { "math": [ "cause_portal_storm == 1" ] },
+          { "math": [ "cause_early_portal_storm == 1" ] }
         ]
       }
     },
@@ -163,7 +163,7 @@
     "//": "Normally weather is only checked every 5 minutes or so, since your distance to the storm center can change quickly we want to test much more often.",
     "recurrence": [ "1 seconds", "5 seconds" ],
     "global": true,
-    "condition": { "or": [ { "math": [ "cause_early_portal_storm", "==", "1" ] }, { "math": [ "cause_portal_storm", "==", "1" ] } ] },
+    "condition": { "or": [ { "math": [ "cause_early_portal_storm == 1" ] }, { "math": [ "cause_portal_storm == 1" ] } ] },
     "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
     "effect": "next_weather"
   },
@@ -172,7 +172,7 @@
     "id": "EOC_MOVE_PORTAL_STORM",
     "recurrence": [ "45 seconds", "90 seconds" ],
     "global": true,
-    "condition": { "or": [ { "math": [ "cause_early_portal_storm", "==", "1" ] }, { "math": [ "cause_portal_storm", "==", "1" ] } ] },
+    "condition": { "or": [ { "math": [ "cause_early_portal_storm == 1" ] }, { "math": [ "cause_portal_storm == 1" ] } ] },
     "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
     "effect": [
       {
@@ -190,7 +190,7 @@
     "id": "EOC_CAUSE_PORTAL_STORM",
     "global": true,
     "//": "This sets up all the variables for the start of a portal storm.",
-    "condition": { "not": { "or": [ { "is_weather": "portal_storm" }, { "math": [ "cause_portal_storm", "==", "1" ] } ] } },
+    "condition": { "not": { "or": [ { "is_weather": "portal_storm" }, { "math": [ "cause_portal_storm == 1" ] } ] } },
     "effect": [
       { "math": [ "cause_early_portal_storm", "=", "0" ] },
       { "math": [ "cause_portal_storm", "=", "1" ] },
@@ -226,8 +226,8 @@
       "or": [
         { "is_weather": "portal_storm" },
         { "is_weather": "early_portal_storm" },
-        { "math": [ "cause_portal_storm", "==", "1" ] },
-        { "math": [ "cause_early_portal_storm", "==", "1" ] }
+        { "math": [ "cause_portal_storm == 1" ] },
+        { "math": [ "cause_early_portal_storm == 1" ] }
       ]
     },
     "effect": [
@@ -304,7 +304,7 @@
             { "is_weather": "portal_storm" }
           ]
         },
-        { "math": [ "portal_dungeon_level", "==", "0" ] }
+        { "math": [ "portal_dungeon_level == 0" ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -336,7 +336,7 @@
             { "is_weather": "portal_storm" }
           ]
         },
-        { "math": [ "portal_dungeon_level", "==", "0" ] },
+        { "math": [ "portal_dungeon_level == 0" ] },
         { "math": [ "u_ire", ">", "0" ] }
       ]
     },
@@ -373,7 +373,7 @@
             { "is_weather": "portal_storm" }
           ]
         },
-        { "math": [ "portal_dungeon_level", "==", "0" ] },
+        { "math": [ "portal_dungeon_level == 0" ] },
         "u_is_outside",
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }
       ]
@@ -393,7 +393,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "math": [ "portal_dungeon_level", "==", "0" ] },
+        { "math": [ "portal_dungeon_level == 0" ] },
         "u_is_outside",
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "math": [ "talked_to_storm", "!=", "1" ] },
@@ -698,7 +698,7 @@
       "and": [
         { "not": "u_driving" },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "math": [ "portal_dungeon_level", "==", "0" ] }
+        { "math": [ "portal_dungeon_level == 0" ] }
       ]
     },
     "effect": [
@@ -870,7 +870,7 @@
     "id": "EOC_PORTAL_STORM_CELL",
     "condition": {
       "and": [
-        { "math": [ "u_in_portal_cell", "==", "0" ] },
+        { "math": [ "u_in_portal_cell == 0" ] },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": "u_driving" }
       ]

@@ -34,7 +34,7 @@
       "and": [
         { "math": [ "time_since(u_timer_jotunn_RandEnc)", ">", "time('3 h')" ] },
         { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "math": [ "RandEnc_Jotunn", "==", "1" ] }
+        { "math": [ "RandEnc_Jotunn == 1" ] }
       ]
     },
     "effect": [

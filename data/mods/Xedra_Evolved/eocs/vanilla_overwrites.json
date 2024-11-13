@@ -8,7 +8,7 @@
       "and": [
         { "not": { "u_has_effect": "effect_hedge_no_nightmares" } },
         { "u_has_effect": "nightmares" },
-        { "math": [ "dream_counter", "==", "0" ] }
+        { "math": [ "dream_counter == 0" ] }
       ]
     },
     "effect": [

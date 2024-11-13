@@ -295,7 +295,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP_SHIELD_SEVENOCLOCK",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "10" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == 10" ] } },
     "effect": [
       {
         "run_eocs": {

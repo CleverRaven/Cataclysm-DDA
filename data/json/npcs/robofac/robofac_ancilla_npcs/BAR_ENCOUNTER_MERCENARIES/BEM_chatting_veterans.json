@@ -55,7 +55,7 @@
       },
       {
         "text": "Recall the time you were tricked into fighting against distorted versions of yourself while lost in a place beyond time.",
-        "condition": { "math": [ "visited_a_portal_dungeon", "==", "1" ] },
+        "condition": { "math": [ "visited_a_portal_dungeon == 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {

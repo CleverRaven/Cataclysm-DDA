@@ -47,7 +47,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
-    "condition": { "math": [ "u_homullus_is_in_civilization", "==", "1" ] },
+    "condition": { "math": [ "u_homullus_is_in_civilization == 1" ] },
     "effect": [  ]
   },
   {
@@ -224,7 +224,7 @@
         "run_eocs": {
           "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER_2",
           "condition": {
-            "and": [ { "math": [ "u_doll_form_movement", "==", "0" ] }, { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
+            "and": [ { "math": [ "u_doll_form_movement == 0" ] }, { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
           },
           "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
         }
@@ -242,7 +242,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_RESETTER",
-    "condition": { "math": [ "u_monsters_nearby('radius': 45, 'attitude': 'both')", "==", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': 45, 'attitude': 'both') == 0" ] },
     "effect": [ { "math": [ "u_doll_form_movement", "=", "0" ] }, { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
   },
   {

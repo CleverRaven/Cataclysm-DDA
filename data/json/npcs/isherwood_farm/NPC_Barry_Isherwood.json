@@ -122,7 +122,7 @@
     "responses": [
       {
         "text": "Yeah, they did, I'll go get them.",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
           { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
@@ -177,7 +177,7 @@
       },
       {
         "text": "Okay, me too.  I'll go get your family.",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
           { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
@@ -187,7 +187,7 @@
       },
       {
         "text": "All right, we're leaving, but you better not test me again.  I'll be back with your family.",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
           { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
@@ -212,7 +212,7 @@
       {
         "text": "That shouldn't take long, your family's outside waiting.  I'll be back with them.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
           { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },

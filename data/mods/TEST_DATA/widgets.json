@@ -10,31 +10,31 @@
         "id": "none",
         "text": "None",
         "color": "light_gray",
-        "condition": { "math": [ "u_val('activity_level')", "==", "0" ] }
+        "condition": { "math": [ "u_val('activity_level') == 0" ] }
       },
       {
         "id": "light",
         "text": "Light",
         "color": "yellow",
-        "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
+        "condition": { "math": [ "u_val('activity_level') == 1" ] }
       },
       {
         "id": "moderate",
         "text": "Moderate",
         "color": "yellow",
-        "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
+        "condition": { "math": [ "u_val('activity_level') == 2" ] }
       },
       {
         "id": "brisk",
         "text": "Brisk",
         "color": "light_red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
+        "condition": { "math": [ "u_val('activity_level') == 3" ] }
       },
       {
         "id": "active",
         "text": "Active",
         "color": "light_red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
+        "condition": { "math": [ "u_val('activity_level') == 4" ] }
       },
       {
         "id": "extreme",
@@ -346,19 +346,19 @@
         "id": "cloudy",
         "text": "cloudy",
         "color": "white",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "2" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 2" ] }
       },
       {
         "id": "shady",
         "text": "shady",
         "color": "light_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "3" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 3" ] }
       },
       {
         "id": "dark",
         "text": "dark",
         "color": "dark_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "4" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 4" ] }
       },
       {
         "id": "very dark",
