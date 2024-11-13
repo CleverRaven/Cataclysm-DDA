@@ -556,7 +556,7 @@
     "base_casting_time": 120,
     "final_casting_time": 120,
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "type": "SPELL",
@@ -760,7 +760,7 @@
     "id": "EOC_CONJURE_UPS_SWITCHER",
     "effect": [
       {
-        "queue_eocs": "EOC_CONJURE_UPS_REMOVER",
+        "run_eocs": "EOC_CONJURE_UPS_REMOVER",
         "time_in_future": { "math": [ "((u_spell_level('technomancer_conjure_ups') * 100 ) + 1000) * summoning_proficiency_modifier()" ] }
       },
       {

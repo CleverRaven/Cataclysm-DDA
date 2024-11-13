@@ -125,7 +125,7 @@
     "name": { "str": "timber rattlesnake snakelet" },
     "description": "A timber rattlesnake in its hatchling stage.  It will eventually grow a rattle and learn how to hunt.",
     "copy-from": "mon_snakelet_abstract",
-    "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
+    "upgrades": { "age_grow": 1460, "into": "mon_rattlesnake" },
     "extend": { "flags": [ "VENOM" ] }
   },
   {
@@ -166,7 +166,7 @@
     "description": "A garter snake in its juvenile stage.",
     "copy-from": "mon_snakelet_abstract",
     "default_faction": "snake_tiny_aquatic",
-    "upgrades": { "age_grow": 136, "into": "mon_gartersnake" }
+    "upgrades": { "age_grow": 544, "into": "mon_gartersnake" }
   },
   {
     "id": "mon_wormsnake",
@@ -193,7 +193,7 @@
     "description": "A worm snake in its hatchling stage.  Not that much smaller than an adult, actually.",
     "default_faction": "lizard_tiny",
     "copy-from": "mon_snakelet_abstract",
-    "upgrades": { "age_grow": 75, "into": "mon_wormsnake" },
+    "upgrades": { "age_grow": 300, "into": "mon_wormsnake" },
     "extend": { "fear_triggers": [ "BRIGHT_LIGHT" ] }
   },
   {
@@ -214,7 +214,7 @@
     "name": { "str": "painted turtle hatchling" },
     "description": "A painted turtle in its hatchling stage.",
     "copy-from": "mon_turtle_baby_abstract",
-    "upgrades": { "age_grow": 548, "into": "mon_turtle_painted" },
+    "upgrades": { "age_grow": 2190, "into": "mon_turtle_painted" },
     "//": "In northmost regions of the range we're looking at 6 years as an absolute minimum to reach adulthood."
   },
   {
@@ -243,7 +243,7 @@
     "description": "A common snapping turtle in its hatchling stage.",
     "copy-from": "mon_turtle_baby_abstract",
     "default_faction": "turtle_small_predator",
-    "upgrades": { "age_grow": 1095, "into": "mon_turtle_snapping_common" },
+    "upgrades": { "age_grow": 4380, "into": "mon_turtle_snapping_common" },
     "//": "12 years to reach maturity. It should probably be 15 years, because we're reaching the Northern range of the species in the setting, but odds are nobody is ever gonna see those grow to adulthood anyway."
   },
   {
@@ -291,7 +291,7 @@
     "morale": -20,
     "vision_day": 16,
     "vision_night": 3,
-    "upgrades": { "age_grow": 75, "into": "mon_skink_fivelined" },
+    "upgrades": { "age_grow": 300, "into": "mon_skink_fivelined" },
     "//": "Sexual maturity at 2-3 years, but there's no way in hell they don't reach adult size before that, so we take 10 months as a fairly safe guesstimate.",
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -507,7 +507,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
-    "description": "A speckled, grey-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
+    "description": "A speckled, gray-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
     "color": "dark_gray",
     "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_LEO" }
   },
@@ -636,7 +636,7 @@
     "id": "mon_pattern_bigtad",
     "type": "MONSTER",
     "copy-from": "mon_proxy_bigtad",
-    "description": "A giant, grey-brown tadpole.  Its body is covered in irregular, chaotic speckles of pitch black and chalk white.",
+    "description": "A giant, gray-brown tadpole.  Its body is covered in irregular, chaotic speckles of pitch black and chalk white.",
     "name": { "str": "giant tadpole" },
     "color": "dark_gray",
     "upgrades": { "age_grow": 22, "into": "mon_pattern_bigfrog" },
@@ -1050,7 +1050,7 @@
     "id": "mon_pattern_bigfrog",
     "type": "MONSTER",
     "name": { "str": "staticskin frog" },
-    "description": "Bioluminescent trails trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are instead fragmented collages of grey and black pigment over pale skin.  Its vestigial gills have grown into something else.  You can see them bulging the flesh under its mouth.",
+    "description": "Bioluminescent trails trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are instead fragmented collages of gray and black pigment over pale skin.  Its vestigial gills have grown into something else.  You can see them bulging the flesh under its mouth.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
@@ -1205,8 +1205,8 @@
   {
     "abstract": "mon_proxy_giganfrog",
     "type": "MONSTER",
-    "name": { "str": "giant proxy frog" },
-    "description": "This frog is much too big to be real, must be a bug",
+    "name": { "str": "giant proxy frog", "//~": "NO_I18N" },
+    "description": { "str": "This frog is much too big to be real, must be a bug", "//~": "NO_I18N" },
     "default_faction": "frog",
     "bodytype": "frog",
     "species": [ "AMPHIBIAN" ],
@@ -1377,8 +1377,8 @@
   {
     "abstract": "mon_proxy_megafrog",
     "type": "MONSTER",
-    "name": { "str": "mega proxy frog" },
-    "description": "You can only imagine the size of the (de)bugs that drew out this enormous frog",
+    "name": { "str": "mega proxy frog", "//~": "NO_I18N" },
+    "description": { "str": "You can only imagine the size of the (de)bugs that drew out this enormous frog", "//~": "NO_I18N" },
     "default_faction": "frog",
     "bodytype": "frog",
     "species": [ "AMPHIBIAN" ],

@@ -116,6 +116,18 @@
   },
   {
     "type": "effect_type",
+    "id": "enchant_windrun_monster",
+    "name": [ "Windrunning" ],
+    "desc": [ "You are bolstered and pushed along by the power of the wind." ],
+    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "remove_message": "The wind at your back dies down.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 20 } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "dark_sight",
     "name": [ "Dark Sight" ],
     "desc": [ "You can see in the dark." ],
@@ -500,7 +512,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
-    "max_duration": "1 d",
+    "max_duration": "2 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -682,10 +694,7 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
-      }
+      { "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ], "melee_damage_bonus": [ { "type": "cut", "add": 17 } ] }
     ]
   },
   {
@@ -1446,6 +1455,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mring_sustenance",
+    "//": "Hidden effect, used as an attunement period for the ring of sustenance",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bracers_of_the_blinding_strike",
+    "name": [ "Blinding Strikes" ],
+    "desc": [ "Your attacks come incredibly quickly." ],
+    "rating": "good",
+    "apply_message": "Your strikes speed up immensely.",
+    "remove_message": "Your quick strikes slow to normal speed.",
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_plus_two_to_hit",
     "//": "Self-explanatory",
     "name": [ "" ],
@@ -1538,7 +1567,8 @@
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
       "effect_technomancer_pain_ignore",
-      "effect_feral_stormshaper_stormhammer"
+      "effect_feral_stormshaper_stormhammer",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1594,7 +1624,8 @@
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
-      { "u_remove_item_with": "technomancer_far_sight_lens" }
+      { "u_remove_item_with": "technomancer_far_sight_lens" },
+      { "u_remove_item_with": "thought_shield_item" }
     ]
   },
   {
@@ -1686,7 +1717,8 @@
       "effect_flame_immunity",
       "effect_burning_trail",
       "effect_ring_of_flight",
-      "effect_feral_stormshaper_stormhammer"
+      "effect_feral_stormshaper_stormhammer",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1759,7 +1791,9 @@
       { "u_remove_item_with": "force_magical_armor" },
       { "u_remove_item_with": "subzero_talons" },
       { "u_remove_item_with": "aura_cold_energy" },
-      { "u_remove_item_with": "pocket_sun" }
+      { "u_remove_item_with": "pocket_sun" },
+      { "u_remove_item_with": "thought_shield_item" },
+      { "u_remove_item_with": "thought_shield_plus_item" }
     ]
   },
   {

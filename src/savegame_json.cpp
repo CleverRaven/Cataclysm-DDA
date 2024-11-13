@@ -2521,6 +2521,8 @@ void monster::load( const JsonObject &data )
     data.read( "baby_timer", baby_timer );
     if( baby_timer && *baby_timer == calendar::before_time_starts ) {
         baby_timer.reset();
+    } else if( reproduces && type->baby_timer && !baby_timer ) {  // Remove after 0.I
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
@@ -3158,8 +3160,8 @@ void vehicle_part::deserialize( const JsonObject &data )
         variant = info().variant_default;
     }
 
-    data.read( "mount_dx", mount.x );
-    data.read( "mount_dy", mount.y );
+    data.read( "mount_dx", mount.x() );
+    data.read( "mount_dy", mount.y() );
     data.read( "open", open );
     int direction_int;
     data.read( "direction", direction_int );
@@ -3173,8 +3175,8 @@ void vehicle_part::deserialize( const JsonObject &data )
         if( std::abs( z_offset ) > 10 ) {
             data.throw_error_at( "z_offset", "z_offset out of range" );
         }
-        precalc[0].z = z_offset;
-        precalc[1].z = z_offset;
+        precalc[0].z() = z_offset;
+        precalc[1].z() = z_offset;
     }
 
     JsonArray ja_carried = data.get_array( "carried_stack" );
@@ -3189,15 +3191,16 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "items", items );
     data.read( "tools", tools );
     data.read( "salvageable", salvageable );
-    data.read( "target_first_x", target.first.x );
-    data.read( "target_first_y", target.first.y );
-    data.read( "target_first_z", target.first.z );
-    data.read( "target_second_x", target.second.x );
-    data.read( "target_second_y", target.second.y );
-    data.read( "target_second_z", target.second.z );
+    data.read( "target_first_x", target.first.x() );
+    data.read( "target_first_y", target.first.y() );
+    data.read( "target_first_z", target.first.z() );
+    data.read( "target_second_x", target.second.x() );
+    data.read( "target_second_y", target.second.y() );
+    data.read( "target_second_z", target.second.z() );
     data.read( "ammo_pref", ammo_pref );
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
+    data.read( "last_charged", last_charged );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3214,8 +3217,8 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "variant", variant );
     }
     json.member( "base", base );
-    json.member( "mount_dx", mount.x );
-    json.member( "mount_dy", mount.y );
+    json.member( "mount_dx", mount.x() );
+    json.member( "mount_dy", mount.y() );
     json.member( "open", open );
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
@@ -3233,25 +3236,26 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
-    if( precalc[0].z ) {
-        json.member( "z_offset", precalc[0].z );
+    if( precalc[0].z() ) {
+        json.member( "z_offset", precalc[0].z() );
     }
     json.member( "items", items );
     json.member( "tools", tools );
     json.member( "salvageable", salvageable );
-    if( target.first != tripoint_min ) {
-        json.member( "target_first_x", target.first.x );
-        json.member( "target_first_y", target.first.y );
-        json.member( "target_first_z", target.first.z );
+    if( target.first != tripoint_abs_ms_min ) {
+        json.member( "target_first_x", target.first.x() );
+        json.member( "target_first_y", target.first.y() );
+        json.member( "target_first_z", target.first.z() );
     }
-    if( target.second != tripoint_min ) {
-        json.member( "target_second_x", target.second.x );
-        json.member( "target_second_y", target.second.y );
-        json.member( "target_second_z", target.second.z );
+    if( target.second != tripoint_abs_ms_min ) {
+        json.member( "target_second_x", target.second.x() );
+        json.member( "target_second_y", target.second.y() );
+        json.member( "target_second_z", target.second.z() );
     }
     json.member( "ammo_pref", ammo_pref );
     json.member( "locked", locked );
     json.member( "last_disconnected", last_disconnected );
+    json.member( "last_charged", last_charged );
     json.end_object();
 }
 
@@ -3259,9 +3263,9 @@ void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
 {
     data.read( "veh_name", veh_name );
     face_dir = units::from_degrees( data.get_int( "face_dir" ) );
-    data.read( "mount_x", mount.x );
-    data.read( "mount_y", mount.y );
-    data.read( "mount_z", mount.z );
+    data.read( "mount_x", mount.x() );
+    data.read( "mount_y", mount.y() );
+    data.read( "mount_z", mount.z() );
 }
 
 void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
@@ -3269,9 +3273,9 @@ void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "veh_name", veh_name );
     json.member( "face_dir", std::lround( to_degrees( face_dir ) ) );
-    json.member( "mount_x", mount.x );
-    json.member( "mount_y", mount.y );
-    json.member( "mount_z", mount.z );
+    json.member( "mount_x", mount.x() );
+    json.member( "mount_y", mount.y() );
+    json.member( "mount_z", mount.z() );
     json.end_object();
 }
 
@@ -3281,16 +3285,16 @@ void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
 void label::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
-    data.read( "x", x );
-    data.read( "y", y );
+    data.read( "x", x() );
+    data.read( "y", y() );
     data.read( "text", text );
 }
 
 void label::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "x", x );
-    json.member( "y", y );
+    json.member( "x", x() );
+    json.member( "y", y() );
     json.member( "text", text );
     json.end_object();
 }
@@ -3473,11 +3477,11 @@ void vehicle::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-    tripoint other_tow_temp_point;
+    tripoint_bub_ms other_tow_temp_point;
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->global_part_pos3( tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
@@ -3665,7 +3669,7 @@ void faction::serialize( JsonOut &json ) const
         json.member( rel_data.first );
         json.start_object();
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            json.member( rel_flag.first, rel_data.second.test( rel_flag.second ) );
+            json.member( rel_flag.first, rel_data.second.test( static_cast<size_t>( rel_flag.second ) ) );
         }
         json.end_object();
     }

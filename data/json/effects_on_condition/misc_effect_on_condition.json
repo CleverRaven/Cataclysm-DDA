@@ -200,7 +200,7 @@
       {
         "if": { "compare_string": [ "your_followers", { "context_val": "new_owner" } ] },
         "then": {
-          "queue_eocs": {
+          "run_eocs": {
             "id": "EOC_camp_rumor_spread",
             "effect": { "u_message": "Rumors of your takeover of <context_val:camp_name> have begun to spread…", "type": "mixed" }
           },

@@ -97,13 +97,15 @@ static tripoint_omt_ms find_potential_computer_point( const tinymap &compmap )
     std::vector<tripoint_omt_ms> broken;
     std::vector<tripoint_omt_ms> potential;
     std::vector<tripoint_omt_ms> last_resort;
-    for( const tripoint_omt_ms &p : compmap.omt_points_on_zlevel() ) {
-        if( compmap.furn( p ) == furn_f_console_broken ) {
+    for( const tripoint_omt_ms &p : compmap.points_on_zlevel() ) {
+        const furn_id &f = compmap.furn( p );
+        if( f == furn_f_console_broken ) {
             broken.emplace_back( p );
         } else if( broken.empty() && compmap.ter( p ) == ter_t_floor &&
-                   compmap.furn( p ) == furn_str_id::NULL_ID() ) {
+                   f == furn_str_id::NULL_ID() ) {
             for( const tripoint_omt_ms &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.furn( p2 ) == furn_f_bed || compmap.furn( p2 ) == furn_f_dresser ) {
+                const furn_id &f = compmap.furn( p2 );
+                if( f == furn_f_bed || f == furn_f_dresser ) {
                     potential.emplace_back( p );
                     break;
                 }
@@ -221,10 +223,10 @@ void mission_start::place_deposit_box( mission *miss )
 
     tinymap compmap;
     compmap.load( site, false );
-    std::vector<tripoint> valid;
-    for( const tripoint &p : compmap.points_on_zlevel() ) {
+    std::vector<tripoint_omt_ms> valid;
+    for( const tripoint_omt_ms &p : compmap.points_on_zlevel() ) {
         if( compmap.ter( p ) == ter_t_floor ) {
-            for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
+            for( const tripoint_omt_ms &p2 : compmap.points_in_radius( p, 1 ) ) {
                 if( compmap.ter( p2 ) == ter_t_wall_metal ) {
                     valid.push_back( p );
                     break;
@@ -232,8 +234,8 @@ void mission_start::place_deposit_box( mission *miss )
             }
         }
     }
-    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
-    const tripoint comppoint = random_entry( valid, fallback );
+    const tripoint_omt_ms fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
+    const tripoint_omt_ms comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "safe_box" );
     compmap.save();
 }

@@ -512,7 +512,8 @@
     "id": "FRAGILE",
     "type": "json_flag",
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
-    "conflicts": [ "STURDY" ]
+    "conflicts": [ "STURDY" ],
+    "inherit": false
   },
   {
     "id": "FRAGILE_MELEE",
@@ -920,7 +921,8 @@
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
-    "conflicts": [ "FRAGILE" ]
+    "conflicts": [ "FRAGILE" ],
+    "inherit": false
   },
   {
     "id": "SUN_GLASSES",
@@ -1620,6 +1622,11 @@
     "type": "json_flag"
   },
   {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
+    "type": "json_flag"
+  },
+  {
     "id": "MUTAGEN_SAMPLE",
     "type": "json_flag",
     "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
@@ -2210,72 +2217,91 @@
   {
     "id": "EXO_SMALL",
     "type": "json_flag",
-    "info": "This is meant for a small exosuit hardpoint."
+    "info": "This is meant for a small exosuit hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_LARGE",
     "type": "json_flag",
-    "info": "This is meant for a large exosuit hardpoint."
+    "info": "This is meant for a large exosuit hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_PSU",
     "type": "json_flag",
-    "info": "This is meant for an exosuit PSU hardpoint."
+    "info": "This is meant for an exosuit PSU hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_SMALL_GADGET",
     "type": "json_flag",
-    "info": "This is meant for small exosuit gadgets, 1 L or less."
+    "info": "This is meant for small exosuit gadgets, 1 L or less.",
+    "inherit": false
   },
   {
     "id": "EXO_HELMET_GADGET",
     "type": "json_flag",
-    "info": "This is meant for helmet-specific gadgets."
+    "info": "This is meant for helmet-specific gadgets.",
+    "inherit": false
   },
   {
     "id": "EXO_MEDIUM_GADGET",
     "type": "json_flag",
-    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L."
+    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L.",
+    "inherit": false
   },
   {
     "id": "EXO_LARGE_GADGET",
     "type": "json_flag",
-    "info": "This is meant for large exosuit gadgets, larger than 5 L."
+    "info": "This is meant for large exosuit gadgets, larger than 5 L.",
+    "inherit": false
   },
   {
     "id": "EXO_UNDERLAYER",
     "type": "json_flag",
-    "info": "This is meant for exosuit underlayers."
+    "info": "This is meant for exosuit underlayers.",
+    "inherit": false
   },
   {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton helmet plating."
+    "info": "This is meant for exoskeleton helmet plating.",
+    "inherit": false
   },
   {
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton torso plating."
+    "info": "This is meant for exoskeleton torso plating.",
+    "inherit": false
   },
   {
     "id": "EXO_ARM_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton arm plating."
+    "info": "This is meant for exoskeleton arm plating.",
+    "inherit": false
   },
   {
     "id": "EXO_GLOVE_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton arm plating."
+    "info": "This is meant for exoskeleton arm plating.",
+    "inherit": false
   },
   {
     "id": "EXO_LEG_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton leg plating."
+    "info": "This is meant for exoskeleton leg plating.",
+    "inherit": false
   },
   {
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton foot plating."
+    "info": "This is meant for exoskeleton foot plating.",
+    "inherit": false
+  },
+  {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
   },
   {
     "id": "ROBOFAC_ROBOT_MEDIUM",
@@ -2446,6 +2472,11 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
   },
   {
     "id": "ANIMALDISCORD",

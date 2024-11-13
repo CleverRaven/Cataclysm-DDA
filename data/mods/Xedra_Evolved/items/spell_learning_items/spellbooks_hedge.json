@@ -50,14 +50,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -146,14 +146,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -242,14 +242,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -341,14 +341,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -440,14 +440,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -536,14 +536,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -651,14 +651,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -752,14 +752,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }

@@ -54,8 +54,7 @@
       "TRADER_AVOID",
       "NONCONDUCTIVE",
       "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -148,7 +147,7 @@
       "need_charges_msg": "The \"Neon Angle\" battery is dead."
     },
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP", "PLASMA_AXE_WIDE" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "MUNDANE", "INVENTOR_CRAFTED" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "pocket_data": [
       {

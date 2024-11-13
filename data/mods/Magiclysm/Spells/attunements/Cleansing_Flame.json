@@ -26,11 +26,11 @@
     "effect": [
       { "u_add_effect": "effect_burning_trail", "duration": "PERMANENT" },
       { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
-      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
     ],
     "false_effect": [
       { "u_lose_effect": "effect_burning_trail" },
-      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
     ]
   },
   {
@@ -47,12 +47,12 @@
               { "math": [ "u_val('mana')", "-=", "1" ] },
               { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
               { "u_set_field": "fd_fire", "radius": 0, "hit_player": false },
-              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
             ],
             "false_effect": [
               { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" },
               { "u_lose_effect": "effect_burning_trail" },
-              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
             ]
           }
         ]
@@ -109,7 +109,8 @@
       "CONCENTRATE",
       "IGNITE_FLAMMABLE",
       "MUST_HAVE_CLASS_TO_LEARN",
-      "NO_HANDS"
+      "NO_HANDS",
+      "SPLIT_DAMAGE"
     ],
     "effect": "attack",
     "shape": "blast",
@@ -179,6 +180,7 @@
     "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "self" ],
     "max_level": 35,
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "min_damage": 10,

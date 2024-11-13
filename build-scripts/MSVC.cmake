@@ -73,7 +73,7 @@ add_link_options(
     /OPT:ICF # force identical COMDATs
     /LTCG:OFF
     /INCREMENTAL:NO
-    /DYNAMICBAS  # does this app realy need ASLR ?
+    /DYNAMICBASE # does this app realy need ASLR ?
     /NXCOMPAT    # same as above
     "$<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>"
     "$<$<CONFIG:RelWithDebInfo>:/NODEFAULTLIB:LIBCMTD>"

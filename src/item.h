@@ -149,6 +149,9 @@ struct iteminfo {
         /** Flag indicating decimal with three points of precision.  */
         bool three_decimal;
 
+        /** info is ASCII art (prefer monospaced font) */
+        bool bIsArt;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -157,6 +160,7 @@ struct iteminfo {
             lower_is_better = 1 << 3, ///< Lower values are better for this stat
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
+            is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
         };
 
         /**
@@ -366,6 +370,12 @@ class item : public visitable
         bool is_software_storage() const;
 
         bool is_ebook_storage() const;
+
+        /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
 
         /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
@@ -1398,7 +1408,8 @@ class item : public visitable
          * This version is for items with durability
          * @return the state of the armor
          */
-        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+        armor_status damage_armor_durability( damage_unit &du, damage_unit &premitigated,
+                                              const bodypart_id &bp,
                                               double enchant_multiplier = 1 );
 
         /**
@@ -1541,7 +1552,10 @@ class item : public visitable
          * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
          * @return true if the item was successfully connected.
          */
+        // TODO: Get rid of untyped overload.
         ret_val<void> link_to( vehicle &veh, const point &mount,
+                               link_state link_type = link_state::no_link );
+        ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
 
         /**
@@ -1808,6 +1822,11 @@ class item : public visitable
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
 
+        /** Checks is item affect fall */
+        bool affects_fall() const;
+
+        //flat damage reduction (increase if negative) on fall (some logic may apply)
+        int fall_damage_reduction() const;
         /**
           * if the item will spill if placed into a container
           */
@@ -2442,11 +2461,16 @@ class item : public visitable
          */
         int shots_remaining( const Character *carrier ) const;
 
+        // Does this use electrical energy, or is it fueled by something else?
+        bool uses_energy() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
+         * Set second parameter to true to ignore vehicle batteries, UPS and bionic power when checking
          */
+
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
+        units::energy energy_remaining( const Character *carrier, bool ignoreExternalSources ) const;
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
@@ -2541,6 +2565,12 @@ class item : public visitable
          */
         int activation_consume( int qty, const tripoint &pos, Character *carrier );
 
+        // Returns whether the item has ammo in it, either directly or via a selected magazine, which
+        // contrasts with ammo_data(), which just returns the magazine data if a magazine is selected,
+        // regardless of whether that magazine is empty or not.
+        bool has_ammo() const;
+        // Cheaper way to just check if ammo_data exists if the data is to be just discarded afterwards.
+        bool has_ammo_data() const;
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */

@@ -209,11 +209,11 @@
         "============#####o#######o#######===============",
         "================================================"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "=": "t_open_air",
-        "~": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "}": "t_ladder_up",
         "{": "t_ladder_down",
         "%": "t_metal_railing",
@@ -280,11 +280,11 @@
         "````````````#####o#######o#######```````````````",
         "````````````````````````````````````````````````"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "`": "t_open_air",
-        "~": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "_": "t_flat_roof",
         "/": "t_gutter_drop",
         "-": "t_gutter",
@@ -353,11 +353,11 @@
         "````````````#####o#######o#######```````````````",
         "````````````````````````````````````````````````"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "`": "t_open_air",
-        "~": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "_": "t_flat_roof",
         "}": "t_ladder_up",
         "{": "t_ladder_down",

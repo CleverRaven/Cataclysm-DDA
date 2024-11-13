@@ -2816,6 +2816,87 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_west_side_rooms",
+    "type": "mission_definition",
+    "name": "Construct: West Side Rooms",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft an Inverted Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: West Side Rooms.  Add two rooms on either side of the corridor leading to the western room.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_west_side_rooms",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_west_side_rooms" },
+        {
+          "u_message": "The western room is a nice size, but it's just one room.  You could use a bit of separation between activities, and maybe a place to store some materials that you won't use as often.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: West Side Rooms.  Add two side rooms in the west for additional storage.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_west_side_rooms", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_west_side_rooms" },
+        { "run_eocs": "EOC_skyisland_build_west_side_rooms" },
+        {
+          "u_message": "Construction complete.  The west now has two side rooms for additional storage.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_west_side_rooms",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Inverted Cube (West)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Side Rooms",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_west_side_rooms",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
+      [
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_eastroom1",
     "type": "mission_definition",
     "name": "Construct: East Room 1",
@@ -3078,6 +3159,87 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_east_side_rooms",
+    "type": "mission_definition",
+    "name": "Construct: East Side Rooms",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft an Inverted Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Side Rooms.  Add two rooms on either side of the corridor leading to the eastern room.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_east_side_rooms",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_east_side_rooms" },
+        {
+          "u_message": "The eastern room is a nice size, but it's just one room.  You could use a bit of separation between activities, and maybe a place to store some materials that you won't use as often.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: East Side Rooms.  Add two side rooms in the east for additional storage.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_east_side_rooms", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_east_side_rooms" },
+        { "run_eocs": "EOC_skyisland_build_east_side_rooms" },
+        {
+          "u_message": "Construction complete.  The east now has two side rooms for additional storage.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_east_side_rooms",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Inverted Cube (East)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Side Rooms",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_east_side_rooms",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
+      [
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_northroom1",
     "type": "mission_definition",
     "name": "Construct: North Room 1",
@@ -3289,7 +3451,7 @@
   {
     "id": "SKYISLAND_BUILD_northroom4",
     "type": "mission_definition",
-    "name": "Construct: north Room Gallery",
+    "name": "Construct: North Room Gallery",
     "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Cavernous Soul from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room Gallery.  Add an enclosed gallery to the northern room to allow viewing off the side of the island.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "buildkey_northroom4",
@@ -3354,6 +3516,87 @@
       [ [ "wood_beam", 8 ] ],
       [ [ "block_and_tackle", 1 ] ],
       [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_north_side_rooms",
+    "type": "mission_definition",
+    "name": "Construct: North Side Rooms",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft an Inverted Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Side Rooms.  Add two rooms on either side of the corridor leading to the northern room.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_north_side_rooms",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_north_side_rooms" },
+        {
+          "u_message": "The northern room is a nice size, but it's just one room.  You could use a bit of separation between activities, and maybe a place to store some materials that you won't use as often.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: North Side Rooms.  Add two side rooms in the north for additional storage.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_north_side_rooms", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_north_side_rooms" },
+        { "run_eocs": "EOC_skyisland_build_north_side_rooms" },
+        {
+          "u_message": "Construction complete.  The north now has two side rooms for additional storage.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_north_side_rooms",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Inverted Cube (North)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Side Rooms",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_north_side_rooms",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
+      [
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {

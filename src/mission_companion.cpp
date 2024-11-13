@@ -1297,9 +1297,11 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
 npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::map<skill_id, int> &required_skills, bool silent_failure )
+        const std::map<skill_id, int> &required_skills, bool silent_failure,
+        const npc_ptr &preselected_choice )
 {
-    npc_ptr comp = companion_choose( required_skills, silent_failure );
+    npc_ptr comp = preselected_choice ? preselected_choice : companion_choose( required_skills,
+                   silent_failure );
     if( comp == nullptr ) {
         return comp;
     }
@@ -1581,7 +1583,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
         }
@@ -1621,7 +1623,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     player_character.use_amount( itype_FMCNote, limiting_number );
 
     //Plant the actual seeds
-    for( const tripoint_omt_ms &plot : bay.omt_points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
@@ -1653,7 +1655,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
@@ -1700,7 +1702,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.furn( plot ) == furn_f_plant_harvest ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = bay.i_at( plot );
@@ -2798,46 +2800,58 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     bay.load( site, false );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
-    for( const tripoint_omt_ms &p : bay.omt_points_on_zlevel() ) {
-        const ter_id t = bay.ter( p );
+    for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
+        const ter_id &t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
         const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };
         if( openable_doors.find( t.id() ) != openable_doors.end() ) {
             bay.ter_set( p, ter_t_door_o );
         } else if( t == ter_t_door_locked || t == ter_t_door_locked_peep || t == ter_t_door_locked_alarm ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+            }
             // Bash doors twice
-            const map_bash_info &bash_again = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash_again.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            bay.spawn_items( p, item_group::items_from( bash_again.drop_group, calendar::turn ) );
+            const std::optional <map_ter_bash_info> &bash_again = bay.ter( p ).obj().bash;
+            if( bash_again ) {
+                bay.ter_set( p, bash_again->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+                bay.spawn_items( p, item_group::items_from( bash_again->drop_group, calendar::turn ) );
+            }
         } else if( t == ter_t_door_metal_c || t == ter_t_door_metal_locked ||
                    t == ter_t_door_metal_pickable ) {
             bay.ter_set( p, ter_t_door_metal_o );
         } else if( t == ter_t_door_glass_c ) {
             bay.ter_set( p, ter_t_door_glass_o );
         } else if( t == ter_t_wall && one_in( 25 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            bay.collapse_at( p, false );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+                bay.collapse_at( p, false );
+            }
         }
         //Smash easily breakable stuff
         else if( const std::unordered_set<ter_str_id> weak_window_ters = {ter_t_window, ter_t_window_taped, ter_t_window_domestic, ter_t_window_boarded_noglass, ter_t_window_domestic_taped, ter_t_window_alarm_taped, ter_t_window_boarded, ter_t_curtains, ter_t_window_alarm, ter_t_window_no_curtains, ter_t_window_no_curtains_taped };
                  weak_window_ters.find( t.id() ) != weak_window_ters.end() && one_in( 4 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+            }
         } else if( ( t == ter_t_wall_glass || t == ter_t_wall_glass_alarm ) && one_in( 3 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-        } else if( bay.has_furn( p ) && bay.furn( p ).obj().bash.str_max != -1 && one_in( 10 ) ) {
-            const map_bash_info &bash = bay.furn( p ).obj().bash;
-            bay.furn_set( p, bash.furn_set );
-            bay.delete_signage( p );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+            }
+        } else if( bay.has_furn( p ) && bay.furn( p ).obj().bash && one_in( 10 ) ) {
+            const std::optional<map_furn_bash_info> &bash = bay.furn( p ).obj().bash;
+            if( bash ) {
+                bay.furn_set( p, bash->furn_set );
+                bay.delete_signage( p );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+            }
         }
         //Kill zombies!  Only works against pre-spawned enemies at the moment...
         Creature *critter = creatures.creature_at( rebase_bub( p ) );

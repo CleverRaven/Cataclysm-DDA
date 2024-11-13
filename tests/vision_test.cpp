@@ -181,7 +181,7 @@ struct vision_test_case {
             t.set_anchor_char_from( {anchor_char} );
         }
         REQUIRE( t.anchor_char.has_value() );
-        t.anchor_map_pos = player_character.pos();
+        t.anchor_map_pos = player_character.pos_bub();
 
         if( flags.crouching ) {
             player_character.set_movement_mode( move_mode_crouch );
@@ -207,11 +207,11 @@ struct vision_test_case {
 
         // Sanity check on player placement in relation to `t`
         // must be invoked after transformations are applied to `t`
-        t.validate_anchor_point( player_character.pos() );
+        t.validate_anchor_point( player_character.pos_bub() );
 
         SECTION( section_name.str() ) {
             t.for_each_tile( set_up_tiles );
-            int zlev = t.get_origin().z;
+            int zlev = t.get_origin().z();
             map &here = get_map();
             // We have to run the whole thing twice, because the first time through the
             // player's vision_threshold is based on the previous lighting level (so
@@ -929,11 +929,11 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
 
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
-            std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
+            std::vector<vehicle_part *> const horns = v->get_parts_at( v->pos_bub(), "HORN", {} );
             v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
-            REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );
+            REQUIRE( v->install_part( point_rel_ms_zero, vpart_inboard_mirror ) != -1 );
         }
         if( fiddle > 0 ) {
             get_map().add_vehicle_to_cache( v );
@@ -1108,7 +1108,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
     };
 
     vehicle *v = nullptr;
-    std::optional<tripoint> door = std::nullopt;
+    std::optional<tripoint_bub_ms> door = std::nullopt;
 
     // opens or closes a specific door (marked as 'D')
     // this is called twice: after either vehicle or door is set

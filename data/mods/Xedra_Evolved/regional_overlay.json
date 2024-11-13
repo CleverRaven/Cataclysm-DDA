@@ -32,6 +32,8 @@
       "field": {
         "chance": 75,
         "extras": {
+          "mx_deathworm_track": 1,
+          "mx_sevenoclock_track": 1,
           "mx_dreamwound_shadow": 5,
           "mx_trees_map_salamander": 75,
           "mx_trees_map_sylph": 75,

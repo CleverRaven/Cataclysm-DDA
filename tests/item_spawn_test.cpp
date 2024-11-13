@@ -58,7 +58,7 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                             vehicle *veh = here.add_vehicle( cs_data.vehicle, vehpos, 0_degrees, 0, 0 );
                             REQUIRE( veh );
                             REQUIRE( here.get_vehicles().size() == 1 );
-                            const tripoint pos( point_zero, veh->sm_pos.z );
+                            const tripoint_bub_ms pos( point_bub_ms_zero, veh->sm_pos.z );
                             const std::optional<vpart_reference> ovp_cargo = here.veh_at( pos ).cargo();
                             REQUIRE( ovp_cargo );
                             for( item &it : ovp_cargo->items() ) {

@@ -213,6 +213,25 @@
     ]
   },
   {
+    "id": "zombie_lizardfolk",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "zombie_ravenfolk",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "//": "removes 66% of their featers due to most being unusable due to being from an undead corpse.",
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.007 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.003 }
+      ]
+    }
+  },
+  {
     "id": "ogre",
     "type": "harvest",
     "copy-from": "demihuman_large_fur",

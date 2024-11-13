@@ -28,8 +28,7 @@
     "container": "null",
     "description": "A handful of squishy, fluffy, puffy, delicious marshmallows.  They feel oddly warm…",
     "copy-from": "marshmallow",
-    "rot_spawn": "GROUP_EGG_MARSHMALLOW",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_MARSHMALLOW", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
@@ -40,8 +39,7 @@
     "container": "null",
     "copy-from": "smores",
     "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warmth radiates from it as if it is… alive?",
-    "rot_spawn": "GROUP_EGG_SMORES",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_SMORES", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
@@ -52,8 +50,7 @@
     "symbol": "%",
     "container": "null",
     "copy-from": "candy3",
-    "rot_spawn": "GROUP_EGG_GUMMY",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_GUMMY", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
@@ -64,8 +61,7 @@
     "symbol": "%",
     "container": "null",
     "copy-from": "candy3",
-    "rot_spawn": "GROUP_EGG_GUMMY_GATOR",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_GUMMY_GATOR", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
@@ -76,8 +72,7 @@
     "container": "null",
     "description": "Dry and sugary, these crackers will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
     "copy-from": "grahmcrackers",
-    "rot_spawn": "GROUP_EGG_CRACKER",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CRACKER", "chance": 100 },
     "spoils_in": "20 days"
   },
   {
@@ -88,8 +83,7 @@
     "container": "null",
     "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
     "copy-from": "grahmcrackers",
-    "rot_spawn": "GROUP_EGG_CRACKER_ROE",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CRACKER_ROE", "chance": 100 },
     "spoils_in": "20 days"
   },
   {
@@ -100,8 +94,7 @@
     "container": "null",
     "description": "Sweet and delicious cookies, just like grandma used to bake.  They shiver under your touch.  Weird!",
     "copy-from": "cookies",
-    "rot_spawn": "GROUP_EGG_COOKIE",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_COOKIE", "chance": 100 },
     "spoils_in": "10 days"
   },
   {
@@ -112,8 +105,7 @@
     "container": "null",
     "description": "Sweet and delicious cookies, shaped like eggs.  They shiver under your touch as if something is inside.  Weird!",
     "copy-from": "cookies",
-    "rot_spawn": "GROUP_EGG_COOKIE_EGG",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_COOKIE_EGG", "chance": 100 },
     "spoils_in": "10 days"
   },
   {
@@ -124,8 +116,7 @@
     "description": "Bright pink chewing gum.  Sugary, sweet, and bad for your teeth.  It's oddly warm to the touch…",
     "symbol": "*",
     "copy-from": "gum",
-    "rot_spawn": "GROUP_EGG_GUM",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_GUM", "chance": 100 },
     "spoils_in": "5 days"
   },
   {
@@ -136,8 +127,7 @@
     "description": "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.  It's oddly warm to the touch…",
     "symbol": "*",
     "copy-from": "caff_gum",
-    "rot_spawn": "GROUP_EGG_CAFFGUM",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CAFFGUM", "chance": 100 },
     "spoils_in": "7 days"
   },
   {
@@ -148,8 +138,7 @@
     "symbol": "*",
     "copy-from": "cow_candy",
     "color": "brown",
-    "rot_spawn": "GROUP_EGG_CHOC_COW",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CHOC_COW", "chance": 100 },
     "spoils_in": "10 days"
   },
   {
@@ -216,8 +205,7 @@
     "name": { "str_sp": "licorice" },
     "symbol": "%",
     "copy-from": "licorice",
-    "rot_spawn": "GROUP_EGG_LICORICE",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_LICORICE", "chance": 100 },
     "container": "null",
     "color": "red",
     "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"

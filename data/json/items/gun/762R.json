@@ -51,7 +51,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
     ],
@@ -66,8 +66,8 @@
     "description": "Developed by the Russian Empire prior to the onset of the First World War, the Mosin is a bolt-action military battle rifle chambered for 7.62x54mm rounds.  Powerful, unwieldy, and prolific across the world as military surplus, this sizable rifle is a Soviet updated version of the venerable Mosin.",
     "weight": "4000 g",
     "volume": "3120 ml",
-    "longest_side": "1241 mm",
-    "barrel_length": "1232 mm",
+    "longest_side": "1232 mm",
+    "barrel_length": "730 mm",
     "price": "190 USD",
     "price_postapoc": "30 USD",
     "variant_type": "gun",
@@ -107,7 +107,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
     ],

@@ -116,7 +116,7 @@
                 "u_message": "As you finish the words of the charm, the magic takes hold.  (E)xamine a nearby crop to fertilize it.",
                 "type": "good"
               },
-              { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
+              { "run_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
             ],
             "false_effect": [ { "u_message": "You must complete the charm within one hour of noon for it to be effective.", "type": "bad" } ]
           }
@@ -259,10 +259,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -272,7 +272,7 @@
         "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
         "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_set_flag": "SEMITANGIBLE" } ] } ]
       },
-      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
+      { "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
     ]
   },
   {
@@ -286,10 +286,10 @@
         "intensity": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') + 1" ] }
       },
       {
-        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
         "time_in_future": [ "15 minutes", "45 minutes" ]
       },
-      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] },
+      { "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] },
       {
         "if": { "math": [ "u_val('intelligence')", "<=", "3" ] },
         "then": [
@@ -328,7 +328,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
         "time_in_future": [ "15 minutes", "45 minutes" ]
       }
     ]
@@ -342,10 +342,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },

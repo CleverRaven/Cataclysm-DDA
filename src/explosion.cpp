@@ -426,7 +426,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range<tripoint_bub_ms> area = m->bub_points_on_zlevel( src.z() );
+    const tripoint_range<tripoint_bub_ms> area = m->points_on_zlevel( src.z() );
 
     m->build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
@@ -707,8 +707,9 @@ void emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p ) == ter_t_card_science || here.ter( p ) == ter_t_card_military ||
-        here.ter( p ) == ter_t_card_industrial ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_card_science || t == ter_t_card_military ||
+        t == ter_t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -720,11 +721,9 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "The nearby doors slide open!" ) );
             }
-            for( int i = -3; i <= 3; i++ ) {
-                for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p + tripoint( i, j, 0 ) ) == ter_t_door_metal_locked ) {
-                        here.ter_set( p + tripoint( i, j, 0 ), ter_t_floor );
-                    }
+            for( const tripoint &pos : here.points_in_radius( p, 3 ) ) {
+                if( here.ter( pos ) == ter_t_door_metal_locked ) {
+                    here.ter_set( pos, ter_t_floor );
                 }
             }
         }

@@ -12,7 +12,6 @@
 #include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "character.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -490,9 +489,8 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = get_map().getglobal( tripoint_bub_ms{ source.x, source.y, get_map().get_abs_sub().z()} ).xy().raw();
-            // TODO: fix point types
-            const point_abs_sm abs_sm( ms_to_sm_copy( abs_ms ) );
+            const point_abs_ms abs_ms = get_map().getglobal( source ).xy();
+            const point_abs_sm abs_sm( coords::project_to<coords::sm>( abs_ms ) );
             const tripoint_abs_sm target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
@@ -1065,10 +1063,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
             vehicle.v->vehicle_noise -
-            sound_distance( player_character.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
+            sound_distance( player_character.pos_bub().raw(), vehicle.v->pos_bub().raw() ) > noise_factor ) {
 
-            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos(),
-                           vehicle.v->global_pos3() );
+            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos_bub().raw(),
+                           vehicle.v->pos_bub().raw() );
             veh = vehicle.v;
         }
     }
@@ -1107,7 +1105,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     if( is_channel_playing( ch ) ) {
         if( engine_external_id_and_variant == id_and_variant ) {
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub().raw() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol,
                            Mix_Volume( ch_int, -1 ) );
@@ -1117,7 +1115,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
             add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, change id/var" );
             play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                         seas_str, indoors, night, 128, ch, 0 );
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub().raw() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound %s %s vol: %d",
                            id_and_variant.first,
@@ -1128,7 +1126,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     seas_str, indoors, night, 128, ch, 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
-        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
+        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub().raw() ) ), 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         set_channel_volume( ch, vol );
         add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d",
@@ -1747,8 +1745,8 @@ void sfx::do_footstep()
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         const Character &player_character = get_player_character();
-        int heard_volume = sfx::get_heard_volume( player_character.pos() );
-        const auto terrain = get_map().ter( player_character.pos() ).id();
+        int heard_volume = sfx::get_heard_volume( player_character.pos_bub() );
+        const auto terrain = get_map().ter( player_character.pos_bub() ).id();
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
             ter_t_shrub,

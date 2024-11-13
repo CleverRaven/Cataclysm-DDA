@@ -6,11 +6,13 @@
     "condition": "ALWAYS",
     "name": { "str": "Magic blade" },
     "description": "The damage done and light emitted by this sword increase with intelligence.",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_CUT",
+        "type": "cut",
         "add": { "math": [ "(u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))" ] }
-      },
+      }
+    ],
+    "values": [
       {
         "value": "LUMINATION",
         "add": { "math": [ "((u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))) * 3" ] }
@@ -64,9 +66,9 @@
     "condition": "ALWAYS",
     "name": { "str": "Storm hammer" },
     "description": "A magical hammer whose damage increases with the spell.",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ELEC",
+        "type": "electric",
         "add": { "math": [ "(5 + (1 * u_spell_level('storm_hammer')) + (1 * u_spell_level('storm_hammer_plus')))" ] }
       }
     ]
@@ -78,9 +80,9 @@
     "condition": { "not": "u_has_weapon" },
     "name": { "str": "Stormglove" },
     "description": "A coating of lighting on your hand and lower arm.",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ELEC",
+        "type": "electric",
         "add": { "math": [ "rand(5 + (1 * u_spell_level('stormfist')) + (1 * u_spell_level('stormfist_plus')))" ] }
       }
     ]
@@ -99,9 +101,11 @@
         "add": {
           "math": [ "(-2 - (0.5 * u_spell_level('biomancer_caustic_aura')) - (0.5 * u_spell_level('biomancer_caustic_aura_plus')))" ]
         }
-      },
+      }
+    ],
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ACID",
+        "type": "acid",
         "add": {
           "math": [ "(1 + (0.25 * u_spell_level('biomancer_caustic_aura')) + (0.25 * u_spell_level('biomancer_caustic_aura_plus')))" ]
         }
@@ -115,7 +119,7 @@
     "condition": "ALWAYS",
     "name": { "str": "Subzero Talons" },
     "description": "Icy talons to freeze your enemies.",
-    "values": [ { "value": "ITEM_DAMAGE_COLD", "add": { "math": [ "(3 + (0.5 * u_spell_level('summon_subzero_talons')))" ] } } ]
+    "melee_damage_bonus": [ { "type": "cold", "add": { "math": [ "(3 + (0.5 * u_spell_level('summon_subzero_talons')))" ] } } ]
   },
   {
     "type": "enchantment",

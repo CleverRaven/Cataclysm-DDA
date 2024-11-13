@@ -48,7 +48,8 @@
     "description": "This provides the school trait for Changeling magic.  It should not be visible.",
     "valid": false,
     "purifiable": false,
-    "player_display": false
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -238,7 +239,8 @@
         "FAIR_FOLK_COMMONER_BROWNIE",
         "FAIR_FOLK_COMMONER_POOKA",
         "FAIR_FOLK_COMMONER_SELKIE",
-        "FAIR_FOLK_COMMONER_TROW"
+        "FAIR_FOLK_COMMONER_TROW",
+        "LILIN"
       ]
     }
   },
@@ -252,16 +254,10 @@
         "FAIR_FOLK_COMMONER_BROWNIE",
         "FAIR_FOLK_COMMONER_POOKA",
         "FAIR_FOLK_COMMONER_SELKIE",
-        "FAIR_FOLK_COMMONER_TROW"
+        "FAIR_FOLK_COMMONER_TROW",
+        "LILIN"
       ]
-    },
-    "threshreq": [
-      "THRESH_FAIR_FOLK_NOBLE",
-      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
-      "THRESH_FAIR_FOLK_COMMONER_POOKA",
-      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
-      "THRESH_FAIR_FOLK_COMMONER_TROW"
-    ]
+    }
   },
   {
     "type": "mutation",
@@ -1254,7 +1250,7 @@
     "description": "You are as hardy as the rock.  When underground, you suffer much less pain.",
     "types": [ "PAIN" ],
     "prereqs": [ "PAINRESIST" ],
-    "prereqs2": [ "STR_UP_2", "STR_UP_3" ],
+    "prereqs2": [ "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "changes_to": [ "PAINRESIST_TROW2" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
@@ -1266,12 +1262,21 @@
   },
   {
     "type": "mutation",
+    "id": "TROW_MOONS_TEARS_FORGING",
+    "name": { "str": "Shaping the Tears" },
+    "points": 4,
+    "description": "You have learned the secrets of forging moon's tears.  Sometimes in your dreams, a new recipe might be revealed to you.",
+    "prereqs2": [ "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
+  },
+  {
+    "type": "mutation",
     "id": "PAINRESIST_TROW2",
     "name": { "str": "Unwavering Resilience of the Stones" },
     "points": 6,
     "description": "You are as hardy as the rock.  When underground you suffer much less pain, and your strength is not reduced by the pain you suffer.",
     "prereqs": [ "PAINRESIST_TROW" ],
-    "prereqs2": [ "STR_UP_3" ],
+    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [

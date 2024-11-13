@@ -69,6 +69,7 @@
     ]
   },
   {
+    "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_well_fed",
     "name": [ "Well Fed" ],
@@ -76,6 +77,7 @@
     "desc": [ { "str": "AI tag for when critter has had enough to eat.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
+    "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_underfed",
     "name": [ "Underfed" ],
@@ -5150,5 +5152,15 @@
     "id": "a_winner_is_u",
     "name": [ "Winning!" ],
     "//": "Used to display the winning screen upon winning like a winner."
+  },
+  {
+    "type": "effect_type",
+    "//": "Horrible hack to apply vision flag. Set in C++ basecamp::start_crafting()",
+    "id": "HACK_camp_vision_for_npc",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
   }
 ]

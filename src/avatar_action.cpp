@@ -312,15 +312,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( you.has_effect( effect_amigara ) ) {
         int curdist = INT_MAX;
         int newdist = INT_MAX;
-        const tripoint minp = tripoint( 0, 0, you.posz() );
-        const tripoint maxp = tripoint( MAPSIZE_X, MAPSIZE_Y, you.posz() );
-        for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
+        const tripoint_bub_ms minp{ 0, 0, you.posz() };
+        const tripoint_bub_ms maxp{ MAPSIZE_X, MAPSIZE_Y, you.posz() };
+        for( const tripoint_bub_ms &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == ter_t_fault ) {
-                int dist = rl_dist( pt, you.pos_bub().raw() );
+                int dist = rl_dist( pt, you.pos_bub() );
                 if( dist < curdist ) {
                     curdist = dist;
                 }
-                dist = rl_dist( pt, dest_loc.raw() );
+                dist = rl_dist( pt, dest_loc );
                 if( dist < newdist ) {
                     newdist = dist;
                 }
@@ -561,69 +561,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( waste_moves ) {
             you.mod_moves( -you.get_speed() );
         }
-    } else if( m.ter( dest_loc ) == ter_t_door_bar_locked ) {
+    } else if( const ter_id &t = m.ter( dest_loc ); t == ter_t_door_bar_locked ) {
         add_msg( _( "You rattle the bars but the door is locked!" ) );
     } else if( const std::unordered_set<ter_str_id> locked_doors = { ter_t_door_locked, ter_t_door_locked_peep, ter_t_door_locked_alarm, ter_t_door_locked_interior };
-               locked_doors.find( m.ter( dest_loc ).id() ) != locked_doors.end() ) {
+               locked_doors.find( t.id() ) != locked_doors.end() ) {
         // Don't drain move points for learning something you could learn just by looking
         add_msg( _( "That door is locked!" ) );
     }
     return false;
-}
-
-bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
-{
-    if( dest_loc.z != you.posz() ) {
-        // No recursive ramp_moves
-        return false;
-    }
-
-    // We're moving onto a tile with no support, check if it has a ramp below
-    if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint_bub_ms below( point_bub_ms( dest_loc.xy() ), dest_loc.z - 1 );
-        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
-            // But we're moving onto one from above
-            const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.xy(), -1 ) );
-            // No penalty for misaligned stairs here
-            // Also cheaper than climbing up
-            return true;
-        }
-
-        return false;
-    }
-
-    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos_bub() ) ||
-        m.passable( dest_loc ) ) {
-        return false;
-    }
-
-    // Try to find an aligned end of the ramp that will make our climb faster
-    // Basically, finish walking on the stairs instead of pulling self up by hand
-    bool aligned_ramps = false;
-    for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
-            aligned_ramps = true;
-            break;
-        }
-    }
-
-    const tripoint_bub_ms above_u( you.pos_bub() + tripoint_above );
-    if( m.has_floor_or_support( above_u ) ) {
-        add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
-        return false;
-    }
-
-    const tripoint dp = dest_loc - you.pos();
-    const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.xy(), 1 ) );
-    // We can't just take the result of the above function here
-    if( you.pos() != old_pos ) {
-        const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
-        you.mod_moves( -you.get_speed() * total_move_cost );
-    }
-
-    return true;
 }
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
@@ -810,7 +755,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon->ammo_data() &&
+    } else if( weapon->has_ammo_data() &&
                !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon->tname(), weapon->ammo_current()->nname( 1 ) );
@@ -908,7 +853,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
-            here.ter_set( you.pos(), ter_t_grass );
+            here.ter_set( you.pos_bub(), ter_t_grass );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
@@ -1007,6 +952,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
         return;
     }
+
+    bool in_mech = false;
     if( you.is_mounted() ) {
         monster *mons = get_player_character().mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
@@ -1015,6 +962,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
                          mons->get_name() );
                 return;
             }
+            in_mech = true;
         }
     }
 
@@ -1028,10 +976,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    const ret_val<void> ret = you.can_wield( *loc );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-        return;
+    // Bypass check for whether we can wield an item if we're inside a mech
+    if( !in_mech ) {
+        const ret_val<void> ret = you.can_wield( *loc );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
     }
 
     // make a copy and get the original.
@@ -1067,9 +1018,12 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // you must wield the item to throw it
-    if( !you.is_wielding( *orig ) ) {
-        if( !you.wield( *orig ) ) {
-            return;
+    // if we're in the mech, let's assume the mech wields the item
+    if( !in_mech ) {
+        if( !you.is_wielding( *orig ) ) {
+            if( !you.wield( *orig ) ) {
+                return;
+            }
         }
     }
 
@@ -1083,7 +1037,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    item_location weapon = you.get_wielded_item();
+    item_location weapon = in_mech ? loc : you.get_wielded_item();
     target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
                                             blind_throw_from_pos.has_value() );
 
@@ -1100,7 +1054,11 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.remove_weapon();
+        if( in_mech ) {
+            loc.remove_item();
+        } else {
+            you.remove_weapon();
+        }
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
@@ -1142,6 +1100,10 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         }
     }
 
+    if( !avatar_action::check_stealing( get_player_character(), *loc.get_item() ) ) {
+        return;
+    }
+
     loc.overflow();
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
@@ -1150,7 +1112,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     }
 
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
-        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on.  Proceed?" ) ) ) {
             loc->deactivate();
             loc.get_item()->set_fault( faults::random_of_type( "wet" ) );
             // An electronic item in water is also shorted.
@@ -1225,8 +1187,6 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     you.invalidate_crafting_inventory();
 }
 
-// Opens up a menu to Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );

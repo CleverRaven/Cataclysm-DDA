@@ -183,19 +183,19 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     clear_map( z_bottom - 1, z_surface + 1 );
 
     map &here = get_map();
-    const tripoint p1( 0, 0, z_bottom - 1 );
-    const tripoint p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
-    for( const tripoint &p : here.points_in_rectangle( p1, p2 ) ) {
+    const tripoint_bub_ms p1( 0, 0, z_bottom - 1 );
+    const tripoint_bub_ms p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
+    for( const tripoint_bub_ms &p : here.points_in_rectangle( p1, p2 ) ) {
 
-        if( p.z == z_surface ) {
+        if( p.z() == z_surface ) {
             here.ter_set( p, surface );
-        } else if( p.z < z_surface && p.z > z_bottom ) {
+        } else if( p.z() < z_surface && p.z() > z_bottom ) {
             here.ter_set( p, mid );
-        } else if( p.z == z_bottom ) {
+        } else if( p.z() == z_bottom ) {
             here.ter_set( p, bottom );
-        } else if( p.z < z_bottom ) {
+        } else if( p.z() < z_bottom ) {
             here.ter_set( p, ter_t_rock );
-        } else if( p.z > z_surface ) {
+        } else if( p.z() > z_surface ) {
             here.ter_set( p, ter_t_open_air );
         }
     }
@@ -207,7 +207,7 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
 void player_add_headlamp()
 {
     item headlamp( "wearable_light_on" );
-    item battery( "light_battery_cell" );
+    item battery( "medium_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();

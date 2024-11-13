@@ -227,7 +227,7 @@
     "condition": { "math": [ "u_monsters_nearby('mon_yrax_quadraphract', 'radius': 60)", ">=", "1" ] },
     "effect": [
       { "math": [ "updating_quadraphracts", "=", "1" ] },
-      { "queue_eocs": "eoc_update_quadraphract_walkers", "time_in_future": 1 },
+      { "run_eocs": "eoc_update_quadraphract_walkers", "time_in_future": 1 },
       {
         "u_run_monster_eocs": [ "eoc_quadraphract_walker" ],
         "monster_range": 65,
