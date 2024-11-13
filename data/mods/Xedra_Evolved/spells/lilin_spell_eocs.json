@@ -389,9 +389,9 @@
               { "u_message": "A thick fog begins to rise.", "type": "neutral" },
               { "math": [ "magic_weather_dense_fog", "=", "1" ] },
               { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
-              { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+              { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
               {
-                "queue_eocs": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+                "run_eocs": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
                 "time_in_future": [
                   {
                     "math": [
@@ -415,7 +415,7 @@
       { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
       { "math": [ "magic_weather_dense_fog", "=", "0" ] },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
@@ -425,7 +425,7 @@
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
       { "math": [ "magic_weather_dense_fog", "=", "0" ] }
     ]
   },

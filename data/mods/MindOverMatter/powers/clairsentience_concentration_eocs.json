@@ -8,7 +8,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_clair_night_eyes", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
+        "run_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -52,7 +52,7 @@
       { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
+        "run_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -78,7 +78,7 @@
       { "u_message": "You feel like sitting down with a good book.", "type": "good" },
       { "u_add_effect": "effect_clair_speed_reader", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
+        "run_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -115,7 +115,7 @@
       { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
+        "run_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -141,7 +141,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_see_auras", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
+        "run_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -174,7 +174,7 @@
       { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
+        "run_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -200,7 +200,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_premonition", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
+        "run_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -233,7 +233,7 @@
       { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
+        "run_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -262,7 +262,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_ranged_enhance", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
+        "run_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -295,7 +295,7 @@
       { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
+        "run_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -321,7 +321,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_dodge", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
+        "run_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -354,7 +354,7 @@
       { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
+        "run_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -380,7 +380,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_CLAIR_CRAFT_BONUS_SWITCHER" ] },
       { "u_add_effect": "effect_clair_craft_bonus", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
+        "run_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -437,7 +437,7 @@
       { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
+        "run_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -463,7 +463,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_clear_sight", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
+        "run_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -496,7 +496,7 @@
       { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
+        "run_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -525,7 +525,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_clair_group_tactics_self", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
+        "run_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -561,7 +561,7 @@
       { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
+        "run_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
         "time_in_future": [
           {
             "math": [

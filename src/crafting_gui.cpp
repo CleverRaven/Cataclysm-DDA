@@ -214,10 +214,12 @@ static bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &r
 namespace
 {
 struct availability {
-        explicit availability( Character &_crafter, const recipe *r, int batch_size = 1 ) :
+        explicit availability( Character &_crafter, const recipe *r, int batch_size = 1,
+                               bool camp_crafting = false, inventory *inventory_override = nullptr ) :
             crafter( _crafter ) {
             rec = r;
-            const inventory &inv = crafter.crafting_inventory();
+            inv_override = inventory_override;
+            const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
@@ -229,7 +231,7 @@ struct availability {
                                         >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
             has_proficiencies = r->character_has_required_proficiencies( crafter );
             std::string reason;
-            if( crafter.is_npc() && !r->npc_can_craft( reason ) ) {
+            if( crafter.is_npc() && !r->npc_can_craft( reason ) && !camp_crafting ) {
                 can_craft = false;
             } else if( r->is_nested() ) {
                 can_craft = check_can_craft_nested( _crafter, *r );
@@ -264,6 +266,7 @@ struct availability {
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
+        inventory *inv_override;
     private:
         const recipe *rec;
         mutable float proficiency_time_maluses = -1.0f;
@@ -457,7 +460,7 @@ static std::vector<std::string> recipe_info(
                           recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    const inventory &crafting_inv = guy.crafting_inventory();
+    const inventory &crafting_inv = avail.inv_override ? *avail.inv_override : guy.crafting_inventory();
     if( recp.result() ) {
         const int nearby_amount = crafting_inv.count_item( recp.result() );
         std::string nearby_string;
@@ -1207,7 +1210,8 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
 }
 
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
-        const recipe_id &goto_recipe, Character *crafter, std::string filterstring )
+        const recipe_id &goto_recipe, Character *crafter, std::string filterstring, bool camp_crafting,
+        inventory *inventory_override )
 {
     if( crafter == nullptr ) {
         return {nullptr, nullptr};
@@ -1344,7 +1348,10 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                           crafter ) - crafting_group.begin();
 
     // Get everyone's recipes
-    const recipe_subset &available_recipes = crafter->get_group_available_recipes();
+    // WTF? If called with dummy npc, we have to do this. Why? Why doesn't Character::get_group_available_recipes()
+    // already include get_learned_recipes()?
+    const recipe_subset &available_recipes = camp_crafting ? crafter->get_learned_recipes() :
+            crafter->get_group_available_recipes();
     std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
     // next line also inserts empty cache for crafter->getID()
     std::map<const recipe *, availability> *availability_cache =
@@ -1582,7 +1589,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.emplace_back( *crafter, chosen, i );
+                    available.emplace_back( *crafter, chosen, i, camp_crafting, inventory_override );
                 }
                 indent.assign( current.size(), 0 );
             } else {
@@ -1636,7 +1643,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 // cache recipe availability on first display
                 for( const recipe *e : current ) {
                     if( !availability_cache->count( e ) ) {
-                        availability_cache->emplace( e, availability( *crafter, e ) );
+                        availability_cache->emplace( e, availability( *crafter, e, 1, camp_crafting, inventory_override ) );
                     }
                 }
 

@@ -480,7 +480,7 @@
         "text": "All right.  Let's kick some alien butt.",
         "effect": [
           { "math": [ "isherwood_family_coming", "=", "0" ] },
-          { "queue_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" },
+          { "run_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
           { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
         ],
@@ -490,7 +490,7 @@
         "text": "Okay, I'll give you about an hour to talk with her about it.  I'll be back soon.",
         "effect": [
           { "math": [ "isherwood_family_coming", "=", "0" ] },
-          { "queue_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" }
+          { "run_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" }
         ],
         "topic": "TALK_DONE"
       }
@@ -853,7 +853,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "queue_eocs": "isherwood_mission_wall_finished", "time_in_future": "24 hours" },
+        { "run_eocs": "isherwood_mission_wall_finished", "time_in_future": "24 hours" },
         { "math": [ "isherwood_wall_status", "++" ] }
       ]
     },

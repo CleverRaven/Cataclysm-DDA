@@ -233,7 +233,7 @@
             },
             { "u_remove_item_with": "revenant_effigy" },
             { "assign_mission": "MISSION_KILL_LUNA_ATTUNED" },
-            { "queue_eocs": "EOC_REMOVE_LUNA_MISSION", "time_in_future": [ "1 d", "1 d" ] }
+            { "run_eocs": "EOC_REMOVE_LUNA_MISSION", "time_in_future": [ "1 d", "1 d" ] }
           ],
           "false_effect": [
             {

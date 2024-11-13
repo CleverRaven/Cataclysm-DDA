@@ -525,7 +525,7 @@
         ]
       }
     },
-    "end": { "effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
+    "end": { "effect": [ { "run_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {

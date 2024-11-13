@@ -128,11 +128,8 @@
     "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT",
     "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
     "effect": [
-      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
-      {
-        "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT",
-        "time_in_future": [ "4 minutes", "7 minutes" ]
-      }
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT", "time_in_future": [ "4 minutes", "7 minutes" ] }
     ]
   },
   {
@@ -142,7 +139,7 @@
     "effect": [
       { "u_message": "The transporter remote emits a small beep.", "type": "neutral" },
       { "u_make_sound": "a small beep", "volume": 2, "type": "music" },
-      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
