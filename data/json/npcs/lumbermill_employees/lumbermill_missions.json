@@ -126,6 +126,8 @@
           { "item": "fur_blanket", "amount": 6 },
           { "item": "down_blanket", "amount": 6 },
           { "item": "blanket_weighted", "amount": 6 },
+          { "item": "quilt", "amount": 6 },
+          { "item": "quilt_patchwork", "amount": 6 },
           { "item": "electric_blanket", "amount": 6 }
         ]
       }
