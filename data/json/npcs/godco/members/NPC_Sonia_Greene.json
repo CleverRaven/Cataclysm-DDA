@@ -82,11 +82,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
-      {
-        "text": "Alright, see you later.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger() >= 5" ] }
-      }
+      { "text": "Alright, see you later.", "topic": "TALK_DONE", "condition": { "math": [ "n_npc_anger() >= 5" ] } }
     ]
   },
   {

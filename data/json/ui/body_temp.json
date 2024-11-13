@@ -4,12 +4,7 @@
     "type": "widget",
     "style": "clause",
     "clauses": [
-      {
-        "id": "scorching",
-        "text": "Scorching!",
-        "color": "red",
-        "condition": { "math": [ "u_val('body_temp') > 9500" ] }
-      },
+      { "id": "scorching", "text": "Scorching!", "color": "red", "condition": { "math": [ "u_val('body_temp') > 9500" ] } },
       {
         "id": "very_hot",
         "text": "Very hot!",
@@ -66,36 +61,28 @@
         "text": "(Rising!)",
         "sym": "↑↑",
         "color": "light_red",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ] }
       },
       {
         "id": "rising1",
         "text": "(Rising)",
         "sym": "↑",
         "color": "yellow",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ] }
       },
       {
         "id": "falling1",
         "text": "(Falling)",
         "sym": "↓",
         "color": "light_blue",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ] }
       },
       {
         "id": "falling2",
         "text": "(Falling!)",
         "sym": "↓↓",
         "color": "cyan",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ] }
       },
       {
         "id": "falling3",

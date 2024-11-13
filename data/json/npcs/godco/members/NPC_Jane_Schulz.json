@@ -9,11 +9,7 @@
       "TALK_GODCO_Jane_Kostas_Personal"
     ],
     "responses": [
-      {
-        "text": "How did you get here?",
-        "topic": "TALK_GODCO_Jane_Story",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
       {
         "text": "Are the non-joinees treating you fairly?",

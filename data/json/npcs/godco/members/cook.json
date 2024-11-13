@@ -106,11 +106,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, let's chat." ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_chef_past",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_chef_past", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },
       {
         "text": "Is there any way I could join the community?",

@@ -257,11 +257,7 @@
         "condition": {
           "and": [
             {
-              "or": [
-                { "u_has_perception": 10 },
-                { "math": [ "u_skill('mechanics') >= 4" ] },
-                { "math": [ "u_skill('gun') >= 2" ] }
-              ]
+              "or": [ { "u_has_perception": 10 }, { "math": [ "u_skill('mechanics') >= 4" ] }, { "math": [ "u_skill('gun') >= 2" ] } ]
             },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] } }
           ]

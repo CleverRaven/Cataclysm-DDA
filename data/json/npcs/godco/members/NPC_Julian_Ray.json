@@ -9,11 +9,7 @@
       "TALK_GODCO_Julian_Mood"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Julian_Story",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Julian_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things here?", "topic": "TALK_GODCO_Julian_Mood" },
       { "text": "What are the advantages of being a dorm leader?", "topic": "TALK_GODCO_Julian_Leader" },
       {

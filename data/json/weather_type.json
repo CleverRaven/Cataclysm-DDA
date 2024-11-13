@@ -15,9 +15,7 @@
     "rains": false,
     "sound_category": "sunny",
     "priority": 10,
-    "condition": {
-      "and": [ "is_day", { "math": [ "weather('pressure') >= 1020" ] }, { "math": [ "weather('humidity') < 70" ] } ]
-    }
+    "condition": { "and": [ "is_day", { "math": [ "weather('pressure') >= 1020" ] }, { "math": [ "weather('humidity') < 70" ] } ] }
   },
   {
     "id": "cloudy",
@@ -125,10 +123,7 @@
     "required_weathers": [ "rain" ],
     "priority": 60,
     "condition": {
-      "and": [
-        { "math": [ "weather('temperature') >= from_fahrenheit( 33 )" ] },
-        { "math": [ "weather('windpower') >= 15" ] }
-      ]
+      "and": [ { "math": [ "weather('temperature') >= from_fahrenheit( 33 )" ] }, { "math": [ "weather('windpower') >= 15" ] } ]
     }
   },
   {
@@ -240,10 +235,7 @@
     "required_weathers": [ "thunder", "lightning" ],
     "priority": 110,
     "condition": {
-      "and": [
-        { "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] },
-        { "math": [ "weather('windpower') >= 15" ] }
-      ]
+      "and": [ { "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] }, { "math": [ "weather('windpower') >= 15" ] } ]
     }
   },
   {
@@ -433,9 +425,7 @@
     "condition": {
       "and": [
         { "math": [ "cause_portal_storm == 1" ] },
-        {
-          "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_distance, 50)" ]
-        }
+        { "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_distance, 50)" ] }
       ]
     }
   }

@@ -10,11 +10,7 @@
       "TALK_GODCO_Arturo_Hallucinations"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Arturo_Story",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Arturo_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Arturo_Mood" },
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Arturo_Community" },
       {

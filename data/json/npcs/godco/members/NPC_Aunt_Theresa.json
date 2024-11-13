@@ -12,18 +12,12 @@
       "TALK_GODCO_Theresa_Firstmeet"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Theresa_Story",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Theresa_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Theresa_Mood" },
       { "text": "Is there anything I can help you with?", "topic": "TALK_GODCO_Theresa_Help" },
       {
         "text": "How've things been since <the_cataclysm>?",
-        "condition": {
-          "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "n_npc_value() >= 3" ] } ]
-        },
+        "condition": { "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "n_npc_value() >= 3" ] } ] },
         "topic": "TALK_GODCO_Theresa_Cataclysm"
       },
       { "text": "Do you knit at all?  I noticed you have sewing needles.", "topic": "TALK_GODCO_Theresa_Knit" }

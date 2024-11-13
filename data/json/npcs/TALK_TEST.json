@@ -888,16 +888,8 @@
         "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
-      {
-        "text": "PC strength is five.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('strength') == 5" ] }
-      },
-      {
-        "text": "PC dexterity is six.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('dexterity') == 6" ] }
-      },
+      { "text": "PC strength is five.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('strength') == 5" ] } },
+      { "text": "PC dexterity is six.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('dexterity') == 6" ] } },
       {
         "text": "PC intelligence is seven.",
         "topic": "TALK_DONE",
@@ -908,11 +900,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_val('perception') == 8" ] }
       },
-      {
-        "text": "NPC strength is nine.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('strength') == 9" ] }
-      },
+      { "text": "NPC strength is nine.", "topic": "TALK_DONE", "condition": { "math": [ "n_val('strength') == 9" ] } },
       {
         "text": "NPC dexterity is ten.",
         "topic": "TALK_DONE",
@@ -960,11 +948,7 @@
       },
       { "text": "Allies equals 1", "topic": "TALK_DONE", "condition": { "math": [ "u_val('allies') == 1" ] } },
       { "text": "Cash equals 13", "topic": "TALK_DONE", "condition": { "math": [ "u_val('cash') == 13" ] } },
-      {
-        "text": "Owed amount equals 14",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('owed') == 14" ] }
-      },
+      { "text": "Owed amount equals 14", "topic": "TALK_DONE", "condition": { "math": [ "n_val('owed') == 14" ] } },
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
@@ -975,21 +959,9 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "fahrenheit( weather('temperature') ) == 21" ] }
       },
-      {
-        "text": "Windpower is 15.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "weather('windpower') == 15" ] }
-      },
-      {
-        "text": "Humidity is 16.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "weather('humidity') == 16" ] }
-      },
-      {
-        "text": "Pressure is 17.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "weather('pressure') == 17" ] }
-      },
+      { "text": "Windpower is 15.", "topic": "TALK_DONE", "condition": { "math": [ "weather('windpower') == 15" ] } },
+      { "text": "Humidity is 16.", "topic": "TALK_DONE", "condition": { "math": [ "weather('humidity') == 16" ] } },
+      { "text": "Pressure is 17.", "topic": "TALK_DONE", "condition": { "math": [ "weather('pressure') == 17" ] } },
       { "text": "Pos_x is -1.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_x') == -1" ] } },
       { "text": "Pos_y is -2.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_y') == -2" ] } },
       { "text": "Pos_z is -3.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_z') == -3" ] } },
@@ -1008,11 +980,7 @@
       { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale') == 23" ] } },
       { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus') == 24" ] } },
       { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana') == 25" ] } },
-      {
-        "text": "Mana max is 900.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('mana_max') == 900" ] }
-      },
+      { "text": "Mana max is 900.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana_max') == 900" ] } },
       {
         "text": "Mana is at 2%.",
         "topic": "TALK_DONE",

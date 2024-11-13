@@ -9,11 +9,7 @@
       "TALK_GODCO_Tom_Help"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",

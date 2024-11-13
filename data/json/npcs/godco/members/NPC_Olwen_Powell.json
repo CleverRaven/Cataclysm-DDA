@@ -3,11 +3,7 @@
     "type": "talk_topic",
     "id": [ "TALK_GODCO_Olwen_2", "TALK_GODCO_Olwen_Mood", "TALK_GODCO_Olwen_Story", "TALK_GODCO_Olwen_Skills" ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Olwen_Story",
-        "condition": { "math": [ "n_npc_value() >= 3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Olwen_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Olwen_Mood" },
       {
         "text": "How's your family?",
@@ -61,11 +57,7 @@
           ]
         }
       },
-      {
-        "text": "No, I'll be on my way.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger() >= 5" ] }
-      }
+      { "text": "No, I'll be on my way.", "topic": "TALK_DONE", "condition": { "math": [ "n_npc_anger() >= 5" ] } }
     ]
   },
   {

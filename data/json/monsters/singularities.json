@@ -325,9 +325,7 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": {
-      "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active < 1" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active < 1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
     "deactivate_condition": { "math": [ "Lieutenants_active >= 1" ] }

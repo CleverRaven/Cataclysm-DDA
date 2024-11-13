@@ -47,10 +47,7 @@
         "text": "HEAD ",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       { "id": "infected", "text": "HEAD ", "color": "green", "condition": { "u_has_effect": "infected" } },
@@ -105,10 +102,7 @@
         "text": "TORSO",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       { "id": "infected", "text": "TORSO", "color": "green", "condition": { "u_has_effect": "infected" } },
@@ -163,10 +157,7 @@
         "text": "L ARM",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       { "id": "infected", "text": "L ARM", "color": "green", "condition": { "u_has_effect": "infected" } },
@@ -221,10 +212,7 @@
         "text": "R ARM",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       { "id": "infected", "text": "R ARM", "color": "green", "condition": { "u_has_effect": "infected" } },
@@ -279,10 +267,7 @@
         "text": "L LEG",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       { "id": "infected", "text": "L LEG", "color": "green", "condition": { "u_has_effect": "infected" } },
@@ -337,10 +322,7 @@
         "text": "R LEG",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       { "id": "infected", "text": "R LEG", "color": "green", "condition": { "u_has_effect": "infected" } },
