@@ -2476,7 +2476,7 @@
         "coverage": 100
       }
     ],
-    "extend": { "flags": [ "ELECTRIC_IMMUNE" ] }
+    "extend": { "flags": [ "ELECTRIC_IMMUNE", "EMP_IMMUNE" ] }
   },
   {
     "id": "xl_chainmail_suit_faraday",
