@@ -16,7 +16,9 @@
             { "and": [ { "u_has_effect": "pd_strengthened_reality" }, { "x_in_y_chance": { "x": 1, "y": 10 } } ] }
           ]
         },
-        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
+        {
+          "not": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "u_has_flag": "DIMENSIONAL_ANCHOR" } ] }
+        }
       ]
     },
     "deactivate_condition": {
@@ -195,7 +197,9 @@
             ]
           }
         },
-        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
+        {
+          "not": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "u_has_flag": "DIMENSIONAL_ANCHOR" } ] }
+        }
       ]
     },
     "deactivate_condition": {

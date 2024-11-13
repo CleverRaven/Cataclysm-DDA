@@ -43,6 +43,7 @@
       "and": [
         { "not": { "u_has_flag": "TELESTOP" } },
         { "not": { "u_has_flag": "TELEPORT_IMMUNE" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
         { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
       ]
     },

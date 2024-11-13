@@ -251,7 +251,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STARE",
-    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "condition": {
+      "or": [
+        { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" },
+        { "u_has_flag": "DIMENSIONAL_ANCHOR" },
+        { "npc_has_flag": "DIMENSIONAL_ANCHOR" }
+      ]
+    },
     "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARE1" ] }
   },
