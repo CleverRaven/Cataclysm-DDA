@@ -142,6 +142,7 @@ class faction_template
         bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
+        bool limited_area_claim;
         itype_id currency; // id of the faction currency
         std::vector<faction_price_rule> price_rules; // additional pricing rules
         std::map<std::string, std::bitset<static_cast<size_t>( npc_factions::relationship::rel_types )>>

@@ -228,6 +228,15 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
+    // RestrictTiny isn't checked since it's unclear how it would actually work as there's no category smaller than tiny
+    if( settings.size && (
+            ( p_special & PathfindingFlag::RestrictSmall && settings.size > creature_size::tiny ) ||
+            ( p_special & PathfindingFlag::RestrictMedium && settings.size > creature_size::small ) ||
+            ( p_special & PathfindingFlag::RestrictLarge && settings.size > creature_size::medium ) ||
+            ( p_special & PathfindingFlag::RestrictHuge && settings.size > creature_size::large ) ) ) {
+        return PF_IMPASSABLE;
+    }
+
     const int bash = settings.bash_strength;
     const bool allow_open_doors = settings.allow_open_doors;
     const bool allow_unlock_doors = settings.allow_unlock_doors;
@@ -294,6 +303,17 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     // If we can climb it, great!
     if( climb_cost > 0 && p_special & PathfindingFlag::Climbable ) {
         return climb_cost;
+    }
+
+    // If terrain/furniture is openable but we can't fit through the open version, ignore the tile
+    if( settings.size && allow_open_doors &&
+        ( ( terrain.open && terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+          ( furniture.open && furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+          // Windows with curtains need to be opened twice
+          ( terrain.open->open && terrain.open->open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ) &&
+        settings.size > creature_size::medium
+      ) {
+        return PF_IMPASSABLE;
     }
 
     // If it's a door and we can open it from the tile we're on, cool.

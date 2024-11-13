@@ -1622,6 +1622,11 @@
     "type": "json_flag"
   },
   {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
+    "type": "json_flag"
+  },
+  {
     "id": "MUTAGEN_SAMPLE",
     "type": "json_flag",
     "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
@@ -2294,6 +2299,11 @@
     "inherit": false
   },
   {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
+  },
+  {
     "id": "ROBOFAC_ROBOT_MEDIUM",
     "type": "json_flag",
     "info": "A medium drone sold by Hub 01."
@@ -2462,6 +2472,11 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
   },
   {
     "id": "ANIMALDISCORD",

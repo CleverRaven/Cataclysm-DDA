@@ -941,7 +941,7 @@
     "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a crash that totaled your vehicle.  Injured and alone, you'll need to think fast if you want to survive.",
     "allowed_locs": [ "sloc_road" ],
     "start_name": "Crash Site",
-    "map_extra": "mx_mayhem",
+    "map_extra": "mx_mayhem_crash_start",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
   },
   {

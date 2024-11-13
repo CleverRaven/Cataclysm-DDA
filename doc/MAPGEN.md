@@ -1490,6 +1490,7 @@ These are a few palettes that have been generalized to be used in almost any map
 | Palette                          | Usage
 | ---                              | ---
 | `parametrized_walls_palette`     | For having randomized inner and outer walls
+| `parametrized_highrise_walls_palette`     | For having randomized inner and outer walls in high-rise buildings
 | `parametrized_fences_palette`    | For having randomized fences
 | `parametrized_linoleum_palette`  | For having randomized linoleum colors
 | `parametrized_carpets_palette`   | For having randomized carpet colors

@@ -40,7 +40,7 @@
         "........................"
       ],
       "terrain": {
-        "}": "t_railing_v",
+        "}": "t_railing",
         "®": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "=": "t_floor_noroof",

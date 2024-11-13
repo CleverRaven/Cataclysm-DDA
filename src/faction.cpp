@@ -65,6 +65,7 @@ faction_template::faction_template()
     size = 0;
     power = 0;
     lone_wolf_faction = false;
+    limited_area_claim = false;
     currency = itype_id::NULL_ID();
 }
 
@@ -143,6 +144,7 @@ faction_template::faction_template( const JsonObject &jsobj )
         currency = itype_id::NULL_ID();
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
+    limited_area_claim = jsobj.get_bool( "limited_area_claim", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
     optional( jsobj, false, "epilogues", epilogue_data );
@@ -559,6 +561,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.currency = fac_temp.currency;
                         elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
+                        elem.second.limited_area_claim = fac_temp.limited_area_claim;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;

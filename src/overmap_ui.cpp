@@ -854,6 +854,10 @@ static void draw_ascii(
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
 
+    if( !data.message.empty() ) {
+        corner_text.emplace_back( c_white, data.message );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( cursor_pos );
         if( !note_text.empty() ) {
@@ -1151,10 +1155,11 @@ static void draw_om_sidebar( ui_adaptor &ui,
     };
 
     if( data.debug_editor ) {
-        print_hint( "PLACE_TERRAIN", c_light_blue );
-        print_hint( "PLACE_SPECIAL", c_light_blue );
-        print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+        print_hint( "REVEAL_MAP", c_light_blue );
         print_hint( "LONG_TELEPORT", c_light_blue );
+        print_hint( "PLACE_SPECIAL", c_light_blue );
+        print_hint( "PLACE_TERRAIN", c_light_blue );
+        print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
         ++y;
     }
@@ -1702,8 +1707,8 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             chosen_group.set_interest( new_value );
             break;
         case 1:
-            popup( _( "Select a target destination for the horde." ) );
-            horde_destination = ui::omap::choose_point( true );
+            horde_destination = ui::omap::choose_point( _( "Select a target destination for the horde." ),
+                                true );
             if( horde_destination == overmap::invalid_tripoint || horde_destination == tripoint_abs_omt_zero ) {
                 break;
             }
@@ -1936,6 +1941,7 @@ static tripoint_abs_omt display()
         ictxt.register_action( "SET_SPECIAL_ARGS" );
         ictxt.register_action( "LONG_TELEPORT" );
         ictxt.register_action( "MODIFY_HORDE" );
+        ictxt.register_action( "REVEAL_MAP" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -2150,7 +2156,8 @@ static tripoint_abs_omt display()
             action = "QUIT";
         } else if( action == "MODIFY_HORDE" ) {
             modify_horde_func( curs );
-            action = "QUIT";
+        } else if( action == "REVEAL_MAP" ) {
+            debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }
@@ -2496,30 +2503,26 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, bool show_debug_info )
 {
-    g->overmap_data = overmap_ui::overmap_draw_data_t();
-    g->overmap_data.origin_pos = get_player_character().global_omt_location();
-    g->overmap_data.debug_info = show_debug_info;
-    return overmap_ui::display();
+    return choose_point( message, get_player_character().global_omt_location(), show_debug_info );
 }
 
-tripoint_abs_omt ui::omap::choose_point( const tripoint_abs_omt &origin, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, const tripoint_abs_omt &origin,
+        bool show_debug_info )
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
+    g->overmap_data.message = message;
     g->overmap_data.origin_pos = origin;
     g->overmap_data.debug_info = show_debug_info;
     return overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, int z, bool show_debug_info )
 {
-    g->overmap_data = overmap_ui::overmap_draw_data_t();
-    g->overmap_data.debug_info = show_debug_info;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = z;
-    g->overmap_data.origin_pos = pos;
-    return overmap_ui::display();
+    return choose_point( message, pos, show_debug_info );
 }
 
 void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container )

@@ -6,10 +6,27 @@
     "looks_like": "mon_cougar",
     "name": { "//~": "Named after the American folkloric monster.", "str": "hidebehind" },
     "description": "Even looking directly at this cougar and knowing that it is there, a part of your brain simply refuses to see it.  It flickers in and out of sight in a way that makes your eyes hurt, and if you turn your attention away from it even for a moment, it disappears completely.",
-    "vision_night": 18,
     "morale": 80,
     "//": "Extended flags are from telepathic suggestion that the hidebehind is not there.",
-    "extend": { "flags": [ "CAMOUFLAGE", "NIGHT_INVISIBILITY" ] }
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "psi_hidebehind_obscurity_activate",
+          "type": "spell",
+          "spell_data": { "id": "hidebehind_apply_obscurity_power" },
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "telepathic_ignorance_self" } },
+              { "not": { "npc_has_effect": "telepathic_ignorance" } }
+            ]
+          },
+          "monster_message": ""
+        }
+      ],
+      "flags": [ "MIND_SEEING" ]
+    }
   },
   {
     "id": "mon_bandersnatch",
@@ -143,7 +160,7 @@
     "name": { "str": "hodag" },
     "description": "This is very similar to a cow, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
     "//": "armor, HP, and speed boost power are from biokinesis",
-    "proportional": { "hp": 1.4, "speed": 1.15 },
+    "proportional": { "hp": 1.4 },
     "relative": { "melee_skill": 1, "melee_dice_sides": 2 },
     "symbol": "C",
     "color": "yellow",
@@ -175,6 +192,16 @@
           "cooldown": 1,
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_hodag_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_heightened_reflex" } } ]
+          },
+          "monster_message": "%1$s begins moving more quickly."
         }
       ]
     },
@@ -321,8 +348,7 @@
     "name": { "str": "gremlin" },
     "//": "A Nether-affected fox",
     "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its body distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
-    "speed": 170,
-    "dodge": 7,
+    "relative": { "dodge": 1 },
     "special_attacks": [
       {
         "id": "psi_gremlin_power_draining_spell",
@@ -332,6 +358,16 @@
         "allow_no_target": true,
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "Sparks flicker over %1$s's fur."
+      },
+      {
+        "id": "psi_gremlin_neuro_acceleration",
+        "type": "spell",
+        "spell_data": { "id": "electrokinetic_neuro_acceleration_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_neuro_acceleration" } } ]
+        },
+        "monster_message": "%1$s begins moving more quickly."
       }
     ],
     "armor": { "electric": 40 },
@@ -414,5 +450,43 @@
       "EATS"
     ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_hellhound",
+    "copy-from": "mon_dog",
+    "type": "MONSTER",
+    "looks_like": "mon_dog",
+    "name": { "str": "hellhound" },
+    "description": "This once-average Labrador mixed-breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.  The air around it wavers like the haze over summer asphalt.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "heat", "amount": 5 } ],
+    "aggression": 4,
+    "morale": 40,
+    "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "4 s" } ],
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES" }, "baby_count": 4, "baby_timer": 270 },
+    "//": "FIXME: For some reason, extending special attacks does not work",
+    "special_attacks": [
+      [ "EAT_FOOD", 100 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      {
+        "id": "psi_hellhound_breathe_fire",
+        "type": "spell",
+        "spell_data": { "id": "pyrokin_flamethrower_hellhound_monster", "min_level": 5 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s barks out a stream of flame!"
+      }
+    ],
+    "extend": { "flags": [ "FIREPROOF" ], "armor": { "heat": 999 } }
+  },
+  {
+    "id": "mon_hellhound_pup",
+    "copy-from": "mon_dog_pup",
+    "type": "MONSTER",
+    "looks_like": "mon_dog_pup",
+    "name": { "str": "hellpup" },
+    "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.  Its breath is very hot.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
+    "upgrades": { "age_grow": 42, "into": "mon_hellhound" },
+    "armor": { "heat": 50 }
   }
 ]

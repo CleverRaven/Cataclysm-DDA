@@ -116,6 +116,18 @@
   },
   {
     "type": "effect_type",
+    "id": "enchant_windrun_monster",
+    "name": [ "Windrunning" ],
+    "desc": [ "You are bolstered and pushed along by the power of the wind." ],
+    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "remove_message": "The wind at your back dies down.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 20 } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "dark_sight",
     "name": [ "Dark Sight" ],
     "desc": [ "You can see in the dark." ],
@@ -500,7 +512,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
-    "max_duration": "1 d",
+    "max_duration": "2 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -682,10 +694,7 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
-      }
+      { "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ], "melee_damage_bonus": [ { "type": "cut", "add": 17 } ] }
     ]
   },
   {
@@ -1558,7 +1567,8 @@
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
       "effect_technomancer_pain_ignore",
-      "effect_feral_stormshaper_stormhammer"
+      "effect_feral_stormshaper_stormhammer",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1707,7 +1717,8 @@
       "effect_flame_immunity",
       "effect_burning_trail",
       "effect_ring_of_flight",
-      "effect_feral_stormshaper_stormhammer"
+      "effect_feral_stormshaper_stormhammer",
+      "enchant_windrun_monster"
     ]
   },
   {

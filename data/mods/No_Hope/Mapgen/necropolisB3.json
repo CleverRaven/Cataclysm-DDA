@@ -1133,7 +1133,7 @@
         "|   |-|.......................|------|   |.|rrrrr8///__6///$$/,       Vk"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "7": "t_chainfence_h", "b": "t_metal_floor" },
+      "terrain": { "7": "t_chainfence", "b": "t_metal_floor" },
       "items": { "k": { "item": "office", "chance": 60 } },
       "item": { "n": [ { "item": "water_clean", "chance": 20 } ] },
       "place_monsters": [
@@ -1212,7 +1212,7 @@
         "6 |.|EE+    |.|b  ,    ,         ,    ,  b|  |.|L b L|L b L|.|  |  |--|."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "7": "t_chainfence_h", "b": "t_metal_floor" },
+      "terrain": { "7": "t_chainfence", "b": "t_metal_floor" },
       "items": {
         "L": { "item": "sports", "chance": 60 },
         "b": { "item": "magazines", "chance": 10 },
@@ -1342,7 +1342,7 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence" },
       "items": { "/": { "item": "tools_common", "chance": 2 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
@@ -1387,7 +1387,7 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "7": "t_chainfence_h", "b": "t_metal_floor" },
+      "terrain": { "7": "t_chainfence", "b": "t_metal_floor" },
       "items": { "L": { "item": "sports", "chance": 50 }, "l": { "item": "vending_drink", "chance": 70 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },

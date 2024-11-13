@@ -586,7 +586,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
-    for( const tripoint &pt : veh->get_points( true ) ) {
+    for( const tripoint_bub_ms &pt : veh->get_points( true ) ) {
         you.activity.coord_set.insert( here.getglobal( pt ).raw() );
     }
     // values[0]
@@ -836,8 +836,8 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
 bool already_done( construction const &build, tripoint_bub_ms const &loc )
 {
     map &here = get_map();
-    const furn_id furn = here.furn( loc );
-    const ter_id ter = here.ter( loc );
+    const furn_id &furn = here.furn( loc );
+    const ter_id &ter = here.ter( loc );
     return !build.post_terrain.empty() &&
            ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
              ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) );
@@ -1056,7 +1056,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             // find out if there is a vehicle part here we can remove.
             // TODO: fix point types
             std::vector<vehicle_part *> parts =
-                veh->get_parts_at( src_loc.raw(), "", part_status_flag::any );
+                veh->get_parts_at( src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const int vpindex = veh->index_of_part( part_elem, true );
                 // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
@@ -1101,7 +1101,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         } else if( act == ACT_VEHICLE_REPAIR ) {
             // find out if there is a vehicle part here we can repair.
             // TODO: fix point types
-            std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc.raw(), "", part_status_flag::any );
+            std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
@@ -1179,8 +1179,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == ter_t_trunk ||
-            here.ter( src_loc ) == ter_t_stump ) {
+        const ter_id &t = here.ter( src_loc );
+        if( t == ter_t_trunk || t == ter_t_stump || here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {
@@ -2470,7 +2470,7 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
         you.consume_charges( best_qual, best_qual.type->charges_to_use() );
     }
     map &here = get_map();
-    const ter_id ter = here.ter( src_loc );
+    const ter_id &ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
         you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
@@ -2666,7 +2666,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             continue;
         }
         if( act_id == ACT_MULTIPLE_FISH ) {
-            const ter_id terrain_id = here.ter( set_pt );
+            const ter_id &terrain_id = here.ter( set_pt );
             if( !terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );
             } else {

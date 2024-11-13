@@ -1338,7 +1338,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "", to_translation( "System language" ) },
     };
 
-    constexpr std::array<std::pair<const char *, const char *>, 25> language_names = {{
+    constexpr std::array<std::pair<const char *, const char *>, 26> language_names = {{
             // Note: language names are in their own language and are *not* translated at all.
             // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
             // http://en.wikipedia.org/wiki/List_of_language_names
@@ -1361,6 +1361,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
             { "pt_BR", R"(Português (Brasil))" },
+            { "pt_PT", R"(Português (Portugal))" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
@@ -4254,6 +4255,8 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
+        } else if( lang == "pt_PT" ) {
+            std::locale::global( std::locale( "pt_PT.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
         } else if( lang == "sr" ) {

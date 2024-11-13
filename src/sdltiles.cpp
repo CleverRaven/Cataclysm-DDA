@@ -1142,6 +1142,20 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         notes_window_text.emplace_back( c_white, v.name );
     }
 
+    if( ! g->overmap_data.message.empty() ) {
+        const int padding = 2;
+        SDL_Rect message_background_rect = {
+            0,
+            0,
+            fontwidth * utf8_width( g->overmap_data.message ) + padding * 2,
+            fontheight + padding * 2
+        };
+        geometry->rect( renderer, message_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_string( *font, renderer, geometry, g->overmap_data.message, point( padding, padding ),
+                     cata_cursesport::colorpairs[c_white.to_color_pair_index()].FG );
+    }
+
+
     if( !notes_window_text.empty() && !fast_traveling ) {
         constexpr int padding = 2;
 

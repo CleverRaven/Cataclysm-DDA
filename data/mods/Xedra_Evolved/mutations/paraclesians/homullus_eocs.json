@@ -318,7 +318,7 @@
     "effect": [
       { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
       { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
-      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": [ 180, 360 ] }
+      { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": [ 180, 360 ] }
     ]
   },
   {
