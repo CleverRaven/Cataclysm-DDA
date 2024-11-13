@@ -461,7 +461,7 @@
         { "not": { "u_has_effect": "onfire" } },
         { "not": { "u_is_in_field": "fd_fire" } },
         { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "0" ] }
-      ] 
+      ]
     },
     "effect": [
       { "u_message": "As yours wounds overtake you, you cast forth your spirit in the form of an owl.", "popup": true },
@@ -506,7 +506,8 @@
     "id": "EOC_LILIN_PREVENT_DEATH_PROCESSING",
     "condition": { "u_has_trait": "LILIN_PREVENT_DEATH_TRIGGER" },
     "effect": [
-      { "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "3000 * lilin_has_ruach_efficiency()" ] },
+      {
+        "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "3000 * lilin_has_ruach_efficiency()" ] },
         "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "3000 * lilin_has_ruach_efficiency()" ] },
         "else": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "0" ] }
       },
