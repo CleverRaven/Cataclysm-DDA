@@ -83,10 +83,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_CREATE_FOG",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('create_fog') >= 0" ] },
-        { "math": [ "u_spell_level('create_fog') < dex_to_level(1)" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('create_fog') >= 0" ] }, { "math": [ "u_spell_level('create_fog') < dex_to_level(1)" ] } ]
     },
     "effect": [
       {
@@ -101,10 +98,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_GRANT_BUOYANCY",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('grant_buoyancy') >= 0" ] },
-        { "math": [ "u_spell_level('grant_buoyancy') < 20" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('grant_buoyancy') >= 0" ] }, { "math": [ "u_spell_level('grant_buoyancy') < 20" ] } ]
     },
     "effect": [
       {
@@ -154,9 +148,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_WAVE_RIDER",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level('wave_rider') >= 0" ] }, { "math": [ "u_spell_level('wave_rider') < 20" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level('wave_rider') >= 0" ] }, { "math": [ "u_spell_level('wave_rider') < 20" ] } ] },
     "effect": [
       {
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
@@ -170,10 +162,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_WATER_SEALED",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('water_pocket') >= 0" ] },
-        { "math": [ "u_spell_level('water_pocket') < 20" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('water_pocket') >= 0" ] }, { "math": [ "u_spell_level('water_pocket') < 20" ] } ]
     },
     "effect": [
       {
@@ -187,9 +176,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_SUMMON_FISH",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level('summon_fish') >= 0" ] }, { "math": [ "u_spell_level('summon_fish') < 35" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level('summon_fish') >= 0" ] }, { "math": [ "u_spell_level('summon_fish') < 35" ] } ] },
     "effect": [
       {
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
@@ -202,9 +189,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_CHARM_FISH",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level('charm_fish') >= 0" ] }, { "math": [ "u_spell_level('charm_fish') < 35" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level('charm_fish') >= 0" ] }, { "math": [ "u_spell_level('charm_fish') < 35" ] } ] },
     "effect": [
       {
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
@@ -218,10 +203,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_SUMMON_KRAKEN",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('summon_kraken') >= 0" ] },
-        { "math": [ "u_spell_level('summon_kraken') < 35" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('summon_kraken') >= 0" ] }, { "math": [ "u_spell_level('summon_kraken') < 35" ] } ]
     },
     "effect": [
       {

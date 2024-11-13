@@ -382,9 +382,7 @@
     "id": "EOC_UNDINE_ELEMENTAL_MAGIC_PENALTY_TOO_DRY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": {
-      "and": [ { "math": [ "time_since(u_timer_undine_last_in_water) >= time('6 h')" ] }, { "u_has_trait": "UNDINE" } ]
-    },
+    "condition": { "and": [ { "math": [ "time_since(u_timer_undine_last_in_water) >= time('6 h')" ] }, { "u_has_trait": "UNDINE" } ] },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "3" ] } ]
   }
 ]

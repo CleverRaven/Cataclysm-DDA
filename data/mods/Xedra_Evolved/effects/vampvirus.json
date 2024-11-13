@@ -178,10 +178,7 @@
         {
           "id": "EOC_VAMPVIRUS",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "math": [ "u_effect_intensity('vampire_virus') == 1" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 1 }, { "math": [ "u_effect_intensity('vampire_virus') == 1" ] } ]
           },
           "effect": {
             "run_eocs": {
@@ -225,10 +222,7 @@
         {
           "id": "EOC_VAMPVIRUS1",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 2 },
-              { "math": [ "u_effect_intensity('vampire_virus') == 2" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 2 }, { "math": [ "u_effect_intensity('vampire_virus') == 2" ] } ]
           },
           "effect": {
             "run_eocs": {
@@ -269,10 +263,7 @@
         {
           "id": "EOC_VAMPVIRUS2",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 3 },
-              { "math": [ "u_effect_intensity('vampire_virus') == 3" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 3 }, { "math": [ "u_effect_intensity('vampire_virus') == 3" ] } ]
           },
           "effect": {
             "run_eocs": {
@@ -382,10 +373,7 @@
         {
           "id": "EOC_VAMPVIRUS_HUNGER",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 1 }, { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] } ]
           },
           "effect": {
             "run_eocs": {

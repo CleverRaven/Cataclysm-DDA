@@ -16,9 +16,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_noise" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_noise" },
@@ -40,10 +38,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "or": [
-                { "math": [ "u_spell_level('telekinetic_push') >= 4" ] },
-                { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] }
-              ]
+              "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 4" ] }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ]
             }
           ]
         },
@@ -52,9 +47,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_slam_down" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slam_down') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slam_down') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_slam_down" },
@@ -79,10 +72,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('telekinetic_push') >= 5" ] },
-                { "math": [ "u_spell_level('telekinetic_pull') >= 5" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('telekinetic_push') >= 5" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 5" ] } ]
             }
           ]
         },
@@ -91,9 +81,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_momentum" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_momentum') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_momentum') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_momentum" },
@@ -125,9 +113,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_slowfall" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slowfall') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slowfall') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_slowfall" },
@@ -164,9 +150,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_wave" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_wave') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_wave') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_wave" },
@@ -237,10 +221,7 @@
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_pull') >= 6" ] },
-                    { "math": [ "u_spell_level('telekinetic_push') >= 6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_pull') >= 6" ] }, { "math": [ "u_spell_level('telekinetic_push') >= 6" ] } ]
                 },
                 { "math": [ "u_spell_level('telekinetic_momentum') >= 5" ] }
               ]
@@ -252,9 +233,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_strength" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_strength') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_strength') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_strength" },
@@ -281,10 +260,7 @@
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_wave') >= 4" ] },
-                    { "math": [ "u_spell_level('telekinetic_push') >= 8" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_wave') >= 4" ] }, { "math": [ "u_spell_level('telekinetic_push') >= 8" ] } ]
                 },
                 { "math": [ "u_spell_level('telekinetic_slam_down') >= 6" ] }
               ]
@@ -296,9 +272,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_hammer" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_hammer') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_hammer') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_hammer" },
@@ -380,9 +354,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_shield" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_shield') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_shield') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_shield" },
@@ -415,10 +387,7 @@
                   ]
                 },
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_push') >= 10" ] },
-                    { "math": [ "u_spell_level('telekinetic_pull') >= 10" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 10" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 10" ] } ]
                 }
               ]
             }
@@ -429,9 +398,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_explosion" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_explosion') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_explosion') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_explosion" },
@@ -502,10 +469,7 @@
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_push') >= 15" ] },
-                    { "math": [ "u_spell_level('telekinetic_pull') >= 15" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 15" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 15" ] } ]
                 },
                 {
                   "or": [
@@ -523,10 +487,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "TELEKINETIC" } },
-        { "math": [ "u_spell_level('telekinetic_move_large_weight') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_move_large_weight') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -575,9 +536,7 @@
         { "not": { "u_know_recipe": "practice_telekinetic_aegis" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_aegis') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_aegis') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_aegis" },

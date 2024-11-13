@@ -1589,10 +1589,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER",
     "condition": {
-      "and": [
-        { "math": [ "u_weather_change_limit <= 2" ] },
-        { "not": { "u_has_effect": "effect_controlling_weather_rains" } }
-      ]
+      "and": [ { "math": [ "u_weather_change_limit <= 2" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rains" } } ]
     },
     "effect": [
       {
@@ -1642,10 +1639,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER",
     "condition": {
-      "and": [
-        { "math": [ "u_weather_change_limit <= 3" ] },
-        { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } }
-      ]
+      "and": [ { "math": [ "u_weather_change_limit <= 3" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } } ]
     },
     "effect": [
       {

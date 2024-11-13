@@ -666,17 +666,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
-    "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
-    "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 20" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 20" ] } ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
   {
@@ -698,10 +694,7 @@
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": {
-      "and": [
-        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_val('focus') >= 15" ] }
-      ]
+      "and": [ { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },

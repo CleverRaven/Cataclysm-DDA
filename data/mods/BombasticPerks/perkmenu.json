@@ -434,9 +434,7 @@
             "condition": {
               "and": [
                 { "not": { "or": [ { "u_has_trait": "perk_way_closedfist" }, { "u_has_trait": "perk_way_pinchedfingers" } ] } },
-                {
-                  "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('cutting') >= 1" ] } ]
-                }
+                { "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('cutting') >= 1" ] } ] }
               ]
             }
           },
@@ -468,9 +466,7 @@
             "condition": {
               "and": [
                 { "not": { "or": [ { "u_has_trait": "perk_way_openpalm" }, { "u_has_trait": "perk_way_pinchedfingers" } ] } },
-                {
-                  "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('bashing') >= 1" ] } ]
-                }
+                { "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('bashing') >= 1" ] } ] }
               ]
             }
           },
@@ -502,9 +498,7 @@
             "condition": {
               "and": [
                 { "not": { "or": [ { "u_has_trait": "perk_way_closedfist" }, { "u_has_trait": "perk_way_openpalm" } ] } },
-                {
-                  "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('stabbing') >= 1" ] } ]
-                }
+                { "and": [ { "math": [ "u_skill('unarmed') >= 2" ] }, { "math": [ "u_skill('stabbing') >= 1" ] } ] }
               ]
             }
           },
@@ -560,9 +554,7 @@
             "condition": {
               "and": [
                 { "not": { "u_has_trait": "perk_bloody_mess" } },
-                {
-                  "or": [ { "math": [ "u_skill('melee') >= 2" ] }, { "math": [ "u_skill('gun') >= 2" ] } ]
-                }
+                { "or": [ { "math": [ "u_skill('melee') >= 2" ] }, { "math": [ "u_skill('gun') >= 2" ] } ] }
               ]
             }
           },

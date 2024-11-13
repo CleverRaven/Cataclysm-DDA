@@ -53,15 +53,11 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_MAGIC_BAD_DREAMS",
     "recurrence": [ "30 m", "2 h" ],
-    "deactivate_condition": {
-      "and": [ { "math": [ "eater_dreamer_sequence < -1" ] }, { "math": [ "inventor_dreamsmith_sequence < -1" ] } ]
-    },
+    "deactivate_condition": { "and": [ { "math": [ "eater_dreamer_sequence < -1" ] }, { "math": [ "inventor_dreamsmith_sequence < -1" ] } ] },
     "condition": {
       "and": [
         { "u_has_effect": "sleep" },
-        {
-          "or": [ { "math": [ "eater_dreamer_sequence > 0" ] }, { "math": [ "inventor_dreamsmith_sequence > 0" ] } ]
-        }
+        { "or": [ { "math": [ "eater_dreamer_sequence > 0" ] }, { "math": [ "inventor_dreamsmith_sequence > 0" ] } ] }
       ]
     },
     "effect": [ { "u_message": "XE_BAD_DREAMS", "type": "bad", "snippet": true } ]

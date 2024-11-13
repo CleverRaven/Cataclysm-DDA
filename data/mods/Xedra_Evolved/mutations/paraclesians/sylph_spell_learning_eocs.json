@@ -128,10 +128,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_SYLPH_OMINOUS_WIND",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('ominous_wind') >= 0" ] },
-        { "math": [ "u_spell_level('ominous_wind') < 20" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('ominous_wind') >= 0" ] }, { "math": [ "u_spell_level('ominous_wind') < 20" ] } ]
     },
     "effect": [
       {
@@ -254,10 +251,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_SYLPH_SUMMON_AIR_SPRITE",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('summon_air_sprite') >= 0" ] },
-        { "math": [ "u_spell_level('summon_air_sprite') < 35" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('summon_air_sprite') >= 0" ] }, { "math": [ "u_spell_level('summon_air_sprite') < 35" ] } ]
     },
     "effect": [
       {

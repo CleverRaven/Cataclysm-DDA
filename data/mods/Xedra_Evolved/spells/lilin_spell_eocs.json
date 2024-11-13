@@ -139,19 +139,13 @@
           { "math": [ "u_npc_fear()", "+=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] },
           {
             "if": {
-              "and": [
-                { "math": [ "rand(1) == 1" ] },
-                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] }
-              ]
+              "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] } ]
             },
             "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
           {
             "if": {
-              "and": [
-                { "math": [ "rand(2) == 2" ] },
-                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] }
-              ]
+              "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
             },
             "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
@@ -187,10 +181,7 @@
           },
           {
             "if": {
-              "and": [
-                { "math": [ "rand(1) == 1" ] },
-                { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] }
-              ]
+              "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
             },
             "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
           },
@@ -365,10 +356,7 @@
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300" ] },
       { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
-      {
-        "if": { "math": [ "u_val('sleepiness') < 0" ] },
-        "then": { "math": [ "u_val('sleepiness')", "=", "0" ] }
-      },
+      { "if": { "math": [ "u_val('sleepiness') < 0" ] }, "then": { "math": [ "u_val('sleepiness')", "=", "0" ] } },
       { "math": [ "u_val('sleep_deprivation')", "=", "0" ] },
       { "u_message": "As a cool breeze touches your skin, you feel much more awake.", "type": "good" }
     ],

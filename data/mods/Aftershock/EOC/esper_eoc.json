@@ -57,9 +57,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_CONCENTRATION_COSTS_FOCUS",
-    "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
   {

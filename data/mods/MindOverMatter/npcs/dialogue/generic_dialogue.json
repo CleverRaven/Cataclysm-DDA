@@ -111,10 +111,7 @@
       {
         "text": "[Mood Stablization Check] You don't want to hurt me.",
         "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
-            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
-          ]
+          "and": [ { "math": [ "u_spell_level('telepathic_morale') >= 1" ] }, { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } } ]
         },
         "trial": {
           "type": "CONDITION",
@@ -184,10 +181,7 @@
       {
         "text": "[Mood Stablization Check] I'm not going to hurt you.",
         "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
-            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
-          ]
+          "and": [ { "math": [ "u_spell_level('telepathic_morale') >= 1" ] }, { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } } ]
         },
         "trial": {
           "type": "CONDITION",
@@ -209,10 +203,7 @@
       {
         "text": "[Mood Stablization Check] I'm not going to hurt you.",
         "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
-            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
-          ]
+          "and": [ { "math": [ "u_spell_level('telepathic_morale') >= 1" ] }, { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } } ]
         },
         "trial": {
           "type": "CONDITION",

@@ -75,9 +75,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_DRIZZLE",
-    "condition": {
-      "and": [ { "math": [ "magic_weather_light_drizzle == 1" ] }, { "math": [ "u_weather_change_limit >= 2" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "magic_weather_light_drizzle == 1" ] }, { "math": [ "u_weather_change_limit >= 2" ] } ] },
     "effect": [
       { "if": "u_is_outside", "then": { "u_message": "The rain picks up.", "type": "neutral" } },
       { "math": [ "magic_weather_light_drizzle", "=", "0" ] },
@@ -323,9 +321,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
-    "condition": {
-      "and": [ { "math": [ "magic_weather_light_drizzle == 1" ] }, { "math": [ "u_weather_change_limit <= 0" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "magic_weather_light_drizzle == 1" ] }, { "math": [ "u_weather_change_limit <= 0" ] } ] },
     "effect": [ { "math": [ "magic_weather_light_drizzle", "=", "0" ] }, { "run_eocs": "EOC_CALL_NEXT_WEATHER" } ]
   },
   {

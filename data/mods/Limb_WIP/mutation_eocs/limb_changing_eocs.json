@@ -165,9 +165,7 @@
     "//": "First-stage limb, single progress dream.  Dynamically decide on failure snips/mutation category",
     "condition": {
       "and": [
-        {
-          "or": [ { "math": [ "u_vitamin('mutagen_bird') >= 200" ] }, { "math": [ "u_vitamin('mutagen_raptor') >= 200" ] } ]
-        },
+        { "or": [ { "math": [ "u_vitamin('mutagen_bird') >= 200" ] }, { "math": [ "u_vitamin('mutagen_raptor') >= 200" ] } ] },
         { "math": [ "u_vitamin('mutagen') >= 300" ] },
         { "math": [ "u_progress_pre_arm_feathers >= 1" ] },
         { "u_has_effect": "sleep" },

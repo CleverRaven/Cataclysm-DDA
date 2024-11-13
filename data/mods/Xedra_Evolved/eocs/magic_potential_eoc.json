@@ -35,9 +35,7 @@
         ]
       },
       {
-        "if": {
-          "and": [ { "math": [ "u_counter_portal_storm_counter > 0" ] }, { "math": [ "magic_potential_from_ps == 0" ] } ]
-        },
+        "if": { "and": [ { "math": [ "u_counter_portal_storm_counter > 0" ] }, { "math": [ "magic_potential_from_ps == 0" ] } ] },
         "then": [
           { "math": [ "magic_potential", "++" ] },
           { "math": [ "magic_potential_from_ps", "=", "1" ] },

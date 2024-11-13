@@ -46,10 +46,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('teleport_phase') >= 10" ] },
-                { "math": [ "u_spell_level('teleport_stride') >= 5" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('teleport_phase') >= 10" ] }, { "math": [ "u_spell_level('teleport_stride') >= 5" ] } ]
             }
           ]
         },
@@ -85,10 +82,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('teleport_phase') >= 4" ] },
-                { "math": [ "u_spell_level('teleport_slow') >= 6" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('teleport_phase') >= 4" ] }, { "math": [ "u_spell_level('teleport_slow') >= 6" ] } ]
             }
           ]
         },
@@ -134,9 +128,7 @@
         { "not": { "u_know_recipe": "practice_teleport_transpose" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_transpose') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_transpose') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_teleport_transpose" },
@@ -161,10 +153,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('teleport_phase') >= 5" ] },
-                { "math": [ "u_spell_level('teleport_slow') >= 10" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('teleport_phase') >= 5" ] }, { "math": [ "u_spell_level('teleport_slow') >= 10" ] } ]
             }
           ]
         },
@@ -173,9 +162,7 @@
         { "not": { "u_know_recipe": "practice_teleport_displacement" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_displacement') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_displacement') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_teleport_displacement" },
@@ -202,10 +189,7 @@
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('teleport_slow') >= 10" ] },
-                    { "math": [ "u_spell_level('teleport_transpose') >= 6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('teleport_slow') >= 10" ] }, { "math": [ "u_spell_level('teleport_transpose') >= 6" ] } ]
                 },
                 { "math": [ "u_spell_level('teleport_stride') >= 4" ] }
               ]
@@ -217,9 +201,7 @@
         { "not": { "u_know_recipe": "practice_teleport_collapse" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_collapse') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_collapse') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_teleport_collapse" },
@@ -246,10 +228,7 @@
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('teleport_stride') >= 8" ] },
-                    { "math": [ "u_spell_level('teleport_collapse') >= 6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('teleport_stride') >= 8" ] }, { "math": [ "u_spell_level('teleport_collapse') >= 6" ] } ]
                 },
                 { "math": [ "u_spell_level('teleport_phase') >= 10" ] }
               ]
@@ -329,10 +308,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('teleport_stride') >= 10" ] },
-                { "math": [ "u_spell_level('teleport_farstep') >= 10" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('teleport_stride') >= 10" ] }, { "math": [ "u_spell_level('teleport_farstep') >= 10" ] } ]
             }
           ]
         },
@@ -408,10 +384,7 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('teleport_summon') >= 10" ] },
-                { "math": [ "u_spell_level('teleport_gateway') >= 10" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('teleport_summon') >= 10" ] }, { "math": [ "u_spell_level('teleport_gateway') >= 10" ] } ]
             }
           ]
         },
@@ -420,9 +393,7 @@
         { "not": { "u_know_recipe": "practice_teleport_reality_tear" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_reality_tear') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_reality_tear') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_teleport_reality_tear" },

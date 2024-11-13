@@ -514,10 +514,7 @@
       },
       {
         "condition": {
-          "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] }
-          ]
+          "and": [ { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] }, { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] } ]
         },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "5 + (u_vitamin('human_blood_vitamin') / 300)" ] } },

@@ -6,12 +6,7 @@
     "label": "Activity",
     "style": "text",
     "clauses": [
-      {
-        "id": "none",
-        "text": "None",
-        "color": "light_gray",
-        "condition": { "math": [ "u_val('activity_level') == 0" ] }
-      },
+      { "id": "none", "text": "None", "color": "light_gray", "condition": { "math": [ "u_val('activity_level') == 0" ] } },
       {
         "id": "light",
         "text": "Light",
@@ -118,10 +113,7 @@
         "sym": "b",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       {
@@ -266,12 +258,7 @@
         "color": "green",
         "condition": { "and": [ { "math": [ "u_val('thirst') >= -60" ] }, { "math": [ "u_val('thirst') < -20" ] } ] }
       },
-      {
-        "id": "turgid",
-        "text": "Turgid",
-        "color": "green",
-        "condition": { "math": [ "u_val('thirst') < -60" ] }
-      }
+      { "id": "turgid", "text": "Turgid", "color": "green", "condition": { "math": [ "u_val('thirst') < -60" ] } }
     ]
   },
   {
@@ -456,12 +443,7 @@
     "separator": ": ",
     "style": "clause",
     "clauses": [
-      {
-        "id": "scorching",
-        "text": "Scorching!",
-        "color": "red",
-        "condition": { "math": [ "u_val('body_temp') > 9500" ] }
-      },
+      { "id": "scorching", "text": "Scorching!", "color": "red", "condition": { "math": [ "u_val('body_temp') > 9500" ] } },
       {
         "id": "very_hot",
         "text": "Very hot!",
@@ -519,36 +501,28 @@
         "text": "(Rising!)",
         "sym": "↑↑",
         "color": "light_red",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ] }
       },
       {
         "id": "rising1",
         "text": "(Rising)",
         "sym": "↑",
         "color": "yellow",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ] }
       },
       {
         "id": "falling1",
         "text": "(Falling)",
         "sym": "↓",
         "color": "light_blue",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ] }
       },
       {
         "id": "falling2",
         "text": "(Falling!)",
         "sym": "↓↓",
         "color": "cyan",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ] }
       },
       {
         "id": "falling3",
@@ -1165,12 +1139,7 @@
     "label": "Weight",
     "style": "text",
     "clauses": [
-      {
-        "id": "skeletal",
-        "text": "Skeletal",
-        "color": "red",
-        "condition": { "math": [ "u_val('bmi_permil') <= 1000" ] }
-      },
+      { "id": "skeletal", "text": "Skeletal", "color": "red", "condition": { "math": [ "u_val('bmi_permil') <= 1000" ] } },
       {
         "id": "emaciated",
         "text": "Emaciated",
@@ -1331,10 +1300,7 @@
         "sym": "│",
         "color": "c_light_red_white",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       {

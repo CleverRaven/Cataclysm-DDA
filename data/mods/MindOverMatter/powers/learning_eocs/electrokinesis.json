@@ -22,10 +22,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_zap_enemies') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_zap_enemies') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -64,10 +61,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_melee_attacks') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_melee_attacks') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -153,10 +147,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_paralysis') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_paralysis') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -200,10 +191,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_reduce_pain') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_reduce_pain') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -374,10 +362,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_pain_immune') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_pain_immune') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -426,10 +411,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_speed_boost') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_speed_boost') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -517,10 +499,7 @@
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_kill_robot') >= 1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_kill_robot') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },

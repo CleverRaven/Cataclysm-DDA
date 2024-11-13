@@ -393,9 +393,7 @@
       },
       {
         "text": "Unlock: Slaughter Missions",
-        "condition": {
-          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_slaughter" } }, { "math": [ "slaughterunlocked == 0" ] } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_slaughter" } }, { "math": [ "slaughterunlocked == 0" ] } ] },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_slaughter" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
@@ -419,17 +417,13 @@
       },
       {
         "text": "Unlock: Expedition Missions",
-        "condition": {
-          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions1" } }, { "math": [ "bonusmissions == 0" ] } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions1" } }, { "math": [ "bonusmissions == 0" ] } ] },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions1" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
         "text": "Unlock: Two Missions per Expedition",
-        "condition": {
-          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions2" } }, { "math": [ "bonusmissions == 1" ] } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions2" } }, { "math": [ "bonusmissions == 1" ] } ] },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions2" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
@@ -479,9 +473,7 @@
     "responses": [
       {
         "text": "Construct: Bunker Entrance",
-        "condition": {
-          "and": [ { "not": { "u_has_mission": "SKYISLAND_BUILD_base1" } }, { "math": [ "skyisland_build_base == 0" ] } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_BUILD_base1" } }, { "math": [ "skyisland_build_base == 0" ] } ] },
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_base1" } ],
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },

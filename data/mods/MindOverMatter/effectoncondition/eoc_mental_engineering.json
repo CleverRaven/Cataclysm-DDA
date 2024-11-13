@@ -1678,9 +1678,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_02",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 50" ] }, { "u_has_trait": "STRICT_HUMANITARIAN" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 50" ] }, { "u_has_trait": "STRICT_HUMANITARIAN" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1749,9 +1747,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SAVANT_01",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "not": { "u_has_trait": "SAVANT" } } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "not": { "u_has_trait": "SAVANT" } } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2092,9 +2088,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SEASONAL_AFFECTIVE_02",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "SEASONAL_AFFECTIVE" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "SEASONAL_AFFECTIVE" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2146,9 +2140,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_01",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "not": { "u_has_trait": "STYLISH" } } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "not": { "u_has_trait": "STYLISH" } } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
