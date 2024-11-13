@@ -423,10 +423,10 @@ TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
     map &here = get_map();
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
-    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_eggs = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
         test_monster.try_reproduce();
         if( here.has_items( loc ) ) {
             test_monster_spawns_eggs = true;
@@ -445,10 +445,10 @@ TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
     map &here = get_map();
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
-    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_egg_group = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
         test_monster.try_reproduce();
         if( here.has_items( loc ) ) {
             test_monster_spawns_egg_group = true;
@@ -467,11 +467,12 @@ TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
     creature_tracker &creatures = get_creature_tracker();
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon", loc );
-    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_babies = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
         test_monster.try_reproduce();
+        get_map().spawn_monsters( true );
         if( creatures.get_monsters_list().size() > 1 ) {
             test_monster_spawns_babies = true;
             break;
@@ -489,11 +490,12 @@ TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
     creature_tracker &creatures = get_creature_tracker();
     tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon_group", loc );
-    test_monster.set_baby_timer( calendar::turn - 2_days );
     bool test_monster_spawns_baby_mongroup = false;
     int amount_of_iteration = 0;
     while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
         test_monster.try_reproduce();
+        get_map().spawn_monsters( true );
         if( creatures.get_monsters_list().size() > 1 ) {
             test_monster_spawns_baby_mongroup = true;
             break;
