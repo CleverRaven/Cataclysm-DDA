@@ -376,36 +376,48 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_BLINDING_TARGET",
-    "condition": {
-      "and": [
-        { "not": "is_day" },
-        {
-          "or": [ { "and": [ "u_is_outside", { "math": [ "n_lilit_is_in_civilization", "=", "0" ] } ] }, { "not": "u_is_outside" } ]
-        }
-      ]
-    },
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "120 * lilin_has_ruach_efficiency_beta()" ] },
     "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "120 * lilin_has_ruach_efficiency_beta()" ] },
       {
-        "u_add_effect": "blind",
-        "duration": {
-          "math": [
-            "rng( ( (u_vitamin('lilin_ruach_vitamin') * 8) * (u_vitamin('lilin_ruach_vitamin') * 0.03) * (u_has_trait('THRESH_LILIN') + 1) ),( (u_vitamin('lilin_ruach_vitamin') * 24) * (u_vitamin('lilin_ruach_vitamin') * 0.075) * (u_has_trait('THRESH_LILIN') + 1) ) )"
-          ]
-        }
-      },
-      { "npc_message": "<u_name>'s eyes film over with darkness.", "type": "good" }
-    ],
-    "false_effect": [
-      {
-        "if": "is_day",
-        "then": { "npc_message": "You cannot call up the darkness while the sun is in the sky.", "type": "bad" },
-        "else": {
-          "if": { "and": [ "u_is_outside", { "math": [ "n_lilit_is_in_civilization", "=", "1" ] } ] },
-          "then": { "npc_message": "You cannot call up the darkness outdoors in a city.", "type": "bad" },
-          "else": {  }
-        }
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_BLINDING_TARGET_2",
+            "condition": {
+              "and": [
+                { "not": "is_day" },
+                {
+                  "or": [ { "and": [ "u_is_outside", { "math": [ "n_lilit_is_in_civilization", "=", "0" ] } ] }, { "not": "u_is_outside" } ]
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_add_effect": "blind",
+                "duration": {
+                  "math": [
+                    "rng( ( (u_vitamin('lilin_ruach_vitamin') * 8) * (u_vitamin('lilin_ruach_vitamin') * 0.03) * (u_has_trait('THRESH_LILIN') + 1) ),( (u_vitamin('lilin_ruach_vitamin') * 24) * (u_vitamin('lilin_ruach_vitamin') * 0.075) * (u_has_trait('THRESH_LILIN') + 1) ) )"
+                  ]
+                }
+              },
+              { "npc_message": "<u_name>'s eyes film over with darkness.", "type": "good" }
+            ],
+            "false_effect": [
+              {
+                "if": "is_day",
+                "then": { "npc_message": "You cannot call up the darkness while the sun is in the sky.", "type": "bad" },
+                "else": {
+                  "if": { "and": [ "u_is_outside", { "math": [ "n_lilit_is_in_civilization", "=", "1" ] } ] },
+                  "then": { "npc_message": "You cannot call up the darkness outdoors in a city.", "type": "bad" },
+                  "else": {  }
+                }
+              }
+            ]
+          }
+        ]
       }
-    ]
+    ],
+    "false_effect": { "npc_message": "You don't have enough ruach to call the darkness on your target.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
