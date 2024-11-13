@@ -568,7 +568,7 @@
     "condition": {
       "and": [
         "u_is_outside",
-        { "math": [ "u_brownie_homebody_speed_bonus", ">", "0" ] },
+        { "math": [ "u_brownie_homebody_speed_bonus > 0" ] },
         {
           "not": {
             "or": [
@@ -1581,7 +1581,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
-    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
     "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER" } ],
     "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
   },
@@ -1634,7 +1634,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
-    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
     "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER" } ],
     "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
   },

@@ -434,7 +434,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LUKE_RETRIEVE_TRUCK_END",
     "condition": { "not": { "u_near_om_location": "trailhead_shack_z0", "range": 2 } },
-    "deactivate_condition": { "math": [ "isherwood_luke_truck_status", ">", "1" ] },
+    "deactivate_condition": { "math": [ "isherwood_luke_truck_status > 1" ] },
     "effect": [
       { "mapgen_update": "LUKE_REMOVE_TRUCK", "om_terrain": "trailhead_shack_z0" },
       { "math": [ "isherwood_luke_truck_status", "++" ] }

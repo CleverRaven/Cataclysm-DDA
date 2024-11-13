@@ -217,7 +217,7 @@
     "recurrence": [ "3 seconds", "15 seconds" ],
     "global": true,
     "run_for_npcs": true,
-    "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", ">", "0" ] },
+    "condition": { "math": [ "u_nether_conduit_repeated_channeling_value > 0" ] },
     "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "-=", "1" ] } ],
     "false_effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "=", "0" ] } ]
   },

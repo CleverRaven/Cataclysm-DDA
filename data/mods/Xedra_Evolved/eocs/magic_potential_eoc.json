@@ -15,7 +15,7 @@
         ]
       },
       {
-        "if": { "math": [ "u_pain()", ">", "250" ] },
+        "if": { "math": [ "u_pain() > 250" ] },
         "then": [
           { "math": [ "magic_potential", "++" ] },
           {
@@ -36,7 +36,7 @@
       },
       {
         "if": {
-          "and": [ { "math": [ "u_counter_portal_storm_counter", ">", "0" ] }, { "math": [ "magic_potential_from_ps == 0" ] } ]
+          "and": [ { "math": [ "u_counter_portal_storm_counter > 0" ] }, { "math": [ "magic_potential_from_ps == 0" ] } ]
         },
         "then": [
           { "math": [ "magic_potential", "++" ] },

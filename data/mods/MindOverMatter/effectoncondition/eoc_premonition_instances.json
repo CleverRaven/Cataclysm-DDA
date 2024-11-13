@@ -8,8 +8,8 @@
       "and": [
         { "one_in_chance": 6 },
         { "not": "is_day" },
-        { "math": [ "u_Lieutenants_active", ">", "0" ] },
-        { "math": [ "u_Shadow_Lurking", ">", "0" ] },
+        { "math": [ "u_Lieutenants_active > 0" ] },
+        { "math": [ "u_Shadow_Lurking > 0" ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -111,7 +111,7 @@
     "condition": {
       "and": [
         { "math": [ "faction_like('hells_raiders') < -40" ] },
-        { "math": [ "faction_like('hells_raiders')", ">", "-60" ] },
+        { "math": [ "faction_like('hells_raiders') > -60" ] },
         { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
@@ -184,7 +184,7 @@
     "condition": {
       "and": [
         { "math": [ "faction_like('hells_raiders') < -60" ] },
-        { "math": [ "faction_like('hells_raiders')", ">", "-90" ] },
+        { "math": [ "faction_like('hells_raiders') > -90" ] },
         { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 15" ] },
         { "not": { "is_weather": "portal_storm" } },

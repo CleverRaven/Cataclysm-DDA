@@ -345,8 +345,8 @@
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "Lieutenants_active", ">", "0" ] },
-        { "math": [ "Shadow_Lurking", ">", "0" ] },
+        { "math": [ "Lieutenants_active > 0" ] },
+        { "math": [ "Shadow_Lurking > 0" ] },
         { "math": [ "Shadow_Warnings >= 1" ] },
         "u_is_outside",
         {
@@ -378,7 +378,7 @@
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
         {
-          "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
+          "or": [ { "math": [ "Shadow_Lurking > 0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
         {
           "or": [ { "math": [ "Shadow_Warnings < 1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
@@ -458,7 +458,7 @@
             { "math": [ "distance('u', shadow_encounter_XYZ_pos) >= 180" ] }
           ]
         },
-        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
+        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60) > 0" ] }
       ]
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
@@ -483,7 +483,7 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60) > 0" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "Shadow_monster" },

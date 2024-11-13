@@ -274,7 +274,7 @@
           {
             "if": {
               "and": [
-                { "math": [ "u_vitamin('mutagen_bird')", ">", "200" ] },
+                { "math": [ "u_vitamin('mutagen_bird') > 200" ] },
                 { "or": [ { "u_has_trait": "THRESH_BIRD" }, { "not": { "u_has_flag": "MUTATION_THRESHOLD" } } ] }
               ]
             },

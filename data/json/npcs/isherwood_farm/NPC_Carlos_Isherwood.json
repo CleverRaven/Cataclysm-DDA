@@ -307,7 +307,7 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE3",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", ">", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
       },
       {
         "text": "Where can I find Chris?",

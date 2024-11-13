@@ -98,7 +98,7 @@
         "id": "label_visible",
         "text": "Power",
         "color": "c_light_gray",
-        "condition": { "math": [ "u_val('power_max')", ">", "0" ] }
+        "condition": { "math": [ "u_val('power_max') > 0" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ],

@@ -337,7 +337,7 @@
           ]
         },
         { "math": [ "portal_dungeon_level == 0" ] },
-        { "math": [ "u_ire", ">", "0" ] }
+        { "math": [ "u_ire > 0" ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -990,7 +990,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_SHIFT",
-    "condition": { "math": [ "portal_dungeon_level", ">", "0" ] },
+    "condition": { "math": [ "portal_dungeon_level > 0" ] },
     "effect": [
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
@@ -1002,7 +1002,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "portal_dungeon_level", ">", "0" ] },
+        { "math": [ "portal_dungeon_level > 0" ] },
         {
           "math": [
             "monsters_nearby('mon_pale_reflection', 'mon_twisted_reflection', 'mon_dark_reflection', 'mon_better_half', 'location': dungeon_loc)",
@@ -1359,7 +1359,7 @@
   {
     "type": "effect_on_condition",
     "id": "print_nre_data",
-    "condition": { "or": [ { "math": [ "u_portal_storm_record", ">", "0" ] }, { "math": [ "u_generic_nre_anomaly", ">", "0" ] } ] },
+    "condition": { "or": [ { "math": [ "u_portal_storm_record > 0" ] }, { "math": [ "u_generic_nre_anomaly > 0" ] } ] },
     "effect": {
       "run_eocs": [
         {

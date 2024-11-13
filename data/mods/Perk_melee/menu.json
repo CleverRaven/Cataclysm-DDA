@@ -631,7 +631,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_MA_PERK_MENU_MAIN",
-        "condition": { "and": [ { "get_condition": "perk_condition" }, { "math": [ "u_num_ma_perks", ">", "0" ] } ] },
+        "condition": { "and": [ { "get_condition": "perk_condition" }, { "math": [ "u_num_ma_perks > 0" ] } ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_NONE",
         "effect": [

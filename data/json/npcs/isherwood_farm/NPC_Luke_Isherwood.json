@@ -162,8 +162,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS3",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", ">", "time('7 d')" ] },
-            { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
+            { "math": [ "time_since(u_timer_luke_isherwood_books) > time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue > time('5 d')" ] }
           ]
         }
       },

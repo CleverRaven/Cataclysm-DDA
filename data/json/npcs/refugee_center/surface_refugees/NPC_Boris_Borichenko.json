@@ -150,7 +150,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_2" } ] },
-            { "math": [ "time_since(n_timer_flag_Boris_teach)", ">", "time('1 d')" ] }
+            { "math": [ "time_since(n_timer_flag_Boris_teach) > time('1 d')" ] }
           ]
         }
       },

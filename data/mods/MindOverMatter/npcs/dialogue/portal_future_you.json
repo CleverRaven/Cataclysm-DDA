@@ -16,7 +16,7 @@
       {
         "text": "[Premonition 8+] *Determine if the voice is a threat*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">", "7" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') > 7" ] }
       }
     ]
   },

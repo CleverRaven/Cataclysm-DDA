@@ -629,7 +629,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
       ]
     },
     "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
@@ -641,7 +641,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
-              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+              { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
             ]
           },
           "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
@@ -652,7 +652,7 @@
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+                    { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
                   ]
                 },
                 "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
@@ -667,7 +667,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
     "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
@@ -675,7 +675,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
     "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus') >= 20" ] } ]
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 20" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
@@ -721,7 +721,7 @@
             { "compare_string": [ "teleport_farstep", { "context_val": "spell" } ] }
           ]
         },
-        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50) > 0" ] },
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
     },
@@ -742,7 +742,7 @@
       "and": [
         { "u_has_trait": "TELEPORTER" },
         { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
-        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50) > 0" ] },
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
     },

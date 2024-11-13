@@ -45,8 +45,8 @@
             { "not": { "npc_has_trait": "VAMPIRE" } },
             { "math": [ "n_npc_trust() <= 9" ] },
             { "math": [ "n_npc_value() <= 9" ] },
-            { "math": [ "n_npc_trust()", ">", "0" ] },
-            { "math": [ "n_npc_value()", ">", "0" ] },
+            { "math": [ "n_npc_trust() > 0" ] },
+            { "math": [ "n_npc_value() > 0" ] },
             { "u_has_trait": "VAMPIRE" }
           ]
         }

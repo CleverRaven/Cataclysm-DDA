@@ -783,7 +783,7 @@
         "z_adjust": 0
       },
       {
-        "if": { "math": [ "u_arvore_turn_into_tree_damage", ">", "u_health_comparison" ] },
+        "if": { "math": [ "u_arvore_turn_into_tree_damage > u_health_comparison" ] },
         "then": [
           "u_die",
           {

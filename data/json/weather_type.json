@@ -267,7 +267,7 @@
     "condition": {
       "and": [
         { "math": [ "weather('windpower') < 12" ] },
-        { "math": [ "weather('windpower')", ">", "0" ] },
+        { "math": [ "weather('windpower') > 0" ] },
         { "math": [ "dew_point_factor(celsius(weather('temperature'))) <= 2.5" ] },
         { "math": [ "weather('humidity') < 90" ] }
       ]
@@ -294,7 +294,7 @@
     "condition": {
       "and": [
         { "math": [ "weather('windpower') < 12" ] },
-        { "math": [ "weather('windpower')", ">", "0" ] },
+        { "math": [ "weather('windpower') > 0" ] },
         { "math": [ "dew_point_factor(celsius(weather('temperature'))) <= 2.5" ] }
       ]
     }

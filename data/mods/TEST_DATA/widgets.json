@@ -54,19 +54,19 @@
         "id": "tired",
         "text": "Tired",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">", "191" ] }, { "math": [ "u_val('sleepiness') <= 383" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness') > 191" ] }, { "math": [ "u_val('sleepiness') <= 383" ] } ] }
       },
       {
         "id": "dead_tired",
         "text": "Dead Tired",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">", "383" ] }, { "math": [ "u_val('sleepiness') <= 575" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness') > 383" ] }, { "math": [ "u_val('sleepiness') <= 575" ] } ] }
       },
       {
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "math": [ "u_val('sleepiness')", ">", "575" ] }
+        "condition": { "math": [ "u_val('sleepiness') > 575" ] }
       }
     ]
   },
@@ -229,24 +229,24 @@
     "separator": ": ",
     "style": "clause",
     "clauses": [
-      { "id": "parched", "text": "Parched", "color": "light_red", "condition": { "math": [ "u_val('thirst')", ">", "520" ] } },
+      { "id": "parched", "text": "Parched", "color": "light_red", "condition": { "math": [ "u_val('thirst') > 520" ] } },
       {
         "id": "dehydrated",
         "text": "Dehydrated",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('thirst')", ">", "240" ] }, { "math": [ "u_val('thirst') <= 520" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('thirst') > 240" ] }, { "math": [ "u_val('thirst') <= 520" ] } ] }
       },
       {
         "id": "very_thirsty",
         "text": "Very thirsty",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('thirst')", ">", "80" ] }, { "math": [ "u_val('thirst') <= 240" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('thirst') > 80" ] }, { "math": [ "u_val('thirst') <= 240" ] } ] }
       },
       {
         "id": "thirsty",
         "text": "Thirsty",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('thirst')", ">", "40" ] }, { "math": [ "u_val('thirst') <= 80" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('thirst') > 40" ] }, { "math": [ "u_val('thirst') <= 80" ] } ] }
       },
       {
         "id": "neutral",
@@ -460,37 +460,37 @@
         "id": "scorching",
         "text": "Scorching!",
         "color": "red",
-        "condition": { "math": [ "u_val('body_temp')", ">", "9500" ] }
+        "condition": { "math": [ "u_val('body_temp') > 9500" ] }
       },
       {
         "id": "very_hot",
         "text": "Very hot!",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 9500" ] }, { "math": [ "u_val('body_temp')", ">", "8000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 9500" ] }, { "math": [ "u_val('body_temp') > 8000" ] } ] }
       },
       {
         "id": "warm",
         "text": "warm",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 8000" ] }, { "math": [ "u_val('body_temp')", ">", "6500" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 8000" ] }, { "math": [ "u_val('body_temp') > 6500" ] } ] }
       },
       {
         "id": "comfortable",
         "text": "Comfortable",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 6500" ] }, { "math": [ "u_val('body_temp')", ">", "3500" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 6500" ] }, { "math": [ "u_val('body_temp') > 3500" ] } ] }
       },
       {
         "id": "chilly",
         "text": "Chilly",
         "color": "light_blue",
-        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 3500" ] }, { "math": [ "u_val('body_temp')", ">", "2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 3500" ] }, { "math": [ "u_val('body_temp') > 2000" ] } ] }
       },
       {
         "id": "very_cold",
         "text": "Very cold!",
         "color": "cyan",
-        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 2000" ] }, { "math": [ "u_val('body_temp')", ">", "500" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 2000" ] }, { "math": [ "u_val('body_temp') > 500" ] } ] }
       },
       {
         "id": "freezing",
@@ -512,7 +512,7 @@
         "text": "(Rising!!)",
         "sym": "↑↑↑",
         "color": "red",
-        "condition": { "math": [ "u_val('body_temp_delta')", ">", "4500" ] }
+        "condition": { "math": [ "u_val('body_temp_delta') > 4500" ] }
       },
       {
         "id": "rising2",
@@ -520,7 +520,7 @@
         "sym": "↑↑",
         "color": "light_red",
         "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta')", ">", "3000" ] } ]
+          "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ]
         }
       },
       {
@@ -529,7 +529,7 @@
         "sym": "↑",
         "color": "yellow",
         "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta')", ">", "1500" ] } ]
+          "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ]
         }
       },
       {
@@ -1175,43 +1175,43 @@
         "id": "emaciated",
         "text": "Emaciated",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil') <= 2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 1000" ] }, { "math": [ "u_val('bmi_permil') <= 2000" ] } ] }
       },
       {
         "id": "underweight",
         "text": "Underweight",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil') <= 3000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 2000" ] }, { "math": [ "u_val('bmi_permil') <= 3000" ] } ] }
       },
       {
         "id": "normal",
         "text": "Normal",
         "color": "light_gray",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil') <= 5000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 3000" ] }, { "math": [ "u_val('bmi_permil') <= 5000" ] } ] }
       },
       {
         "id": "overweight",
         "text": "Overweight",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 5000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
       },
       {
         "id": "obese",
         "text": "Obese",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil') <= 15000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 10000" ] }, { "math": [ "u_val('bmi_permil') <= 15000" ] } ] }
       },
       {
         "id": "very_obese",
         "text": "Very Obese",
         "color": "red",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil') <= 20000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 15000" ] }, { "math": [ "u_val('bmi_permil') <= 20000" ] } ] }
       },
       {
         "id": "morbidly_obese",
         "text": "Morbidly Obese",
         "color": "red",
-        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
+        "condition": { "math": [ "u_val('bmi_permil') > 20000" ] }
       }
     ]
   },
@@ -1226,9 +1226,9 @@
       {
         "text": "Boring",
         "color": "white",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 2000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
       },
-      { "text": "C H O N K", "color": "pink", "condition": { "math": [ "u_val('bmi_permil')", ">", "10000" ] } }
+      { "text": "C H O N K", "color": "pink", "condition": { "math": [ "u_val('bmi_permil') > 10000" ] } }
     ]
   },
   {

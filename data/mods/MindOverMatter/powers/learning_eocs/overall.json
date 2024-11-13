@@ -38,7 +38,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "effect_psi_studying_power" },
-        { "math": [ "u_latest_studied_power_difficulty", ">", "u_skill('metaphysics')" ] }
+        { "math": [ "u_latest_studied_power_difficulty > u_skill('metaphysics')" ] }
       ]
     },
     "effect": [

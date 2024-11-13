@@ -782,7 +782,7 @@
             "popup": true
           },
           {
-            "if": { "math": [ "raidswon", ">", "0" ] },
+            "if": { "math": [ "raidswon > 0" ] },
             "then": [
               { "math": [ "owed_material_tokens", "=", "50 * raidswon" ] },
               {

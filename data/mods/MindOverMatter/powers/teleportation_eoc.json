@@ -63,7 +63,7 @@
       },
       { "math": [ "u_health_comparison", "=", "u_hp('ALL')" ] },
       {
-        "if": { "math": [ "u_psi_teleporter_damage", ">", "u_health_comparison" ] },
+        "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
           { "u_cast_spell": { "id": "teleport_banish_self_target", "message": "" } },
           { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" }
@@ -86,7 +86,7 @@
         ]
       },
       {
-        "if": { "math": [ "u_psi_teleporter_damage", ">", "u_health_comparison" ] },
+        "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
           "u_die",
           { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" },

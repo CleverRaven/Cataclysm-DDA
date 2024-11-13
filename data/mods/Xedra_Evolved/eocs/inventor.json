@@ -371,7 +371,7 @@
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_PROCESS_SPARKS",
     "condition": {
-      "and": [ { "math": [ "u_vitamin('creative_spark')", ">", "0" ] }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ]
+      "and": [ { "math": [ "u_vitamin('creative_spark') > 0" ] }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ]
     },
     "effect": [
       {

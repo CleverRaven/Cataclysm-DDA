@@ -11,7 +11,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "Never See this.",
         "failure_explanation": "Impossible Test",
         "failure_topic": "TALK_TEST_START",
@@ -671,7 +671,7 @@
       {
         "text": "This is a u_compare_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "time_since(u_test_var_time_test_test)", ">", "time('3 d')" ] }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test) > time('3 d')" ] }
       }
     ]
   },
@@ -835,21 +835,21 @@
       { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 <= 5" ] } },
       { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 >= 5" ] } },
       { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2 < 5" ] } },
-      { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">", "5" ] } },
+      { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2 > 5" ] } },
       { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
       { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
       { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "5" ] } },
       { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 <= 5" ] } },
       { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 5" ] } },
       { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5 < 5" ] } },
-      { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "5" ] } },
+      { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5 > 5" ] } },
       { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
       { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
       { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "2" ] } },
       { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 <= 2" ] } },
       { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 2" ] } },
       { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5 < 2" ] } },
-      { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "2" ] } }
+      { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5 > 2" ] } }
     ]
   },
   {
@@ -1353,7 +1353,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should see this response but not be able to select it (except in debug mode).",
         "show_always": true,
         "topic": "TALK_DONE"
@@ -1367,7 +1367,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "1", ">", "0" ] },
+        "condition": { "math": [ "1 > 0" ] },
         "text": "You should always see this response and be able to select it.",
         "show_always": true,
         "topic": "TALK_DONE"
@@ -1381,7 +1381,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should see this response but not be able to select it (except in debug mode) because",
         "show_always": true,
         "show_reason": "zero isn't greater than one.",
@@ -1396,10 +1396,10 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should see this response but not be able to select it (except in debug mode) because",
         "topic": "TALK_DONE",
-        "show_condition": { "math": [ "1", ">", "0" ] },
+        "show_condition": { "math": [ "1 > 0" ] },
         "show_reason": "zero isn't greater than one."
       },
       { "text": "All done", "topic": "TALK_DONE" }
@@ -1411,10 +1411,10 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should not see this response.",
         "topic": "TALK_DONE",
-        "show_condition": { "math": [ "0", ">", "1" ] },
+        "show_condition": { "math": [ "0 > 1" ] },
         "show_reason": "zero isn't greater than one."
       },
       { "text": "All done", "topic": "TALK_DONE" }

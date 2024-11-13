@@ -112,7 +112,7 @@
           "math": [ "npc_randomize_book_find_mission == 3" ],
           "yes": "I would love it if you could find my favorite book.  Could you help me find it?  It's All Things Weird, by Felicity Powell.  It gives a great sense of humor to the end of the world!",
           "no": {
-            "math": [ "npc_randomize_book_find_mission", ">", "3" ],
+            "math": [ "npc_randomize_book_find_mission > 3" ],
             "yes": "PLEASE REPORT THIS ON GITHUB.  A RNG OF 1-3 PICKED A HIGHER NUMBER.",
             "no": "ERROR: couldn't pick a mission for the book search."
           }
@@ -157,7 +157,7 @@
           "math": [ "npc_randomize_game_find_mission == 3" ],
           "yes": "I would love it if you could find my favorite game.  Could you help me find it?  It's a board game called Terraforming Mercury.  I guess terraforming anywhere is a pipe dream now.",
           "no": {
-            "math": [ "npc_randomize_game_find_mission", ">", "3" ],
+            "math": [ "npc_randomize_game_find_mission > 3" ],
             "yes": "PLEASE REPORT THIS ON GITHUB.  A RNG OF 0-3 PICKED A HIGHER NUMBER.",
             "no": "ERROR: couldn't pick a mission for the game search."
           }

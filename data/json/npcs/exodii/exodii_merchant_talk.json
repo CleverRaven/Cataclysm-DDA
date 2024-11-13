@@ -196,7 +196,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },

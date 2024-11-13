@@ -324,7 +324,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_troll_regenerate_limb_spell", "hit_self": true },
         "cooldown": 15,
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", ">", "200" ] }, { "u_has_effect": "maimed_arm" } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') > 200" ] }, { "u_has_effect": "maimed_arm" } ] }
       }
     ],
     "regenerates": 12,

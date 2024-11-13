@@ -7,7 +7,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_level_up",
-    "condition": { "math": [ "u_available_exp", ">", "u_exp_to_perk" ] },
+    "condition": { "math": [ "u_available_exp > u_exp_to_perk" ] },
     "effect": [
       { "run_eocs": "EOC_give_perk_point" },
       { "math": [ "u_used_exp", "+=", "u_exp_to_perk" ] },

@@ -58,7 +58,7 @@
     "type": "effect_on_condition",
     "id": "EOC_AFS_CONCENTRATION_COSTS_FOCUS",
     "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
+      "and": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
@@ -86,7 +86,7 @@
     "recurrence": [ "3 seconds", "30 seconds" ],
     "global": true,
     "run_for_npcs": true,
-    "condition": { "math": [ "u_esper_repeated_channeling_value", ">", "0" ] },
+    "condition": { "math": [ "u_esper_repeated_channeling_value > 0" ] },
     "effect": [ { "math": [ "u_esper_repeated_channeling_value", "-=", "1" ] } ],
     "false_effect": [ { "math": [ "u_esper_repeated_channeling_value", "=", "0" ] } ]
   },
@@ -123,7 +123,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
-        { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }
+        { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
       ]
     },
     "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
@@ -135,7 +135,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
-              { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }
+              { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
             ]
           },
           "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
@@ -146,7 +146,7 @@
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                    { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }
+                    { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
                   ]
                 },
                 "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]

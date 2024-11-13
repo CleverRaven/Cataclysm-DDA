@@ -981,7 +981,7 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time_between_succession" ] },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession) > time_between_succession" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
     "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
   },

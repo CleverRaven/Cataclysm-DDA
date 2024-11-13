@@ -515,7 +515,7 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] }
           ]
         },

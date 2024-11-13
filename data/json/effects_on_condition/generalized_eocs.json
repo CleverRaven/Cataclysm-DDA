@@ -41,7 +41,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] },
+        { "math": [ "time_since(u_timer_caravan_RandEnc) > time('1 h')" ] },
         { "not": { "u_near_om_location": { "global_val": "random_encounter_omt" }, "range": 2 } },
         { "math": [ "RandEnc == 1" ] }
       ]

@@ -127,7 +127,7 @@
       "and": [
         { "u_has_trait": "HOMULLUS_DREAMWALKER" },
         { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
-        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any')", ">", "0" ] }
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any') > 0" ] }
       ]
     },
     "effect": [
@@ -211,7 +211,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER",
-    "condition": { "math": [ "u_doll_form_movement", ">", "0" ] },
+    "condition": { "math": [ "u_doll_form_movement > 0" ] },
     "effect": [ { "math": [ "u_doll_form_movement", "-=", "rand(3) + 1" ] } ]
   },
   {
@@ -261,7 +261,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
-        { "math": [ "u_doll_form_movement", ">", "0" ] },
+        { "math": [ "u_doll_form_movement > 0" ] },
         { "x_in_y_chance": { "x": { "math": [ "u_doll_form_movement" ] }, "y": 1000 } }
       ]
     },

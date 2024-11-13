@@ -1295,7 +1295,7 @@
     "id": "eoc_vampire_blood_to_kcal_convert",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('human_blood_vitamin')", ">", "500" ] },
+        { "math": [ "u_vitamin('human_blood_vitamin') > 500" ] },
         { "math": [ "u_calories('dont_affect_weariness': true) < u_calories_needed" ] }
       ]
     },

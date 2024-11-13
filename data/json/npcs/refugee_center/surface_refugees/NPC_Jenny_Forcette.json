@@ -118,7 +118,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] }
           ]
         }
@@ -178,7 +178,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach1",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach) > time('1 d')" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] } }
           ]
         }

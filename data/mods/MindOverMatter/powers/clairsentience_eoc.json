@@ -69,7 +69,7 @@
       "run_eocs": [
         {
           "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_2",
-          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "0" ] }, { "math": [ "u_val('rad') <= 50" ] } ] },
+          "condition": { "and": [ { "math": [ "u_val('rad') > 0" ] }, { "math": [ "u_val('rad') <= 50" ] } ] },
           "effect": [
             {
               "u_message": "Turning your senses on yourself, you see see a few dull glimmers, hidden deep in your flesh.  The damage is minimal for now, but you had best not let it fester.",

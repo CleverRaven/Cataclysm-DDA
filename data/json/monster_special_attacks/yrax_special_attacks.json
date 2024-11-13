@@ -303,7 +303,7 @@
     "type": "effect_on_condition",
     "condition": {
       "and": [
-        { "math": [ "time_since(u_timer_quadraphract_deltas)", ">", "time(' 1 m')" ] },
+        { "math": [ "time_since(u_timer_quadraphract_deltas) > time(' 1 m')" ] },
         { "math": [ "u_monsters_nearby('mon_yrax_delta', 'radius': 40) < 3" ] }
       ]
     },
@@ -321,7 +321,7 @@
   {
     "id": "eoc_quadraphract_smoke",
     "type": "effect_on_condition",
-    "condition": { "and": [ { "math": [ "time_since(u_timer_quadraphract_smoke)", ">", "time(' 40 s')" ] } ] },
+    "condition": { "and": [ { "math": [ "time_since(u_timer_quadraphract_smoke) > time(' 40 s')" ] } ] },
     "effect": [
       { "math": [ "u_timer_quadraphract_smoke", "=", "time('now')" ] },
       { "u_cast_spell": { "id": "quadraphract_smoke_mortar" } },

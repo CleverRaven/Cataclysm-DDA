@@ -68,7 +68,7 @@
         "if": {
           "and": [
             { "math": [ "has_var(u_old_distance)" ] },
-            { "math": [ "u_new_distance", ">", "u_old_distance" ] },
+            { "math": [ "u_new_distance > u_old_distance" ] },
             { "npc_can_see_location": { "u_val": "monster_pos" } }
           ]
         },

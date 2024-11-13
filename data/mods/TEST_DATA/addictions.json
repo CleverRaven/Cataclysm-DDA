@@ -8,7 +8,7 @@
       {
         "if": {
           "and": [
-            { "math": [ "u_val('stim')", ">", "u_addiction_intensity('test_caffeine') * -10" ] },
+            { "math": [ "u_val('stim') > u_addiction_intensity('test_caffeine') * -10" ] },
             { "math": [ "rand(10) < u_addiction_intensity('test_caffeine') * -10" ] }
           ]
         },

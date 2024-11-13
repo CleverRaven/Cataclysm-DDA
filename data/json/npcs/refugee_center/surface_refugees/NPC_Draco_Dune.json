@@ -468,7 +468,7 @@
       {
         "text": "[Perform a legendary dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_6",
-        "condition": { "math": [ "u_val('dodge')", ">", "20" ] },
+        "condition": { "math": [ "u_val('dodge') > 20" ] },
         "switch": true,
         "default": true
       }
