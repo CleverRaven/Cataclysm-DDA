@@ -255,7 +255,7 @@
       },
       {
         "id": "full6",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>",
+        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇        </color>",
         "condition": { "math": [ "u_shield_power_ratio", ">=", "50" ] }
       },
       {
