@@ -165,6 +165,9 @@ Deconstruct simple furniture in the dark
 Mission deadlines supports dialogue variables
 Add a new appliance, the glassblower's crucible
 Add a new widget to display weight as "##.#/##.#[unit]"
+NPC factions get mad if you mess with their property by smashing or deconstructing it etc
+obsolete generic NPC common classes; use the avatar character generator instead
+Allow PCs/NPCs to move diagonally during overmap pathfinding
 
 
 ## Content:
@@ -458,6 +461,13 @@ Add labels to structured sidebar tiny bodygraphs
 use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
 Debug reveal map moved to overmap editor, can reveal any overmap
 Wrap the text in the menu for choosing your new faction camp type
+Missions track when they were completed/failed
+Add activity to continually bash something until it's destroyed
+Option to set all of a companion's job priorities at once
+Replace popups with informative message when choosing point(s) on the map
+The mission UI can scroll to read longer description
+Added information to crafting menu about crafting speed modifier gained by mutations
+Improved text wrapping in spellbook and spellcasting menus
 
 
 ## Mods:
@@ -735,6 +745,10 @@ Create an external option for disabling zombify_into. Apply it to both Aftershoc
 Aftershock: Remove swims flag from terrestrial creatures.
 [MoM] Feral psion updates with copy-from
 Aftershock: Add suit batteries for the winter suits.
+[DinoMod] eolambia
+[Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
+[Xedra Evolved] Only humans can learn dream magick
+[Xedra Evolved] Add (very small) chance of being attacked by a lilit in your sleep
 
 
 ## Balance:
@@ -835,6 +849,7 @@ Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
 Auditing portable charcoal kiln cleanup
+NPCs can funk out to music, too.
 
 
 ## Bugfixes:
@@ -1150,6 +1165,9 @@ Optimize typed coordinate conversion functions for widespread savings
 NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 Fix lag examining large stacks of crafted items
+Reduce unnecessary/duplicate checks for dangerous tiles
+Cache the absolute map square position of the first submap
+Cache mutation trait flags
 
 
 ## Infrastructure:
@@ -1229,6 +1247,18 @@ Migrate extended description (`x`->`e`) to imgui
 Added palettes to use parameters more generally
 debug dialogue + talk_topic menus
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Adds bash_scaling fields to use with spells
+Replace some player responses with snippets
+Make mutation able to use mana as resourse without EoC
+Mod Compatibility 2: Prevent Error from duplicate ids within mod_interactions folder
+Remove duplicated code to generate origin string
+Add controlling_vehicle EOC condition
+debug dialogue + talk_topic menus
+Tutorial content moved to a mod, keybind snippets work outside of tutorial
+Spell activated EoCs are passed the target as a context val location variable spell_location
+terrain/furniture: code deduplication and improved copy-from support
+Add a new event for when worn armor is detroyed by damage.
+allow furniture/terrain copy-from for symbol, color
 
 ## Build:
 Support Mac arm64 build
@@ -1253,6 +1283,7 @@ Add PDCurses to Windows
 Fixed Linux experimental build automation issues caused by SDL dependencies
 Fixes broken Windows build due to missing ImGui Freetype-related files and map::get_field function deletion
 Fixed broken Android build due to missing FreeType library
+Allow the game to build on OSX
 
 
 ## I18N and A11Y:
@@ -1261,11 +1292,14 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Allow new KEYBDINGS window title to be translated
 Omit unnecessary lines from translations
 Dont extract monster guns and spells for translation
 Dont extract abstract names for translation
 Extract blood analysis descs and end screen text
 Dont extract abstract monsters and spells from data/json/monsters/
+Add Portuguese translation
+Obsolete strings now have a comment with an explanation
 
 
 # 0.G (Gaiman)

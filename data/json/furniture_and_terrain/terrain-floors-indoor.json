@@ -1493,7 +1493,7 @@
     "name": "junk metal floor",
     "looks_like": "t_scrap_floor",
     "description": "A simple roof of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope you like the sound of rain on corrugated metal.  Can support a roof.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "move_cost": 2,
     "connect_groups": "INDOORFLOOR",

@@ -54,5 +54,10 @@
     "required_event": "character_casts_spell",
     "condition": { "or": [ { "compare_string": [ "rip_ticket", { "context_val": "spell" } ] } ] },
     "effect": [ { "u_consume_item": "rip_ticket" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DAGWOOD",
+    "effect": [ { "u_cast_spell": { "id": "cosmic_dagwood_regeneration" } } ]
   }
 ]

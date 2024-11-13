@@ -2032,6 +2032,9 @@ void Item_factory::check_definitions() const
         if( !type->category_force.is_valid() ) {
             msg += "undefined category " + type->category_force.str() + "\n";
         }
+        if( type->has_flag( flag_ENERGY_SHIELD ) && !type->armor ) {
+            msg += "has ENERGY_SHIELD flag specified but the item isn't armor";
+        }
 
         if( type->armor ) {
             cata::flat_set<bodypart_str_id> observed_bps;
@@ -3111,6 +3114,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "damage_verb", damage_verb );
     optional( jo, was_loaded, "power_armor", power_armor, false );
+    optional( jo, was_loaded, "max_energy_shield_hp", max_energy_shield_hp, 0 );
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
 

@@ -1225,7 +1225,7 @@
         { "math": [ "_success", "!=", "false" ] }
       ]
     },
-    "effect": [ { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
+    "effect": [ { "run_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1261,9 +1261,7 @@
         { "math": [ "_success", "!=", "false" ] }
       ]
     },
-    "effect": [
-      { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] }
-    ]
+    "effect": [ { "run_eocs": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
   },
   {
     "type": "effect_on_condition",

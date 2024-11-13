@@ -341,6 +341,12 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         activate();
     }
 
+    if( has_flag( flag_ENERGY_SHIELD ) ) {
+        const islot_armor *sh = find_armor_data();
+        set_var( "npctalk_var_MAX_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
+        set_var( "npctalk_var_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
+    }
+
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
         for( item_pocket *pocket : contents.get_all_standard_pockets() ) {
             pocket->settings.set_collapse( true );
@@ -2293,6 +2299,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
                              sub_body_part_sub_limb_debug, &mon, bp );
         damage_instance dealt_damage = base_damage;
+        dealt_damage = guy.modify_damage_dealt_with_enchantments( dealt_damage );
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
         for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
@@ -2962,7 +2969,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                       bool /* debug */ ) const
 {
     // Skip this section for guns and items without ammo data
-    if( is_gun() || !ammo_data() ||
+    if( is_gun() || !has_ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
         return;
     }
@@ -3416,7 +3423,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
 
-    if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
+    if( mod->has_ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
         info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
     }
@@ -4838,7 +4845,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                            _( "* This tool <info>runs on bionic power</info>." ) );
     } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
         int percent_left = 0;
-        if( ammo_data() != nullptr ) {
+        if( has_ammo_data() ) {
             // Candle items that use ammo instead of charges
             // The capacity should never be zero but clang complains about it
             percent_left = 100 * ammo_remaining() / std::max( ammo_capacity( ammo_data()->ammo->type ), 1 );
@@ -5457,11 +5464,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     std::map<damage_type_id, int> dmg_types;
     for( const damage_type &dt : damage_type::get_all() ) {
-        if( dt.physical && dt.melee_only ) {
-            int val = damage_melee( dt.id );
-            if( val ) {
-                dmg_types.emplace( dt.id, val );
-            }
+        int val = damage_melee( dt.id );
+        if( val ) {
+            dmg_types.emplace( dt.id, val );
         }
     }
 
@@ -5473,9 +5478,6 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
         }
         for( const auto &dmg_type : dmg_types ) {
-            if( !dmg_type.first->melee_only ) {
-                continue;
-            }
             info.emplace_back( "BASE", sep + uppercase_first_letter( dmg_type.first->name.translated() ) + ": ",
                                "", iteminfo::no_newline, dmg_type.second );
             sep = space;
@@ -6367,7 +6369,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
-    } else if( is_relic() && !has_flag( flag_MUNDANE ) ) {
+    } else if( ( is_relic() && !has_flag( flag_MUNDANE ) ) || has_flag( flag_RELIC_PINK ) ) {
         ret = c_pink;
     } else if( is_bionic() ) {
         if( player_character.is_installable( this, false ).success() &&
@@ -7660,10 +7662,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     if( !this->is_comestible() ) {
         return false;
     }
-    // We need this function to get all vitamins including from inheritance.
-    // But we don't care about calories, so we can just pass a dummy.
-    npc dummy;
-    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    const nutrients food_item = default_character_compute_effective_nutrients( *this );
     for( auto const& [vit_id, amount] : food_item.vitamins() ) {
         if( vit_id == v ) {
             if( amount > 0 ) {
@@ -8674,8 +8673,8 @@ bool item::made_of_any_food_components( bool deep_search ) const
     for( const std::pair<itype_id, std::vector<item>> pair : components ) {
         for( const item &it : pair.second ) {
             const auto &maybe_food = it.get_comestible();
-            bool must_be_food = maybe_food && ( maybe_food->default_nutrition.kcal() > 0 ||
-                                                !maybe_food->default_nutrition.vitamins().empty() );
+            bool must_be_food = maybe_food && ( maybe_food->default_nutrition_read_only().kcal() > 0 ||
+                                                !maybe_food->default_nutrition_read_only().vitamins().empty() );
             bool has_food_component = false;
             if( deep_search && !it.components.empty() ) {
                 // make true if any component has food values, even if some don't
@@ -8965,7 +8964,7 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
     }
 
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-    for( const std::pair<material_id, int> mat : made_of() ) {
+    for( const std::pair<const material_id, int> &mat : made_of() ) {
         const int val = ( mat.first->chip_resist() * mat.second ) / total;
         res = worst ? std::min( res, val ) : std::max( res, val );
     }
@@ -9042,9 +9041,25 @@ int item::repairable_levels() const
            : damage() > degradation(); // partial level of damage can still be repaired
 }
 
-item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &premitigated,
+        const bodypart_id &bp,
         double enchant_multiplier )
 {
+    //Energy shields aren't damaged by attacks but do get their health variable reduced.  They are also only
+    //damaged by the damage types they actually protect against.
+    if( has_var( "npctalk_var_ENERGY_SHIELD_HP" ) && resist( du.type, false, bp ) > 0.0f ) {
+        double shield_hp = get_var( "npctalk_var_ENERGY_SHIELD_HP", 0.0 );
+        shield_hp -= premitigated.amount;
+        set_var( "npctalk_var_ENERGY_SHIELD_HP", shield_hp );
+        if( shield_hp > 0 ) {
+            return armor_status::UNDAMAGED;
+        } else {
+            //Shields deliberately ignore the enchantment multiplier, as the health mechanic wouldn't make sense otherwise.
+            mod_damage( itype::damage_scale * 6 );
+            return armor_status::DESTROYED;
+        }
+    }
+
     if( has_flag( flag_UNBREAKABLE ) || enchant_multiplier <= 0.0f ) {
         return armor_status::UNDAMAGED;
     }
@@ -9055,8 +9070,9 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
-    // Fragile items take damage if the block more than 15% of their armor value
-    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
+    // Fragile items take damage if they block more than 15% of their armor value, this uses the pre-mitigated damage.
+    if( has_flag( flag_FRAGILE ) &&
+        premitigated.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
         return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
                armor_status::DAMAGED;
     }
@@ -10466,7 +10482,7 @@ const material_type &item::get_random_material() const
     std::vector<material_id> matlist;
     const std::map<material_id, int> &mats = made_of();
     matlist.reserve( mats.size() );
-    for( auto mat : mats ) {
+    for( const std::pair<const material_id, int> &mat : mats ) {
         matlist.emplace_back( mat.first );
     }
     return *random_entry( matlist, material_id::NULL_ID() );
@@ -10477,7 +10493,7 @@ const material_type &item::get_base_material() const
     const std::map<material_id, int> &mats = made_of();
     const material_type *m = &material_id::NULL_ID().obj();
     int portion = 0;
-    for( const std::pair<material_id, int> mat : mats ) {
+    for( const std::pair<const material_id, int> &mat : mats ) {
         if( mat.second > portion ) {
             portion = mat.second;
             m = &mat.first.obj();
@@ -10590,7 +10606,7 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
     int dispPerDamage = get_option< int >( "DISPERSION_PER_GUN_DAMAGE" );
     dispersion_sum += damage_level() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
-    if( with_ammo && ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         dispersion_sum += ammo_data()->ammo->dispersion_considering_length( barrel_length() );
     }
     if( !with_scaling ) {
@@ -10643,7 +10659,7 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
         ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
     }
 
-    if( with_ammo && ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         if( shot ) {
             ret.add( ammo_data()->ammo->shot_damage.di_considering_length( bl ) );
         } else {
@@ -10728,7 +10744,7 @@ int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) cons
     handling = std::pow( wt, 0.8 ) * std::pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
-    if( ammo_data() ) {
+    if( has_ammo() ) {
         qty += ammo_data()->ammo->recoil;
     }
 
@@ -10763,7 +10779,7 @@ int item::gun_range( bool with_ammo ) const
         ret += mod->type->gunmod->range;
         range_multiplier *= mod->type->gunmod->range_multiplier;
     }
-    if( with_ammo && ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         ret += ammo_data()->ammo->range;
         range_multiplier *= ammo_data()->ammo->range_multiplier;
     }
@@ -11179,6 +11195,56 @@ int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
     return ammo_consume( qty * ammo_required(), pos, carrier );
 }
 
+bool item::has_ammo() const
+{
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->has_ammo();
+    }
+
+    if( is_ammo() ) {
+        return true;
+    }
+
+    if( is_magazine() ) {
+        return !contents.empty();
+    }
+
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const item *e : mods ) {
+        if( !e->type->mod->ammo_modifier.empty() && e->has_ammo() ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool item::has_ammo_data() const
+{
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->has_ammo_data();
+    }
+
+    if( is_ammo() ) {
+        return true;
+    }
+
+    if( is_magazine() ) {
+        return !contents.empty();
+    }
+
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const item *e : mods ) {
+        if( !e->type->mod->ammo_modifier.empty() && e->has_ammo_data() ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const itype *item::ammo_data() const
 {
     const item *mag = magazine_current();
@@ -11350,7 +11416,7 @@ std::set<ammo_effect_str_id> item::ammo_effects( bool with_ammo ) const
     }
 
     std::set<ammo_effect_str_id> res = type->gun->ammo_effects;
-    if( with_ammo && ammo_data() ) {
+    if( with_ammo && has_ammo() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
 
@@ -12022,7 +12088,7 @@ bool item::flammable( int threshold ) const
 
     int flammability = 0;
     units::volume volume_per_turn = 0_ml;
-    for( const std::pair<material_id, int> m : mats ) {
+    for( const std::pair<const material_id, int> &m : mats ) {
         const mat_burn_data &bd = m.first->burn_data( 1 );
         if( bd.immune ) {
             // Made to protect from fire
@@ -13684,12 +13750,12 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     }
 
     // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                ( veh.global_square_location() + veh.coord_translate( mount ) ).raw(),
-                veh.global_square_location().raw() );
-    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                ( link().t_abs_pos + prev_veh->coord_translate( link().t_mount ) ).raw(),
-                link().t_abs_pos.raw() );
+    const std::pair<tripoint_abs_ms, tripoint_abs_ms> prev_part_target = std::make_pair(
+                veh.global_square_location() + veh.coord_translate( mount ),
+                veh.global_square_location() );
+    const std::pair<tripoint_abs_ms, tripoint_abs_ms> sel_part_target = std::make_pair(
+                link().t_abs_pos + prev_veh->coord_translate( link().t_mount ),
+                link().t_abs_pos );
 
     for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
         if( vpr.part().target.first == prev_part_target.first &&

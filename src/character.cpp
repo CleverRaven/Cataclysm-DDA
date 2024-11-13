@@ -1239,7 +1239,7 @@ ret_val<void> Character::can_try_dodge( bool ignore_dodges_left ) const
         add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
         return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
                                             :
-                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
+                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );
     }
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( get_dodges_left() <= 0 && !ignore_dodges_left ) {
@@ -3743,7 +3743,7 @@ int Character::smash_ability() const
         ret += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
     } else if( get_wielded_item() ) {
         ret += get_wielded_item()->damage_melee( damage_bash );
-        ret = calculate_by_enchantment( ret, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
+        ret = enchantment_cache->modify_melee_damage( damage_bash, ret );
     }
 
     if( !has_weapon() ) {
@@ -9799,7 +9799,7 @@ Character::moncam_cache_t Character::get_active_moncams() const
 {
     moncam_cache_t ret;
     for( monster const &mon : g->all_monsters() ) {
-        for( std::pair<mtype_id, int> const moncam : get_moncams() ) {
+        for( const std::pair<const mtype_id, int> &moncam : get_moncams() ) {
             if( mon.type->id == moncam.first && mon.friendly != 0 &&
                 rl_dist( get_avatar().get_location(), mon.get_location() ) < moncam.second ) {
                 ret.insert( { &mon, mon.get_location() } );
@@ -10058,7 +10058,7 @@ ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const
         return ret_val<crush_tool_type>::make_success( tool_type );
     } else {
         return ret_val<crush_tool_type>::make_failure( tool_type,
-                _( "You don't have the tools to crush frozen liquids." ) );;
+                _( "You don't have the tools to crush frozen liquids." ) );
     }
 }
 
@@ -11110,7 +11110,7 @@ void Character::stagger()
         const optional_vpart_position vp_there = here.veh_at( dest );
         if( vp_there ) {
             vehicle &veh = vp_there->vehicle();
-            if( veh.enclosed_at( dest.raw() ) ) {
+            if( veh.enclosed_at( dest ) ) {
                 blocked = true;
             }
         }

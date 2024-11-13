@@ -1249,6 +1249,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                            contains_weight() ) );
         info.emplace_back( weight_to_info( cont_type_str, _( " of " ),
                                            weight_capacity() ) );
+        info.back().bNewLine = true;
     } else {
         // With ammo_restriction, total capacity does not matter, but show current volume/weight
         info.emplace_back( vol_to_info( cont_type_str, _( "Volume: " ),

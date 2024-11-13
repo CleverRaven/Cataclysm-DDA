@@ -755,7 +755,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon->ammo_data() &&
+    } else if( weapon->has_ammo_data() &&
                !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon->tname(), weapon->ammo_current()->nname( 1 ) );

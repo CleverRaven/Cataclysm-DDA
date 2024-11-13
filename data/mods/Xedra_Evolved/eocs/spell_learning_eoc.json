@@ -57,6 +57,7 @@
     "id": "EOC_XE_QUEUE_LEVELING",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
+    "condition": { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" },
     "effect": [
       {
         "if": { "math": [ "xe_eater_leveling", ">", "0" ] },

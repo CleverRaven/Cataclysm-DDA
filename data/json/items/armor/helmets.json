@@ -587,7 +587,7 @@
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead", "head_crown", "head_ear_l", "head_ear_r" ],
-        "encumbrance": 5,
+        "encumbrance": 50,
         "coverage": 100
       },
       {
