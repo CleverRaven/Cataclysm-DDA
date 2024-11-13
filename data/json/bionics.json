@@ -921,7 +921,7 @@
     "id": "bio_faraday",
     "type": "bionic",
     "name": { "str": "Dielectric Capacitance System" },
-    "description": "Throughout your body lies a network of miniature piezoelectric capacitors which can be charged with bionic power to temporarily protect you from external electrical discharge.",
+    "description": "Throughout your body lies a network of miniature piezoelectric capacitors which can be charged with bionic power to temporarily protect you from external electrical discharge and repel EMP effects.",
     "occupied_bodyparts": [
       [ "torso", 8 ],
       [ "head", 2 ],
