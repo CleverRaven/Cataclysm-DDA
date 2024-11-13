@@ -39,11 +39,10 @@
   {
     "type": "terrain",
     "id": "t_wall_clearcrete_alarm",
-    "alias": [ "t_wall_clearcrete_h_alarm", "t_wall_clearcrete_v_alarm" ],
     "looks_like": "t_wall_glass",
     "name": "clearcrete wall",
     "description": "A barrier made of clearcrete, perfect for greenhouses but looks extremely fragile.  It is most definitely not fragile, and it's probably alarmed in the event of a breach.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_clearcrete_roof",

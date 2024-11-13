@@ -223,6 +223,7 @@
         "effects": [ { "id": "bleed", "duration": 60, "chance": 33, "intensity": 3, "affect_hit_bp": true } ],
         "dodgeable": true,
         "blockable": false,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s growls words of magic and your %2$s is impacted by a bolt of carmine energy!",
         "hit_dmg_npc": "%1$s growls words of magic and <npcname>'s %2$s is impacted by a bolt of carmine energy!",
         "miss_msg_u": "%1$s growls words of magic and you narrowly avoid a bolt of carmine energy!",
@@ -235,6 +236,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_bloodlust_spell" },
         "cooldown": 20,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s makes a frenzied cry and as they point, %3$s is surrounded by a red glow."
       }
     ],

@@ -40,13 +40,16 @@
       {
         "text": "Do you have anything that you'd like to sell?",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_TRADE",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ { "math": [ "n_npc_trust()", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
         }
       },
       {
@@ -54,9 +57,9 @@
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_EXODII_MISSION_WAREHOUSE",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] },
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -64,25 +67,25 @@
       {
         "text": "Where did you say you were going again?",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "What did you do before <the_cataclysm>?",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_BACKSTORY",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "Have you found anything out of the ordinary out in the wastes?",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
-            { "not": { "npc_has_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_camper_van_traveler_gave_directions" } ] } }
           ]
         },
         "effect": [
@@ -96,8 +99,8 @@
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
-            { "npc_has_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_camper_van_traveler_gave_directions" } ] }
           ]
         },
         "switch": true,
@@ -109,8 +112,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER",
     "dynamic_line": {
-      "npc_has_var": "dialogue_first_meeting_knows_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
       "yes": "<greet>",
       "no": {
         "gendered_line": "I didn't think anyone was around here.  Pleased to meet you, I'm <npc_name>.",
@@ -129,12 +131,12 @@
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "Good to meet you too.  What are you doing out here?",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -146,8 +148,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  <npc_name> considers for a moment",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": {
             "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
             "relevant_genders": [ "npc" ]
@@ -162,7 +163,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
@@ -174,26 +175,22 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
     "dynamic_line": {
-      "npc_has_var": "dialogue_travel_direction_travel_direction",
-      "value": "north",
+      "compare_string": [ "north", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
       "yes": {
         "gendered_line": "I'm going north, up towards the border and the big wide wilderness.  I heard that there's some sort of safe spot up there, where people didn't go crazy and try to kill each other.  I don't know whether or not that's true, but at the very least, the colder climate might help keep the <zombies> down.",
         "relevant_genders": [ "npc" ]
       },
       "no": {
-        "npc_has_var": "dialogue_travel_direction_travel_direction",
-        "value": "south",
+        "compare_string": [ "south", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
         "yes": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <swear> butt off when winter comes.",
         "no": {
-          "npc_has_var": "dialogue_travel_direction_travel_direction",
-          "value": "east",
+          "compare_string": [ "east", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
           "yes": {
             "gendered_line": "I'm going east, towards the coastline.  I heard some rumors that Rhode Island was still holding itself together, so I'm going to go and check that out.  Heck, I might just go out to sea myself, live on an old oil rig or something like that.",
             "relevant_genders": [ "npc" ]
           },
           "no": {
-            "npc_has_var": "dialogue_travel_direction_travel_direction",
-            "value": "west",
+            "compare_string": [ "west", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
             "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't <swear> collapsed, that someone's still holding on.",
             "no": "ERROR: DIRECTION PARAMETERS EITHER NOT PICKED OR OUT OF BOUNDS"
           }
@@ -258,7 +255,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
-            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "isherwood" } }
+            { "not": { "compare_string": [ "isherwood", { "npc_val": "camper_van_traveler_mission_directions" } ] } }
           ]
         },
         "effect": [
@@ -273,7 +270,9 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
-            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "chem_chabin" } }
+            {
+              "not": { "compare_string": [ "chem_chabin", { "npc_val": "camper_van_traveler_mission_directions" } ] }
+            }
           ]
         },
         "effect": [
@@ -288,7 +287,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
-            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "cowboy" } }
+            { "not": { "compare_string": [ "cowboy", { "npc_val": "camper_van_traveler_mission_directions" } ] } }
           ]
         },
         "effect": [

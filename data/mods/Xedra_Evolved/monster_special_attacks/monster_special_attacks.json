@@ -90,5 +90,19 @@
     "miss_msg_u": "%1$s tries to curse your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to curse and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
+  },
+  {
+    "id": "death_ratking",
+    "type": "SPELL",
+    "name": { "str": "Rat King Death" },
+    "description": "Rat king dies.",
+    "valid_targets": [ "hostile", "ally" ],
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "remove_effect",
+    "effect_str": "rat",
+    "min_range": 48,
+    "max_range": 48,
+    "extra_effects": [ { "id": "ratking_summon_rats", "hit_self": true } ]
   }
 ]

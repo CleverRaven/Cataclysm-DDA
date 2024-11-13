@@ -50,19 +50,19 @@
     "//": "todo: make it not reveal fungal towers and such? would require edits in reveal_map code, to accept blacklist of locations?",
     "condition": {
       "or": [
-        { "npc_has_var": "map_cache", "value": "has" },
-        { "npc_has_var": "map_cache", "value": "lack" },
-        { "npc_has_var": "map_cache", "value": "read" }
+        { "compare_string": [ "has", { "npc_val": "map_cache" } ] },
+        { "compare_string": [ "lack", { "npc_val": "map_cache" } ] },
+        { "compare_string": [ "read", { "npc_val": "map_cache" } ] }
       ]
     },
     "false_effect": [ { "npc_add_var": "map_cache", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_CHECK_MAP_CACHE" } ],
     "effect": [
       {
-        "if": { "npc_has_var": "map_cache", "value": "read" },
+        "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
         "then": [ { "u_message": "You already noted everything map application on this phone can offer." } ]
       },
       {
-        "if": { "npc_has_var": "map_cache", "value": "has" },
+        "if": { "compare_string": [ "has", { "npc_val": "map_cache" } ] },
         "then": [
           { "location_variable_adjust": { "npc_val": "spawn_location_omt" }, "z_adjust": 0, "z_override": true },
           { "reveal_map": { "npc_val": "spawn_location_omt" }, "radius": { "math": [ "rng(11, 36)" ] } },
@@ -71,7 +71,7 @@
         ]
       },
       {
-        "if": { "npc_has_var": "map_cache", "value": "lack" },
+        "if": { "compare_string": [ "lack", { "npc_val": "map_cache" } ] },
         "then": [ { "u_message": "Whoever used this phone didn't ever open their map application.  Worthless." } ]
       }
     ]

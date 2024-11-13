@@ -234,9 +234,11 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
 
         if( !_title.empty() ) {
             int pos_y = 0;
+            wattron( w_title_and_entry, _title_color );
             for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-                mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+                mvwprintw( w_title_and_entry, point( i, pos_y++ ), title_split[i] );
             }
+            wattroff( w_title_and_entry, _title_color );
             trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
         }
     }
@@ -667,4 +669,32 @@ void string_input_popup::add_callback( const std::string &action,
 void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )
 {
     callbacks.emplace_back( "", input, callback_func );
+}
+
+string_input_params string_input_params::parse_string_input_params( const JsonObject &jo )
+{
+    string_input_params p;
+    if( jo.has_member( "title" ) ) {
+        const JsonValue &jv_title = jo.get_member( "title" );
+        p.title = get_str_translation_or_var( jv_title, "" );
+    }
+    if( jo.has_member( "description" ) ) {
+        const JsonValue &jv_description = jo.get_member( "description" );
+        p.description = get_str_translation_or_var( jv_description, "" );
+    }
+    if( jo.has_member( "default_text" ) ) {
+        const JsonValue &jv_default_text = jo.get_member( "default_text" );
+        p.default_text = get_str_translation_or_var( jv_default_text, "" );
+    }
+    if( jo.has_int( "width" ) ) {
+        p.width = jo.get_int( "width" );
+    }
+    if( jo.has_member( "identifier" ) ) {
+        const JsonValue &jv_identifier = jo.get_member( "identifier" );
+        p.identifier = get_str_or_var( jv_identifier, "" );
+    }
+    if( jo.has_bool( "only_digits" ) ) {
+        p.only_digits = jo.get_bool( "only_digits" );
+    }
+    return p;
 }

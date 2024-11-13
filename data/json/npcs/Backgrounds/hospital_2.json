@@ -99,8 +99,7 @@
     "id": "BGSS_HOSPITAL_2_STORY4",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_BGSS_hospital_2_started_quest",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_BGSS_hospital_2_started_quest" } ],
       "no": {
         "gendered_line": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the cabin, but that's not important now.",
         "relevant_genders": [ "npc" ]
@@ -116,11 +115,11 @@
         "text": "Any chance you could point the way to that cabin for me?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_hospital_2_started_quest" } ] } },
             {
               "not": {
                 "and": [
-                  { "u_has_var": "general_BGSS_hospital_2_asked_about_quest", "value": "yes" },
+                  { "compare_string": [ "yes", { "u_val": "general_BGSS_hospital_2_asked_about_quest" } ] },
                   { "math": [ "time_since(u_timer_timers_hospital_2_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }

@@ -121,8 +121,7 @@ bool is_layer_visible( const std::map<tripoint_bub_ms, explosion_tile> &layer )
 //! Get p relative to u's current position and view
 tripoint_rel_ms relative_view_pos( const avatar &u, const tripoint_bub_ms &p ) noexcept
 {
-    return tripoint_rel_ms( p.raw() - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
-                            -u.posz() ) );
+    return p - u.pos_bub() - u.view_offset + point_rel_ms( POSX, POSY );
 }
 
 // Convert p to screen position relative to the current terrain view
@@ -145,30 +144,32 @@ void draw_explosion_curses( game &g, const tripoint_bub_ms &center, const int r,
     int frame = 0;
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
+        wattron( g.w_terrain, col );
         if( r == 0 ) {
-            mvwputch( g.w_terrain, point( p.y(), p.x() ), col, '*' );
+            mvwaddch( g.w_terrain, point( p.y(), p.x() ), '*' );
         }
 
         for( int i = 1; i <= frame; ++i ) {
             // corner: top left
-            mvwputch( g.w_terrain, p.xy().raw() + point( -i, -i ), col, '/' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( -i, -i ), '/' );
             // corner: top right
-            mvwputch( g.w_terrain, p.xy().raw() + point( i, -i ), col, '\\' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( i, -i ), '\\' );
             // corner: bottom left
-            mvwputch( g.w_terrain, p.xy().raw() + point( -i, i ), col, '\\' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( -i, i ), '\\' );
             // corner: bottom right
-            mvwputch( g.w_terrain, p.xy().raw() + point( i, i ), col, '/' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( i, i ), '/' );
             for( int j = 1 - i; j < 0 + i; j++ ) {
                 // edge: top
-                mvwputch( g.w_terrain, p.xy().raw() + point( j, -i ), col, '-' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( j, -i ), '-' );
                 // edge: bottom
-                mvwputch( g.w_terrain, p.xy().raw() + point( j, i ), col, '-' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( j, i ), '-' );
                 // edge: left
-                mvwputch( g.w_terrain, p.xy().raw() + point( -i, j ), col, '|' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( -i, j ), '|' );
                 // edge: right
-                mvwputch( g.w_terrain, p.xy().raw() + point( i, j ), col, '|' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( i, j ), '|' );
             }
         }
+        wattroff( g.w_terrain, col );
     } );
     g.add_draw_callback( explosion_cb );
 
@@ -806,6 +807,11 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     draw_line_curses( *this, temp );
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_trail", false );
 }
+void game::draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points )
+{
+    draw_line_curses( *this, points );
+    tilecontext->init_draw_line( p, points, "line_trail", false );
+}
 #else
 void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
@@ -816,6 +822,10 @@ void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points
         temp.emplace_back( tmp );
     }
     draw_line_curses( *this, temp );
+}
+void game::draw_line( const tripoint_bub_ms &/*p*/, const std::vector<tripoint_bub_ms> &points )
+{
+    draw_line_curses( *this, points );
 }
 #endif
 
@@ -881,9 +891,12 @@ namespace
 {
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
+    wattron( win, w.colGlyph );
+    const std::string symbol = w.get_symbol();
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
+        mvwprintw( win, point( drop.first, drop.second ), symbol );
     }
+    wattroff( win, w.colGlyph );
 }
 } //namespace
 
@@ -957,12 +970,10 @@ void draw_zones_curses( const catacurses::window &w, const tripoint_bub_ms &star
     }
 
     nc_color    const col = invert_color( c_light_green );
-    const std::string line( end.x() - start.x() + 1, '~' );
-    int         const x = start.x() - offset.x;
 
-    for( int y = start.y(); y <= end.y(); ++y ) {
-        mvwprintz( w, point( x, y - offset.y ), col, line );
-    }
+    wattron( w, col );
+    mvwrectf( w, ( start.raw() - offset ).xy(), '~', end.x() - start.x() + 1, end.y() - start.y() + 1 );
+    wattroff( w, col );
 }
 } //namespace
 

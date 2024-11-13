@@ -5,8 +5,16 @@
     "looks_like": "m79",
     "symbol": "(",
     "color": "green",
-    "name": { "str_sp": "M72 LAW" },
+    "name": { "str": "disposable rocket launcher" },
     "description": "A disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "LAW",
+        "name": { "str": "M72 LAW" },
+        "description": "The M72 LAW (Light Anti-armor Weapon) is a one-time use lightweight rocket launcher, meant to take out tanks and other armored vehicles.  Designed to replace the earlier Bazookas, it features a shaped-charge warhead to pierce armor.  Though weaker than the more modern and heavier AT4, it's still in service to this day.  Due to its design, you must unpack it to use it, and it cannot be reloaded.  This one is unpacked, and ready to fire."
+      }
+    ],
     "price": "2 kUSD",
     "//": "A tube with a lever.  Unsurprisingly, dirt cheap (at least for a rocket launcher).",
     "material": [ "aluminum" ],

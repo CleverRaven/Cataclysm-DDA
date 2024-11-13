@@ -888,6 +888,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CONFIRM_MULTIPLE",
+    "name": "Confirm and continue",
+    "bindings": [ { "input_method": "keyboard_any", "key": "SPACE" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_DEFAULT_MODS",
     "category": "MODMANAGER_DIALOG",
     "name": "Save mods as default",
@@ -1103,6 +1109,13 @@
   },
   {
     "type": "keybinding",
+    "id": "look",
+    "category": "OVERMAP",
+    "name": "Look around",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete note",
@@ -1194,6 +1207,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FAST_TRAVEL",
+    "category": "OVERMAP",
+    "name": "Toggle fast travel",
+    "bindings": [ { "input_method": "keyboard_char", "key": "x" }, { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle explored",
@@ -1226,6 +1246,20 @@
     "category": "OVERMAP",
     "name": "Teleport to cursor",
     "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REVEAL_MAP",
+    "category": "OVERMAP",
+    "name": "Reveal map",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MODIFY_HORDE",
+    "category": "OVERMAP",
+    "name": "Modify existing horde or place new one",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
     "type": "keybinding",
@@ -1594,22 +1628,22 @@
     "type": "keybinding",
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Change cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+    "name": "Change Cataclysm start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Change game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Reset scenario calendar",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1674,21 +1708,21 @@
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Change cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Change game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Reset scenario calendar",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1999,6 +2033,13 @@
     "category": "EDITMAP",
     "name": "Edit fields",
     "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_RADS",
+    "category": "EDITMAP",
+    "name": "Edit radiation",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",
@@ -2772,6 +2813,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View map",
+    "id": "map",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Look at the sky",
     "category": "DEFAULTMODE",
     "id": "sky"
@@ -2836,6 +2883,51 @@
   },
   {
     "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_DL_CONDITIONAL",
+    "name": "Toggle debug dialogue dynamic_line conditionals",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+C" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "c" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_RESP_CONDITIONAL",
+    "name": "Toggle debug dialogue response conditionals",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+D" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "d" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_DL_EFFECT",
+    "name": "Toggle debug dialogue dynamic_line effects",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+T" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "t" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_RESP_EFFECT",
+    "name": "Toggle debug dialogue response effects",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+Y" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE",
+    "name": "Toggle debug dialogue show hidden responses",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+R" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "r" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "RESET",
     "category": "CALENDAR_UI",
     "name": "Reset time point to initial value",
@@ -2859,7 +2951,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View temperature map (using Map font)",
+    "name": "View temperature map (using map font)",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
   },
@@ -3162,7 +3254,7 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Supernatural Abilities",
+    "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
@@ -4537,7 +4629,7 @@
     "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "SCROLL_DESC_DOWN",
-    "name": "Scroll item description Down",
+    "name": "Scroll item description down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {

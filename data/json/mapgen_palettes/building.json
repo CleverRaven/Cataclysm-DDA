@@ -41,10 +41,10 @@
         "default": {
           "distribution": [
             [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
             [ "t_wall_wood", 3 ],
             [ "t_concrete_wall", 4 ],
-            [ "t_adobe_brick_wall", 1 ]
+            [ "t_strconc_wall", 4 ],
+            [ "t_sconc_wall", 4 ]
           ]
         }
       }
@@ -69,6 +69,7 @@
         "t_door_c",
         [ "t_door_o", 2 ]
       ],
+      "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "o": "t_window"
     },
@@ -92,7 +93,8 @@
           [ "bile_field", 1 ],
           [ "null", 387 ]
         ]
-      }
+      },
+      "¶": { "chunks": [ [ "destroyed_glass_door_wall", 2 ], [ "null", 9 ] ] }
     },
     "toilets": { "t": {  } }
   }

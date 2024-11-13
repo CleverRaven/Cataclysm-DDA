@@ -37,8 +37,8 @@
         "afs_habitat_residential_furnishing",
         "afs_habblock_3_paramter_palette"
       ],
-      "terrain": { "5": "t_atm" },
       "furniture": {
+        "5": "f_atm",
         "1": "f_arcade_machine",
         "3": "f_washer",
         "4": "f_dryer",

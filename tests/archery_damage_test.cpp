@@ -17,6 +17,8 @@
 #include <string>
 
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "coordinate_constants.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -81,7 +83,7 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
     test_projectile.critical_multiplier = weapon.ammo_data()->ammo->critical_multiplier;
 
     dealt_projectile_attack attack {
-        test_projectile, nullptr, dealt_damage_instance(), tripoint_zero, accuracy_critical - 0.05
+        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms_zero, accuracy_critical - 0.05
     };
     if( !killable.empty() ) {
         test_projectile_attack( killable, true, attack, weapon_type );

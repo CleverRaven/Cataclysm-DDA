@@ -139,7 +139,7 @@
     "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
-    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+    "components": [ [ [ "nail", 1 ], [ "crude_bronze_nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1683,7 +1683,7 @@
       [ [ "clay_lump", 1 ] ],
       [ [ "material_sand", 113 ] ],
       [ [ "2x4", 2 ], [ "stick", 2 ] ],
-      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "super_glue", 4 ] ]
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "super_glue", 4 ], [ "crude_bronze_nail", 8 ] ]
     ]
   },
   {

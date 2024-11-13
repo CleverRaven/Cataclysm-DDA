@@ -102,6 +102,24 @@
     "flags": [ "ZERO_WEIGHT" ]
   },
   {
+    "type": "AMMO",
+    "id": "grappler_sinew",
+    "category": "spare_parts",
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
+    "name": { "str": "elastic sinew" },
+    "symbol": "=",
+    "color": "light_red",
+    "looks_like": "thread",
+    "description": "An elastic sinew cut from a corpse, usable as thread.",
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "weight": "1 g",
+    "ammo_type": "thread",
+    "count": 10,
+    "stack_size": 200
+  },
+  {
     "id": "glamour_charge",
     "type": "AMMO",
     "name": { "str_sp": "glamour charge" },

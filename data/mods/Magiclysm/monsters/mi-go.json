@@ -45,6 +45,7 @@
         "type": "spell",
         "spell_data": { "id": "migo_fleshwarper_blood_poison_spell", "min_level": 5 },
         "cooldown": 20,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s's numerous antennae move rhythmically for a moment."
       },
       {
@@ -52,6 +53,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "hit_self": true, "min_level": 15 },
         "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s's numerous antennae twitch in all directions for a moment."
       },
       {
@@ -59,6 +61,7 @@
         "type": "spell",
         "spell_data": { "id": "migo_fleshwarper_mutate", "min_level": 1 },
         "cooldown": 50,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "As %1$s touches %3$s, the flesh warps and twists!"
       }
     ],
@@ -119,6 +122,7 @@
         "type": "spell",
         "spell_data": { "id": "sorcerer_hand_monster", "min_level": 2 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s twitches its antennae at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -126,6 +130,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_anchor_monster", "min_level": 4 },
         "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       },
       {
@@ -133,6 +138,7 @@
         "type": "spell",
         "spell_data": { "id": "migo_nethermancer_summon_nether", "min_level": 0 },
         "cooldown": 40,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s's numerous antennae weave in a complicated pattern."
       },
       {
@@ -140,6 +146,7 @@
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 8 },
         "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s numerous antennae point directly at %3$s."
       }
     ],

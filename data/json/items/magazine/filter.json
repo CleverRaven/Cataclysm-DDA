@@ -22,7 +22,7 @@
     "type": "MAGAZINE",
     "category": "tool_magazine",
     "name": { "str": "CBRN filter canister" },
-    "description": "A cylindrical, black-finished filter canister packed with charcoal retained between dual particulate membranes, rated to protect against chemical weapons, nerve agents, biological contaminants, radioactive dust, and all manner of other unpleasant vapours or particles.  That is, though, only if you screw it into an appropriate respirator before hand and the charcoal isn't expired.",
+    "description": "A cylindrical, black-finished filter canister packed with charcoal retained between dual particulate membranes, rated to protect against chemical weapons, nerve agents, biological contaminants, radioactive dust, and all manner of other unpleasant vapors or particles.  That is, though, only if you screw it into an appropriate respirator before hand and the charcoal isn't expired.",
     "weight": "365 g",
     "volume": "910 ml",
     "longest_side": "111 mm",

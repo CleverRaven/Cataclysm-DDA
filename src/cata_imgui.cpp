@@ -1,16 +1,15 @@
 #include "cata_imgui.h"
 
-#include <stack>
-#include <type_traits>
-
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #undef IMGUI_DEFINE_MATH_OPERATORS
+#include <imgui/imgui_freetype.h>
 
 #include "color.h"
 #include "input.h"
 #include "output.h"
+#include "system_locale.h"
 #include "ui_manager.h"
 #include "input_context.h"
 
@@ -35,8 +34,39 @@ struct pairs {
     short BG;
 };
 
+ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
-std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
+std::array<pairs, 100> colorpairs;   //storage for paired colors
+
+static ImVec4 compute_color( uint8_t index )
+{
+    if( index < 16 ) {
+        RGBTuple &rgbCol = rgbPalette[index];
+        return { static_cast<float>( rgbCol.Red ) / 255.0f,
+                 static_cast<float>( rgbCol.Green ) / 255.0f,
+                 static_cast<float>( rgbCol.Blue ) / 255.0f,
+                 1.0f };
+    } else if( index < 232 ) {
+        static uint8_t colors[6] = {0, 95, 135, 175, 215, 255};
+        int i = index - 16;
+        int r = i / 36;
+        i -= 36 * r;
+        int g = i / 6;
+        i -= 6 * g;
+        int b = i;
+        return { static_cast<float>( colors[r] ) / 255.0f,
+                 static_cast<float>( colors[g] ) / 255.0f,
+                 static_cast<float>( colors[b] ) / 255.0f,
+                 1.0f };
+    } else {
+        static uint8_t gray[24] = {8, 18, 28, 38, 48, 58, 68, 78, 88, 98, 108, 118,
+                                   128, 138, 148, 158, 168, 178, 188, 198, 208, 218,
+                                   228, 238
+                                  };
+        float level = static_cast<float>( gray[index - 232] ) / 255.0f;
+        return { level, level, level, 1.0f };
+    }
+}
 
 ImVec4 cataimgui::imvec4_from_color( nc_color &color )
 {
@@ -47,11 +77,7 @@ ImVec4 cataimgui::imvec4_from_color( nc_color &color )
     if( color.is_bold() ) {
         palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
     }
-    RGBTuple &rgbCol = rgbPalette[palette_index];
-    return { static_cast<float>( rgbCol.Red / 255. ),
-             static_cast<float>( rgbCol.Green / 255. ),
-             static_cast<float>( rgbCol.Blue / 255. ),
-             static_cast<float>( 255. ) };
+    return impalette[palette_index];
 }
 
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
@@ -176,8 +202,10 @@ void cataimgui::client::process_input( void *input )
 
 void cataimgui::load_colors()
 {
-
     color_loader<RGBTuple>().load( rgbPalette );
+    for( int i = 0; i < 256; i++ ) {
+        impalette[i] = compute_color( i );
+    }
 }
 
 void cataimgui::init_pair( int p, int f, int b )
@@ -234,6 +262,11 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
+
+    ImGuiStyle &style = ImGui::GetStyle();
+    // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
+    ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
+
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
 }
@@ -255,24 +288,154 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
-void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+// NOLINTNEXTLINE(bugprone-suspicious-include)
+#include "cldr/imgui-glyph-ranges.cpp"
+
+static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::string &lang )
+{
+    // NOLINTBEGIN(bugprone-branch-clone)
+    if( lang == "en" ) {
+        AddGlyphRangesFromCLDRForEN( b );
+    } else if( lang == "ar" ) {
+        AddGlyphRangesFromCLDRForAR( b );
+    } else if( lang == "cs" ) {
+        AddGlyphRangesFromCLDRForCS( b );
+    } else if( lang == "da" ) {
+        AddGlyphRangesFromCLDRForDA( b );
+    } else if( lang == "de" ) {
+        AddGlyphRangesFromCLDRForDE( b );
+    } else if( lang == "el" ) {
+        AddGlyphRangesFromCLDRForEL( b );
+    } else if( lang == "es_AR" ) {
+        AddGlyphRangesFromCLDRForES( b );
+    } else if( lang == "es_ES" ) {
+        AddGlyphRangesFromCLDRForES( b );
+    } else if( lang == "fr" ) {
+        AddGlyphRangesFromCLDRForFR( b );
+    } else if( lang == "hu" ) {
+        AddGlyphRangesFromCLDRForHU( b );
+    } else if( lang == "id" ) {
+        AddGlyphRangesFromCLDRForID( b );
+    } else if( lang == "is" ) {
+        AddGlyphRangesFromCLDRForIS( b );
+    } else if( lang == "it_IT" ) {
+        AddGlyphRangesFromCLDRForIT( b );
+    } else if( lang == "ja" ) {
+        AddGlyphRangesFromCLDRForJA( b );
+    } else if( lang == "ko" ) {
+        AddGlyphRangesFromCLDRForKO( b );
+    } else if( lang == "nb" ) {
+        AddGlyphRangesFromCLDRForNB( b );
+    } else if( lang == "nl" ) {
+        AddGlyphRangesFromCLDRForNL( b );
+    } else if( lang == "pl" ) {
+        AddGlyphRangesFromCLDRForPL( b );
+    } else if( lang == "pt" ) {
+        AddGlyphRangesFromCLDRForPT( b );
+    } else if( lang == "pt_BR" ) {
+        AddGlyphRangesFromCLDRForPT( b );
+    } else if( lang == "ru" ) {
+        AddGlyphRangesFromCLDRForRU( b );
+    } else if( lang == "sr" ) {
+        AddGlyphRangesFromCLDRForSR( b );
+    } else if( lang == "tr" ) {
+        AddGlyphRangesFromCLDRForTR( b );
+    } else if( lang == "uk_UA" ) {
+        AddGlyphRangesFromCLDRForUK_UA( b );
+    } else if( lang == "zh_CN" ) {
+        AddGlyphRangesFromCLDRForZH_HANT( b );
+    } else if( lang == "zh_TW" ) {
+        AddGlyphRangesFromCLDRForZH_HANS( b );
+    }
+    // NOLINTEND(bugprone-branch-clone)
+}
+
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
+static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
+{
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+    static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
+    b->AddRanges( &superscripts[0] );
+}
+
+static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces,
+                       const ImWchar *ranges )
+{
+    std::vector<std::string> io_typefaces{ typefaces };
+    ensure_unifont_loaded( io_typefaces );
+
+    auto it = std::find_if( io_typefaces.begin(),
+                            io_typefaces.end(),
+    []( const std::string & io_typeface ) {
+        return file_exist( io_typeface );
+    } );
+    std::string existing_typeface = *it;
+    ImFontConfig config = ImFontConfig();
+#ifdef IMGUI_ENABLE_FREETYPE
+    if( existing_typeface.find( "Terminus.ttf" ) != std::string::npos ||
+        existing_typeface.find( "unifont.ttf" ) != std::string::npos ) {
+        config.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint;
+    }
+#endif
+
+    io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, &config, ranges );
+}
+
+static void check_font( const ImFont *font )
+{
+    if( !font || !font->IsLoaded() ) {
+        // we can’t use debugmsg or cata_fatal because they trigger a new ImGui frame
+        // NOLINTNEXTLINE(cert-err33-c)
+        fprintf( stderr,
+                 "Failed to create font atlas!  Make sure that your chosen "
+                 "font exists, can be read, and has glyphs for your chosen "
+                 "language.\n" );
+        // NOLINTNEXTLINE(cata-assert)
+        std::abort();
+    }
+}
+
+void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
+                                    const Font_Ptr &mono_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                                    const std::vector<std::string> &gui_typefaces, const std::vector<std::string> &mono_typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        std::vector<std::string> typefaces;
-        ensure_unifont_loaded( typefaces );
-
         for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
             SDL_Color sdlCol = windowsPalette[index];
             ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
             sdlColorsToCata[rgb] = index;
         }
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( typefaces[0].c_str(), fontheight, nullptr,
-                         io.Fonts->GetGlyphRangesDefault() );
+
+        std::string lang = get_option<std::string>( "USE_LANG" );
+        if( lang.empty() ) {
+            lang = SystemLocale::Language().value_or( "en" );
+        }
+        ImFontGlyphRangesBuilder b = {};
+        b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
+        AddGlyphRangesFromCLDR( &b, lang );
+        AddGlyphRangesMisc( &b );
+        ImVector<ImWchar> ranges;
+        b.BuildRanges( &ranges );
+
+        load_font( io, gui_typefaces, ranges.begin() );
+        load_font( io, mono_typefaces, ranges.begin() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
         io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        io.Fonts->Fonts[1]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
+        io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
+        io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        io.Fonts->Build();
+        check_font( io.Fonts->Fonts[0] );
+        check_font( io.Fonts->Fonts[1] );
+        ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
             point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
@@ -281,7 +444,7 @@ void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
             if( it != sdlColorsToCata.end() ) {
                 col = it->second;
             }
-            cata_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
+            mono_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
         } );
     }
 }
@@ -291,12 +454,110 @@ cataimgui::client::~client()
     ImGui_ImplSDL2_Shutdown();
 }
 
+#if 0 and not TUI
+struct FreeTypeTest {
+    enum FontBuildMode { FontBuildMode_FreeType, FontBuildMode_Stb };
+
+    FontBuildMode   BuildMode = FontBuildMode_FreeType;
+    bool            WantRebuild = true;
+    float           RasterizerMultiply = 1.0f;
+    unsigned int    FreeTypeBuilderFlags = 0;
+
+    // Call _BEFORE_ NewFrame()
+    bool PreNewFrame() {
+        if( !WantRebuild ) {
+            return false;
+        }
+
+        ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+        for( int n = 0; n < atlas->ConfigData.Size; n++ ) {
+            ( static_cast<ImFontConfig *>( &atlas->ConfigData[n] ) )->RasterizerMultiply = RasterizerMultiply;
+        }
+
+        // Allow for dynamic selection of the builder.
+        // In real code you are likely to just define IMGUI_ENABLE_FREETYPE and never assign to FontBuilderIO.
+#ifdef IMGUI_ENABLE_FREETYPE
+        if( BuildMode == FontBuildMode_FreeType ) {
+            atlas->FontBuilderIO = ImGuiFreeType::GetBuilderForFreeType();
+            atlas->FontBuilderFlags = FreeTypeBuilderFlags;
+        }
+#endif
+#ifdef IMGUI_ENABLE_STB_TRUETYPE
+        if( BuildMode == FontBuildMode_Stb ) {
+            atlas->FontBuilderIO = ImFontAtlasGetBuilderForStbTruetype();
+            atlas->FontBuilderFlags = 0;
+        }
+#endif
+        atlas->Build();
+        WantRebuild = false;
+        return true;
+    }
+
+    // Call to draw UI
+    void ShowFontsOptionsWindow() {
+        ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+
+        ImGui::Begin( "FreeType Options" );
+        ImGui::ShowFontSelector( "Fonts" );
+        WantRebuild |= ImGui::RadioButton( "FreeType", reinterpret_cast<int *>( &BuildMode ),
+                                           FontBuildMode_FreeType );
+        ImGui::SameLine();
+        WantRebuild |= ImGui::RadioButton( "Stb (Default)", reinterpret_cast<int *>( &BuildMode ),
+                                           FontBuildMode_Stb );
+        WantRebuild |= ImGui::DragInt( "TexGlyphPadding", &atlas->TexGlyphPadding, 0.1f, 1, 16 );
+        WantRebuild |= ImGui::DragFloat( "RasterizerMultiply", &RasterizerMultiply, 0.001f, 0.0f, 2.0f );
+        ImGui::Separator();
+
+        if( BuildMode == FontBuildMode_FreeType ) {
+#ifndef IMGUI_ENABLE_FREETYPE
+            ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: FreeType builder not compiled!" );
+#endif
+            WantRebuild |= ImGui::CheckboxFlags( "NoHinting", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_NoHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "NoAutoHint", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_NoAutoHint );
+            WantRebuild |= ImGui::CheckboxFlags( "ForceAutoHint", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_ForceAutoHint );
+            WantRebuild |= ImGui::CheckboxFlags( "LightHinting", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_LightHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "MonoHinting", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_MonoHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "Bold", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_Bold );
+            WantRebuild |= ImGui::CheckboxFlags( "Oblique", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_Oblique );
+            WantRebuild |= ImGui::CheckboxFlags( "Monochrome", &FreeTypeBuilderFlags,
+                                                 ImGuiFreeTypeBuilderFlags_Monochrome );
+        }
+
+        if( BuildMode == FontBuildMode_Stb ) {
+#ifndef IMGUI_ENABLE_STB_TRUETYPE
+            ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: stb_truetype builder not compiled!" );
+#endif
+        }
+        ImGui::End();
+    }
+};
+
+FreeTypeTest freetype_test;
+#endif
+
 void cataimgui::client::new_frame()
 {
+#if 0 and not TUI
+    if( freetype_test.PreNewFrame() ) {
+        // REUPLOAD FONT TEXTURE TO GPU
+        ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
+        ImGui_ImplSDLRenderer2_CreateDeviceObjects();
+    }
+#endif
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
 
     ImGui::NewFrame();
+#if 0 and not TUI
+    freetype_test.ShowFontsOptionsWindow();
+#endif
 }
 
 void cataimgui::client::end_frame()
@@ -413,6 +674,40 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
     }
 }
 
+/**
+ * Scrolls the current ImGui window by a scroll action
+ *
+ * Setting scroll needs to happen before drawing contents for page scroll to work properly
+ * @param s an enum for the currently pending scroll action
+ */
+void cataimgui::set_scroll( scroll &s )
+{
+    int scroll_px = 0;
+    int line_height = ImGui::GetTextLineHeightWithSpacing();
+    int page_height = ImGui::GetContentRegionAvail().y;
+
+    switch( s ) {
+        case scroll::none:
+            break;
+        case scroll::line_up:
+            scroll_px = -line_height;
+            break;
+        case scroll::line_down:
+            scroll_px = line_height;
+            break;
+        case scroll::page_up:
+            scroll_px = -page_height;
+            break;
+        case scroll::page_down:
+            scroll_px = page_height;
+            break;
+    }
+
+    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+
+    s = scroll::none;
+}
+
 void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
@@ -433,9 +728,15 @@ void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
 void cataimgui::draw_colored_text( std::string const &text,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
+    if( text.empty() ) {
+        ImGui::NewLine();
+        return;
+    }
+
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
+
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
@@ -524,8 +825,7 @@ cataimgui::window::window( int window_flags )
 
     this->window_flags = window_flags | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
                          ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus |
-                         ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar |
-                         ImGuiWindowFlags_NoScrollWithMouse;
+                         ImGuiWindowFlags_NoBringToFrontOnFocus;
 }
 
 cataimgui::window::window( const std::string &id_, int window_flags ) : window( window_flags )
@@ -581,7 +881,7 @@ size_t cataimgui::window::str_width_to_pixels( size_t len )
 
 size_t cataimgui::window::str_height_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * len;
 #else
     return len;
@@ -725,4 +1025,35 @@ void cataimgui::window::clear_filter()
             filter_impl->text[0] = '\0';
         }
     }
+}
+
+void cataimgui::PushGuiFont()
+{
+#ifdef TILES
+    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[0] );
+#endif
+}
+
+void cataimgui::PushMonoFont()
+{
+#ifdef TILES
+    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[1] );
+#endif
+}
+
+bool cataimgui::BeginRightAlign( const char *str_id )
+{
+    if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
+        ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch );
+
+        ImGui::TableNextColumn();
+        ImGui::TableNextColumn();
+        return true;
+    }
+    return false;
+}
+
+void cataimgui::EndRightAlign()
+{
+    ImGui::EndTable();
 }

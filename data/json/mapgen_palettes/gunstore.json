@@ -73,11 +73,11 @@
       "<": "t_stairs_up",
       ";": "t_gutter_downspout",
       "W": "t_strconc_wall",
-      "$": "t_atm",
       "Z": "t_bars",
       "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" }
     },
     "furniture": {
+      "$": "f_atm_off",
       "C": "f_counter",
       "R": "f_counter",
       "3": "f_counter",
@@ -118,7 +118,7 @@
     "item": { "/": { "item": "american_flag" } },
     "items": {
       "X": { "item": "SUS_gunstore_safe", "chance": 50, "repeat": [ 10, 20 ] },
-      "O": { "item": "SUS_gunstore_safe_obscure", "chance": 75, "repeat": [ 3, 6 ] },
+      "O": { "item": "guns_common_display", "chance": 75, "repeat": [ 3, 6 ] },
       "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
       "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
       "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
@@ -139,7 +139,7 @@
         "item": {
           "//": "civilian magazines kept on racks behind the counter in the FoH",
           "subtype": "collection",
-          "entries": [ { "group": "mags_common_gunstore", "prob": 70 }, { "group": "mags_pistol_rare", "prob": 30 } ]
+          "entries": [ { "group": "mags_common", "prob": 70 }, { "group": "mags_common", "prob": 30 } ]
         },
         "repeat": 15,
         "chance": 65

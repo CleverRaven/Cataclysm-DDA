@@ -8,7 +8,7 @@
     },
     "responses": [
       { "text": "Okay, please continue.", "topic": "BGSS_CODGER_STORY2" },
-      { "text": "On second thought, let's talk about something else.", "topic": "BGSS_CODGER_STORY2" }
+      { "text": "<done_conversation_section>", "topic": "BGSS_CODGER_STORY2" }
     ]
   },
   {
@@ -18,7 +18,7 @@
     "responses": [
       { "text": "Fireflies.  Got it.", "topic": "BGSS_CODGER_STORY3a" },
       { "text": "How does this relate to what I asked you?", "topic": "BGSS_CODGER_STORY3b" },
-      { "text": "I need to get going.", "topic": "BGSS_CODGER_STORY3b" }
+      { "text": "<end_talking_leave>", "topic": "BGSS_CODGER_STORY3b" }
     ]
   },
   {

@@ -68,11 +68,39 @@
   },
   {
     "type": "fault_fix",
+    "id": "mend_fault_fail_to_feed_manual_feed",
+    "name": "Manual cycle",
+    "success_msg": "You manually cycle your %s to put round in the chamber.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_fail_to_feed" ]
+  },
+  {
+    "type": "fault_fix",
     "id": "mend_fault_gun_chamber_spent_eject",
     "name": "Eject spent casing",
-    "success_msg": "You eject the spent casing from the %s.",
-    "time": "1 s",
+    "success_msg": "You eject the spent casing from the %s's chamber.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
     "faults_removed": [ "fault_gun_chamber_spent" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_stovepipe_eject",
+    "name": "Eject spent casing",
+    "success_msg": "You eject the spent casing, stuck in %s's slide.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_stovepipe" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_double_feed_clean",
+    "name": "Clean double feed",
+    "success_msg": "You eject the second round stuck in %s's chamber.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_double_feed" ]
   },
   {
     "type": "fault_fix",

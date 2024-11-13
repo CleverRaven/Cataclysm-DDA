@@ -16,7 +16,7 @@
   {
     "id": "real_maces",
     "type": "requirement",
-    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independantly swing (those are flails).",
+    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independently swing (those are flails).",
     "extend": {
       "tools": [ [ [ "mace_plus_one", -1 ], [ "mace_plus_two", -1 ], [ "morningstar_plus_one", -1 ], [ "morningstar_plus_two", -1 ] ] ]
     }
@@ -92,7 +92,7 @@
   {
     "id": "real_hooks",
     "type": "requirement",
-    "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
+    "//": "Any quality weapon designed to hook your opponents and their gear in a fight.  Reserved for the good stuff.",
     "extend": {
       "tools": [
         [
@@ -186,7 +186,7 @@
   {
     "id": "basic_knives",
     "type": "requirement",
-    "//": "Any small close-range stabbing weapons.  Not explicity designed for combat.",
+    "//": "Any small close-range stabbing weapons.  Not explicitly designed for combat.",
     "extend": { "tools": [ [ [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ] ] }
   },
   {

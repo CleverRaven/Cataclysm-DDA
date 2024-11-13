@@ -105,21 +105,7 @@
                     { "u_is_on_terrain": "t_dirtfloor_thatchroof" }
                   ]
                 },
-                {
-                  "or": [
-                    { "u_near_om_location": "road_curved", "range": 1 },
-                    { "u_near_om_location": "road_four_way", "range": 1 },
-                    { "u_near_om_location": "road_tee", "range": 1 },
-                    { "u_near_om_location": "road_straight", "range": 1 },
-                    { "u_near_om_location": "road_end", "range": 1 },
-                    { "u_near_om_location": "road_sw", "range": 1 },
-                    { "u_near_om_location": "road_ne", "range": 1 },
-                    { "u_near_om_location": "road_ew", "range": 1 },
-                    { "u_near_om_location": "road_ns", "range": 1 },
-                    { "u_near_om_location": "road_nesw", "range": 1 },
-                    { "u_near_om_location": "road", "range": 1 }
-                  ]
-                }
+                { "u_near_om_location": "road", "range": 1 }
               ]
             }
           ]
@@ -161,16 +147,6 @@
         {
           "and": [
             { "not": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" } },
-            { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-            { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-            { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-            { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-            { "not": { "u_near_om_location": "road_end", "range": 1 } },
-            { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-            { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
             { "not": { "u_near_om_location": "road", "range": 1 } }
           ]
         },
@@ -339,10 +315,6 @@
             { "u_near_om_location": "river_c_not_nw", "range": 1 },
             { "u_near_om_location": "river_c_not_se", "range": 1 },
             { "u_near_om_location": "river_c_not_sw", "range": 1 },
-            { "u_near_om_location": "river_ne", "range": 1 },
-            { "u_near_om_location": "river_se", "range": 1 },
-            { "u_near_om_location": "river_sw", "range": 1 },
-            { "u_near_om_location": "river_nw", "range": 1 },
             { "u_near_om_location": "lake_shore", "range": 1 },
             { "u_near_om_location": "lake_surface", "range": 1 }
           ]
@@ -396,10 +368,6 @@
             { "u_at_om_location": "river_c_not_nw" },
             { "u_at_om_location": "river_c_not_se" },
             { "u_at_om_location": "river_c_not_sw" },
-            { "u_at_om_location": "river_ne" },
-            { "u_at_om_location": "river_se" },
-            { "u_at_om_location": "river_sw" },
-            { "u_at_om_location": "river_nw" },
             { "u_at_om_location": "lake_shore" },
             { "u_at_om_location": "lake_surface" }
           ]

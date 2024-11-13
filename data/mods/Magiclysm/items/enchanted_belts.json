@@ -23,7 +23,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY", "OVERSIZE" ],
     "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },

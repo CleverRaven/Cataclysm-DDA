@@ -63,7 +63,8 @@
         "    |*=........c..6|    ",
         "    |----:--+-:----|4   "
       ],
-      "palettes": [ "shelter" ]
+      "palettes": [ "shelter" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 15 ] } ]
     }
   },
   {
@@ -134,7 +135,8 @@
         "    |..........|>.l|4   ",
         "    |----:--+-:----|    "
       ],
-      "palettes": [ "shelter" ]
+      "palettes": [ "shelter" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 13, 15 ] } ]
     }
   },
   {
@@ -205,7 +207,8 @@
         "   |--------|......c|   ",
         "            |-:-+-:-|   "
       ],
-      "palettes": [ "shelter" ]
+      "palettes": [ "shelter" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 11, 13 ] } ]
     }
   },
   {
@@ -276,7 +279,8 @@
         "    |*=........c..x|    ",
         "    |----:--+-:----|4   "
       ],
-      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
+      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 15 ] } ]
     }
   },
   {
@@ -311,7 +315,8 @@
         "    |..........|>.l|4   ",
         "    |----:--+-:----|    "
       ],
-      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
+      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 13, 15 ] } ]
     }
   },
   {
@@ -346,7 +351,8 @@
         "   |--------|......c|   ",
         "            |-:-+-:-|   "
       ],
-      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ]
+      "palettes": [ { "distribution": [ [ "shelter_used", 10 ], [ "shelter_vandal", 10 ] ] } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 11 ] } ]
     }
   },
   {
@@ -381,7 +387,8 @@
         "    |*=.bbb..bbc..6|    ",
         "    |----:--+-:----|4   "
       ],
-      "palettes": [ "shelter_survivor" ]
+      "palettes": [ "shelter_survivor" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 11, 15 ] } ]
     }
   },
   {
@@ -416,7 +423,8 @@
         "    |...bbb..bb|>.l|4   ",
         "    |----:--+-:----|    "
       ],
-      "palettes": [ "shelter_survivor" ]
+      "palettes": [ "shelter_survivor" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 12, 16 ] } ]
     }
   },
   {
@@ -451,7 +459,8 @@
         "   |--------|bbb...c|   ",
         "            |-:-+-:-|   "
       ],
-      "palettes": [ "shelter_survivor" ]
+      "palettes": [ "shelter_survivor" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 11 ] } ]
     }
   },
   {
@@ -487,7 +496,8 @@
         "    |..............|    ",
         "    |----:--+-:----|    "
       ],
-      "palettes": [ "shelter_unfinished" ]
+      "palettes": [ "shelter_unfinished" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 15 ] } ]
     }
   },
   {
@@ -523,7 +533,8 @@
         "    |..........|>..|    ",
         "    |----:--+-:----|    "
       ],
-      "palettes": [ "shelter_unfinished" ]
+      "palettes": [ "shelter_unfinished" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 13, 16 ] } ]
     }
   },
   {
@@ -559,7 +570,8 @@
         "   |--------|.......|   ",
         "            |-:-+-:-|   "
       ],
-      "palettes": [ "shelter_unfinished" ]
+      "palettes": [ "shelter_unfinished" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 12, 14 ] } ]
     }
   },
   {
@@ -596,6 +608,7 @@
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter_infested" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 15, 18 ] } ],
       "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 8 ] } ]
     }
   },
@@ -633,6 +646,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter_infested" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 12, 15 ] } ],
       "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 8 ] } ]
     }
   },
@@ -670,6 +684,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter_infested" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 9, 10 ] } ],
       "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 8 ] } ]
     }
   },

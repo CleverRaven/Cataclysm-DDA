@@ -144,7 +144,7 @@ enum class group : int {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    sleepiness         //SFX related to sleepiness
+    low_stamina         //SFX related to low_stamina
 };
 
 void load_sound_effects( const JsonObject &jsobj );
@@ -196,7 +196,7 @@ void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const Character &target, bool death );
-void do_sleepiness();
+void do_low_stamina_sfx();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx

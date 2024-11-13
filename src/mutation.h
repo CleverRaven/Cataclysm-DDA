@@ -17,8 +17,10 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "sleep.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -112,7 +114,7 @@ struct mut_personality_score {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( dialogue & )>trigger;
+    std::function<bool( const_dialogue const & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -197,6 +199,7 @@ struct mutation_branch {
         bool mixed_effect  = false;
         bool startingtrait = false;
         bool activated     = false;
+        translation activation_msg;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
         // Should it destroy gear on restricted body parts? (otherwise just pushes it off)
@@ -207,6 +210,7 @@ struct mutation_branch {
         bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
@@ -285,6 +289,9 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
 
         struct OverrideLook {
             std::string id;
@@ -560,8 +567,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-int get_total_nonbad_in_category( const mutation_category_id &categ );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

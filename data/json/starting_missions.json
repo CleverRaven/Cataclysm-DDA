@@ -631,11 +631,11 @@
     "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
     "type": "mission_definition",
     "name": { "str": "Find Antibiotics Before You Die!" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "strong_antibiotic" }, { "u_has_item": "antibiotic" }, { "u_has_item": "weak_antibiotic" } ] },
     "difficulty": 1,
     "value": 0,
-    "origins": [ "ORIGIN_GAME_START" ],
-    "item": "antibiotics"
+    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_HELICOPTER_REFUEL",

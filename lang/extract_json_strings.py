@@ -24,6 +24,9 @@ parser.add_option("-X", "--exclude", dest="exclude",
 parser.add_option("-x", "--exclude_dir", dest="exclude_dir",
                   action="append", type="str",
                   help="exclude directories")
+parser.add_option("-D", "--obsolete_paths", dest="obsolete_paths",
+                  action="append", type="str",
+                  help="obsolete directories or files")
 
 (options, args) = parser.parse_args()
 
@@ -45,6 +48,9 @@ exclude = [os.path.normpath(i) for i in options.exclude] \
 
 exclude_dir = [os.path.normpath(i) for i in options.exclude_dir] \
     if options.exclude_dir else []
+
+obsolete_paths = [os.path.normpath(i) for i in options.obsolete_paths] \
+    if options.obsolete_paths else []
 
 
 def extract_all_from_dir(json_dir):
@@ -72,7 +78,9 @@ def main():
         extract_all_from_dir(i)
 
     with open(options.output, mode="w", encoding="utf-8") as fp:
-        write_to_pot(fp, True, options.name, sanitize=options.reference)
+        write_to_pot(fp, True, options.name,
+                     sanitize=options.reference,
+                     obsolete_paths=obsolete_paths)
 
 
 main()

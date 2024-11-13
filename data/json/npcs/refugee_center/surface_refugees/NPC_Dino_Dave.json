@@ -6,8 +6,7 @@
       "concatenate": [
         "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.",
         {
-          "u_has_var": "dialogue_dave_u_cardboard_gift",
-          "value": "finished",
+          "compare_string": [ "finished", { "u_val": "dialogue_dave_u_cardboard_gift" } ],
           "yes": "  \"We hope our gift to you will help repay our great debt.\"",
           "no": "  \"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\""
         }
@@ -23,7 +22,7 @@
         "effect": [ { "u_add_var": "dialogue_dave_u_cardboard_gift", "value": "finished" } ],
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" },
+            { "compare_string": [ "in_progress", { "u_val": "dialogue_dave_u_cardboard_gift" } ] },
             { "math": [ "time_since(u_timer_dave_creating_gift)", ">", "time('1 d')" ] }
           ]
         }
@@ -80,8 +79,8 @@
         ],
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_dave_u_cardboard_gift", "value": "finished" } },
-            { "not": { "u_has_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" } }
+            { "not": { "compare_string": [ "finished", { "u_val": "dialogue_dave_u_cardboard_gift" } ] } },
+            { "not": { "compare_string": [ "in_progress", { "u_val": "dialogue_dave_u_cardboard_gift" } ] } }
           ]
         }
       },

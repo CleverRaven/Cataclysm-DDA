@@ -123,7 +123,8 @@
     ],
     "name": "canyon",
     "sym": "V",
-    "color": "light_gray"
+    "color": "light_gray",
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",

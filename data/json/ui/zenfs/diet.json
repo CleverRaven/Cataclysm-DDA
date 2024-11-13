@@ -80,7 +80,7 @@
       },
       {
         "id": "normal",
-        "text": " ",
+        "text": { "str": " ", "//~": "NO_I18N" },
         "color": "black",
         "//": "3-5 points of BMI from fat (12-20% of body weight is fat)",
         "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }

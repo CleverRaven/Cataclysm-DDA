@@ -75,6 +75,9 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
 
 ui_adaptor::~ui_adaptor()
 {
+    if( is_shutting_down ) {
+        return;
+    }
     if( is_debug_message_ui ) {
         cata_assert( showing_debug_message );
         showing_debug_message = false;
@@ -306,6 +309,11 @@ void ui_adaptor::reset()
     position( point_zero, point_zero );
 }
 
+void ui_adaptor::shutdown()
+{
+    is_shutting_down = true;
+}
+
 void ui_adaptor::invalidate( const rectangle<point> &rect, const bool reenable_uis_below )
 {
     if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
@@ -465,9 +473,9 @@ void ui_adaptor::redraw_invalidated( )
 
     // if any ImGui window needed to calculate the size of its contents,
     //  it needs an extra frame to draw. We do that here.
-    if( imclient->auto_size_frame_active() ) {
-        redraw_invalidated();
-    }
+    // if( imclient->auto_size_frame_active() ) {
+    //     redraw_invalidated();
+    // }
 }
 
 void ui_adaptor::screen_resized()
@@ -521,6 +529,13 @@ void invalidate_all_ui_adaptors()
 {
     for( ui_adaptor &adaptor : ui_stack ) {
         adaptor.invalidate_ui();
+    }
+}
+
+void reset()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.shutdown();
     }
 }
 } // namespace ui_manager

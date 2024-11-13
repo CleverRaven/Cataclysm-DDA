@@ -73,7 +73,6 @@
       "R": "t_concrete_railing",
       "!": "t_ticket_vendor",
       "i": "t_ticket_machine",
-      "$": "t_atm",
       "-": "t_gate_metal_c",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
@@ -83,6 +82,7 @@
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "furniture": {
+      "$": "f_atm_off",
       "z": "f_water_heater_family",
       "b": "f_metal_bench",
       "B": "f_bench",

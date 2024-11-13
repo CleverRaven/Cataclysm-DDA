@@ -2,7 +2,7 @@
 
 For ease of balancing, all aftershock weapons are separated into three abstract and gamified categories: light weapons, medium weapons and heavy weapons. Where a weapon belongs among these three categories depends on its raw damage output  as defined on the weapon/ammo json definitions.
 
-Ideally the mod shouldn't have wepons that exist merely as stat block variations of each other, if you have a weapon idea and you cant get it to play differently from others, its better if you convert it into a variant and spawn it with some integrated mods.
+Ideally the mod shouldn't have weapons that exist merely as stat block variations of each other, if you have a weapon idea and you can't get it to play differently from others, its better if you convert it into a variant and spawn it with some integrated mods.
 
 ##  Weapon types
 

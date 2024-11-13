@@ -37,8 +37,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_started_rubik_intro",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ],
       "yes": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.\"\n\n[TRANSLATE:] \"You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.",
       "no": "Oy, c'n I bark you summat first?\"\n\n[TRANSLATE:] \"Hey, can I ask you something first?"
     }

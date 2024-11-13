@@ -109,8 +109,8 @@
   {
     "id": "LTNT_LIFE_DRAIN",
     "type": "SPELL",
-    "name": { "str": "Life Drain" },
-    "description": "When even the grass rises against you, what hope do you have?",
+    "name": { "str": "Life Drain", "//~": "NO_I18N" },
+    "description": { "str": "When even the grass rises against you, what hope do you have?", "//~": "NO_I18N" },
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "hostile" ],
     "shape": "blast",
@@ -125,8 +125,11 @@
   {
     "id": "LTNT_attract_nearby",
     "type": "SPELL",
-    "name": { "str": "Visual Sundering" },
-    "description": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
+    "name": { "str": "Visual Sundering", "//~": "NO_I18N" },
+    "description": {
+      "str": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],
     "shape": "blast",
@@ -360,7 +363,7 @@
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
-      { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
+      { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
     ],
     "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
   },
@@ -420,8 +423,8 @@
     "type": "SPELL",
     "//": "This is a hack because npc_die is not working(?!) for EOC_KILL_SHADOW",
     "id": "BEGONE_SHADOW",
-    "name": { "str": "BEGONE_SHADOW" },
-    "description": "BEGONE_SHADOW.",
+    "name": { "str": "BEGONE_SHADOW", "//~": "NO_I18N" },
+    "description": { "str": "BEGONE_SHADOW.", "//~": "NO_I18N" },
     "valid_targets": [ "ground", "self" ],
     "base_casting_time": 0,
     "min_damage": 1000,
@@ -470,7 +473,7 @@
         "target_min_radius": 0,
         "target_max_radius": 60
       },
-      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
+      { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
       { "u_message": "…but it grows more distant for now.", "type": "good" }
     ]
   },
@@ -488,7 +491,7 @@
         "target_min_radius": 0,
         "target_max_radius": 60
       },
-      { "run_eoc_with": "EOC_LIEUTENANT_SHADOW_CATCHUP", "beta_loc": { "global_val": "Shadow_monster" } }
+      { "run_eocs": "EOC_LIEUTENANT_SHADOW_CATCHUP", "beta_loc": { "global_val": "Shadow_monster" } }
     ]
   },
   {

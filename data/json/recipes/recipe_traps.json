@@ -44,7 +44,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "VISE", "level": 1 } ],
-    "components": [ [ [ "wire_barbed", 10 ], [ "wire", 10 ], [ "nails", 10, "LIST" ] ] ]
+    "components": [ [ [ "wire_barbed", 10 ], [ "any_wire", 10, "LIST" ], [ "nails", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",

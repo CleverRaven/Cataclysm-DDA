@@ -110,7 +110,6 @@
       ],
       "toilets": { "t": {  } },
       "terrain": {
-        "a": "t_atm",
         "b": "t_region_groundcover_urban",
         "c": "t_floor",
         "d": "t_thconc_floor",
@@ -173,6 +172,7 @@
         "_": "t_thconc_floor_no_roof"
       },
       "furniture": {
+        "a": "f_atm_off",
         "b": "f_boulder_small",
         "c": "f_counter",
         "d": "f_desk",
@@ -251,6 +251,7 @@
         "É": { "vehicle": "parking_garage", "chance": 25, "rotation": 90 },
         "Ú": { "vehicle": "VETS", "chance": 35, "rotation": 90 }
       },
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 36, 37 ], "y": [ 64, 65 ] } ],
       "place_signs": [ { "signage": "Authorized access only", "x": 0, "y": 15 }, { "signage": "<city> Zoo", "x": 6, "y": 0 } ]
     }
   },

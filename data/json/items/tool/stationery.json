@@ -60,7 +60,7 @@
     "longest_side": "18 cm",
     "price": "14 USD",
     "price_postapoc": "25 cent",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",

@@ -96,3 +96,8 @@ def parse_effect_type(json, origin):
                    context="memorial_female",
                    comment="Female memorial remove log of effect type \"{}\""
                    .format(effect_name))
+
+    if "blood_analysis_description" in json:
+        write_text(json["blood_analysis_description"], origin,
+                   comment="Blood analysis description of effect type \"{}\""
+                   .format(effect_name))

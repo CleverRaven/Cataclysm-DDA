@@ -630,6 +630,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
+    last_item = item( *items.back() ).typeId();
     assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 

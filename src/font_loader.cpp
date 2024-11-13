@@ -23,6 +23,14 @@ void font_loader::load_throws( const cata_path &path )
         } else {
             config.read( "typeface", typeface );
         }
+        if( config.has_string( "gui_typeface" ) ) {
+            gui_typeface.emplace_back( config.get_string( "gui_typeface" ) );
+        } else {
+            config.read( "gui_typeface", gui_typeface );
+        }
+        if( gui_typeface.empty() ) {
+            gui_typeface.emplace_back( PATH_INFO::fontdir() + "Roboto-Medium.ttf" );
+        }
         if( config.has_string( "map_typeface" ) ) {
             map_typeface.emplace_back( config.get_string( "map_typeface" ) );
         } else {
@@ -35,6 +43,7 @@ void font_loader::load_throws( const cata_path &path )
         }
 
         ensure_unifont_loaded( typeface );
+        ensure_unifont_loaded( gui_typeface );
         ensure_unifont_loaded( map_typeface );
         ensure_unifont_loaded( overmap_typeface );
 

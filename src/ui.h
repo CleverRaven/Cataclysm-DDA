@@ -170,6 +170,9 @@ struct uilist_entry {
                                          explicit uilist_entry( Enum e, Args && ... args ) :
                                              uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
+
+    std::string _txt_nocolor;   // what it says on the tin
+    std::string _ctxt_nocolor;  // second column text
 };
 
 /**
@@ -184,8 +187,8 @@ struct uilist_entry {
  *     }
  *   }
  *   void refresh( uilist *menu ) {
- *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
- *           ImGui::TextColored( c_red, "( %s )", game_z[menu->selected]->name() );
+ *       if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < game_z.size() ) {
+ *           ImGui::TextColored( c_red, "( %s )", game_z[menu->previewing]->name() );
  *       }
  *   }
  * }
@@ -294,7 +297,7 @@ class uilist // NOLINT(cata-xy)
         // initialize the window or reposition it after screen size change.
         void reposition();
         bool scrollby( int scrollby );
-        void query( bool loop = true, int timeout = -1, bool allow_unfiltered_hotkeys = false );
+        void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -450,8 +453,6 @@ class uilist // NOLINT(cata-xy)
     public:
         // Iternal states
         // TODO make private
-        std::vector<std::string> textformatted;
-
         catacurses::window window;
 
         int vshift = 0;
@@ -460,6 +461,9 @@ class uilist // NOLINT(cata-xy)
     private:
         ImVec2 calculated_menu_size;
         cataimgui::bounds calculated_bounds;
+        float calculated_hotkey_width;
+        float calculated_label_width;
+        float calculated_secondary_width;
         float extra_space_left;
         float extra_space_right;
         std::vector<int> fentries;
@@ -477,12 +481,13 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         bool started = false;
-
         bool recalc_start = false;
-
+        bool clicked = false;
+        bool need_to_scroll = false;
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
-        int current_category = 0;
+        size_t current_category = 0;
+        size_t switch_to_category = 0;
 
     public:
         // Results
@@ -491,6 +496,7 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
+        int previewing = 0;
 
         void set_selected( int index );
 };
@@ -551,7 +557,6 @@ class pointmenu_cb : public uilist_callback
         void select( uilist *menu ) override;
 };
 
-void kill_advanced_inv();
 void temp_hide_advanced_inv();
 
 /**

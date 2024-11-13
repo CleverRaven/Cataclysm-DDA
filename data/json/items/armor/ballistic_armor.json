@@ -226,7 +226,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 5,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -261,7 +261,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -280,7 +280,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -313,7 +313,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -346,7 +346,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6.35,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
@@ -403,7 +403,7 @@
     "longest_side": "30 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -473,7 +473,7 @@
     "color": "light_gray",
     "material_thickness": 14,
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [
       {
         "encumbrance": 8,
@@ -501,7 +501,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
@@ -550,7 +550,7 @@
     "longest_side": "20 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -1223,6 +1223,15 @@
         "specifically_covers": [ "torso_lower" ]
       }
     ]
+  },
+  {
+    "id": "fbi_armor_vest",
+    "type": "ARMOR",
+    "copy-from": "soft_3a_vest",
+    "name": { "str": "FBI ballistic vest" },
+    "//": "Based on the exact model; https://www.tyrtactical.com/shop/tyr-tactical-male-epic-federal-outer-carrier/",
+    "description": "A ranger green soft ballistic vest with MOLLE rigging used by federal law enforcement agencies.  Soft armor plates inside the vest provide solid defense against shrapnel and small-caliber rounds.  \"FBI\" is emblazoned across the front and back in large, yellow lettering, and it includes a pocket for storing evidence.  Use it to attach or detach pouches.",
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ]
   },
   {
     "id": "level_3_vest",

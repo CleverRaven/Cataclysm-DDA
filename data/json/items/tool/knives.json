@@ -1,8 +1,8 @@
 [
   {
     "abstract": "base_kitchen_knife",
-    "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
-    "description": "generic item template",
+    "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "category": "weapons",
     "type": "GENERIC",
     "material": [ "steel" ],

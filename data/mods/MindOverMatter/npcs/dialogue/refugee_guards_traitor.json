@@ -16,7 +16,7 @@
       {
         "text": "It's you.",
         "topic": "TALK_EVAC_GUARD3_direct_accusation",
-        "condition": { "u_has_var": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3" } ] }
       }
     ]
   },
@@ -64,7 +64,7 @@
       {
         "text": "It's you.",
         "topic": "TALK_EVAC_GUARD3_direct_accusation",
-        "condition": { "u_has_var": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3" } ] }
       }
     ]
   },
@@ -231,7 +231,7 @@
           "topic": "TALK_DONE",
           "effect": [
             { "npc_add_effect": "stunned", "duration": "2 s" },
-            { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "0 seconds" },
+            { "run_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "0 seconds" },
             { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 },
             {
               "u_message": "<npc_name> seems ready to attack you but suddenly freezes in place.  For a moment, caught between worlds, they stare straight ahead.  As the cold and the darkness of a teleport begin to overtake them and the air around them wavers like summer heat, they open their mouth to scream.\n\nAnd then, they are gone.",
@@ -278,7 +278,7 @@
         "text": "Good.",
         "topic": "TALK_DONE",
         "effect": [
-          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "run_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
           { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
         ]
       },
@@ -298,7 +298,7 @@
         "text": "…",
         "topic": "TALK_DONE",
         "effect": [
-          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "run_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
           { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
         ]
       }

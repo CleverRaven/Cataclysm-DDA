@@ -379,7 +379,7 @@
         "                                                                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tar_flat_roof", "_": "t_tile_flat_roof", "W": "t_wall_y", "f": "t_chainfence_h" },
+      "terrain": { ".": "t_tar_flat_roof", "_": "t_tile_flat_roof", "W": "t_wall_y", "f": "t_chainfence" },
       "place_nested": [
         { "chunks": [ [ "roof_16x16_help", 5 ], [ "null", 25 ] ], "x": [ 48, 54 ], "y": [ 6, 8 ] },
         {
@@ -456,7 +456,7 @@
       "G": "t_chaingate_c",
       "L": "t_pavement_y",
       "_": "t_pavement",
-      "f": "t_chainfence_h",
+      "f": "t_chainfence",
       "s": "t_sidewalk",
       "§": "t_sidewalk",
       "I": "t_glass_railing",
@@ -525,7 +525,7 @@
       "]": "f_water_heater_family",
       "0": "f_standing_tank",
       "!": "f_server",
-      "{": "f_small_satelitte_dish",
+      "{": "f_small_satellite_dish",
       "K": "f_TV_antenna",
       "E": "f_air_conditioner",
       "§": "f_flagpole"

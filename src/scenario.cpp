@@ -111,7 +111,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     if( !was_loaded ) {
 
         int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 61;
+        int _start_of_cataclysm_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
         season_type _start_of_cataclysm_season = SPRING;
         int _start_of_cataclysm_year = 1;
         if( jo.has_member( "start_of_cataclysm" ) ) {
@@ -129,7 +129,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
                                       ;
 
         int _start_of_game_hour = 8;
-        int _start_of_game_day = 61;
+        int _start_of_game_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
         season_type _start_of_game_season = SPRING;
         int _start_of_game_year = 1;
         if( jo.has_member( "start_of_game" ) ) {

@@ -9,7 +9,7 @@
     "volume": "3 L",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "nomex" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -47,7 +47,7 @@
     "volume": "3 L",
     "price": "240 USD",
     "price_postapoc": "80 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -221,7 +221,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
@@ -230,8 +229,7 @@
     "material_thickness": 5,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_fsurvivor",
@@ -259,7 +257,6 @@
     "volume": "11500 ml",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -281,8 +278,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xl_fsurvivor_suit",
@@ -310,7 +306,6 @@
     "volume": "12 L",
     "price": "2 kUSD",
     "price_postapoc": "70 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "steel", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -329,8 +324,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xlhsurvivor_suit",
@@ -534,7 +528,6 @@
     "volume": "18 L",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -556,8 +549,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "PREFIX_XL", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "OVERSIZE", "PREFIX_XL", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "wsurvivor_suit",
@@ -569,7 +561,6 @@
     "volume": "14 L",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -589,8 +580,7 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xl_wsurvivor_suit",
@@ -633,7 +623,6 @@
     "volume": "7 L",
     "price": "1 kUSD 100 USD",
     "price_postapoc": "50 USD",
-    "to_hit": -3,
     "material": [ "kevlar", "plastic", "neoprene" ],
     "symbol": "[",
     "looks_like": "wetsuit",
@@ -653,7 +642,6 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   }
 ]
