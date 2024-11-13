@@ -347,12 +347,12 @@ Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
-Adds in new .357, .44, and .22 LR lever action rifles
-Carpets have won't always be the same color
+Adds in new .357, .44, and .22 LR lever-action rifles
+Carpets won't always be the same color
 Beds are draggable
 Large clay pots can now be crafted without a lid and used in the slow sand water filter
 Fence posts and bollards are more similar
-melee weapon item groups for random NPCs
+Melee weapon item groups for random NPCs
 
 
 ## Interface:
@@ -736,15 +736,15 @@ Apply copy-from to mod scenarios
 [Xedra Evolved] Require Traverse the Wilds to target a tree as the endpoint
 [Xedra Evolved] More Lilin powers
 [DinoMod] mountable and harnessable audit
-Magus spell Slow Description Change
-[DinoMod] eggs directly into hatchlings
+Magus spell Slow description change
+[DinoMod] Eggs process directly into hatchlings
 [MoM] Update mutated animals to match vanilla changes
 [XE] Add cryptid hunting and a few cryptids
 [Magiclysm] Zombie versions of lizardfolk and ravenfolk drop tainted flesh like all other zombies
 [MoM] Update everglow matrix lighting recipes
-[Magiclysm] Feral dabblers: add small chance ferals know a single spell
+[Magiclysm] Feral dabblers: add a small chance for ferals to know a single spell
 [MoM] Remove monster inherent speed boosts, replace with actual powers that have to be used
-[XE] fix two bugs about learning new blood gifts
+[XE] Fix two bugs about learning new blood gifts
 [Magiclysm] Add a trait that prevents magical spellcasting
 [DinoMod] eolambia
 [Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
@@ -850,8 +850,8 @@ Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Make lab access shafts normally visible once spotted
 Factions don't mind the player smashing zombie corpses
-Remove Calcium From Rare Drugs Itemgroup
-ranged weapon selection for random NPCs
+Remove calcium from Rare Drugs itemgroup
+Ranged weapon selection for random NPCs
 Some factions claim only one OMT
 Added some reaction to furniture when falling down
 NPCs can funk out to music, too.
@@ -1123,8 +1123,8 @@ Battery charger appliances now work when outside the reality bubble
 Dropped lit cigarette won't start fires if there's no flammable terrain, furniture, or items on that tile
 Use correct symbols for vehicle front corners
 Invalid recharge type and instant book reading
-fix scenario spawns
-Stop 20x Melatonin Spawns
+Fix scenario spawns
+Stop 20x melatonin spawns
 Debug log no longer one entry behind
 'Burst-fire wielded weapon' now actually sets wielded weapon to burst or auto firing modes
 [Xedra Evolved] Fix homullus trait regressions
@@ -1248,7 +1248,7 @@ Mod Compatibility: Only load files within "mod_interactions" if requisite mod is
 Refactoring armor order from Cody
 Allow construction pre_terrain to be a list of alternatives
 Refactoring Hub01 dialogues
-remove furniture/terrain legacy alias code and JSON
+Remove furniture/terrain legacy alias code and JSON
 Adds bash_scaling fields to use with spells
 Replace some player responses with snippets
 Make mutation able to use mana as resourse without EoC
