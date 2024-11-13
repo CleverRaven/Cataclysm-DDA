@@ -73,7 +73,7 @@
       {
         "text": "[You do not have enough blood in you to manipulate someone's mind]",
         "topic": "TALK_NONE",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-501" ] }
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') <= -501" ] }
       }
     ]
   },

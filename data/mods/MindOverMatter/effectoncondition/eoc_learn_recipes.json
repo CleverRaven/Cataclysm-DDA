@@ -1216,7 +1216,7 @@
           "or": [
             { "math": [ "u_vitamin('vitamin_maintained_powers') >= 2" ] },
             { "math": [ "u_pain() >= 35" ] },
-            { "math": [ "u_val('focus')", "<=", "15" ] }
+            { "math": [ "u_val('focus') <= 15" ] }
           ]
         },
         {

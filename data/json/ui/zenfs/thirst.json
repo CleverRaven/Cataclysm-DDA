@@ -24,7 +24,7 @@
         "text": "Dehydrated",
         "color": "light_red",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst')", "<=", "520" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst') <= 520" ] } ]
         }
       },
       {
@@ -32,7 +32,7 @@
         "text": "V. thirsty",
         "color": "red",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst')", "<=", "240" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst') <= 240" ] } ]
         }
       },
       {
@@ -40,7 +40,7 @@
         "text": " Thirsty",
         "color": "yellow",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst')", "<=", "80" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst') <= 80" ] } ]
         }
       },
       {
@@ -48,7 +48,7 @@
         "text": "   Okay",
         "color": "light_gray",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst') >= 0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= 0" ] }, { "math": [ "u_val('instant_thirst') <= 40" ] } ]
         }
       },
       {

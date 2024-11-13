@@ -4,7 +4,7 @@
     "id": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND",
     "condition": {
       "or": [
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         {
           "and": [
             {
@@ -32,7 +32,7 @@
     "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON",
     "condition": {
       "or": [
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         {
           "and": [
             {
@@ -316,7 +316,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_activate",
-    "condition": { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+    "condition": { "math": [ "u_val('pos_z') <= -1" ] },
     "effect": [
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
@@ -616,7 +616,7 @@
             { "u_is_on_terrain": "t_dirt_underground" }
           ]
         },
-        { "math": [ "u_val('pos_z')", "<=", "-2" ] }
+        { "math": [ "u_val('pos_z') <= -2" ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
@@ -634,7 +634,7 @@
             { "u_is_on_terrain": "t_dirt_underground" }
           ]
         },
-        { "math": [ "u_val('pos_z')", "<=", "-2" ] }
+        { "math": [ "u_val('pos_z') <= -2" ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "ierde_tunnel_translocation_attune_real" }, "targeted": true } ],

@@ -268,7 +268,7 @@
       "and": [
         { "math": [ "weather('windpower')", "<", "12" ] },
         { "math": [ "weather('windpower')", ">", "0" ] },
-        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] },
+        { "math": [ "dew_point_factor(celsius(weather('temperature'))) <= 2.5" ] },
         { "math": [ "weather('humidity')", "<", "90" ] }
       ]
     }
@@ -295,7 +295,7 @@
       "and": [
         { "math": [ "weather('windpower')", "<", "12" ] },
         { "math": [ "weather('windpower')", ">", "0" ] },
-        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] }
+        { "math": [ "dew_point_factor(celsius(weather('temperature'))) <= 2.5" ] }
       ]
     }
   },
@@ -344,7 +344,7 @@
       "and": [
         { "math": [ "cause_early_portal_storm == 1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distant_distance, 200)" ]
+          "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_distant_distance, 200)" ]
         }
       ]
     }
@@ -374,7 +374,7 @@
       "and": [
         { "math": [ "cause_portal_storm == 1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distant_distance, 200)" ]
+          "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_distant_distance, 200)" ]
         }
       ]
     }
@@ -404,7 +404,7 @@
       "and": [
         { "math": [ "cause_portal_storm == 1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_close_distance, 100)" ]
+          "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_close_distance, 100)" ]
         }
       ]
     }
@@ -434,7 +434,7 @@
       "and": [
         { "math": [ "cause_portal_storm == 1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distance, 50)" ]
+          "math": [ "distance(_weather_location, portal_storm_center) <= value_or(portal_storm_distance, 50)" ]
         }
       ]
     }

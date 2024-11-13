@@ -12,8 +12,8 @@
         { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')", ">", "0" ] },
         {
           "or": [
-            { "math": [ "u_hp('head') / u_hp_max('head')", "<=", "0.5" ] },
-            { "math": [ "u_hp('torso') / u_hp_max('torso')", "<=", "0.5" ] }
+            { "math": [ "u_hp('head') / u_hp_max('head') <= 0.5" ] },
+            { "math": [ "u_hp('torso') / u_hp_max('torso') <= 0.5" ] }
           ]
         }
       ]

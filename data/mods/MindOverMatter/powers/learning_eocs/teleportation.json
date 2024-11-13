@@ -17,7 +17,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_phase')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_phase') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_phase" } }
       ]
     },
@@ -54,7 +54,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_ephemeral_walk')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_ephemeral_walk') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_ephemeral_walk" } }
       ]
     },
@@ -93,7 +93,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_stride')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_stride') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_stride" } }
       ]
     },
@@ -130,7 +130,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_transpose')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_transpose') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_transpose" } }
       ]
     },
@@ -169,7 +169,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_displacement')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_displacement') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_displacement" } }
       ]
     },
@@ -213,7 +213,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_collapse')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_collapse') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_collapse" } }
       ]
     },
@@ -257,7 +257,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_farstep')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_farstep') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_farstep" } }
       ]
     },
@@ -300,7 +300,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_banish')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_banish') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_banish" } }
       ]
     },
@@ -337,7 +337,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_gateway')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_gateway') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_gateway" } }
       ]
     },
@@ -379,7 +379,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_summon')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_summon') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_breach" } }
       ]
     },
@@ -416,7 +416,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_reality_tear')", "<=", "0" ] },
+        { "math": [ "u_spell_level('teleport_reality_tear') <= 0" ] },
         { "not": { "u_know_recipe": "practice_teleport_reality_tear" } }
       ]
     },

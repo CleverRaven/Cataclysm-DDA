@@ -16,7 +16,7 @@
                 "difficulty": { "math": [ "n_val('intelligence')" ] },
                 "die_size": 5
               },
-              { "math": [ "telepathically_stole_recently", "<=", "15" ] }
+              { "math": [ "telepathically_stole_recently <= 15" ] }
             ]
           }
         },

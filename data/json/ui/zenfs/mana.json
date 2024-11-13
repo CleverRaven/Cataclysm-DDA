@@ -94,7 +94,7 @@
         "id": "label_invisible",
         "text": { "str": " ", "//~": "NO_I18N" },
         "color": "c_black",
-        "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') <= 0" ] }
       },
       {
         "id": "label_visible",
@@ -116,7 +116,7 @@
         "id": "label_invisible",
         "text": { "str": "    ", "//~": "NO_I18N" },
         "color": "c_black",
-        "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') <= 0" ] }
       },
       {
         "id": "label_visible",

@@ -12,7 +12,7 @@
         { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_NO_PREREQ_POWER_INSIGHT" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_noise')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_noise') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_noise" } }
       ]
     },
@@ -48,7 +48,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_slam_down')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_slam_down') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_slam_down" } }
       ]
     },
@@ -87,7 +87,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_momentum')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_momentum') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_momentum" } }
       ]
     },
@@ -121,7 +121,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_slowfall')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_slowfall') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_slowfall" } }
       ]
     },
@@ -160,7 +160,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_wave')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_wave') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_wave" } }
       ]
     },
@@ -204,7 +204,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_lifting_field')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_lifting_field') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_lifting_field" } }
       ]
     },
@@ -248,7 +248,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_strength')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_strength') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_strength" } }
       ]
     },
@@ -292,7 +292,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_hammer')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_hammer') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_hammer" } }
       ]
     },
@@ -337,7 +337,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_vehicle_lift')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_vehicle_lift') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_vehicle_lift" } }
       ]
     },
@@ -376,7 +376,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_shield')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_shield') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_shield" } }
       ]
     },
@@ -425,7 +425,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_explosion')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_explosion') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_explosion" } }
       ]
     },
@@ -469,7 +469,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_levitation')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_levitation') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_levitation" } }
       ]
     },
@@ -518,7 +518,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_move_large_weight')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_move_large_weight') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_move_large_weight" } }
       ]
     },
@@ -571,7 +571,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_aegis')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_aegis') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_aegis" } }
       ]
     },
@@ -620,7 +620,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_earthshaker')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_earthshaker') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_earthshaker" } }
       ]
     },

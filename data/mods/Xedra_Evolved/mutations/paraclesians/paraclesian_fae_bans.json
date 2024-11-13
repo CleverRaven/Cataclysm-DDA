@@ -371,7 +371,7 @@
       "and": [
         { "u_has_trait": "THRESH_SYLPH" },
         { "u_has_trait": "SYLPH_FLY_AT_WILL" },
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         { "not": { "u_has_effect": "effect_sylph_underground_timer" } }
       ]
     },

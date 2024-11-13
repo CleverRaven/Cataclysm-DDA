@@ -762,7 +762,7 @@
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "n_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "n_val('size') - 1 <= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "or": [
@@ -897,7 +897,7 @@
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "u_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') - 1 <= n_val('size')" ] },
         { "or": [ { "npc_bodytype": "angel" }, { "npc_bodytype": "human" } ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -957,7 +957,7 @@
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "u_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') - 1 <= n_val('size')" ] },
         { "or": [ { "npc_bodytype": "angel" }, { "npc_bodytype": "human" } ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1105,7 +1105,7 @@
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "u_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') - 1 <= n_val('size')" ] },
         { "or": [ { "npc_bodytype": "angel" }, { "npc_bodytype": "human" } ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1465,7 +1465,7 @@
     "crit_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') <= n_val('size')" ] },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "npc_bodytype": "human" },
@@ -1497,7 +1497,7 @@
     ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') <= n_val('size')" ] },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "npc_bodytype": "human" },
@@ -1521,7 +1521,7 @@
     "side_switch": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') <= n_val('size')" ] },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "npc_bodytype": "human" },
@@ -1729,7 +1729,7 @@
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "n_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "n_val('size') - 1 <= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "or": [

@@ -376,7 +376,7 @@
     "id": "EOC_vampire_virus_blood_needs",
     "//": "This EOC works on telling the vampire whether they need to consume blood or not.",
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
-    "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-450" ] }, { "u_has_effect": "vampire_virus" } ] },
+    "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin') <= -450" ] }, { "u_has_effect": "vampire_virus" } ] },
     "effect": {
       "run_eocs": [
         {

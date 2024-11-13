@@ -12,7 +12,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "or": [ { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" } ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_up_enemy')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_up_enemy') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_up_enemy" } }
       ]
     },
@@ -54,7 +54,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_snuff_light')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_snuff_light') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_snuff_light" } }
       ]
     },
@@ -93,7 +93,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_dodge')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_dodge') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_dodge" } }
       ]
     },
@@ -132,7 +132,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_beam')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_beam') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_beam" } }
       ]
     },
@@ -166,7 +166,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_camouflage')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_camouflage') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_camouflage" } }
       ]
     },
@@ -210,7 +210,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_rad_immunity')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_rad_immunity') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_rad_immunity" } }
       ]
     },
@@ -253,7 +253,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_arms')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_arms') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_arms" } }
       ]
     },
@@ -292,7 +292,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_hide_ugly')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_hide_ugly') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_hide_ugly" } }
       ]
     },
@@ -336,7 +336,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_image')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_image') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_image" } }
       ]
     },
@@ -380,7 +380,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_radio')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_radio') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_radio" } }
       ]
     },
@@ -424,7 +424,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_stun_robots')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_stun_robots') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_stun_robots" } }
       ]
     },
@@ -473,7 +473,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_invisibility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_invisibility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_invisibility" } }
       ]
     },
@@ -520,7 +520,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_flash')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_flash') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_flash" } }
       ]
     },
@@ -564,7 +564,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_blinding_glare')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_blinding_glare') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_blinding_glare" } }
       ]
     },
@@ -611,7 +611,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_disintegrate')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_disintegrate') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_disintegrate" } }
       ]
     },

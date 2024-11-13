@@ -289,7 +289,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MINIMUM_TIME_ASLEEP",
-    "condition": { "math": [ "u_val('sleepiness')", "<=", "100" ] },
+    "condition": { "math": [ "u_val('sleepiness') <= 100" ] },
     "effect": [ { "math": [ "u_val('sleepiness')", "=", "100" ] } ]
   },
   {

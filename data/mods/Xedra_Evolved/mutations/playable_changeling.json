@@ -1255,7 +1255,7 @@
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       }
     ]
@@ -1281,7 +1281,7 @@
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       },
       { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }

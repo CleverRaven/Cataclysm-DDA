@@ -509,7 +509,7 @@
         ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "0" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] },
         "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ]
       },
       {

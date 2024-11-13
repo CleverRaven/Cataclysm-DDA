@@ -30,7 +30,7 @@
     "id": "defense_mode_caravan_spawn",
     "recurrence": [ "2 days", "4 days" ],
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3) <= 0" ] },
     "effect": [
       { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }

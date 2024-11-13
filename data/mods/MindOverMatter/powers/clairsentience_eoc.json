@@ -58,7 +58,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
-    "condition": { "math": [ "u_val('rad')", "<=", "0" ] },
+    "condition": { "math": [ "u_val('rad') <= 0" ] },
     "effect": [
       {
         "u_message": "Turning your senses on yourself, you see none of the insidious glow typical of radiation.  You are in the clear, for now.",
@@ -69,7 +69,7 @@
       "run_eocs": [
         {
           "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_2",
-          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "0" ] }, { "math": [ "u_val('rad')", "<=", "50" ] } ] },
+          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "0" ] }, { "math": [ "u_val('rad') <= 50" ] } ] },
           "effect": [
             {
               "u_message": "Turning your senses on yourself, you see see a few dull glimmers, hidden deep in your flesh.  The damage is minimal for now, but you had best not let it fester.",
@@ -80,7 +80,7 @@
             "run_eocs": [
               {
                 "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_3",
-                "condition": { "and": [ { "math": [ "u_val('rad') >= 51" ] }, { "math": [ "u_val('rad')", "<=", "100" ] } ] },
+                "condition": { "and": [ { "math": [ "u_val('rad') >= 51" ] }, { "math": [ "u_val('rad') <= 100" ] } ] },
                 "effect": [
                   {
                     "u_message": "Turning your senses on yourself, you see a dull glow along your core.  Your radiation is climbing, though it's still not in the danger zone.",
@@ -91,7 +91,7 @@
                   "run_eocs": [
                     {
                       "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_4",
-                      "condition": { "and": [ { "math": [ "u_val('rad') >= 101" ] }, { "math": [ "u_val('rad')", "<=", "200" ] } ] },
+                      "condition": { "and": [ { "math": [ "u_val('rad') >= 101" ] }, { "math": [ "u_val('rad') <= 200" ] } ] },
                       "effect": [
                         {
                           "u_message": "Turning your senses on yourself, you see a faint glow spreading outward from your core to your limbs.  You're getting closer to dangerous levels--you should deal with it before it gets worse.",
@@ -102,7 +102,7 @@
                         "run_eocs": [
                           {
                             "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_5",
-                            "condition": { "and": [ { "math": [ "u_val('rad') >= 201" ] }, { "math": [ "u_val('rad')", "<=", "500" ] } ] },
+                            "condition": { "and": [ { "math": [ "u_val('rad') >= 201" ] }, { "math": [ "u_val('rad') <= 500" ] } ] },
                             "effect": [
                               {
                                 "u_message": "Turning your senses on yourself, you see a glow along your bones.  You had best seek treatment, and soon.",

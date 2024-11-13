@@ -250,7 +250,7 @@
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_INCREASING",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" }, { "math": [ "u_doll_form_movement", "<=", "1000" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" }, { "math": [ "u_doll_form_movement <= 1000" ] } ] },
     "effect": [ { "math": [ "u_doll_form_movement", "+=", "rand(10) + 2" ] } ]
   },
   {

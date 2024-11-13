@@ -82,8 +82,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", "<=", "9" ] },
-            { "math": [ "n_npc_value()", "<=", "9" ] },
+            { "math": [ "n_npc_trust() <= 9" ] },
+            { "math": [ "n_npc_value() <= 9" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" }
           ]
         }

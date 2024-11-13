@@ -527,13 +527,13 @@
       "run_eocs": [
         {
           "id": "EOC_SUN_FOODS_ON_KCAL_2",
-          "condition": { "and": [ { "math": [ "u_calories()", "<=", "179999" ] }, { "math": [ "u_calories() >= 75000" ] } ] },
+          "condition": { "and": [ { "math": [ "u_calories() <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ] },
           "effect": [ { "math": [ "u_calories()", "+=", "7" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "EOC_SUN_FOODS_ON_KCAL_3",
-                "condition": { "math": [ "u_calories()", "<=", "74999" ] },
+                "condition": { "math": [ "u_calories() <= 74999" ] },
                 "effect": [ { "math": [ "u_calories()", "+=", "12" ] } ]
               }
             ]
@@ -664,7 +664,7 @@
             {
               "and": [
                 "u_is_outside",
-                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "not": { "math": [ "u_val('pos_z') <= -1" ] } },
                 { "u_near_om_location": "forest", "range": 2 },
                 { "not": { "u_at_om_location": "field" } }
               ]
@@ -672,7 +672,7 @@
             {
               "and": [
                 "u_is_outside",
-                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "not": { "math": [ "u_val('pos_z') <= -1" ] } },
                 { "u_near_om_location": "forest_thick", "range": 2 },
                 { "not": { "u_at_om_location": "field" } }
               ]

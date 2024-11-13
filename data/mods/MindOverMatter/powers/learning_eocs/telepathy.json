@@ -17,7 +17,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_shield')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_shield') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_shield" } }
       ]
     },
@@ -49,7 +49,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_mesmerize')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_mesmerize') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_mesmerize" } }
       ]
     },
@@ -88,7 +88,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_morale')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_morale') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_morale" } }
       ]
     },
@@ -125,7 +125,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_blast')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_blast') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_blast" } }
       ]
     },
@@ -157,7 +157,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_animal_mind_control')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_animal_mind_control') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_beastmaster" } }
       ]
     },
@@ -204,7 +204,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_confusion')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_confusion') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_confusion" } }
       ]
     },
@@ -243,7 +243,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_fear')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_fear') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_fear" } }
       ]
     },
@@ -286,7 +286,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_invisibility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_invisibility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_invisibility" } }
       ]
     },
@@ -330,7 +330,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_blast_radius')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_blast_radius') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_scream" } }
       ]
     },
@@ -364,7 +364,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_beast_taming')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_beast_taming') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_beast_taming" } }
       ]
     },
@@ -414,7 +414,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_mind_control')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_mind_control') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_mind_control" } }
       ]
     },
@@ -459,7 +459,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telepathic_network')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telepathic_network') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telepathic_network" } }
       ]
     },

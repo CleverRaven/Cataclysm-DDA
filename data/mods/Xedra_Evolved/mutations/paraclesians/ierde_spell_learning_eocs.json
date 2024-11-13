@@ -25,7 +25,7 @@
         },
         {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },

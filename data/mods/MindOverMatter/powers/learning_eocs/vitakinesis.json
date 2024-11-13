@@ -12,7 +12,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "math": [ "u_spell_level('vita_health_power') >= 5" ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_concentrated_healing')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_concentrated_healing') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_concentrated_healing" } }
       ]
     },
@@ -46,7 +46,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_stop_bleeding')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_stop_bleeding') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_stop_bleeding" } }
       ]
     },
@@ -80,7 +80,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_health_power_ally')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_health_power_ally') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_healing_touch" } }
       ]
     },
@@ -119,7 +119,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_hurt_touch')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_hurt_touch') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_hurt_touch" } }
       ]
     },
@@ -161,7 +161,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_remove_poison')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_remove_poison') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_remove_poison" } }
       ]
     },
@@ -195,7 +195,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_cure_disease')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_cure_disease') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_cure_disease" } }
       ]
     },
@@ -234,7 +234,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_sleeping_trance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_sleeping_trance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_sleeping_trance" } }
       ]
     },
@@ -268,7 +268,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_stop_infection')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_stop_infection') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_stop_infection" } }
       ]
     },
@@ -307,7 +307,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_healing_trance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_healing_trance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_healing_trance" } }
       ]
     },
@@ -341,7 +341,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_attack_touch')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_attack_touch') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_attack_touch" } }
       ]
     },
@@ -385,7 +385,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_blood_purge')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_blood_purge') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_blood_purge" } }
       ]
     },
@@ -429,7 +429,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_banish_illness')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_banish_illness') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_banish_illness" } }
       ]
     },
@@ -479,7 +479,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_super_heal')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_super_heal') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_super_heal" } }
       ]
     },
@@ -521,7 +521,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_return_from_death')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_return_from_death') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_return_from_death" } }
       ]
     },

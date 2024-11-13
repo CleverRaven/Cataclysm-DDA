@@ -8,7 +8,7 @@
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_FAIL",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('clair_danger_sense')", "<=", "7" ] },
+            { "math": [ "u_spell_level('clair_danger_sense') <= 7" ] },
             { "math": [ "u_spell_level('clair_danger_sense')", "!=", "-1" ] }
           ]
         }

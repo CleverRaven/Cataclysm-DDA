@@ -22,7 +22,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_breathe_skin')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_breathe_skin') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_breathe_skin" } }
       ]
     },
@@ -56,7 +56,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_flexibility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_flexibility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_flexibility" } }
       ]
     },
@@ -105,7 +105,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_dash') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_dash" } }
       ]
     },
@@ -152,7 +152,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_armor_skin') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_armor_skin" } }
       ]
     },
@@ -196,7 +196,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_climate_control') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_climate_control" } }
       ]
     },
@@ -240,7 +240,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_adrenaline') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_adrenaline" } }
       ]
     },
@@ -291,7 +291,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_enhance_mobility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_enhance_mobility" } }
       ]
     },
@@ -330,7 +330,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_hammerhand') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hammerhand" } }
       ]
     },
@@ -375,7 +375,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_reflex_enhance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_reflex_enhance" } }
       ]
     },
@@ -424,7 +424,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_sealed_system') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_sealed_system" } }
       ]
     },
@@ -468,7 +468,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_metabolism_enhance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_metabolism_enhance" } }
       ]
     },
@@ -513,7 +513,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_combat_dance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_combat_dance" } }
       ]
     },
@@ -552,7 +552,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_perfected_motion') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_perfected_motion" } }
       ]
     },
@@ -596,7 +596,7 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_hurricane_blows')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_hurricane_blows') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hurricane_blows" } }
       ]
     },
