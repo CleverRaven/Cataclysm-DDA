@@ -599,8 +599,12 @@ static void draw_border_win( catacurses::window &w, const std::vector<int> &colu
     werase( w );
     decorate_panel( _( "Sidebar options" ), w );
     // Draw vertical separators
-    mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
-    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );
+    wattron( w, BORDER_COLOR );
+    mvwvline( w, point( column_widths[0] + 1, 1 ), 0,
+              popup_height - 2 ); //FIXME char is zero?
+    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0,
+              popup_height - 2 ); //FIXME char is zero?
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 

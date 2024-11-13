@@ -326,29 +326,6 @@
     ]
   },
   {
-    "id": "clothing_soldier_broken_armor_set",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      { "group": "clothing_military" },
-      { "item": "elbow_pads", "prob": 10 },
-      { "item": "knee_pads", "prob": 85 },
-      {
-        "distribution": [ { "group": "army_helmet_nvg", "prob": 10 }, { "item": "helmet_army", "prob": 90 } ],
-        "prob": 80
-      },
-      { "item": "gloves_tactical", "prob": 60 },
-      { "group": "military_ballistic_vest", "prob": 100 },
-      { "group": "molle_backpacks_and_accessories", "prob": 85 },
-      { "group": "clothing_tactical_leg", "prob": 15 },
-      {
-        "distribution": [ { "group": "clothing_glasses", "prob": 60 }, { "item": "glasses_bal", "prob": 30 } ],
-        "prob": 20
-      },
-      { "group": "clothing_watch", "prob": 5 }
-    ]
-  },
-  {
     "id": "clothing_soldier_heavy_set",
     "type": "item_group",
     "subtype": "collection",
