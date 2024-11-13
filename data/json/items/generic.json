@@ -2942,7 +2942,7 @@
     "material": [ "cotton" ],
     "weight": "514 g",
     "container": "pillowcase",
-    "volume": "1 L",
+    "volume": "40 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2958,7 +2958,7 @@
     "material": [ "paper" ],
     "weight": "514 g",
     "container": "pillowcase",
-    "volume": "1 L",
+    "volume": "40 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2973,7 +2973,7 @@
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "weight": "774 g",
-    "volume": "1750 ml",
+    "volume": "70 L",
     "flags": [ "SLEEP_AID" ],
     "variant_type": "generic",
     "variants": [
@@ -3069,7 +3069,7 @@
     "material": [ "cotton" ],
     "weight": "514 g",
     "container": "pillowcase",
-    "volume": "1 L",
+    "volume": "40 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
