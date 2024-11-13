@@ -427,6 +427,17 @@
   },
   {
     "type": "snippet",
+    "category": "lab_file_IG882_P",
+    "text": [
+      {
+        "name": "IG882-P Report",
+        "id": "lab_file_item_IG882_P_01",
+        "text": "PATIENT MOSAIC latest update\nI am pleased to report a major breakthrough in the process of personality updating.  A73 volunteered to be the initial subject to test the updated version of the PATIENT MOSAIC process.  Briefing her on the effects of the process demonstrated by X89 did not deter her, as well as a visit to X89 in the infirmary, and after two weeks of studying the process and practicing its initial protocols, she prepared for her first major effort.  A73 had severe arachnophobia stemming from several incidents in her childhood, which was the proximate reason for her to volunteer for PATIENT MOSAIC.\n\nThe process took most of a day and A73 completed it with no ill effects other than hunger (an IV had been administered to prevent dehydration).  When the process was completed, she unwent an MRI, showing no changes in the physical structure of the brain.  Subsequent to the MRI, A73 voluntarily agreed to submit to a test of her arachnophobia.  She showed no reaction to high-definition images of spiders and was able to remain in close proximity to a spider crawling across a table she was sitting at, and while she declined the researcher's suggestion of allowing the spider to crawl on her arm, her vitals showed no undue distress at the suggestion.\n\nFurther testing is necessary to determine the conditions that led to such disparate outcomes, but the results of A73's tests show exceptional promise.  G59 has also expressed willingness to volunteer for PATIENT MOSAIC and I believe we should grant the request.\nRonald Sanchez-Perez\nResearcher"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_file_matrix_research",
     "text": [
       {
