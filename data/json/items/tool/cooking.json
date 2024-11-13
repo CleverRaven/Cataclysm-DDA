@@ -91,7 +91,7 @@
           {
             "id": "EOC_toolweapon_activate__carver",
             "effect": {
-              "run_eoc_with": "EOC_toolweapon_activate",
+              "run_eocs": "EOC_toolweapon_activate",
               "variables": {
                 "turn_cost": "0.8",
                 "transform_target": "carver_on",
@@ -126,7 +126,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__carver",
-            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
+            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
           }
         ]
       },
@@ -138,7 +138,7 @@
         {
           "id": "EOC_toolweapon_running__carver",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "10",
               "sound_message": { "i18n": true, "str": "Your electric carver buzzes." },

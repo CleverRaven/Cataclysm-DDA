@@ -18,7 +18,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_RUN_SERUM_REGEN",
-            "effect": { "run_eoc_with": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_REGEN" } }
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_REGEN" } }
           }
         ]
       }

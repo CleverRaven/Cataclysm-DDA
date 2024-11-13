@@ -8,7 +8,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_electrokin_see_electricity", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -41,7 +41,7 @@
       { "math": [ "u_spell_exp('electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_SEE_ELECTRICITY_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -67,7 +67,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_electrokin_zap_enemies", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -100,7 +100,7 @@
       { "math": [ "u_spell_exp('electrokinetic_zap_enemies')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -126,7 +126,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_electrokin_melee_attacks", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -159,7 +159,7 @@
       { "math": [ "u_spell_exp('electrokinetic_melee_attacks')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -185,7 +185,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
       { "u_add_effect": "effect_electrokin_hacking_interface", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -257,7 +257,7 @@
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -283,7 +283,7 @@
       { "u_add_effect": "effect_electrokin_personal_battery", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_BEGIN" ] },
       {
-        "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -312,7 +312,7 @@
     "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
     "effect": [
       {
-        "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_BEGIN",
+        "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_BEGIN",
         "time_in_future": [
           {
             "math": [
@@ -462,7 +462,7 @@
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -487,7 +487,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_electrokin_reduce_pain", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -520,7 +520,7 @@
       { "math": [ "u_spell_exp('electrokinetic_reduce_pain')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -546,7 +546,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_electrokinetic_speed_boost", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -579,7 +579,7 @@
       { "math": [ "u_spell_exp('electrokinetic_speed_boost')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -604,9 +604,9 @@
       { "u_message": "The air around you begins crackling with electricity!", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_electrokinetic_lightning_aura", "duration": "PERMANENT" },
-      { "queue_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_EFFECTS" },
+      { "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_EFFECTS" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -643,7 +643,7 @@
       { "math": [ "u_spell_exp('electrokinetic_lightning_aura')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",
+        "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -680,7 +680,7 @@
         "loc": { "global_val": "lightning_aura_nearby_target" }
       },
       { "u_cast_spell": { "id": "electrokinetic_lightning_aura_spark" } },
-      { "queue_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_EFFECTS", "time_in_future": "5 seconds" }
+      { "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_EFFECTS", "time_in_future": "5 seconds" }
     ]
   }
 ]

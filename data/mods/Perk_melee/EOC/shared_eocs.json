@@ -69,7 +69,7 @@
     "condition": { "and": [ { "u_has_flag": "MELEE_PERK_MOVING_DODGE" } ] },
     "effect": [
       {
-        "run_eoc_until": "EOC_PERK_TRY_RETREAT",
+        "run_eocs": "EOC_PERK_TRY_RETREAT",
         "condition": { "math": [ "u_monsters_nearby('radius': 1)", ">", "0" ] },
         "iterations": 10
       }
