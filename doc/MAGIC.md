@@ -782,7 +782,7 @@ First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks
     "type": "enchantment",
     "id": "BITE_STR",
     "has": "WIELD",
-    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] },
+    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] },
     "values": [ { "value": "STRENGTH", "add": 5 } ]
   }
 ```

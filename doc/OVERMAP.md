@@ -303,7 +303,7 @@ an exhaustive example...
     "travel_cost_type": "field",
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
-      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
+      "condition": { "math": [ "refugee_centers < 1" ] }, 
       "effect": [ { "math": [ "refugee_centers", "++" ] } ]
     }
 }
