@@ -219,6 +219,16 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_BLINDING_TARGET",
+    "name": { "str": "Dwelling in Deep Darkness" },
+    "points": 4,
+    "description": "You may cut a single target off from light, completely blinding them.  You may only do this at night, and only indoors or out in the wilderness.",
+    "prereqs": [ "LILIN_THE_EVIL_EYE" ],
+    "category": [ "LILIN" ],
+    "spells_learned": [ [ "lilin_blinding_target_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_TEMPORARY_GLORIOUS",
     "name": { "//~": "Name comes from Genesis 29:17", "str": "Of Beautiful Form" },
     "description": "You can use your powers to spin a web of illusion around yourself, increasing your attractiveness to a supernatural degree.  While the harsh light of the sun destroys the illusion, you need merely to move back into the shadows to restore it.",

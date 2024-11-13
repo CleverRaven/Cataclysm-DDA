@@ -112,8 +112,8 @@
     "shape": "blast",
     "min_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
     "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
-    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 5) * (u_has_trait('THRESH_LILIN') + 1)" ] },
-    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 12) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 500) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 1200) * (u_has_trait('THRESH_LILIN') + 1)" ] },
     "energy_source": "NONE",
     "base_energy_cost": 0,
     "base_casting_time": 50
@@ -135,8 +135,41 @@
     "shape": "blast",
     "min_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
     "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
-    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 5) * (u_has_trait('THRESH_LILIN') + 1)" ] },
-    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 12) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 500) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 1200) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_blinding_target_spell",
+    "type": "SPELL",
+    "name": "Dwelling in Deep Darkness",
+    "description": "Cut a single target off from the light.  It works only at night, and only either indoors or outside away from the cities.",
+    "//": "Logic for the restrictions is that lilit are supposd to be found in the wilderness or in abandoned buildings",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "EOC_LILIN_BLINDING_IN_MOONLIGHT",
+    "shape": "blast",
+    "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 5" ] },
+    "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 5" ] },
+    "min_duration": {
+      "math": [
+        "(u_vitamin('lilin_ruach_vitamin') * 800) * (u_vitamin('lilin_ruach_vitamin') * 3) * (u_has_trait('THRESH_LILIN') + 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(u_vitamin('lilin_ruach_vitamin') * 2400) * (u_vitamin('lilin_ruach_vitamin') * 7.5) * (u_has_trait('THRESH_LILIN') + 1)"
+      ]
+    },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 85,
     "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
   },
   {
