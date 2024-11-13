@@ -139,7 +139,7 @@
         { "stat": "arpen", "type": "cut", "scale": 1.3 },
         { "stat": "arpen", "type": "stab", "scale": 1.3 }
     ],
-    "messages": [ "You find a weakspot in %s's armor", "<npcname> finds a weakspot in %s's armor!" ],
+    "messages": [ "You find a weak spot in %s's armor", "<npcname> finds a weak spot in %s's armor!" ],
     "description": "30% armor penetration, crit only, min 4 melee",
     "attack_vectors": [ "vector_null" ]
   },
