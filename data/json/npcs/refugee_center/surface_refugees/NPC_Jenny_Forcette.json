@@ -309,9 +309,9 @@
         "text": "[Skill <2] No, that's why I want you to teach me.",
         "condition": {
           "and": [
-            { "math": [ "u_skill('computer')", "<", "2" ] },
-            { "math": [ "u_skill('electronics')", "<", "2" ] },
-            { "math": [ "u_skill('mechanics')", "<", "2" ] }
+            { "math": [ "u_skill('computer') < 2" ] },
+            { "math": [ "u_skill('electronics') < 2" ] },
+            { "math": [ "u_skill('mechanics') < 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
@@ -320,9 +320,9 @@
         "text": "[INT 10] No, but I'm a fast learner.",
         "condition": {
           "and": [
-            { "math": [ "u_skill('computer')", "<", "2" ] },
-            { "math": [ "u_skill('electronics')", "<", "2" ] },
-            { "math": [ "u_skill('mechanics')", "<", "2" ] },
+            { "math": [ "u_skill('computer') < 2" ] },
+            { "math": [ "u_skill('electronics') < 2" ] },
+            { "math": [ "u_skill('mechanics') < 2" ] },
             { "u_has_intelligence": 10 }
           ]
         },

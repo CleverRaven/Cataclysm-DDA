@@ -9,7 +9,7 @@
         "if": {
           "and": [
             { "math": [ "u_val('stim')", ">", "u_addiction_intensity('test_caffeine') * -10" ] },
-            { "math": [ "rand(10)", "<", "u_addiction_intensity('test_caffeine') * -10" ] }
+            { "math": [ "rand(10) < u_addiction_intensity('test_caffeine') * -10" ] }
           ]
         },
         "then": { "math": [ "u_val('stim')", "--" ] }
@@ -18,7 +18,7 @@
         "if": {
           "and": [
             { "math": [ "u_addiction_intensity('test_caffeine') >= 8" ] },
-            { "math": [ "rand(392)", "<", "u_addiction_intensity('test_caffeine')" ] }
+            { "math": [ "rand(392) < u_addiction_intensity('test_caffeine')" ] }
           ]
         },
         "then": { "u_add_effect": "shakes", "duration": "2 minutes" }

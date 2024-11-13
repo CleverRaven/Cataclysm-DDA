@@ -1041,7 +1041,7 @@
       "and": [
         "u_is_avatar",
         { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
-        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] },
+        { "math": [ "time_since(u_timer_time_of_last_succession) < time_between_succession" ] },
         { "math": [ "u_hp('torso')", "!=", "0" ] },
         { "math": [ "u_hp('head')", "!=", "0" ] }
       ]

@@ -85,7 +85,7 @@
         "sym": "↓",
         "color": "light_blue",
         "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ]
+          "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ]
         }
       },
       {
@@ -94,7 +94,7 @@
         "sym": "↓↓",
         "color": "cyan",
         "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ]
+          "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ]
         }
       },
       {
@@ -102,7 +102,7 @@
         "text": "(Falling!!)",
         "sym": "↓↓↓",
         "color": "blue",
-        "condition": { "math": [ "u_val('body_temp_delta')", "<", "-4500" ] }
+        "condition": { "math": [ "u_val('body_temp_delta') < -4500" ] }
       }
     ]
   },

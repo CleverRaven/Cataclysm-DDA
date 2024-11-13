@@ -516,7 +516,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] }
           ]
         },
         "values": [
@@ -529,7 +529,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('human_blood_vitamin') >= 1800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "4400" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') < 4400" ] }
           ]
         },
         "values": [

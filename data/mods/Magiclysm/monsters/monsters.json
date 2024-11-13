@@ -838,7 +838,7 @@
         "spell_data": { "id": "ankheg_acid_spit", "min_level": 3 },
         "cooldown": 1,
         "monster_message": "The ankheg spits a stream of acid at %3$s!",
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') < 60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
       },
       [ "EAT_FOOD", 60 ],
       [ "EAT_CARRION", 60 ]

@@ -40,12 +40,12 @@
       {
         "text": "How can I join your court?",
         "topic": "TALK_BOANN_JOIN",
-        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       {
         "text": "Is there anything I can do for you?",
         "topic": "TALK_QUEST_LIST",
-        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       {
         "text": "I am ready to leave this world for yours.",
@@ -234,7 +234,7 @@
       {
         "text": "How can I join your court?",
         "topic": "TALK_BOANN_JOIN",
-        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       { "text": "Well those of us who aren't faeries have other places to be now.", "topic": "TALK_DONE" }
     ]
@@ -248,7 +248,7 @@
       {
         "text": "How can I join your court?  I want to leave here when you do!",
         "topic": "TALK_BOANN_JOIN",
-        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
@@ -261,7 +261,7 @@
       {
         "text": "Please take me away with you.",
         "topic": "TALK_BOANN_JOIN",
-        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       { "text": "I haven't decided if I believe you or not but I'll see you around.", "topic": "TALK_DONE" }
     ]
@@ -274,7 +274,7 @@
       {
         "text": "Do you have a quest for me now?",
         "topic": "TALK_QUEST_LIST",
-        "condition": { "math": [ "Boann_Quests_Completed", "<", "10" ] }
+        "condition": { "math": [ "Boann_Quests_Completed < 10" ] }
       },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]

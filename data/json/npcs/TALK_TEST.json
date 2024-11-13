@@ -807,7 +807,7 @@
       {
         "text": "This is a low driving test response.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_skill('driving')", "<", "7" ] }
+        "condition": { "math": [ "u_skill('driving') < 7" ] }
       }
     ]
   },
@@ -834,21 +834,21 @@
       { "text": "Two != five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "!=", "5" ] } },
       { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 <= 5" ] } },
       { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 >= 5" ] } },
-      { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<", "5" ] } },
+      { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2 < 5" ] } },
       { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">", "5" ] } },
       { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
       { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
       { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "5" ] } },
       { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 <= 5" ] } },
       { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 5" ] } },
-      { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "5" ] } },
+      { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5 < 5" ] } },
       { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "5" ] } },
       { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
       { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
       { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "2" ] } },
       { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 <= 2" ] } },
       { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 2" ] } },
-      { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "2" ] } },
+      { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5 < 2" ] } },
       { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "2" ] } }
     ]
   },

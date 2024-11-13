@@ -1296,7 +1296,7 @@
     "condition": {
       "and": [
         { "math": [ "u_vitamin('human_blood_vitamin')", ">", "500" ] },
-        { "math": [ "u_calories('dont_affect_weariness': true)", "<", "u_calories_needed" ] }
+        { "math": [ "u_calories('dont_affect_weariness': true) < u_calories_needed" ] }
       ]
     },
     "effect": [

@@ -234,7 +234,7 @@
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count", "++" ] } ]
           }
         ]
@@ -254,7 +254,7 @@
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_VALUE_ADDED",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
                 "if": { "math": [ "u_afs_electrokin_personal_battery_count", ">", "0" ] },

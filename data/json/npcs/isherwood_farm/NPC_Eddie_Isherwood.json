@@ -156,7 +156,7 @@
       {
         "text": "<color_yellow>[Social <3]</color> I took it off man, what more do you want from me?",
         "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", "<", "3" ] } ] }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech') < 3" ] } ] }
       },
       { "text": "Fine, I'm gone.", "topic": "TALK_DONE" }
     ]

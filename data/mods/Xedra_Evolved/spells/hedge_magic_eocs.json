@@ -484,7 +484,7 @@
         "true_eocs": [
           {
             "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_ATTACKS_CHECK_DAMAGE",
-            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null') * 0.90" ] },
+            "condition": { "math": [ "n_hp('ALL') < n_hp_max('bp_null') * 0.90" ] },
             "effect": [
               { "npc_unset_flag": "BLESSED_WEAPON" },
               { "npc_unset_flag": "HEDGE_ENCHANTED" },

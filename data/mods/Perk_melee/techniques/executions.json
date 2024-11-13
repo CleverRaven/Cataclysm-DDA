@@ -15,7 +15,7 @@
     "condition": {
       "and": [
         { "math": [ "u_perk_mymelee >= n_hp('torso')" ] },
-        { "math": [ "u_monsters_nearby('radius': 2)", "<", "2" ] },
+        { "math": [ "u_monsters_nearby('radius': 2) < 2" ] },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
       ]
     },
@@ -49,7 +49,7 @@
     "condition": {
       "and": [
         { "math": [ "u_perk_mymelee >= n_hp('torso')" ] },
-        { "math": [ "u_monsters_nearby('radius': 2)", "<", "2" ] },
+        { "math": [ "u_monsters_nearby('radius': 2) < 2" ] },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
       ]
     },
@@ -80,7 +80,7 @@
     "condition": {
       "and": [
         { "math": [ "u_perk_mymelee >= n_hp('torso')" ] },
-        { "math": [ "u_monsters_nearby('radius': 2)", "<", "2" ] },
+        { "math": [ "u_monsters_nearby('radius': 2) < 2" ] },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
       ]
     },

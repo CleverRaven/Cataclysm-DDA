@@ -66,7 +66,7 @@
         "text": "Good to see you again.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -88,7 +88,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
-            { "math": [ "n_npc_anger()", "<", "5" ] }
+            { "math": [ "n_npc_anger() < 5" ] }
           ]
         },
         "topic": "TALK_DONE"

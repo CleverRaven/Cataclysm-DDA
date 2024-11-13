@@ -41,7 +41,7 @@
         "topic": "TALK_GODCO_Olwen_2",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
           ]
         }
@@ -49,7 +49,7 @@
       {
         "text": "Hey, Olwen.  <end_talking_leave>",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
       {
         "text": "What's with the attitude?",

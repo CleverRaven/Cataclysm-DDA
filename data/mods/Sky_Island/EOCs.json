@@ -750,7 +750,7 @@
     "condition": { "math": [ "versionupdate", "!=", "1" ] },
     "effect": [
       {
-        "if": { "math": [ "versionupdate", "<", "1" ] },
+        "if": { "math": [ "versionupdate < 1" ] },
         "then": [
           {
             "u_message": "Your save was made with a pre-Milestone 1 version of Sky Island, which means it lacks upgrades and the Heart of the Island.  Attempting to update…",

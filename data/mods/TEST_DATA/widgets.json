@@ -120,7 +120,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
           ]
         }
       },
@@ -132,7 +132,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 21" ] }
           ]
         }
       },
@@ -258,19 +258,19 @@
         "id": "slaked",
         "text": "Slaked",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('thirst') >= -20" ] }, { "math": [ "u_val('thirst')", "<", "0" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('thirst') >= -20" ] }, { "math": [ "u_val('thirst') < 0" ] } ] }
       },
       {
         "id": "hydrated",
         "text": "Hydrated",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('thirst') >= -60" ] }, { "math": [ "u_val('thirst')", "<", "-20" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('thirst') >= -60" ] }, { "math": [ "u_val('thirst') < -20" ] } ] }
       },
       {
         "id": "turgid",
         "text": "Turgid",
         "color": "green",
-        "condition": { "math": [ "u_val('thirst')", "<", "-60" ] }
+        "condition": { "math": [ "u_val('thirst') < -60" ] }
       }
     ]
   },
@@ -411,36 +411,36 @@
     "separator": ": ",
     "style": "clause",
     "clauses": [
-      { "id": "horrible", "text": "Horrible", "color": "red", "condition": { "math": [ "u_val('health')", "<", "-100" ] } },
+      { "id": "horrible", "text": "Horrible", "color": "red", "condition": { "math": [ "u_val('health') < -100" ] } },
       {
         "id": "very_bad",
         "text": "Very bad",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('health') >= -100" ] }, { "math": [ "u_val('health')", "<", "-50" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('health') >= -100" ] }, { "math": [ "u_val('health') < -50" ] } ] }
       },
       {
         "id": "bad",
         "text": "Bad",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('health') >= -50" ] }, { "math": [ "u_val('health')", "<", "-10" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('health') >= -50" ] }, { "math": [ "u_val('health') < -10" ] } ] }
       },
       {
         "id": "ok",
         "text": "OK",
         "color": "light_gray",
-        "condition": { "and": [ { "math": [ "u_val('health') >= -10" ] }, { "math": [ "u_val('health')", "<", "10" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('health') >= -10" ] }, { "math": [ "u_val('health') < 10" ] } ] }
       },
       {
         "id": "good",
         "text": "Good",
         "color": "white",
-        "condition": { "and": [ { "math": [ "u_val('health') >= 10" ] }, { "math": [ "u_val('health')", "<", "50" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('health') >= 10" ] }, { "math": [ "u_val('health') < 50" ] } ] }
       },
       {
         "id": "very_good",
         "text": "Very good",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('health') >= 50" ] }, { "math": [ "u_val('health')", "<", "100" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('health') >= 50" ] }, { "math": [ "u_val('health') < 100" ] } ] }
       },
       {
         "id": "excellent",
@@ -538,7 +538,7 @@
         "sym": "↓",
         "color": "light_blue",
         "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ]
+          "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ]
         }
       },
       {
@@ -547,7 +547,7 @@
         "sym": "↓↓",
         "color": "cyan",
         "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ]
+          "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ]
         }
       },
       {
@@ -555,7 +555,7 @@
         "text": "(Falling!!)",
         "sym": "↓↓↓",
         "color": "blue",
-        "condition": { "math": [ "u_val('body_temp_delta')", "<", "-4500" ] }
+        "condition": { "math": [ "u_val('body_temp_delta') < -4500" ] }
       }
     ]
   },
@@ -1333,7 +1333,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
           ]
         }
       },
@@ -1345,7 +1345,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 21" ] }
           ]
         }
       },

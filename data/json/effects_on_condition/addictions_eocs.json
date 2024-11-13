@@ -18,7 +18,7 @@
         "if": {
           "and": [
             { "math": [ "u_val('stim')", ">", "u_addiction_intensity('caffeine') * -10" ] },
-            { "math": [ "rand(10)", "<", "u_addiction_intensity('caffeine')" ] }
+            { "math": [ "rand(10) < u_addiction_intensity('caffeine')" ] }
           ]
         },
         "then": { "math": [ "u_val('stim')", "--" ] }
@@ -27,7 +27,7 @@
         "if": {
           "and": [
             { "math": [ "u_addiction_intensity('caffeine') >= 8" ] },
-            { "math": [ "rand(392)", "<", "u_addiction_intensity('caffeine')" ] }
+            { "math": [ "rand(392) < u_addiction_intensity('caffeine')" ] }
           ]
         },
         "then": [
@@ -41,7 +41,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SLEEP_ADDICTION",
     "//": "Actual effects processed in player::can_sleep().  Here, only prolong this addiction longer than usual.",
-    "condition": { "and": [ { "one_in_chance": 2 }, { "math": [ "u_addiction_turns('sleeping pill')", "<", "0" ] } ] },
+    "condition": { "and": [ { "one_in_chance": 2 }, { "math": [ "u_addiction_turns('sleeping pill') < 0" ] } ] },
     "effect": { "math": [ "u_addiction_turns('sleeping pill')", "++" ] }
   },
   {
@@ -83,7 +83,7 @@
         "if": { "math": [ "rand(600) <= addiction_rational(600, 50, u_addiction_intensity('mutagen'))" ] },
         "then": [
           {
-            "if": { "math": [ "rand(6)", "<", "u_addiction_intensity('mutagen')" ] },
+            "if": { "math": [ "rand(6) < u_addiction_intensity('mutagen')" ] },
             "then": { "u_message": "You so miss the exquisite rainbow of post-humanity.", "type": "warning" },
             "else": { "u_message": "Your body is SOO booorrrring.  Just a little sip to liven things up?", "type": "warning" }
           },
@@ -111,7 +111,7 @@
         "if": { "math": [ "rand(500) <= addiction_rational(500, 15, u_addiction_intensity('mutagen'))" ] },
         "then": [
           {
-            "if": { "math": [ "rand(6)", "<", "u_addiction_intensity('mutagen')" ] },
+            "if": { "math": [ "rand(6) < u_addiction_intensity('mutagen')" ] },
             "then": { "u_message": "You haven't had any mutagen lately.", "type": "warning" },
             "else": { "u_message": "You could use some new parts…", "type": "warning" }
           },

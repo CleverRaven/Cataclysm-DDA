@@ -155,7 +155,7 @@
       {
         "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Too_Young",
-        "condition": { "math": [ "u_val('age')", "<", "18" ] }
+        "condition": { "math": [ "u_val('age') < 18" ] }
       }
     ]
   },

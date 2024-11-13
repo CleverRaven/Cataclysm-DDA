@@ -88,7 +88,7 @@
       },
       { "u_teleport": { "global_val": "invasion_map" }, "force": true },
       {
-        "if": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "if": { "math": [ "isherwood_gear_status < 1" ] },
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_line_add",

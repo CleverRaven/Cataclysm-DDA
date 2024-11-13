@@ -186,7 +186,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_1_math_checker",
-              "condition": { "math": [ "vampire_total_tier_one_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_one_traits() < 4" ] },
               "effect": {
                 "run_eocs": [
                   {
@@ -233,7 +233,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_2_math_checker",
-              "condition": { "math": [ "vampire_total_tier_two_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_two_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_2_trait",
@@ -277,7 +277,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_3_math_checker",
-              "condition": { "math": [ "vampire_total_tier_three_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_three_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_3_trait",
@@ -308,7 +308,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_4_math_checker",
-              "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_four_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_4_trait",
@@ -342,7 +342,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_5_math_checker",
-              "condition": { "math": [ "vampire_total_tier_five_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_five_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_5_trait",

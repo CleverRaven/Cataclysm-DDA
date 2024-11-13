@@ -184,7 +184,7 @@
               "and": [
                 { "u_has_effect": "webbed" },
                 { "one_in_chance": 6 },
-                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider') < 1" ] },
                 { "math": [ "void_spider_killed", "!=", "1" ] }
               ]
             },
@@ -198,7 +198,7 @@
             "condition": {
               "and": [
                 { "one_in_chance": 120 },
-                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider') < 1" ] },
                 { "math": [ "void_spider_killed", "!=", "1" ] }
               ]
             },
@@ -213,7 +213,7 @@
               "and": [
                 { "or": [ { "u_has_effect": "webbed" }, { "u_has_effect": "grabbed" } ] },
                 { "math": [ "u_monsters_nearby('mon_void_spider') == 1" ] },
-                { "math": [ "u_monsters_nearby('mon_void_spider_maw')", "<", "4" ] }
+                { "math": [ "u_monsters_nearby('mon_void_spider_maw') < 4" ] }
               ]
             },
             "effect": [
@@ -238,7 +238,7 @@
         "run_eocs": [
           {
             "id": "void_spider_life_remaining",
-            "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "350" ] }, { "math": [ "u_void_spider_nest_disturbed", "!=", "1" ] } ] },
+            "condition": { "and": [ { "math": [ "u_hp('ALL') < 350" ] }, { "math": [ "u_void_spider_nest_disturbed", "!=", "1" ] } ] },
             "effect": [
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },

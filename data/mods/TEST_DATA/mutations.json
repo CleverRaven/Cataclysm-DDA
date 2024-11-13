@@ -76,7 +76,7 @@
           "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('stamina')", "<", "1" ] },
+          "condition": { "math": [ "u_val('stamina') < 1" ] },
           "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -102,7 +102,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", "<", "20" ] },
+          "condition": { "math": [ "u_val('morale') < 20" ] },
           "msg_off": { "text": "Your mood is below 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -110,15 +110,15 @@
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('hunger')", "<", "110" ] },
+          "condition": { "math": [ "u_val('hunger') < 110" ] },
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_pain()", "<", "110" ] },
+          "condition": { "math": [ "u_pain() < 110" ] },
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('thirst')", "<", "110" ] },
+          "condition": { "math": [ "u_val('thirst') < 110" ] },
           "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -164,7 +164,7 @@
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_pain()", "<", "110" ] },
+          "condition": { "math": [ "u_pain() < 110" ] },
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         }
       ]

@@ -964,7 +964,7 @@
                       "condition": {
                         "and": [
                           { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {
@@ -985,7 +985,7 @@
                       "condition": {
                         "and": [
                           { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {

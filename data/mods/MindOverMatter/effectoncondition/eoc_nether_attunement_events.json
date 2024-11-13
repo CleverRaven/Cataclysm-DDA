@@ -10,7 +10,7 @@
         "run_eocs": [
           {
             "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER_2",
-            "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", "<", "25" ] },
+            "condition": { "math": [ "u_nether_conduit_repeated_channeling_value < 25" ] },
             "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "+=", "rng(1,2.4)" ] } ]
           }
         ]
@@ -29,7 +29,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_SCALING_CHECK",
-            "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+            "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') < 15" ] },
             "effect": [
               {
                 "run_eocs": [
@@ -121,7 +121,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
     "//": "This is the EoC called by concentration checks. Name is to avoid JSON churn",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') < 15" ] },
     "effect": [
       {
         "run_eocs": [ "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT", "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_maintenance" ]

@@ -294,27 +294,27 @@
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "50" ] },
               { "u_message": "You feel icy pinpricks on your skin as your wounds heal.", "type": "mixed" },
               {
-                "if": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+                "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
                 "then": { "math": [ "u_hp('torso')", "++" ] }
               },
               {
-                "if": { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] },
+                "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
                 "then": { "math": [ "u_hp('head')", "++" ] }
               },
               {
-                "if": { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+                "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
                 "then": { "math": [ "u_hp('arm_l')", "++" ] }
               },
               {
-                "if": { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+                "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
                 "then": { "math": [ "u_hp('arm_r')", "++" ] }
               },
               {
-                "if": { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+                "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
                 "then": { "math": [ "u_hp('leg_l')", "++" ] }
               },
               {
-                "if": { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+                "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
                 "then": { "math": [ "u_hp('leg_r')", "++" ] }
               },
               { "run_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }

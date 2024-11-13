@@ -366,7 +366,7 @@
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300" ] },
       { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
       {
-        "if": { "math": [ "u_val('sleepiness')", "<", "0" ] },
+        "if": { "math": [ "u_val('sleepiness') < 0" ] },
         "then": { "math": [ "u_val('sleepiness')", "=", "0" ] }
       },
       { "math": [ "u_val('sleep_deprivation')", "=", "0" ] },
@@ -494,27 +494,27 @@
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200" ] },
               { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
               {
-                "if": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+                "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
                 "then": { "math": [ "u_hp('torso')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               },
               {
-                "if": { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] },
+                "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
                 "then": { "math": [ "u_hp('head')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               },
               {
-                "if": { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+                "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
                 "then": { "math": [ "u_hp('arm_l')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               },
               {
-                "if": { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+                "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
                 "then": { "math": [ "u_hp('arm_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               },
               {
-                "if": { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+                "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
                 "then": { "math": [ "u_hp('leg_l')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               },
               {
-                "if": { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+                "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
                 "then": { "math": [ "u_hp('leg_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               }
             ],

@@ -63,24 +63,24 @@
     "//": "This is a separate EoC to allow looping through until it finds a spell the Sylph knows. Probability is [11-Difficulty]",
     "condition": {
       "or": [
-        { "math": [ "u_spell_level('clap_of_thunder')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('ominous_wind')", "<", "20" ] },
-        { "math": [ "u_spell_level('pushing_wind')", "<", "int_to_level(1)" ] },
-        { "math": [ "u_spell_level('sylph_clear_the_air')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('zap_electrical_emission')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('summon_air_sprite')", "<", "35" ] },
-        { "math": [ "u_spell_level('sylph_charge_dash_spell')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('sylph_increase_ally_speed_spell')", "<", "int_to_level(1)" ] },
-        { "math": [ "u_spell_level('sylph_reveal_overmap_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('cloud_of_steam_sylph')", "<", "35" ] },
-        { "math": [ "u_spell_level('create_light_sylph')", "<", "20" ] },
-        { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('sylph_crash_of_lightning')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell')", "<", "int_to_level(1)" ] },
-        { "math": [ "u_spell_level('sylph_wind_translocation_spell')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] },
-        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+        { "math": [ "u_spell_level('clap_of_thunder') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('ominous_wind') < 20" ] },
+        { "math": [ "u_spell_level('pushing_wind') < int_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_clear_the_air') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('zap_electrical_emission') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('summon_air_sprite') < 35" ] },
+        { "math": [ "u_spell_level('sylph_charge_dash_spell') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_increase_ally_speed_spell') < int_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_reveal_overmap_spell') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_sylph') < 35" ] },
+        { "math": [ "u_spell_level('create_light_sylph') < 20" ] },
+        { "math": [ "u_spell_level('sylph_call_lightning') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_crash_of_lightning') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell') < int_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_wind_translocation_spell') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] },
+        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
     "effect": {
@@ -112,7 +112,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('clap_of_thunder') >= 0" ] },
-        { "math": [ "u_spell_level('clap_of_thunder')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('clap_of_thunder') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -130,7 +130,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('ominous_wind') >= 0" ] },
-        { "math": [ "u_spell_level('ominous_wind')", "<", "20" ] }
+        { "math": [ "u_spell_level('ominous_wind') < 20" ] }
       ]
     },
     "effect": [
@@ -148,7 +148,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('pushing_wind') >= 0" ] },
-        { "math": [ "u_spell_level('pushing_wind')", "<", "int_to_level(1)" ] }
+        { "math": [ "u_spell_level('pushing_wind') < int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -166,7 +166,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_clear_the_air') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_clear_the_air')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_clear_the_air') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -184,7 +184,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('zap_electrical_emission') >= 0" ] },
-        { "math": [ "u_spell_level('zap_electrical_emission')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('zap_electrical_emission') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -202,7 +202,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_charge_dash_spell') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_charge_dash_spell')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_charge_dash_spell') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -220,7 +220,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_increase_ally_speed_spell') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_increase_ally_speed_spell')", "<", "int_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_increase_ally_speed_spell') < int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -238,7 +238,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_reveal_overmap_spell') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_reveal_overmap_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_reveal_overmap_spell') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -256,7 +256,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('summon_air_sprite') >= 0" ] },
-        { "math": [ "u_spell_level('summon_air_sprite')", "<", "35" ] }
+        { "math": [ "u_spell_level('summon_air_sprite') < 35" ] }
       ]
     },
     "effect": [
@@ -274,7 +274,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('cloud_of_steam_sylph') >= 0" ] },
-        { "math": [ "u_spell_level('cloud_of_steam_sylph')", "<", "35" ] }
+        { "math": [ "u_spell_level('cloud_of_steam_sylph') < 35" ] }
       ]
     },
     "effect": [
@@ -292,7 +292,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('create_light_sylph') >= 0" ] },
-        { "math": [ "u_spell_level('create_light_sylph')", "<", "20" ] }
+        { "math": [ "u_spell_level('create_light_sylph') < 20" ] }
       ]
     },
     "effect": [
@@ -310,7 +310,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_call_lightning') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_call_lightning') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -328,7 +328,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_crash_of_lightning') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_crash_of_lightning')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_crash_of_lightning') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -346,7 +346,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell')", "<", "int_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell') < int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -364,7 +364,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_wind_translocation_spell') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_wind_translocation_spell')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_wind_translocation_spell') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -382,7 +382,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') >= 0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] }
       ]
     },
     "effect": [
@@ -400,7 +400,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit') >= 0" ] },
-        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -418,7 +418,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
     "effect": [

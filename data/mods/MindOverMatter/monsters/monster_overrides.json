@@ -205,7 +205,7 @@
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
               { "math": [ "Nemesis_iteration >= 12" ] },
-              { "math": [ "u_hp('ALL')", "<", "480" ] }
+              { "math": [ "u_hp('ALL') < 480" ] }
             ]
           },
           "monster_message": "%1$s's wounds begin healing at a rapid pace!"

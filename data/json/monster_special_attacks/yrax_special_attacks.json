@@ -304,7 +304,7 @@
     "condition": {
       "and": [
         { "math": [ "time_since(u_timer_quadraphract_deltas)", ">", "time(' 1 m')" ] },
-        { "math": [ "u_monsters_nearby('mon_yrax_delta', 'radius': 40)", "<", "3" ] }
+        { "math": [ "u_monsters_nearby('mon_yrax_delta', 'radius': 40) < 3" ] }
       ]
     },
     "effect": [

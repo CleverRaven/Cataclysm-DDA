@@ -35,7 +35,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_selector_test_4",
-    "condition": { "math": [ "1", "<", "0" ] },
+    "condition": { "math": [ "1 < 0" ] },
     "effect": [ { "math": [ "key1", "=", "_val" ] } ]
   },
   {

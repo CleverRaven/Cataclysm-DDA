@@ -137,7 +137,7 @@
                 { "u_has_item": "armor_riot_leg" }
               ]
             },
-            { "math": [ "isherwood_gear_status", "<", "1" ] }
+            { "math": [ "isherwood_gear_status < 1" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
@@ -155,7 +155,7 @@
                 { "math": [ "isherwood_gear_retrival_armor_leg_count == 5" ] }
               ]
             },
-            { "math": [ "isherwood_gear_status", "<", "1" ] }
+            { "math": [ "isherwood_gear_status < 1" ] }
           ]
         },
         "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": true },
@@ -174,7 +174,7 @@
                 { "not": { "math": [ "isherwood_gear_retrival_armor_leg_count >= 1" ] } }
               ]
             },
-            { "math": [ "isherwood_gear_status", "<", "1" ] }
+            { "math": [ "isherwood_gear_status < 1" ] }
           ]
         },
         "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": false },
@@ -186,7 +186,7 @@
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
             { "u_has_items": { "item": "bag_canvas", "count": 20 } },
-            { "math": [ "isherwood_wall_status", "<", "1" ] }
+            { "math": [ "isherwood_wall_status < 1" ] }
           ]
         },
         "effect": [
@@ -534,7 +534,7 @@
       },
       {
         "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.",
-        "condition": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "condition": { "math": [ "isherwood_gear_status < 1" ] },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
@@ -542,7 +542,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" } },
-            { "math": [ "isherwood_wall_status", "<", "1" ] }
+            { "math": [ "isherwood_wall_status < 1" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
@@ -590,7 +590,7 @@
       },
       {
         "text": "I'm a bit worried about defenses.  Do you folks have any armor or equipment to help keep yourselves safe?",
-        "condition": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "condition": { "math": [ "isherwood_gear_status < 1" ] },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
@@ -598,7 +598,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" } },
-            { "math": [ "isherwood_wall_status", "<", "1" ] }
+            { "math": [ "isherwood_wall_status < 1" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
@@ -642,25 +642,25 @@
     "responses": [
       {
         "text": "[5 Riot Armor] I've got enough riot armor for everyone.",
-        "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "<", "5" ] } ] },
+        "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count < 5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Helmet] These crowd control helmets should help a lot.",
-        "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "<", "5" ] } ] },
+        "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count < 5" ] } ] },
         "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Arm Guard] I hope these armguards won't interfere with people's aim.",
-        "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "<", "5" ] } ] },
+        "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count < 5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Leg Guard] I've got these leg guards to keep people from getting hobbled.",
-        "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
+        "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count < 5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
@@ -677,7 +677,7 @@
                 { "math": [ "isherwood_gear_retrival_armor_leg_count == 5" ] }
               ]
             },
-            { "math": [ "isherwood_gear_status", "<", "1" ] }
+            { "math": [ "isherwood_gear_status < 1" ] }
           ]
         },
         "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": true },

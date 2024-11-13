@@ -16,7 +16,7 @@
     "sound_category": "sunny",
     "priority": 10,
     "condition": {
-      "and": [ "is_day", { "math": [ "weather('pressure') >= 1020" ] }, { "math": [ "weather('humidity')", "<", "70" ] } ]
+      "and": [ "is_day", { "math": [ "weather('pressure') >= 1020" ] }, { "math": [ "weather('humidity') < 70" ] } ]
     }
   },
   {
@@ -36,7 +36,7 @@
     "rains": false,
     "sound_category": "cloudy",
     "priority": 20,
-    "condition": { "and": [ { "math": [ "weather('humidity') >= 40" ] }, { "math": [ "weather('pressure')", "<", "1010" ] } ] }
+    "condition": { "and": [ { "math": [ "weather('humidity') >= 40" ] }, { "math": [ "weather('pressure') < 1010" ] } ] }
   },
   {
     "id": "light_drizzle",
@@ -58,7 +58,7 @@
     "sound_category": "drizzle",
     "required_weathers": [ "cloudy" ],
     "priority": 30,
-    "condition": { "or": [ { "math": [ "weather('humidity') >= 96" ] }, { "math": [ "weather('pressure')", "<", "1003" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 96" ] }, { "math": [ "weather('pressure') < 1003" ] } ] }
   },
   {
     "id": "drizzle",
@@ -80,7 +80,7 @@
     "sound_category": "drizzle",
     "required_weathers": [ "light_drizzle" ],
     "priority": 40,
-    "condition": { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
   },
   {
     "id": "rain",
@@ -102,7 +102,7 @@
     "sound_category": "rainy",
     "required_weathers": [ "light_drizzle", "drizzle" ],
     "priority": 50,
-    "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure') < 993" ] } ] }
   },
   {
     "id": "rainstorm",
@@ -151,7 +151,7 @@
     "sound_category": "thunder",
     "required_weathers": [ "rain" ],
     "priority": 70,
-    "condition": { "math": [ "weather('pressure')", "<", "996" ] }
+    "condition": { "math": [ "weather('pressure') < 996" ] }
   },
   {
     "id": "lightning",
@@ -173,7 +173,7 @@
     "sound_category": "thunder",
     "required_weathers": [ "thunder" ],
     "priority": 80,
-    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
+    "condition": { "math": [ "weather('pressure') < 990" ] }
   },
   {
     "id": "flurries",
@@ -195,7 +195,7 @@
     "sound_category": "flurries",
     "required_weathers": [ "drizzle" ],
     "priority": 90,
-    "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
+    "condition": { "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] }
   },
   {
     "id": "snowing",
@@ -217,7 +217,7 @@
     "sound_category": "snow",
     "required_weathers": [ "rain", "thunder", "lightning" ],
     "priority": 100,
-    "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
+    "condition": { "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] }
   },
   {
     "id": "snowstorm",
@@ -241,7 +241,7 @@
     "priority": 110,
     "condition": {
       "and": [
-        { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] },
+        { "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] },
         { "math": [ "weather('windpower') >= 15" ] }
       ]
     }
@@ -266,10 +266,10 @@
     "required_weathers": [ "clear", "sunny", "fog" ],
     "condition": {
       "and": [
-        { "math": [ "weather('windpower')", "<", "12" ] },
+        { "math": [ "weather('windpower') < 12" ] },
         { "math": [ "weather('windpower')", ">", "0" ] },
         { "math": [ "dew_point_factor(celsius(weather('temperature'))) <= 2.5" ] },
-        { "math": [ "weather('humidity')", "<", "90" ] }
+        { "math": [ "weather('humidity') < 90" ] }
       ]
     }
   },
@@ -293,7 +293,7 @@
     "required_weathers": [ "clear", "sunny", "mist" ],
     "condition": {
       "and": [
-        { "math": [ "weather('windpower')", "<", "12" ] },
+        { "math": [ "weather('windpower') < 12" ] },
         { "math": [ "weather('windpower')", ">", "0" ] },
         { "math": [ "dew_point_factor(celsius(weather('temperature'))) <= 2.5" ] }
       ]

@@ -420,7 +420,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
+          "condition": { "math": [ "u_val('morale') < -50" ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
@@ -644,7 +644,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "math": [ "u_val('pos_z')", "<", "0" ] },
+        "condition": { "math": [ "u_val('pos_z') < 0" ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -767,7 +767,7 @@
     "description": "You always sleep better surrounded by earth.",
     "category": [ "BATRACHIAN" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
-    "enchantments": [ { "condition": { "math": [ "u_val('pos_z')", "<", "0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
+    "enchantments": [ { "condition": { "math": [ "u_val('pos_z') < 0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
   },
   {
     "type": "mutation",
@@ -10485,11 +10485,11 @@
     "triggers": [
       [
         {
-          "condition": { "or": [ { "math": [ "u_val('morale')", "<", "-75" ] }, { "math": [ "u_val('morale')", "<", "75" ] } ] }
+          "condition": { "or": [ { "math": [ "u_val('morale') < -75" ] }, { "math": [ "u_val('morale') < 75" ] } ] }
         }
       ],
       [
-        { "condition": { "or": [ { "math": [ "u_val('stim')", "<", "-50" ] }, { "math": [ "u_val('stim')", "<", "50" ] } ] } }
+        { "condition": { "or": [ { "math": [ "u_val('stim') < -50" ] }, { "math": [ "u_val('stim') < 50" ] } ] } }
       ]
     ],
     "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }

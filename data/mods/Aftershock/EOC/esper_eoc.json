@@ -73,7 +73,7 @@
         "run_eocs": [
           {
             "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER_2",
-            "condition": { "math": [ "u_esper_repeated_channeling_value", "<", "20" ] },
+            "condition": { "math": [ "u_esper_repeated_channeling_value < 20" ] },
             "effect": [ { "math": [ "u_esper_repeated_channeling_value", "+=", "rng(1,5)" ] } ]
           }
         ]

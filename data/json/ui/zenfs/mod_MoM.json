@@ -17,7 +17,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 35" ] }
           ]
         }
       },
@@ -27,7 +27,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 35" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 55" ] }
           ]
         }
       },
@@ -37,7 +37,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 75" ] }
           ]
         }
       },
@@ -47,7 +47,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 95" ] }
           ]
         }
       },
@@ -57,7 +57,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 95" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 115" ] }
           ]
         }
       },
@@ -67,7 +67,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 135" ] }
           ]
         }
       },
@@ -77,7 +77,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 155" ] }
           ]
         }
       },
@@ -87,7 +87,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 175" ] }
           ]
         }
       },
@@ -97,7 +97,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 195" ] }
           ]
         }
       },
@@ -107,7 +107,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 215" ] }
           ]
         }
       },
@@ -117,7 +117,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 235" ] }
           ]
         }
       },
@@ -149,7 +149,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 35" ] }
           ]
         }
       },
@@ -160,7 +160,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 35" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 55" ] }
           ]
         }
       },
@@ -171,7 +171,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 75" ] }
           ]
         }
       },
@@ -182,7 +182,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 95" ] }
           ]
         }
       },
@@ -193,7 +193,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 95" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 115" ] }
           ]
         }
       },
@@ -204,7 +204,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 135" ] }
           ]
         }
       },
@@ -215,7 +215,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 155" ] }
           ]
         }
       },
@@ -226,7 +226,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 175" ] }
           ]
         }
       },
@@ -237,7 +237,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 195" ] }
           ]
         }
       },
@@ -248,7 +248,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 215" ] }
           ]
         }
       },
@@ -259,7 +259,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 235" ] }
           ]
         }
       },
@@ -291,7 +291,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 35" ] }
           ]
         }
       },
@@ -301,7 +301,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 35" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 55" ] }
           ]
         }
       },
@@ -311,7 +311,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 75" ] }
           ]
         }
       },
@@ -321,7 +321,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 95" ] }
           ]
         }
       },
@@ -331,7 +331,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 95" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 115" ] }
           ]
         }
       },
@@ -341,7 +341,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 135" ] }
           ]
         }
       },
@@ -351,7 +351,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 155" ] }
           ]
         }
       },
@@ -361,7 +361,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 175" ] }
           ]
         }
       },
@@ -371,7 +371,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 195" ] }
           ]
         }
       },
@@ -381,7 +381,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 215" ] }
           ]
         }
       },
@@ -391,7 +391,7 @@
         "condition": {
           "and": [
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
-            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 235" ] }
           ]
         }
       },

@@ -490,14 +490,14 @@
     "id": "TALK_ROBOFAC_INTERCOM_REPAIR",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ],
+      "math": [ "u_timer_hub_rnd_u_waiting_on_hub < time('now')" ],
       "yes": "The repairs and tuneup are complete.  Should be good as new or better.",
       "no": "Work is still ongoing.  These things can take time."
     },
     "responses": [
       {
         "text": "Thanks.",
-        "condition": { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ] },
+        "condition": { "math": [ "u_timer_hub_rnd_u_waiting_on_hub < time('now')" ] },
         "effect": [
           {
             "if": { "compare_string": [ "phase_immersion_suit", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },

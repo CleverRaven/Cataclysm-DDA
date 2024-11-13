@@ -65,7 +65,7 @@
         "text": "Good to see you again, Reverend.  I wanted to talk.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "math": [ "n_npc_anger() < 8" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -75,7 +75,7 @@
         "text": "I'm looking for work.  Can I do anything for your congregation?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "math": [ "n_npc_anger() < 8" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -88,7 +88,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "math": [ "n_npc_anger() < 8" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]

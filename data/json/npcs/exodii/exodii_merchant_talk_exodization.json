@@ -61,12 +61,12 @@
         "text": "OK, well, I've got some stuff I could trade right now.",
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
-        "condition": { "and": [ { "math": [ "n_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
+        "condition": { "and": [ { "math": [ "n_val('sold') < 100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
       },
       {
         "text": "OK, maybe I'll come back when I've traded a bit more.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "math": [ "n_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
+        "condition": { "and": [ { "math": [ "n_val('sold') < 100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
       }
     ]
   },
@@ -91,7 +91,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] },
-            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization) < time('2 d')" ] }
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
@@ -132,7 +132,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] },
-            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization) < time('2 d')" ] }
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",

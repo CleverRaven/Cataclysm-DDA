@@ -110,7 +110,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('hells_raiders')", "<", "-40" ] },
+        { "math": [ "faction_like('hells_raiders') < -40" ] },
         { "math": [ "faction_like('hells_raiders')", ">", "-60" ] },
         { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
@@ -183,7 +183,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('hells_raiders')", "<", "-60" ] },
+        { "math": [ "faction_like('hells_raiders') < -60" ] },
         { "math": [ "faction_like('hells_raiders')", ">", "-90" ] },
         { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 15" ] },
@@ -258,7 +258,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('hells_raiders')", "<", "-90" ] },
+        { "math": [ "faction_like('hells_raiders') < -90" ] },
         { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ] },
         { "not": { "is_weather": "portal_storm" } },
@@ -332,7 +332,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('old_guard')", "<", "-45" ] },
+        { "math": [ "faction_like('old_guard') < -45" ] },
         { "math": [ "u_government_assassins_sent <= 6" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },

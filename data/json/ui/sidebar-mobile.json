@@ -548,7 +548,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] }
           ]
         }
       },
@@ -559,7 +559,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 21" ] }
           ]
         }
       },
@@ -1492,14 +1492,14 @@
         "id": "turgid",
         "text": { "str": "o⁰ₒ○", "//~": "NO_I18N" },
         "color": "c_light_green_green",
-        "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
+        "condition": { "math": [ "u_val('instant_thirst') < -60" ] }
       },
       {
         "id": "hydrated",
         "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst') < -20" ] } ]
         }
       },
       {
@@ -1507,7 +1507,7 @@
         "text": { "str": "  ██", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst') < 0" ] } ]
         }
       },
       {

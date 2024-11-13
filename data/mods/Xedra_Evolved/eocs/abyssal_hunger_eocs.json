@@ -39,7 +39,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL",
-    "condition": { "math": [ "abyssal_hunger_level", "<", "5" ] },
+    "condition": { "math": [ "abyssal_hunger_level < 5" ] },
     "effect": [
       { "math": [ "abyssal_hunger_level", "++" ] },
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },

@@ -1077,38 +1077,38 @@
     "id": "EOC_VITAKIN_SUPER_HEAL_EFFECTS",
     "effect": [
       {
-        "if": { "math": [ "u_vitamin('redcells')", "<", "0" ] },
+        "if": { "math": [ "u_vitamin('redcells') < 0" ] },
         "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('redcells')", "<", "-1000" ] },
+        "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
         "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('redcells')", "<", "-10000" ] },
+        "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
         "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('blood')", "<", "0" ] },
+        "if": { "math": [ "u_vitamin('blood') < 0" ] },
         "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('blood')", "<", "-1000" ] },
+        "if": { "math": [ "u_vitamin('blood') < -1000" ] },
         "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('blood')", "<", "-10000" ] },
+        "if": { "math": [ "u_vitamin('blood') < -10000" ] },
         "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
       },
       {
         "if": {
           "or": [
-            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+            { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') < u_hp_max('head')" ] }
           ]
         },
         "then": {
@@ -1117,7 +1117,7 @@
           "var": { "context_val": "id" },
           "effect": [
             {
-              "if": { "math": [ "u_hp(_id)", "<", "u_hp_max(_id)" ] },
+              "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
               "then": {
                 "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
               }

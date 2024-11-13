@@ -200,7 +200,7 @@
     "id": "EOC_run_until_test",
     "effect": [
       { "math": [ "u_context", "=", "0" ] },
-      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "u_context", "<", "10000" ] }, "iterations": 10000 }
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "u_context < 10000" ] }, "iterations": 10000 }
     ]
   },
   {

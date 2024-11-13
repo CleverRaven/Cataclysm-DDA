@@ -276,7 +276,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_no",
         "condition": {
           "and": [
-            { "math": [ "u_timer_barry_rescue", "<", "time('5 d')" ] },
+            { "math": [ "u_timer_barry_rescue < time('5 d')" ] },
             {
               "and": [
                 { "not": { "npc_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 } },

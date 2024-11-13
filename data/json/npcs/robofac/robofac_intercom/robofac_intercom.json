@@ -414,7 +414,7 @@
           "and": [
             { "u_has_faction_trust": 5 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
-            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            { "math": [ "isherwood_gear_status < 1" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },

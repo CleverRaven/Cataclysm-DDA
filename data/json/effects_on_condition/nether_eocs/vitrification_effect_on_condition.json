@@ -7,7 +7,7 @@
     "condition": {
       "and": [
         { "or": [ { "u_near_om_location": "unvitrified_farm_0" }, { "u_near_om_location": "unvitrified_orchard" } ] },
-        { "math": [ "u_vitri_glass_entered", "<", "1" ] }
+        { "math": [ "u_vitri_glass_entered < 1" ] }
       ]
     },
     "effect": [
@@ -36,7 +36,7 @@
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence" } },
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } },
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
-            { "math": [ "u_vitri_glass_entered", "<", "2" ] }
+            { "math": [ "u_vitri_glass_entered < 2" ] }
           ]
         }
       ]
@@ -292,7 +292,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_queue_unvitrified_return",
-    "condition": { "math": [ "u_back_from_vitri_glass", "<", "1" ] },
+    "condition": { "math": [ "u_back_from_vitri_glass < 1" ] },
     "effect": [
       { "run_eocs": "EOC_unvitrified_return", "time_in_future": "1 seconds" },
       { "math": [ "u_back_from_vitri_glass", "=", "1" ] }

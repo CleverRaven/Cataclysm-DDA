@@ -78,7 +78,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "medium_printout_portal_storm_data", "count": 1 } },
-            { "math": [ "portal_storm_medium_data_sold", "<", "15" ] }
+            { "math": [ "portal_storm_medium_data_sold < 15" ] }
           ]
         },
         "effect": [
@@ -94,8 +94,8 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "small_printout_portal_storm_data", "count": 1 } },
-            { "math": [ "portal_storm_medium_data_sold", "<", "15" ] },
-            { "math": [ "portal_storm_small_data_sold", "<", "3" ] }
+            { "math": [ "portal_storm_medium_data_sold < 15" ] },
+            { "math": [ "portal_storm_small_data_sold < 3" ] }
           ]
         },
         "effect": [

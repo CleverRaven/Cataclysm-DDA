@@ -50,7 +50,7 @@
         "topic": "TALK_GODCO_chef_idle_chat",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -61,7 +61,7 @@
         "topic": "TALK_GODCO_chef_get_food",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
@@ -73,7 +73,7 @@
         "topic": "TALK_GODCO_chef_get_food_joinee",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "npc_has_effect": "u_got_meal" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
@@ -83,7 +83,7 @@
         "text": "Can I do anything for you?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
           ]
         },

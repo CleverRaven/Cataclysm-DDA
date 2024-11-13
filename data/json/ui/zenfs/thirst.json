@@ -56,7 +56,7 @@
         "text": "  Slaked",
         "color": "green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst') < 0" ] } ]
         }
       },
       {
@@ -64,14 +64,14 @@
         "text": " Hydrated",
         "color": "light_green",
         "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
+          "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst') < -20" ] } ]
         }
       },
       {
         "id": "turgid",
         "text": "  Turgid",
         "color": "green",
-        "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
+        "condition": { "math": [ "u_val('instant_thirst') < -60" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ]

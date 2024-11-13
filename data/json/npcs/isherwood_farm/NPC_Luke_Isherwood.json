@@ -110,7 +110,7 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } },
-                { "math": [ "isherwood_luke_truck_status", "<", "1" ] }
+                { "math": [ "isherwood_luke_truck_status < 1" ] }
               ]
             }
           ]
@@ -125,7 +125,7 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" } },
-                { "math": [ "isherwood_luke_truck_coming", "<", "1" ] },
+                { "math": [ "isherwood_luke_truck_coming < 1" ] },
                 { "math": [ "isherwood_luke_truck_status == 1" ] }
               ]
             }
