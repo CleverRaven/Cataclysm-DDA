@@ -656,6 +656,7 @@
         "  s!.IIIAMM.            ",
         "                        "
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "set": [
         { "square": "terrain", "id": "t_floor", "x": 4, "y": 13, "x2": 11, "y2": 22 },
         { "square": "terrain", "id": "t_floor", "x": 12, "y": 13, "x2": 19, "y2": 20 }
