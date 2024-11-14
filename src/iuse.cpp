@@ -595,7 +595,7 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint & )
     // If we're here, we better have a cig to light.
     p->use_charges_if_avail( itype_fire, 1 );
     cig.active = true;
-    p->inv->add_item( cig, false, true );
+    p->wear_item( cig, false );
     p->add_msg_if_player( m_neutral, _( "You light a %s." ), it->tname() );
 
     // Parting messages
