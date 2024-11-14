@@ -356,6 +356,7 @@
     "//": "This will remove a single toggleable power, selected by the player (or no power).",
     "effect": [
       {
+        "title": "Stop concentrating on which power?",
         "run_eoc_selector": [
           "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
           "EOC_BIOKIN_REMOVE_PHYSICAL_ENHANCE",
