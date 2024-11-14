@@ -290,7 +290,6 @@
       "masonrysaw_on",
       "mdrx",
       "melting_point",
-      "mess_tray",
       "metal_butcher_rack",
       "metal_funnel",
       "metal_smoking_rack",
@@ -364,7 +363,6 @@
       "psl",
       "punch_bone",
       "punch_nail",
-      "quilt",
       "rack_test_tube",
       "rack_test_tube_micro",
       "radio",
@@ -657,11 +655,6 @@
       "xlgloves_tactical",
       "xlswat_armor"
     ]
-  },
-  {
-    "type": "test_data",
-    "//": "Generic Guns",
-    "legacy_to_hit": [ "bot_antimateriel", "bot_rifleturret", "bot_secubot", "bot_talon_m202a1", "bot_turret" ]
   },
   {
     "type": "test_data",
