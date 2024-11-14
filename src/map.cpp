@@ -4332,8 +4332,9 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         i_clear( p );
     }
 
-    if( ( smash_furn && has_flag_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
-        ( smash_ter && has_flag_ter( ter_furn_flag::TFLAG_FUNGUS, p ) ) ) {
+    if( ( ( smash_furn && has_flag_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
+          ( smash_ter && has_flag_ter( ter_furn_flag::TFLAG_FUNGUS, p ) ) ) &&
+        field_at( p ).find_field( fd_fire ) == nullptr ) {
         fungal_effects().create_spores( p );
     }
 
