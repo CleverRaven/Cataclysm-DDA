@@ -792,7 +792,7 @@
     "effect": [
       { "u_add_trait": "TREE_COMMUNION" },
       { "u_activate_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ],
     "false_effect": [
       {
@@ -1115,11 +1115,11 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "druid_treeshape_location" },
+          "target_var": { "global_val": "druid_treeshape_location" },
           "message": "Select nearby tree"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_treeshape_location" } },
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "druid_treeshape_location" } },
           "then": [
             {
               "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
@@ -1208,7 +1208,7 @@
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
       },
-      { "queue_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {

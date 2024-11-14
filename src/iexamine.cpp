@@ -1113,11 +1113,12 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
         const int page_size = std::min( num_items, list_lines );
 
         werase( w );
-        wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        draw_border( w );
+        wattron( w, BORDER_COLOR );
         mvwhline( w, point( 1, first_item_offset - 1 ), LINE_OXOX, w_items_w - 2 );
         mvwaddch( w, point( 0, first_item_offset - 1 ), LINE_XXXO ); // |-
         mvwaddch( w, point( w_items_w - 1, first_item_offset - 1 ), LINE_XOXX ); // -|
+        wattroff( w, BORDER_COLOR );
 
         trim_and_print( w, point( 2, 1 ), w_items_w - 3, c_light_gray,
                         _( "Money left: %s" ), format_money( money ) );
@@ -1365,7 +1366,8 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint_bub_ms const p = tripoint_bub_ms( _rotate_point_sm( { v->global_pos3().xy(), movez }, erot,
+        tripoint_bub_ms const p = tripoint_bub_ms( _rotate_point_sm( { v->pos_bub().xy().raw(), movez},
+                                  erot,
                                   sm_orig.raw() ) );
         here.displace_vehicle( *v, p - v->pos_bub() );
         v->turn( erot * 90_degrees );
@@ -6163,7 +6165,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+    for( const std::pair<const string_id<itype>, int> &mill_type_count : millable_counts ) {
         item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
         const recipe rec = *source.type->milling_data->recipe_;

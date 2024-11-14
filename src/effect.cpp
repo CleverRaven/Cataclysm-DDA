@@ -1083,8 +1083,8 @@ void effect::set_duration( const time_duration &dur, bool alert )
 
     // Force intensity if it is duration based
     if( eff_type->int_dur_factor != 0_turns ) {
-        // + 1 here so that the lowest is intensity 1, not 0
-        set_intensity( duration / eff_type->int_dur_factor + 1, alert );
+        const int intensity = std::ceil( duration / eff_type->int_dur_factor );
+        set_intensity( std::max( 1, intensity ), alert );
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),

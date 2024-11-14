@@ -23,6 +23,7 @@
 #include "colony.h"
 #include "color.h"
 #include "coordinates.h"
+#include "crafting_gui.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -83,6 +84,8 @@
 class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const efftype_id effect_HACK_camp_vision_for_npc( "HACK_camp_vision_for_npc" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
@@ -787,19 +790,12 @@ void talk_function::basecamp_mission( npc &p )
 }
 
 void basecamp::add_available_recipes( mission_data &mission_key, mission_kind kind,
-                                      const point &dir,
-                                      const std::map<recipe_id, translation> &craft_recipes )
+                                      const point &dir )
 {
-    const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
-    for( const auto &recipe_data : craft_recipes ) {
-        const mission_id miss_id = {kind, recipe_data.first.str(), {}, dir};
-        const std::string &title_e = dir_abbr + recipe_data.second;
-        const std::string &entry = craft_description( recipe_data.first );
-        const recipe &recp = recipe_data.first.obj();
-        bool craftable = recp.deduped_requirements().can_make_with_inventory(
-                             _inv, recp.get_component_filter() );
-        mission_key.add_start( miss_id, title_e, entry, craftable );
-    }
+    const mission_id miss_id = {kind, "DUMMY_RECIPE_REPLACED_IN_CAMP", {}, dir};
+    std::string miss_desc =
+        "This will open the regular crafting screen where you may select a recipe and batch size.";
+    mission_key.add_start( miss_id, _( "Crafting" ), miss_desc, true );
 }
 
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
@@ -1231,12 +1227,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
     }
 
-    std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
+    std::unordered_set<recipe_id> craft_recipes = recipe_deck_all();
     {
         mission_id miss_id = { Camp_Crafting, "", {}, dir };
         comp_list npc_list = get_mission_workers( miss_id, true );
+        // WTF?
         if( npc_list.size() < 3 ) {
-            add_available_recipes( mission_key, Camp_Crafting, dir, craft_recipes );
+            add_available_recipes( mission_key, Camp_Crafting, dir );
         }
 
         if( !npc_list.empty() ) {
@@ -1807,8 +1804,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                                          msg,
                                          skill_construction.str(), 2 );
             } else {
-                const std::string bldg = recipe_group::get_building_of_recipe( miss_id.id.parameters );
-                start_crafting( recipe_group::get_building_of_recipe( miss_id.id.parameters ), miss_id.id );
+                start_crafting( miss_id.id );
             }
             break;
 
@@ -1988,14 +1984,14 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
 npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration duration,
                                  bool must_feed, const std::string &desc, bool /*group*/,
                                  const std::vector<item *> &equipment, float exertion_level,
-                                 const std::map<skill_id, int> &required_skills )
+                                 const std::map<skill_id, int> &required_skills, const npc_ptr &preselected_choice )
 {
     if( must_feed && fac()->food_supply.kcal() < time_to_food( duration, exertion_level ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return nullptr;
     }
     npc_ptr comp = talk_function::individual_mission( omt_pos, base_camps::id, desc, miss_id,
-                   false, equipment, required_skills );
+                   false, equipment, required_skills, false, preselected_choice );
     if( comp != nullptr ) {
         comp->companion_mission_time_ret = calendar::turn + duration;
         if( must_feed ) {
@@ -2284,9 +2280,7 @@ void basecamp::worker_assignment_ui()
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
 
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
-            mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_followers, point( 45, 0 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 2 ) ;
         draw_border( w_followers );
         const nc_color col = c_white;
         const std::string no_npcs = _( "You have no companions following you." );
@@ -2375,9 +2369,7 @@ void basecamp::job_assignment_ui()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_jobs );
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
-            mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_jobs, point( 45, 0 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 2 );
         draw_border( w_jobs );
         mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority" ) );
         const nc_color col = c_white;
@@ -3512,61 +3504,112 @@ void basecamp::start_combat_mission( const mission_id &miss_id, float exertion_l
     }
 }
 
-// the structure of this function has driven (at least) two devs insane
-// recipe_deck returns a map of recipe ids to descriptions
-// it first checks whether the mission id starts with the correct direction prefix,
-// and then search for the mission id without direction prefix in the recipes
-// if there's a match, the player has selected a crafting mission
-
-void basecamp::start_crafting( const std::string &type, const mission_id &miss_id )
+void basecamp::start_crafting( const mission_id &miss_id )
 {
-    const std::map<recipe_id, translation> &recipes = recipe_deck( type );
-    const auto it = recipes.find( recipe_id( miss_id.parameters ) );
-    if( it != recipes.end() ) {
-        const recipe &making = it->first.obj();
-
-        if( !making.deduped_requirements().can_make_with_inventory(
-                _inv, making.get_component_filter() ) ) {
-            popup( _( "You don't have the materials to craft that" ) );
-            return;
-        }
-
-        int batch_size = 1;
-        string_input_popup popup_input;
-        int batch_max = recipe_batch_max( making );
-        const std::string title = string_format( _( "Batch crafting %s [MAX: %d]: " ),
-                                  making.result_name( /*decorated=*/true ), batch_max );
-        popup_input.title( title ).edit( batch_size );
-
-        if( popup_input.canceled() || batch_size <= 0 ) {
-            return;
-        }
-        if( batch_size > recipe_batch_max( making ) ) {
-            popup( _( "Your batch is too large!" ) );
-            return;
-        }
-
-        mapgen_arguments arg;  //  Created with a default value.
-        basecamp_action_components components( making, arg, batch_size, *this );
-        if( !components.choose_components() ) {
-            return;
-        }
-
-        time_duration work_days = base_camps::to_workdays( making.batch_duration( get_player_character(),
-                                  batch_size ) );
-        npc_ptr comp = start_mission( miss_id, work_days, true,
-                                      _( "begins to work…" ), false, {}, making.exertion_level(),
-                                      making.required_skills );
-        if( comp != nullptr ) {
-            components.consume_components();
-            for( const item &results : making.create_results( batch_size ) ) {
-                comp->companion_mission_inv.add_item( results );
+    int num_to_make = 1;
+    npc dummy;
+    for( const recipe_id &some_known_recipe : recipe_deck_all() ) {
+        dummy.learn_recipe( &*some_known_recipe );
+    }
+    for( const npc_ptr &guy : assigned_npcs ) {
+        if( guy.get() ) {
+            // give the dummy a combination of all their skills
+            for( auto &skill_level_pair : guy->get_all_skills() ) {
+                if( skill_level_pair.second.level() > dummy.get_skill_level( skill_level_pair.first ) ) {
+                    dummy.set_skill_level( skill_level_pair.first, skill_level_pair.second.level() );
+                }
             }
-            for( const item &byproducts : making.create_byproducts( batch_size ) ) {
-                comp->companion_mission_inv.add_item( byproducts );
+            // and their proficiencies
+            for( auto &some_proficiency : guy->known_proficiencies() ) {
+                dummy.add_proficiency( some_proficiency, true, true );
             }
         }
+    }
+
+    // Force dummy to always be able to see for crafting. We don't care if it's dark out.
+    dummy.add_effect( effect_HACK_camp_vision_for_npc, 1_turns, true );
+
+    validate_sort_points();
+    form_crafting_inventory( get_camp_map() );
+
+
+    std::pair<Character *, const recipe *> crafter_recipe_pair = select_crafter_and_crafting_recipe(
+                num_to_make, recipe_id(), &dummy, "", true, &_inv );
+    if( !crafter_recipe_pair.second ) {
+        return; // player aborted crafting
+    }
+    const recipe *making = crafter_recipe_pair.second;
+
+    uilist choose_crafter;
+    choose_crafter.title = _( "Choose a NPC to craft" );
+    int i = 0;
+    for( const npc_ptr &guy : assigned_npcs ) {
+        if( guy.get() ) {
+            const recipe *r = crafter_recipe_pair.second;
+            bool has_skills = r->skill_used.is_null() ||
+                              guy->get_skill_level( r->skill_used ) >= r->get_difficulty( *guy );
+            bool has_profs = r->character_has_required_proficiencies( *guy );
+            bool is_available_for_work = !guy->has_companion_mission();
+            bool can_be_picked = has_skills && has_profs && is_available_for_work;
+            std::string refusal_reason;
+            if( !has_skills ) {
+                refusal_reason = _( "lacks necessary skills" );
+            } else if( !has_profs ) {
+                refusal_reason = _( "lacks necessary proficiencies" );
+            } else if( !is_available_for_work ) {
+                refusal_reason = _( "already working on something else" );
+            }
+            // FIXME: Isn't there a smarter way to do this??
+            std::string refuse_string = string_format( "<color_red>%s</color>", refusal_reason );
+            choose_crafter.addentry_col( i, can_be_picked, input_event(), guy->disp_name(), refuse_string );
+            i++;
+        }
+    }
+
+    choose_crafter.query();
+
+    if( choose_crafter.ret < 0 || static_cast<size_t>( choose_crafter.ret ) >= assigned_npcs.size() ) {
+        return; // player aborted selection
+    }
+
+    npc_ptr guy_to_send = assigned_npcs[choose_crafter.ret];
+
+    mapgen_arguments arg;  //  Created with a default value.
+    basecamp_action_components components( *making, arg, num_to_make, *this );
+    if( !components.choose_components() ) {
         return;
+    }
+
+    time_duration work_days = base_camps::to_workdays( making->batch_duration( *guy_to_send,
+                              num_to_make ) );
+
+    int kcal_consumed = time_to_food( work_days, making->exertion_level() );
+    int kcal_have = fac()->food_supply.kcal();
+
+    // TODO: Some way to optionally skip this or default cursor selection to "Yes", it could be annoying
+    if( !query_yn( _( "This will cost %i kcal (you have %i stored), is that acceptable?" ),
+                   kcal_consumed, kcal_have ) ) {
+        return; // won't spend food on this
+    }
+
+    if( kcal_consumed > kcal_have ) {
+        popup( _( "Not enough stored food." ) );
+        return;
+    }
+
+    // Now that we know the actual thing we're crafting we will properly form our mission_id
+    mission_id actual_id = {miss_id.id, making->ident().str(), miss_id.mapgen_args, miss_id.dir };
+    npc_ptr comp = start_mission( actual_id, work_days, true,
+                                  _( "begins to work…" ), false, {}, making->exertion_level(),
+                                  making->required_skills, guy_to_send );
+    if( comp != nullptr ) {
+        components.consume_components();
+        for( const item &results : making->create_results( num_to_make ) ) {
+            comp->companion_mission_inv.add_item( results );
+        }
+        for( const item &byproducts : making->create_byproducts( num_to_make ) ) {
+            comp->companion_mission_inv.add_item( byproducts );
+        }
     }
 }
 
@@ -4718,7 +4761,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win,
 {
     werase( win );
     const int width = getmaxx( win );
-    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), BORDER_COLOR, LINE_OXOX, width );
 
     std::vector<std::string> tabs( base_camps::all_directions.size() );
     for( const auto &direction : base_camps::all_directions ) {
@@ -5760,14 +5803,8 @@ item basecamp::make_fake_food( const nutrients &to_use ) const
     item food_item( food_id );
     // Set the default nutritional of the item.
     // This doesn't persist through save/load, but that's ok, we will be eating it immediately.
-    food_item.get_comestible()->default_nutrition = to_use;
+    food_item.get_comestible()->set_default_nutrition( to_use );
     return food_item;
-}
-
-static const npc &getAverageJoe()
-{
-    static npc averageJoe;
-    return averageJoe;
 }
 
 // mission support
@@ -5843,7 +5880,7 @@ bool basecamp::distribute_food( bool player_command )
         if( it.rotten() ) {
             return false;
         }
-        nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
+        nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();
         // Do this multiplication separately to make sure we're using the *= operator with double argument..
         from_it *= rot_multip( it, container );
         // Can distribute COMESTIBLE type items with 0kcal, if they have vitamins and player selected option to do so

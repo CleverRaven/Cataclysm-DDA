@@ -55,6 +55,7 @@
         "-         -               -                -   -",
         "---------------------------------------------+--"
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_concrete",
         "i": "t_concrete",
@@ -70,7 +71,6 @@
         "+": "t_chaingate_c",
         "o": "t_window",
         "d": "t_door_locked",
-        "|": "t_wall_b",
         ".": "t_linoleum_white",
         "4": "t_gutter_downspout"
       },

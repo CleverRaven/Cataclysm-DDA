@@ -587,7 +587,7 @@
     "volume": "111 ml",
     "longest_side": "15 cm",
     "price": "1299 USD",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "looks_like": "cell_phone",
     "symbol": ";",
@@ -916,7 +916,7 @@
         {
           "id": "EOC_toolweapon_running__supernoisemaker",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "0",
               "sound_message": { "i18n": true, "str": "Your super noise emitter produces an unholy blast of sonic chaos." },

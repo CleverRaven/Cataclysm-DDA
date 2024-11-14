@@ -151,11 +151,11 @@ void tab_manager::draw( const catacurses::window &w )
     window_pos = point( getbegx( w ), getbegy( w ) );
     draw_border_below_tabs( w );
 
-    for( int i = 1; i < TERMX - 1; i++ ) {
-        mvwputch( w, point( i, 5 ), BORDER_COLOR, LINE_OXOX );
-    }
-    mvwputch( w, point( 0, 5 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( TERMX - 1, 5 ), BORDER_COLOR, LINE_XOXX ); // -|
+    wattron( w, BORDER_COLOR );
+    mvwaddch( w, point( 0, 5 ), LINE_XXXO ); // |-
+    mvwhline( w, point( 1, 5 ), LINE_OXOX, TERMX - 2 ); // -
+    mvwaddch( w, point( TERMX - 1, 5 ), LINE_XOXX ); // -|
+    wattroff( w, BORDER_COLOR );
 }
 
 bool tab_manager::handle_input( const std::string &action, const input_context &ctxt )
@@ -1000,6 +1000,7 @@ void Character::initialize( bool learn_recipes )
             my_mutations[mut].powered = true;
         }
     }
+    trait_flag_cache.clear();
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1812,9 +1813,11 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         werase( w );
 
         tabs.draw( w );
+        wattron( w, BORDER_COLOR );
         for( int i = 1; i < 3; ++i ) {
-            mvwputch( w, point( i * page_width, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+            mvwaddch( w, point( i * page_width, iHeaderHeight - 1 ), LINE_OXXX );  // '┬'
         }
+        wattroff( w, BORDER_COLOR );
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -2375,7 +2378,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     // Profession spells
     if( !sorted_profs[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Profession spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_profs[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
@@ -2783,7 +2786,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     // Background spells
     if( !sorted_hobbies[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Background spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> spell_pair : sorted_hobbies[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_hobbies[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
@@ -4131,15 +4134,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         draw_points( w, pool, you );
 
         //Draw the line between editable and non-editable stuff.
-        for( int i = 0; i < getmaxx( w ); ++i ) {
-            if( i == 0 ) {
-                mvwputch( w, point( i, 9 ), BORDER_COLOR, LINE_XXXO );
-            } else if( i == getmaxx( w ) - 1 ) {
-                wputch( w, BORDER_COLOR, LINE_XOXX );
-            } else {
-                wputch( w, BORDER_COLOR, LINE_OXOX );
-            }
-        }
+        wattron( w, BORDER_COLOR );
+        mvwaddch( w, point( 0,                9 ), LINE_XXXO ); // |-
+        mvwhline( w, point( 1,                9 ), LINE_OXOX, getmaxx( w ) - 2 ); // |
+        mvwaddch( w, point( getmaxx( w ) - 1, 9 ), LINE_XOXX );  // -|
+        wattroff( w, BORDER_COLOR );
         wnoutrefresh( w );
 
         werase( w_stats );
@@ -4294,9 +4293,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             if( prof_proficiencies.empty() ) {
                 mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
             } else {
+                wattron( w_proficiencies, c_light_gray );
                 for( const proficiency_id &prof : prof_proficiencies ) {
-                    wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
+                    wprintw( w_proficiencies, "\n" + trim_by_length( prof->name(), 18 ) );
                 }
+                wattroff( w_proficiencies, c_light_gray );
             }
             wnoutrefresh( w_proficiencies );
         }
@@ -4405,9 +4406,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             if( you.hobbies.empty() ) {
                 mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
             } else {
+                wattron( w_hobbies, c_light_gray );
                 for( const profession *prof : you.hobbies ) {
-                    wprintz( w_hobbies, c_light_gray, "\n%s", prof->gender_appropriate_name( you.male ) );
+                    wprintw( w_hobbies, "\n%s", prof->gender_appropriate_name( you.male ) );
                 }
+                wattroff( w_hobbies, c_light_gray );
             }
             wnoutrefresh( w_hobbies );
         }

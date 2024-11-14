@@ -7,6 +7,7 @@
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
+      { "math": [ "u_lilin_ruach_drained_recently", "=", "1" ] },
       { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
     ],
     "false_effect": [
@@ -77,12 +78,13 @@
                 "if": {
                   "or": [
                     { "u_has_species": "CYBORG" },
-                    { "u_has_species": "MAMMAL" },
-                    { "u_has_species": "AMPHIBIAN" },
-                    { "u_has_species": "BIRD" },
-                    { "u_has_species": "REPTILE" },
-                    { "u_has_species": "FISH" },
-                    { "u_has_species": "KRAKEN" }
+                    { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "u_has_species": "KRAKEN" },
+                    { "test_eoc": "EOC_CONDITIONS_LILIN_DINOMOD_RUACH_DRAIN" }
                   ]
                 },
                 "then": [
@@ -109,7 +111,11 @@
                       "type": "good"
                     },
                     { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
-                  ]
+                  ],
+                  "else": {
+                    "npc_message": "You try to absorb the <u_name>'s ruach but get only fragments.  Not enough to for a mouthful.",
+                    "type": "bad"
+                  }
                 }
               }
             }
@@ -383,9 +389,9 @@
               { "u_message": "A thick fog begins to rise.", "type": "neutral" },
               { "math": [ "magic_weather_dense_fog", "=", "1" ] },
               { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
-              { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+              { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
               {
-                "queue_eocs": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+                "run_eocs": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
                 "time_in_future": [
                   {
                     "math": [
@@ -409,7 +415,7 @@
       { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
       { "math": [ "magic_weather_dense_fog", "=", "0" ] },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
@@ -419,7 +425,7 @@
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
       { "math": [ "magic_weather_dense_fog", "=", "0" ] }
     ]
   },

@@ -539,6 +539,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
+    "melee_damage": { "electric": 10 },
     "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
@@ -565,12 +566,7 @@
     ],
     "relic_data": {
       "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
-          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
-        }
+        { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
       ]
     },
     "material_thickness": 0.3,

@@ -208,7 +208,7 @@
                         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]
                       },
-                      { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
+                      { "run_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
                     ],
                     "false_effect": [
                       { "u_add_trait": "VAMPIRE" },
@@ -253,7 +253,7 @@
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
                     },
-                    { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "15 days", "8 hours" ] }
+                    { "run_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "15 days", "8 hours" ] }
                   ],
                   "false_effect": [
                     { "u_add_trait": "VAMPIRE2" },

@@ -28,7 +28,7 @@
     "effect": [
       { "math": [ "u_grit_your_teeth_pain_value_removed", "=", "u_pain() / 2" ] },
       { "math": [ "u_pain()", "-=", "u_grit_your_teeth_pain_value_removed" ] },
-      { "queue_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
+      { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
     ],
     "false_effect": [
       {
@@ -38,12 +38,12 @@
           "effect": [
             { "math": [ "u_grit_your_teeth_pain_value_removed", "=", "30" ] },
             { "math": [ "u_pain()", "-=", "u_grit_your_teeth_pain_value_removed" ] },
-            { "queue_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
+            { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
           ],
           "false_effect": [
             { "math": [ "u_grit_your_teeth_pain_value_removed", "=", "u_pain()" ] },
             { "math": [ "u_pain()", "=", "0" ] },
-            { "queue_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
+            { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
           ]
         }
       }

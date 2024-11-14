@@ -1603,7 +1603,7 @@
                 { "u_spawn_item": "helmet_riot", "count": 5 },
                 { "u_spawn_item": "armor_riot_arm", "count": 5 },
                 { "u_spawn_item": "armor_riot_leg", "count": 5 },
-                { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+                { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
               ]
             }
           }
@@ -1631,7 +1631,7 @@
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },
           { "assign_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
-          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+          { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },

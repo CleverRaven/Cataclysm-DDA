@@ -43,7 +43,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" },
-        { "queue_eocs": "EOC_BEM_ANCHOR_SELLER_GONE", "time_in_future": [ "0s", "0s" ] }
+        { "run_eocs": "EOC_BEM_ANCHOR_SELLER_GONE", "time_in_future": [ "0s", "0s" ] }
       ]
     },
     "responses": [

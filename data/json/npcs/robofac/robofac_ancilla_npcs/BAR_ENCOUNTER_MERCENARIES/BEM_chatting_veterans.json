@@ -25,7 +25,7 @@
       {
         "effect": [
           { "u_add_effect": "drunk", "duration": "370 minutes" },
-          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
+          { "run_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
           { "u_add_faction_trust": 1 }
         ]
       }
@@ -33,10 +33,7 @@
     "responses": [
       {
         "text": "Bar… barshender!  We… we?",
-        "effect": [
-          "end_conversation",
-          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }
-        ],
+        "effect": [ "end_conversation", { "run_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] } ],
         "topic": "TALK_DONE"
       }
     ]

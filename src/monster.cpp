@@ -307,6 +307,9 @@ monster::monster( const mtype_id &id ) : monster()
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
+    if( reproduces && type->baby_timer ) {
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
+    }
     biosignatures = type->biosignatures;
     if( monster::has_flag( mon_flag_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
@@ -559,12 +562,6 @@ void monster::try_reproduce()
     // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
     if( !type->baby_timer ) {
         return;
-    }
-
-    if( !baby_timer && has_eaten_enough() ) {
-        // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
-        // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
-        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     bool season_spawn = false;
@@ -968,8 +965,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
+    wattron( w, c_light_gray );
     for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_light_gray, lines[i] );
+        mvwprintw( w, point( column, vStart++ ), lines[i] );
     }
 
     if( !mission_fused.empty() ) {
@@ -979,9 +977,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         lines = foldstring( fused_desc, max_width );
         numlines = lines.size();
         for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-            mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+            mvwprintw( w, point( column, ++vStart ), lines[i] );
         }
     }
+    wattroff( w, c_light_gray );
 
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {

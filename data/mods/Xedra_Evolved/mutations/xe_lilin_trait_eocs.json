@@ -17,20 +17,20 @@
                 { "u_add_effect": "effect_lilin_temporary_glorious", "duration": "PERMANENT" },
                 { "u_message": "You spin a beguiling web of illusion around yourself.", "type": "good" },
                 {
-                  "queue_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
+                  "run_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
                   "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200 ) )" ] }
                 }
               ],
               "false_effect": [
                 { "u_message": "You don't have enough ruach to enhance your appearance.", "type": "bad" },
-                { "queue_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
+                { "run_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
               ]
             }
           ]
         },
         "else": [
           { "u_message": "You are already so beautiful no illusion could enhance your appearance", "type": "mixed" },
-          { "queue_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
+          { "run_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
         ]
       }
     ],
@@ -73,7 +73,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
+                "run_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
                 "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200 ) )" ] }
               }
             ],
@@ -114,7 +114,7 @@
               { "u_add_effect": "effect_lilin_attribute_bonuses", "duration": "PERMANENT" },
               { "u_message": "You draw on your ruach to enhance your physical abilities.", "type": "good" },
               {
-                "queue_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
+                "run_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * 1 + ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
@@ -124,7 +124,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach to enhance your physical abilities.", "type": "bad" },
-              { "queue_eocs": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -168,7 +168,7 @@
                 "type": "mixed"
               },
               {
-                "queue_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
+                "run_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
                 "time_in_future": {
                   "math": [
                     "rng(0.75,1.25) * 1 + ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
@@ -207,7 +207,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach to transform into an owl.", "type": "bad" },
-              { "queue_eocs": "EOC_LILIN_TURN_INTO_OWL_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_LILIN_TURN_INTO_OWL_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -249,11 +249,11 @@
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "50" ] },
               { "u_add_effect": "effect_lilin_bonus_healing_active", "duration": "PERMANENT" },
               { "u_message": "You pour ruach into your wounds and your body begins healing.", "type": "good" },
-              { "queue_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
+              { "run_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach to heal your wounds.", "type": "bad" },
-              { "queue_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -317,11 +317,11 @@
                 "if": { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
                 "then": { "math": [ "u_hp('leg_r')", "++" ] }
               },
-              { "queue_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
+              { "run_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach accelerate your healing.", "type": "neutral" },
-              { "queue_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -397,7 +397,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough ruach to transform into a strix.", "type": "bad" },
-              { "queue_eocs": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -431,7 +431,7 @@
     "id": "EOC_LILIN_STRIX_LEAP",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2000",
           "prep_time": "1",
