@@ -89,7 +89,7 @@
         "Ŗ": { "item": "uzimag", "chance": 100 },
         "Ř": { "item": "9mm", "chance": 100 },
         "$": { "item": "backpack", "chance": 100 },
-        "@": [ { "item": "light_battery_cell", "chance": 100 }, { "item": "flashlight", "chance": 100 } ],
+        "@": [ { "item": "flashlight", "chance": 100 } ],
         "%": { "item": "helmet_ball", "chance": 100 },
         "^": { "item": "mask_dust", "chance": 100 },
         "*": { "item": "paint_brush", "chance": 100 },
@@ -97,7 +97,7 @@
         "_": { "item": "codeine", "chance": 100 },
         "C": [ { "item": "peanutbutter", "chance": 100 }, { "item": "crackers", "chance": 100, "repeat": 2 } ]
       },
-      "items": { "(": { "item": "paint_tutorial", "chance": 100 } },
+      "items": { "(": { "item": "paint_tutorial", "chance": 100 }, "@": { "item": "fully_loaded_medium_battery", "chance": 100 } },
       "monster": { "d": { "monster": "mon_dummy_tutorial" } },
       "traps": {
         "1": "tr_tutorial_1",
@@ -121,6 +121,11 @@
     "type": "item_group",
     "id": "fully_loaded_lighter",
     "items": [ { "item": "lighter", "prob": 100, "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fully_loaded_medium_battery",
+    "items": [ { "item": "medium_battery_cell", "prob": 100, "charges": 56 } ]
   },
   {
     "type": "item_group",
