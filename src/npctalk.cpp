@@ -4763,8 +4763,8 @@ talk_effect_fun_t::func f_forget_recipe( const JsonObject &jo, std::string_view 
                                        true );
     }
 
-    return [forgotten_recipe, use_subcategory, forgotten_recipe_is_category,
-                      forgotten_recipe_subcategory, is_npc]( dialogue const & d ) {
+    return [forgotten_recipe, forgotten_recipe_is_category, forgotten_recipe_subcategory,
+                      is_npc]( dialogue const & d ) {
         if( forgotten_recipe_is_category ) {
             const recipe_subset &known_recipes = d.actor( is_npc )->get_character()->get_learned_recipes();
             const crafting_category_id category_to_use( forgotten_recipe.evaluate( d ) );
