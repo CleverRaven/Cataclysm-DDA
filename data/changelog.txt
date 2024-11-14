@@ -166,6 +166,14 @@ Plastic tub audit
 Adds throwing practice tools
 Debug spawn NPC by class id
 EOCs modifying calories track spent calories
+Adds whispering fungi to fungi zombie mongroup.
+Added check for stealing prior to obtaining book to read
+Added check for stealing prior to reloading items
+Added check for stealing prior to activating items
+Deconstruct simple furniture in the dark
+Mission deadlines supports dialogue variables
+Add a new appliance, the glassblower's crucible
+Add a new widget to display weight as "##.#/##.#[unit]"
 NPC factions get mad if you mess with their property by smashing or deconstructing it etc
 obsolete generic NPC common classes; use the avatar character generator instead
 Allow PCs/NPCs to move diagonally during overmap pathfinding
@@ -357,6 +365,12 @@ Massive expansion of dialogues and messages for various categories
 Make more zombies wear wedding rings
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
+Remove secret science and military stuff from bank/industry/mall vaults
+No free wiring in log walls
+Military locations can spawn EOD suits
+Added a welding store
+Titanium Density Fix
+Add Vitamin C Supplements
 
 
 ## Interface:
@@ -455,6 +469,12 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
+Unify name suffix and profession
+Add daily health widget
+Add labels to structured sidebar tiny bodygraphs
+use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
+Debug reveal map moved to overmap editor, can reveal any overmap
+Wrap the text in the menu for choosing your new faction camp type
 Missions track when they were completed/failed
 Add activity to continually bash something until it's destroyed
 Option to set all of a companion's job priorities at once
@@ -739,6 +759,14 @@ Prevent Paraclesians from being born with a drivers license
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
+Martial Mastery: Fix duration of several technique effects
+Create an external option for disabling zombify_into. Apply it to both Aftershock:Exoplanet and DDtD
+[Xedra Evolved] Moon's tears weapons
+[Xedra Evolved] Add playable Lilin with appropriate scenario
+[MoM] Torrential Channeling power maintenance also raises Nether Attunement
+Aftershock: Remove swims flag from terrestrial creatures.
+[MoM] Feral psion updates with copy-from
+Aftershock: Add suit batteries for the winter suits.
 [DinoMod] eolambia
 [Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
 [Xedra Evolved] Only humans can learn dream magick
@@ -848,6 +876,7 @@ Replace land mines with bear traps in the bandit cabin
 Human lard less dense
 Ballista is no longer pure magic
 Make lab access shafts normally visible once spotted
+Auditing portable charcoal kiln cleanup
 NPCs can funk out to music, too.
 
 
@@ -1124,6 +1153,31 @@ Faulty guns don't lock your view
 Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix non-battery charge consumption of active items
+[MoM] Purifiable updates
+Calculate correct height when a uilist has desired_bounds not including a height
+Fix: weariness makes hauling faster instead of slower
+Make floors under furniture correct
+Unload zone properly clears auto whitelists
+Stop spawning too many monsters in a cave
+Removes a few handguns, rifles, and a shotgun that didn't meet inclusion criteria
+Fix raw butter calories, add salt to raw butter recipes, Add raw butter as option to recipes that use butter
+Flamethrowers count as firestarters for lighting up bombs
+Forbid starting fires (using firestarters) on water tiles
+[Xedra Evolved] Fix Eater's sixth sense trait
+Fragile and Sturdy flags cannot be inherited
+[Xedra Evolved] Lo Ra'ab
+Faction camp storage zone effective after editing
+Fix: weariness makes hauling faster instead of slower
+Construction blueprints don't require deconstruction tools or decoration materials
+Removes the pockets flag from the cropped hoodies
+[MoM] Fix """""missing""""" EoC id
+Deployed furniture won't be floating anymore if deployed on open air
+Fix minor typos in keybinding descriptions
+NPCs stealing player default name
+Fix zoo scenario spawn
+Fix regression of calculation of the height of a uilist that has a desired_bounds not including a height
+Lowers electronic skill requirement of clay car batteries from 3 to 2
+Cotton patch can be used to stop bleeding
 
 
 ## Performance:
@@ -1237,6 +1291,8 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
+Added palettes to use parameters more generally
+debug dialogue + talk_topic menus
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
 Adds bash_scaling fields to use with spells
 Replace some player responses with snippets
@@ -1272,6 +1328,8 @@ stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
 Fixed Linux experimental build automation issues caused by SDL dependencies
+Fixes broken Windows build due to missing ImGui Freetype-related files and map::get_field function deletion
+Fixed broken Android build due to missing FreeType library
 Allow the game to build on OSX
 
 
