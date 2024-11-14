@@ -13436,7 +13436,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
     // cig dies out
     if( item_counter == 0 ) {
         if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), display_name() );
         }
         if( typeId() == itype_cig_lit ) {
             convert( itype_cig_butt, carrier );
@@ -13452,6 +13452,20 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         }
         active = false;
         return false;
+    }
+
+    if( carrier != nullptr ) {
+        // No lit cigs in inventory, only in hands or in mouth
+        // So if we're taking cig off or unwielding it, extinguish it first
+        if( !carrier->is_worn( *this ) && !carrier->is_wielding( *this ) ) {
+            if( type->revert_to ) {
+                convert( *type->revert_to, carrier );
+            } else {
+                type->invoke( carrier, *this, pos, "transform" );
+            }
+            active = false;
+            return false;
+        }
     }
 
     if( !one_in( 10 ) ) {
@@ -13470,7 +13484,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         } else if( carrier->has_trait( trait_LIGHTWEIGHT ) ) {
             duration = 30_seconds;
         }
-        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname() );
+        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), display_name() );
         if( has_flag( flag_TOBACCO ) ) {
             carrier->add_effect( effect_cig, duration );
         } else {
@@ -13481,14 +13495,14 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
             ( carrier->has_trait( trait_JITTERY ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
-                                        tname() );
+                                        display_name() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
-                                        tname() );
+                                        display_name() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
