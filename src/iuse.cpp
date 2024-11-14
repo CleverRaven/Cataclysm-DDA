@@ -8811,6 +8811,31 @@ std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint & )
     return 0;
 }
 
+std::optional<int> iuse::postable( Character *p, item *it, const tripoint & )
+{
+    map &here = get_map();
+
+    //arbitrary limit of 10 postable items per wall
+    const std::function<bool( const tripoint_bub_ms & )> f = [&here]( const tripoint_bub_ms & pnt ) {
+        return here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, pnt ) && here.i_at( pnt ).size() < 10;
+    };
+
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
+                _( "Post to which wall?" ), _( "There is no applicable wall nearby." ), f, false );
+    if( !pnt_ ) {
+        return std::nullopt;
+    }
+
+    //copy and place used item and remove the used item from inventory
+    item_location original_item( *p, it );
+    item copy_item( *original_item );
+    here.add_item( *pnt_, copy_item );
+    original_item.remove_item();
+    p->add_msg_if_player( m_good, _( "You put up the %s." ), copy_item.tname() );
+
+    return 0;
+}
+
 std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoint & )
 {
     p->add_msg_if_player( _( "You pop a %s." ), it->tname() );

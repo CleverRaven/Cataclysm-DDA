@@ -592,6 +592,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POSTABLE",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
