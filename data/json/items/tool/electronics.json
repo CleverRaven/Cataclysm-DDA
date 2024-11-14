@@ -587,7 +587,7 @@
     "volume": "111 ml",
     "longest_side": "15 cm",
     "price": "1299 USD",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "looks_like": "cell_phone",
     "symbol": ";",
