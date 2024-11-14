@@ -242,6 +242,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN_SIDE_GAIN_SUSTENANCE",
     "//": "For ease of keeping track, we give the same kcal as ruach here.  Remember that lilin with this trait have greatly-reduced metabolism",
+    "//2": "Vitamins do not check for quantity because there's no hypervitaminosis.  If that gets re-added, this will need to be revisited",
     "condition": "u_is_character",
     "effect": [
       {
@@ -251,7 +252,10 @@
       {
         "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
         "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
-      }
+      },
+      { "math": [ "n_vitamin('iron')", "+=", "rng(15,30)" ] },
+      { "math": [ "n_vitamin('vitC')", "+=", "rng(15,30)" ] },
+      { "math": [ "n_vitamin('calcium')", "+=", "rng(15,30)" ] }
     ],
     "false_effect": [
       {
@@ -277,7 +281,10 @@
           {
             "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
             "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
-          }
+          },
+          { "math": [ "n_vitamin('iron')", "+=", "rng(15,30)" ] },
+          { "math": [ "n_vitamin('vitC')", "+=", "rng(15,30)" ] },
+          { "math": [ "n_vitamin('calcium')", "+=", "rng(15,30)" ] }
         ],
         "else": {
           "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
@@ -289,7 +296,10 @@
             {
               "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
               "then": { "math": [ "n_val('thirst')", "-=", "rng(0,15)" ] }
-            }
+            },
+            { "math": [ "n_vitamin('iron')", "+=", "rng(0,10)" ] },
+            { "math": [ "n_vitamin('vitC')", "+=", "rng(0,10)" ] },
+            { "math": [ "n_vitamin('calcium')", "+=", "rng(0,10)" ] }
           ],
           "else": {
             "if": { "u_has_species": "NETHER" },
@@ -301,7 +311,10 @@
               {
                 "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
                 "then": { "math": [ "n_val('thirst')", "-=", "rng(-25,25)" ] }
-              }
+              },
+              { "math": [ "n_vitamin('iron')", "+=", "rng(-30,30)" ] },
+              { "math": [ "n_vitamin('vitC')", "+=", "rng(-30,30)" ] },
+              { "math": [ "n_vitamin('calcium')", "+=", "rng(-30,30)" ] }
             ],
             "else": {
               "if": {
@@ -322,7 +335,10 @@
                 {
                   "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
                   "then": { "math": [ "n_val('thirst')", "-=", "rng(2,6)" ] }
-                }
+                },
+                { "math": [ "n_vitamin('iron')", "+=", "rng(1,8)" ] },
+                { "math": [ "n_vitamin('vitC')", "+=", "rng(1,8)" ] },
+                { "math": [ "n_vitamin('calcium')", "+=", "rng(1,8)" ] }
               ],
               "else": {
                 "if": {
@@ -344,7 +360,10 @@
                   {
                     "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
                     "then": { "math": [ "n_val('thirst')", "-=", "rng(1,3)" ] }
-                  }
+                  },
+                  { "math": [ "n_vitamin('iron')", "+=", "rng(1,4)" ] },
+                  { "math": [ "n_vitamin('vitC')", "+=", "rng(1,4)" ] },
+                  { "math": [ "n_vitamin('calcium')", "+=", "rng(1,4)" ] }
                 ]
               }
             }
