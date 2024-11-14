@@ -36,7 +36,6 @@
         ".": "t_region_groundcover_urban",
         "[": "t_region_groundcover_urban",
         "]": "t_region_groundcover_urban",
-        "#": "t_wall_b",
         "!": "t_fence",
         "@": "t_fencegate_c",
         "1": "t_quietfarm_border_fence",
@@ -111,7 +110,7 @@
         "------------------------"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "_": "t_floor", "#": "t_wall_b", "H": "t_floor", "s": "t_screened_porch_wall", "R": "t_floor", "u": "t_door_glass_c" },
+      "terrain": { "_": "t_floor", "H": "t_floor", "s": "t_screened_porch_wall", "R": "t_floor", "u": "t_door_glass_c" },
       "furniture": { "8": "f_counter" },
       "items": {
         "8": [ { "item": "shower", "chance": 10 }, { "item": "cleaning", "chance": 3 }, { "item": "softdrugs", "chance": 5 } ]
