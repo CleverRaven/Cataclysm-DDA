@@ -28,7 +28,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a wolf.", "type": "bad" },
-                      { "queue_eocs": "EOC_WEREWOLF_WOLF_FORM_deactivated_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_deactivated_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -96,7 +96,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into your war form.", "type": "bad" },
-                      { "queue_eocs": "EOC_WEREWOLF_HYBRID_FORM_deactivated_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_deactivated_future", "time_in_future": 0 }
                     ]
                   }
                 ]

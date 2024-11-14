@@ -157,6 +157,8 @@ Plastic tub audit
 Adds throwing practice tools
 Debug spawn NPC by class id
 EOCs modifying calories track spent calories
+NPC factions get mad if you mess with their property by smashing or deconstructing it etc
+obsolete generic NPC common classes; use the avatar character generator instead
 Allow PCs/NPCs to move diagonally during overmap pathfinding
 
 
@@ -439,6 +441,8 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
+Missions track when they were completed/failed
+Add activity to continually bash something until it's destroyed
 Option to set all of a companion's job priorities at once
 Replace popups with informative message when choosing point(s) on the map
 The mission UI can scroll to read longer description
@@ -713,6 +717,7 @@ Prevent Paraclesians from being born with a drivers license
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
+[DinoMod] eolambia
 [Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
 [Xedra Evolved] Only humans can learn dream magick
 [Xedra Evolved] Add (very small) chance of being attacked by a lilit in your sleep
@@ -1106,7 +1111,8 @@ Optimize typed coordinate conversion functions for widespread savings
 NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 Fix lag examining large stacks of crafted items
-the absolute map square position of the first submap
+Reduce unnecessary/duplicate checks for dangerous tiles
+Cache the absolute map square position of the first submap
 Cache mutation trait flags
 
 
@@ -1184,13 +1190,19 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
+Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Adds bash_scaling fields to use with spells
+Replace some player responses with snippets
+Make mutation able to use mana as resourse without EoC
+Mod Compatibility 2: Prevent Error from duplicate ids within mod_interactions folder
+Remove duplicated code to generate origin string
+Add controlling_vehicle EOC condition
 debug dialogue + talk_topic menus
 Tutorial content moved to a mod, keybind snippets work outside of tutorial
 Spell activated EoCs are passed the target as a context val location variable spell_location
 terrain/furniture: code deduplication and improved copy-from support
 Add a new event for when worn armor is detroyed by damage.
 allow furniture/terrain copy-from for symbol, color
-
 
 ## Build:
 Support Mac arm64 build
@@ -1222,6 +1234,7 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Allow new KEYBDINGS window title to be translated
 Omit unnecessary lines from translations
 Dont extract monster guns and spells for translation
 Dont extract abstract names for translation

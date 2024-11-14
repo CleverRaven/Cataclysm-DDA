@@ -303,7 +303,7 @@
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "0.5",
           "spell_to_cast": "ierde_smashing_punch_spell",
@@ -319,7 +319,7 @@
     "condition": { "math": [ "u_val('pos_z')", "<=", "-1" ] },
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "ierde_no_sleep_meditate_spell",

@@ -45,7 +45,7 @@
     "condition": { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
     "effect": [
       { "if": { "math": [ "u_val('focus')", ">", "5" ] }, "then": { "math": [ "u_val('focus')", "-=", "1" ] } },
-      { "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN", "time_in_future": [ "1 minutes", "3 minutes" ] }
+      { "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN", "time_in_future": [ "1 minutes", "3 minutes" ] }
     ]
   },
   {
@@ -91,7 +91,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -179,7 +179,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -270,7 +270,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -361,7 +361,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -452,7 +452,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -543,7 +543,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -634,7 +634,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -725,7 +725,7 @@
                         "then": { "math": [ "u_val('focus')", "-=", "5" ] }
                       },
                       {
-                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+                        "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
                         "time_in_future": [
                           { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                           { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }

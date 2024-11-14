@@ -324,7 +324,7 @@
     "effect": [
       { "u_message": "The trees whisper their secrets to you.  [Check mutations to activate]", "type": "good" },
       { "u_add_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
+      { "run_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
     ],
     "false_effect": [
       {

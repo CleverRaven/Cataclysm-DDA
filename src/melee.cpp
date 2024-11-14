@@ -2052,7 +2052,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
             if( source != nullptr && !source->is_hallucination() ) {
                 for( damage_unit &du : dam.damage_units ) {
-                    shield->damage_armor_durability( du, bp_hit, calculate_by_enchantment( 1,
+                    shield->damage_armor_durability( du, du, bp_hit, calculate_by_enchantment( 1,
                                                      enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
                 }
             }

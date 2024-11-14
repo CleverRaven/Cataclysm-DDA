@@ -186,6 +186,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```DEAF``` Makes the player deaf.
 - ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
+- ```ENERGY_SHIELD``` Marks a piece of armor as an energy shield. Energy shields do not suffer degradation from attacks and instead have an hp pool defined by the dialogue variable `ENERGY_SHIELD_HP` that is depleted by blocked attacks and a second variable `ENERGY_SHIELD_MAX_HP` which just stores the max hp of the shield in case it's needed for EOC manipulation.  When the hp pool is depleted, the shield is destroyed. The fields `ENERGY SHIELD_HP` and `ENERGY_SHIELD_MAX_HP` are dialogue variables stored in the item, and can be modified through effects on condition.
 - ```EXTRA_PLATING``` Item can be worn over some armors, as additional layer of protection (like armor above brigandine); specifically can be put in pocket for armor with this flag restriction.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
 - ```FIN``` This item is swim fins aka diving fins aka flippets, and provide speed boost when you swim.
@@ -844,6 +845,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```REBREATHER``` If you wear this item, your oxygen won't fall lower than 12 (default is ~50).
 - ```REDUCED_BASHING``` Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` Gunmod flag; reduces the item's base weight by 25%.
+- ```RELIC_PINK``` - Changes the color of item to pink, same as any another item with magical properties
 - ```REQUIRES_TINDER``` Requires tinder to be present on the tile this item tries to start a fire on.
 - ```ROBOFAC_ROBOT_MEDIUM``` This item is a medium-size Hub 01 drone, and you can store it in specific slot in drone-tech harness.
 - ```ROBOFAC_ROBOT_SMALL``` This item is a small-size Hub 01 drone, and you can store it in specific slot in drone-tech harness.
