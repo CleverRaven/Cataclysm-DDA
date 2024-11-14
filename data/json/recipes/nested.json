@@ -2503,7 +2503,8 @@
       "quiver_large_birchbark",
       "nylon_quiver",
       "pipe_quiver",
-      "pipe_quiver_large"
+      "pipe_quiver_large",
+      "quiver_simple_cloth"
     ],
     "difficulty": 3
   },
@@ -7109,7 +7110,7 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_copper", "pike_wood" ],
+    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
     "difficulty": 3
   },
   {

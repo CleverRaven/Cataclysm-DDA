@@ -51,7 +51,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a bear.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -102,7 +102,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a bear if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -155,7 +155,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a cougar.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -201,7 +201,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a cougar if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -262,7 +262,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a deer.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -313,7 +313,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a deer if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -378,7 +378,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a raven.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -433,7 +433,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a raven if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {

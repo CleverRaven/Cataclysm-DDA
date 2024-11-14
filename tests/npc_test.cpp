@@ -473,8 +473,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_zero, vpart_frame );
-                veh->install_part( point_zero, vpart_seat );
+                veh->install_part( point_rel_ms_zero, vpart_frame );
+                veh->install_part( point_rel_ms_zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -482,11 +482,12 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
-                do {
-                    guy->normalize();
-                    guy->randomize();
-                    // Repeat until we get an NPC vulnerable to acid
-                } while( guy->is_immune_field( fd_acid ) );
+                guy->normalize();
+                guy->randomize();
+                guy->remove_worn_items_with( [&]( item & armor ) {
+                    return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
+                } );
+                REQUIRE( !guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( get_map().getglobal( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them

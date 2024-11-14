@@ -371,7 +371,8 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
-    ]
+    ],
+    "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_anchisaurus_juvenile",
@@ -401,7 +402,8 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
-    ]
+    ],
+    "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_haplocanthosaurus_juvenile",
@@ -516,7 +518,8 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
+    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_hesperosaurus_juvenile",
@@ -596,28 +599,42 @@
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
+    "volume": "400 L",
+    "weight": "400 kg",
     "color": "yellow",
+    "hp": 100,
     "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
+    "extend": { "flags": [ "SWIMS", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
-    "copy-from": "mon_stegosaurus_juvenile",
+    "copy-from": "mon_tenontosaurus_juvenile",
+    "volume": "425 L",
+    "weight": "425 kg",
     "color": "yellow",
-    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
+    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
   {
     "id": "mon_iguanodon_juvenile",
     "type": "MONSTER",
     "name": "gray and magenta two-legged juvenile",
     "copy-from": "mon_camptosaurus_juvenile",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 220,
     "description": "A two-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
     "color": "yellow",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 365, "into": "mon_iguanodon" }
+    "upgrades": { "age_grow": 365, "into": "mon_iguanodon" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED", "SWIMS" ]
+  },
+  {
+    "id": "mon_eolambia_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_iguanodon_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_eolambia" }
   },
   {
     "id": "mon_hadrosaurus_juvenile",
@@ -711,6 +728,16 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
+    "id": "mon_lokiceratops_juvenile",
+    "type": "MONSTER",
+    "name": "lokiceratops juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a bony head crest with two horns pointing out and curving down, two brow horns, and a beak.",
+    "copy-from": "mon_lokiceratops",
+    "hp": 200,
+    "upgrades": { "age_grow": 365, "into": "mon_lokiceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_styracosaurus_juvenile",
     "type": "MONSTER",
     "name": "styracosaurus juvenile",
@@ -740,7 +767,7 @@
     "weight": "650 kg",
     "hp": 75,
     "upgrades": { "age_grow": 220, "into": "mon_einiosaurus" },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_achelousaurus_juvenile",
@@ -779,11 +806,12 @@
   {
     "id": "mon_kosmoceratops_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_triceratops_juvenile",
+    "copy-from": "mon_kosmoceratops",
     "volume": "600 L",
     "weight": "600 kg",
     "hp": 75,
-    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" }
+    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_torosaurus_juvenile",

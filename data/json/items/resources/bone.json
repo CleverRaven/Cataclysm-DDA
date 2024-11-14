@@ -293,6 +293,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_beaver_huge",
+    "name": { "str": "dambreaker skull" },
+    "description": "A skull of an abnormally large mutant beaver.",
+    "copy-from": "skull_beaver",
+    "proportional": { "volume": 2.5, "weight": 2.5, "longest_side": 1.75 }
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_pig",
     "name": { "str": "pig skull" },
     "description": "The skull of a pig, either a domestic or a wild one.",

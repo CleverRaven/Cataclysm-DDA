@@ -35,7 +35,7 @@ Here is a full list of supported values for MOD_INFO:
 [
   {
     "type": "MOD_INFO",                             // Mandatory, you're making one of these!
-    "id": "Mod_ID",                                 // Mandatory, unique id for your mod. You should not use the same id as any other mod.
+    "id": "Mod_ID",                                 // Mandatory, unique id for your mod. You should not use the same id as any other mod.  Cannot contain the '#' character.  Mod ids must also be valid folder pathing in order to support compatibility with other mods.
     "name": "Mod's Display Name",                   // Mandatory.
     "authors": [ "Me", "A really cool friend" ],    // Optional, but you probably want to put your name here. More than one entry can be added, as shown.
     "description": "The best mod ever!",            // Optional

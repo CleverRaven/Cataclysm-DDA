@@ -127,7 +127,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to to begin the vigil.",
+    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to begin the vigil.",
     "prereqs": [ "IERDE_EYES" ],
     "category": [ "IERDE" ],
     "activated_is_setup": false,
@@ -149,6 +149,21 @@
     "active": true,
     "activated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON" ],
     "deactivated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CRAFT_IN_DARKNESS",
+    "name": { "str": "Sense the Smallest Tremor" },
+    "points": 3,
+    "description": "The Ierde's ability to sense small movements is heightened to such a degree that with small movements of their fingers, they can sense the exact shape and position of objects nearby.  They can craft in darkness, as long as \"The Soil Knows Those Who Tread Upon It\" is active.",
+    "prereqs": [ "IERDE_DETECT_NEARBY_MONSTERS_EARTH" ],
+    "category": [ "IERDE" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_effect": "effect_ierde_sense_nearby_monsters" },
+        "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

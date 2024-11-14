@@ -85,6 +85,7 @@
       [ "spell_scroll_druid_disinfectant", 20 ],
       [ "spell_scroll_druid_water_walking", 20 ],
       [ "spell_scroll_druid_bearmantle", 25 ],
+      [ "spell_scroll_druid_goodberry", 20 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],

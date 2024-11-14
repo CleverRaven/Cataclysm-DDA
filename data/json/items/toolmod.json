@@ -48,8 +48,8 @@
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
-    "name": { "str": "pseudo magazine mod" },
-    "description": "For containing pseudo magazines, obviously.",
+    "name": { "str": "pseudo magazine mod", "//~": "NO_I18N" },
+    "description": { "str": "For containing pseudo magazines, obviously.", "//~": "NO_I18N" },
     "color": "light_green",
     "flags": [ "PSEUDO", "DEBUG_ONLY" ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_magazine", "item_restriction": [ "pseudo_magazine" ] } ]

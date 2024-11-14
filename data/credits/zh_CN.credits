@@ -1,6 +1,48 @@
 # 超过78个字符的段落将自动换行
 # 下面这行这么长
 ##############################################################################
+（<color_cyan>0.H</color>）：</color>
+<color_white>原作者：</color>           <color_white>项目主管：</color>
+<color_yellow>Whales</color>（<color_dark_gray>不再参与</color>） <color_yellow>KevinGranade</color>
+
+<color_white>当前主要开发者：</color>
+<color_yellow>anoobindisguise</color> - 对游戏的大部分领域进行持续地错误修复和完善。
+<color_yellow>GuardianDll</color> - 对游戏和mod的各种修改。
+<color_yellow>irwiss</color> - 大量的错误修复和代码增强。
+<color_yellow>Maleclypse</color> - 本次发布周期的主要合并者及对Xedra 超进化的许多增强。
+
+<color_white>特别感谢：</color>
+<color_yellow>anothersimulacrum</color> - 解决各种难题。
+<color_yellow>akrieger</color> - 卡顿毁灭者。
+<color_yellow>Fris0uman</color> - 管理贴图和其他事务。
+<color_yellow>John-Candlebury</color> - BOSS战和《隔离协议》
+<color_yellow>Night-Pryanik</color> - 终于让感冒和流感符合逻辑。
+<color_yellow>PatrikLundell</color> - 派系营地内容和代码基础设施大规模且亟需的翻新。
+<color_yellow>Procyonae</color> - 大量的地图改进和所有的反向移植。
+<color_yellow>Qrox</color> - 错误修复、PR审查和代码基础设施建设。
+<color_yellow>Ramza13</color> - 让许多mod制作者梦想成真。
+<color_yellow>RenechCDDA</color> - 影子？营地改进和NPC性格。
+<color_yellow>Rivet-the-Zombie</color> - 完成10000次合并。
+<color_yellow>Standing-Storm</color> - 近年来最快从0到100。
+<color_yellow>Venera3</color> - 推进新的肢体系统。
+<color_yellow>ZhilkinSerg</color> - 所有PR基本都是TA合并的。
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>和<color_yellow>lispcoc</color>.
+
+<color_white>特别鸣谢艺术贡献者：</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto</color>和许多其他贡献者。
+
+<color_white>完整贡献者列表请见：</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+《<color_light_cyan>大灾变</color>：<color_light_blue>劫后余生</color>》按 <color_white>CC-BY-SA 3.0</color> 授权协议发布：
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+（0.G）：
 <color_white>原作者：</color>           <color_white>项目主管：</color>
 <color_yellow>Whales</color>（<color_dark_gray>不再参与</color>） <color_yellow>KevinGranade</color>
 

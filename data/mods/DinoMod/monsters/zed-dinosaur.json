@@ -1288,6 +1288,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zeolambia",
+    "name": { "str": "eolambia zombie" },
+    "copy-from": "mon_ziguanodon",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "hp": 260,
+    "description": "A bulky, beaked dinosaur, dead but walking, eyes vacant and swollen.",
+    "burn_into": "mon_zeolambia_scorched",
+    "fungalize_into": "mon_zeolambia_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zeolambia_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zadrosaurus",
     "name": { "str": "hadrosaurus zombie" },
     "copy-from": "mon_ziguanodon",
@@ -1553,6 +1567,24 @@
     "fungalize_into": "mon_zzuniceratops_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zzuniceratops_UPGRADE" },
     "special_attacks": [ [ "LUNGE", 10 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zokiceratops",
+    "name": { "str": "lokiceratops zombie" },
+    "copy-from": "mon_zriceratops",
+    "//": "When large weights and volumes are fixed this should be 5000 L and 5000 kg",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_skill": 5,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "hp": 375,
+    "description": "A massive, shambling, four-legged dinosaur with a bony head crest with two large horns that curve out and down, two long brow horns, and a beak.  Its eyes ooze black, putrid tears.",
+    "burn_into": "mon_zokiceratops_scorched",
+    "fungalize_into": "mon_zokiceratops_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zokiceratops_UPGRADE" },
+    "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 40 ], { "type": "bite", "cooldown": 5 } ]
   },
   {
     "type": "MONSTER",

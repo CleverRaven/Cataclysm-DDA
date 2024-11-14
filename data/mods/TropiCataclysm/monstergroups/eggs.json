@@ -105,11 +105,6 @@
     "monsters": [ { "monster": "mon_tortoise" } ]
   },
   {
-    "name": "GROUP_EGG_TERMITE",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_termite_nymph" } ]
-  },
-  {
     "name": "GROUP_EGG_TRIFFID",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_triffid_podling" } ]

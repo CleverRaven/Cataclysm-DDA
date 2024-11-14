@@ -230,8 +230,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( here.furn( p ).to_i() > 0 ) {
-                    const furn_t &furniture_type = here.furn( p ).obj();
+                const furn_id &f = here.furn( p );
+                if( f.to_i() > 0 ) {
+                    const furn_t &furniture_type = f.obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -359,6 +360,7 @@ std::optional<tripoint_bub_ms> editmap::edit()
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "EDIT_TRAPS" );
     ctxt.register_action( "EDIT_FIELDS" );
+    ctxt.register_action( "EDIT_RADS" );
     ctxt.register_action( "EDIT_TERRAIN" );
     ctxt.register_action( "EDIT_FURNITURE" );
     ctxt.register_action( "EDIT_OVERMAP" );
@@ -393,9 +395,10 @@ std::optional<tripoint_bub_ms> editmap::edit()
 
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
+                                       "%s, %s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDIT_TRAPS" ),
                                        ctxt.describe_key_and_name( "EDIT_FIELDS" ),
+                                       ctxt.describe_key_and_name( "EDIT_RADS" ),
                                        ctxt.get_desc( "LEFT_WIDE", 1 ), ctxt.get_desc( "RIGHT_WIDE", 1 ),
                                        ctxt.get_desc( "UP_WIDE", 1 ), ctxt.get_desc( "DOWN_WIDE", 1 ),
                                        ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
@@ -417,6 +420,8 @@ std::optional<tripoint_bub_ms> editmap::edit()
             edit_feature<furn_t>();
         } else if( action == "EDIT_FIELDS" ) {
             edit_fld();
+        } else if( action == "EDIT_RADS" ) {
+            edit_rads();
         } else if( action == "EDIT_ITEMS" ) {
             edit_itm();
         } else if( action == "EDIT_TRAPS" ) {
@@ -610,10 +615,12 @@ void editmap::draw_main_ui_overlay()
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
         const point mp = tmax / 2 + point_south_east;
-        mvwputch( g->w_terrain, point( 1, mp.y ), c_yellow, '<' );
-        mvwputch( g->w_terrain, point( tmax.x - 1, mp.y ), c_yellow, '>' );
-        mvwputch( g->w_terrain, point( mp.x, 1 ), c_yellow, '^' );
-        mvwputch( g->w_terrain, point( mp.x, tmax.y - 1 ), c_yellow, 'v' );
+        wattron( g->w_terrain, c_yellow );
+        mvwaddch( g->w_terrain, point( 1, mp.y ), '<' );
+        mvwaddch( g->w_terrain, point( tmax.x - 1, mp.y ), '>' );
+        mvwaddch( g->w_terrain, point( mp.x, 1 ), '^' );
+        mvwaddch( g->w_terrain, point( mp.x, tmax.y - 1 ), 'v' );
+        wattroff( g->w_terrain, c_yellow );
     }
 
     if( tmpmap_ptr ) {
@@ -693,7 +700,7 @@ void editmap::draw_main_ui_overlay()
             hilights["mapgentgt"].draw( *this, true );
             drawsq_params params = drawsq_params().center( tripoint_bub_ms( SEEX - 1, SEEY - 1, target.z() ) );
             for( const tripoint_omt_ms &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, p.raw(), params );
+                tmpmap.drawsq( g->w_terrain, rebase_bub( p ), params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
@@ -718,7 +725,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         veh_msg = pgettext( "vehicle", "out" );
     }
 
-    const ter_t &terrain_type = here.ter( target ).obj();
+    const ter_id &t = here.ter( target );
+    const ter_t &terrain_type = t.obj();
     const furn_t &furniture_type = here.furn( target ).obj();
 
     int off = 1;
@@ -728,15 +736,16 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                target.z() );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), t.to_i(),
                static_cast<std::string>( terrain_type.id ),
                terrain_type.movecost
              );
     off++; // 2
-    if( here.furn( target ).to_i() > 0 ) {
+    const furn_id &f = here.furn( target );
+    if( f.to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
-                   here.furn( target ).to_i(),
+                   f.to_i(),
                    static_cast<std::string>( furniture_type.id ),
                    furniture_type.movecost,
                    furniture_type.move_str_req
@@ -1015,7 +1024,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint_bub
     ter_id teralt = undefined_ter_id;
     int alta = -1;
     int altb = -1;
-    const ter_id sel_ter = t.id.id();
+    const ter_id &sel_ter = t.id.id();
     if( editshape == editmap_rect ) {
         if( t.symbol() == LINE_XOXO || t.symbol() == '|' ) {
             isvert = true;
@@ -1052,7 +1061,7 @@ template<>
 void apply<furn_t>( const furn_t &t, const shapetype, const tripoint_bub_ms &,
                     const tripoint_bub_ms &, const std::vector<tripoint_bub_ms> &target_list )
 {
-    const furn_id sel_frn = t.id.id();
+    const furn_id &sel_frn = t.id.id();
     map &here = get_map();
     for( const tripoint_bub_ms &elem : target_list ) {
         here.furn_set( elem, sel_frn );
@@ -1208,6 +1217,15 @@ void editmap::setup_fmenu( uilist &fmenu )
     }
     if( sel_field >= 0 ) {
         fmenu.selected = sel_field;
+    }
+}
+
+void editmap::edit_rads() const
+{
+    map &here = get_map();
+    int value = 0;
+    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+        here.set_radiation( target, value );
     }
 }
 

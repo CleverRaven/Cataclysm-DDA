@@ -964,6 +964,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zeolambia_scorched",
+    "name": { "str": "scorched eolambia zombie" },
+    "copy-from": "mon_ziguanodon_scorched",
+    "looks_like": "mon_zeolambia",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "hp": 100,
+    "fungalize_into": "mon_zeolambia_fungus",
+    "description": "A heavily-burned slender zombie dinosaur with a beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zadrosaurus_scorched",
     "name": { "str": "scorched hadrosaurus zombie" },
     "copy-from": "mon_ziguanodon_scorched",
@@ -1157,6 +1170,19 @@
     "hp": 90,
     "description": "A massive, heavily-burned four-legged dinosaur with a tall bony head crest, two long brow horns, and a beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "fungalize_into": "mon_zzuniceratops_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zokiceratops_scorched",
+    "name": { "str": "scorched lokiceratops zombie" },
+    "copy-from": "mon_zriceratops_scorched",
+    "looks_like": "mon_zokiceratops",
+    "melee_skill": 3,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "hp": 280,
+    "description": "A massive, heavily-burned four-legged dinosaur with a bony head crest with two horns that curve out and down, two long brow horns, and a beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "fungalize_into": "mon_zokiceratops_fungus"
   },
   {
     "type": "MONSTER",

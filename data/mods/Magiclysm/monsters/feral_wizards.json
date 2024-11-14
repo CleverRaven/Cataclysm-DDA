@@ -313,7 +313,7 @@
     "id": "mon_feral_druid_enhanced",
     "type": "MONSTER",
     "name": { "//~": "High here meaning Grand, Powerful, Mighty, like High Elf", "str": "feral high druid" },
-    "description": "One a leader of a druidic order, this feral is barely recognizable anymore beneath the patches of bark, fur, and scales that cover their skin.  They occasionally stop and sniff the air like an animal.",
+    "description": "Once a leader of a druidic order, this feral is barely recognizable anymore beneath the patches of bark, fur, and scales that cover their skin.  They occasionally stop and sniff the air like an animal.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",

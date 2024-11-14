@@ -90,7 +90,7 @@
     "clauses": [
       {
         "id": "label_invisible",
-        "text": "     ",
+        "text": { "str": "     ", "//~": "NO_I18N" },
         "color": "c_black",
         "condition": { "math": [ "u_val('power_max')", "<=", "0" ] }
       },

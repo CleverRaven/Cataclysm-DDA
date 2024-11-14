@@ -20,7 +20,7 @@
         "text": "OK, fine.  Can you at least tell me what you remember about the events leading up to now?",
         "topic": "CWH_CONFUSED_1_IDEAS2"
       },
-      { "text": "Never mind then.", "topic": "TALK_FRIEND_CONVERSATION" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_FRIEND_CONVERSATION" }
     ]
   },
   {

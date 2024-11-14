@@ -403,26 +403,5 @@
     "harvest": "exempt",
     "revert_to_itype": "mannequin_decoy",
     "flags": [ "IMMOBILE", "NO_BREATHE", "NOT_HALLUCINATION" ]
-  },
-  {
-    "id": "mon_dummy_tutorial",
-    "type": "MONSTER",
-    "name": { "str": "dummy", "str_pl": "dummies" },
-    "description": "This dummy serves for only one purpose - to teach players how to hit monsters.",
-    "looks_like": "f_mannequin",
-    "default_faction": "",
-    "species": [ "UNKNOWN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 50,
-    "speed": 100,
-    "material": [ "wood" ],
-    "symbol": "X",
-    "color": "white",
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "vision_day": 1,
-    "harvest": "exempt",
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is destroyed." },
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION" ]
   }
 ]

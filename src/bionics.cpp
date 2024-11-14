@@ -928,7 +928,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
         const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && here.is_flammable( *pnt ) ) {
+        if( pnt && here.is_flammable( *pnt ) && !here.get_field( tripoint_bub_ms( *pnt ), fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
             if( has_trait( trait_PYROMANIA ) ) {
@@ -1693,10 +1693,13 @@ void Character::process_bionic( bionic &bio )
             mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_gills ) {
-        if( has_effect( effect_asthma ) ) {
+        const units::energy trigger_cost = bio.info().power_trigger / 8;
+        if( has_effect( effect_asthma ) && get_power_level() >= trigger_cost ) {
             add_msg_if_player( m_good,
-                               _( "You feel your throat open up and air filling your lungs!" ) );
+                               _( "Your %s activates and you feel your throat open up and air filling your lungs!" ),
+                               bio.info().name );
             remove_effect( effect_asthma );
+            mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_evap ) {
         if( is_underwater() ) {
@@ -2415,8 +2418,9 @@ float Character::env_surgery_bonus( int radius ) const
     float bonus = 1.0f;
     map &here = get_map();
     for( const tripoint_bub_ms &cell : here.points_in_radius( pos_bub(), radius ) ) {
-        if( here.furn( cell )->surgery_skill_multiplier ) {
-            bonus = std::max( bonus, *here.furn( cell )->surgery_skill_multiplier );
+        const furn_id &f = here.furn( cell );
+        if( f->surgery_skill_multiplier ) {
+            bonus = std::max( bonus, *f->surgery_skill_multiplier );
         }
     }
     return bonus;

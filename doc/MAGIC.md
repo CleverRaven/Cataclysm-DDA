@@ -172,7 +172,7 @@ Effect                 | Description
 `charm_monster`        | Charms a monster that has less hp than damage() for approximately duration().
 `dash`                 | Dashes forward up to range and hits targets in a cone at the target.
 `directed_push`        | Pushes `valid_targets` in aoe away from the target location, with a distance of damage().  Negative values pull instead.
-`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster.
+`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
 `flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
@@ -231,6 +231,7 @@ Field group | Description | Example
 `min_accuracy`, `max_accuracy`, `accuracy_increment` | Accuracy of the spell.  -20 accuracy will cause it to always miss, 20 will cause it always hit.  Currently doesn't work. | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
 `min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: decimal values use roll_remainder(); having 0.5 would result in dot dealing 1 damage randomly every 2 seconds on average. Affected by `affected_body_parts` field | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
 `min_pierce`, `max_pierce`, `pierce_increment` | Armor "piercing", how much armor of the same `damage_type` the spell will ignore. | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
+`min_bash_scaling`, `max_bash_scaling`, `bash_scaling_increment` | Converts a spell with the "attack" effect's damage into the scaling amount of terrain damage.  | "min_bash_scaling": 1.0, <br>"max_bash_scaling": 2.0, <br>"bash_scaling_increment": 0.1,
 `base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's written in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
 `base_energy_cost`, `final_energy_cost`, `energy_increment` | Amount of energy spent for cast.  If several spells are chained, only the first one will apply the cost.  Ignored for monsters and items that cast spells. | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
 `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Allows the spell to spawn fields.  `field_id` describes which field will be spawned, `field_chance` describes the chance as ( 1 / `field_chance`).  <br>`min_field_intensity`, `max_field_intensity` and `field_intensity_increment` modify the field intensity and it's growth (e.g. fd_electricity intensity 1 is "spark", while intensity 10 is "electric cloud").  <br>`field_intensity_variance` allows to randomly increase or decrease the intensity of the spell as a percent (e.g. intensity 10 and variance 0.1 means it can grow or shrink by 10%, or go from 9 to 11). | "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
@@ -654,6 +655,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
     "intermittent_activation": {
       "effects": [
         {
@@ -918,21 +920,6 @@ Character status value  | Description
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
 `WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
-
-
-Melee-only enchantment values | Description
----                           |---
-`ITEM_DAMAGE_ACID`            | 
-`ITEM_DAMAGE_BASH`            | 
-`ITEM_DAMAGE_BIO`             | 
-`ITEM_DAMAGE_BULLET`          | 
-`ITEM_DAMAGE_COLD`            | 
-`ITEM_DAMAGE_CUT`             | 
-`ITEM_DAMAGE_ELEC`            | 
-`ITEM_DAMAGE_HEAT`            | 
-`ITEM_DAMAGE_PURE`            | 
-`ITEM_DAMAGE_STAB`            | 
-
 
 Enchanted item value | Description
 ---                  |---

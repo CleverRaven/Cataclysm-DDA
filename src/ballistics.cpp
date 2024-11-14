@@ -473,7 +473,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
                     const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
                     if( bt_len > 0 ) {
                         const tripoint_bub_ms &dest = move_along_line( tp, trajectory, bt_len );
-                        here.add_splatter_trail( blood_type, tp.raw(), dest.raw() );
+                        here.add_splatter_trail( blood_type, tp, dest );
                     }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );

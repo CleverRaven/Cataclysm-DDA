@@ -548,6 +548,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_iguanodon_juvenile" }
   },
   {
+    "id": "mon_eolambia_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_camptosaurus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_eolambia_juvenile" }
+  },
+  {
     "id": "mon_hadrosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_camptosaurus_hatchling",
@@ -642,6 +649,12 @@
     "type": "MONSTER",
     "copy-from": "mon_leptoceratops_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_zuniceratops_juvenile" }
+  },
+  {
+    "id": "mon_lokiceratops_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_leptoceratops_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_lokiceratops_juvenile" }
   },
   {
     "id": "mon_styracosaurus_hatchling",

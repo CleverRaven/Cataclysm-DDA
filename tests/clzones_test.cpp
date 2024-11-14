@@ -5,6 +5,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "clzones.h"
+#include "coordinate_constants.h"
 #include "item.h"
 #include "item_category.h"
 #include "map_helpers.h"
@@ -73,12 +74,12 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     clear_avatar();
     clear_map();
 
-    tripoint_abs_ms const start = here.getglobal( tripoint_east );
+    tripoint_abs_ms const start = here.getglobal( tripoint_bub_ms_zero + tripoint_east );
     bool const move_act = GENERATE( true, false );
     dummy.set_location( start );
 
     if( in_vehicle ) {
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms( tripoint_east ),
+        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms_zero + tripoint_east,
                                    0_degrees, 0, 0 ) );
         vp = here.veh_at( start ).cargo();
         REQUIRE( vp );

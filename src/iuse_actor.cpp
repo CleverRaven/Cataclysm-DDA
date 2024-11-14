@@ -137,7 +137,6 @@ static const itype_id itype_syringe( "syringe" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 
-static const morale_type morale_music( "morale_music" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
@@ -240,6 +239,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
                   it.typeId().str() );
         return std::nullopt;
     }
+
+    it.set_var( "last_act_by_char_id", p->getID().get_value() );
 
     int result = 0;
 
@@ -652,10 +653,19 @@ void explosion_iuse::load( const JsonObject &obj, const std::string & )
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
 }
 
-std::optional<int> explosion_iuse::use( Character *p, item &, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint &pos ) const
 {
     if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( p, pos, explosion );
+        Character *source = p;
+        if( it.has_var( "last_act_by_char_id" ) ) {
+            character_id thrower( it.get_var( "last_act_by_char_id", 0 ) );
+            if( thrower == get_player_character().getID() ) {
+                source = &get_player_character();
+            } else {
+                source = g->find_npc( thrower );
+            }
+        }
+        explosion_handler::explosion( source, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
@@ -1096,6 +1106,23 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     }
 
     map &here = get_map();
+
+    tripoint_bub_ms where = pnt;
+    tripoint_bub_ms below = pnt + tripoint_below;
+    while( here.valid_move( where, below, false, true ) ) {
+        where += tripoint_below;
+        below += tripoint_below;
+    }
+
+    const int height = pnt.z() - where.z();
+    if( height > 1 && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pnt ) ) {
+        if( !query_yn(
+                _( "Deploying %s there will make it fall down %i stories.  Do you still want to deploy it?" ),
+                it.tname(), height ) ) {
+            return ret_val<tripoint>::make_failure( pos );
+        }
+    }
+
     optional_vpart_position veh_there = here.veh_at( pnt );
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
@@ -1154,6 +1181,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     }
 
     get_map().furn_set( suitable.value(), furn_type );
+    get_map().drop_furniture( tripoint_bub_ms( suitable.value() ) );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -1185,7 +1213,11 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( tripoint_bub_ms( suitable.value() ), vpart_appliance_from_item( appliance_base ) );
+    if( !place_appliance( tripoint_bub_ms( suitable.value() ),
+                          vpart_appliance_from_item( appliance_base ), *p, it ) ) {
+        // failed to place somehow, cancel!!
+        return 0;
+    }
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1627,7 +1659,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
-    for( std::pair<material_id, int> mat : cut.get_item()->made_of() ) {
+    for( const std::pair<const material_id, int> &mat : cut.get_item()->made_of() ) {
         mat_set.insert( mat.first );
     }
 
@@ -2232,13 +2264,13 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
 
     if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
-        if( p->is_avatar() && desc != "music" ) {
-            add_msg( m_info, desc );
+        if( desc != "music" ) {
+            p->add_msg_if_player( m_info, desc );
         }
-        p->add_effect( effect_music, 1_turns );
-        const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( morale_music, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
+
+    // We already played the sounds, just handle applying effects now
+    iuse::play_music( p, p->pos(), volume, morale_effect, /*play_sounds=*/false );
 
     return 0;
 }
@@ -2815,8 +2847,8 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-                                            std::ceil( fix.base_volume() / 250_ml * cost_scaling ) :
-                                            roll_remainder( fix.base_volume() / 250_ml * cost_scaling ) );
+                                            std::ceil( fix.base_volume() * cost_scaling / 250_ml ) :
+                                            roll_remainder( fix.base_volume() * cost_scaling / 250_ml ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
@@ -3295,6 +3327,11 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
         }
     }
 
+    if( !bandages_power && !disinfectant_power && !bleed && !bite && !infect &&
+        !obj.has_array( "effects" ) ) {
+        obj.throw_error( _( "Heal actor is missing any valid healing effect" ) );
+    }
+
     if( obj.has_string( "used_up_item" ) ) {
         obj.read( "used_up_item", used_up_item_id, true );
     } else if( obj.has_object( "used_up_item" ) ) {
@@ -3485,6 +3522,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
             wound.set_duration( std::max( 0_turns, dur ) );
             if( wound.get_duration() == 0_turns ) {
                 heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
+                patient.remove_effect( effect_bleed, healed );
             } else {
                 heal_msg( m_good, _( "You reduce the bleeding, but it's not stopped yet." ),
                           _( "The bleeding is reduced, but not stopped." ) );
@@ -3550,19 +3588,19 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
 
     // apply healing over time effects
     if( bandages_power > 0 ) {
-        int bandages_intensity = get_bandaged_level( healer );
+        int bandages_intensity = std::max( 1, get_bandaged_level( healer ) );
         patient.add_effect( effect_bandaged, 1_turns, healed );
         effect &e = patient.get_effect( effect_bandaged, healed );
-        e.set_duration( e.get_int_dur_factor() * ( bandages_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
-        int disinfectant_intensity = get_disinfected_level( healer );
+        int disinfectant_intensity = std::max( 1, get_disinfected_level( healer ) );
         patient.add_effect( effect_disinfected, 1_turns, healed );
         effect &e = patient.get_effect( effect_disinfected, healed );
-        e.set_duration( e.get_int_dur_factor() * ( disinfectant_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * disinfectant_intensity;
@@ -5220,7 +5258,7 @@ bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
-        const furn_id fid = here.furn( dest );
+        const furn_id &fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {
                 return false;
