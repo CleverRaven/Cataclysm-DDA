@@ -21,11 +21,17 @@
         }
       }
     },
-    "palettes": [ "standard_domestic_palette", { "param": "damage_palette" }, { "param": "tidyness_palette" } ]
+    "palettes": [
+      "standard_domestic_palette",
+      { "param": "damage_palette" },
+      { "param": "tidyness_palette" },
+      "parametrized_walls_palette"
+    ]
   },
   {
     "type": "palette",
     "id": "standard_domestic_palette",
+    "palettes": [ "parametrized_walls_palette" ],
     "//": "Adjusts vanilla palette to make houses not using the above more damaged.",
     "//1": "TODO: Would ideally copy-from the vanilla palette and only override what it changes if #73299 is resolved",
     "toilets": { "t": {  } },
@@ -116,8 +122,6 @@
         "t_door_c"
       ],
       "^": "t_gutter_downspout",
-      "|": "t_wall_w",
-      "#": "t_brick_wall",
       ":": "t_wall_glass",
       "¶": "t_door_glass_c",
       "-": "t_sidewalk",
