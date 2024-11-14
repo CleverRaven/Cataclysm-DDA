@@ -2,10 +2,10 @@
   {
     "type": "palette",
     "id": "office_doctor",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "!": "t_door_locked_interior",
-      "#": "t_wall_w",
       "$": "t_floor",
       "&": "t_floor",
       "+": "t_door_c",
