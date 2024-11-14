@@ -2314,7 +2314,7 @@
   {
     "type": "effect_type",
     "id": "effect_lilin_vampire_immune",
-    "//": "Hidden effects, prevents you from being vampirized",
+    "//": "Hidden effect, prevents you from being vampirized",
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "vampire_virus" ]
@@ -2322,14 +2322,30 @@
   {
     "type": "effect_type",
     "id": "effect_gained_lilin_power",
-    "//": "Hidden effects, prevents you from gaining more lilin powers too quickly",
+    "//": "Hidden effect, prevents you from gaining more lilin powers too quickly",
     "name": [ "" ],
     "desc": [ "" ]
   },
   {
     "type": "effect_type",
     "id": "effect_lilin_temporary_glorious",
-    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
+    "//": "Hidden effect, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "lilit_prevent_death_escape",
+    "//": "Hidden effect, allows you to get away after turning into an owl.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "grabbed", "downed" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 0.55 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "lilit_prevent_death_cooldown",
+    "//": "Hidden effect, used to prevent Their Worm Shall Not Die from activating multiple times back to back",
     "name": [ "" ],
     "desc": [ "" ]
   },

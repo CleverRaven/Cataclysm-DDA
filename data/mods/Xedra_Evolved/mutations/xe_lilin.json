@@ -53,6 +53,7 @@
       }
     ],
     "activated_eocs": [ "EOC_LILIN_SPEND_RUACH_FOR_POWERS" ],
+    "activation_msg": "You dedicate some ruach to increasing your power.",
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
@@ -147,6 +148,7 @@
     "prereqs": [ "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ],
     "prereqs2": [ "LILIN_AVOID_SLEEP" ],
     "category": [ "LILIN" ],
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_deactivated" ]
   },
@@ -240,6 +242,7 @@
     "changes_to": [ "LILIN_TEMPORARY_GLORIOUS_2" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_activated" ],
     "processed_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_processed" ],
     "deactivated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_deactivated" ]
@@ -257,6 +260,7 @@
     "threshreq": [ "THRESH_LILIN" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_activated" ],
     "processed_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_processed" ],
     "deactivated_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_deactivated" ]
@@ -271,6 +275,7 @@
     "category": [ "LILIN" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_deactivated" ]
   },
@@ -579,6 +584,7 @@
     "prereqs": [ "LILIN_BONUS_HEALING" ],
     "prereqs2": [ "LILIN_ATTRIBUTE_BONUSES_STRENGTH" ],
     "category": [ "LILIN" ],
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_deactivated" ]
   },
@@ -704,6 +710,7 @@
     "prereqs2": [ "LILIN_TURN_INTO_OWL" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ],
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivated" ]
   },
@@ -716,6 +723,7 @@
     "points": 0,
     "active": true,
     "activated_is_setup": false,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_STRIX_LEAP" ]
   },
   {
