@@ -419,7 +419,7 @@
     "id": "ierde_entrap_target_in_stone",
     "type": "SPELL",
     "name": "Lithic Gaol",
-    "description": "Summon up a series of spikes around a a single target, imprisoning them in a cage of stone.  The target must be on earth or stone for the spell to take effect.",
+    "description": "Summon up a series of spikes around a single target, imprisoning them in a cage of stone.  The target must be on earth or stone for the spell to take effect.",
     "valid_targets": [ "hostile" ],
     "skill": "deduction",
     "spell_class": "IERDE",
