@@ -31,12 +31,16 @@
             [ "t_brick_wall", 4 ],
             [ "t_wall_wood", 2 ],
             [ "t_wall_w", 4 ],
+            [ "t_wall_gray", 2 ],
             [ "t_concrete_wall", 2 ],
             [ "t_concrete_wall_w", 4 ],
+            [ "t_concrete_wall_gray", 2 ],
             [ "t_strconc_wall", 1 ],
             [ "t_strconc_wall_w", 2 ],
+            [ "t_strconc_wall_gray", 1 ],
             [ "t_sconc_wall", 1 ],
-            [ "t_sconc_wall_w", 2 ]
+            [ "t_sconc_wall_w", 2 ],
+            [ "t_sconc_wall_gray", 1 ]
           ]
         }
       }
