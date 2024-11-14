@@ -83,8 +83,8 @@ static const itype_id fuel_type_none( "null" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_EMP_ENERGYDRAIN_IMMUNE( "EMP_ENERGYDRAIN_IMMUNE" );
+static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
