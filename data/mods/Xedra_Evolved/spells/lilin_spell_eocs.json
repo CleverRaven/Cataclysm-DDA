@@ -518,7 +518,7 @@
                 "then": { "math": [ "u_hp('leg_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
               }
             ],
-            "false_effect": { "u_message": "You don't have enough ruach to to heal yourself!", "type": "bad" }
+            "false_effect": { "u_message": "You don't have enough ruach to heal yourself!", "type": "bad" }
           }
         ]
       }
