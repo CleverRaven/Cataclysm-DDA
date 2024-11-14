@@ -2121,7 +2121,7 @@
     "color": "dark_gray",
     "description": "A patch kit produced by the Exodii for repairing their nanotube-infused ceramics.  Requires a kiln.",
     "material": [ "exodii_ceramic" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "weight": "500 g",
     "ammo_type": "components",
     "count": 50,
