@@ -518,7 +518,7 @@
   {
     "id": "mon_ziger_fungus",
     "type": "MONSTER",
-    "name": { "str": "tiger fungal wight" },
+    "name": { "str": "tiger fungal pouncer" },
     "description": "This rotting tiger has lost its stumble, as large fungal bulbs seem to have extended its pawpads thoroughly.  Its head crackles when trying to turn, seemingly stuck facing forward.",
     "copy-from": "mon_zougar_fungus",
     "volume": "150 L",
