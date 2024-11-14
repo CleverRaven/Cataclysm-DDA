@@ -132,7 +132,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "20 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -141,7 +141,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "20 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -150,7 +150,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "20 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -159,7 +159,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "20 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -168,7 +168,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "20 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -177,7 +177,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "20 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
