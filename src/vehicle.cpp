@@ -3040,7 +3040,7 @@ tiny_bitset vehicle::has_parts( const std::vector<std::string> &flags, bool enab
         vehicle_part &part = vpr.part();
         if( !part.removed && ( !enabled || part.enabled ) && !part.is_broken() ) {
             // Check whether the part has any of the flags we are looking for
-            for( int i = 0; i < flags.size(); i++ ) {
+            for( size_t i = 0; i < flags.size(); i++ ) {
                 const std::string &flag = flags[i];
                 if( part.info().has_flag( flag ) ) {
                     ret.set( i );
