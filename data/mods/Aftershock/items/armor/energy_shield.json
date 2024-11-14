@@ -72,7 +72,7 @@
         {
           "id": "afs_backpack_shieldgen_activate",
           "effect": {
-            "run_eoc_with": "EOC_start_shield",
+            "run_eocs": "EOC_start_shield",
             "variables": {
               "transform_target": "afs_backpack_shieldgen_on",
               "shield_max_hp": "600",
@@ -113,7 +113,7 @@
       "effect_on_conditions": [
         {
           "id": "afs_backpack_shieldgen_deactivate",
-          "effect": { "run_eoc_with": "EOC_stop_shield", "variables": { "transform_target": "afs_backpack_shieldgen" } }
+          "effect": { "run_eocs": "EOC_stop_shield", "variables": { "transform_target": "afs_backpack_shieldgen" } }
         }
       ]
     },
