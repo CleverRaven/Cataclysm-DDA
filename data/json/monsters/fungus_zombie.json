@@ -324,7 +324,7 @@
     "type": "MONSTER",
     "name": { "str": "scarred fungal zombie" },
     "description": "The tough callouses and scar tissue of this unfortunate corpse are the only remaining signs of something once made of flesh; any spot seemingly soft enough has been thoroughly punctured by thick fungal tendrils that have started to creep over this disfigured husk.",
-    "copy-from": "mon_zombie_beekeeper",
+    "copy-from": "mon_beekeeper",
     "default_faction": "fungus",
     "color": "light_gray",
     "bleed_rate": 0,
