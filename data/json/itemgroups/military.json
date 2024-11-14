@@ -215,7 +215,7 @@
       {
         "collection": [
           { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
-          { "item": "tacvest" }
+          { "group": "loaded_tacvest" }
         ],
         "prob": 2
       },
@@ -941,7 +941,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
-      { "item": "tacvest", "prob": 10 },
+      { "group": "loaded_tacvest", "prob": 10 },
       { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "legrig", "prob": 10 },
       { "item": "rucksack", "prob": 20 },

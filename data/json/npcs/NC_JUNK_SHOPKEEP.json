@@ -76,7 +76,7 @@
       { "item": "mask_gas", "prob": 25, "charges": [ 10, -1 ] },
       { "item": "sunglasses", "prob": 15 },
       { "item": "goggles_ski", "prob": 5 },
-      { "item": "tacvest", "prob": 20 },
+      { "group": "loaded_tacvest", "prob": 20 },
       { "item": "legrig", "prob": 15 },
       { "item": "fanny", "prob": 5 },
       { "item": "dump_pouch", "prob": 5 },
