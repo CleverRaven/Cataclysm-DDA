@@ -598,7 +598,6 @@ struct event_transformation_impl : public event_transformation::impl {
         // Need to use list here rather than vector because
         // updatable_value_constraint is not movable.
         std::list<updatable_value_constraint> result;
-        result.resize( constraints_.size() );
         for( const auto &p : constraints_ ) {
             result.emplace_back( p, st, stats );
         }
