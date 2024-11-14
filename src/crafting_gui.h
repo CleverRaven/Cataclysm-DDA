@@ -9,6 +9,7 @@
 #include "type_id.h"
 
 class Character;
+class inventory;
 class JsonObject;
 class recipe;
 
@@ -21,7 +22,8 @@ class recipe;
  * Return: if recipe * is not nullptr, then Character * is not nullptr either.
  */
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
-        const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "" );
+        const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "",
+        bool camp_crafting = false, inventory *inventory_override = nullptr );
 
 void load_recipe_category( const JsonObject &jsobj, const std::string &src );
 void reset_recipe_categories();

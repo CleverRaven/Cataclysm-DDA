@@ -1759,8 +1759,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
         // Force intensity if it is duration based
         if( e.get_int_dur_factor() != 0_turns ) {
-            // + 1 here so that the lowest is intensity 1, not 0
-            e.set_intensity( e.get_duration() / e.get_int_dur_factor() + 1 );
+            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
+            e.set_intensity( std::max( 1, intensity ) );
         }
         // Bound new effect intensity by [1, max intensity]
         if( e.get_intensity() < 1 ) {

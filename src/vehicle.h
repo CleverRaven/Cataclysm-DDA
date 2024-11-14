@@ -1537,6 +1537,8 @@ class vehicle
         units::power total_accessory_epower() const;
         // Total power draw from all cable-connected devices. Is cleared every turn during idle().
         units::power linked_item_epower_this_turn; // NOLINT(cata-serialize)
+        // Total power draw from all battery chargers. Is cleared every turn during idle().
+        units::power recharge_epower_this_turn; // NOLINT(cata-serialize)
         // Net power draw or drain on batteries.
         units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
@@ -1553,6 +1555,11 @@ class vehicle
 
         // Current and total battery power (kJ) level of all connected vehicles as a pair
         std::pair<int, int> connected_battery_power_level() const;
+
+        /**
+        * @return true if at least one of the connected batteries has any charge left
+        */
+        bool is_battery_available() const;
 
         /**
         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables

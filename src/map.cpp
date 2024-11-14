@@ -4622,7 +4622,7 @@ void map::batter( const tripoint_bub_ms &p, int power, int tries, const bool sil
 void map::crush( const tripoint_bub_ms &p )
 {
     creature_tracker &creatures = get_creature_tracker();
-    Character *crushed_player = creatures.creature_at<Character>( p );
+    Character *crushed_player = creatures.creature_at<Character>( this->getglobal( p ) );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
@@ -5788,13 +5788,22 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         int turns_elapsed = to_turns<int>( calendar::turn - recharge_part.last_charged );
         recharge_part.last_charged = calendar::turn;
 
-        if( !recharge_part.removed && recharge_part.enabled  && ( turns_elapsed > 0 ) ) {
+        if( !recharge_part.removed && recharge_part.enabled  && ( turns_elapsed > 0 ) &&
+            cur_veh.is_battery_available() ) {
+
             int dischargeable = turns_elapsed * recharge_part.info().bonus;
             // Convert to kilojoule
             dischargeable = ( dischargeable / 1000 ) + x_in_y( dischargeable % 1000, 1000 );
+
+            bool is_running = false;
+
             for( item &n : cur_veh.get_items( vp ) ) {
 
-                if( dischargeable <= 0 ) {
+                // "dischargeable" could be 0 even if the battery charger is actually running,
+                // because of the rounding when the power is below a kilojoule. Before breaking,
+                // I need to know if there is at least a non-full battery, for the purpose of
+                // displaying the correct power draw.
+                if( is_running && dischargeable <= 0 ) {
                     break;
                 }
 
@@ -5809,6 +5818,13 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                                             n.energy_remaining( nullptr ) ) );
                 } else if( n.ammo_capacity( ammo_battery ) ) {
                     chargeable = n.ammo_capacity( ammo_battery ) - n.ammo_remaining();
+                }
+
+                if( !is_running && chargeable > 0 ) {
+                    is_running = true;
+                    if( dischargeable <= 0 ) {
+                        break;
+                    }
                 }
 
                 if( chargeable > 0 ) {
@@ -5836,6 +5852,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
 
             }
+
+            if( is_running ) {
+                cur_veh.recharge_epower_this_turn -= units::from_watt( static_cast<std::int64_t>
+                                                     ( recharge_part.info().bonus ) );
+            }
+
         }
     }
 }

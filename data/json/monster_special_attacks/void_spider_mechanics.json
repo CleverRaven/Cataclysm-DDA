@@ -146,8 +146,8 @@
             "effect": [
               { "mapgen_update": "void_spider_lair_entrance_shift", "om_terrain": "void_spider_lair_entrance" },
               { "math": [ "spider_lair_sealed", "=", "1" ] },
-              { "queue_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
-              { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
+              { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
+              { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
             ]
           }
         ]
@@ -175,7 +175,7 @@
     },
     "effect": [
       { "place_override": { "global_val": "place_name", "default_str": "strange cavern" }, "length": "10 seconds" },
-      { "queue_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
       {
         "run_eocs": [
           {
@@ -314,7 +314,7 @@
           }
         ]
       },
-      { "queue_eocs": "EOC_VOID_SPIDER_DISTURBED_NEST", "time_in_future": [ "8 seconds", "10 seconds" ] }
+      { "run_eocs": "EOC_VOID_SPIDER_DISTURBED_NEST", "time_in_future": [ "8 seconds", "10 seconds" ] }
     ]
   },
   {
@@ -340,16 +340,16 @@
     },
     "effect": [
       { "u_cast_spell": { "id": "void_spider_empty_revert", "hit_self": true } },
-      { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
+      { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_ON_DEATH",
     "effect": [
-      { "queue_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
-      { "queue_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" },
-      { "queue_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
+      { "run_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
+      { "run_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" },
+      { "run_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
     ]
   },
   {

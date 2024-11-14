@@ -662,7 +662,7 @@
   {
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -1622,6 +1622,11 @@
     "type": "json_flag"
   },
   {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
+    "type": "json_flag"
+  },
+  {
     "id": "MUTAGEN_SAMPLE",
     "type": "json_flag",
     "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
@@ -2292,6 +2297,11 @@
     "type": "json_flag",
     "info": "This is meant for exoskeleton foot plating.",
     "inherit": false
+  },
+  {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
   },
   {
     "id": "ROBOFAC_ROBOT_MEDIUM",

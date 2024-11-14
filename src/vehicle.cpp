@@ -5415,7 +5415,8 @@ units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           linked_item_epower_this_turn + ( include_reactors ? active_reactor_epower() : 0_W );
+           linked_item_epower_this_turn + recharge_epower_this_turn + ( include_reactors ?
+                   active_reactor_epower() : 0_W );
 }
 
 units::power vehicle::active_reactor_epower() const
@@ -5793,6 +5794,20 @@ static void distribute_charge_evenly( const std::map<vpart_reference, float> &ba
     }
 }
 
+bool vehicle::is_battery_available() const
+{
+    for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
+        const vehicle &veh = *pair.first;
+        for( const int part_idx : veh.batteries ) {
+            const vehicle_part &vp = veh.parts[part_idx];
+            if( vp.ammo_remaining() > 0 ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 int64_t vehicle::battery_left( bool apply_loss ) const
 {
     int64_t ret = 0;
@@ -5953,6 +5968,7 @@ void vehicle::idle( bool on_map )
     }
 
     linked_item_epower_this_turn = 0_W;
+    recharge_epower_this_turn = 0_W;
     smart_controller_handle_turn();
 
     if( !on_map ) {
