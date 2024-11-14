@@ -1569,6 +1569,7 @@
     "volume": "62500 ml",
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
