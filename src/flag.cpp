@@ -90,7 +90,6 @@ const flag_id flag_DECAYS_IN_AIR( "DECAYS_IN_AIR" );
 const flag_id flag_DIAMOND( "DIAMOND" );
 const flag_id flag_DIG_TOOL( "DIG_TOOL" );
 const flag_id flag_DIRTY( "DIRTY" );
-const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 const flag_id flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 const flag_id flag_DROP_ACTION_ONLY_IF_LIQUID( "DROP_ACTION_ONLY_IF_LIQUID" );
 const flag_id flag_DURABLE_MELEE( "DURABLE_MELEE" );
@@ -376,6 +375,7 @@ const flag_id flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 const flag_id flag_ZERO_WEIGHT( "ZERO_WEIGHT" );
 const flag_id flag_ZOOM( "ZOOM" );
 const flag_id flag_wooled( "wooled" );
+const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 static const flag_id json_flag_null( "null" );
 
