@@ -18,7 +18,7 @@
     "id": "AFS_ELECTROKINETIC",
     "name": "Electrokinetic",
     "points": 0,
-    "description": "The ability to to control electricity with your mind.",
+    "description": "The ability to control electricity with your mind.",
     "types": [ "ESPER" ],
     "starting_trait": false,
     "purifiable": false,

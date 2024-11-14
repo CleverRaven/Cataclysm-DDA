@@ -23,6 +23,28 @@
   {
     "result": "helmet_ceratopsian",
     "type": "recipe",
+    "id_suffix": "lokiceratops",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_lokiceratops", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_ceratopsian",
+    "type": "recipe",
     "id_suffix": "triceratops",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
