@@ -582,10 +582,10 @@ Character::Character() :
     update_type_of_scent( true );
     pkill = 0;
     // 55 Mcal or 55k kcal
-    healthy_calories = 55'000'000;
+    healthy_calories = 55000000;
     base_cardio_acc = 1000;
     // this makes sure characters start with normal bmi
-    stored_calories = healthy_calories - 1'000'000;
+    stored_calories = healthy_calories - 1000000;
     initialize_stomach_contents();
 
     name.clear();
