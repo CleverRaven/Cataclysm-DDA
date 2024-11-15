@@ -2,19 +2,18 @@
   {
     "id": "EOC_Nunez_Travel",
     "type": "effect_on_condition",
-    "recurrence": 1000,
-    "condition": {
-      "and": [
-        { "math": [ "nunez_travel_stage", "==", "1" ] },
-        { "math": [ "nunez_travel_timer", "<", "time_since('cataclysm', 'unit': 'days')" ] }
-      ]
-    },
-    "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
     "effect": [
       { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
-      { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
-      { "mapgen_update": "refcenter_nunez_departure", "om_terrain": "evac_center_7" },
-      { "math": [ "nunez_travel_stage", "++" ] }
+      {
+        "mapgen_update": "tacoma_nunez_trailer_arrive",
+        "om_terrain": "ranch_camp_55",
+        "target_var": { "context_val": "tacoma_nunez_trailer_arrive" }
+      },
+      {
+        "mapgen_update": "refcenter_nunez_departure",
+        "om_terrain": "evac_center_7",
+        "target_var": { "context_val": "refcenter_nunez_departure" }
+      }
     ]
   },
   {
