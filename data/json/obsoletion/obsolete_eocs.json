@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_coop",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_herb_garden",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_wall",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_warehouse",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_remove",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_VC_Shoppers_remove",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_VC_Shoppers_add",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_1",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_2",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_3",
+    "effect": [  ]
+  }
+]
