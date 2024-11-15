@@ -299,6 +299,8 @@ class coord_point_ob : public
         }
 };
 
+// These definitions can go in the class in clang and gcc, and are MUCH shorter there,
+// but MSVC doesn't allow that, so...
 template<typename Point, origin Origin, scale Scale>
 const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::min =
     coord_point_ob<Point, Origin, Scale>( Point::min );
@@ -311,7 +313,6 @@ const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>:
 template<typename Point, origin Origin, scale Scale>
 const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::zero =
     coord_point_ob<Point, Origin, Scale>( Point::zero );
-
 template<typename Point, origin Origin, scale Scale>
 template <origin O>
 const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
@@ -348,7 +349,6 @@ template <origin O>
 const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
         coord_point_ob<Point, Origin, Scale>::_north_west = coord_point_ob<Point, Origin, Scale>
                 ( Point::north_west );
-
 template<typename Point, origin Origin, scale Scale>
 template <origin O, typename P>
 const std::enable_if_t < O == origin::relative &&P::dimension == 3,
@@ -359,7 +359,36 @@ template <origin O, typename P>
 const std::enable_if_t < O == origin::relative &&P::dimension == 3,
       coord_point_ob<Point, Origin, Scale> > coord_point_ob<Point, Origin, Scale>::_below =
           coord_point_ob<Point, Origin, Scale>( Point::below );
-
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &north = coord_point_ob<Point, Origin, Scale>::template
+        _north<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &north_east =
+    coord_point_ob<Point, Origin, Scale>::template _north_east<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &east = coord_point_ob<Point, Origin, Scale>::template
+        _east<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &south_east =
+    coord_point_ob<Point, Origin, Scale>::template _south_east<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &south = coord_point_ob<Point, Origin, Scale>::template
+        _south<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &south_west =
+    coord_point_ob<Point, Origin, Scale>::template _south_west<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &west = coord_point_ob<Point, Origin, Scale>::template
+        _west<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &north_west =
+    coord_point_ob<Point, Origin, Scale>::template _north_west<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &above = coord_point_ob<Point, Origin, Scale>::template
+        _above<>;
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> &below = coord_point_ob<Point, Origin, Scale>::template
+        _below<>;
 
 template<typename Point, origin Origin, scale Scale>
 class coord_point_ib : public coord_point_ob<Point, Origin, Scale>
