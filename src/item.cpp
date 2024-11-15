@@ -6859,8 +6859,7 @@ std::string item::tname( unsigned int quantity, tname::segment_bitset const &seg
 {
     std::string ret;
 
-    for( size_t i = 0; i < static_cast<size_t>( tname::segments::last_segment ); i++ ) {
-        tname::segments const idx = static_cast<tname::segments>( i );
+    for( tname::segments idx : tname::get_tname_set() ) {
         if( !segments[idx] ) {
             continue;
         }
