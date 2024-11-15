@@ -866,6 +866,7 @@
         "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
         "max_contains_weight": "500 g",
         "max_contains_volume": "550 ml",
+        "max_item_length": "300 mm",
         "item_restriction": [ "candle", "candle_lit" ],
         "transparent": true
       }
