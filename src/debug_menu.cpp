@@ -1068,7 +1068,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
         // sense and can be auto–sized.
         uilist debug = uilist();
         debug.text = msg;
-        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
         debug.entries = menu;
         debug.query();
         const int group = debug.ret;
