@@ -50,7 +50,7 @@ class basic_animation
 {
     public:
         explicit basic_animation( const int scale ) :
-            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1'000'000L ) {
+            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -71,7 +71,7 @@ class basic_animation
             do {
                 const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
                                                  // Pump events every 100 ms
-                                                 std::chrono::nanoseconds( 100'000'000 ) );
+                                                 std::chrono::nanoseconds( 100000000 ) );
                 if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
                     std::this_thread::sleep_for( sleep_for );
                     inp_mngr.pump_events();
