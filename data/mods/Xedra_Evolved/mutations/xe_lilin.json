@@ -188,6 +188,21 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_BONUS_LYING",
+    "name": { "//~": "This is a reference to Exodus 20:16", "str": "The False Witness" },
+    "points": 2,
+    "description": "You have a much easier time spinning lies and making people believe them.  You gain a bonus to your lying chance as long as you aren't empty of ruach.",
+    "prereqs": [ "PRETTY", "BEAUTIFUL" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "values": [ { "value": "SOCIAL_LIE", "add": { "math": [ "12 + (12 * u_has_trait('THRESH_LILIN') )" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_MESMERIZE_TARGET",
     "name": { "//~": "This is a reference to Jeremiah 10:14", "str": "Senseless and Without Knowledge" },
     "points": 5,
