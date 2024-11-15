@@ -20,20 +20,20 @@ class JsonOut;
 struct point {
     static constexpr int dimension = 2;
 
-    // point with minimum representable coordinates
+    // Point representing the origin
+    static const point zero;
+    // Point with minimum representable coordinates
     static const point min;
-    // point with maximum representable coordinates
+    // Point with maximum representable coordinates
     static const point max;
-    // sentinel value for an invalid point
+    // Sentinel value for an invalid point
+    // Equal to @ref min for backward compatibility.
     static const point invalid;
     inline bool is_invalid() const {
         return *this == invalid;
     }
 
-    // point representing the origin
-    static const point zero;
-
-    // points representing unit steps in cardinal directions
+    // Points representing unit steps in cardinal directions
     static const point north;
     static const point north_east;
     static const point east;
@@ -152,20 +152,21 @@ inline point divide_xy_round_to_minus_infinity_non_negative( const point &p, int
 struct tripoint {
     static constexpr int dimension = 3;
 
-    // tripoint with minimum representable coordinates
+    // Tripoint representing the origin
+    static const tripoint zero;
+    // Tripoint with minimum representable coordinates
     static const tripoint min;
-    // tripoint with maximum representable coordinates
+    // Tripoint with maximum representable coordinates
     static const tripoint max;
-    // sentinel value for an invalid tripoint
+    // Sentinel value for an invalid tripoint
+    // Equal to @ref min for backward compatibility.
     static const tripoint invalid;
     inline bool is_invalid() const {
         return *this == invalid;
     }
 
-    // tripoint representing the origin
-    static const tripoint zero;
 
-    // tripoints representing unit steps in cardinal directions
+    // Tripoints representing unit steps in cardinal directions
     static const tripoint north;
     static const tripoint north_east;
     static const tripoint east;

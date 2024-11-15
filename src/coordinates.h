@@ -168,8 +168,38 @@ class coord_point_mut : public coord_point_base<Point>
 };
 
 template<typename Point, origin Origin, scale Scale>
+class coord_point_ob_rel
+{
+    public:
+        static const coord_point_ob<Point, Origin, Scale> north;
+        static const coord_point_ob<Point, Origin, Scale> north_east;
+        static const coord_point_ob<Point, Origin, Scale> east;
+        static const coord_point_ob<Point, Origin, Scale> south_east;
+        static const coord_point_ob<Point, Origin, Scale> south;
+        static const coord_point_ob<Point, Origin, Scale> south_west;
+        static const coord_point_ob<Point, Origin, Scale> west;
+        static const coord_point_ob<Point, Origin, Scale> north_west;
+};
+
+template<typename Point, origin Origin, scale Scale>
+class coord_point_ob_3d
+{
+    public:
+        static const coord_point_ob<Point, Origin, Scale> above;
+        static const coord_point_ob<Point, Origin, Scale> below;
+};
+
+class coord_point_ob_not_rel {};
+class coord_point_ob_not_3d {};
+
+template<typename Point, origin Origin, scale Scale>
 class coord_point_ob : public
-    coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>
+    coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>,
+            public std::
+            conditional_t<Origin == origin::relative, coord_point_ob_rel<Point, Origin, Scale>, coord_point_ob_not_rel>,
+            public std::
+            conditional_t < Origin == origin::relative &&Point::dimension == 3,
+            coord_point_ob_3d<Point, Origin, Scale>, coord_point_ob_not_3d >
 {
         using base = coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>;
 
@@ -177,61 +207,18 @@ class coord_point_ob : public
         using base::base;
 
         static constexpr int dimension = Point::dimension;
+        // Coordinate representing the origin
+        static const coord_point_ob zero;
+        // Coordinate with minimum representable coordinates
         static const coord_point_ob min;
+        // Coordinate with maximum representable coordinates
         static const coord_point_ob max;
+        // Sentinel value for returning and detecting invalid coordinates.
+        // Equal to @ref min for backward compatibility.
         static const coord_point_ob invalid;
         constexpr bool is_invalid() const {
             return *this == invalid;
         }
-
-        static const coord_point_ob zero;
-
-    private:
-        // Because we use templating to delete these members from types that
-        // should not have them, refering to them requires a <> for the empty
-        // template parameter list. That is ugly, so these are private and
-        // there are public references to them below.
-
-        // The directional constants are only available for *point_rel_*
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _north;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_east;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _east;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_east;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _south;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_west;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _west;
-        template <origin O = Origin>
-        static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_west;
-
-        // The vertical constants are only available for tripoint_rel_*
-        template <origin O = Origin, typename P = Point>
-        static const std::enable_if_t < O == origin::relative &&
-        P::dimension == 3, coord_point_ob > _above;
-        template <origin O = Origin, typename P = Point>
-        static const std::enable_if_t < O == origin::relative &&
-        P::dimension == 3, coord_point_ob > _below;
-
-    public:
-        // These public references exist unconditionally, but refer to members
-        // that are conditional. Attempting to access them when the referred
-        // member does not exist will produce a compiler error.
-        inline static const coord_point_ob &north = _north<>;
-        inline static const coord_point_ob &north_east = _north_east<>;
-        inline static const coord_point_ob &east = _east<>;
-        inline static const coord_point_ob &south_east = _south_east<>;
-        inline static const coord_point_ob &south = _south<>;
-        inline static const coord_point_ob &south_west = _south_west<>;
-        inline static const coord_point_ob &west = _west<>;
-        inline static const coord_point_ob &north_west = _north_west<>;
-        inline static const coord_point_ob &above = _above<>;
-        inline static const coord_point_ob &below = _below<>;
 
         static constexpr bool is_inbounds = false;
         using this_as_tripoint = coord_point_ob<tripoint, Origin, Scale>;
@@ -299,96 +286,54 @@ class coord_point_ob : public
         }
 };
 
-// These definitions can go in the class in clang and gcc, and are MUCH shorter there,
+// These definitions can go in the class in clang and gcc, and are much shorter there,
 // but MSVC doesn't allow that, so...
 template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::min =
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::min =
     coord_point_ob<Point, Origin, Scale>( Point::min );
 template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::max =
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::max =
     coord_point_ob<Point, Origin, Scale>( Point::max );
 template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::invalid =
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::invalid =
     coord_point_ob<Point, Origin, Scale>( Point::invalid );
 template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::zero =
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::zero =
     coord_point_ob<Point, Origin, Scale>( Point::zero );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_north = coord_point_ob<Point, Origin, Scale>( Point::north );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::north =
+    coord_point_ob<Point, Origin, Scale>( Point::north );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_north_east = coord_point_ob<Point, Origin, Scale>
-                ( Point::north_east );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::north_east
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::north_east );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_east = coord_point_ob<Point, Origin, Scale>( Point::east );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::east =
+    coord_point_ob<Point, Origin, Scale>( Point::east );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_south_east = coord_point_ob<Point, Origin, Scale>
-                ( Point::south_east );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::south_east
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::south_east );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_south = coord_point_ob<Point, Origin, Scale>( Point::south );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::south =
+    coord_point_ob<Point, Origin, Scale>( Point::south );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_south_west = coord_point_ob<Point, Origin, Scale>
-                ( Point::south_west );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::south_west
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::south_west );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_west = coord_point_ob<Point, Origin, Scale>( Point::west );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::west =
+    coord_point_ob<Point, Origin, Scale>( Point::west );
 template<typename Point, origin Origin, scale Scale>
-template <origin O>
-const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
-        coord_point_ob<Point, Origin, Scale>::_north_west = coord_point_ob<Point, Origin, Scale>
-                ( Point::north_west );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::north_west
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::north_west );
 template<typename Point, origin Origin, scale Scale>
-template <origin O, typename P>
-const std::enable_if_t < O == origin::relative &&P::dimension == 3,
-      coord_point_ob<Point, Origin, Scale> > coord_point_ob<Point, Origin, Scale>::_above =
-          coord_point_ob<Point, Origin, Scale>( Point::above );
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_3d<Point, Origin, Scale>::above =
+    coord_point_ob<Point, Origin, Scale>( Point::above );
 template<typename Point, origin Origin, scale Scale>
-template <origin O, typename P>
-const std::enable_if_t < O == origin::relative &&P::dimension == 3,
-      coord_point_ob<Point, Origin, Scale> > coord_point_ob<Point, Origin, Scale>::_below =
-          coord_point_ob<Point, Origin, Scale>( Point::below );
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &north = coord_point_ob<Point, Origin, Scale>::template
-        _north<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &north_east =
-    coord_point_ob<Point, Origin, Scale>::template _north_east<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &east = coord_point_ob<Point, Origin, Scale>::template
-        _east<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &south_east =
-    coord_point_ob<Point, Origin, Scale>::template _south_east<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &south = coord_point_ob<Point, Origin, Scale>::template
-        _south<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &south_west =
-    coord_point_ob<Point, Origin, Scale>::template _south_west<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &west = coord_point_ob<Point, Origin, Scale>::template
-        _west<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &north_west =
-    coord_point_ob<Point, Origin, Scale>::template _north_west<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &above = coord_point_ob<Point, Origin, Scale>::template
-        _above<>;
-template<typename Point, origin Origin, scale Scale>
-const coord_point_ob<Point, Origin, Scale> &below = coord_point_ob<Point, Origin, Scale>::template
-        _below<>;
+constexpr coord_point_ob<Point, Origin, Scale> coord_point_ob_3d<Point, Origin, Scale>::below =
+    coord_point_ob<Point, Origin, Scale>( Point::below );
 
 template<typename Point, origin Origin, scale Scale>
 class coord_point_ib : public coord_point_ob<Point, Origin, Scale>
