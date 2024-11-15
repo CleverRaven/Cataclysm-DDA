@@ -10777,8 +10777,9 @@ int item::gun_range( bool with_ammo ) const
         range_multiplier *= mod->type->gunmod->range_multiplier;
     }
     if( with_ammo && has_ammo() ) {
-        ret += ammo_data()->ammo->range;
-        range_multiplier *= ammo_data()->ammo->range_multiplier;
+        const itype *ammo_info = ammo_data();
+        ret += ammo_info->ammo->range;
+        range_multiplier *= ammo_info->ammo->range_multiplier;
     }
     ret *= range_multiplier;
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
@@ -11204,7 +11205,7 @@ bool item::has_ammo() const
     }
 
     if( is_magazine() ) {
-        return !contents.empty();
+        return !contents.empty() && contents.first_ammo().has_ammo();
     }
 
     auto mods = is_gun() ? gunmods() : toolmods();
@@ -11229,7 +11230,7 @@ bool item::has_ammo_data() const
     }
 
     if( is_magazine() ) {
-        return !contents.empty();
+        return !contents.empty() && contents.first_ammo().has_ammo_data();
     }
 
     auto mods = is_gun() ? gunmods() : toolmods();
