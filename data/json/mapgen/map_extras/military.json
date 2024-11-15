@@ -24,11 +24,7 @@
   {
     "name": "GROUP_MIL_EXTRA",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie_soldier", "weight": 76 },
-      { "monster": "mon_feral_soldier", "weight": 20 },
-      { "monster": "mon_zombie_bio_op", "weight": 4 }
-    ]
+    "monsters": [ { "monster": "mon_zombie_soldier", "weight": 76 }, { "monster": "mon_feral_soldier", "weight": 20 } ]
   },
   {
     "type": "mapgen",

@@ -2,21 +2,17 @@
 #ifndef CATA_SRC_DIALOGUE_WIN_H
 #define CATA_SRC_DIALOGUE_WIN_H
 
-#include <chrono>
-#include <cstddef>
-#include <iosfwd>
+#include <memory>
+#include <string>
+#include <tuple>
 #include <vector>
 
 #include "color.h"
-#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "output.h"
 
 class input_context;
-class multiline_list;
-class scrolling_text_view;
 class ui_adaptor;
-
-struct multiline_list_entry;
 
 struct talk_data {
     nc_color color;
@@ -49,11 +45,21 @@ class dialogue_window
 
         void set_up_scrolling( input_context &ctxt ) const;
 
+        /** sets debug info to draw for a response */
+        void set_responses_debug( const std::vector<std::string> &responses );
+
         /** Unhighlights all messages. */
         void clear_history_highlights();
         bool is_computer = false;
         bool is_not_conversation = false;
+        bool show_dynamic_line_conditionals = true;
+        bool show_dynamic_line_effects = true;
+        bool show_response_conditionals = true;
+        bool show_response_effects = true;
+        //copy of dialogue::show_all_responses
+        bool show_all_responses = false;
         int sel_response = 0;
+        std::string debug_topic_name;
     private:
         catacurses::window d_win;
         catacurses::window history_win;
@@ -84,6 +90,7 @@ class dialogue_window
         std::vector<std::tuple<std::string, std::vector<std::string>>> folded_txt;
         std::vector<int> folded_heights;
         std::unique_ptr<multiline_list> responses_list;
+        std::vector<std::string> responses_debug;
 
         nc_color default_color() const;
         void print_header( const std::string &name ) const;

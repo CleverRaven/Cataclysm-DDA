@@ -72,8 +72,7 @@
     "subtype": "collection",
     "items": [
       {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
+        "group": "modular_m4a1",
         "ammo-item": "556",
         "charges": 30,
         "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
@@ -83,12 +82,16 @@
   {
     "id": "TALK_SCAVENGER_MERC",
     "type": "talk_topic",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "I haven't done anything wrong…", "no": "…" },
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": { "gendered_line": "I haven't done anything wrong…", "relevant_genders": [ "npc" ] },
+      "no": "…"
+    },
     "responses": [
       { "text": "Who are you?", "topic": "TALK_SCAVENGER_MERC_NEW" },
       { "text": "Any tips for surviving?", "topic": "TALK_SCAVENGER_MERC_TIPS" },
       { "text": "What would it cost to hire you?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -125,7 +128,7 @@
     "responses": [
       { "text": "I see.  Let's try this again from the start.", "topic": "TALK_SCAVENGER_MERC" },
       { "text": "Okay, how much merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
-      { "text": "Well, thanks for the info.  Bye!", "topic": "TALK_DONE" }
+      { "text": "Well, thanks for the info.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

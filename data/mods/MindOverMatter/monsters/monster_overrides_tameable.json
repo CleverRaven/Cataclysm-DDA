@@ -1,0 +1,458 @@
+[
+  {
+    "id": "mon_bat",
+    "type": "MONSTER",
+    "copy-from": "mon_bat",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_bear_cub",
+    "type": "MONSTER",
+    "copy-from": "mon_bear_cub",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_bear",
+    "type": "MONSTER",
+    "copy-from": "mon_bear",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_beaver",
+    "type": "MONSTER",
+    "copy-from": "mon_beaver",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_black_rat",
+    "type": "MONSTER",
+    "copy-from": "mon_black_rat",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_boar_wild_piglet",
+    "type": "MONSTER",
+    "copy-from": "mon_boar_wild_piglet",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_boar_wild",
+    "type": "MONSTER",
+    "copy-from": "mon_boar_wild",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_bobcat",
+    "type": "MONSTER",
+    "copy-from": "mon_bobcat",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_chipmunk",
+    "type": "MONSTER",
+    "copy-from": "mon_chipmunk",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_deer_fawn",
+    "type": "MONSTER",
+    "copy-from": "mon_deer_fawn",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_deer",
+    "type": "MONSTER",
+    "copy-from": "mon_deer",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_fox_gray",
+    "type": "MONSTER",
+    "copy-from": "mon_fox_gray",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_fox_red",
+    "type": "MONSTER",
+    "copy-from": "mon_fox_red",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_groundhog",
+    "type": "MONSTER",
+    "copy-from": "mon_groundhog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_hare",
+    "type": "MONSTER",
+    "copy-from": "mon_hare",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_lemming",
+    "type": "MONSTER",
+    "copy-from": "mon_lemming",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_mink",
+    "type": "MONSTER",
+    "copy-from": "mon_mink",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moose",
+    "type": "MONSTER",
+    "copy-from": "mon_moose",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_muskrat",
+    "type": "MONSTER",
+    "copy-from": "mon_muskrat",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_opossum",
+    "type": "MONSTER",
+    "copy-from": "mon_opossum",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_otter",
+    "type": "MONSTER",
+    "copy-from": "mon_otter",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_raccoon",
+    "type": "MONSTER",
+    "copy-from": "mon_raccoon",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_sewer_rat",
+    "type": "MONSTER",
+    "copy-from": "mon_sewer_rat",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_squirrel",
+    "type": "MONSTER",
+    "copy-from": "mon_squirrel",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_squirrel_red",
+    "type": "MONSTER",
+    "copy-from": "mon_squirrel_red",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_weasel",
+    "type": "MONSTER",
+    "copy-from": "mon_weasel",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_wolf",
+    "type": "MONSTER",
+    "copy-from": "mon_wolf",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_wolf_pup",
+    "type": "MONSTER",
+    "copy-from": "mon_wolf_pup",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_reindeer",
+    "type": "MONSTER",
+    "copy-from": "mon_reindeer",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_coyote_mutant_shark",
+    "type": "MONSTER",
+    "copy-from": "mon_coyote_mutant_shark",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_tusked_moose_calf",
+    "type": "MONSTER",
+    "copy-from": "mon_tusked_moose_calf",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_tusked_moose",
+    "type": "MONSTER",
+    "copy-from": "mon_tusked_moose",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_moose_calf",
+    "type": "MONSTER",
+    "copy-from": "mon_moose_calf",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_reindeer_fawn",
+    "type": "MONSTER",
+    "copy-from": "mon_reindeer_fawn",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_crow",
+    "type": "MONSTER",
+    "copy-from": "mon_crow",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_raven",
+    "type": "MONSTER",
+    "copy-from": "mon_raven",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_bluejay",
+    "type": "MONSTER",
+    "copy-from": "mon_bluejay",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_cardinal",
+    "type": "MONSTER",
+    "copy-from": "mon_cardinal",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_robin",
+    "type": "MONSTER",
+    "copy-from": "mon_robin",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_sparrow",
+    "type": "MONSTER",
+    "copy-from": "mon_sparrow",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_duck",
+    "type": "MONSTER",
+    "copy-from": "mon_duck",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_goose_canadian",
+    "type": "MONSTER",
+    "copy-from": "mon_goose_canadian",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_turkey",
+    "type": "MONSTER",
+    "copy-from": "mon_turkey",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pheasant",
+    "type": "MONSTER",
+    "copy-from": "mon_pheasant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_hummingbird",
+    "type": "MONSTER",
+    "copy-from": "mon_hummingbird",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_woodpecker",
+    "type": "MONSTER",
+    "copy-from": "mon_woodpecker",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_coot",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_cormorant",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moorhen",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_grebe",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pattern_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_bigfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pattern_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_giganfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_bigfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_giganfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_bigfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_giganfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_bigfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_giganfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_giganfrog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_leo_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_leo_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pattern_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_pattern_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_bullfrog_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_bullfrog_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strange_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_strange_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_fowler_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_fowler_toad",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_foul_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_foul_toad",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_freedom_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_freedom_toad",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_odd_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_odd_toad",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_peeper_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_peeper_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_vocal_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_vocal_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_gray_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_gray_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_shift_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_shift_frog",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_s",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_s",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_big_s",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_big_s",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_big",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_big",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_giant",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_rattlesnake_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  }
+]

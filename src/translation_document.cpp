@@ -20,7 +20,7 @@ const char *InvalidTranslationDocumentException::what() const noexcept
 
 std::uint8_t TranslationDocument::GetByte( const std::size_t byteIndex ) const
 {
-    return static_cast<std::uint8_t>( data.at( byteIndex ) );
+    return static_cast<std::uint8_t>( data[byteIndex] );
 }
 
 std::uint32_t TranslationDocument::GetUint32BE( const std::size_t byteIndex ) const
@@ -48,7 +48,7 @@ std::uint32_t TranslationDocument::GetUint32( const std::size_t byteIndex ) cons
 
 const char *TranslationDocument::GetString( const std::size_t byteIndex ) const
 {
-    return data.c_str() + byteIndex;
+    return data + byteIndex;
 }
 
 std::size_t TranslationDocument::EvaluatePluralForm( std::size_t n ) const
@@ -62,23 +62,25 @@ std::size_t TranslationDocument::EvaluatePluralForm( std::size_t n ) const
 
 TranslationDocument::TranslationDocument( const std::string &path )
 {
-    this->path = path;
-    std::ifstream fin( fs::u8path( path ), std::ios::in | std::ios::binary );
-    if( !fin ) {
-        throw InvalidTranslationDocumentException( path, "unable to read the file" );
+    try {
+        const uintmax_t file_size = fs::file_size( fs::u8path( path ) );
+        if( file_size < 20 ) {
+            throw InvalidTranslationDocumentException( path, "file too small" );
+        }
+        mmap_message_object = mmap_file::map_file( path );
+        if( !mmap_message_object ) {
+            throw InvalidTranslationDocumentException( path, "unable to read the file" );
+        }
+        if( mmap_message_object->len != file_size ) {
+            throw InvalidTranslationDocumentException( path, "unable to read the file in its entirety" );
+        }
+    } catch( const std::exception &e ) {
+        throw InvalidTranslationDocumentException( path, e.what() );
     }
-    const std::uintmax_t file_size = fs::file_size( fs::u8path( path ) );
-    constexpr std::size_t max_file_size = 50 * 1024 * 1024;
-    if( file_size < 20 ) {
-        throw InvalidTranslationDocumentException( path, "file too small" );
-    }
-    if( file_size > max_file_size ) {
-        throw InvalidTranslationDocumentException( path, "file too large" );
-    }
-    data = std::string( ( std::istreambuf_iterator<char>( fin ) ), std::istreambuf_iterator<char>() );
-    if( data.size() != file_size ) {
-        throw InvalidTranslationDocumentException( path, "did not read the entire file" );
-    }
+
+    data = reinterpret_cast<const char *>( mmap_message_object->base );
+    data_size = mmap_message_object->len;
+
     if( GetByte( 0 ) == 0x95U &&
         GetByte( 1 ) == 0x04U &&
         GetByte( 2 ) == 0x12U &&
@@ -103,25 +105,25 @@ TranslationDocument::TranslationDocument( const std::string &path )
     number_of_strings = GetUint32( 8 );
     original_strings_table_offset = GetUint32( 12 );
     translated_strings_table_offset = GetUint32( 16 );
-    if( original_strings_table_offset + 8ULL * number_of_strings > data.size() ) {
+    if( original_strings_table_offset + 8ULL * number_of_strings > data_size ) {
         throw InvalidTranslationDocumentException( path,
                 string_format( "original strings table offset %zu with %zu entries exceeds buffer size %zu",
-                               original_strings_table_offset, number_of_strings, data.size() ) );
+                               original_strings_table_offset, number_of_strings, data_size ) );
     }
-    if( translated_strings_table_offset + 8ULL * number_of_strings > data.size() ) {
+    if( translated_strings_table_offset + 8ULL * number_of_strings > data_size ) {
         throw InvalidTranslationDocumentException( path,
                 string_format( "translated strings table offset %zu with %zu entries exceeds buffer size %zu",
-                               translated_strings_table_offset, number_of_strings, data.size() ) );
+                               translated_strings_table_offset, number_of_strings, data_size ) );
     }
     original_offsets.reserve( number_of_strings );
     translated_offsets.reserve( number_of_strings );
     for( std::size_t i = 0; i < number_of_strings; i++ ) {
         std::size_t length = GetUint32( original_strings_table_offset + 8 * i );
         std::size_t offset = GetUint32( original_strings_table_offset + 8 * i + 4 );
-        if( offset >= data.size() || length >= data.size() || offset + length >= data.size() ) {
+        if( offset >= data_size || length >= data_size || offset + length >= data_size ) {
             throw InvalidTranslationDocumentException( path,
                     string_format( "original string %zu offset %zu with length %zu exceeds buffer size %zu",
-                                   i, offset, length, data.size() ) );
+                                   i, offset, length, data_size ) );
         }
         if( data[offset + length] != '\0' ) {
             throw InvalidTranslationDocumentException( path,
@@ -134,10 +136,10 @@ TranslationDocument::TranslationDocument( const std::string &path )
         std::vector<std::size_t> offsets;
         std::size_t length = GetUint32( translated_strings_table_offset + 8 * i );
         std::size_t offset = GetUint32( translated_strings_table_offset + 8 * i + 4 );
-        if( offset >= data.size() || length >= data.size() || offset + length >= data.size() ) {
+        if( offset >= data_size || length >= data_size || offset + length >= data_size ) {
             throw InvalidTranslationDocumentException( path,
                     string_format( "translated string %zu offset %zu with length %zu exceeds buffer size %zu",
-                                   i, offset, length, data.size() ) );
+                                   i, offset, length, data_size ) );
         }
         if( data[offset + length] != '\0' ) {
             throw InvalidTranslationDocumentException( path,

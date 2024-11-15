@@ -1,27 +1,24 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <initializer_list>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "diary.h"
-#include "input.h"
-#include "options.h"
+#include "input_context.h"
 #include "output.h"
-#include "popup.h"
 #include "scores_ui.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "wcwidth.h"
 
 namespace
 {
@@ -105,63 +102,65 @@ void mvwprintwa( const catacurses::window &win, point p, Ts... args )
     }
 }
 
-void draw_diary_border( catacurses::window *win )
+void draw_diary_border( catacurses::window &win )
 {
-    const point max( getmaxx( *win ) - 1, getmaxy( *win ) - 1 );
+    const point max( getmaxx( win ) - 1, getmaxy( win ) - 1 );
     const point mid = max / 2;
+
+    wattron( win, BORDER_COLOR );
+
     // left, right vertical lines
     for( int i = 0; i < 4; i++ ) {
-        mvwvline( *win, point( 0     + i, 4 ), '|', max.y - 4 - 4 + 1 );
-        mvwvline( *win, point( max.x - i, 4 ), '|', max.y - 4 - 4 + 1 );
+        mvwvline( win, point( 0     + i, 4 ), '|', max.y - 4 - 4 + 1 );
+        mvwvline( win, point( max.x - i, 4 ), '|', max.y - 4 - 4 + 1 );
     }
     // middle vertical line
-    mvwvline( *win,     point( mid.x,     4 ), '|', max.y - 4 - 4 + 1 );
+    mvwvline( win,     point( mid.x,     4 ), '|', max.y - 4 - 4 + 1 );
     // top horizontal line
-    mvwhline( *win,     point( 4,         0 ), '_', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4,         0 ), '_', max.x - 4 - 4 + 1 );
     // bottom horizontal lines
-    mvwhline( *win,     point( 4, max.y - 2 ), '_', max.x - 4 - 4 + 1 );
-    mvwhline( *win,     point( 4, max.y - 1 ), '=', max.x - 4 - 4 + 1 );
-    mvwhline( *win,     point( 4, max.y - 0 ), '-', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4, max.y - 2 ), '_', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4, max.y - 1 ), '=', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4, max.y - 0 ), '-', max.x - 4 - 4 + 1 );
 
-    wattron( *win, BORDER_COLOR );
     //top left corner
-    mvwprintwa( *win, point_zero,
+    mvwprintwa( win, point_zero,
                 "    ",
                 ".-/|",
                 "||||",
                 "||||" );
     // bottom left corner
-    mvwprintwa( *win, point( 0, max.y - 3 ),
+    mvwprintwa( win, point( 0, max.y - 3 ),
                 "||||",
                 "||||",
                 "||/=",
                 "`'--" );
     // top right corner
-    mvwprintwa( *win, point( max.x - 3, 0 ),
+    mvwprintwa( win, point( max.x - 3, 0 ),
                 "    ",
                 "|\\-.",
                 "||||",
                 "||||" );
     // bottom right corner
-    mvwprintwa( *win, max + point( -3, -3 ),
+    mvwprintwa( win, max + point( -3, -3 ),
                 "||||",
                 "||||",
                 "=\\||",
                 "--''" );
     // top middle
-    mvwprintwa( *win, point( mid.x - 1, 0 ),
+    mvwprintwa( win, point( mid.x - 1, 0 ),
                 "   ",
                 "\\ /",
                 " | ",
                 " | " );
     // bottom middle
-    mvwprintwa( *win, point( mid.x - 1, max.y - 3 ),
+    mvwprintwa( win, point( mid.x - 1, max.y - 3 ),
                 " | ",
                 " | ",
                 "\\|/",
                 "___" );
 
-    wattroff( *win, BORDER_COLOR );
+    wattroff( win, BORDER_COLOR );
 }
 } // namespace
 
@@ -223,7 +222,7 @@ void diary::show_diary_ui( diary *c_diary )
         werase( w_border );
         werase( w_head );
 
-        draw_diary_border( &w_border );
+        draw_diary_border( w_border );
 
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
                                currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
@@ -278,7 +277,7 @@ void diary::show_diary_ui( diary *c_diary )
         werase( w_desc );
 
         draw_border( w_desc );
-        center_print( w_desc, 0, c_light_gray, string_format( _( "%s´s Diary" ), c_diary->owner ) );
+        center_print( w_desc, 0, c_light_gray, string_format( _( "%s's Diary" ), c_diary->owner ) );
         std::string desc = string_format( _( "%s, %s, %s, %s" ),
                                           ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
                                           ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
@@ -298,7 +297,9 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        w_info = catacurses::newwin( std::clamp( 3, max.y / 2 - 4, 7 ), max.x + 9, beg + point( -4,
+        int lines = std::clamp( max.y / 2 - 4, 3, 7 );
+
+        w_info = catacurses::newwin( lines, max.x + 9, beg + point( -4,
                                      3 + max.y + ( max.y > 12 ) ) );
 
         ui.position_from_window( w_info );

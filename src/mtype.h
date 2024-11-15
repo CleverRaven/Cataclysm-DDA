@@ -74,6 +74,137 @@ struct mon_flag {
     static const std::vector<mon_flag> &get_all();
 };
 
+// Fast access to monster flags used in game logic.
+//
+// These are only safe to use after set_mon_flag_ids is called during game load.
+// NOLINTNEXTLINE(cata-static-int_id-constants)
+extern mon_flag_id mon_flag_ACIDPROOF,
+       mon_flag_ACIDTRAIL,
+       mon_flag_ACID_BLOOD,
+       mon_flag_ALL_SEEING,
+       mon_flag_ALWAYS_SEES_YOU,
+       mon_flag_ALWAYS_VISIBLE,
+       mon_flag_ANIMAL,
+       mon_flag_AQUATIC,
+       mon_flag_ARTHROPOD_BLOOD,
+       mon_flag_ATTACKMON,
+       mon_flag_ATTACK_LOWER,
+       mon_flag_ATTACK_UPPER,
+       mon_flag_BADVENOM,
+       mon_flag_BASHES,
+       mon_flag_BILE_BLOOD,
+       mon_flag_BORES,
+       mon_flag_CAMOUFLAGE,
+       mon_flag_CANPLAY,
+       mon_flag_CAN_BE_CULLED,
+       mon_flag_CAN_DIG,
+       mon_flag_CAN_OPEN_DOORS,
+       mon_flag_CLIMBS,
+       mon_flag_COMBAT_MOUNT,
+       mon_flag_CONSOLE_DESPAWN,
+       mon_flag_CONVERSATION,
+       mon_flag_CORNERED_FIGHTER,
+       mon_flag_DEADLY_VIRUS,
+       mon_flag_DESTROYS,
+       mon_flag_DIGS,
+       mon_flag_DOGFOOD,
+       mon_flag_DORMANT,
+       mon_flag_DRACULIN_IMMUNE,
+       mon_flag_GEN_DORMANT,
+       mon_flag_DRIPS_GASOLINE,
+       mon_flag_DRIPS_NAPALM,
+       mon_flag_DROPS_AMMO,
+       mon_flag_EATS,
+       mon_flag_ELECTRIC,
+       mon_flag_ELECTRIC_FIELD,
+       mon_flag_ELECTRONIC,
+       mon_flag_FAE_CREATURE,
+       mon_flag_FILTHY,
+       mon_flag_FIREPROOF,
+       mon_flag_FIREY,
+       mon_flag_FISHABLE,
+       mon_flag_FLIES,
+       mon_flag_GOODHEARING,
+       mon_flag_GRABS,
+       mon_flag_GROUP_BASH,
+       mon_flag_GROUP_MORALE,
+       mon_flag_GUILT_ANIMAL,
+       mon_flag_GUILT_CHILD,
+       mon_flag_GUILT_HUMAN,
+       mon_flag_GUILT_OTHERS,
+       mon_flag_HARDTOSHOOT,
+       mon_flag_HAS_MIND,
+       mon_flag_HEARS,
+       mon_flag_HIT_AND_RUN,
+       mon_flag_HUMAN,
+       mon_flag_ID_CARD_DESPAWN,
+       mon_flag_IMMOBILE,
+       mon_flag_INSECTICIDEPROOF,
+       mon_flag_INTERIOR_AMMO,
+       mon_flag_KEENNOSE,
+       mon_flag_KEEP_DISTANCE,
+       mon_flag_LOUDMOVES,
+       mon_flag_MECH_DEFENSIVE,
+       mon_flag_MECH_RECON_VISION,
+       mon_flag_MILKABLE,
+       mon_flag_MIND_SEEING,
+       mon_flag_NEMESIS,
+       mon_flag_NEVER_WANDER,
+       mon_flag_NIGHT_INVISIBILITY,
+       mon_flag_NOGIB,
+       mon_flag_NOHEAD,
+       mon_flag_NOT_HALLUCINATION,
+       mon_flag_NO_BREATHE,
+       mon_flag_NO_BREED,
+       mon_flag_NO_FUNG_DMG,
+       mon_flag_NO_NECRO,
+       mon_flag_PACIFIST,
+       mon_flag_PARALYZEVENOM,
+       mon_flag_PATH_AVOID_DANGER,
+       mon_flag_PATH_AVOID_FALL,
+       mon_flag_PATH_AVOID_FIRE,
+       mon_flag_PAY_BOT,
+       mon_flag_PET_HARNESSABLE,
+       mon_flag_PET_MOUNTABLE,
+       mon_flag_PET_WONT_FOLLOW,
+       mon_flag_PHOTOPHOBIC,
+       mon_flag_PLASTIC,
+       mon_flag_POISON,
+       mon_flag_PRIORITIZE_TARGETS,
+       mon_flag_PUSH_MON,
+       mon_flag_PUSH_VEH,
+       mon_flag_QUEEN,
+       mon_flag_QUIETDEATH,
+       mon_flag_QUIETMOVES,
+       mon_flag_RANGED_ATTACKER,
+       mon_flag_REVIVES,
+       mon_flag_REVIVES_HEALTHY,
+       mon_flag_RIDEABLE_MECH,
+       mon_flag_SEES,
+       mon_flag_SHORTACIDTRAIL,
+       mon_flag_SILENT_DISAPPEAR,
+       mon_flag_SILENTMOVES,
+       mon_flag_SLUDGEPROOF,
+       mon_flag_SLUDGETRAIL,
+       mon_flag_SMALLSLUDGETRAIL,
+       mon_flag_SMALL_HIDER,
+       mon_flag_SMELLS,
+       mon_flag_STUMBLES,
+       mon_flag_STUN_IMMUNE,
+       mon_flag_SUNDEATH,
+       mon_flag_SWARMS,
+       mon_flag_SWIMS,
+       mon_flag_TEEP_IMMUNE,
+       mon_flag_VAMP_VIRUS,
+       mon_flag_VENOM,
+       mon_flag_WARM,
+       mon_flag_WATER_CAMOUFLAGE,
+       mon_flag_WEBWALK,
+       mon_flag_WIELDED_WEAPON;
+
+// Initializes all hardcoded flags above. String flags must already be loaded.
+void set_mon_flag_ids();
+
 /** Used to store monster effects placed on attack */
 struct mon_effect_data {
     // The type of the effect.
@@ -123,6 +254,7 @@ struct monster_death_effect {
     bool was_loaded = false;
     bool has_effect = false;
     fake_spell sp;
+    std::optional<effect_on_condition_id> eoc;
     translation death_message;
     mdeath_type corpse_type = mdeath_type::NORMAL;
 
@@ -149,6 +281,13 @@ struct mount_item_data {
     itype_id storage;
 };
 
+struct reproduction_type {
+    mtype_id baby_monster = mtype_id::NULL_ID();
+    mongroup_id baby_monster_group = mongroup_id::NULL_ID();
+    itype_id baby_egg = itype_id::NULL_ID();
+    item_group_id baby_egg_group = item_group_id::NULL_ID();
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -163,13 +302,14 @@ struct mtype {
         mon_action_defend sp_defense;
     private:
         ascii_art_id picture_id;
-        std::unordered_set<mon_flag_id> flags;
+        mon_flag_id_set flags;
         std::set<mon_flag_str_id> pre_flags_; // used only for initial loading
     public:
         mtype_id id;
         mfaction_str_id default_faction;
         harvest_id harvest;
         harvest_id dissect;
+        harvest_id decay;
         speed_description_id speed_desc;
         // Monster upgrade variables
         mtype_id upgrade_into;
@@ -179,8 +319,8 @@ struct mtype {
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
-        mtype_id baby_monster;
-        itype_id baby_egg;
+        reproduction_type baby_type;
+
         // Monster biosignature variables
         itype_id biosig_item;
 
@@ -210,6 +350,8 @@ struct mtype {
 
         // The type of material this monster can absorb. Leave unspecified for all materials.
         std::vector<material_id> absorb_material;
+        // The type of material this monster cannot absorb. Leave unspecified for no materials (blacklist none).
+        std::vector<material_id> no_absorb_material;
         damage_instance melee_damage; // Basic melee attack damage
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
         std::vector<std::string> chat_topics; // What it has to say.
@@ -319,7 +461,7 @@ struct mtype {
         // Maximum move cost for this monster to absorb an item (default -1, -1 for no limit)
         int absorb_move_cost_max = -1;
 
-        float luminance;           // 0 is default, >0 gives luminance to lightmap
+        float luminance = 0;       // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
@@ -383,7 +525,9 @@ struct mtype {
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag( const mon_flag_id &flag ) const;
+        bool has_flag( const mon_flag_id &flag ) const {
+            return flags.contains( flag );
+        }
         void set_flag( const mon_flag_id &flag, bool state = true );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;

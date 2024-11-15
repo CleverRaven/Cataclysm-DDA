@@ -1,0 +1,16 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_QUICK_RECOVERY_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_quick_recovery" },
+        { "x_in_y_chance": { "x": 3, "y": 4 } },
+        { "compare_string": [ "downed", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "downed" } ]
+  }
+]

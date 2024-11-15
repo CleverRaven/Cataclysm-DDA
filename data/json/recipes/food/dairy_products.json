@@ -12,8 +12,8 @@
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
-    "components": [ [ [ "milk_cream", 5 ] ] ],
-    "charges": 99
+    "components": [ [ [ "milk_cream", 5 ] ], [ [ "salt", 1 ] ] ],
+    "charges": 22
   },
   {
     "type": "recipe",
@@ -29,8 +29,8 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
     "tools": [ [ [ "jar_glass_sealed", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ],
-    "charges": 33
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ], [ [ "salt", 1 ] ] ],
+    "charges": 13
   },
   {
     "type": "recipe",
@@ -119,7 +119,6 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "cottage_cheese", 1 ] ],
-      [ [ "sweet_fruit", 1, "LIST" ] ],
       [ [ "onion", 1 ] ],
       [
         [ "bell_pepper", 1 ],
@@ -167,6 +166,7 @@
     "time": "25 m",
     "charges": 10,
     "book_learn": [ [ "dairy_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "components": [

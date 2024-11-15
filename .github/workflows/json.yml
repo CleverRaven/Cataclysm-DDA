@@ -16,7 +16,7 @@ jobs:
         cancel_others: 'true'
         paths: '["**.json", ".github/workflows/json.yml"]'
     - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v3.1.2
+    - uses: actions/upload-artifact@v4
       with:
         name: pull_request_id
         path: pull_request_id
@@ -28,7 +28,7 @@ jobs:
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: JSON style check
       run: make style-all-json-parallel RELEASE=1
     - name: Display Corrections

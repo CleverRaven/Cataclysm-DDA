@@ -80,6 +80,7 @@ enum vpart_bitflags : int {
     VPFLAG_ROTOR,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
+    VPFLAG_NO_LEAK,
     VPFLAG_DOME_LIGHT,
     VPFLAG_AISLE_LIGHT,
     VPFLAG_ATOMIC_LIGHT,
@@ -91,6 +92,7 @@ enum vpart_bitflags : int {
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
     VPFLAG_CARGO,
+    VPFLAG_CARGO_PASSABLE,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
     VPFLAG_WATER_WHEEL,
@@ -109,6 +111,11 @@ enum vpart_bitflags : int {
     VPFLAG_CABLE_PORTS,
     VPFLAG_BATTERY,
     VPFLAG_POWER_TRANSFER,
+    VPFLAG_HUGE_OK,
+    VPFLAG_NEED_LEG,
+    VPFLAG_IGNORE_LEG_REQUIREMENT,
+    VPFLAG_INOPERABLE_SMALL,
+    VPFLAG_IGNORE_HEIGHT_REQUIREMENT,
 
     NUM_VPFLAGS
 };
@@ -155,11 +162,12 @@ struct vpslot_toolkit {
 
 struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
-    std::string post_terrain;
-    std::string post_furniture;
-    std::string post_field;
-    int post_field_intensity = 0;
-    time_duration post_field_age = 0_turns;
+    std::optional<ter_str_id> post_terrain;
+    std::optional<furn_str_id> post_furniture;
+    std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
+    int post_field_intensity;
+    time_duration post_field_age;
 };
 
 struct vp_control_req {
@@ -351,7 +359,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::map<damage_type_id, float> damage_reduction = {};
+        std::unordered_map<damage_type_id, float> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -391,6 +399,9 @@ class vpart_info
 
         /** base item for this part */
         itype_id base_item;
+
+        /** item it should be removed as */
+        std::optional<itype_id> removed_item;
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
@@ -439,8 +450,8 @@ class vpart_info
 
         /*Comfort data for sleeping in vehicles*/
         int comfort = 0;
-        int floor_bedding_warmth = 0;
-        int bonus_fire_warmth_feet = 300;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
+        units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
 
         // z-ordering, inferred from location, cached here
         int z_order = 0;
@@ -495,6 +506,7 @@ struct vehicle_prototype {
         std::vector<part_def> parts;
         std::vector<vehicle_item_spawn> item_spawns;
         std::vector<zone_def> zone_defs;
+        std::vector<std::pair<vproto_id, mod_id>> src;
 
         shared_ptr_fast<vehicle> blueprint;
 
@@ -502,7 +514,6 @@ struct vehicle_prototype {
         static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
     private:
         bool was_loaded = false; // used by generic_factory
-        std::vector<std::pair<vproto_id, mod_id>> src;
         friend class generic_factory<vehicle_prototype>;
         friend struct mod_tracker;
 };

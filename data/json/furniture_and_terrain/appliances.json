@@ -14,96 +14,6 @@
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
-    "type": "vehicle_part",
-    "id": "ap_fridge",
-    "name": { "str": "refrigerator" },
-    "looks_like": "f_fridge",
-    "categories": [ "cargo" ],
-    "color": "light_blue",
-    "broken_color": "light_blue",
-    "damage_modifier": 80,
-    "durability": 100,
-    "description": "A standard household refrigerator.  When turned on, it will cool its contents to extend the time before they spoil.",
-    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": "-30 W",
-    "size": "500 L",
-    "item": "fridge",
-    "requirements": {
-      "removal": { "time": "2 m" },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "plastic_chunk", "count": [ 9, 14 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_minifridge",
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "copy-from": "minifridge"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_freezer",
-    "name": { "str": "freezer" },
-    "looks_like": "f_fridge",
-    "categories": [ "cargo" ],
-    "color": "blue",
-    "broken_color": "blue",
-    "damage_modifier": 80,
-    "durability": 100,
-    "description": "A chest freezer.  When turned on, it will freeze and preserve its contents.",
-    "size": "450 L",
-    "epower": "-35 W",
-    "item": "freezer",
-    "requirements": {
-      "removal": { "time": "2 m" },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "plastic_chunk", "count": [ 13, 18 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] }
-    ],
-    "damage_reduction": { "all": 32 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_minifreezer",
-    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "copy-from": "minifreezer"
-  },
-  {
     "id": "ap_oven",
     "name": { "str": "oven" },
     "categories": [ "utility" ],
@@ -182,6 +92,28 @@
     ],
     "type": "vehicle_part",
     "variants": [ { "symbols": "6", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_arc_furnace",
+    "name": { "str": "arc furnace" },
+    "looks_like": "f_arc_furnace",
+    "color": "blue",
+    "categories": [ "utility" ],
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Plugged in and ready to go.",
+    "broken_color": "yellow_red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_arc_furnace" } ],
+    "item": "arc_furnace",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "pipe", "count": [ 0, 4 ] }
+    ],
+    "variants": [ { "symbols": "U", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
@@ -566,7 +498,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "rag", "count": [ 1, 2 ] },
+      { "item": "sheet_cotton", "count": [ 5, 10 ] },
       { "item": "pipe", "count": [ 0, 1 ] },
       { "item": "hd_pipe", "count": [ 1, 2 ] },
       { "item": "sheet_metal_small", "count": [ 1, 2 ] },
@@ -673,12 +605,67 @@
   },
   {
     "type": "vehicle_part",
-    "id": "ap_solar_panel",
+    "id": "ap_folding_solar_panel",
+    "name": { "str": "deployed folding solar panel" },
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "A solar panel, mounted on a frame and ready to power other appliances.",
+    "description": "This folding solar panel has been unfolded, and it is ready to charge connected devices, if the sun is out.",
+    "copy-from": "solar_panel",
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "proportional": { "durability": 0.5 },
+    "epower": "120 W",
+    "requirements": { "removal": { "time": "5 s" } },
+    "breaks_into": [ { "item": "folding_solar_panel", "damage": [ 5, 5 ] } ],
+    "remove_as": "folding_solar_panel",
+    "item": "folding_solar_panel_deployed"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_folding_solar_panel_v2",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "name": { "str": "deployed solar suitcase" },
+    "description": "This solar suitcase has been unpacked and is ready to supply power.",
+    "copy-from": "ap_folding_solar_panel",
+    "epower": "200 W",
+    "breaks_into": [ { "item": "folding_solar_panel_v2", "damage": [ 5, 5 ] } ],
+    "requirements": { "removal": { "time": "1 m" } },
+    "remove_as": "folding_solar_panel_v2",
+    "item": "folding_solar_panel_v2_deployed"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_solar_panel",
+    "name": { "str": "small solar panel" },
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A small solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
     "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_ground_solar_panel",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A solar panel, mounted on a frame and ready to power other appliances.",
+    "item": "ground_solar_panel",
+    "copy-from": "solar_panel",
+    "//": "4 times the panels, 1.2x matching the above appliance",
+    "proportional": { "epower": 4.8 },
+    "requirements": {
+      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "120 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 4 ], [ "soldering_standard", 8 ] ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 32 ] },
+      { "item": "steel_chunk", "count": [ 8, 32 ] },
+      { "item": "scrap", "count": [ 8, 32 ] },
+      { "item": "solar_cell", "count": [ 4, 16 ] }
+    ],
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -695,12 +682,36 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel_v2",
+    "name": { "str": "small advanced solar panel" },
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "A high-performance solar panel, mounted on a frame and ready to power other appliances.",
+    "description": "A  small, high-performance solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
     "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_ground_solar_panel_v2",
+    "copy-from": "solar_panel_v2",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "item": "ground_solar_panel_v2",
+    "//": "4 times from 4 more panels, 1.2 times as is done above",
+    "proportional": { "epower": 4.8 },
+    "requirements": {
+      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "electronics", 8 ] ],
+        "time": "150 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 4 ], [ "soldering_standard", 64 ] ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 16 ] },
+      { "item": "steel_chunk", "count": [ 8, 16 ] },
+      { "item": "scrap", "count": [ 8, 16 ] },
+      { "item": "solar_cell_v2", "count": [ 4, 24 ] }
+    ]
   },
   {
     "type": "vehicle_part",
@@ -914,7 +925,7 @@
     "location": "structure",
     "damage_modifier": 80,
     "durability": 400,
-    "description": "A rather heavy brick of metal housing an ASRG, formerly designed by NASA and repurposed for terrestrial use.  Will provide about 130w, basically forever as far as you're concerned.  Even though the alpha radiation these run off of isn't very dangerous in case of a breach, this unit appears to be armored to take a beating and is a good deal heavier owing to its composite plating.",
+    "description": "A rather heavy brick of metal housing an ASRG, formerly designed by NASA and repurposed for terrestrial use.  Will provide about 130 W, basically forever as far as you're concerned.  Even though the alpha radiation these run off of isn't very dangerous in case of a breach, this unit appears to be armored to take a beating and is a good deal heavier owing to its composite plating.",
     "epower": "130 W",
     "item": "compact_ASRG_containment",
     "requirements": {
@@ -949,8 +960,8 @@
     "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
     "//2": "On a normal vehicle 250mL of diesel in an I4 with a truck alternator (what the active backup gen uses) should provide ~1692 charges (kW?) of power in about 24 minutes based on a test setup. That's a little less than 7W power, rounded up as I assume a larger dedicated generator is more efficient.",
     "power": "7 W",
-    "//3": "Truck alternator value",
-    "epower": "1320 W",
+    "//3": "7.5 kW alternator value, minus power consumption of the engine",
+    "epower": "7300 W",
     "//4": "This value doesn't seem to do anything for the appliance version? Let's keep it commented out for future reference.",
     "//energy_consumption": "1000 W",
     "m2c": 5,
@@ -1048,5 +1059,28 @@
     ],
     "damage_reduction": { "all": 50 },
     "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_glassblowers_crucible",
+    "name": { "str": "glassblower's crucible" },
+    "color": "brown",
+    "categories": [ "utility" ],
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
+    "broken_color": "yellow_red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "glassblowers_crucible_tool" } ],
+    "item": "glassblowers_crucible",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "ceramic_shard", "count": [ 21, 42 ] },
+      { "item": "rock", "count": [ 6, 12 ] }
+    ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   }
 ]

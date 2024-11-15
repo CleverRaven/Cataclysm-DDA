@@ -3,44 +3,58 @@
 #include <string>
 
 #include "dialogue.h"
+#include "rng.h"
+#include "talker.h"
 
-std::string read_var_value( const var_info &info, const dialogue &d )
+template<class T>
+std::optional<std::string> maybe_read_var_value(
+    const abstract_var_info<T> &info, const_dialogue const &d, int call_depth )
 {
-    std::string ret_val;
     global_variables &globvars = get_globals();
-    std::string var_val;
     switch( info.type ) {
         case var_type::global:
-            ret_val = globvars.get_global_value( info.name );
-            break;
+            return globvars.maybe_get_global_value( info.name );
         case var_type::context:
-            ret_val = d.get_value( info.name );
-            break;
+            return d.maybe_get_value( info.name );
         case var_type::u:
-            ret_val = d.actor( false )->get_value( info.name );
-            break;
+            return d.const_actor( false )->maybe_get_value( info.name );
         case var_type::npc:
-            ret_val = d.actor( true )->get_value( info.name );
-            break;
-        case var_type::var:
-            var_val = d.get_value( info.name );
-            ret_val = read_var_value( process_variable( var_val ), d );
-            break;
+            return d.const_actor( true )->maybe_get_value( info.name );
+        case var_type::var: {
+            std::optional<std::string> const var_val = d.maybe_get_value( info.name );
+            if( call_depth > 1000 && var_val ) {
+                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
+                          info.name, var_val.value(), d.get_callstack() );
+                return std::nullopt;
+            } else {
+                return var_val ? maybe_read_var_value( process_variable( *var_val ), d,
+                                                       call_depth + 1 ) : std::nullopt;
+            }
+        }
         case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
         case var_type::party:
-            debugmsg( "Not implemented yet." );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
+        case var_type::last:
+            return std::nullopt;
     }
-    if( ret_val.empty() ) {
-        ret_val = info.default_val;
-    }
+    return std::nullopt;
+}
 
-    return ret_val;
+template
+std::optional<std::string> maybe_read_var_value( const var_info &, const_dialogue const &,
+        int call_depth );
+template std::optional<std::string> maybe_read_var_value( const translation_var_info &,
+        const_dialogue const &, int call_depth );
+
+template<>
+std::string read_var_value( const var_info &info, const_dialogue const &d )
+{
+    return maybe_read_var_value( info, d ).value_or( info.default_val );
+}
+
+template<>
+std::string read_var_value( const translation_var_info &info, const_dialogue const &d )
+{
+    return maybe_read_var_value( info, d ).value_or( info.default_val.translated() );
 }
 
 var_info process_variable( const std::string &type )
@@ -54,6 +68,9 @@ var_info process_variable( const std::string &type )
     } else if( type.compare( 0, 4, "npc_" ) == 0 ) {
         vt = var_type::npc;
         ret_str = type.substr( 4, type.size() - 4 );
+    } else if( type.compare( 0, 2, "n_" ) == 0 ) {
+        vt = var_type::npc;
+        ret_str = type.substr( 2, type.size() - 2 );
     } else if( type.compare( 0, 7, "global_" ) == 0 ) {
         vt = var_type::global;
         ret_str = type.substr( 7, type.size() - 7 );
@@ -75,7 +92,7 @@ var_info process_variable( const std::string &type )
 }
 
 template<>
-std::string str_or_var::evaluate( dialogue const &d ) const
+std::string str_or_var::evaluate( const_dialogue const &d ) const
 {
     if( function.has_value() ) {
         return function.value()( d );
@@ -105,7 +122,7 @@ std::string str_or_var::evaluate( dialogue const &d ) const
 }
 
 template<>
-std::string translation_or_var::evaluate( dialogue const &d ) const
+std::string translation_or_var::evaluate( const_dialogue const &d ) const
 {
     if( function.has_value() ) {
         return function.value()( d ).translated();
@@ -134,7 +151,14 @@ std::string translation_or_var::evaluate( dialogue const &d ) const
     return "";
 }
 
-double dbl_or_var_part::evaluate( dialogue &d ) const
+std::string str_translation_or_var::evaluate( const_dialogue const &d ) const
+{
+    return std::visit( [&d]( auto &&val ) {
+        return val.evaluate( d );
+    }, val );
+}
+
+double dbl_or_var_part::evaluate( const_dialogue const &d ) const
 {
     if( dbl_val.has_value() ) {
         return dbl_val.value();
@@ -156,24 +180,15 @@ double dbl_or_var_part::evaluate( dialogue &d ) const
                   var_name, d.get_callstack() );
         return 0;
     }
-    if( arithmetic_val.has_value() ) {
-        arithmetic_val.value()( d );
-        var_info info = var_info( var_type::global, "temp_var" );
-        std::string val = read_var_value( info, d );
-        if( !val.empty() ) {
-            return std::stof( val );
-        }
-        debugmsg( "No valid arithmetic value for dbl_or_var_part.  %s", d.get_callstack() );
-        return 0;
-    }
     if( math_val ) {
-        return math_val->act( d );
+        dialogue loosey_goosey( d );
+        return math_val->act( loosey_goosey );
     }
     debugmsg( "No valid value for dbl_or_var_part.  %s", d.get_callstack() );
     return 0;
 }
 
-double dbl_or_var::evaluate( dialogue &d ) const
+double dbl_or_var::evaluate( const_dialogue const &d ) const
 {
     if( pair ) {
         return rng( min.evaluate( d ), max.evaluate( d ) );
@@ -181,7 +196,7 @@ double dbl_or_var::evaluate( dialogue &d ) const
     return min.evaluate( d );
 }
 
-time_duration duration_or_var_part::evaluate( dialogue &d ) const
+time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
 {
     if( dur_val.has_value() ) {
         return dur_val.value();
@@ -205,26 +220,15 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
                   var_name, d.get_callstack() );
         return 0_seconds;
     }
-    if( arithmetic_val.has_value() ) {
-        arithmetic_val.value()( d );
-        var_info info = var_info( var_type::global, "temp_var" );
-        std::string val = read_var_value( info, d );
-        if( !val.empty() ) {
-            time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stof( val ) );
-            return ret_val;
-        }
-        debugmsg( "No valid arithmetic value for duration_or_var_part.  %s", d.get_callstack() );
-        return 0_seconds;
-    }
     if( math_val ) {
-        return time_duration::from_turns( math_val->act( d ) );
+        dialogue loosey_goosey( d );
+        return time_duration::from_turns( math_val->act( loosey_goosey ) );
     }
     debugmsg( "No valid value for duration_or_var_part.  %s", d.get_callstack() );
     return 0_seconds;
 }
 
-time_duration duration_or_var::evaluate( dialogue &d ) const
+time_duration duration_or_var::evaluate( const_dialogue const &d ) const
 {
     if( pair ) {
         return rng( min.evaluate( d ), max.evaluate( d ) );

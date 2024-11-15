@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_ADVANCED_INV_LISTITEM_H
 #define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "item_location.h"
@@ -40,6 +40,7 @@ class advanced_inv_listitem
          * Name of the item (singular) without damage (or similar) prefix, used for sorting.
          */
         std::string name_without_prefix;
+        unsigned int contents_count;
         /**
          * Whether auto pickup is enabled for this item (based on the name).
          */

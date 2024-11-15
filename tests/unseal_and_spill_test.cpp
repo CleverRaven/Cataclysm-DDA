@@ -164,7 +164,7 @@ class test_scenario
 void unseal_items_containing( contents_change_handler &handler, item_location &root,
                               const std::set<itype_id> &types )
 {
-    for( item *it : root->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : root->all_items_top( pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
@@ -190,7 +190,7 @@ item initialize( const initialization &init )
         if( content_init.fill_parent ) {
             REQUIRE( it.fill_with( content ) >= 1 );
         } else {
-            ret_val<void> ret = it.put_in( content, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = it.put_in( content, pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
         }
@@ -206,6 +206,11 @@ struct final_result {
     bool sealed;
     bool parent_pocket_sealed;
     std::vector<final_result> contents;
+
+    explicit final_result( const itype_id id, const bool sealed, const bool parent_pocket_sealed,
+                           std::vector<final_result> contents ) :
+        id( id ), sealed( sealed ), parent_pocket_sealed( parent_pocket_sealed ),
+        contents( std::move( contents ) ) {}
 };
 
 item *item_pointer( item *const it )
@@ -224,7 +229,7 @@ item *item_pointer( item_location it )
 }
 
 template < typename Parent,
-           std::enable_if_t < !std::is_same<std::decay_t<Parent>, item_location>::value, int > = 0 >
+           std::enable_if_t < !std::is_same_v<std::decay_t<Parent>, item_location>, int > = 0 >
 item_location container_from_parent( Parent && )
 {
     return item_location::nowhere;
@@ -285,7 +290,7 @@ void match( item_location loc, const final_result &result )
     INFO( "match: id = " << result.id.str() );
     REQUIRE( loc->typeId() == result.id );
     CHECK( result.sealed == loc->any_pockets_sealed() );
-    match( loc, loc->all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
+    match( loc, loc->all_items_top( pocket_type::CONTAINER ), result.contents );
 }
 
 void test_scenario::run()
@@ -416,7 +421,7 @@ void test_scenario::run()
             std::optional<std::list<item>::iterator> worn = guy.wear_item( item(
                         itype_test_restricted_container_holder ), false );
             REQUIRE( worn.has_value() );
-            ret_val<void> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = ( **worn ).put_in( it, pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );
@@ -435,12 +440,12 @@ void test_scenario::run()
             break;
         }
         case container_location::vehicle: {
-            vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos(),
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos_bub(),
                                              -90_degrees, 0, 0 );
             REQUIRE( veh );
-            here.board_vehicle( guy.pos(), &guy );
+            here.board_vehicle( guy.pos_bub(), &guy );
             std::optional<vpart_reference> vp =
-                here.veh_at( guy.pos() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
+                here.veh_at( guy.pos_bub() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
             std::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
             REQUIRE( added.has_value() );
@@ -448,8 +453,8 @@ void test_scenario::run()
             break;
         }
         case container_location::ground: {
-            item &added = here.add_item( guy.pos(), it );
-            it_loc = item_location( map_cursor( guy.pos() ), &added );
+            item &added = here.add_item( guy.pos_bub(), it );
+            it_loc = item_location( map_cursor( guy.get_location() ), &added );
             break;
         }
         default: {
@@ -805,19 +810,19 @@ void test_scenario::run()
             break;
         case container_location::inventory:
             if( original_location ) {
-                worn_results.emplace_back( final_result {
+                worn_results.emplace_back(
                     itype_test_restricted_container_holder,
                     false,
                     false,
-                    { *original_location }
-                } );
+                    std::vector<final_result> { *original_location }
+                );
             } else {
-                worn_results.emplace_back( final_result {
+                worn_results.emplace_back(
                     itype_test_restricted_container_holder,
                     false,
                     false,
-                    {}
-                } );
+                    std::vector<final_result> {}
+                );
             }
             break;
         case container_location::worn:
@@ -857,9 +862,9 @@ void test_scenario::run()
         REQUIRE( !it_loc );
     }
     INFO( "checking ground items" );
-    match( map_cursor( guy.pos() ), here.i_at( guy.pos() ), ground );
+    match( map_cursor( guy.get_location() ), here.i_at( guy.pos_bub() ), ground );
     INFO( "checking vehicle items" );
-    std::optional<vpart_reference> vp = here.veh_at( guy.pos() )
+    std::optional<vpart_reference> vp = here.veh_at( guy.pos_bub() )
                                         .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
     if( cur_container_loc == container_location::vehicle ) {
         REQUIRE( vp.has_value() );

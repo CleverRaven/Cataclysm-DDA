@@ -1,28 +1,23 @@
 #include "debug_menu.h"
 
-#include <cstdint>
-// IWYU pragma: no_include <sys/signal.h>
-// IWYU pragma: no_include <cxxabi.h>
-
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdlib>
+#include <cstdint>
+#include <exception>
+#include <filesystem>
 #include <functional>
-#include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <locale>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <string>
-#include <type_traits>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -30,86 +25,100 @@
 
 #include "achievement.h"
 #include "action.h"
+#include "activity_tracker.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "calendar_ui.h"
+#include "cata_assert.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "clzones.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
+#include "dialogue_helpers.h"
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "filesystem.h" // IWYU pragma: keep
+#include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "json.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "martialarts.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
+#include "mongroup.h"
 #include "monster.h"
-#include "monstergenerator.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "path_info.h" // IWYU pragma: keep
+#include "path_info.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
-#include "rng.h"
+#include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "tgz_archiver.h"
+#include "timed_event.h"
 #include "trait_group.h"
+#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -135,6 +144,10 @@ static const faction_id faction_your_followers( "your_followers" );
 
 static const matype_id style_none( "style_none" );
 
+static const mongroup_id GROUP_DEBUG_EXACTLY_ONE( "GROUP_DEBUG_EXACTLY_ONE" );
+
+static const morale_type morale_perm_debug( "morale_perm_debug" );
+
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
@@ -142,17 +155,19 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_LIGHT( "DEBUG_LIGHT" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_NONE( "NONE" );
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
-#include "timed_event.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -167,8 +182,8 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WISH: return "WISH";
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
-        case debug_menu::debug_menu_index::REVEAL_MAP: return "REVEAL_MAP";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
+        case debug_menu::debug_menu_index::SPAWN_NAMED_NPC: return "SPAWN_NAMED_NPC";
         case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
@@ -180,10 +195,14 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_THEORY: return "CHANGE_THEORY";
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
+        case debug_menu::debug_menu_index::FORGET_ALL_RECIPES: return "FORGET_ALL_RECIPES";
+        case debug_menu::debug_menu_index::FORGET_ALL_ITEMS: return "FORGET_ALL_ITEMS";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
+        case debug_menu::debug_menu_index::EDIT_MONSTER: return "EDIT_MONSTER";
         case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
+        case debug_menu::debug_menu_index::SPAWN_HORDE: return "SPAWN_HORDE";
         case debug_menu::debug_menu_index::MAP_EDITOR: return "MAP_EDITOR";
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
@@ -233,14 +252,12 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
-        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_EXPORT: return "VEHICLE_EXPORT";
-        case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
@@ -252,6 +269,9 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
 		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
+		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
+		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
+        case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -416,6 +436,11 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
+// Used for quick setup
+static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+           trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+
 static std::string first_word( const std::string &str )
 {
     const size_t space_pos = str.find( ' ' );
@@ -425,13 +450,42 @@ static std::string first_word( const std::string &str )
     return str.substr( 0, space_pos );
 }
 
-static bool is_debug_character()
+bool is_debug_character()
 {
     static const std::unordered_set<std::string> debug_names = {
         "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
     };
     return debug_names.count( first_word( get_player_character().name ) ) ||
            debug_names.count( first_word( world_generator->active_world->world_name ) );
+}
+
+void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p )
+{
+    uilist vis_sel;
+    vis_sel.text = _( "Reveal at which vision level?" );
+    for( int i = static_cast<int>( om_vision_level::full );
+         i >= static_cast<int>( om_vision_level::unseen ); --i ) {
+        vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+    }
+    vis_sel.query();
+    if( vis_sel.ret == UILIST_CANCEL ) {
+        return;
+    }
+    map_reveal( vis_sel.ret, p );
+}
+
+void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p )
+{
+    const om_vision_level reveal_level = static_cast<om_vision_level>( reveal_level_int );
+    overmap &om = !p ? g->get_cur_om() : overmap_buffer.get( project_to<coords::om>( *p ).xy() );
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                om.set_seen( { i, j, k }, reveal_level, true );
+            }
+        }
+    }
+    add_msg( m_good, !p ? _( "Current overmap revealed." ) : _( "Overmap revealed." ) );
 }
 
 static int player_uilist()
@@ -442,6 +496,8 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theoretical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
+        { uilist_entry( debug_menu_index::FORGET_ALL_RECIPES, true, 'f', _( "Forget all recipes" ) ) },
+        { uilist_entry( debug_menu_index::FORGET_ALL_ITEMS, true, 'F', _( "Forget all items" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
@@ -457,6 +513,351 @@ static int player_uilist()
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
+}
+
+static void normalize_body( Character &u )
+{
+    u.clear_effects();
+    u.clear_morale();
+    u.clear_vitamins();
+    u.set_all_parts_hp_to_max();
+    u.set_sleepiness( 0 );
+    u.set_focus( 100 );
+    u.set_hunger( 0 );
+    u.set_pain( 0 );
+    u.set_rad( 0 );
+    u.set_sleep_deprivation( 0 );
+    u.set_stamina( u.get_stamina_max() );
+    u.set_stored_kcal( u.get_healthy_kcal() );
+    u.set_thirst( 0 );
+}
+
+static tripoint_abs_ms player_picks_tile()
+{
+    std::optional<tripoint> newpos = g->look_around();
+    return newpos ? get_map().getglobal( *newpos ) : get_player_character().get_location();
+}
+
+static void monster_ammo_edit( monster &mon )
+{
+    uilist smenu;
+    int pos = 0;
+    char hotkey = 'a';
+    const auto &ammo_map = mon.type->starting_ammo;
+    std::vector<itype_id> ammos;
+    for( const std::pair<const itype_id, int> &pair : ammo_map ) {
+        ammos.emplace_back( pair.first );
+        const itype *display_type = item::find_type( pair.first );
+        smenu.addentry( pos, true, hotkey, "%s: %d", display_type->nname( 1 ), mon.ammo[pair.first] );
+        pos++;
+        hotkey++;
+    }
+    smenu.query();
+
+    if( smenu.ret > static_cast<int>( ammo_map.size() ) || smenu.ret < 0 ) {
+        return;
+    }
+    itype_id new_ammo;
+    new_ammo = ammos[smenu.ret];
+    if( new_ammo.is_valid() ) {
+        int value;
+        const itype *display_type = item::find_type( new_ammo );
+        if( query_int( value, _( "Set %s to how much ammo?  Currently: %d" ), display_type->nname( 1 ),
+                       mon.ammo[new_ammo] ) )  {
+            if( value < 0 ) {
+                value = 0;
+            }
+            mon.ammo[new_ammo] = value;
+        }
+    }
+}
+
+static std::string query_npctalkvar_new_value()
+{
+    std::string value;
+    string_input_popup popup_val;
+    popup_val
+    .title( _( "Value" ) )
+    .width( 85 )
+    .edit( value );
+    return value;
+}
+
+static void edit_global_npctalk_vars()
+{
+    uilist global_var_list;
+    global_var_list.desc_enabled = true;
+    global_var_list.title = _( "Edit npctalkvar variables (global)" );
+    global_variables &globvars = get_globals();
+    // some ordering shennanigans so that i == 0 is the option to add a new var
+    int i = 1;
+    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (global)" )};
+    global_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
+    for( std::pair<const std::string, std::string> &some_global : globvars.get_global_values() ) {
+        keymap_index.emplace_back( some_global.first );
+        std::string description = string_format( _( "raw var value: %s" ), some_global.second );
+        if( std::optional<double> globvar_as_dbl = svtod( some_global.second ); globvar_as_dbl ) {
+            description += "\n";
+            description += string_format( _( "as time_duration: %s" ),
+                                          to_string( time_duration::from_turns( *globvar_as_dbl ) ) );
+            description += "\n";
+            description += string_format( _( "as time_point: %s" ),
+                                          to_string( calendar::turn_zero + time_duration::from_turns( *globvar_as_dbl ) ) );
+        }
+        global_var_list.addentry_desc( i, true, input_event(), some_global.first, description );
+        i++;
+    }
+    global_var_list.query();
+    int selected_globvar = global_var_list.ret;
+    if( selected_globvar == 0 ) {
+        std::string key;
+        string_input_popup popup_key;
+        popup_key
+        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
+        .title( _( "Key\n npctalk_var_" ) )
+        .width( 85 )
+        .edit( key );
+        globvars.set_global_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
+        globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+    }
+}
+
+static void edit_character_npctalk_vars( Character &you )
+{
+
+    uilist char_var_list;
+    char_var_list.desc_enabled = true;
+    char_var_list.title = string_format( _( "Edit npctalkvar variables (%s)" ), you.disp_name() );
+    std::unordered_map<std::string, std::string> &char_vars = you.get_values();
+    // some ordering shennanigans so that i == 0 is the option to add a new var
+    int i = 1;
+    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (local)" )};
+    char_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
+    for( std::pair<const std::string, std::string> &some_local : char_vars ) {
+        keymap_index.emplace_back( some_local.first );
+        std::string description = string_format( _( "raw var value: %s" ), some_local.second );
+        if( std::optional<double> localvar_as_dbl = svtod( some_local.second ); localvar_as_dbl ) {
+            description += "\n";
+            description += string_format( _( "as time_duration: %s" ),
+                                          to_string( time_duration::from_turns( *localvar_as_dbl ) ) );
+            description += "\n";
+            description += string_format( _( "as time_point: %s" ),
+                                          to_string( calendar::turn_zero + time_duration::from_turns( *localvar_as_dbl ) ) );
+        }
+        char_var_list.addentry_desc( i, true, input_event(), some_local.first, description );
+        i++;
+    }
+    char_var_list.query();
+    int selected_globvar = char_var_list.ret;
+    if( selected_globvar == 0 ) {
+        std::string key;
+        string_input_popup popup_key;
+        popup_key
+        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
+        .title( _( "Key\n npctalk_var_" ) )
+        .width( 85 )
+        .edit( key );
+        you.set_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
+        you.set_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+    }
+}
+
+static void run_eoc_menu( Creature *target = nullptr, bool target_as_alpha = false )
+{
+    if( !target && target_as_alpha ) {
+        return;
+    }
+    const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+    uilist eoc_menu;
+    for( const effect_on_condition &eoc : eocs ) {
+        eoc_menu.addentry( -1, true, -1, eoc.id.str() );
+    }
+    eoc_menu.query();
+
+    if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
+        dialogue newDialog;
+        if( target_as_alpha ) {
+            newDialog = dialogue( get_talker_for( target ), get_talker_for( get_avatar() ) );
+        } else {
+            newDialog = dialogue( get_talker_for( get_avatar() ), target ? get_talker_for( target ) : nullptr );
+        }
+        eocs[eoc_menu.ret].activate( newDialog );
+    }
+}
+
+static int creature_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::EDIT_MONSTER, true, 'c', _( "Edit monster" ) ) },
+    };
+
+    return uilist( _( "Monster…" ), uilist_initializer );
+}
+
+static void monster_edit_menu()
+{
+    std::vector<tripoint> locations;
+    uilist monster_menu;
+    int charnum = 0;
+    for( const monster &mon : g->all_monsters() ) {
+        monster_menu.addentry( charnum++, true, MENU_AUTOASSIGN, mon.disp_name() );
+        locations.emplace_back( mon.pos() );
+    }
+
+    if( locations.empty() ) {
+        popup( _( "No monsters found inside the bubble, aborting." ) );
+        return;
+    }
+
+    pointmenu_cb callback( locations );
+    monster_menu.callback = &callback;
+    monster_menu.query();
+    if( monster_menu.ret < 0 || static_cast<size_t>( monster_menu.ret ) >= locations.size() ) {
+        return;
+    }
+    const size_t index = monster_menu.ret;
+    monster *critter = get_creature_tracker().creature_at<monster>( locations[index], true );
+    uilist nmenu;
+
+    if( critter ) {
+        std::string size_string = "DEBUG";
+        // This existing map isn't already extracted for translation...?
+        for( const std::pair<const std::string, creature_size> &size_pair : monster::size_map ) {
+            if( size_pair.second == critter->get_size() ) {
+                size_string = size_pair.first;
+                break;
+            }
+        }
+        std::stringstream data;
+        data << string_format( _( "Monster %s of type %s" ), critter->disp_name(),
+                               critter->type->id.c_str() ) << std::endl;
+        if( Creature *summoner = critter->get_summoner() ) {
+            data << string_format( _( "Summoned by: %s" ), summoner->disp_name() ) << std::endl;
+        }
+        if( critter->get_summon_time() != calendar::turn_zero ) {
+            data << string_format( _( "Expires in: %s" ),
+                                   to_string( critter->get_summon_time() - calendar::turn ) ) << std::endl;
+        }
+        data << string_format( _( "Faction: %s" ), critter->get_monster_faction().id().str() ) << std::endl;
+        data << string_format( _( "HP(max): %d (%d)" ), critter->get_hp(),
+                               critter->get_hp_max() ) << std::endl;
+        data << string_format( _( "Volume: %sL (size %s)" ), units::to_liter( critter->get_volume() ),
+                               size_string ) << std::endl;
+        data << string_format( _( "Speed(base): %d (%d)" ), critter->get_speed(),
+                               critter->get_speed_base() ) << std::endl;
+        data << string_format( _( "Aggression(base): %d (%d)" ), critter->anger,
+                               critter->type->agro ) << std::endl;
+        data << string_format( _( "Morale(base): %d (%d)" ), critter->morale,
+                               critter->type->morale ) << std::endl;
+        if( !critter->ammo.empty() ) {
+            for( auto &ammos : critter->ammo ) {
+                data << string_format( _( "Ammo: %s rounds of %s" ), ammos.second,
+                                       ammos.first.c_str() ) << std::endl;
+            }
+        }
+        if( critter->wander_pos != critter->get_location() && critter->wander_pos != tripoint_abs_ms() ) {
+            data << string_format( _( "Wandering towards: %s" ), critter->wander_pos.to_string() ) << std::endl;
+            data << string_format( _( "From cur location: %s" ),
+                                   critter->get_location().to_string() ) << std::endl;
+            data << string_format( _( "Desire to wander: %d" ), critter->wandf ) << std::endl;
+        }
+        // TODO: Move these out into a sub-menu, this is too many lines!
+        if( !critter->inv.empty() ) {
+            for( item &drop : critter->inv ) {
+                data << string_format( _( "Cached item drop: %s" ), drop.tname() ) << std::endl;
+            }
+        }
+        if( !critter->dissectable_inv.empty() ) {
+            for( item &harvest : critter->dissectable_inv ) {
+                data << string_format( _( "Cached dissection result: %s" ), harvest.tname() ) << std::endl;
+            }
+        }
+
+        nmenu.text = data.str();
+    } else {
+        return; //No monster, no editing!
+    }
+
+    enum {
+        D_HP, D_MORALE, D_AGGRO, D_ADD_EFFECT, D_ADD_AMMO, D_TELE, D_WANDER_DES, D_WANDER, D_ALPHA_EOC, D_BETA_EOC
+    };
+    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
+    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set morale" ) );
+    nmenu.addentry( D_AGGRO, true, 'a', "%s", _( "Set aggression" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
+    nmenu.addentry( D_ADD_AMMO, true, 'A', "%s", _( "Modify ammo" ) );
+    nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
+    nmenu.addentry( D_WANDER_DES, true, 'W', "%s",
+                    _( "Set wander destination (also sets wander desire to 1000 turns)" ) );
+    nmenu.addentry( D_WANDER, true, 'w', "%s", _( "Set wander desire" ) );
+    nmenu.addentry( D_ALPHA_EOC, true, 'r', "%s",
+                    _( "Run EOC with monster as alpha talker (avatar as beta)" ) );
+    nmenu.addentry( D_BETA_EOC, true, 't', "%s",
+                    _( "Run EOC with monster as beta talker (avatar as alpha)" ) );
+
+    nmenu.query();
+    switch( nmenu.ret ) {
+        case D_HP: {
+            int value = 0;
+            if( query_int( value,  _( "Set the hitpoints to?  Currently: %d" ), critter->get_hp() ) ) {
+                critter->set_hp( value );
+            }
+        }
+        break;
+        case D_MORALE: {
+            int value = 0;
+            if( query_int( value, _( "Set the morale to?  Currently: %d" ), critter->morale ) ) {
+                critter->morale = value;
+            }
+        }
+        break;
+        case D_AGGRO: {
+            int value = 0;
+            if( query_int( value, _( "Set aggression to?  Currently: %d" ), critter->anger ) ) {
+                critter->anger = value;
+            }
+        }
+        break;
+        case D_ADD_EFFECT: {
+            wisheffect( *critter->as_monster() );
+            break;
+        }
+        case D_ADD_AMMO: {
+            if( critter->ammo.empty() )  {
+                popup( _( "This monster doesn't have any defined ammo." ) );
+                break;
+            }
+            monster_ammo_edit( *critter );
+            break;
+        }
+        case D_TELE: {
+            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
+                critter->setpos( get_map().bub_from_abs( newpos ) );
+            }
+            break;
+        }
+        case D_WANDER_DES: {
+            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
+                critter->wander_to( newpos, 1000 );
+            }
+            break;
+        }
+        case D_WANDER: {
+            int value = 0;
+            if( query_int( value, _( "Set wander desire to?  Currently: %d" ), critter->wandf ) ) {
+                critter->wandf = value;
+            }
+            break;
+        }
+        case D_ALPHA_EOC:
+            run_eoc_menu( critter, true );
+            break;
+        case D_BETA_EOC:
+            run_eoc_menu( critter );
+            break;
+    }
 }
 
 static int info_uilist( bool display_all_entries = true )
@@ -483,7 +884,6 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -491,15 +891,16 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_ATTACK, true, 'A', _( "Toggle NPC attack potential values on map" ) ) },
-            { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
+            { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print factions info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
-            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 's', _( "Edit global var(s)" ) ) },
+            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'a', _( "Edit global v(a)rs" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -556,11 +957,13 @@ static int spawning_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn Named NPC" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_HORDE, true, 'H', _( "Spawn a dummy horde twenty submaps(10 OMTs) to the north" ) ) },
     };
 
     return uilist( _( "Spawning…" ), uilist_initializer );
@@ -569,7 +972,6 @@ static int spawning_uilist()
 static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
@@ -583,7 +985,6 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
-        { uilist_entry( debug_menu_index::EDIT_CAMP_LARDER, true, 'l', _( "Edit the faction camp larder" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -601,6 +1002,25 @@ static int quick_setup_uilist()
     return uilist( _( "Quick setup…" ), uilist_initializer );
 }
 
+static int faction_uilist()
+{
+    const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::EDIT_FACTION, true, 'e', _( "Edit faction" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'p', _( "Print factions info to console" ) ) },
+    };
+
+    return uilist( _( "Faction" ), uilist_initializer );
+}
+
+static int dialogue_uilist()
+{
+    const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::TALK_TOPIC, true, 't', _( "Display talk topic" ) ) }
+    };
+
+    return uilist( _( "Dialogue…" ), uilist_initializer );
+}
+
 /**
  * Create the debug menu UI list.
  * @param display_all_entries: `true` if all entries should be displayed, `false` is some entries should be hidden (for ex. when the debug menu is called from the main menu).
@@ -609,19 +1029,26 @@ static int quick_setup_uilist()
  */
 static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
 {
+    enum {
+        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
+    };
+
     std::vector<uilist_entry> menu = {
-        { uilist_entry( 1, true, 'i', _( "Info…" ) ) },
+        { uilist_entry( D_INFO, true, 'i', _( "Info…" ) ) },
     };
 
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
-            { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
-            { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
-            { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
-            { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
-            { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
-            { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
-            { uilist_entry( 8, true, 'q', _( "Quick setup…" ) ) },
+            { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
+            { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
+            { uilist_entry( D_PLAYER,      true, 'p', _( "Player…" ) ) },
+            { uilist_entry( D_MONSTER,     true, 'c', _( "Monster…" ) ) },
+            { uilist_entry( D_FACTION,     true, 'f', _( "Faction…" ) ) },
+            { uilist_entry( D_VEHICLE,     true, 'v', _( "Vehicle…" ) ) },
+            { uilist_entry( D_TELEPORT,    true, 't', _( "Teleport…" ) ) },
+            { uilist_entry( D_MAP,         true, 'm', _( "Map…" ) ) },
+            { uilist_entry( D_DIALOGUE,    true, 'd', _( "Dialogue…" ) ) },
+            { uilist_entry( D_QUICK_SETUP, true, 'q', _( "Quick setup…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -636,33 +1063,50 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
     }
 
     while( true ) {
-        const int group = uilist( msg, menu );
+        // TODO(db48x): go back to allowing a uilist to have both a
+        // titlebar and descriptive text, so that this menu makes
+        // sense and can be auto–sized.
+        uilist debug = uilist();
+        debug.text = msg;
+        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
+        debug.entries = menu;
+        debug.query();
+        const int group = debug.ret;
 
         int action;
 
         switch( group ) {
-            case 1:
+            case D_INFO:
                 action = info_uilist( display_all_entries );
                 break;
-            case 2:
+            case D_SPAWNING:
                 action = spawning_uilist();
                 break;
-            case 3:
+            case D_PLAYER:
                 action = player_uilist();
                 break;
-            case 4:
+            case D_MONSTER:
+                action = creature_uilist();
+                break;
+            case D_FACTION:
+                action = faction_uilist();
+                break;
+            case D_TELEPORT:
                 action = teleport_uilist();
                 break;
-            case 5:
+            case D_MAP:
                 action = map_uilist();
                 break;
-            case 6:
+            case D_GAME:
                 action = game_uilist();
                 break;
-            case 7:
+            case D_VEHICLE:
                 action = vehicle_uilist();
                 break;
-            case 8:
+            case D_DIALOGUE:
+                action = dialogue_uilist();
+                break;
+            case D_QUICK_SETUP:
                 action = quick_setup_uilist();
                 break;
 
@@ -705,7 +1149,7 @@ static void spell_description(
     description << spl.description() << '\n';
 
     // Spell Casting flags
-    description << spell_desc::enumerate_spell_data( spl, chrc ) << '\n';
+    description << spl.enumerate_spell_data( chrc ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
     description << string_format(
@@ -728,7 +1172,7 @@ static void spell_description(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
                     _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
-                    spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
+                    spl.energy_cost_encumbered( chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
     dialogue d( get_talker_for( chrc ), nullptr );
     // Casting Time: 0 (impeded)
@@ -736,7 +1180,7 @@ static void spell_description(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
                     _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
-                    spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
+                    spl.casting_time_encumbered( chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time.evaluate(
                                    d ) ) ) ) << '\n';
 
@@ -1287,7 +1731,8 @@ static void spawn_artifact()
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
-                here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
+                here.spawn_artifact( tripoint_bub_ms( *center ), relic_list[relic_menu.ret],
+                                     artifact_max_attributes,
                                      artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
         }
@@ -1308,7 +1753,8 @@ static void teleport_short()
 
 static void teleport_long()
 {
-    const tripoint_abs_omt where( ui::omap::choose_point( true ) );
+    const tripoint_abs_omt where( ui::omap::choose_point( _( "Choose a teleport destination." ),
+                                  true ) );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
@@ -1399,19 +1845,19 @@ static void spawn_nested_mapgen()
         }
 
         map &here = get_map();
-        const tripoint_abs_ms abs_ms( here.getabs( *where ) );
+        const tripoint_abs_ms abs_ms( here.getglobal( *where ) );
         const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
         const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        const tripoint_bub_ms local_ms = target_map.bub_from_abs( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
+        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x(), local_ms.y(), 0 ), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -1462,7 +1908,7 @@ static void character_edit_needs_menu( Character &you )
 {
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
-    std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
+    std::pair<std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( you );
     std::pair<std::string, nc_color> weariness_pair = display::weariness_text_color( you );
 
     std::stringstream data;
@@ -1470,35 +1916,38 @@ static void character_edit_needs_menu( Character &you )
                            hunger_pair.second ) ) << std::endl;
     data << string_format( _( "Thirst: %d  %s" ), you.get_thirst(), colorize( thirst_pair.first,
                            thirst_pair.second ) ) << std::endl;
-    data << string_format( _( "Fatigue: %d  %s" ), you.get_fatigue(), colorize( fatigue_pair.first,
-                           fatigue_pair.second ) ) << std::endl;
+    data << string_format( _( "Sleepiness: %d  %s" ), you.get_sleepiness(),
+                           colorize( sleepiness_pair.first,
+                                     sleepiness_pair.second ) ) << std::endl;
     data << string_format( _( "Weariness: %d  %s" ), you.weariness(), colorize( weariness_pair.first,
                            weariness_pair.second ) ) << std::endl;
     data << std::endl;
-    data << _( "Stored kCal: " ) << you.get_stored_kcal() << std::endl;
-    data << _( "Total kCal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
+    data << _( "Stored kcal: " ) << you.get_stored_kcal() << std::endl;
+    data << _( "Total kcal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
          you.guts.get_calories() << std::endl;
     data << std::endl;
     data << _( "Stomach contents" ) << std::endl;
     data << _( "  Total volume: " ) << vol_to_string( you.stomach.contains() ) << std::endl;
     data << _( "  Water volume: " ) << vol_to_string( you.stomach.get_water() ) << std::endl;
-    data << string_format( _( "  kCal: %d" ), you.stomach.get_calories() ) << std::endl;
+    data << string_format( _( "  kcal: %d" ), you.stomach.get_calories() ) << std::endl;
     data << std::endl;
     data << _( "Gut contents" ) << std::endl;
     data << _( "  Total volume: " ) << vol_to_string( you.guts.contains() ) << std::endl;
     data << _( "  Water volume: " ) << vol_to_string( you.guts.get_water() ) << std::endl;
-    data << string_format( _( "  kCal: %d" ), you.guts.get_calories() ) << std::endl;
+    data << string_format( _( "  kcal: %d" ), you.guts.get_calories() ) << std::endl;
 
     uilist smenu;
     smenu.text = data.str();
     smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), you.get_hunger() );
-    smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), you.get_stored_kcal() );
-    smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), you.stomach.get_calories() );
-    smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), you.guts.get_calories() );
+    smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kcal" ), you.get_stored_kcal() );
+    smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kcal" ), you.stomach.get_calories() );
+    smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kcal" ), you.guts.get_calories() );
     smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
-    smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), you.get_fatigue() );
+    smenu.addentry( 5, true, 'f', "%s: %d", _( "Sleepiness" ), you.get_sleepiness() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
     smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
+    smenu.addentry( 10, true, 'W', "%s: %d", _( "Weariness tracker" ),
+                    you.activity_history.debug_get_tracker() );
     smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );
     smenu.addentry( 9, true, 'e', _( "Empty stomach and guts" ) );
 
@@ -1518,19 +1967,19 @@ static void character_edit_needs_menu( Character &you )
             break;
 
         case 1:
-            if( query_int( value, _( "Set stored kCal to?  Currently: %d" ), you.get_stored_kcal() ) ) {
+            if( query_int( value, _( "Set stored kcal to?  Currently: %d" ), you.get_stored_kcal() ) ) {
                 you.set_stored_kcal( value );
             }
             break;
 
         case 2:
-            if( query_int( value, _( "Set stomach kCal to?  Currently: %d" ), you.stomach.get_calories() ) ) {
+            if( query_int( value, _( "Set stomach kcal to?  Currently: %d" ), you.stomach.get_calories() ) ) {
                 you.stomach.mod_calories( value - you.stomach.get_calories() );
             }
             break;
 
         case 3:
-            if( query_int( value, _( "Set gut kCal to?  Currently: %d" ), you.guts.get_calories() ) ) {
+            if( query_int( value, _( "Set gut kcal to?  Currently: %d" ), you.guts.get_calories() ) ) {
                 you.guts.mod_calories( value - you.guts.get_calories() );
             }
             break;
@@ -1542,8 +1991,8 @@ static void character_edit_needs_menu( Character &you )
             break;
 
         case 5:
-            if( query_int( value, _( "Set fatigue to?  Currently: %d" ), you.get_fatigue() ) ) {
-                you.set_fatigue( value );
+            if( query_int( value, _( "Set sleepiness to?  Currently: %d" ), you.get_sleepiness() ) ) {
+                you.set_sleepiness( value );
             }
             break;
 
@@ -1560,11 +2009,17 @@ static void character_edit_needs_menu( Character &you )
                 you.activity_history.weary_clear();
             }
             break;
+        case 10:
+            if( query_int( value, _( "Set weariness tracker to?  Currently: %d" ),
+                           you.activity_history.debug_get_tracker() ) ) {
+                you.activity_history.debug_set_tracker( value );
+            }
+            break;
         case 8:
             you.initialize_stomach_contents();
             you.set_hunger( 0 );
             you.set_thirst( 0 );
-            you.set_fatigue( 0 );
+            you.set_sleepiness( 0 );
             you.set_sleep_deprivation( 0 );
             you.set_stored_kcal( you.get_healthy_kcal() );
             you.activity_history.weary_clear();
@@ -1586,60 +2041,34 @@ static void character_edit_needs_menu( Character &you )
 
 static void character_edit_hp_menu( Character &you )
 {
-    const int torso_hp = you.get_part_hp_cur( bodypart_id( "torso" ) );
-    const int head_hp = you.get_part_hp_cur( bodypart_id( "head" ) );
-    const int arm_l_hp = you.get_part_hp_cur( bodypart_id( "arm_l" ) );
-    const int arm_r_hp = you.get_part_hp_cur( bodypart_id( "arm_r" ) );
-    const int leg_l_hp = you.get_part_hp_cur( bodypart_id( "leg_l" ) );
-    const int leg_r_hp = you.get_part_hp_cur( bodypart_id( "leg_r" ) );
     uilist smenu;
-    smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-    smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-    smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-    smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-    smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-    smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
-    smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
+    int pos = 0;
+    char hotkey = 'a';
+    std::vector<bodypart_id> part_ids = you.get_all_body_parts( get_body_part_flags::only_main );
+    for( bodypart_id part_id : part_ids ) {
+        smenu.addentry( pos, true, hotkey, "%s: %d", part_id->name, you.get_part_hp_cur( part_id ) );
+        pos++;
+        hotkey++;
+    }
+    smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
+    part_ids.emplace_back( body_part_bp_null );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
-    int bp_ptr = -1;
     bool all_select = false;
 
-    switch( smenu.ret ) {
-        case 0:
-            bp = body_part_torso;
-            bp_ptr = torso_hp;
-            break;
-        case 1:
-            bp = body_part_head;
-            bp_ptr = head_hp;
-            break;
-        case 2:
-            bp = body_part_arm_l;
-            bp_ptr = arm_l_hp;
-            break;
-        case 3:
-            bp = body_part_arm_r;
-            bp_ptr = arm_r_hp;
-            break;
-        case 4:
-            bp = body_part_leg_l;
-            bp_ptr = leg_l_hp;
-            break;
-        case 5:
-            bp = body_part_leg_r;
-            bp_ptr = leg_r_hp;
-            break;
-        case 6:
-            all_select = true;
-            break;
-        default:
-            break;
+    if( smenu.ret > static_cast<int>( part_ids.size() ) || smenu.ret < 0 ) {
+        return;
+    }
+    bp = part_ids.at( smenu.ret ).id();
+    if( bp == body_part_bp_null ) {
+        all_select = true;
     }
 
-    if( bp.is_valid() ) {
+    if( bp.is_valid() && bp != body_part_bp_null ) {
         int value;
-        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ),
+                       you.get_part_hp_cur( bp.id() ) ) &&
+            value >= 0 )  {
             you.set_part_hp_cur( bp.id(), value );
             you.reset_stats();
         }
@@ -1658,12 +2087,12 @@ static void character_edit_hp_menu( Character &you )
 static void character_edit_opinion_menu( npc *np )
 {
     uilist smenu;
-    smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
-    smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
-    smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
-    smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
-    smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
-    smenu.addentry( 5, true, 'd', "%s: %d", _( "sold" ), np->op_of_u.sold );
+    smenu.addentry( 0, true, 't', "%s: %d", _( "trust" ), np->op_of_u.trust );
+    smenu.addentry( 1, true, 'f', "%s: %d", _( "fear" ), np->op_of_u.fear );
+    smenu.addentry( 2, true, 'v', "%s: %d", _( "value" ), np->op_of_u.value );
+    smenu.addentry( 3, true, 'a', "%s: %d", _( "anger" ), np->op_of_u.anger );
+    smenu.addentry( 4, true, 'o', "%s: %d", _( "owed" ), np->op_of_u.owed );
+    smenu.addentry( 5, true, 's', "%s: %d", _( "sold" ), np->op_of_u.sold );
 
     smenu.query();
     int value;
@@ -1830,10 +2259,36 @@ static void character_edit_desc_menu( Character &you )
     }
 }
 
+static faction *select_faction()
+{
+    std::vector<faction *> factions;
+    for( const auto &elem : g->faction_manager_ptr->all() ) {
+        factions.push_back( g->faction_manager_ptr->get( elem.first ) );
+    }
+
+    if( factions.empty() ) {
+        return nullptr;
+    }
+
+    uilist factionlist;
+    int facnum = 0;
+    for( const faction *faction : factions ) {
+        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
+    }
+
+    factionlist.query();
+    if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
+        return nullptr;
+    }
+
+    return factions[factionlist.ret];
+}
+
 static void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uilist charmenu;
+    charmenu.title = _( "Edit which character?" );
     int charnum = 0;
     avatar &player_character = get_avatar();
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
@@ -1845,7 +2300,6 @@ static void character_edit_menu()
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
@@ -1859,17 +2313,17 @@ static void character_edit_menu()
     if( np != nullptr ) {
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
-             np->myclass->get_name() << std::endl;
+             np->myclass->get_name() << " " << _( "class ID:" ) << np->myclass.obj().id << std::endl;
         if( !np->get_unique_id().empty() ) {
             data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
         }
-        data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
+        data << string_format( _( "Faction: %s (API v%d)" ), np->get_faction()->id.str(),
                                np->get_faction_ver() ) << "; "
              << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
-                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+                     overmap_buffer.ter( np->goal )->get_name( om_vision_level::full ) ) << std::endl;
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
@@ -1897,10 +2351,10 @@ static void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
-        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN, D_RADS,
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -1913,12 +2367,14 @@ static void character_edit_menu()
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "Delete (all) items" ) );
     nmenu.addentry( D_DROP_ITEMS, true, 'D', "%s", _( "Drop items" ) );
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _( "Wear/wield an item from player's inventory" ) );
+    nmenu.addentry( D_RADS, true, 'r', "%s", _( "Set radiation" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
     nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set stamina" ) );
     nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set morale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause pain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
+    nmenu.addentry( D_NORMALIZE_BODY, true, 'N', "%s", _( "Normalize body stats" ) );
     if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
         nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
@@ -1941,8 +2397,9 @@ static void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add mission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
-        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinions" ) );
         nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
+        nmenu.addentry( D_FACTION, true, 'F', "%s", _( "Set faction" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1987,8 +2444,16 @@ static void character_edit_menu()
                 you.worn.wear_item( you, to_wear, false, false );
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
-                get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item()->typeId() );
+                item_location loc = you.get_wielded_item();
+                cata::event e = cata::event::make<event_type::character_wields_item>( you.getID(), loc->typeId() );
+                get_event_bus().send_with_talker( &you, &loc, e );
+            }
+        }
+        break;
+        case D_RADS: {
+            int value;
+            if( query_int( value, _( "Set rads to?  Currently: %d" ), you.get_rad() ) ) {
+                you.set_rad( value );
             }
         }
         break;
@@ -2009,9 +2474,9 @@ static void character_edit_menu()
         case D_MORALE: {
             int value;
             if( query_int( value, _( "Set the morale to?  Currently: %d" ), you.get_morale_level() ) ) {
-                you.rem_morale( MORALE_PERM_DEBUG );
+                you.rem_morale( morale_perm_debug );
                 int morale_level_delta = value - you.get_morale_level();
-                you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
+                you.add_morale( morale_perm_debug, morale_level_delta );
                 you.apply_persistent_morale();
             }
         }
@@ -2041,6 +2506,9 @@ static void character_edit_menu()
         break;
         case D_NEEDS:
             character_edit_needs_menu( you );
+            break;
+        case D_NORMALIZE_BODY:
+            normalize_body( you );
             break;
         case D_MUTATE: {
             uilist smenu;
@@ -2156,7 +2624,8 @@ static void character_edit_menu()
             size_t i = 0;
             for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
-                classes.addentry( i, true, -1, cl.get_name() );
+                classes.addentry( i, true, -1, string_format( _( "%1$s (ID: %2$s)" ), cl.get_name(),
+                                  cl.id.c_str() ) );
                 i++;
             }
 
@@ -2193,8 +2662,9 @@ static void character_edit_menu()
         }
         case D_CHECK_TEMP: {
             for( const bodypart_id &bp : you.get_all_body_parts() ) {
-                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
-                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+                add_msg( string_format( "%s: temperature: %f K, temperature conv: %f K, wetness: %d", bp->name,
+                                        units::to_kelvin( you.get_part_temp_cur( bp ) ), units::to_kelvin( you.get_part_temp_conv( bp ) ),
+                                        you.get_part_wetness( bp ) ) );
             }
             break;
         }
@@ -2223,21 +2693,145 @@ static void character_edit_menu()
             break;
         }
         case D_EDIT_VARS: {
-            std::string key;
-            std::string value;
-            string_input_popup popup_key;
-            string_input_popup popup_val;
-            popup_key
-            .title( _( "Key" ) )
-            .width( 85 )
-            .edit( key );
-            popup_val
-            .title( _( "Value" ) )
-            .width( 85 )
-            .edit( value );
-            you.set_value( "npctalk_var_" + key, value );
+            edit_character_npctalk_vars( you );
             break;
         }
+        case D_FACTION: {
+            const faction *fac = select_faction();
+            if( fac != nullptr ) {
+                you.as_npc()->set_fac( fac->id );
+            }
+            break;
+        }
+    }
+}
+
+static void faction_edit_opinion_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', "%s: %d", _( "Like" ), fac->likes_u );
+    smenu.addentry( 1, true, 'r', "%s: %d", _( "Respect" ), fac->respects_u );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "Trust" ), fac->trusts_u );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change like from %d to: " ), fac->likes_u ) ) {
+                fac->likes_u = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Change respect from %d to: " ), fac->respects_u ) ) {
+                fac->respects_u = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Change trust from %d to: " ), fac->trusts_u ) ) {
+                fac->trusts_u = value;
+            }
+            break;
+    }
+}
+
+static void faction_edit_larder_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', _( "kcal: have stored %i" ), fac->food_supply.kcal() );
+    const auto &vits = vitamin::all();
+    for( const auto &v : vits ) {
+        smenu.addentry( -1, true, 0, _( "%s: have stored %d" ), v.second.name(),
+                        fac->food_supply.get_vitamin( v.first ) );
+    }
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply.kcal() ) ) {
+                fac->food_supply.calories = ( value * 1000 );
+            }
+            break;
+        default:
+            if( smenu.ret >= 1 && smenu.ret < static_cast<int>( vits.size() + 1 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 1 );
+                if( query_int( value, _( "Set %s to?  Currently: %d" ),
+                               iter->second.name(), fac->food_supply.get_vitamin( iter->first ) ) ) {
+                    fac->food_supply.set_vitamin( iter->first, value );
+                }
+            }
+    }
+}
+
+static void faction_edit_menu()
+{
+
+    faction *const fac = select_faction();
+
+    if( fac == nullptr ) {
+        return;
+    }
+
+    uilist nmenu;
+
+    std::stringstream data;
+    data << fac->name << std::endl;
+    data << fac->describe() << std::endl;
+    data << string_format( _( "Id: %s" ), fac->id.c_str() ) << std::endl;
+    data << string_format( _( "Wealth: %d" ), fac->wealth ) << " | "
+         << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
+    data << string_format( _( "Size: %d" ), fac->size ) << " | "
+         << string_format( _( "Power: %d" ), fac->power ) << " | "
+         << string_format( _( "Food Supply: %d" ), fac->food_supply.kcal() ) << std::endl;
+    data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
+         << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
+         << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
+    data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
+         << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
+
+    nmenu.text = data.str();
+
+    enum {
+        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE
+    };
+    nmenu.addentry( D_WEALTH, true, 'w', "%s", _( "Set wealth" ) );
+    nmenu.addentry( D_SIZE, true, 's', "%s", _( "Set size" ) );
+    nmenu.addentry( D_POWER, true, 'p', "%s", _( "Set power" ) );
+    nmenu.addentry( D_FOOD, true, 'f', "%s", _( "Set food supply" ) );
+    nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
+    nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
+    nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
+
+    nmenu.query();
+    int value;
+    switch( nmenu.ret ) {
+        case D_WEALTH:
+            if( query_int( value, _( "Change wealth from %d to: " ), fac->wealth ) ) {
+                fac->wealth = value;
+            }
+            break;
+        case D_SIZE:
+            if( query_int( value, _( "Change size from %d to: " ), fac->size ) ) {
+                fac->size = value;
+            }
+            break;
+        case D_POWER:
+            if( query_int( value, _( "Change power from %d to: " ), fac->power ) ) {
+                fac->power = value;
+            }
+            break;
+        case D_FOOD:
+            faction_edit_larder_menu( fac );
+            break;
+        case D_OPINION:
+            faction_edit_opinion_menu( fac );
+            break;
+        case D_KNOWN:
+            fac->known_by_u = !fac->known_by_u;
+            break;
+        case D_LONE:
+            fac->lone_wolf_faction = !fac->lone_wolf_faction;
+            break;
     }
 }
 
@@ -2376,7 +2970,7 @@ void mission_debug::remove_mission( mission &m )
 
     if( player_character.active_mission == &m ) {
         player_character.active_mission = nullptr;
-        add_msg( _( "Unsetting active mission" ) );
+        add_msg( _( "Unsetting current objective" ) );
     }
 
     npc *giver = g->find_npc( m.npc_id );
@@ -2495,7 +3089,7 @@ static void debug_menu_game_state()
     popup_top(
         s.c_str(),
         player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
-        overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
+        overmap_buffer.ter( player_character.global_omt_location() )->get_name( om_vision_level::full ),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
@@ -2506,12 +3100,12 @@ static void debug_menu_game_state()
 
     add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
     std::string stom =
-        _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
+        _( "Stomach Contents: %d mL / %d mL kcal: %d, Water: %d mL" );
     add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
              units::to_milliliter( player_character.stomach.capacity( player_character ) ),
              player_character.stomach.get_calories(),
              units::to_milliliter( player_character.stomach.get_water() ), player_character.get_hunger() );
-    stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+    stom = _( "Guts Contents: %d mL / %d mL kcal: %d, Water: %d mL\nHunger: %d, Thirst: %d, kcal: %d / %d" );
     add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.guts.contains() ),
              units::to_milliliter( player_character.guts.capacity( player_character ) ),
              player_character.guts.get_calories(), units::to_milliliter( player_character.guts.get_water() ),
@@ -2520,6 +3114,7 @@ static void debug_menu_game_state()
     add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
              player_character.get_bmr() );
     add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
+    add_msg( m_info, _( "Is debugger active: %s" ), isDebuggerActive() ? _( "Yes" ) : _( "No" ) );
     g->invalidate_main_ui_adaptor();
     g->disp_NPCs();
 }
@@ -2528,7 +3123,7 @@ static void debug_menu_spawn_vehicle()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
-    if( here.veh_at( player_character.pos() ) ) {
+    if( here.veh_at( player_character.pos_bub() ) ) {
         dbg( D_ERROR ) << "game:load: There's already vehicle here";
         debugmsg( "There's already vehicle here" );
     } else {
@@ -2553,7 +3148,7 @@ static void debug_menu_spawn_vehicle()
         if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
             // Didn't cancel
             const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-            tripoint dest = player_character.pos();
+            tripoint_bub_ms dest = player_character.pos_bub();
             uilist veh_cond_menu;
             veh_cond_menu.text = _( "Vehicle condition" );
             veh_cond_menu.addentry( 3, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
@@ -2570,6 +3165,44 @@ static void debug_menu_spawn_vehicle()
                 }
             }
         }
+    }
+}
+
+static void display_talk_topic()
+{
+    avatar &a = get_avatar();
+    int menu_ind = 0;
+    uilist npc_menu;
+    npc_menu.text = _( "Choose NPC to hold topic:" );
+    std::vector<npc *> visible_npcs = g->get_npcs_if( [&]( const npc & n ) {
+        return a.sees( n );
+    } );
+    int npc_count = static_cast<int>( visible_npcs.size() );
+    if( npc_count > 0 ) {
+        for( npc *n : visible_npcs ) {
+            npc_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, n->disp_name() );
+            menu_ind++;
+        }
+        npc_menu.query();
+        if( npc_menu.ret >= 0 && npc_menu.ret < npc_count ) {
+            npc *selected_npc = visible_npcs[npc_menu.ret];
+            std::vector<std::string> dialogue_ids = get_all_talk_topic_ids();
+            std::sort( dialogue_ids.begin(), dialogue_ids.end(), localized_compare );
+            uilist talk_topic_menu;
+            talk_topic_menu.text = _( "Choose talk topic to display:" );
+            menu_ind = 0;
+            for( auto &elem : dialogue_ids ) {
+                talk_topic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
+                ++menu_ind;
+            }
+            talk_topic_menu.query();
+            if( talk_topic_menu.ret >= 0 && talk_topic_menu.ret < static_cast<int>( dialogue_ids.size() ) ) {
+                const std::string selected_topic = dialogue_ids[talk_topic_menu.ret];
+                a.talk_to( get_talker_for( selected_npc ), false, false, false, selected_topic );
+            }
+        }
+    } else {
+        add_msg( m_bad, _( "You need an NPC to add a talk topic to." ) );
     }
 }
 
@@ -2643,7 +3276,6 @@ static npc *select_follower_to_export()
         popup( _( "There's no one to export!" ) );
         return nullptr;
     }
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return nullptr;
@@ -2664,22 +3296,539 @@ static cata_path prepare_export_dir_and_find_unused_name( const std::string &cha
     return ret;
 }
 
-static void normalize_body()
+static void bleed_self()
 {
+    uilist smenu;
+    smenu.addentry( 0, true, 'q', _( "Torso" ) );
+    smenu.addentry( 1, true, 'w', _( "Head" ) );
+    smenu.addentry( 2, true, 'a', _( "Left arm" ) );
+    smenu.addentry( 3, true, 's', _( "Right arm" ) );
+    smenu.addentry( 4, true, 'z', _( "Left leg" ) );
+    smenu.addentry( 5, true, 'x', _( "Right leg" ) );
+    smenu.query();
+    bodypart_id part;
+    int intensity = 0;
+    switch( smenu.ret ) {
+        case 0:
+            part = bodypart_id( "torso" );
+            break;
+        case 1:
+            part = bodypart_id( "head" );
+            break;
+        case 2:
+            part = bodypart_id( "arm_l" );
+            break;
+        case 3:
+            part = bodypart_id( "arm_r" );
+            break;
+        case 4:
+            part = bodypart_id( "leg_l" );
+            break;
+        case 5:
+            part = bodypart_id( "leg_r" );
+            break;
+        default:
+            break;
+    }
+    if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
+        get_avatar().add_effect( effect_bleed,  1_minutes * intensity, part );
+    }
+}
+
+static void change_weather()
+{
+    uilist weather_menu;
+    weather_menu.text = _( "Select new weather pattern:" );
+    weather_manager &weather = get_weather();
+    weather_generator wgen = weather.get_cur_weather_gen();
+    weather_menu.text = _( "Select new weather pattern:" );
+    weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
+                           _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
+    for( size_t i = 0; i < wgen.sorted_weather.size(); i++ ) {
+        weather_menu.addentry( i, true, MENU_AUTOASSIGN,
+                               wgen.sorted_weather[i]->name.translated() );
+    }
+
+    weather_menu.query();
+
+    if( weather_menu.ret >= 0 &&
+        static_cast<size_t>( weather_menu.ret ) < wgen.sorted_weather.size() ) {
+        const weather_type_id selected_weather = wgen.sorted_weather[weather_menu.ret]->id;
+        if( weather.weather_id->debug_leave_eoc.has_value() ) {
+            dialogue d( get_talker_for( get_avatar() ), nullptr );
+            effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
+        }
+        if( selected_weather->debug_cause_eoc.has_value() ) {
+            dialogue d( get_talker_for( get_avatar() ), nullptr );
+            effect_on_condition_id( selected_weather->debug_cause_eoc.value() )->activate( d );
+        }
+        weather.weather_override = selected_weather;
+        weather.set_nextweather( calendar::turn );
+    }
+}
+
+static void damage_self()
+{
+    avatar &player_character = get_avatar();
+    const std::vector<bodypart_id> parts = player_character.get_all_body_parts(
+            get_body_part_flags::only_main );
+    uilist smenu;
+    int i = 0;
+    for( const bodypart_id &part : parts ) {
+        smenu.addentry( i, true, ' ', "%s: %d",
+                        part->name.translated(), player_character.get_part_hp_cur( part ) );
+        i++;
+    }
+    smenu.query();
+    bodypart_id part;
+    int dbg_damage;
+    if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
+        part = parts[smenu.ret];
+    }
+    if( query_int( dbg_damage, _( "Damage self for how much?  HP: %s" ), part.id().c_str() ) ) {
+        player_character.apply_damage( nullptr, part, dbg_damage );
+        if( player_character.is_dead_state() ) {
+            player_character.die( nullptr );
+        }
+    }
+}
+
+static void game_report()
+{
+    // generate a game report, useful for bug reporting.
+    std::string report = game_info::game_report();
+    // write to log
+    DebugLog( DL_ALL, DC_ALL ) << " GAME REPORT:\n" << report;
+    std::string popup_msg = _( "Report written to debug.log" );
+#if defined(TILES)
+    // copy to clipboard
+    int clipboard_result = SDL_SetClipboardText( report.c_str() );
+    printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
+    if( clipboard_result == 0 ) {
+        popup_msg += _( " and to the clipboard." );
+    }
+#endif
+    popup( popup_msg );
+}
+
+static void generate_effect_list()
+{
+    write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
+        testfile << "|;id;duration;intensity;perm;bp" << std::endl;
+
+        for( const effect &eff :  get_player_character().get_effects() ) {
+            testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
+                     eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" <<
+                     eff.get_bp().id().str()
+                     << std::endl;
+        }
+
+    }, "effect_list" );
+
+    popup( _( "Effect list written to effect_list.output" ) );
+}
+
+static void gen_sound()
+{
+    const std::optional<tripoint> where = g->look_around();
+    if( !where ) {
+        return;
+    }
+
+    int volume;
+    if( !query_int( volume, _( "Volume of sound: " ) ) ) {
+        return;
+    }
+
+    if( volume < 0 ) {
+        return;
+    }
+
+    sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
+                   volume ) );
+}
+
+static void import_folower()
+{
+    cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+    std::vector<cata_path> npc_files = get_files_from_path( ".npc",
+                                       export_dir, /* recursive_search */ false, /* match_extension */ true );
+    if( npc_files.empty() ) {
+        popup( _( "There's no NPCs to import!" ) );
+        return;
+    }
+    uilist filemenu;
+    int filenum = 0;
+    for( const cata_path &path : npc_files ) {
+        filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem().string() );
+    }
+    filemenu.query();
+    if( filemenu.ret < 0 || static_cast<size_t>( filemenu.ret ) >= npc_files.size() ) {
+        return;
+    }
+    try {
+        shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+        temp->import_and_clean( npc_files[filemenu.ret] );
+        g->add_npc_follower( temp->getID() );
+        temp->set_attitude( NPCATT_FOLLOW );
+        temp->set_fac( faction_your_followers );
+        temp->spawn_at_precise( get_avatar().get_location() + point( -4, -4 ) );
+        overmap_buffer.insert_npc( temp );
+        g->load_npcs();
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read NPC: %s" ), err.what() );
+    }
+}
+
+static void kill_area()
+{
+    static_popup popup;
+    popup.on_top( true );
+    popup.message( "%s", _( "Select first point." ) );
+
+    tripoint initial_pos = get_avatar().pos();
+    const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                     false, true, false );
+
+    if( !first.position ) {
+        return;
+    }
+
+    popup.message( "%s", _( "Select second point." ) );
+    const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                      true, true, false );
+
+    if( !second.position ) {
+        return;
+    }
+
+    const tripoint_range<tripoint_bub_ms> points = get_map().points_in_rectangle(
+                tripoint_bub_ms( first.position.value() ), tripoint_bub_ms( second.position.value() ) );
+
+    std::vector<Creature *> creatures = g->get_creatures_if(
+    [&points]( const Creature & critter ) -> bool {
+        return !critter.is_avatar() && points.is_point_inside( critter.pos_bub() );
+    } );
+
+    for( Creature *critter : creatures ) {
+        critter->die( nullptr );
+    }
+
+    g->cleanup_dead();
+}
+
+static void map_extra()
+{
+    map &here = get_map();
+    const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
+    uilist mx_menu;
+    for( const map_extra_id &extra : mx_str ) {
+        mx_menu.addentry( -1, true, -1, extra.str() );
+    }
+    mx_menu.query();
+    int mx_choice = mx_menu.ret;
+    if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
+        const tripoint_abs_omt where_omt( ui::omap::choose_point(
+                                              _( "Select location to spawn map extra." ), true ) );
+        if( where_omt != overmap::invalid_tripoint ) {
+            smallmap mx_map;
+            mx_map.load( where_omt, false );
+            MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
+            g->load_npcs();
+            here.invalidate_map_cache( here.get_abs_sub().z() );
+        }
+    }
+}
+
+static void print_npc_magic()
+{
+    for( npc &guy : g->all_npcs() ) {
+        const std::vector<spell_id> spells = guy.magic->spells();
+        if( spells.empty() ) {
+            std::cout << guy.disp_name() << " does not know any spells." << std::endl;
+            continue;
+        }
+        std::cout << guy.disp_name() << "knows : ";
+        int counter = 1;
+        for( const spell_id &sp : spells ) {
+            std::cout << sp->name.translated() << " ";
+            if( counter < static_cast<int>( spells.size() ) ) {
+                std::cout << "and ";
+            } else {
+                std::cout << "." << std::endl;
+            }
+            counter++;
+        }
+    }
+}
+
+static void show_sound()
+{
+#if defined(TILES)
+    avatar &player_character = get_avatar();
+    const auto &sounds_to_draw = sounds::get_monster_sounds();
+
+    shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        const point offset {
+            player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
+        };
+        wattron( g->w_terrain, c_yellow );
+        for( const tripoint &sound : sounds_to_draw.first ) {
+            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
+        }
+        wattroff( g->w_terrain, c_yellow );
+        wattron( g->w_terrain, c_red );
+        for( const tripoint &sound : sounds_to_draw.second ) {
+            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
+        }
+        wattroff( g->w_terrain, c_red );
+    } );
+    g->add_draw_callback( sound_cb );
+
+    ui_manager::redraw();
+    inp_mngr.wait_for_any_key();
+#else
+    popup( _( "This binary was not compiled with tiles support." ) );
+#endif
+}
+
+static void set_automove()
+{
+    avatar &player_character = get_avatar();
+    const std::optional<tripoint> dest = g->look_around();
+    if( !dest || *dest == player_character.pos() ) {
+        return;
+    }
+
+    // TODO: fix point types
+    auto rt = get_map().route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
+                               player_character.get_pathfinding_settings(),
+                               player_character.get_path_avoid() );
+    if( !rt.empty() ) {
+        player_character.set_destination( rt );
+    } else {
+        popup( "Couldn't find path" );
+    }
+}
+
+static void spawn_npc()
+{
+    avatar &player_character = get_avatar();
+    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+    temp->normalize();
+    temp->randomize();
+    temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    overmap_buffer.insert_npc( temp );
+    temp->form_opinion( player_character );
+    temp->mission = NPC_MISSION_NULL;
+    temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
+                           temp->getID() ) );
+    std::string new_fac_id = "solo_";
+    new_fac_id += temp->name;
+    new_fac_id += std::to_string( temp->getID().get_value() );
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
+                            faction_id( new_fac_id ), faction_no_faction );
+    temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
+    g->load_npcs();
+}
+
+static void spawn_named_npc()
+{
+    const std::string input = string_input_popup()
+                              .title( _( "Enter NPC template" ) )
+                              .width( 20 )
+                              .query_string();
+
+    if( input.empty() ) {
+        return;
+    }
+
+    const npc_template_id npc_template = npc_template_id( input );
+    if( !npc_template.is_valid() ) {
+        popup( "Invalid template id" );
+        return;
+    }
+
+    avatar &player_character = get_avatar();
+    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+    temp->normalize();
+    temp->load_npc_template( npc_template );
+    temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    overmap_buffer.insert_npc( temp );
+    temp->form_opinion( player_character );
+
+    g->load_npcs();
+}
+
+static void unlock_all()
+{
+    if( query_yn( _(
+                      "Activating this will add the Arcade Mode achievement unlocking all starting "
+                      "scenarios and professions for all worlds.  You will need to save the "
+                      "character in order to record this.  Achievements are tracked from the "
+                      "'achievements' folder if you need to get rid of this (and the 'memorial' "
+                      "folder if you need to get rid of this from a dead character in a legacy "
+                      "save).  Activating this will spoil factions and situations you may otherwise "
+                      "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+                      "uninitiated, and some professions skip portions of the game's content.  If "
+                      "new to the game, meta progression will help you be introduced to mechanics at "
+                      "a reasonable pace." ) ) ) {
+        get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
+                                               achievement_completion::completed );
+    }
+}
+
+static void vehicle_battery_charge()
+{
+
+    optional_vpart_position v_part_pos = get_map().veh_at( player_picks_tile() );
+    if( !v_part_pos ) {
+        add_msg( m_bad, _( "There's no vehicle there." ) );
+        return;
+    }
+
+    int amount = 0;
+    string_input_popup popup;
+    popup
+    .title( _( "By how much?  (in kJ, negative to discharge)" ) )
+    .width( 30 )
+    .edit( amount );
+    if( !popup.canceled() ) {
+        vehicle &veh = v_part_pos->vehicle();
+        if( amount >= 0 ) {
+            veh.charge_battery( amount, false );
+        } else {
+            veh.discharge_battery( -amount, false );
+        }
+    }
+}
+
+static void vehicle_export()
+{
+    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
+        cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+        assure_dir_exist( export_dir );
+        const std::string text = string_input_popup()
+                                 .title( _( "Exported file name?" ) )
+                                 .width( 20 )
+                                 .query_string();
+        cata_path veh_path = export_dir / ( text + ".json" );
+        try {
+            write_to_file( veh_path, [&]( std::ostream & fout ) {
+                JsonOut jsout( fout );
+                ovp->vehicle().refresh();
+                vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+            } );
+        } catch( const std::exception &err ) {
+            debugmsg( _( "Failed to export vehicle: %s" ), err.what() );
+        }
+        popup( _( "Written: %s .\n Please format the exported file for readability." ),
+               veh_path.get_unrelative_path().string() );
+        return;
+    }
+    add_msg( m_bad, _( "There's no vehicle there." ) );
+}
+
+static void wind_direction()
+{
+    uilist wind_direction_menu;
+    wind_direction_menu.text = _( "Select new wind direction:" );
+    weather_manager &weather = get_weather();
+    wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
+                                  _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
+    int count = 1;
+    for( int angle = 0; angle <= 315; angle += 45 ) {
+        wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
+        count += 1;
+    }
+    wind_direction_menu.query();
+    if( wind_direction_menu.ret == 0 ) {
+        weather.wind_direction_override = std::nullopt;
+        weather.set_nextweather( calendar::turn );
+    } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
+        weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+        weather.set_nextweather( calendar::turn );
+    }
+}
+
+static void wind_speed()
+{
+    uilist wind_speed_menu;
+    wind_speed_menu.text = _( "Select new wind speed:" );
+    weather_manager &weather = get_weather();
+    wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
+                              _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
+    int count = 1;
+    for( int speed = 0; speed <= 100; speed += 10 ) {
+        std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
+        wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
+        count += 1;
+    }
+    wind_speed_menu.query();
+    if( wind_speed_menu.ret == 0 ) {
+        weather.windspeed_override = std::nullopt;
+        weather.set_nextweather( calendar::turn );
+    } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
+        int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
+        weather.windspeed_override = selected_wind_speed;
+        weather.set_nextweather( calendar::turn );
+    }
+}
+
+static void write_city_list()
+{
+    write_to_file( "cities.output", [&]( std::ostream & testfile ) {
+        overmap &cur_om = g->get_cur_om();
+        testfile << "name;size;pos_om;pos" << std::endl;
+        for( const city &c : cur_om.cities ) {
+            testfile << c.name << ";"
+                     << c.size << ";"
+                     << c.pos_om.to_string() << ";"
+                     << c.pos.to_string()
+                     << std::endl;
+        }
+
+    }, "city_list" );
+    popup( string_format( _( "city list written to cities.output" ) ) );
+}
+
+static void write_global_vars()
+{
+    write_to_file( "var_list.output", [&]( std::ostream & testfile ) {
+        testfile << "Global" << std::endl;
+        testfile << "|;key;value;" << std::endl;
+        global_variables &globvars = get_globals();
+        auto globals = globvars.get_global_values();
+        for( const auto &value : globals ) {
+            testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+        }
+
+    }, "var_list" );
+
+    popup( _( "Var list written to var_list.output" ) );
+}
+
+void do_debug_quick_setup()
+{
+    if( !debug_mode ) {
+        // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
+        // Save a few keypresses.
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+    }
     Character &u = get_avatar();
-    u.clear_effects();
-    u.clear_morale();
-    u.clear_vitamins();
-    u.set_all_parts_hp_to_max();
-    u.set_fatigue( 0 );
-    u.set_focus( 100 );
-    u.set_hunger( 0 );
-    u.set_pain( 0 );
-    u.set_rad( 0 );
-    u.set_sleep_deprivation( 0 );
-    u.set_stamina( u.get_stamina_max() );
-    u.set_stored_kcal( u.get_healthy_kcal() );
-    u.set_thirst( 0 );
+    normalize_body( u );
+    // Specifically only adds mutations instead of toggling them.
+    u.set_mutations( setup_traits );
+    u.remove_weapon();
+    u.clear_worn();
+    item backpack( "debug_backpack" );
+    u.wear_item( backpack );
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+        u.set_skill_level( pair.first, 10 );
+    }
+    map_reveal( static_cast<int>( om_vision_level::full ) );
 }
 
 void debug()
@@ -2723,18 +3872,6 @@ void debug()
 
     get_event_bus().send<event_type::uses_debug_menu>( *action );
 
-    // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits;
-    setup_traits.emplace_back( trait_DEBUG_BIONICS );
-    setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
-    setup_traits.emplace_back( trait_DEBUG_CLOAK );
-    setup_traits.emplace_back( trait_DEBUG_HS );
-    setup_traits.emplace_back( trait_DEBUG_LS );
-    setup_traits.emplace_back( trait_DEBUG_MANA );
-    setup_traits.emplace_back( trait_DEBUG_NODMG );
-    setup_traits.emplace_back( trait_DEBUG_NOTEMP );
-    setup_traits.emplace_back( trait_DEBUG_SPEED );
-
     avatar &player_character = get_avatar();
     map &here = get_map();
     switch( *action ) {
@@ -2750,46 +3887,30 @@ void debug()
             debug_menu::teleport_long();
             break;
 
-        case debug_menu_index::REVEAL_MAP: {
-            overmap &cur_om = g->get_cur_om();
-            for( int i = 0; i < OMAPX; i++ ) {
-                for( int j = 0; j < OMAPY; j++ ) {
-                    for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.set_seen( { i, j, k }, true );
-                    }
-                }
-            }
-            add_msg( m_good, _( "Current overmap revealed." ) );
-        }
-        break;
+        case debug_menu_index::SPAWN_NPC:
+            spawn_npc();
+            break;
 
-        case debug_menu_index::SPAWN_NPC: {
-            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-            temp->normalize();
-            temp->randomize();
-            temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
-            overmap_buffer.insert_npc( temp );
-            temp->form_opinion( player_character );
-            temp->mission = NPC_MISSION_NULL;
-            temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
-                                   temp->getID() ) );
-            std::string new_fac_id = "solo_";
-            new_fac_id += temp->name;
-            // create a new "lone wolf" faction for this one NPC
-            faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
-                                    faction_id( new_fac_id ), faction_no_faction );
-            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
-            g->load_npcs();
-        }
-        break;
+        case debug_menu_index::SPAWN_NAMED_NPC:
+            spawn_named_npc();
+            break;
 
         case debug_menu_index::SPAWN_OM_NPC: {
             int num_of_npcs = 1;
-            if( query_int( num_of_npcs, _( "How many npcs to try spawning?" ), num_of_npcs ) ) {
+            if( query_int( num_of_npcs, _( "How many NPCs to try spawning?" ), num_of_npcs ) ) {
                 for( int i = 0; i < num_of_npcs; i++ ) {
                     g->perhaps_add_random_npc( true );
                 }
             }
+        }
+        break;
+
+        case debug_menu_index::SPAWN_HORDE: {
+            const tripoint_abs_ms &player_abs_ms = get_player_character().get_location();
+            tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms );
+            horde_dest = horde_dest + point{0, -20}; // 20 submaps to the north
+            overmap &om = overmap_buffer.get( project_to<coords::om>( player_abs_ms ).xy() );
+            om.debug_force_add_group( mongroup( GROUP_DEBUG_EXACTLY_ONE, horde_dest, 1 ) );
         }
         break;
 
@@ -2801,42 +3922,9 @@ void debug()
             debug_menu_game_state();
             break;
 
-        case debug_menu_index::KILL_AREA: {
-            static_popup popup;
-            popup.on_top( true );
-            popup.message( "%s", _( "Select first point." ) );
-
-            tripoint initial_pos = player_character.pos();
-            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
-                                             false, true, false );
-
-            if( !first.position ) {
-                break;
-            }
-
-            popup.message( "%s", _( "Select second point." ) );
-            const look_around_result second = g->look_around( false, initial_pos, *first.position,
-                                              true, true, false );
-
-            if( !second.position ) {
-                break;
-            }
-
-            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
-                    first.position.value(), second.position.value() );
-
-            std::vector<Creature *> creatures = g->get_creatures_if(
-            [&points]( const Creature & critter ) -> bool {
-                return !critter.is_avatar() && points.is_point_inside( critter.pos() );
-            } );
-
-            for( Creature *critter : creatures ) {
-                critter->die( nullptr );
-            }
-
-            g->cleanup_dead();
-        }
-        break;
+        case debug_menu_index::KILL_AREA:
+            kill_area();
+            break;
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
@@ -2884,8 +3972,26 @@ void debug()
         }
         break;
 
+        case debug_menu_index::FORGET_ALL_RECIPES: {
+            add_msg( m_info, _( "Recipe debug: forget recipes." ) );
+            player_character.forget_all_recipes();
+            add_msg( m_bad, _( "You don't know how to craft anymore." ) );
+        }
+        break;
+
+        case debug_menu_index::FORGET_ALL_ITEMS: {
+            add_msg( m_info, _( "Recipe debug: forget items." ) );
+            uistate.read_items.clear();
+            add_msg( m_bad, _( "You don't know about any items anymore." ) );
+        }
+        break;
+
         case debug_menu_index::EDIT_PLAYER:
             character_edit_menu();
+            break;
+
+        case debug_menu_index::EDIT_MONSTER:
+            monster_edit_menu();
             break;
 
         case debug_menu_index::CONTROL_NPC:
@@ -2904,102 +4010,21 @@ void debug()
             g->look_debug();
             break;
 
-        case debug_menu_index::CHANGE_WEATHER: {
-            uilist weather_menu;
-            weather_manager &weather = get_weather();
-            weather_generator wgen = weather.get_cur_weather_gen();
-            weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
-                                   _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( size_t i = 0; i < wgen.sorted_weather.size(); i++ ) {
-                weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       wgen.sorted_weather[i]->name.translated() );
-            }
+        case debug_menu_index::CHANGE_WEATHER:
+            change_weather();
+            break;
 
-            weather_menu.query();
+        case debug_menu_index::WIND_DIRECTION:
+            wind_direction();
+            break;
 
-            if( weather_menu.ret >= 0 &&
-                static_cast<size_t>( weather_menu.ret ) < wgen.sorted_weather.size() ) {
-                const weather_type_id selected_weather = wgen.sorted_weather[weather_menu.ret]->id;
-                if( weather.weather_id->debug_leave_eoc.has_value() ) {
-                    dialogue d( get_talker_for( get_avatar() ), nullptr );
-                    effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
-                }
-                if( selected_weather->debug_cause_eoc.has_value() ) {
-                    dialogue d( get_talker_for( get_avatar() ), nullptr );
-                    effect_on_condition_id( selected_weather->debug_cause_eoc.value() )->activate( d );
-                }
-                weather.weather_override = selected_weather;
-                weather.set_nextweather( calendar::turn );
-            }
-        }
-        break;
+        case debug_menu_index::WIND_SPEED:
+            wind_speed();
+            break;
 
-        case debug_menu_index::WIND_DIRECTION: {
-            uilist wind_direction_menu;
-            weather_manager &weather = get_weather();
-            wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
-                                          _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
-            int count = 1;
-            for( int angle = 0; angle <= 315; angle += 45 ) {
-                wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
-                count += 1;
-            }
-            wind_direction_menu.query();
-            if( wind_direction_menu.ret == 0 ) {
-                weather.wind_direction_override = std::nullopt;
-                weather.set_nextweather( calendar::turn );
-            } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                weather.set_nextweather( calendar::turn );
-            }
-        }
-        break;
-
-        case debug_menu_index::WIND_SPEED: {
-            uilist wind_speed_menu;
-            weather_manager &weather = get_weather();
-            wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
-                                      _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
-            int count = 1;
-            for( int speed = 0; speed <= 100; speed += 10 ) {
-                std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
-                wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
-                count += 1;
-            }
-            wind_speed_menu.query();
-            if( wind_speed_menu.ret == 0 ) {
-                weather.windspeed_override = std::nullopt;
-                weather.set_nextweather( calendar::turn );
-            } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
-                int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                weather.windspeed_override = selected_wind_speed;
-                weather.set_nextweather( calendar::turn );
-            }
-        }
-        break;
-
-        case debug_menu_index::GEN_SOUND: {
-            const std::optional<tripoint> where = g->look_around();
-            if( !where ) {
-                return;
-            }
-
-            int volume;
-            if( !query_int( volume, _( "Volume of sound: " ) ) ) {
-                return;
-            }
-
-            if( volume < 0 ) {
-                return;
-            }
-
-            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
-                           volume ) );
-        }
-        break;
+        case debug_menu_index::GEN_SOUND:
+            gen_sound();
+            break;
 
         case debug_menu_index::KILL_MONS: {
             for( monster &critter : g->all_monsters() ) {
@@ -3021,95 +4046,18 @@ void debug()
         break;
 
         // Damage Self
-        case debug_menu_index::DAMAGE_SELF: {
-            const std::vector<bodypart_id> parts = player_character.get_all_body_parts(
-                    get_body_part_flags::only_main );
-            uilist smenu;
-            int i = 0;
-            for( const bodypart_id &part : parts ) {
-                smenu.addentry( i, true, ' ', "%s: %d",
-                                part->name.translated(), player_character.get_part_hp_cur( part ) );
-                i++;
-            }
-            smenu.query();
-            bodypart_id part;
-            int dbg_damage;
-            if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
-                part = parts[smenu.ret];
-            }
-            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
-                player_character.apply_damage( nullptr, part, dbg_damage );
-                if( player_character.is_dead_state() ) {
-                    player_character.die( nullptr );
-                }
-            }
-        }
-        break;
+        case debug_menu_index::DAMAGE_SELF:
+            damage_self();
+            break;
 
         // Add bleeding
-        case debug_menu_index::BLEED_SELF: {
-            uilist smenu;
-            smenu.addentry( 0, true, 'q', _( "Torso" ) );
-            smenu.addentry( 1, true, 'w', _( "Head" ) );
-            smenu.addentry( 2, true, 'a', _( "Left arm" ) );
-            smenu.addentry( 3, true, 's', _( "Right arm" ) );
-            smenu.addentry( 4, true, 'z', _( "Left leg" ) );
-            smenu.addentry( 5, true, 'x', _( "Right leg" ) );
-            smenu.query();
-            bodypart_id part;
-            int intensity = 0;
-            switch( smenu.ret ) {
-                case 0:
-                    part = bodypart_id( "torso" );
-                    break;
-                case 1:
-                    part = bodypart_id( "head" );
-                    break;
-                case 2:
-                    part = bodypart_id( "arm_l" );
-                    break;
-                case 3:
-                    part = bodypart_id( "arm_r" );
-                    break;
-                case 4:
-                    part = bodypart_id( "leg_l" );
-                    break;
-                case 5:
-                    part = bodypart_id( "leg_r" );
-                    break;
-                default:
-                    break;
-            }
-            if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.add_effect( effect_bleed,  1_minutes * intensity, part );
-            }
-        }
-        break;
+        case debug_menu_index::BLEED_SELF:
+            bleed_self();
+            break;
 
-        case debug_menu_index::SHOW_SOUND: {
-#if defined(TILES)
-            const auto &sounds_to_draw = sounds::get_monster_sounds();
-
-            shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-                const point offset {
-                    player_character.view_offset.xy() + point( POSX - player_character.posx(), POSY - player_character.posy() )
-                };
-                for( const tripoint &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
-                }
-                for( const tripoint &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
-                }
-            } );
-            g->add_draw_callback( sound_cb );
-
-            ui_manager::redraw();
-            inp_mngr.wait_for_any_key();
-#else
-            popup( _( "This binary was not compiled with tiles support." ) );
-#endif
-        }
-        break;
+        case debug_menu_index::SHOW_SOUND:
+            show_sound();
+            break;
 
         case debug_menu_index::DISPLAY_WEATHER:
             ui::omap::display_weather();
@@ -3144,9 +4092,6 @@ void debug()
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
-        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reachability_zones();
-            break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();
             break;
@@ -3156,23 +4101,9 @@ void debug()
         case debug_menu_index::FORCE_TEMP:
             debug_menu_force_temperature();
             break;
-        case debug_menu_index::SET_AUTOMOVE: {
-            const std::optional<tripoint> dest = g->look_around();
-            if( !dest || *dest == player_character.pos() ) {
-                break;
-            }
-
-            // TODO: fix point types
-            auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
-                                  player_character.get_pathfinding_settings(),
-                                  player_character.get_path_avoid() );
-            if( !rt.empty() ) {
-                player_character.set_destination( rt );
-            } else {
-                popup( "Couldn't find path" );
-            }
-        }
-        break;
+        case debug_menu_index::SET_AUTOMOVE:
+            set_automove();
+            break;
         case debug_menu_index::SHOW_MUT_CAT:
             for( const auto &elem : player_character.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
@@ -3214,53 +4145,25 @@ void debug()
             }
             break;
         case debug_menu_index::UNLOCK_ALL:
-            if( query_yn(
-                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
-                get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
-                                                       achievement_completion::completed );
-            }
+            unlock_all();
             break;
         case debug_menu_index::SHOW_MSG:
             debugmsg( "Test debugmsg" );
             break;
         case debug_menu_index::CRASH_GAME:
-            static_cast<void>( raise( SIGSEGV ) );
+            if( query_yn( _( "Are you sure you want to crash the game?" ) ) ) {
+                if( query_yn( _( "Are you REALLY sure you want to crash the game?" ) ) ) {
+                    static_cast<void>( raise( SIGSEGV ) );
+                };
+            }
             break;
         case debug_menu_index::ACTIVATE_EOC: {
-            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
-            uilist eoc_menu;
-            for( const effect_on_condition &eoc : eocs ) {
-                eoc_menu.addentry( -1, true, -1, eoc.id.str() );
-            }
-            eoc_menu.query();
-
-            if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
-                dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
-                eocs[eoc_menu.ret].activate( newDialog );
-            }
+            run_eoc_menu();
         }
         break;
-        case debug_menu_index::MAP_EXTRA: {
-            const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
-            uilist mx_menu;
-            for( const map_extra_id &extra : mx_str ) {
-                mx_menu.addentry( -1, true, -1, extra.str() );
-            }
-            mx_menu.query();
-            int mx_choice = mx_menu.ret;
-            if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
-                if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
-                    tinymap mx_map;
-                    mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
-                    g->load_npcs();
-                    here.invalidate_map_cache( here.get_abs_sub().z() );
-                }
-            }
+        case debug_menu_index::MAP_EXTRA:
+            map_extra();
             break;
-        }
         case debug_menu_index::NESTED_MAPGEN:
             debug_menu::spawn_nested_mapgen();
             break;
@@ -3281,31 +4184,13 @@ void debug()
             std::cout << "Player faction is " << player_character.get_faction()->id.str() << std::endl;
             break;
         }
-        case debug_menu_index::PRINT_NPC_MAGIC: {
-            for( npc &guy : g->all_npcs() ) {
-                const std::vector<spell_id> spells = guy.magic->spells();
-                if( spells.empty() ) {
-                    std::cout << guy.disp_name() << " does not know any spells." << std::endl;
-                    continue;
-                }
-                std::cout << guy.disp_name() << "knows : ";
-                int counter = 1;
-                for( const spell_id &sp : spells ) {
-                    std::cout << sp->name.translated() << " ";
-                    if( counter < static_cast<int>( spells.size() ) ) {
-                        std::cout << "and ";
-                    } else {
-                        std::cout << "." << std::endl;
-                    }
-                    counter++;
-                }
-            }
+        case debug_menu_index::PRINT_NPC_MAGIC:
+            print_npc_magic();
             break;
-        }
         case debug_menu_index::QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                player_character.moves = 0;
+                player_character.set_moves( 0 );
                 g->uquit = QUIT_NOSAVED;
             }
             break;
@@ -3324,21 +4209,9 @@ void debug()
             popup( _( "effect_on_condition list written to eocs.output" ) );
         }
         break;
-        case debug_menu_index::WRITE_GLOBAL_VARS: {
-            write_to_file( "var_list.output", [&]( std::ostream & testfile ) {
-                testfile << "Global" << std::endl;
-                testfile << "|;key;value;" << std::endl;
-                global_variables &globvars = get_globals();
-                auto globals = globvars.get_global_values();
-                for( const auto &value : globals ) {
-                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
-                }
-
-            }, "var_list" );
-
-            popup( _( "Var list written to var_list.output" ) );
-        }
-        break;
+        case debug_menu_index::WRITE_GLOBAL_VARS:
+            write_global_vars();
+            break;
         case debug_menu_index::WRITE_TIMED_EVENTS: {
             write_to_file( "timed_event_list.output", [&]( std::ostream & testfile ) {
                 testfile << "|;when;type;key;string_id;strength;map_point;faction_id;" << std::endl;
@@ -3353,45 +4226,17 @@ void debug()
             popup( _( "Var list written to timed_event_list.output" ) );
         }
         break;
-        case debug_menu_index::EDIT_GLOBAL_VARS: {
-            std::string key;
-            std::string value;
-            string_input_popup popup_key;
-            string_input_popup popup_val;
-            popup_key
-            .title( _( "Key" ) )
-            .width( 85 )
-            .edit( key );
-            popup_val
-            .title( _( "Value" ) )
-            .width( 85 )
-            .edit( value );
-            global_variables &globvars = get_globals();
-            globvars.set_global_value( "npctalk_var_" + key, value );
-        }
-        break;
+        case debug_menu_index::EDIT_GLOBAL_VARS:
+            edit_global_npctalk_vars();
+            break;
 
         case debug_menu_index::SAVE_SCREENSHOT:
             g->queue_screenshot = true;
             break;
 
-        case debug_menu_index::GAME_REPORT: {
-            // generate a game report, useful for bug reporting.
-            std::string report = game_info::game_report();
-            // write to log
-            DebugLog( DL_ALL, DC_ALL ) << " GAME REPORT:\n" << report;
-            std::string popup_msg = _( "Report written to debug.log" );
-#if defined(TILES)
-            // copy to clipboard
-            int clipboard_result = SDL_SetClipboardText( report.c_str() );
-            printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
-            if( clipboard_result == 0 ) {
-                popup_msg += _( " and to the clipboard." );
-            }
-#endif
-            popup( popup_msg );
-        }
-        break;
+        case debug_menu_index::GAME_REPORT:
+            game_report();
+            break;
         case debug_menu_index::GAME_MIN_ARCHIVE: {
             g->quicksave();
 
@@ -3411,49 +4256,16 @@ void debug()
             break;
 
         case debug_menu_index::GENERATE_EFFECT_LIST:
-            write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
-                testfile << "|;id;duration;intensity;perm;bp" << std::endl;
-
-                for( const effect &eff :  get_player_character().get_effects() ) {
-                    testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
-                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" <<
-                             eff.get_bp().id().str()
-                             << std::endl;
-                }
-
-            }, "effect_list" );
-
-            popup( _( "Effect list written to effect_list.output" ) );
+            generate_effect_list();
             break;
 
-        case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
-
-            optional_vpart_position v_part_pos = here.veh_at( player_character.pos() );
-            if( !v_part_pos ) {
-                add_msg( m_bad, _( "There's no vehicle there." ) );
-                break;
-            }
-
-            int amount = 0;
-            string_input_popup popup;
-            popup
-            .title( _( "By how much?  (in kJ, negative to discharge)" ) )
-            .width( 30 )
-            .edit( amount );
-            if( !popup.canceled() ) {
-                vehicle &veh = v_part_pos->vehicle();
-                if( amount >= 0 ) {
-                    veh.charge_battery( amount, false );
-                } else {
-                    veh.discharge_battery( -amount, false );
-                }
-            }
+        case debug_menu_index::VEHICLE_BATTERY_CHARGE:
+            vehicle_battery_charge();
             break;
-        }
 
         case debug_menu_index::VEHICLE_DELETE: {
 
-            if( const optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+            if( const optional_vpart_position ovp = here.veh_at( player_picks_tile() ) ) {
                 here.destroy_vehicle( &ovp->vehicle() );
                 break;
             }
@@ -3465,74 +4277,13 @@ void debug()
             }
             break;
         }
-        case debug_menu_index::VEHICLE_EXPORT: {
-            if( optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
-                cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
-                assure_dir_exist( export_dir );
-                const std::string text = string_input_popup()
-                                         .title( _( "Exported file name?" ) )
-                                         .width( 20 )
-                                         .query_string();
-                cata_path veh_path = export_dir / ( text + ".json" );
-                try {
-                    write_to_file( veh_path, [&]( std::ostream & fout ) {
-                        JsonOut jsout( fout );
-                        ovp->vehicle().refresh();
-                        vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
-                    } );
-                } catch( const std::exception &err ) {
-                    debugmsg( _( "Failed to export vehicle: %s" ), err.what() );
-                }
-                popup( _( "Written: %s .\n Please format the exported file for readability." ),
-                       veh_path.get_unrelative_path().string() );
-                break;
-            }
-            add_msg( m_bad, _( "There's no vehicle there." ) );
+        case debug_menu_index::VEHICLE_EXPORT:
+            vehicle_export();
             break;
-        }
 
-        case debug_menu_index::EDIT_CAMP_LARDER: {
-            faction *your_faction = get_player_character().get_faction();
-            int larder;
-            if( query_int( larder, _( "Set camp larder kCals to?  Currently: %d" ),
-                           your_faction->food_supply ) ) {
-                your_faction->food_supply = larder;
-            }
+        case debug_menu_index::IMPORT_FOLLOWER:
+            import_folower();
             break;
-        }
-
-        case debug_menu_index::IMPORT_FOLLOWER: {
-            cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
-            std::vector<cata_path> npc_files = get_files_from_path( ".npc",
-                                               export_dir, /* recursive_search */ false, /* match_extension */ true );
-            if( npc_files.empty() ) {
-                popup( _( "There's no NPCs to import!" ) );
-                break;
-            }
-            uilist filemenu;
-            int filenum = 0;
-            for( const cata_path &path : npc_files ) {
-                filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem().string() );
-            }
-            filemenu.w_y_setup = 0;
-            filemenu.query();
-            if( filemenu.ret < 0 || static_cast<size_t>( filemenu.ret ) >= npc_files.size() ) {
-                break;
-            }
-            try {
-                shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-                temp->import_and_clean( npc_files[filemenu.ret] );
-                g->add_npc_follower( temp->getID() );
-                temp->set_attitude( NPCATT_FOLLOW );
-                temp->set_fac( faction_your_followers );
-                temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
-                overmap_buffer.insert_npc( temp );
-                g->load_npcs();
-            } catch( const std::exception &err ) {
-                debugmsg( _( "Failed to read NPC: %s" ), err.what() );
-            }
-            break;
-        }
 
         case debug_menu_index::EXPORT_FOLLOWER: {
             npc *export_me = select_follower_to_export();
@@ -3553,17 +4304,7 @@ void debug()
         }
 
         case debug_menu_index::QUICK_SETUP: {
-            Character &u = get_avatar();
-            normalize_body();
-            // Specifically only adds mutations instead of toggling them.
-            u.set_mutations( setup_traits );
-            u.remove_weapon();
-            u.clear_worn();
-            item backpack( "debug_backpack" );
-            u.wear_item( backpack );
-            for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
-                u.set_skill_level( pair.first, 10 );
-            }
+            do_debug_quick_setup();
             break;
         }
 
@@ -3576,7 +4317,7 @@ void debug()
         }
 
         case debug_menu_index::NORMALIZE_BODY_STAT: {
-            normalize_body();
+            normalize_body( get_avatar() );
             break;
         }
 
@@ -3589,6 +4330,18 @@ void debug()
             u.set_power_level( 2500_kJ );
             break;
         }
+
+        case debug_menu_index::EDIT_FACTION:
+            faction_edit_menu();
+            break;
+
+        case debug_menu_index::WRITE_CITY_LIST:
+            write_city_list();
+            break;
+
+        case debug_menu_index::TALK_TOPIC:
+            display_talk_topic();
+            break;
 
         case debug_menu_index::last:
             return;

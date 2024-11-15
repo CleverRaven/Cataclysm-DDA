@@ -1,0 +1,18 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ench_goblin_eyes",
+    "name": { "str": "Goblin Eyes" },
+    "description": "You can see in the dark.",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "goblin_eyes_night_vision", "intensity": 1 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "goblin_eyes_night_vision",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
+  }
+]

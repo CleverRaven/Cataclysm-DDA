@@ -7,8 +7,7 @@
       "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
     },
     "responses": [
-      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
-      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      { "text": "[rules] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
       {
         "text": "I'd like to know a bit more about your abilities.",
         "topic": "TALK_FRIEND_Luo_Abilities",
@@ -20,12 +19,9 @@
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
         "topic": "TALK_LUO_SOCIAL"
       },
-      {
-        "text": "I just wanted to talk for a bit.",
-        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
-        "topic": "TALK_LUO_SOCIAL"
-      },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -34,6 +30,7 @@
     "dynamic_line": "I love just standing around, it's what I was made for.",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Luo", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND_Luo" },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },
@@ -55,13 +52,13 @@
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_LUO_CHAT",
-    "dynamic_line": "Seen any good movies lately?",
+    "dynamic_line": { "gendered_line": "Seen any good movies lately?", "relevant_genders": [ "u" ] },
     "//": "TK: custom chat topics here that actually include small talk that expands her character, while still giving the socialize bonus.",
     "responses": [
       {
@@ -86,7 +83,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               { "npc_has_trait": "HALLUCINATION" },
               "u_driving",
@@ -106,7 +103,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               "u_driving",
               "npc_driving"
@@ -136,13 +133,6 @@
         "effect": "start_trade",
         "switch": true,
         "default": true
-      },
-      {
-        "text": "Let's trade items",
-        "topic": "TRADE_HALLU",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true,
-        "default": false
       },
       {
         "text": "I want you to use this item.",
@@ -180,8 +170,10 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,8 +186,8 @@
         "topic": "TALK_TRAIN",
         "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 }
       },
-      { "text": "Never mind then.", "topic": "TALK_NONE" },
-      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -209,8 +201,8 @@
         "success": { "topic": "TALK_TRAIN_SEMINAR" },
         "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
       },
-      { "text": "Never mind then.", "topic": "TALK_NONE" },
-      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -2,6 +2,6 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "city": { "houses": { "railroad_city": 5 } }
+    "city": { "houses": { "railroad_station_city": 5 } }
   }
 ]

@@ -12,7 +12,8 @@
     "autolearn": true,
     "batch_time_factors": [ 75, 4 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ] ] ]
+    "components": [ [ [ "material_limestone", 50 ] ] ],
+    "charges": 20
   },
   {
     "type": "recipe",
@@ -53,13 +54,21 @@
     "skills_required": [ "chemistry", 4 ],
     "difficulty": 4,
     "time": "30 m",
+    "batch_time_factors": [ 35, 2 ],
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 4,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [
+        [ "sheet_metal", -1 ],
+        [ "fire_brick", -1 ],
+        [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
+        [ "anvil_bronze", -1 ],
+        [ "casting_mold", -1 ]
+      ],
       [ [ "forge", 26 ] ]
     ],
     "components": [
@@ -81,6 +90,7 @@
     "skills_required": [ "chemistry", 4 ],
     "difficulty": 4,
     "time": "30 m",
+    "batch_time_factors": [ 30, 2 ],
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 4,
@@ -88,7 +98,14 @@
     "//": "Forest glass, as cited: https://etheses.whiterose.ac.uk/3464/1/287681.pdf",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [
+        [ "sheet_metal", -1 ],
+        [ "fire_brick", -1 ],
+        [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
+        [ "anvil_bronze", -1 ],
+        [ "casting_mold", -1 ]
+      ],
       [ [ "forge", 26 ] ]
     ],
     "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]

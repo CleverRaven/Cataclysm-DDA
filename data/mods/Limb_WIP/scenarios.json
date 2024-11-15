@@ -1,0 +1,13 @@
+[
+  {
+    "type": "scenario",
+    "id": "one_legged_man_start",
+    "copy-from": "missed",
+    "name": "Challenge - One Legged Man In An Ass Kicking Contest",
+    "points": -2,
+    "forced_traits": [ "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "description": "While trying to escape town, you had to dodge a horde into your holdout, becoming separated from your compatriots.  You've only got one leg to your name, no arms, and now you're surrounded by zombies.  Just how are you going to get out of this one?",
+    "start_name": "In Town",
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  }
+]

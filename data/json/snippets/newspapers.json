@@ -80,6 +80,13 @@
           "str": "THE FACE BEHIND THE 'UNCANNY' MASK.  Everyone knows about James Hawthorne, projected to become America's newest and fastest rising billionaire by next month as stock value in his tech startup, Uncanny, grows at unprecedented speeds.  We decided to explore the names behind the rise you might not have heard.  Dr. Marc Silverstein, an MIT-trained researcher formerly involved with Leapfrog Industries, has been along for the ride the whole time, and has come out nearly as wealthy as Hawthorne himself.  Though impressively reclusive, we managed to snag some pretty interesting information about Dr. S.  Could he be the real mind behind the rise?  How much does James depend on his right-hand scientist?  Details on page 12.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "many_years_old_news_20",
+        "text": {
+          "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company Rivtech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },
@@ -179,7 +186,7 @@
       },
       {
         "id": "one_year_old_news_16",
-        "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
+        "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering Venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
       },
       {
         "id": "one_year_old_news_17",
@@ -232,10 +239,6 @@
         "text": "EDITORIAL: THE CHINESE CONTROL OUR MEDIA.  No, I don't mean they're writing the articles, but there's no doubt in my mind our social media, from FriendFace to Twitfeed to Eddit, is now run by Chinese influencers.  The real question is not IF they're doing it, but HOW they're using this influence to affect American minds."
       },
       {
-        "id": "months_old_news_7",
-        "text": "EDITORIAL: AI IS GETTING AHEAD OF US.  I saw the new article on unmanned robots with the rest of you, and I have to say I'm not as excited as I am worried.  Even the scientists describing these robots say they don't fully understand how this deep learning stuff works, and now we're putting it in cars?  There are some semi-autonomous AI robots even working in prisons now to quell riots.  It's easy to see how this could get out of hand.  We've all seen the movies."
-      },
-      {
         "id": "months_old_news_8",
         "text": "THE SOLDIER OF THE FUTURE, AT LAST.  The military's latest powered infantry exoskeleton has been released for widespread, non-testing use.  Although numbers are still very limited, official sources say that within two years every infantry unit will have access to two powered exoskeletons for heavy operations.  Within five, light exoskeletons will be the standard issue armor for US ground forces.  \"This is going to put our military so far ahead of the rest of the world, it's like we have guns while they have spears,\" General Alex Findlay said in a press release.  The new armor is powered by a proprietary fuel cell developed by the military and hoped to be ready for civilian distribution in the next few years."
       },
@@ -245,7 +248,7 @@
       },
       {
         "id": "months_old_news_10",
-        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMATIC DOES NOT WEAR ANY CLOTHES.  NOURISHMATIC IS SOFTWARE.  NOURISHMATIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
+        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMARTIC DOES NOT WEAR ANY CLOTHES.  NOURISHMARTIC IS SOFTWARE.  NOURISHMARTIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
       },
       {
         "id": "months_old_news_11",
@@ -296,6 +299,7 @@
   {
     "type": "snippet",
     "category": "weeks_old_news",
+    "//": "Around the start of April",
     "text": [
       {
         "id": "weeks_old_news_1",
@@ -331,10 +335,6 @@
       },
       {
         "id": "weeks_old_news_9",
-        "text": "HELL ON EARTH?  Boston has been quarantined.  Prior to its complete lockdown, our journalists received a concerning email from a colleague within the city, describing horrendous and inhuman monsters walking the streets amidst the rioters.  \"I don't know who started it, but we call it Hastur.  After the horror novel.  The rioters fall in line behind it like soldiers, living and dead.  Yeah, some of them are dead.  They're lying to us, they've all been lying to us.\"  Our editor-in-chief demanded we keep this article from you.  He has been deposed.  Rise up against the lies."
-      },
-      {
-        "id": "weeks_old_news_10",
         "text": "YOUR BUG-OUT BAG.  In this issue we focus on tips and tricks to packing your bug-out bag.  Whether you're near an urban center or in a small town, if you don't already have an emergency kit, you need one while supplies are still available.  Don't be the one person caught without a lighter when you need a fire!"
       },
       {
@@ -347,7 +347,7 @@
       },
       {
         "id": "weeks_old_news_13",
-        "text": "CHINESE SOLDIERS SPOTTED AMIDST RIOTERS.  Concerns that Chinese influence is behind the riots sweeping North America were corroborated today by reports of the appearance of PRC soldiers amongst the rioters in San Diego and San Francisco, apparently unaffected by the otherwise uncontrolled frenzy of violence.  The government continues to deny the truth."
+        "text": "CHINESE SOLDIERS SPOTTED AMIDST RIOTERS.  Concerns that Chinese influence is behind the riots sweeping North America were corroborated today by reports of the appearance of PRC soldiers among the rioters in San Diego and San Francisco, apparently unaffected by the otherwise uncontrolled frenzy of violence.  The government continues to deny the truth."
       },
       {
         "id": "weeks_old_news_14",
@@ -366,18 +366,23 @@
         "text": "LOCAL EVACUATION ORDERS.  FEMA has announced small-scale evacuations of select centers where rioting is most intense.  \"This is a preventive measure,\" Spokesperson Linda Garrison told our correspondent.  \"We expect to have people home in a few days, but it's best we play it safe until then.\""
       },
       {
-        "id": "weeks_old_news_18",
-        "text": "COPS IN CRISIS.  Law enforcement officials report increasing numbers of officers are calling in sick, have resigned, or are just not showing up to duty.  A lack of sufficient personnel exacerbates the dangers police on-duty face.  In some cases officers are refusing to respond to dispatches in areas with high levels of violence.  A spokesperson for the Worcester County Sheriff's Office confirmed \"It is no longer feasible for us to jeopardize officer lives in some circumstances.  Instead we can continue to rely upon our state-of-the-art AI-powered robotic units.\""
-      },
-      {
         "id": "weeks_old_news_19",
         "text": "UNCANNY VALLEY.  Faced with accusations of malfeasance in his AI designs, James Hawthorne appears to have *disappeared*.  Hawthorne could not be reached for comment by any major news centers, as questions and even lawsuits about dangerous flaws in his widespread law enforcement AI packages rise."
+      },
+      {
+        "id": "weeks_old_news_20",
+        "text": "ISS MUTINIES, ABANDONS STATION.  Making their demands known through amateur radio communications, all astronauts and cosmonauts aboard the International Space Station have demanded that NASA and ROSCOSMOS allow them to rejoin their families amidst the recent riots and instability.  Claims have been made that the agencies have shut them out of most controls aboard the station, endangering the lives of all aboard when they were unable to respond to a near-miss with orbital debris.  NASA officials have continued to make no public statements regarding the demands, or the unconfirmed reports that the docked spacecraft have been launched, *without* aid from ground control."
+      },
+      {
+        "id": "weeks_old_news_21",
+        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
       }
     ]
   },
   {
     "type": "snippet",
     "category": "newest_news",
+    "//": "Around April 15/16",
     "text": [
       {
         "id": "newest_news_1",
@@ -397,7 +402,7 @@
       },
       {
         "id": "newest_news_5",
-        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
+        "text": "HELL ON EARTH?  Boston has been quarantined.  Prior to its complete lockdown, our journalists received a concerning email from a colleague within the city, describing horrendous and inhuman monsters walking the streets amidst the rioters.  \"I don't know who started it, but we call it Hastur.  After the horror novel.  The rioters fall in line behind it like soldiers, living and dead.  Yeah, some of them are dead.  They're lying to us, they've all been lying to us.\"  Our editor-in-chief demanded we keep this article from you.  He has been deposed.  Rise up against the lies."
       },
       {
         "id": "newest_news_6",

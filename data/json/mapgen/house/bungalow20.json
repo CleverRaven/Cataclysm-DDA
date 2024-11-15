@@ -9,7 +9,8 @@
         "domestic_general_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -24,9 +25,9 @@
         ".#r    |RRRRy  _?27Y_6o.",
         ".orh   +       |||||||#.",
         ".or  ET|y  h   |dd|tS8#.",
-        ".#||||||R hffh |  +___o.",
-        ".#B_8ZW|R  ff  |z |8BB#.",
-        ".#B____+  hffh ||+|||##.",
+        ".#||||||R hffh |  +~~~o.",
+        ".#B~8ZW|R  ff  |z |8BB#.",
+        ".#B~~~~+  hffh ||+|||##.",
         ".#Qw8St|   h   +    b#..",
         "^#||||||       |    ¤o..",
         ".#@¤   + ====  |I  @@o..",
@@ -39,17 +40,18 @@
         "........................"
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         ",": "t_floor_noroof",
         "K": "t_floor_noroof",
         "G": "t_floor_noroof",
-        "Y": "t_linoleum_gray",
-        "?": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
-        "=": "t_carpet_red",
-        "L": "t_carpet_red"
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "?": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ],
       "furniture": { "£": "f_exercise", "$": "f_treadmill", "?": "f_bookcase" },
       "place_loot": [ { "item": "television", "x": 10, "y": 3 }, { "group": "SUS_cooking_bookcase", "x": 16, "y": 8 } ]
     }
@@ -76,7 +78,7 @@
         " -....................- ",
         " -....X...............- ",
         " -....................- ",
-        " -...................-- ",
+        " -.............1.....-- ",
         " -...................-  ",
         " 5...N...............-  ",
         " -...................-  ",

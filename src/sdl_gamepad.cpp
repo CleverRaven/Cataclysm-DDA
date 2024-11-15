@@ -196,7 +196,7 @@ static void dpad_changes( task_t &task, const std::array<int, 16> &m, Uint32 now
             schedule_task( task, now + repeat_delay, m[new_state], new_state );
             break;
         case SDL_HAT_CENTERED: {
-            if( task.counter == 1 )
+            if( task.counter == 1 ) {
                 switch( old_state ) {
                     // detecting quick CENTER -> Left|Up|Right|Down -> CENTER transition
                     case SDL_HAT_UP:
@@ -205,6 +205,7 @@ static void dpad_changes( task_t &task, const std::array<int, 16> &m, Uint32 now
                     case SDL_HAT_LEFT:
                         send_input( task.button );
                 }
+            }
             cancel_task( task );
             break;
         }
@@ -326,12 +327,13 @@ void handle_button_event( SDL_Event &event )
 void handle_scheduler_event( SDL_Event &event )
 {
     Uint32 now = event.user.timestamp;
-    for( gamepad::task_t &task : all_tasks )
+    for( gamepad::task_t &task : all_tasks ) {
         if( task.counter && task.when <= now ) {
             send_input( task.button );
             task.counter += 1;
             task.when = now + repeat_interval;
         }
+    }
 }
 
 } // namespace gamepad

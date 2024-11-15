@@ -30,7 +30,10 @@
       "bodypart_armor_outer_layout",
       "bodypart_status_layout",
       "bodypart_status_sym_layout",
-      "bodygraph_hp_layout"
+      "bodygraph_hp_layout",
+      "custom_mana_layout",
+      "custom_mana_numbers_widget",
+      "custom_mana_graph_widget"
     ]
   }
 ]

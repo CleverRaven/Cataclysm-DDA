@@ -9,16 +9,16 @@
     "damage_reduction": { "all": 20 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR" ],
+    "flags": [ "CARGO", "CARGO_PASSABLE", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR", "HUGE_OK" ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
     "name": { "str": "door" },
-    "//": "30cm of weld per quadrant of damage",
+    "//": "30 cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "size": "2500 ml",
     "type": "vehicle_part",
@@ -89,11 +89,11 @@
     "durability": 600,
     "item": "hdframe",
     "name": { "str": "heavy-duty door" },
-    "//": "40cm of weld per quadrant of damage",
+    "//": "40 cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "8 m", "using": [ [ "repair_welding_lc_steel", 4 ] ] }
     },
     "type": "vehicle_part",
     "variants_bases": [ { "id": "full", "label": "Full" } ]
@@ -124,7 +124,7 @@
     "description": "A strong door.  A window lets you see through it when closed.",
     "durability": 420,
     "name": { "str": "hatch" },
-    "//": "30cm of weld per quadrant of damage, 4x that to install",
+    "//": "30 cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -136,7 +136,7 @@
         "time": "40 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "size": "200 L",
     "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
@@ -162,7 +162,7 @@
     "durability": 900,
     "item": "hdframe",
     "name": { "str": "heavy-duty hatch" },
-    "//": "40cm of weld per quadrant of damage, 4x that to install",
+    "//": "40 cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
@@ -174,7 +174,7 @@
         "time": "50 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_lc_steel", 4 ] ] }
     },
     "size": "100 L",
     "type": "vehicle_part"
@@ -209,7 +209,7 @@
     },
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "extend": { "flags": [ "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO" ] },
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE" ] },
     "damage_reduction": { "all": 8 }
   },
   {
@@ -234,10 +234,10 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_lc_steel", 2 ] ] }
     },
     "extend": { "flags": [ "LOW_FINAL_AIR_DRAG", "SIMPLE_PART", "NO_ROOF_NEEDED" ] },
-    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO" ] }
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO" ] }
   },
   {
     "type": "vehicle_part",
@@ -250,7 +250,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_lc_steel", 4 ] ] }
     },
     "breaks_into": "ig_vp_hdframe",
     "delete": { "flags": [ "NO_ROOF_NEEDED" ] },
@@ -268,11 +268,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_lc_steel", 2 ] ] }
     },
     "breaks_into": "ig_vp_sheet_metal",
     "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
     "damage_reduction": { "all": 7 }
   },
   {

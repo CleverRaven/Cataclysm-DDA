@@ -62,6 +62,7 @@
         { "item": "laundromat_bleach", "x": [ 17, 18 ], "y": [ 12, 16 ], "chance": 30, "repeat": [ 4, 8 ] },
         { "item": "cash_register_random", "x": [ 5, 7 ], "y": 13, "chance": 100 }
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 10, 18 ], "chance": 60, "repeat": [ 6, 12 ] } ]
     }
   },
@@ -123,6 +124,7 @@
         ".": { "item": "gym", "chance": 5 },
         "&": { "item": "trash", "chance": 50, "repeat": [ 2, 4 ] }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 10, 18 ], "chance": 60, "repeat": [ 5, 10 ] } ]
     }
   },
@@ -174,8 +176,8 @@
         "U": "f_trashcan"
       },
       "set": [
-        { "square": "terrain", "id": "t_floor", "x": 4, "y": 16, "x2": 19, "y2": 20 },
-        { "square": "terrain", "id": "t_floor", "x": 12, "y": 21, "x2": 19, "y2": 23 }
+        { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 16, "x2": 19, "y2": 20 },
+        { "square": "terrain", "id": "t_linoleum_white", "x": 12, "y": 21, "x2": 19, "y2": 23 }
       ],
       "items": {
         "C": { "item": "behindcounter", "chance": 40 },
@@ -186,6 +188,7 @@
         "D": { "item": "groce_frozen", "chance": 70, "repeat": [ 1, 2 ] },
         "U": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_loot": [ { "group": "cash_register_random", "x": [ 4, 6 ], "y": 18 } ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 4, 19 ], "y": [ 16, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ]
     }
@@ -237,6 +240,7 @@
         "d": { "item": "groce_bread", "chance": 50, "repeat": [ 1, 3 ] },
         "D": { "item": "groce_dairyegg", "chance": 50, "repeat": [ 1, 3 ] }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 12, 19 ], "y": [ 0, 7 ], "chance": 80, "repeat": [ 5, 10 ] } ]
     }
   },
@@ -306,6 +310,7 @@
         "t": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] },
         "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 14 ], "chance": 60, "repeat": [ 6, 10 ] } ]
     }
   },
@@ -328,6 +333,7 @@
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
       "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
     }
@@ -351,6 +357,7 @@
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
       "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
     }
@@ -429,6 +436,7 @@
         "l": { "item": "softdrugs", "chance": 100, "repeat": [ 2, 3 ] },
         "$": { "item": "cash_register_random", "chance": 100 }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 4, 11 ], "y": [ 0, 1 ] } ],
       "place_monster": [
         { "group": "GROUP_GROCERY", "x": [ 4, 10 ], "y": 1, "chance": 5, "repeat": [ 1, 5 ] },
@@ -485,13 +493,13 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "#": "t_brick_wall",
-        "A": "t_atm",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
       "furniture": {
+        "A": "f_atm_off",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "$": "f_counter",
         "c": "f_counter",
@@ -531,6 +539,7 @@
         { "item": "produce", "x": [ 11, 13 ], "y": 14, "chance": 85, "repeat": [ 1, 10 ] },
         { "item": "cannedfood", "x": [ 11, 13 ], "y": 16, "chance": 80, "repeat": [ 1, 8 ] }
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_GROCERY", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 3, 9 ] } ]
     }
   },
@@ -578,13 +587,13 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "#": "t_brick_wall",
-        "A": "t_atm",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
       "furniture": {
+        "A": "f_atm_off",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "$": "f_counter",
         "c": "f_counter",
@@ -614,6 +623,7 @@
         "$": { "item": "cash_register_random", "chance": 100 },
         "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ELECTRO", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ]
     }
   },
@@ -708,6 +718,7 @@
         "d": { "item": "SUS_office_desk", "chance": 70 },
         "L": { "item": "SUS_janitors_closet", "chance": 100 }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 3, 8 ] } ]
     }
   },
@@ -744,12 +755,13 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "set": [ { "square": "terrain", "id": "t_floor", "x": 4, "y": 5, "x2": 19, "y2": 11 } ],
       "terrain": {
         ".": "t_floor",
         "!": "t_door_metal_locked",
         "s": "t_sidewalk",
-        "~": "t_carpet_green",
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
@@ -778,6 +790,7 @@
         "t": { "item": "magazines", "chance": 70, "repeat": [ 1, 6 ] },
         "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 4, 18 ], "y": [ 5, 11 ], "chance": 50, "repeat": [ 6, 10 ] } ]
     }
   },
@@ -838,15 +851,15 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_green",
-        "n": "t_carpet_green",
-        ".": "t_carpet_green",
-        "^": "t_carpet_green",
-        "M": "t_carpet_green",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -864,15 +877,15 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_purple",
-        "n": "t_carpet_purple",
-        ".": "t_carpet_purple",
-        "^": "t_carpet_purple",
-        "M": "t_carpet_purple",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -890,15 +903,15 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_red",
-        "n": "t_carpet_red",
-        ".": "t_carpet_red",
-        "^": "t_carpet_red",
-        "M": "t_carpet_red",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -916,15 +929,15 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_yellow",
-        "n": "t_carpet_yellow",
-        ".": "t_carpet_yellow",
-        "^": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -968,14 +981,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_green",
-        "x": "t_carpet_green",
-        "d": "t_carpet_green",
-        "h": "t_carpet_green",
-        "F": "t_carpet_green"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -994,14 +1007,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "F": "t_carpet_purple"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1020,14 +1033,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_yellow",
-        "x": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "F": "t_carpet_yellow"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1046,14 +1059,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_red",
-        "x": "t_carpet_red",
-        "d": "t_carpet_red",
-        "h": "t_carpet_red",
-        "F": "t_carpet_red"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1101,14 +1114,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_green",
-        "x": "t_carpet_green",
-        "d": "t_carpet_green",
-        "h": "t_carpet_green",
-        "F": "t_carpet_green"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1129,14 +1142,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "F": "t_carpet_purple"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1157,14 +1170,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_red",
-        "x": "t_carpet_red",
-        "d": "t_carpet_red",
-        "h": "t_carpet_red",
-        "F": "t_carpet_red"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1185,14 +1198,14 @@
       ],
       "terrain": {
         ":": "t_linoleum_gray",
-        ".": "t_carpet_yellow",
-        "x": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "F": "t_carpet_yellow"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1312,16 +1325,16 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_purple",
-        "n": "t_carpet_purple",
-        "c": "t_carpet_purple",
-        ".": "t_carpet_purple",
-        "^": "t_carpet_purple",
-        "M": "t_carpet_purple",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1339,16 +1352,16 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_green",
-        "n": "t_carpet_green",
-        "c": "t_carpet_green",
-        ".": "t_carpet_green",
-        "^": "t_carpet_green",
-        "M": "t_carpet_green",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1366,16 +1379,16 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_red",
-        "n": "t_carpet_red",
-        "c": "t_carpet_red",
-        ".": "t_carpet_red",
-        "^": "t_carpet_red",
-        "M": "t_carpet_red",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1393,16 +1406,16 @@
         ":::::"
       ],
       "terrain": {
-        "?": "t_carpet_yellow",
-        "n": "t_carpet_yellow",
-        "c": "t_carpet_yellow",
-        ".": "t_carpet_yellow",
-        "^": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ":": "t_linoleum_gray"
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1611,13 +1624,13 @@
         "t": "t_linoleum_white",
         "å": "t_linoleum_white",
         "F": "t_linoleum_white",
-        "~": "t_carpet_green",
-        "d": "t_carpet_green",
-        "x": "t_carpet_green",
-        "⌅": "t_carpet_green"
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1652,13 +1665,13 @@
         "t": "t_linoleum_white",
         "å": "t_linoleum_white",
         "F": "t_linoleum_white",
-        "~": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "x": "t_carpet_yellow",
-        "⌅": "t_carpet_yellow"
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1693,13 +1706,13 @@
         "t": "t_linoleum_white",
         "å": "t_linoleum_white",
         "F": "t_linoleum_white",
-        "~": "t_carpet_red",
-        "d": "t_carpet_red",
-        "x": "t_carpet_red",
-        "⌅": "t_carpet_red"
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1734,13 +1747,13 @@
         "t": "t_linoleum_white",
         "å": "t_linoleum_white",
         "F": "t_linoleum_white",
-        "~": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "⌅": "t_carpet_purple"
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1974,14 +1987,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        ":": "t_carpet_yellow",
-        "?": "t_carpet_yellow",
-        "^": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2000,14 +2013,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        ":": "t_carpet_red",
-        "M": "t_carpet_red",
-        "^": "t_carpet_red",
-        "?": "t_carpet_red",
-        "n": "t_carpet_red"
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2026,14 +2039,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        ":": "t_carpet_green",
-        "M": "t_carpet_green",
-        "^": "t_carpet_green",
-        "?": "t_carpet_green",
-        "n": "t_carpet_green"
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2052,14 +2065,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        "^": "t_carpet_purple",
-        "?": "t_carpet_purple",
-        ":": "t_carpet_purple",
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple"
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2424,14 +2437,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        "^": "t_carpet_purple",
-        "M": "t_carpet_purple",
-        ":": "t_carpet_purple",
-        "?": "t_carpet_purple",
-        "n": "t_carpet_purple"
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2450,14 +2463,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        "M": "t_carpet_green",
-        "^": "t_carpet_green",
-        ":": "t_carpet_green",
-        "?": "t_carpet_green",
-        "n": "t_carpet_green"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2476,14 +2489,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        ":": "t_carpet_red",
-        "M": "t_carpet_red",
-        "^": "t_carpet_red",
-        "?": "t_carpet_red",
-        "n": "t_carpet_red"
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2502,14 +2515,14 @@
       ],
       "terrain": {
         ".": "t_linoleum_gray",
-        "M": "t_carpet_yellow",
-        "^": "t_carpet_yellow",
-        ":": "t_carpet_yellow",
-        "?": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2745,59 +2758,13 @@
         "**|----|"
       ],
       "terrain": {
-        "d": "t_carpet_yellow",
-        "x": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "F": "t_carpet_yellow",
-        ".": "t_carpet_yellow"
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_boss_al",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|HHH-|",
-        "**V...d|",
-        "**V...d|",
-        "**G.ddx|",
-        "**G..h.+",
-        "**V.h..|",
-        "**VFFFF|",
-        "**|----|"
-      ],
-      "terrain": { "d": "t_carpet_green", "x": "t_carpet_green", "h": "t_carpet_green", "F": "t_carpet_green", ".": "t_carpet_green" },
-      "palettes": [ "skyscraper_office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_boss_al",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|HHH-|",
-        "**V...d|",
-        "**V...d|",
-        "**G.ddx|",
-        "**G..h.+",
-        "**V.h..|",
-        "**VFFFF|",
-        "**|----|"
-      ],
-      "terrain": { "d": "t_carpet_red", "x": "t_carpet_red", "h": "t_carpet_red", "F": "t_carpet_red", ".": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -2820,13 +2787,71 @@
         "**|----|"
       ],
       "terrain": {
-        "d": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "F": "t_carpet_purple",
-        ".": "t_carpet_purple"
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_boss_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V...d|",
+        "**V...d|",
+        "**G.ddx|",
+        "**G..h.+",
+        "**V.h..|",
+        "**VFFFF|",
+        "**|----|"
+      ],
+      "terrain": {
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_boss_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V...d|",
+        "**V...d|",
+        "**G.ddx|",
+        "**G..h.+",
+        "**V.h..|",
+        "**VFFFF|",
+        "**|----|"
+      ],
+      "terrain": {
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -2870,57 +2895,13 @@
         "**|----|"
       ],
       "terrain": {
-        ".": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "F": "t_carpet_purple"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_office_al",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|HHH-|",
-        "**Vdccx|",
-        "**Vd:h:|",
-        "**G:::F|",
-        "**G::::|",
-        "**V:h:d|",
-        "**Vxccd|",
-        "**|----|"
-      ],
-      "terrain": { ":": "t_carpet_red", "h": "t_carpet_red", "x": "t_carpet_red", "d": "t_carpet_red", "F": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_office_al",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|HHH-|",
-        "**Vdccx|",
-        "**Vd:h:|",
-        "**G:::F|",
-        "**G::::|",
-        "**V:h:d|",
-        "**Vxccd|",
-        "**|----|"
-      ],
-      "terrain": { ":": "t_carpet_green", "h": "t_carpet_green", "x": "t_carpet_green", "d": "t_carpet_green", "F": "t_carpet_green" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -2942,13 +2923,69 @@
         "**|----|"
       ],
       "terrain": {
-        ":": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "x": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "F": "t_carpet_yellow"
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**Vdccx|",
+        "**Vd:h:|",
+        "**G:::F|",
+        "**G::::|",
+        "**V:h:d|",
+        "**Vxccd|",
+        "**|----|"
+      ],
+      "terrain": {
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**Vdccx|",
+        "**Vd:h:|",
+        "**G:::F|",
+        "**G::::|",
+        "**V:h:d|",
+        "**Vxccd|",
+        "**|----|"
+      ],
+      "terrain": {
+        ":": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -2970,57 +3007,13 @@
         "**|----|"
       ],
       "terrain": {
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow",
-        ".": "t_carpet_yellow",
-        "^": "t_carpet_yellow",
-        "B": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_meeting_al",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|HHH-|",
-        "**V^..B|",
-        "**V....+",
-        "**GMnnM|",
-        "**GMnnM|",
-        "**VMnnM|",
-        "**V....|",
-        "**|----|"
-      ],
-      "terrain": { "M": "t_carpet_red", "n": "t_carpet_red", ".": "t_carpet_red", "^": "t_carpet_red", "B": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_meeting_al",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|HHH-|",
-        "**V^..B|",
-        "**V....+",
-        "**GMnnM|",
-        "**GMnnM|",
-        "**VMnnM|",
-        "**V....|",
-        "**|----|"
-      ],
-      "terrain": { "M": "t_carpet_green", "n": "t_carpet_green", ".": "t_carpet_green", "^": "t_carpet_green", "B": "t_carpet_green" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3042,13 +3035,69 @@
         "**|----|"
       ],
       "terrain": {
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple",
-        ".": "t_carpet_purple",
-        "^": "t_carpet_purple",
-        "B": "t_carpet_purple"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_meeting_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V^..B|",
+        "**V....+",
+        "**GMnnM|",
+        "**GMnnM|",
+        "**VMnnM|",
+        "**V....|",
+        "**|----|"
+      ],
+      "terrain": {
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_meeting_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V^..B|",
+        "**V....+",
+        "**GMnnM|",
+        "**GMnnM|",
+        "**VMnnM|",
+        "**V....|",
+        "**|----|"
+      ],
+      "terrain": {
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3070,57 +3119,13 @@
         "-----|**"
       ],
       "terrain": {
-        ".": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "F": "t_carpet_purple"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_office_ar",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "--HHH|**",
-        "FdddxV**",
-        ".d.h.V**",
-        ".....G**",
-        ".....G**",
-        "..h.dV**",
-        "FxdddV**",
-        "-----|**"
-      ],
-      "terrain": { ".": "t_carpet_green", "x": "t_carpet_green", "h": "t_carpet_green", "d": "t_carpet_green", "F": "t_carpet_green" },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_office_ar",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "--HHH|**",
-        "FdddxV**",
-        ".d.h.V**",
-        ".....G**",
-        ".....G**",
-        "..h.dV**",
-        "FxdddV**",
-        "-----|**"
-      ],
-      "terrain": { ".": "t_carpet_red", "x": "t_carpet_red", "h": "t_carpet_red", "d": "t_carpet_red", "F": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3142,13 +3147,69 @@
         "-----|**"
       ],
       "terrain": {
-        ".": "t_carpet_yellow",
-        "x": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "F": "t_carpet_yellow"
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_ar",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "--HHH|**",
+        "FdddxV**",
+        ".d.h.V**",
+        ".....G**",
+        ".....G**",
+        "..h.dV**",
+        "FxdddV**",
+        "-----|**"
+      ],
+      "terrain": {
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_ar",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "--HHH|**",
+        "FdddxV**",
+        ".d.h.V**",
+        ".....G**",
+        ".....G**",
+        "..h.dV**",
+        "FxdddV**",
+        "-----|**"
+      ],
+      "terrain": {
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3192,13 +3253,13 @@
         "-----|**"
       ],
       "terrain": {
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple",
-        ".": "t_carpet_purple",
-        "^": "t_carpet_purple",
-        "?": "t_carpet_purple"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3220,13 +3281,13 @@
         "-----|**"
       ],
       "terrain": {
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple",
-        ".": "t_carpet_purple",
-        "^": "t_carpet_purple",
-        "?": "t_carpet_purple"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3247,8 +3308,14 @@
         "^???.V**",
         "-----|**"
       ],
-      "terrain": { "M": "t_carpet_green", "n": "t_carpet_green", ".": "t_carpet_green", "^": "t_carpet_green", "?": "t_carpet_green" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": {
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3269,8 +3336,14 @@
         "^???.V**",
         "-----|**"
       ],
-      "terrain": { "M": "t_carpet_red", "n": "t_carpet_red", ".": "t_carpet_red", "^": "t_carpet_red", "?": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": {
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3419,10 +3492,10 @@
         ".": "t_linoleum_white",
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
-        "M": "t_carpet_green",
-        "n": "t_carpet_green"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3447,32 +3520,10 @@
         ".": "t_linoleum_white",
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_mr1_l",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "**|^....",
-        "**H.....",
-        "**HB.MMM",
-        "**G..nnn",
-        "**G..nnn",
-        "**HB.MMM",
-        "**H.....",
-        "**|^...."
-      ],
-      "terrain": { ".": "t_linoleum_white", "^": "t_linoleum_white", "B": "t_linoleum_white", "M": "t_carpet_red", "n": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3497,10 +3548,38 @@
         ".": "t_linoleum_white",
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_mr1_l",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|^....",
+        "**H.....",
+        "**HB.MMM",
+        "**G..nnn",
+        "**G..nnn",
+        "**HB.MMM",
+        "**H.....",
+        "**|^...."
+      ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "^": "t_linoleum_white",
+        "B": "t_linoleum_white",
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3553,11 +3632,11 @@
         ".": "t_linoleum_white",
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow",
-        "¢": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3582,11 +3661,11 @@
         ".": "t_linoleum_white",
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
-        "M": "t_carpet_green",
-        "n": "t_carpet_green",
-        "¢": "t_carpet_green"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3607,8 +3686,13 @@
         "**H.¢MM¢",
         "**|^...."
       ],
-      "terrain": { ".": "t_linoleum_white", "M": "t_carpet_red", "n": "t_carpet_red", "¢": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3629,30 +3713,13 @@
         "**H.¢MM¢",
         "**|^...."
       ],
-      "terrain": { ".": "t_linoleum_white", "M": "t_carpet_purple", "n": "t_carpet_purple", "¢": "t_carpet_purple" },
-      "palettes": [ "skyscraper_office_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_mr1_r",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "....Y|**",
-        ".....H**",
-        "MMM..H**",
-        "nnn..G**",
-        "nnn..G**",
-        "MMM..H**",
-        ".....H**",
-        "...FF|**"
-      ],
-      "terrain": { ".": "t_linoleum_white", "F": "t_linoleum_white", "Y": "t_linoleum_white", "M": "t_carpet_red", "n": "t_carpet_red" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3677,10 +3744,10 @@
         ".": "t_linoleum_white",
         "F": "t_linoleum_white",
         "Y": "t_linoleum_white",
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3705,10 +3772,10 @@
         ".": "t_linoleum_white",
         "F": "t_linoleum_white",
         "Y": "t_linoleum_white",
-        "M": "t_carpet_green",
-        "n": "t_carpet_green"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3733,10 +3800,38 @@
         ".": "t_linoleum_white",
         "F": "t_linoleum_white",
         "Y": "t_linoleum_white",
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_mr1_r",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "....Y|**",
+        ".....H**",
+        "MMM..H**",
+        "nnn..G**",
+        "nnn..G**",
+        "MMM..H**",
+        ".....H**",
+        "...FF|**"
+      ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3762,10 +3857,10 @@
         "Y": "t_linoleum_white",
         "a": "t_linoleum_white",
         "^": "t_linoleum_white",
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3790,11 +3885,11 @@
         ".": "t_linoleum_white",
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
-        "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow",
-        "¢": "t_carpet_yellow"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3819,11 +3914,11 @@
         ".": "t_linoleum_white",
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
-        "M": "t_carpet_green",
-        "n": "t_carpet_green",
-        "¢": "t_carpet_green"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3848,11 +3943,11 @@
         ".": "t_linoleum_white",
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
-        "M": "t_carpet_red",
-        "n": "t_carpet_red",
-        "¢": "t_carpet_red"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3877,11 +3972,11 @@
         ".": "t_linoleum_white",
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
-        "M": "t_carpet_purple",
-        "n": "t_carpet_purple",
-        "¢": "t_carpet_purple"
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "¢": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },

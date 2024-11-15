@@ -14,7 +14,7 @@
     "name": { "str": "Manatouched" },
     "points": 1,
     "description": "Magic is in you.  Magic is you.",
-    "mana_multiplier": 1.5,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.5 } ] } ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -35,7 +35,7 @@
     "name": { "str": "Seeker Bolts" },
     "description": "Your hands glow with mana energy.  You can fire seeker bolts from your fingertips.",
     "points": 2,
-    "mana_modifier": 250,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 250 } ] } ],
     "lumination": [ [ "hand_r", 8 ], [ "hand_l", 8 ] ],
     "prereqs": [ "MANA_LUM" ],
     "category": [ "MANATOUCHED" ],
@@ -70,7 +70,7 @@
     "id": "WEAK",
     "type": "mutation",
     "name": { "str": "Weak" },
-    "passive_mods": { "str_mod": -2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -2 } ] } ],
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
     "types": [ "STR" ],
@@ -121,7 +121,10 @@
     "type": "mutation",
     "id": "PALE",
     "copy-from": "PALE",
-    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] },
+    "visibility": 0,
+    "ugliness": 0,
+    "starting_trait": true
   },
   {
     "type": "mutation",
@@ -225,7 +228,7 @@
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_ADD3" ],
     "category": [ "MANATOUCHED" ],
-    "mana_modifier": 2500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2500 } ] } ]
   },
   {
     "type": "mutation",
@@ -238,7 +241,7 @@
     "threshreq": [ "THRESH_MANA" ],
     "types": [ "MANA_REGEN" ],
     "category": [ "MANATOUCHED" ],
-    "mana_regen_multiplier": 2
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -251,7 +254,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "MANATOUCHED" ],
     "prereqs": [ "MANA_MULT3" ],
-    "mana_multiplier": 2.65
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 1.65 } ] } ]
   },
   {
     "type": "mutation",

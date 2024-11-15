@@ -75,7 +75,7 @@
     "copy-from": "tie_skinny",
     "looks_like": "tie_skinny",
     "name": { "str": "worker's tie" },
-    "description": "Calling this thin strip of dark fabric a tie would do it a favour."
+    "description": "Calling this thin strip of dark fabric a tie would do it a favor."
   },
   {
     "id": "spacer_jumpsuit",
@@ -85,6 +85,32 @@
     "name": { "str": "crew jumpsuit" },
     "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
     "color": "brown"
+  },
+  {
+    "id": "afs_hazard_suit",
+    "copy-from": "robofac_enviro_suit",
+    "type": "ARMOR",
+    "name": { "str": "soft hazard suit" },
+    "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gasmask or sealed helmet for full protection.",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
+      "target": "afs_hazard_suit_casual"
+    }
+  },
+  {
+    "id": "afs_hazard_suit_casual",
+    "copy-from": "robofac_enviro_suit_casual",
+    "type": "ARMOR",
+    "name": { "str": "soft hazard suit (casual)", "str_pl": "soft hazard suits (casual)" },
+    "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  The upper portion has been tied around the waist casually.",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear normally",
+      "msg": "You untie the sleeves and put back on the top of the suit.",
+      "target": "afs_hazard_suit"
+    }
   },
   {
     "id": "spacer_cap",
@@ -109,8 +135,8 @@
     "weight": "600 g",
     "volume": "10 L",
     "looks_like": "tacvest",
-    "price": 7400,
-    "price_postapoc": 5000,
+    "price": "74 USD",
+    "price_postapoc": "50 USD",
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -118,17 +144,16 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "90 cm",
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
-        "rigid": true,
         "holster": true,
         "transparent": true
       },
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "90 cm",
         "moves": 40,
@@ -144,17 +169,17 @@
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
+        "flag_restriction": [ "MAG_BULKY", "HEAVY_TOOL" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
+        "flag_restriction": [ "MAG_BULKY", "HEAVY_TOOL" ],
         "moves": 60
       }
     ],

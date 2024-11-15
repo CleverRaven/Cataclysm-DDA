@@ -1,11 +1,11 @@
-#if !defined(TILES) && defined(_WIN32)
-#define UNICODE 1
-#ifndef CMAKE
 #pragma GCC diagnostic ignored "-Wunused-macros"
+#if !defined(TILES) && defined(_WIN32)
+#ifndef CMAKE
 #define _UNICODE 1
 #endif
+#define UNICODE 1
 #include "cursesport.h" // IWYU pragma: associated
-
+#ifndef TUI
 #include <cstdlib>
 #include <fstream>
 
@@ -751,8 +751,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
-        bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window &,
+        const point &, bool center_cursor ) const
 {
     // TODO: implement this properly
     return std::nullopt;
@@ -761,6 +761,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {
+    ui_manager::reset();
     DeleteObject( font );
     WinDestroy();
     // Unload it
@@ -788,10 +789,6 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
-void cata_cursesport::handle_additional_window_clear( WINDOW * )
-{
-}
-
 int get_scaling_factor()
 {
     return 1;
@@ -813,5 +810,5 @@ void set_title( const std::string &title )
         SetWindowTextW( WindowHandle, widen( title ).c_str() );
     }
 }
-
+#endif // TUI
 #endif

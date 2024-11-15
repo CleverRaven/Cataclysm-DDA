@@ -13,7 +13,7 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Check if user has any merged PRs in this reposiory
         id: pr-check

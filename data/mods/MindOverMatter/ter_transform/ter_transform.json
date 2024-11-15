@@ -1,0 +1,60 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_pyrokin_quell_fire",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fire gutters and dies!", "message_good": true } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_null_zombie_delete_fields",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_nullifying_field", "fd_neutralizing_field" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "telekinetic_earthshaker_transform",
+    "furniture": [ { "result": [ [ "f_null", 15 ], [ "f_rubble_rock", 1 ] ], "valid_furniture": [ "f_null" ] } ],
+    "terrain": [
+      { "result": [ [ "t_grass", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_grass" ] },
+      { "result": [ [ "t_grass_long", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_grass_long" ] },
+      { "result": [ [ "t_dirt", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_dirt" ] },
+      { "result": [ [ "t_dirtfloor", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_dirtfloor" ] },
+      {
+        "result": [ [ "t_dirtfloor_no_roof", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_dirtfloor_no_roof" ]
+      },
+      { "result": [ [ "t_dirtmoundfloor", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_dirtmoundfloor" ] },
+      { "result": [ [ "t_dirtmound", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_dirtmound" ] },
+      { "result": [ [ "t_grass_dead", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_grass_dead" ] },
+      { "result": [ [ "t_grass_white", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_grass_white" ] },
+      { "result": [ [ "t_sand", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_sand" ] },
+      { "result": [ [ "t_clay", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_clay" ] },
+      { "result": [ [ "t_sandmound", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_sandmound" ] },
+      { "result": [ [ "t_forestfloor", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_forestfloor" ] },
+      { "result": [ [ "t_grass_tall", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_grass_tall" ] },
+      { "result": [ [ "t_fungus_floor_in", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_fungus_floor_in" ] },
+      {
+        "result": [ [ "t_fungus_floor_sup", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_fungus_floor_sup" ]
+      },
+      {
+        "result": [ [ "t_fungus_floor_out", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_fungus_floor_out" ]
+      },
+      { "result": [ [ "t_sandbox", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_sandbox" ] },
+      { "result": [ [ "t_pit_shallow", 10 ], [ "t_dirt", 1 ], [ "t_pit", 1 ] ], "valid_terrain": [ "t_pit_shallow" ] },
+      { "result": [ [ "t_pit", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_pit" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_teleport_location_attune",
+    "furniture": [
+      {
+        "result": "f_teleporter_attuned_ground",
+        "valid_furniture": [ "f_null" ],
+        "message": "You spend some time memorizing your location.",
+        "message_good": true
+      }
+    ]
+  }
+]

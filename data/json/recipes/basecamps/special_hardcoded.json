@@ -1,0 +1,41 @@
+[
+  {
+    "//": "This file contains a special NPC-only basecamp which doesn't place anything, equivalent to the barebones camp. It is placed during mapgen, and should not show up as a valid player option in regular gameplay. The entire purpose is to provide 'water_well' so NPCs don't dehydrate to death.",
+    "//2": "Has hardcoded references in place (overmap.cpp) and overmap::migrate_camps.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "faction_base_bare_bones_NPC_camp_0",
+    "description": "NPC-only.  If you see this it's a bug",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbbb",
+    "blueprint_provides": [
+      { "id": "gathering" },
+      { "id": "fbbb_crafting_recipes_basic" },
+      { "id": "fbbb_crafting_recipes_cooking" },
+      { "id": "fbbb_crafting_recipes_crafting" },
+      { "id": "fbbb_crafting_recipes_custom" },
+      { "id": "fbbb" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "trapping" },
+      { "id": "hunting" },
+      { "id": "kitchen" },
+      { "id": "relaying" },
+      { "id": "walls" },
+      { "id": "recruiting" },
+      { "id": "scouting" },
+      { "id": "water_well" },
+      { "id": "patrolling" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "NPC-only.  If you see this it's a bug",
+    "check_blueprint_needs": false
+  }
+]

@@ -8,8 +8,8 @@
         "real_count": 1,
         "min_radius": 35,
         "max_radius": 50,
-        "spawn_message": "You suddently feel that you have found some trouble.",
-        "spawn_message_plural": "You suddently feel that you have found a lot of trouble."
+        "spawn_message": "You suddenly feel that you have found some trouble.",
+        "spawn_message_plural": "You suddenly feel that you have found a lot of trouble."
       }
     ]
   },

@@ -15,6 +15,7 @@
 #include "magic.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include <monster.h>
 
 class Character;
 class Creature;
@@ -42,47 +43,80 @@ enum class mod : int {
     MAX_MANA,
     REGEN_MANA,
     BIONIC_POWER,
+    POWER_TRICKLE,
     MAX_STAMINA,
     REGEN_STAMINA,
+    FAT_TO_MAX_HP,
+    CARDIO_MULTIPLIER,
+    MUT_INSTABILITY_MOD,
+    RANGE_DODGE,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
+    REGEN_HP_AWAKE,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
-    FATIGUE,       // fatigue rate
+    SLEEPINESS,       // sleepiness rate
+    SLEEPINESS_REGEN,
     PAIN,
     PAIN_REMOVE,
+    PAIN_PENALTY_MOD_STR,
+    PAIN_PENALTY_MOD_DEX,
+    PAIN_PENALTY_MOD_INT,
+    PAIN_PENALTY_MOD_PER,
+    PAIN_PENALTY_MOD_SPEED,
+    DODGE_CHANCE,
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
     RANGED_DAMAGE,
+    RANGED_ARMOR_PENETRATION,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
+    VISION_RANGE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
+    SIGHT_RANGE_FAE,
     SIGHT_RANGE_NETHER,
+    SIGHT_RANGE_MINDS,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
     SLEEPY,
+    BODYTEMP_SLEEP,
     LUMINATION,
     EFFECTIVE_HEALTH_MOD,
     MOD_HEALTH,
     MOD_HEALTH_CAP,
+    HEALTHY_RATE,
     READING_EXP,
     SKILL_RUST_RESIST,
+    READING_SPEED_MULTIPLIER,
+    OVERMAP_SIGHT,
+    KCAL,
+    VITAMIN_ABSORB_MOD,
+    MELEE_STAMINA_CONSUMPTION,
+    OBTAIN_COST_MULTIPLIER,
+    CASTING_TIME_MULTIPLIER,
+    CRAFTING_SPEED_MULTIPLIER,
+    BIONIC_MANA_PENALTY,
+    STEALTH_MODIFIER,
+    WEAKNESS_TO_WATER,
+    MENDING_MODIFIER,
+    STOMACH_SIZE_MULTIPLIER,
     LEARNING_FOCUS,
-    ARMOR_BASH,
-    ARMOR_CUT,
-    ARMOR_STAB,
-    ARMOR_BULLET,
-    ARMOR_HEAT,
-    ARMOR_COLD,
-    ARMOR_ELEC,
     ARMOR_ACID,
+    ARMOR_ALL,
+    ARMOR_BASH,
     ARMOR_BIO,
+    ARMOR_BULLET,
+    ARMOR_COLD,
+    ARMOR_CUT,
+    ARMOR_ELEC,
+    ARMOR_HEAT,
+    ARMOR_STAB,
     EXTRA_BASH,
     EXTRA_CUT,
     EXTRA_STAB,
@@ -94,17 +128,6 @@ enum class mod : int {
     EXTRA_BIO,
     EXTRA_ELEC_PAIN,
     RECOIL_MODIFIER, //affects recoil when shooting a gun
-    // effects for the item that has the enchantment
-    ITEM_DAMAGE_PURE,
-    ITEM_DAMAGE_BASH,
-    ITEM_DAMAGE_CUT,
-    ITEM_DAMAGE_STAB,
-    ITEM_DAMAGE_BULLET,
-    ITEM_DAMAGE_HEAT,
-    ITEM_DAMAGE_COLD,
-    ITEM_DAMAGE_ELEC,
-    ITEM_DAMAGE_ACID,
-    ITEM_DAMAGE_BIO,
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
@@ -115,6 +138,7 @@ enum class mod : int {
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
     ITEM_ATTACK_SPEED,
+    EQUIPMENT_DAMAGE_CHANCE,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     COMBAT_CATCHUP,
@@ -125,6 +149,27 @@ enum class mod : int {
     EVASION,
     OVERKILL_DAMAGE,
     RANGE,
+    AVOID_FRIENDRY_FIRE,
+    MOVECOST_SWIM_MOD,
+    MOVECOST_OBSTACLE_MOD,
+    MOVECOST_FLATGROUND_MOD,
+    PHASE_DISTANCE,
+    SHOUT_NOISE_STR_MULT,
+    NIGHT_VIS,
+    HEARING_MULT,
+    BANDAGE_BONUS,
+    DISINFECTANT_BONUS,
+    BLEED_STOP_BONUS,
+    UGLINESS,
+    VOMIT_MUL,
+    SCENT_MASK,
+    CONSUME_TIME_MOD,
+    THROW_STR,
+    THROW_DAMAGE,
+    SWEAT_MULTIPLIER,
+    STAMINA_REGEN_MOD,
+    MOVEMENT_EXERTION_MODIFIER,
+    WEAKPOINT_ACCURACY,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -165,6 +210,11 @@ class enchantment
         // this enchantment has a valid item independent conditions
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
+
+        // same as above except for monsters. Much more limited.
+        bool is_active( const monster &mon ) const;
+
+        bool is_monster_relevant() const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -214,13 +264,16 @@ class enchantment
         std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
+        std::map<damage_type_id, dbl_or_var> damage_values_add; // NOLINT(cata-serialize)
+        std::map<damage_type_id, dbl_or_var> damage_values_multiply; // NOLINT(cata-serialize)
+
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
 
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
-        std::function<bool( dialogue & )> dialog_condition; // NOLINT(cata-serialize)
+        std::function<bool( const_dialogue const & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };
@@ -233,8 +286,16 @@ class enchant_cache : public enchantment
         double modify_value( const skill_id &mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
+        units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
+        units::temperature_delta modify_value( enchant_vals::mod mod_val,
+                                               units::temperature_delta value ) const;
+        time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
+
+        double modify_melee_damage( const damage_type_id &mod_val, double value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs, const monster &mon );
+        void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
@@ -244,7 +305,9 @@ class enchant_cache : public enchantment
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
 
         int get_skill_value_add( const skill_id &value ) const;
+        int get_damage_add( const damage_type_id &value ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
+        double get_damage_multiply( const damage_type_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -255,6 +318,8 @@ class enchant_cache : public enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+        //Clears all the maps and vectors in the cache.
+        void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;
@@ -283,6 +348,10 @@ class enchant_cache : public enchantment
         // the exact same as above, though specifically for skills
         std::map<skill_id, int> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, int> skill_values_multiply; // NOLINT(cata-serialize)
+
+        std::map<damage_type_id, double> damage_values_add; // NOLINT(cata-serialize)
+        std::map<damage_type_id, double> damage_values_multiply; // NOLINT(cata-serialize)
+
 };
 
 template <typename E> struct enum_traits;

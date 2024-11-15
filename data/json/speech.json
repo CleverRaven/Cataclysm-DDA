@@ -1345,13 +1345,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a choking sound.",
     "volume": 10
   },
@@ -2199,7 +2199,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
+    "sound": "\"Foodplace: Don't get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {
@@ -2456,80 +2456,15 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dog", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_bull", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_pitbullmix", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_beagle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "YAP!",
-    "volume": 30
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_bcollie", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_boxer", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_chihuahua", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "YAP!",
-    "volume": 30
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_dachshund", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "YAP!",
-    "volume": 30
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_gshepherd", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_gpyrenees", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "WOOF!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "WOOF!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_auscattle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
     "speaker": [
+      "mon_dog",
+      "mon_dog_bull",
+      "mon_dog_pitbullmix",
+      "mon_dog_bcollie",
+      "mon_dog_boxer",
+      "mon_dog_auscattle",
       "mon_dog_samoyed",
+      "mon_dog_howling",
       "mon_dog_mutant_mongrel",
       "mon_dog_mutant_loper",
       "mon_mi_go",
@@ -2537,6 +2472,26 @@
       "mon_mi_go_myrmidon"
     ],
     "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_dog_beagle",
+      "mon_dog_chihuahua",
+      "mon_dog_dachshund",
+      "mon_dog_gshepherd",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon"
+    ],
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_gpyrenees", "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "WOOF!",
     "volume": 40
   },
   {
@@ -2716,13 +2671,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "crackling sounds.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "high-pitched hum.",
     "volume": 20
   },
@@ -2758,7 +2725,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_civilian_zombiefighter" ],
+    "speaker": [ "mon_civilian_zombiefighter", "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
     "sound": "\"Die!\"",
     "volume": 30
   },
@@ -2821,5 +2788,891 @@
     "speaker": [ "mon_civilian_parent" ],
     "sound": "someone calling for their child.",
     "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Here!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Here it is!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Found you!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"You are trapped!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom" ],
+    "sound": "\"Time to take out the trash!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_candlestick" ],
+    "sound": "\"Time to turn off the lights!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_knife" ],
+    "sound": "\"Food is ready!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_knife" ],
+    "sound": "\"Today's menu is… You!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_knife" ],
+    "sound": "\"Looks like meat is back on the menu!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Come here!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Lord, an intruder!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"My lady, come see this one!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Master, I have one trapped!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake", "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "\"Where…\"",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Look over there!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Come eat with me…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Come dance with me!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"You can't hide forever…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Did you hear that?…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Another dead end!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "the sound of metal dragged on the floor.",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "heavy but muffled breathing.",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "a strong swing of something in the air.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "footsteps of something heavy and big.",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_star_vampire", "mon_star_vampire_coiling", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a high-pitched tittering.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a series of rising peeps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a steady patter of light, whistling chirps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_frog" ],
+    "sound": "a long, soft squeak.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a loud and guttural wailing.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a deep glottal shout.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a quick, rising yell.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a reverberating, open-throated scream.",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a soft whistle.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a loud whistle.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of whistles.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a droning chorus.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of cries.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of laughs.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of screams.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a voice crack breaks a rising note.",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "sorrowful humming.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "joyful humming.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged"
+    ],
+    "sound": "wheezing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged"
+    ],
+    "sound": "moaning.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"It'll be painless, I promise.  Forgive me.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "repeated choking sounds, followed by wheezing.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"It's so cold..\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged"
+    ],
+    "sound": "growling.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"It's so warm..\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a wet squelch, followed by audible disgust.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "echoes of heavy footsteps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged"
+    ],
+    "sound": "groaning.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "frantic begging, followed by the sound of popping.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"..  We sing the hymns so we may..\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"..  learn to live in unity..\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"hello?  hello?  hello?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "uncoordinated harmonizing, shushed by a whistle at the end.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "repeated jingling of bells.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "repeated swinging of bells.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "an uncomfortably long breathe out.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "an uncomfortably long breathe in.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a whisper of words, in a language you don't understand.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged"
+    ],
+    "sound": "gasping.",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged"
+    ],
+    "sound": "grunting.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a series of upbeat whistles, but with wheezing pauses in between.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sound of wind whistling, with rhythmic thumping.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_zombie",
+      "mon_beekeeper",
+      "mon_zombie_cop",
+      "mon_zombie_crawler",
+      "mon_zombie_fat",
+      "mon_zombie_fireman",
+      "mon_zombie_hazmat",
+      "mon_zombie_rot",
+      "mon_zombie_swat",
+      "mon_zombie_tough",
+      "mon_zombie_resort_dancer",
+      "mon_zombie_resort_bouncer",
+      "mon_zombie_resort_staff",
+      "mon_zombie_rust",
+      "mon_zombie_shell",
+      "mon_zombie_plated",
+      "mon_zombie_urchin",
+      "mon_zombie_hammer_hands",
+      "mon_zombie_scientist",
+      "mon_zombie_labsecurity",
+      "mon_zombie_medical",
+      "mon_zombie_medical_brute",
+      "mon_zombie_medical_regenerating",
+      "mon_zombie_biter",
+      "mon_zombie_bruiser",
+      "mon_zombie_brute",
+      "mon_zombie_brute_grappler",
+      "mon_zombie_grabber",
+      "mon_zombie_grappler",
+      "mon_zombie_mancroc",
+      "mon_zombie_runner",
+      "mon_zombie_regenerating",
+      "mon_zombie_regenerating_hunter",
+      "mon_zombie_regenerating_final",
+      "mon_zombie_skull",
+      "mon_zombie_swimmer_base",
+      "mon_zombie_swimmer",
+      "mon_zombie_technician",
+      "mon_zombie_miner",
+      "mon_zombie_thorny",
+      "mon_zombie_reenactor",
+      "mon_zombie_fursuit",
+      "mon_zombie_prisoner",
+      "mon_zombie_prisoner_brute",
+      "mon_zombie_prisoner_fat",
+      "mon_zombie_prisoner_tough",
+      "mon_zombie_soldier",
+      "mon_zombie_kevlar_0",
+      "mon_zombie_kevlar_1",
+      "mon_zombie_military_pilot",
+      "mon_zombie_milbase_personnel",
+      "mon_zombie_sailor",
+      "mon_zombie_officer",
+      "mon_zombie_marine",
+      "mon_zombie_armored",
+      "mon_zombie_survivor",
+      "mon_zombie_survivor_no_weakpoints",
+      "mon_zombie_paramilitary",
+      "mon_zombie_lashing",
+      "mon_zombie_tentacle",
+      "mon_zombie_winged",
+      "mon_zombie_brute_winged",
+      "mon_zombie_brainless",
+      "mon_zombie_ears",
+      "mon_zombie_acidic",
+      "mon_zombie_corrosive",
+      "mon_zombie_spitter",
+      "mon_zombie_wretched",
+      "mon_zombie_dog_acidic",
+      "mon_zombie_dog_brute_acidic",
+      "mon_boomer",
+      "mon_boomer_huge",
+      "mon_gas_zombie",
+      "mon_boomer_glutton",
+      "mon_boomer_claymore"
+    ],
+    "sound": "gargling.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the creak of wood floors.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sharp sound of snapping bones.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sharp sound of snapping wood.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"I don't want to die like this..\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_skeleton", "mon_skeleton_brute", "mon_skeleton_electric", "mon_skeleton_slasher" ],
+    "sound": "hissing.",
+    "volume": 10
   }
 ]

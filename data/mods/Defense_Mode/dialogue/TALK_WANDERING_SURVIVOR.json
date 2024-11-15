@@ -3,31 +3,28 @@
     "type": "talk_topic",
     "id": "TALK_NPC_DEFENSE_WANDERER",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
       "yes": "<greet>",
       "no": "Freeze you <swear> <zombies>!"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "&Hold up your hands.  \"Don't worry, I'm not going to hurt you\"",
         "topic": "TALK_NPC_DEFENSE_WANDERER_CALM",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "Nice to see you.",
         "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -60,7 +57,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_DEFENSE_WANDERER_STORY",
-    "dynamic_line": "I can't remember, actually.  I have a fague sense of being in my house, asleep, before I woke up in the middle of a field.  I have this strange feeling that something's after me, keep seeing things out in the woods, so I had to keep moving.",
+    "dynamic_line": "I can't remember, actually.  I have a vague sense of being in my house, asleep, before I woke up in the middle of a field.  I have this strange feeling that something's after me, keep seeing things out in the woods, so I had to keep moving.",
     "//": "Potential lore?  This could be a good mystery.",
     "responses": [
       { "text": "Seems like a hard life.", "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO" },

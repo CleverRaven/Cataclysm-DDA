@@ -320,7 +320,24 @@
   {
     "type": "help",
     "order": 21,
-    "name": "<4>: FAQ (contains spoilers!)",
+    "name": "<4>: Description of book colors",
+    "messages": [
+      "BOOK COLORS:",
+      "<color_red>Red</color> = You don't yet know what the book is about.  You can skim it to find out.",
+      "<color_blue>Blue</color> = Reading will increase your skills (or learn & level spells in the case of Magiclysm spellbooks).",
+      "<color_pink>Pink</color> = You do not have the necessary skills to understand and improve your skills.",
+      "<color_yellow>Yellow</color> = Reading will not increase your skills, but the book has recipes you haven't learned yet.",
+      "<color_light_gray>Grey</color> = Reading will not increase your skills (or spells for Magiclysm spellbooks), nor will you learn recipes (or spells).",
+      "BOOK RECIPE COLORS",
+      "<color_brown>Brown</color> = You do not have the primary skill requirement to craft that item using the book.",
+      "<color_light_gray>Grey</color> = You can craft the item using the book.  The book must be close by or in your inventory to do this.",
+      "<color_white>White</color> = You already know the recipe, and do not need the book to craft it."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 22,
+    "name": "<5>: FAQ (contains spoilers!)",
     "messages": [
       "Q: What is safe mode, and why does it prevent me from moving?\nA: Safe mode is a way to guarantee that you won't die by holding a movement key down.  When a monster comes into view, your movement will be ignored until safe mode is turned off with the <press_safemode> key.  This ensures that the sudden appearance of a monster won't catch you off guard.",
       "Q: It seems like everything I eat makes me sick!  What's wrong?\nA: Lots of the food found in towns is perishable and will only last a few days after the start of a new game.  The electricity went out several days ago, so fruit, milk, and similar foods are the first to go bad.  After the first couple of days, you should switch to canned food, jerky, and hunting.  Also, you should make sure to cook any food and purify any water you come across, as it may contain parasites or otherwise be unsafe.",
@@ -335,7 +352,7 @@
       "Q: Help!  I started a fire and now my house is burning down!\nA: Fires will spread to nearby flammable tiles if they are able.  Lighting a fire in a deployed brazier, stove, wood stove, stone fireplace, pit, or even a kitchen stove will stop it from spreading.  Fire extinguishers can put out fires that get out of control.  You can put out a fire in a fireplace by examining it.",
       "Q: I'm cold and can't sleep at night!\nA: Gather some clothes and put them in the place where you're trying to sleep.  Being hungry, thirsty, wet, or injured can also make you feel the cold more, so try to avoid these effects before you go to sleep.  Pillows and some other appliances will help you sleep, and the quality of your sleeping spot is also very important.",
       "Q: There are too many calibers and guns.  It confuses me - I don't usually understand what is compatible with what.\nA: Try to remember a few common calibers:\n9x19 (or simply 9mm) - fits most basic pistols (Glock, for example) and SMGs, quite easy to find and gets job done against usual zombies;\n 00 buckshot - for most shotguns.  Very powerful against unarmored target at closer ranges;\n .223 (5.56) - for rifles.  Good long range option.\n .308 (7.62) - for even more powerful rifles.  Also a good long range option.\n  These should be enough in the beginning.  If you're still confused: just grab any shotgun, fill it with buckshot and give them hell!",
-      "Q: I have a question that's not addressed here.  How can I get an answer?\nA: Check the wiki, or ask the helpful people on the forum or chat channels.  Links are provided in the MOTD in the main menu."
+      "Q: I have a question that's not addressed here.  How can I get an answer?\nA: Ask the helpful people on the forum or chat channels.  Links are provided in the MOTD in the main menu."
     ]
   }
 ]

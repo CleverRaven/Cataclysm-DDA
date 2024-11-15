@@ -1,340 +1,152 @@
 [
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "AFS_PROF_SKIIER",
-    "name": { "str": "Alpine Conditioning" },
-    "description": "Time spent in high altitudes and low temperatures have adapted you to them, and you're slightly better at resisting the cold.",
-    "bodytemp_modifiers": [ 50, 100 ],
-    "points": 0,
-    "valid": false,
-    "purifiable": false,
-    "profession": true
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "AFS_PROF_STRONGMAN",
-    "name": { "str": "Brutal Strength" },
-    "description": "Genetic defects have made your body incredibly strong.  Strength + 7.",
-    "points": 0,
-    "valid": false,
-    "purifiable": false,
-    "cancels": [ "STR_UP" ],
-    "profession": true,
-    "passive_mods": { "str_mod": 7 }
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "LEATHER_FEET",
-    "name": "Leathered Feet",
-    "points": 1,
-    "description": "The bottoms of your feet are tough like an animals.  You receive no movement penalty for not wearing shoes.",
-    "valid": false
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "SKINFOLDS",
-    "name": "Skinfolds",
-    "points": 1,
-    "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
-    "valid": false,
-    "cancels": [ "THINSKIN" ],
-    "wet_protection": [
-      { "part": "leg_l", "neutral": 2 },
-      { "part": "leg_r", "neutral": 2 },
-      { "part": "arm_l", "neutral": 2 },
-      { "part": "arm_r", "neutral": 2 },
-      { "part": "torso", "neutral": 4 }
-    ],
-    "armor": [
-      {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 1
-      }
-    ]
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "WEAKJOINTS",
-    "name": { "str": "Weak Joints" },
-    "points": -1,
-    "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
-    "valid": false,
-    "movecost_obstacle_modifier": 1.15
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "SPECAILIZED_DIET",
-    "name": "Herbivorous Ancestry",
-    "points": -2,
-    "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties and obtain less nutrition from it.",
-    "valid": false,
-    "vitamins_absorb_multi": [ [ "flesh", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "CANNIBAL", "MEATARIAN", "ANTIFRUIT" ]
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "ELEPHANTINE_SMELL",
-    "name": "Strong Scent",
-    "points": -1,
-    "description": "Your scent is particularly strong.  It's vaguely offensive to humans, and animals that track your scent will do so more easily.",
-    "valid": false,
-    "types": [ "SCENT" ],
-    "scent_intensity": 800,
-    "social_modifiers": { "persuade": -5, "intimidate": -5 }
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "GIANT_STEPS",
-    "name": { "str": "Giant Step" },
-    "points": -1,
-    "description": "You make more noise while walking.  You're also more likely to set off traps.",
-    "valid": false,
-    "cancels": [ "LIGHTSTEP" ],
-    "noise_modifier": 1.7
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "SLOWANDSTEADY",
-    "name": "Slow and Steady",
-    "points": -3,
-    "description": "You can't move as fast as most, resulting in a 10% speed penalty on flat ground.",
-    "valid": false,
-    "types": [ "RUNNING" ],
-    "movecost_flatground_modifier": 1.1
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "SHORTFUR",
-    "name": { "str": "Short Fur Coat" },
-    "points": 1,
-    "visibility": 6,
-    "ugliness": 2,
-    "bodytemp_modifiers": [ 100, 300 ],
-    "bodytemp_sleep": 100,
-    "description": "Short fur has grown to cover your entire body, providing slight protection from cold.",
-    "valid": false,
-    "types": [ "SKIN" ],
-    "changes_to": [ "MEDIUMFUR" ]
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "MEDIUMFUR",
-    "name": { "str": "Furry" },
-    "points": 2,
-    "visibility": 10,
-    "ugliness": 3,
-    "bodytemp_modifiers": [ 350, 700 ],
-    "bodytemp_sleep": 500,
-    "description": "Thick brown fur has grown to cover your entire body, providing a slight protection against attacks, and some protection from cold.",
-    "valid": false,
-    "types": [ "SKIN" ],
-    "prereqs": [ "LIGHTFUR" ],
-    "armor": [
-      {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "bash": 2
-      }
-    ]
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "MUT_TANK",
-    "name": "Immovable",
-    "points": 2,
-    "description": "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points.  Stacks with Tough, etc.",
-    "valid": false,
-    "social_modifiers": { "intimidate": 2 },
-    "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED" ],
-    "threshreq": [ "THRESH_MASTODON" ],
-    "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "changes_to": [ "MUT_TANK2" ],
-    "hp_modifier_secondary": 0.2
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "MUT_TANK2",
-    "name": "Unstoppable",
-    "points": 3,
-    "description": "Not much scares you.  You get a 30% bonus to all hit points.  Stacks with Tough, etc.",
-    "social_modifiers": { "intimidate": 3 },
-    "valid": false,
-    "prereqs": [ "MUT_TANK" ],
-    "threshreq": [ "THRESH_MASTODON" ],
-    "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "changes_to": [ "MUT_TANK3" ],
-    "hp_modifier_secondary": 0.3
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "MUT_TANK3",
-    "name": "Meatshield",
-    "points": 4,
-    "description": "You can simply take the punishment from lesser beings and keep going.  You get a 40% bonus to all hit points.  Stacks with Tough, etc.",
-    "social_modifiers": { "intimidate": 4 },
-    "valid": false,
-    "prereqs": [ "MUT_TANK2" ],
-    "threshreq": [ "THRESH_MASTODON" ],
-    "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "hp_modifier_secondary": 0.4
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "ELEPHANTINE",
-    "name": "Elephantine",
-    "points": 0,
-    "visibility": 1,
-    "ugliness": 1,
-    "mixed_effect": true,
-    "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
-    "description": "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
-    "valid": false,
-    "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
-    "changes_to": [ "ELEPHANTINE_OK", "GIGANTIC" ],
-    "passive_mods": { "str_mod": 2 },
-    "weight_capacity_modifier": 1.05
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "ELEPHANTINE_OK",
-    "name": "Large",
-    "points": 2,
-    "visibility": 1,
-    "description": "You carry your rugged body with the dignity you deserve.  Strength +2.",
-    "valid": false,
-    "prereqs": [ "ELEPHANTINE" ],
-    "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
-    "threshreq": [ "THRESH_MASTODON" ],
-    "changes_to": [ "GIGANTIC" ],
-    "leads_to": [ "MUT_TANK" ],
-    "passive_mods": { "str_mod": 2 },
-    "weight_capacity_modifier": 1.05
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "GIGANTIC",
-    "name": "Freakishly Gigantic",
-    "points": -2,
-    "visibility": 4,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
-    "valid": false,
-    "prereqs": [ "ELEPHANTINE", "ELEPHANTINE_OK" ],
-    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
-    "changes_to": [ "GIGANTIC_OK" ],
-    "passive_mods": { "str_mod": 4 },
-    "hp_adjustment": -6,
-    "fatigue_modifier": 0.15,
-    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
-    "weight_capacity_modifier": 1.1
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "GIGANTIC_OK",
-    "name": "Gigantic",
-    "points": 2,
-    "visibility": 4,
-    "ugliness": 3,
-    "mixed_effect": true,
-    "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
-    "valid": false,
-    "prereqs": [ "ELEPHANTINE" ],
-    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
-    "threshreq": [ "THRESH_MASTODON" ],
-    "leads_to": [ "MUT_TANK" ],
-    "passive_mods": { "str_mod": 4 },
-    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
-    "weight_capacity_modifier": 1.1
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "YAKSMELL",
-    "name": "Terrible Odor",
-    "points": -2,
-    "visibility": 4,
-    "ugliness": 5,
-    "description": "You smell exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
-    "valid": false,
-    "scent_intensity": 1200,
-    "prereqs": [ "ELEPHANTINE_SMELL" ]
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "BIG_FOOD",
-    "name": "Constant Eater",
-    "points": -2,
-    "description": "You require more food than most people, but recover stamina slightly faster.",
-    "valid": false,
-    "types": [ "METABOLISM" ],
-    "changes_to": [ "LARGE_DIET" ],
-    "metabolism_modifier": 0.5,
-    "stamina_regen_modifier": 0.1
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "LARGE_DIET",
-    "name": "Large Diet",
-    "points": -2,
-    "description": "You require more food than others but your ability to go the distance in both combat and athleticism is expanded.",
-    "valid": false,
-    "types": [ "HEALING" ],
-    "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
-    "prereqs": [ "HUNGER" ],
-    "healing_multiplier": 0.25,
-    "fatigue_modifier": 0.75,
-    "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.4
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "FLUSH",
-    "name": "High Thirst",
-    "points": -2,
-    "description": "Your body needs more water than usual to flush the denser waste products.",
-    "valid": false,
-    "changes_to": [ "H20NEEDS" ],
-    "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 0.5
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "H20NEEDS",
-    "name": "Giant Thirst",
-    "points": -3,
-    "description": "Ugh, out of water already?  You need about twice the fluids of an average human.",
-    "valid": false,
-    "prereqs": [ "THIRST" ],
-    "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 1.0
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "DELIBERATE1",
-    "name": "Ponderous",
-    "points": -3,
-    "description": "Your weight must be delicately placed lest the ground give way.  You move 10% slower.",
-    "valid": false,
-    "types": [ "RUNNING" ],
-    "changes_to": [ "DELIBERATE2" ],
-    "cancels": [ "FLEET" ],
-    "movecost_modifier": 1.1
+    "//": "remove after 0.I",
+    "remove": true
   },
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "DELIBERATE2",
-    "name": "Very Deliberate",
-    "points": -5,
-    "description": "Your muscles are quite slow to move.  You move 25% slower.",
-    "valid": false,
-    "types": [ "RUNNING" ],
-    "prereqs": [ "DELIBERATE1" ],
-    "cancels": [ "QUICK" ],
-    "movecost_modifier": 1.25
+    "//": "remove after 0.I",
+    "remove": true
   }
 ]

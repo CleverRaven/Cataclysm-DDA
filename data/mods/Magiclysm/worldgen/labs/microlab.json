@@ -33,7 +33,7 @@
         " cccc|c   |^^|    |  cc ",
         "    c|c   2  2    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_generic" ],
       "terrain": { "G": "t_card_science", "Ø": "t_rock_floor", "¢": "t_rock_floor" },
       "furniture": { "☿": "f_alembic", "β": "f_magic_bench", "Ø": "f_magic_circle" },
       "place_item": [

@@ -16,7 +16,7 @@
     "sound_category": "flurries",
     "sun_multiplier": 0.2,
     "priority": 115,
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] }
+    "condition": { "math": [ "cause_early_dust_storm", "==", "1" ] }
   },
   {
     "id": "dust_storm",
@@ -36,6 +36,6 @@
     "sound_category": "snow",
     "sun_multiplier": 0.01,
     "priority": 116,
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] }
+    "condition": { "math": [ "cause_dust_storm", "==", "1" ] }
   }
 ]

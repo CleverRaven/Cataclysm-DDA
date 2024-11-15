@@ -7,13 +7,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "moss_brownie",
-    "type": "GUN",
-    "copy-from": "moss_brownie",
-    "name": { "str": "Mossberg Brownie" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "win70",
     "type": "GUN",
     "copy-from": "win70",
@@ -24,7 +17,7 @@
     "id": "garand",
     "type": "GUN",
     "copy-from": "garand",
-    "name": { "str": "M1 Garand" },
+    "name": { "str_sp": "M1 Garand" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -77,13 +70,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "fn1910",
-    "type": "GUN",
-    "copy-from": "fn1910",
-    "name": { "str": "FN 1910 .380" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "hi_power_40",
     "type": "GUN",
     "copy-from": "hi_power_40",
@@ -115,7 +101,7 @@
     "id": "1895sbl",
     "type": "GUN",
     "copy-from": "1895sbl",
-    "name": { "str": "Marlin 1895 SBL" },
+    "name": { "str_sp": "Marlin 1895 SBL" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -231,20 +217,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "ppsh",
-    "type": "GUN",
-    "copy-from": "ppsh",
-    "name": { "str": "PPSh-41 submachine gun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "mp18",
-    "type": "GUN",
-    "copy-from": "mp18",
-    "name": { "str": "MP 18 submachine gun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "number4_mki",
     "type": "GUN",
     "copy-from": "number4_mki",
@@ -259,13 +231,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "m2browning_sawn",
-    "type": "GUN",
-    "copy-from": "m2browning_sawn",
-    "name": { "str": ".50 caliber rifle" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "shotgun_410",
     "type": "GUN",
     "copy-from": "shotgun_410",
@@ -277,6 +242,20 @@
     "type": "GUN",
     "copy-from": "mosin44",
     "name": { "str": "Mosin carbine" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type99",
+    "type": "GUN",
+    "copy-from": "type99",
+    "name": { "str": "7.7mm battle rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type99_sniper",
+    "type": "GUN",
+    "copy-from": "type99_sniper",
+    "name": { "str": "7.7mm sniper rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   }
 ]

@@ -17,7 +17,8 @@
     "calories": 220,
     "stim": 1,
     "fun": 4,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -27,8 +28,7 @@
     "container": "null",
     "description": "A handful of squishy, fluffy, puffy, delicious marshmallows.  They feel oddly warm…",
     "copy-from": "marshmallow",
-    "rot_spawn": "GROUP_EGG_MARSHMALLOW",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_MARSHMALLOW", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
@@ -39,32 +39,29 @@
     "container": "null",
     "copy-from": "smores",
     "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warmth radiates from it as if it is… alive?",
-    "rot_spawn": "GROUP_EGG_SMORES",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_SMORES", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": { "str": "chewy candy", "str_pl": "chewy candies" },
+    "name": { "str_sp": "chewy candy" },
     "description": "A handful of colorful fruit-flavored chewy candy.  They feel warm to the touch and you can almost feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
     "copy-from": "candy3",
-    "rot_spawn": "GROUP_EGG_GUMMY",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_GUMMY", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
     "type": "COMESTIBLE",
     "id": "candy3gator",
-    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
+    "name": { "str_sp": "chewy reptilian candy" },
     "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
     "copy-from": "candy3",
-    "rot_spawn": "GROUP_EGG_GUMMY_GATOR",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_GUMMY_GATOR", "chance": 100 },
     "spoils_in": "15 days"
   },
   {
@@ -75,20 +72,18 @@
     "container": "null",
     "description": "Dry and sugary, these crackers will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
     "copy-from": "grahmcrackers",
-    "rot_spawn": "GROUP_EGG_CRACKER",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CRACKER", "chance": 100 },
     "spoils_in": "20 days"
   },
   {
     "type": "COMESTIBLE",
     "id": "grahmcrackers_roe",
-    "name": "graham cracker roe",
+    "name": { "str_sp": "graham cracker roe" },
     "symbol": "%",
     "container": "null",
     "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
     "copy-from": "grahmcrackers",
-    "rot_spawn": "GROUP_EGG_CRACKER_ROE",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CRACKER_ROE", "chance": 100 },
     "spoils_in": "20 days"
   },
   {
@@ -99,8 +94,7 @@
     "container": "null",
     "description": "Sweet and delicious cookies, just like grandma used to bake.  They shiver under your touch.  Weird!",
     "copy-from": "cookies",
-    "rot_spawn": "GROUP_EGG_COOKIE",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_COOKIE", "chance": 100 },
     "spoils_in": "10 days"
   },
   {
@@ -111,8 +105,7 @@
     "container": "null",
     "description": "Sweet and delicious cookies, shaped like eggs.  They shiver under your touch as if something is inside.  Weird!",
     "copy-from": "cookies",
-    "rot_spawn": "GROUP_EGG_COOKIE_EGG",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_COOKIE_EGG", "chance": 100 },
     "spoils_in": "10 days"
   },
   {
@@ -123,8 +116,7 @@
     "description": "Bright pink chewing gum.  Sugary, sweet, and bad for your teeth.  It's oddly warm to the touch…",
     "symbol": "*",
     "copy-from": "gum",
-    "rot_spawn": "GROUP_EGG_GUM",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_GUM", "chance": 100 },
     "spoils_in": "5 days"
   },
   {
@@ -135,20 +127,18 @@
     "description": "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.  It's oddly warm to the touch…",
     "symbol": "*",
     "copy-from": "caff_gum",
-    "rot_spawn": "GROUP_EGG_CAFFGUM",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CAFFGUM", "chance": 100 },
     "spoils_in": "7 days"
   },
   {
     "type": "COMESTIBLE",
     "id": "cow_candy",
-    "name": "candy cattle",
+    "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
     "symbol": "*",
     "copy-from": "cow_candy",
     "color": "brown",
-    "rot_spawn": "GROUP_EGG_CHOC_COW",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_CHOC_COW", "chance": 100 },
     "spoils_in": "10 days"
   },
   {
@@ -179,14 +169,15 @@
     "healthy": -15,
     "calories": 132,
     "description": "Liquid unsweetened cacao.  Quite bitter to taste.",
-    "price": 38,
-    "price_postapoc": 5,
+    "price": "38 cent",
+    "price_postapoc": "5 cent",
     "material": [ "junk" ],
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -4
+    "fun": -4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -211,11 +202,10 @@
   {
     "type": "COMESTIBLE",
     "id": "licorice",
-    "name": "licorice",
+    "name": { "str_sp": "licorice" },
     "symbol": "%",
     "copy-from": "licorice",
-    "rot_spawn": "GROUP_EGG_LICORICE",
-    "rot_spawn_chance": 100,
+    "rot_spawn": { "group": "GROUP_EGG_LICORICE", "chance": 100 },
     "container": "null",
     "color": "red",
     "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"

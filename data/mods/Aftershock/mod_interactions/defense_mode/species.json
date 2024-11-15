@@ -1,0 +1,15 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "AFTERSHOCK_DM",
+    "flags": [ "BASHES", "ALL_SEEING", "NEMESIS" ],
+    "description": "a monster"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "aftershock_defense_mode",
+    "base_faction": "human",
+    "friendly": [ "aftershock_defense_mode" ],
+    "neutral": [  ]
+  }
+]

@@ -44,10 +44,7 @@
       {
         "text": "Start working.",
         "topic": "TALK_DONE",
-        "effect": [
-          { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" },
-          { "npc_add_var": "wait", "type": "time", "context": "lighthouse", "time": true }
-        ]
+        "effect": [ { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" }, { "math": [ "n_time_lighthouse_wait", "=", "time('now')" ] } ]
       }
     ]
   },
@@ -55,17 +52,19 @@
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE_WORKING",
     "dynamic_line": {
-      "npc_compare_time_since_var": "wait",
-      "type": "time",
-      "context": "lighthouse",
-      "op": ">",
-      "time": "2 days",
+      "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ],
       "yes": {
         "npc_has_trait": "Exp_Eng_Electrical1Fake2",
-        "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+        "yes": {
+          "gendered_line": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+          "relevant_genders": [ "npc" ]
+        },
         "no": {
           "npc_has_trait": "Exp_Eng_Electrical0Fake2",
-          "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I know something about this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+          "yes": {
+            "gendered_line": "Boss, here's the thing… just don't be mad, please.  I lied that I know something about this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": "All done, boss.  Tell that fisherman to try it in action."
         }
       },
@@ -75,11 +74,11 @@
       "sentinel": "done",
       "condition": {
         "and": [
-          { "npc_compare_time_since_var": "wait", "type": "time", "context": "lighthouse", "op": ">", "time": "2 days" },
+          { "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ] },
           { "not": { "npc_has_any_trait": [ "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] } }
         ]
       },
-      "effect": { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "ready" }
+      "effect": { "u_add_var": "global_safe_space_lighthouse_fixed", "value": "ready" }
     },
     "responses": [
       {
@@ -91,7 +90,7 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "npc_compare_time_since_var": "wait", "type": "time", "context": "lighthouse", "op": ">", "time": "2 days" },
+            { "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ] },
             {
               "or": [
                 { "not": { "u_has_mission": "MISSION_lighthouse_man_5" } },

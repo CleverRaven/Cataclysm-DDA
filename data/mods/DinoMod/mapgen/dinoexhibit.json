@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dinoexhibit" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -74,7 +73,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dinoexhibit" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -229,7 +227,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dinoexhibit_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -258,8 +255,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_flat_roof", " ": "t_open_air", "-": "t_gutter_north", "5": "t_gutter_drop" },
-      "furniture": { "&": "f_roof_turbine_vent" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

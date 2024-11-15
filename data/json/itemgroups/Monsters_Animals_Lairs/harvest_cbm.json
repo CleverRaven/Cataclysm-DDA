@@ -82,6 +82,7 @@
       {
         "distribution": [
           { "item": "bio_tools", "prob": 15 },
+          { "item": "bio_electrokit", "prob": 15 },
           { "item": "bio_magnet", "prob": 15 },
           { "item": "bio_soporific", "prob": 20 },
           { "item": "bio_sunglasses", "prob": 25 },
@@ -160,6 +161,7 @@
       [ "bio_radscrubber", 20 ],
       [ "bio_recycler", 20 ],
       [ "bio_tools", 30 ],
+      [ "bio_electrokit", 20 ],
       [ "bio_ar", 30 ],
       [ "bio_taste_blocker", 50 ],
       [ "bio_water_extractor", 40 ]

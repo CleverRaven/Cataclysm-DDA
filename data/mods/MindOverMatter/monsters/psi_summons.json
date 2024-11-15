@@ -43,5 +43,29 @@
     "copy-from": "mon_pyrokin_hotair_1",
     "luminance": 80,
     "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_4", "delay": "1 s" } ]
+  },
+  {
+    "id": "mon_photokin_image",
+    "type": "MONSTER",
+    "name": "Lucid Shadow",
+    "description": "A light illusion made to look like yourself.",
+    "looks_like": "player",
+    "default_faction": "factionless",
+    "species": [ "UNKNOWN" ],
+    "volume": "62500 ml",
+    "weight": "0g",
+    "hp": 1,
+    "speed": 150,
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": -99,
+    "morale": 2,
+    "luminance": 16,
+    "dodge": 999,
+    "harvest": "exempt",
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   }
 ]

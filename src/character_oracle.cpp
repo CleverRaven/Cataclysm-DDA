@@ -1,15 +1,17 @@
-#include <functional>
+#include "character_oracle.h"
+
 #include <memory>
 #include <vector>
 
 #include "behavior.h"
+#include "bodypart.h"
 #include "character.h"
-#include "character_oracle.h"
 #include "item.h"
 #include "itype.h"
 #include "make_static.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "weather.h"
 
@@ -42,7 +44,7 @@ status_t character_oracle_t::needs_water_badly( const std::string_view ) const
 status_t character_oracle_t::needs_food_badly( const std::string_view ) const
 {
     // Check hunger threshold.
-    if( subject->get_hunger() >= 300 && subject->get_starvation() > 2500 ) {
+    if( subject->get_hunger() >= 300 && subject->get_starvation() > base_metabolic_rate ) {
         return status_t::running;
     }
     return status_t::success;

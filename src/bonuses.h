@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_BONUSES_H
 #define CATA_SRC_BONUSES_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
-#include "damage.h"
+#include "type_id.h"
 
 class Character;
 class JsonArray;
@@ -18,6 +18,24 @@ enum scaling_stat : int {
     STAT_DEX,
     STAT_INT,
     STAT_PER,
+    SKILL_BASHING,
+    SKILL_CUTTING,
+    SKILL_DODGE,
+    SKILL_MELEE,
+    SKILL_STABBING,
+    SKILL_SWIMMING,
+    SKILL_UNARMED,
+    SKILL_GUN,
+    SKILL_PISTOL,
+    SKILL_RIFLE,
+    SKILL_SHOTGUN,
+    SKILL_SMG,
+    SKILL_ARCHERY,
+    SKILL_THROW,
+    SKILL_LAUNCHER,
+    SKILL_DRIVE,
+    SKILL_FIRSTAID,
+    SKILL_SPELLCRAFT,
     NUM_STATS
 };
 

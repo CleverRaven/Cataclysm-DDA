@@ -6,6 +6,7 @@
     "name": "Samsara",
     "description": "You tie your ley lines to the world's, renewing your flesh as if reborn.",
     "valid_targets": [ "self" ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "effect": "attack",
     "effect_str": "cureall",
     "shape": "blast",
@@ -17,21 +18,22 @@
     "max_damage": -200,
     "damage_increment": -4.5,
     "max_level": 40,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "dust_reborn",
     "type": "SPELL",
     "name": "Dust Reborn",
-    "description": "Create a cast of your own body and soul, hidden inside the earth's lines.  When times come, and your body will be close to destruction, you can abandon it, transferring your consciousness into undamaged one.  But it has the huge price, and for body immortality you pay with temporary body weakness.",
+    "description": "Create a cast of your own body and soul, hidden inside the earth's lines.  When the times come and your body is close to destruction, you can abandon it, transferring your consciousness into the cast.  But it brings with it a great price, and for your immortality, you pay with temporary bodily weakness.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_DUST_REBORN_INITIAL",
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "shape": "blast",
     "base_casting_time": 2160000,
     "base_energy_cost": 1000,
     "energy_source": "MANA",
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "GAIAS_CHOSEN",
     "difficulty": 0,
     "max_level": 0
@@ -40,10 +42,11 @@
     "id": "terra_armor",
     "type": "SPELL",
     "name": "Terra Armor",
-    "description": "Cover yourself in dense, invisible energy of Earth.  Higher level increase your defence abilities.",
+    "description": "Cover yourself in dense, invisible energy of Earth.  Higher level increase your defense abilities.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "effect_terra_armor",
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "shape": "blast",
     "base_casting_time": 550,
     "base_energy_cost": 750,
@@ -52,7 +55,7 @@
     "duration_increment": 50000,
     "difficulty": 7,
     "max_level": 35,
-    "flags": [ "SOMATIC" ],
+    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC" ],
     "spell_class": "GAIAS_CHOSEN",
     "energy_source": "MANA"
   },
@@ -65,42 +68,15 @@
     "enchantments": [
       {
         "values": [
-          {
-            "value": "ARMOR_ACID",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_BASH",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_BIO",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_COLD",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_CUT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_ELEC",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_STAB",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          }
+          { "value": "ARMOR_ACID", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_BIO", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_BULLET", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_COLD", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_HEAT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } }
         ]
       }
     ]

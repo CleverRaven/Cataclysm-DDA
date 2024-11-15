@@ -119,6 +119,12 @@ inline point divide_xy_round_to_minus_infinity( const point &p, int d )
                   divide_round_to_minus_infinity( p.y, d ) );
 }
 
+inline point divide_xy_round_to_minus_infinity_non_negative( const point &p, int d )
+{
+    // This results in code only being generated for the case where x/y are positive.
+    return point( static_cast<unsigned int>( p.x ) / d, static_cast<unsigned int>( p.y ) / d );
+}
+
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
     static constexpr int dimension = 3;
@@ -236,6 +242,11 @@ inline tripoint divide_xy_round_to_minus_infinity( const tripoint &p, int d )
                      p.z );
 }
 
+inline tripoint divide_xy_round_to_minus_infinity_non_negative( const tripoint &p, int d )
+{
+    return tripoint( divide_xy_round_to_minus_infinity_non_negative( p.xy(), d ), p.z );
+}
+
 inline constexpr tripoint tripoint_zero{};
 inline constexpr point point_zero{};
 
@@ -292,11 +303,20 @@ namespace std
 template <>
 struct hash<point> {
     std::size_t operator()( const point &k ) const noexcept {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.y;
-        result *= a;
-        result += k.x;
-        return result;
+        // We cast k.y to uint32_t because otherwise when promoting to uint64_t for binary `or` it
+        // will sign extend and turn the upper 32 bits into all 1s.
+        uint64_t x = static_cast<uint64_t>( k.x ) << 32 | static_cast<uint32_t>( k.y );
+
+        // Found through https://nullprogram.com/blog/2018/07/31/
+        // Public domain source from https://xoshiro.di.unimi.it/splitmix64.c
+        x ^= x >> 30;
+        x *= 0xbf58476d1ce4e5b9U;
+        x ^= x >> 27;
+        x *= 0x94d049bb133111ebU;
+        x ^= x >> 31;
+        return x;
+
+        return x;
     }
 };
 } // namespace std
@@ -308,13 +328,21 @@ namespace std
 template <>
 struct hash<tripoint> {
     std::size_t operator()( const tripoint &k ) const noexcept {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.z;
-        result *= a;
-        result += k.y;
-        result *= a;
-        result += k.x;
-        return result;
+        // We cast k.y to uint32_t because otherwise when promoting to uint64_t for binary `or` it
+        // will sign extend and turn the upper 32 bits into all 1s.
+        uint64_t x = static_cast<uint64_t>( k.x ) << 32 | static_cast<uint32_t>( k.y );
+
+        // Found through https://nullprogram.com/blog/2018/07/31/
+        // Public domain source from https://xoshiro.di.unimi.it/splitmix64.c
+        x ^= x >> 30;
+        x *= 0xbf58476d1ce4e5b9U;
+        x ^= x >> 27;
+
+        // Sprinkle in z now.
+        x ^= static_cast<uint64_t>( k.z );
+        x *= 0x94d049bb133111ebU;
+        x ^= x >> 31;
+        return x;
     }
 };
 } // namespace std

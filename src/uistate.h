@@ -124,6 +124,9 @@ class uistatedata
 
         advanced_inv_save_state transfer_save;
 
+        bool unload_auto_contain = true;
+        std::optional<bool> hide_entries_override = std::nullopt;
+
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
@@ -131,11 +134,14 @@ class uistatedata
         bool overmap_show_land_use_codes = false; // toggle land use code sym/color for terrain
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
+        bool overmap_show_revealed_omts = true;
         bool overmap_show_forest_trails = true;
         bool overmap_visible_weather = false;
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
+        bool overmap_fast_travel = false;
+        bool overmap_fast_scroll = false;
 
         // Distraction manager stuff
         bool distraction_noise = true;
@@ -152,10 +158,13 @@ class uistatedata
         bool distraction_temperature = true;
         bool distraction_mutation = true;
         bool distraction_oxygen = true;
+        bool distraction_withdrawal = true;
+        bool distraction_all = true; // NOLINT(cata-serialize)
         bool numpad_navigation = false;
 
         // V Menu Stuff
         int list_item_sort = 0;
+        std::set<itype_id> read_items;
 
         // These three aren't serialized because deserialize can extraect them
         // from the history
@@ -206,6 +215,13 @@ class uistatedata
         std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
         }
+        /**
+         * A function pointer to be run before the player's next action (but after activities conclude).
+         *
+         * Useful for opening a menu with passed arguments.
+         * As it is not serialized it should not be used for any game state logic! Like moving a character.
+         */
+        std::optional<std::function<void()>> open_menu; // NOLINT(cata-serialize)
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>

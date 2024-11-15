@@ -21,7 +21,7 @@
           "and": [
             { "u_has_effect": "bite" },
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -38,7 +38,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -49,7 +49,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },
@@ -79,7 +79,7 @@
           "and": [
             { "u_has_effect": "bite" },
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -96,7 +96,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -107,7 +107,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },
@@ -137,7 +137,7 @@
           "and": [
             { "u_has_effect": "bite" },
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -154,7 +154,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -165,7 +165,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },
@@ -195,7 +195,7 @@
           "and": [
             { "u_has_effect": "bite" },
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -212,7 +212,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -223,7 +223,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },
@@ -253,7 +253,7 @@
           "and": [
             { "u_has_effect": "bite" },
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -270,7 +270,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -281,7 +281,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },
@@ -311,7 +311,7 @@
           "and": [
             { "u_has_effect": "bite" },
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -328,7 +328,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -339,7 +339,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },

@@ -7,7 +7,7 @@
     "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "none" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "CONVEYANCE_SPELL", "SILENT" ],
     "min_range": 8,
     "max_range": 8
   },
@@ -33,13 +33,13 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CONVEYANCE_SPELL", "MUST_HAVE_CLASS_TO_LEARN" ],
     "min_damage": 35,
     "max_damage": 490,
     "damage_increment": 13,
     "min_range": 1,
     "max_range": 1,
-    "damage_type": "biological",
+    "damage_type": "poison",
     "min_dot": 35,
     "max_dot": 490,
     "dot_increment": 13,
@@ -51,7 +51,11 @@
     "energy_source": "MANA",
     "base_energy_cost": 1200,
     "difficulty": 8,
-    "extra_effects": [ { "id": "assassin_toxic_smoke", "hit_self": true }, { "id": "assassin_teleport" } ]
+    "extra_effects": [
+      { "id": "assassin_toxic_smoke", "hit_self": true },
+      { "id": "assassin_teleport" },
+      { "id": "eoc_conveyance_setup", "hit_self": true }
+    ]
   },
   {
     "type": "SPELL",
@@ -61,14 +65,14 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "LOUD", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "LOUD", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
     "min_damage": 15,
     "max_damage": 65,
     "damage_increment": 1.5,
     "min_range": 4,
     "max_range": 16,
     "range_increment": 0.35,
-    "damage_type": "cold",
+    "damage_type": "necrotic",
     "max_level": 35,
     "spell_class": "WITHER_MAGE",
     "base_casting_time": 300,
@@ -77,7 +81,7 @@
     "final_energy_cost": 250,
     "energy_increment": -8.6,
     "difficulty": 7,
-    "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true } ]
+    "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true }, { "id": "eoc_restoration_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -86,6 +90,7 @@
     "description": "Gives you a bit of stamina.  Subspell; you aren't allowed to see it except in debug mode.",
     "effect": "recover_energy",
     "effect_str": "STAMINA",
+    "flags": [ "RESTORATION_SPELL" ],
     "valid_targets": [ "self" ],
     "shape": "blast",
     "min_damage": 500,

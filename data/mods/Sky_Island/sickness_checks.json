@@ -2,14 +2,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_constantticking",
-    "//": "This EOC triggers randomly once every x amount of minutes where x is determined by your difficulty.  This happens only while you're away from base, otherwise it's dormant.  All it does is increase your sickness counter by 1 every time it triggers and then calls the more detailed sickness check EOC.",
-    "recurrence": { "global_val": "var", "var_name": "sicknessintervals", "default": "30 m" },
+    "//": "This EOC triggers once every x amount of minutes where x is determined by your difficulty.  This happens only while you're away from base, otherwise it's dormant.  All it does is increase your sickness counter by 1 every time it triggers and then calls the more detailed sickness check EOC.",
+    "recurrence": { "global_val": "var", "var_name": "currentpulselength", "default": "15 m" },
     "condition": { "u_has_trait": "awayfromhome" },
     "deactivate_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "effect": [
       { "math": [ "timeawayfromhome", "++" ] },
       { "math": [ "readablepulsesleft", "=", "9 - timeawayfromhome" ] },
-      { "math": [ "readablesicknessintervals", "=", "sicknessintervals / 60" ] },
+      { "math": [ "readablesicknessintervals", "=", "currentpulselength / 60" ] },
       { "run_eocs": [ "EOC_sicknesscheck" ] }
     ]
   },
@@ -114,7 +114,7 @@
       { "u_add_effect": "warpsickness", "intensity": 1, "duration": "PERMANENT" },
       { "u_add_effect": "warpdisintegration", "intensity": 1, "duration": "PERMANENT" },
       {
-        "u_message": "As the warp pulse hits, you realize there are no words to describe how much trouble you're in.  Your body is crumbling to wet paste and your blood is twisting into a viny tangle.  All you know is pain.  \nYou're not just dying, you're dying horribly.  \nIf escape is already near you may survive against all odds, but oblivion is only moments away.",
+        "u_message": "As the warp pulse hits, you realize there are no words to describe how much trouble you're in.  Your body is crumbling to wet paste and your blood is twisting into a viny tangle.  All you know is pain.\nYou're not just dying, you're dying horribly.\nIf escape is already near you may survive against all odds, but oblivion is only moments away.",
         "popup": true,
         "type": "mixed"
       }
@@ -125,5 +125,11 @@
     "id": "EOC_warpextender",
     "//": "Triggers when you eat a warp extender.  Reduces your warp buildup.",
     "effect": [ { "math": [ "timeawayfromhome", "-=", "5" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonuspulse",
+    "//": "Triggers mostly when finishing a mission.  Immediately gives you +1 pulse for this raid as a reward..",
+    "effect": [ { "math": [ "timeawayfromhome", "-=", "2" ] }, { "run_eocs": [ "EOC_constantticking" ] } ]
   }
 ]

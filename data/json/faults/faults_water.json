@@ -1,0 +1,45 @@
+[
+  {
+    "id": "fault_wet",
+    "type": "fault",
+    "fault_type": "wet",
+    "name": { "str": "Wet" },
+    "description": "Item is too wet to use and has to be dried.",
+    "item_prefix": "waterlogged",
+    "flags": [ "ITEM_BROKEN" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_wet",
+    "name": "Passively dry",
+    "success_msg": "You dry the %s.",
+    "time": "120 m",
+    "faults_removed": [ "fault_wet" ],
+    "skills": { "fabrication": 2 },
+    "requirements": [
+      {
+        "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+        "components": [ [ [ "flour", 10 ], [ "dry_rice", 10 ], [ "dry_beans", 10 ], [ "dry_lentils", 10 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_wet_oven",
+    "name": "Dry with hot air in an oven.  Requires good temperature control.",
+    "success_msg": "You heat up and dry the %s.",
+    "time": "60 m",
+    "faults_removed": [ "fault_wet" ],
+    "skills": { "cooking": 4 },
+    "requirements": [ { "qualities": [ { "id": "OVEN", "level": 3 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_wet_hot_air",
+    "name": "Dry with hot air.",
+    "success_msg": "You dry the %s with hot air.",
+    "time": "10 m",
+    "faults_removed": [ "fault_wet" ],
+    "requirements": [ { "qualities": [ { "id": "BLOW_HOT_AIR", "level": 1 } ] } ]
+  }
+]

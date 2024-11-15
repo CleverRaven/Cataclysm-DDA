@@ -16,15 +16,23 @@
     ],
     "items": {
       "both": {
-        "items": [ "hat_ball", "jeans", "jacket_light", "socks", "sneakers", "pizza_meat", "money_strap_one", "wristwatch", "mbag" ],
         "entries": [
+          { "item": "hat_ball" },
+          { "item": "jeans" },
+          { "item": "jacket_light" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "pizza_meat" },
+          { "item": "money_strap_one" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "boy_shorts" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
     }
   },
   {
@@ -38,8 +46,15 @@
     "traits": [ "PROF_POLICE", "iso_trait", "iso_backup" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch", "baton" ],
         "entries": [
+          { "item": "pants_army" },
+          { "item": "socks" },
+          { "item": "badge_deputy" },
+          { "item": "police_belt" },
+          { "item": "boots" },
+          { "item": "whistle" },
+          { "item": "wristwatch" },
+          { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -48,8 +63,8 @@
           { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boy_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
     }
   },
   {
@@ -63,22 +78,26 @@
     "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "hoodie", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
         "entries": [
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "electrohack" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "noise_emitter"
-          },
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "camera" },
+          { "item": "pants" },
+          { "item": "tshirt" },
+          { "item": "hoodie" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "mbag" },
+          { "item": "caffeine" },
+          { "item": "caff_gum" },
+          { "item": "memory_card" },
+          { "item": "usb_drive" },
+          { "item": "electrohack", "charges": 150 },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "noise_emitter" },
+          { "item": "camera", "charges": 150 },
           { "group": "charged_smart_phone" },
           { "group": "charged_laptop" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -91,29 +110,133 @@
     "traits": [ "PROF_MED", "iso_trait", "iso_hypo_o" ],
     "items": {
       "both": {
-        "items": [
-          "technician_shirt_gray",
-          "socks",
-          "gloves_medical",
-          "wristwatch",
-          "boots",
-          "mbag",
-          { "item": "bandages", "count": 3 },
-          "stethoscope",
-          "scissors",
-          "syringe",
-          "morphine",
-          "adrenaline_injector"
-        ],
         "entries": [
+          { "item": "technician_shirt_gray" },
+          { "item": "socks" },
+          { "item": "gloves_medical" },
+          { "item": "wristwatch" },
+          { "item": "boots" },
+          { "item": "mbag" },
+          { "item": "bandages", "count": 3 },
+          { "item": "stethoscope" },
+          { "item": "scissors" },
+          { "item": "syringe" },
+          { "item": "morphine" },
+          { "item": "adrenaline_injector" },
           { "group": "charged_smart_phone" },
           { "group": "full_1st_aid" },
           { "item": "pants", "variant": "pants_blue" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_geas_knight",
+    "entries": [ { "item": "iso_bolt_blackwood_bodkin", "charges": 16 } ]
+  },
+  {
+    "type": "profession",
+    "id": "iso_geas_knight",
+    "name": "Geas Knight",
+    "description": "A warrior from a destroyed land, bound by ancient oaths sworn in the language of stars and stone.",
+    "points": 6,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "dodge" }
+    ],
+    "traits": [ "iso_trait", "iso_geas" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "iso_old_cloak" },
+          { "item": "iso_old_armor" },
+          { "item": "iso_crossbow_sling" },
+          { "item": "socks_wool" },
+          { "item": "boots" },
+          { "item": "iso_old_sword" },
+          { "item": "iso_repeating_crossbow", "ammo-item": "iso_bolt_blackwood_bodkin", "charges": 4 },
+          { "item": "quiver", "contents-group": "quiver_geas_knight" },
+          { "item": "baldric" },
+          { "item": "loincloth" }
+        ]
+      },
+      "female": { "entries": [ { "item": "undershirt" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "iso_bionic_vampire",
+    "name": "Bionic Vampire",
+    "description": "An assassin more metal than meat, driven onward by their faulty cybernetics.",
+    "points": 6,
+    "proficiencies": [ "prof_gross_anatomy", "prof_bionic_swords_familiar", "prof_bionic_swords_pro" ],
+    "//": "Once it's possible, this guy should have fully-cybernetic arms. Right now, bio_armor_arms + bio_hydraulics will have to do.",
+    "CBMs": [
+      "bio_blade",
+      "bio_tattoo_led",
+      "bio_ar",
+      "bio_watch",
+      "bio_armor_eyes",
+      "bio_hydraulics",
+      "bio_shock",
+      "bio_climate",
+      "bio_weight",
+      "bio_armor_arms",
+      "bio_targeting",
+      "bio_uncanny_dodge",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_blood_filter",
+      "bio_ads",
+      "bio_ods",
+      "bio_soporific",
+      "bio_faraday",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "traits": [ "iso_trait", "iso_bionic_vampire" ],
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "tank_top" },
+          { "item": "jacket_leather" },
+          { "item": "pants_leather" },
+          { "item": "boots" },
+          { "item": "gloves_fingerless" },
+          { "item": "wristwatch" },
+          { "item": "gum" },
+          { "group": "charged_smart_phone" },
+          { "item": "ruby_gold_earring" },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     }
   }
 ]

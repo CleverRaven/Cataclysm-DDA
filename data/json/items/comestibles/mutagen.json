@@ -2,7 +2,7 @@
   {
     "abstract": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "abstract mutagen flavor" },
+    "name": { "str_sp": "abstract mutagen flavor", "//~": "NO_I18N" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
     "price": "2500 USD",
     "price_postapoc": "50 cent",
@@ -28,7 +28,7 @@
     "abstract": "iv_mutagen_flavor",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "abstract iv mutagen flavor" },
+    "name": { "str_sp": "abstract IV mutagen flavor", "//~": "NO_I18N" },
     "description": "A processed mutagenic primer.",
     "price": "3000 USD",
     "price_postapoc": "1 USD",
@@ -47,14 +47,14 @@
     "id": "iv_mutagen",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "mutagenic catalyst" },
+    "name": { "str_sp": "mutagenic catalyst" },
     "description": "A processed, purified, and condensed dose of mutagenic drugs.  When combined with mutagenic primer, this will cause mutations over time.",
     "healthy": -10,
     "stim": -10,
     "addiction_potential": 12,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the mutagenic catalyst.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen", 750, 850 ] ]
     },
@@ -73,7 +73,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the alpha mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_alpha", 450, 550 ] ]
     }
@@ -82,13 +82,13 @@
     "id": "iv_mutagen_beast",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "beast mutagenic primer" },
+    "name": { "str_sp": "beast mutagenic primer" },
     "description": "A processed mutagenic primer as red as a matador's cape.",
     "looks_like": "iv_mutagen",
     "color": "red",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the beast mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_beast", 450, 550 ] ]
     }
@@ -97,13 +97,13 @@
     "id": "iv_mutagen_bird",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "bird mutagenic primer" },
+    "name": { "str_sp": "bird mutagenic primer" },
     "description": "A processed mutagenic primer the color of the pre-Cataclysmic skies.",
     "looks_like": "iv_mutagen",
     "color": "cyan",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the bird mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_bird", 450, 550 ] ]
     }
@@ -112,13 +112,13 @@
     "id": "iv_mutagen_cattle",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "cattle mutagenic primer" },
+    "name": { "str_sp": "cattle mutagenic primer" },
     "description": "A processed mutagenic primer the color of grass.",
     "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the cattle mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_cattle", 450, 550 ] ]
     }
@@ -127,13 +127,13 @@
     "id": "iv_mutagen_cephalopod",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "cephalopod mutagenic primer" },
+    "name": { "str_sp": "cephalopod mutagenic primer" },
     "description": "A processed mutagenic primer as black as ink.",
     "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the cephalopod mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_cephalopod", 450, 550 ] ]
     }
@@ -142,9 +142,9 @@
     "id": "iv_mutagen_chimera",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "chimera mutagenic primer" },
+    "name": { "str_sp": "chimera mutagenic primer" },
     "description": "A processed mutagenic primer that churns with iridescence.",
-    "price": 400000,
+    "price": "4 kUSD",
     "looks_like": "iv_mutagen",
     "color": "red",
     "healthy": -15,
@@ -152,7 +152,7 @@
     "addiction_potential": 4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the chimera mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_chimera", 450, 550 ] ]
     }
@@ -161,14 +161,14 @@
     "id": "iv_mutagen_elfa",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "Elf-A mutagenic primer" },
+    "name": { "str_sp": "Elf-A mutagenic primer" },
     "description": "A processed mutagenic primer that's a striking sylvan green.",
-    "price": 400000,
+    "price": "4 kUSD",
     "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the Elf-A mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_elfa", 450, 550 ] ]
     }
@@ -177,13 +177,13 @@
     "id": "iv_mutagen_feline",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "feline mutagenic primer" },
+    "name": { "str_sp": "feline mutagenic primer" },
     "description": "A processed mutagenic primer, yellow and highly reflective.",
     "looks_like": "iv_mutagen",
     "color": "yellow",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the feline mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_feline", 450, 550 ] ]
     }
@@ -192,13 +192,13 @@
     "id": "iv_mutagen_fish",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "fish mutagenic primer" },
+    "name": { "str_sp": "fish mutagenic primer" },
     "description": "A processed mutagenic primer the color of the ocean, with white foam at the top.",
     "looks_like": "iv_mutagen",
     "color": "light_blue",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the fish mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_fish", 450, 550 ] ]
     }
@@ -207,13 +207,13 @@
     "id": "iv_mutagen_insect",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "insect mutagenic primer" },
+    "name": { "str_sp": "insect mutagenic primer" },
     "description": "A processed mutagenic primer that's a beautiful amber color.",
     "looks_like": "iv_mutagen",
     "color": "yellow",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the insect mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_insect", 450, 550 ] ]
     }
@@ -222,13 +222,13 @@
     "id": "iv_mutagen_lizard",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "lizard mutagenic primer" },
+    "name": { "str_sp": "lizard mutagenic primer" },
     "description": "A processed mutagenic primer that shifts between various shades of green.",
     "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the lizard mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_lizard", 450, 550 ] ]
     }
@@ -237,13 +237,13 @@
     "id": "iv_mutagen_lupine",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "lupine mutagenic primer" },
+    "name": { "str_sp": "lupine mutagenic primer" },
     "description": "A processed mutagenic primer as white as a full moon.",
     "looks_like": "iv_mutagen",
     "color": "white",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the lupine mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_lupine", 450, 550 ] ]
     }
@@ -252,7 +252,7 @@
     "id": "iv_mutagen_medical",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "medical mutagenic primer" },
+    "name": { "str_sp": "medical mutagenic primer" },
     "description": "A processed mutagenic primer that looks like a mixture of bodily fluids.",
     "price": "3000 USD",
     "looks_like": "iv_mutagen",
@@ -260,7 +260,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the medical mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_medical", 450, 550 ] ]
     }
@@ -269,13 +269,13 @@
     "id": "iv_mutagen_plant",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "plant mutagenic primer" },
+    "name": { "str_sp": "plant mutagenic primer" },
     "description": "A processed mutagenic primer that looks like pureed spinach.",
     "looks_like": "iv_mutagen",
     "color": "green",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the plant mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_plant", 450, 550 ] ]
     }
@@ -284,14 +284,14 @@
     "id": "iv_mutagen_raptor",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "raptor mutagenic primer" },
+    "name": { "str_sp": "raptor mutagenic primer" },
     "description": "A processed mutagenic primer that seems to shift slightly whenever you look at it.",
-    "price": 400000,
+    "price": "4 kUSD",
     "looks_like": "iv_mutagen",
     "color": "green",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the raptor mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_raptor", 450, 550 ] ]
     }
@@ -300,28 +300,43 @@
     "id": "iv_mutagen_rat",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "rat mutagenic primer" },
+    "name": { "str_sp": "rat mutagenic primer" },
     "description": "A processed mutagenic primer that's a rather unappealing beige.",
     "looks_like": "iv_mutagen",
     "color": "brown",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the rat mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_rat", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "iv_mutagen_chiropteran",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "chiropteran mutagenic primer" },
+    "description": "A processed mutagenic primer, black as night.",
+    "looks_like": "iv_mutagen",
+    "color": "black",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the %s.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_chiropteran", 450, 550 ] ]
     }
   },
   {
     "id": "iv_mutagen_slime",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "slime mutagenic primer" },
+    "name": { "str_sp": "slime mutagenic primer" },
     "description": "A processed mutagenic primer that looks very much like the black ooze in the zombies' eyes.",
     "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the slime mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_slime", 450, 550 ] ]
     }
@@ -330,13 +345,13 @@
     "id": "iv_mutagen_spider",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "spider mutagenic primer" },
+    "name": { "str_sp": "spider mutagenic primer" },
     "description": "A processed mutagenic primer with pale filaments suspended in it.",
     "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the spider mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_spider", 450, 550 ] ]
     }
@@ -345,13 +360,13 @@
     "id": "iv_mutagen_snail",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "snail mutagenic primer" },
+    "name": { "str_sp": "snail mutagenic primer" },
     "description": "A processed mutagenic primer with the consistency of snot.",
     "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the snail mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_gastropod", 450, 550 ] ]
     }
@@ -360,13 +375,13 @@
     "id": "iv_mutagen_batrachian",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "batrachian mutagenic primer" },
+    "name": { "str_sp": "batrachian mutagenic primer" },
     "description": "A processed mutagenic primer that looks like pond water… are the shadows in it moving?",
     "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the batrachian mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_batrachian", 450, 550 ] ]
     }
@@ -375,13 +390,13 @@
     "id": "iv_mutagen_troglobite",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "troglobite mutagenic primer" },
+    "name": { "str_sp": "troglobite mutagenic primer" },
     "description": "A processed mutagenic primer that seems to recoil from the light.",
     "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the troglobite mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_troglobite", 450, 550 ] ]
     }
@@ -390,13 +405,13 @@
     "id": "iv_mutagen_ursine",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "ursine mutagenic primer" },
+    "name": { "str_sp": "ursine mutagenic primer" },
     "description": "A processed mutagenic primer that's the color of honey, and is just as thick.",
     "looks_like": "iv_mutagen",
     "color": "yellow",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the ursine mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_ursine", 450, 550 ] ]
     }
@@ -405,13 +420,13 @@
     "id": "iv_mutagen_mouse",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "mouse mutagenic primer" },
+    "name": { "str_sp": "mouse mutagenic primer" },
     "description": "A processed mutagenic primer resembling liquefied metal.",
     "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the mouse mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_mouse", 450, 550 ] ]
     }
@@ -420,12 +435,12 @@
     "id": "iv_mutagen_rabbit",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "rabbit mutagenic primer" },
+    "name": { "str_sp": "rabbit mutagenic primer" },
     "description": "An orange colored mutagenic primer.",
     "looks_like": "iv_mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the rabbit mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_rabbit", 450, 550 ] ]
     }
@@ -434,13 +449,13 @@
     "id": "iv_mutagen_crustacean",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "crustacean mutagenic primer" },
+    "name": { "str_sp": "crustacean mutagenic primer" },
     "description": " A red colored mutagenic primer.",
     "color": "red",
     "looks_like": "iv_mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the crustacean mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_crustacean", 450, 550 ] ]
     }
@@ -449,16 +464,16 @@
     "id": "mutagen",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "mutagen" },
+    "name": { "str_sp": "mutagen" },
     "description": "A slurry of organic chemicals and compounds, used as the foundation for making primers and mutagenic catalyst.  In this baseline form, it is highly toxic, and dangerous to consume on its own.",
     "addiction_potential": 6,
-    "use_action": { "type": "consume_drug", "activation_message": "You drink the mutagen.", "vitamins": [ [ "mutagenic_slurry", 25 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You drink the %s.", "vitamins": [ [ "mutagenic_slurry", 25 ] ] }
   },
   {
     "id": "mutagen_jabberblood",
     "copy-from": "mutagen",
     "type": "COMESTIBLE",
-    "name": { "str": "congealed blood" },
+    "name": { "str_sp": "congealed blood" },
     "description": "A thick, soupy red liquid.  It looks and smells disgusting, and seems to bubble with an intelligence of its own…",
     "looks_like": "mutagen",
     "color": "red",
@@ -483,7 +498,7 @@
     "//": "*May* have gotten a dose smuggled out.",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the alpha mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -491,11 +506,11 @@
     "id": "mutagen_beast",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "beast mutagen" },
+    "name": { "str_sp": "beast mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the beast mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_beast", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -503,11 +518,11 @@
     "id": "mutagen_bird",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "bird mutagen" },
+    "name": { "str_sp": "bird mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the bird mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_bird", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -515,11 +530,11 @@
     "id": "mutagen_cattle",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "cattle mutagen" },
+    "name": { "str_sp": "cattle mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the cattle mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_cattle", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -527,11 +542,11 @@
     "id": "mutagen_cephalopod",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "cephalopod mutagen" },
+    "name": { "str_sp": "cephalopod mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the cephalopod mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_cephalopod", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -539,13 +554,13 @@
     "id": "mutagen_chimera",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "chimera mutagen" },
+    "name": { "str_sp": "chimera mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": "2000 USD",
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the chimera mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_chimera", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -553,13 +568,13 @@
     "id": "mutagen_elfa",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "Elf-A mutagen" },
+    "name": { "str_sp": "Elf-A mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": "2000 USD",
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Elf-A mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_elfa", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -567,11 +582,11 @@
     "id": "mutagen_feline",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "feline mutagen" },
+    "name": { "str_sp": "feline mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the feline mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_feline", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -579,11 +594,11 @@
     "id": "mutagen_fish",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "fish mutagen" },
+    "name": { "str_sp": "fish mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the fish mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_fish", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -591,11 +606,11 @@
     "id": "mutagen_insect",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "insect mutagen" },
+    "name": { "str_sp": "insect mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the insect mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_insect", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -603,11 +618,11 @@
     "id": "mutagen_lizard",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "lizard mutagen" },
+    "name": { "str_sp": "lizard mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the lizard mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_lizard", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -615,11 +630,11 @@
     "id": "mutagen_lupine",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "lupine mutagen" },
+    "name": { "str_sp": "lupine mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the lupine mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_lupine", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -627,13 +642,13 @@
     "id": "mutagen_medical",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "medical mutagen" },
-    "price": 150000,
+    "name": { "str_sp": "medical mutagen" },
+    "price": "1 kUSD 500 USD",
     "looks_like": "mutagen",
     "//": "*May* have been considered for commercial trading.",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the medical mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_medical", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -641,11 +656,11 @@
     "id": "mutagen_plant",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "plant mutagen" },
+    "name": { "str_sp": "plant mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the plant mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_plant", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -653,13 +668,13 @@
     "id": "mutagen_raptor",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "raptor mutagen" },
+    "name": { "str_sp": "raptor mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": "2000 USD",
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the raptor mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_raptor", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -667,23 +682,36 @@
     "id": "mutagen_rat",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "rat mutagen" },
+    "name": { "str_sp": "rat mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the rat mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_rat", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "mutagen_chiropteran",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "chiropteran mutagen" },
+    "description": "A murky black liquid that smells of blood.",
+    "looks_like": "mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the %s.",
+      "vitamins": [ [ "mutagen_chiropteran", 225 ], [ "mutagen", 125 ] ]
     }
   },
   {
     "id": "mutagen_slime",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "slime mutagen" },
+    "name": { "str_sp": "slime mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the slime mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_slime", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -691,11 +719,11 @@
     "id": "mutagen_spider",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "spider mutagen" },
+    "name": { "str_sp": "spider mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the spider mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_spider", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -703,12 +731,12 @@
     "id": "mutagen_batrachian",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "batrachian mutagen" },
+    "name": { "str_sp": "batrachian mutagen" },
     "description": "A shadowy mutagen that looks like it might be full of tiny swimming tadpoles.",
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the batrachian mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_batrachian", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -716,12 +744,12 @@
     "id": "mutagen_snail",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "snail mutagen" },
+    "name": { "str_sp": "snail mutagen" },
     "description": "A mutagen that looks awfully like the slime from an old children's network.",
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the snail mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_gastropod", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -729,11 +757,11 @@
     "id": "mutagen_troglobite",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "troglobite mutagen" },
+    "name": { "str_sp": "troglobite mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the troglobite mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_troglobite", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -741,11 +769,11 @@
     "id": "mutagen_ursine",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "ursine mutagen" },
+    "name": { "str_sp": "ursine mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the ursine mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_ursine", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -753,11 +781,11 @@
     "id": "mutagen_mouse",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "mouse mutagen" },
+    "name": { "str_sp": "mouse mutagen" },
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the mouse mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_mouse", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -765,12 +793,12 @@
     "id": "mutagen_rabbit",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "rabbit mutagen" },
+    "name": { "str_sp": "rabbit mutagen" },
     "description": "A white, clear colored mutagen.  You can drink it… if you really want to?",
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the rabbit mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_rabbit", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -778,13 +806,13 @@
     "id": "mutagen_crustacean",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "crustacean mutagen" },
+    "name": { "str_sp": "crustacean mutagen" },
     "description": "A crustacean mutagen.",
     "looks_like": "mutagen",
     "color": "red",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the crustacean mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_crustacean", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -792,7 +820,7 @@
     "id": "purifier",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "purifier" },
+    "name": { "str_sp": "purifier" },
     "description": "This thick, flesh-hued liquid helps revert the mutated to baseline humanity, but cannot remove mutagen present in the bloodstream.  Not for use on animals.",
     "price": "6000 USD",
     "price_postapoc": "250 cent",
@@ -801,7 +829,7 @@
     "addiction_potential": 8,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the purifier.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_human", 225 ], [ "mutagen", 125 ] ]
     }
   },
@@ -809,7 +837,7 @@
     "id": "iv_purifier",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "purifier primer" },
+    "name": { "str_sp": "purifier primer" },
     "description": "This chunky, flesh-hued injection does wonders for returning mutants to humanity, but perhaps counter-intuitively, it requires regular mutagen to function.  Do not use on animals.",
     "price": "9000 USD",
     "price_postapoc": "5 USD",
@@ -817,7 +845,7 @@
     "addiction_potential": 8,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the processed purifier.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_human", 450, 550 ] ]
     }
@@ -825,11 +853,12 @@
   {
     "id": "mutagen_chelator",
     "type": "COMESTIBLE",
-    "name": { "str": "mutagen chelator" },
+    "name": { "str_sp": "mutagen chelator" },
     "description": "A dangerous treatment that binds to mutagen present in the bloodstream and allows it to be excreted.",
     "price": "2500 USD",
     "price_postapoc": "35 USD",
     "comestible_type": "MED",
+    "category": "mutagen",
     "weight": "10 g",
     "volume": "10 ml",
     "charges": 1,
@@ -844,7 +873,7 @@
     "tool": "syringe",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the mutagen chelator.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_chelator", 250 ] ]
     }
@@ -858,8 +887,8 @@
     "description": "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
     "weight": "12 g",
     "volume": "10ml",
-    "price": 1200000,
-    "price_postapoc": 3000,
+    "price": "12 kUSD",
+    "price_postapoc": "30 USD",
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "magenta",
@@ -882,12 +911,12 @@
     "healthy": -12,
     "calories": 156,
     "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
     "volume": "250 ml",
     "fun": -60,
-    "vitamins": [ [ "mutagenic_slurry", 15 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 15 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -903,12 +932,12 @@
     "healthy": -8,
     "calories": 278,
     "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
-    "volume": "2 L",
+    "volume": "4500 ml",
     "fun": -20,
-    "vitamins": [ [ "mutagenic_slurry", 10 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -924,11 +953,11 @@
     "healthy": -8,
     "calories": 399,
     "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
-    "volume": "5 L",
+    "volume": "12 L",
     "fun": -20,
-    "vitamins": [ [ "mutagenic_slurry", 10 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 10 ], [ "meat_allergen", 1 ] ]
   }
 ]

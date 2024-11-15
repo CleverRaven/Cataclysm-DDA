@@ -7,9 +7,8 @@
     "description": "A pair of customized, Kevlar-armored cloth gloves.  These are designed for comfort first.",
     "weight": "190 g",
     "volume": "750 ml",
-    "price": 18000,
-    "price_postapoc": 2000,
-    "to_hit": 2,
+    "price": "180 USD",
+    "price_postapoc": "20 USD",
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_survivor",
@@ -23,19 +22,18 @@
   {
     "id": "xl_gloves_lsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL light survivor gloves", "str_pl": "pairs of XL light survivor gloves" },
+    "name": { "str": "pair of light survivor gloves", "str_pl": "pairs of light survivor gloves" },
     "copy-from": "gloves_lsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_lsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_lsurvivor",
-    "looks_like": "gloves_lsurvivor",
-    "name": { "str": "pair of XS light survivor gloves", "str_pl": "pairs of XS light survivor gloves" },
+    "name": { "str": "pair of light survivor gloves", "str_pl": "pairs of light survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_lsurvivor_fingerless",
@@ -46,9 +44,8 @@
     "description": "A pair of customized, Kevlar-armored cloth gloves without fingers.  These are designed for comfort first.",
     "weight": "160 g",
     "volume": "700 ml",
-    "price": 16000,
-    "price_postapoc": 2000,
-    "to_hit": 2,
+    "price": "160 USD",
+    "price_postapoc": "20 USD",
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "color": "green",
@@ -74,19 +71,18 @@
   {
     "id": "xl_gloves_lsurvivor_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fingerless light survivor gloves", "str_pl": "pairs of XL fingerless light survivor gloves" },
+    "name": { "str": "pair of fingerless light survivor gloves", "str_pl": "pairs of fingerless light survivor gloves" },
     "copy-from": "gloves_lsurvivor_fingerless",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_lsurvivor_fingerless",
     "type": "ARMOR",
     "copy-from": "gloves_lsurvivor_fingerless",
-    "looks_like": "gloves_lsurvivor_fingerless",
-    "name": { "str": "pair of XS fingerless light survivor gloves", "str_pl": "pairs of XS fingerless light survivor gloves" },
+    "name": { "str": "pair of fingerless light survivor gloves", "str_pl": "pairs of fingerless light survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_survivor_fingerless",
@@ -97,9 +93,8 @@
     "description": "A pair of customized, Kevlar-armored leather gloves without fingers.  These strike a balance between comfort and protection.",
     "weight": "200 g",
     "volume": "700 ml",
-    "price": 16000,
-    "price_postapoc": 2000,
-    "to_hit": 2,
+    "price": "160 USD",
+    "price_postapoc": "20 USD",
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "color": "brown",
@@ -125,19 +120,18 @@
   {
     "id": "xl_gloves_survivor_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fingerless survivor gloves", "str_pl": "pairs of XL fingerless survivor gloves" },
+    "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
     "copy-from": "gloves_survivor_fingerless",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_survivor_fingerless",
     "type": "ARMOR",
     "copy-from": "gloves_survivor_fingerless",
-    "looks_like": "gloves_survivor_fingerless",
-    "name": { "str": "pair of XS fingerless survivor gloves", "str_pl": "pairs of XS fingerless survivor gloves" },
+    "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_survivor",
@@ -147,9 +141,8 @@
     "description": "A pair of customized, Kevlar-armored leather gloves.  These strike a balance between comfort and protection.",
     "weight": "230 g",
     "volume": "750 ml",
-    "price": 18000,
-    "price_postapoc": 2000,
-    "to_hit": 2,
+    "price": "180 USD",
+    "price_postapoc": "20 USD",
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -163,33 +156,18 @@
   {
     "id": "xl_gloves_survivor",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of XL survivor gloves", "str_pl": "pairs of XL survivor gloves" },
-    "description": "A massive pair of customized, Kevlar-armored leather gloves.  These strike a balance between protection and comfort.",
-    "weight": "480 g",
-    "volume": "1500 ml",
-    "price": 18000,
-    "price_postapoc": 1500,
-    "to_hit": 2,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "gloves_survivor",
-    "color": "brown",
-    "warmth": 15,
-    "material_thickness": 2,
-    "environmental_protection": 3,
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "copy-from": "gloves_survivor",
+    "name": { "str": "pair of survivor gloves", "str_pl": "pairs of survivor gloves" },
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_survivor",
     "type": "ARMOR",
     "copy-from": "gloves_survivor",
-    "looks_like": "gloves_survivor",
-    "name": { "str": "pair of XS survivor gloves", "str_pl": "pairs of XS survivor gloves" },
-    "description": "A pair of customized, Kevlar-armored leather gloves.  These strike a balance between comfort and protection.",
+    "name": { "str": "pair of survivor gloves", "str_pl": "pairs of survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_wsurvivor",
@@ -199,9 +177,8 @@
     "description": "A pair of customized, Kevlar-armored gloves.  These are lined with real fur.",
     "weight": "300 g",
     "volume": "1250 ml",
-    "price": 18000,
-    "price_postapoc": 2500,
-    "to_hit": 2,
+    "price": "180 USD",
+    "price_postapoc": "25 USD",
     "material": [ "kevlar", "fur" ],
     "symbol": "[",
     "looks_like": "gloves_winter",
@@ -215,19 +192,18 @@
   {
     "id": "xl_gloves_wsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL winter survivor gloves", "str_pl": "pairs of XL winter survivor gloves" },
+    "name": { "str": "pair of winter survivor gloves", "str_pl": "pairs of winter survivor gloves" },
     "copy-from": "gloves_wsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_wsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_wsurvivor",
-    "looks_like": "gloves_wsurvivor",
-    "name": { "str": "pair of XS winter survivor gloves", "str_pl": "pairs of XS winter survivor gloves" },
+    "name": { "str": "pair of winter survivor gloves", "str_pl": "pairs of winter survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_wsurvivor_nofur",
@@ -244,43 +220,156 @@
   {
     "id": "xl_gloves_wsurvivor_nofur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL faux fur winter survivor gloves", "str_pl": "pairs of XL faux fur winter survivor gloves" },
+    "name": { "str": "pair of faux fur winter survivor gloves", "str_pl": "pairs of faux fur winter survivor gloves" },
     "copy-from": "gloves_wsurvivor_nofur",
-    "material": [ "kevlar", "faux_fur" ],
-    "description": "A pair of customized and oversized Kevlar-armored gloves.  These are lined with faux-fur.",
-    "color": "pink",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_wsurvivor_nofur",
     "type": "ARMOR",
     "copy-from": "gloves_wsurvivor_nofur",
-    "looks_like": "gloves_wsurvivor_nofur",
-    "name": { "str": "pair of XS faux fur winter survivor gloves", "str_pl": "pairs of XS faux fur winter survivor gloves" },
-    "description": "A pair of customized, Kevlar-armored gloves.  These are lined with faux-fur.",
+    "name": { "str": "pair of faux fur winter survivor gloves", "str_pl": "pairs of faux fur winter survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_h20survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of survivor wetsuit gloves", "str_pl": "pairs of survivor wetsuit gloves" },
-    "description": "A pair of customized, Kevlar armored neoprene gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
+    "description": "A pair of customized, Kevlar-armored neoprene gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "390 g",
     "volume": "750 ml",
-    "price": 18000,
-    "price_postapoc": 2000,
-    "to_hit": 2,
-    "material": [ "kevlar", "plastic", "neoprene" ],
+    "price": "180 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "gloves_rubber",
     "color": "dark_gray",
-    "warmth": 15,
-    "material_thickness": 1,
+    "warmth": 41,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WATERPROOF", "SKINTIGHT", "NORMAL" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 19
+      }
+    ]
+  },
+  {
+    "id": "xl_gloves_h20survivor",
+    "type": "ARMOR",
+    "copy-from": "gloves_h20survivor",
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
+    "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_gloves_h20survivor",
+    "type": "ARMOR",
+    "copy-from": "gloves_h20survivor",
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "gloves_h20survivor_light",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit gloves" },
+    "description": "A pair of customized, Kevlar-armored light neoprene gloves, modified to be easy to wear while providing significant protection under extreme conditions.",
+    "//": "Cut down in thickness yet expanded in size wetsuit gloves, armored with Kevlar.",
+    "weight": "390 g",
+    "volume": "750 ml",
+    "price": "180 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "kevlar", "neoprene", "nylon" ],
+    "symbol": "[",
+    "looks_like": "gloves_h20survivor",
+    "color": "dark_gray",
+    "warmth": 30,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 11
+      }
+    ]
+  },
+  {
+    "id": "xl_gloves_h20survivor_light",
+    "type": "ARMOR",
+    "copy-from": "gloves_h20survivor_light",
+    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit overgloves" },
+    "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_gloves_h20survivor_light",
+    "type": "ARMOR",
+    "copy-from": "gloves_h20survivor_light",
+    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit overgloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "gloves_h20survivor_thick",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
+    "description": "A pair of customized, Kevlar-armored neoprene gloves, modified to provide maximum protection under extreme conditions.",
+    "weight": "390 g",
+    "volume": "750 ml",
+    "price": "180 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "kevlar", "neoprene", "nylon" ],
+    "symbol": "[",
+    "looks_like": "gloves_h20survivor",
+    "color": "dark_gray",
+    "warmth": 70,
+    "environmental_protection": 14,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WATERPROOF", "SKINTIGHT", "NORMAL" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 26
+      }
+    ]
+  },
+  {
+    "id": "xl_gloves_h20survivor_thick",
+    "type": "ARMOR",
+    "copy-from": "gloves_h20survivor_thick",
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
+    "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_gloves_h20survivor_thick",
+    "type": "ARMOR",
+    "copy-from": "gloves_h20survivor_thick",
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

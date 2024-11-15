@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_type",
+    "id": "perk_dex_bonus",
+    "name": [ "", "Momentum Dex (1)", "Momentum Dex (1)", "Momentum Dex (2)", "Momentum Dex (2)", "Momentum Dex (3)" ],
+    "max_intensity": 6,
+    "max_duration": "2 seconds",
+    "int_add_val": 1,
+    "int_decay_tick": 150,
+    "base_mods": { "dex_mod": [ 0.5 ] },
+    "scaling_mods": { "dex_mod": [ 0.5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "perk_insight",
+    "name": [ "Insight" ],
+    "desc": [ "Each stack increases the damage of your weapon's main damage type by 1." ],
+    "max_intensity": 200000,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "perk_blind_check",
+    "max_intensity": 15,
+    "int_add_val": 1
+  }
+]

@@ -10,102 +10,62 @@
         "id": "skeletal",
         "text": "Spooky Scary Skeleton",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
       },
       {
         "id": "emaciated",
         "text": "Emaciated",
         "color": "light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
       },
       {
         "id": "underweight",
         "text": "Bean Pole",
         "color": "yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
       },
       {
         "id": "normal",
         "text": "Normal",
         "color": "light_gray",
         "//": "Actually 18.5 - 25",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
       },
       {
         "id": "overweight",
         "text": "Big",
         "color": "yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
       },
       {
         "id": "obese",
         "text": "Healthy",
         "color": "light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
       },
       {
         "id": "very_obese",
         "text": "Husky",
         "color": "red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
       },
       {
         "id": "morbidly_obese",
         "text": "Fluffy",
         "color": "red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "20000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "25000" ] } ] }
       },
       {
         "id": "morbidly_obese_plus_5",
         "text": "DAYUM",
         "color": "red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "25000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "30000" ] } ] }
       },
       {
         "id": "morbidly_obese_plus_10",
         "text": "AW HELL NAH",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "30000" ] }
       }
     ]
   },

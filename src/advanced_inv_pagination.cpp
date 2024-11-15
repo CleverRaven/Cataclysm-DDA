@@ -1,5 +1,6 @@
 #include "advanced_inv_pagination.h"
 
+#include <memory>
 #include <vector>
 
 #include "advanced_inv_pane.h"

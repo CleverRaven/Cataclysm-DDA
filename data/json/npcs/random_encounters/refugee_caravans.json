@@ -40,13 +40,24 @@
     "responses": [
       {
         "text": "What if I want to hurt you?  I'm so good at it and I've had so much practice.",
-        "condition": { "u_has_trait": "PSYCHOPATH" },
+        "condition": { "u_has_trait": "KILLER" },
         "topic": "TALK_CARAVAN_REFUGEE_A1_Hurt"
       },
       {
         "text": "What's your situation here?",
         "topic": "TALK_CARAVAN_REFUGEE_A1_Job",
-        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } }
+        "condition": { "not": { "u_has_trait": "KILLER" } }
+      },
+      {
+        "text": "I don't mean any harm.  I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_CARAVAN_REFUGEES_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
       },
       { "text": "I don't have time for zombie bait like you.", "topic": "TALK_DONE" }
     ]
@@ -54,19 +65,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A2",
-    "dynamic_line": "You again.  Any good news?  Haven't heard any in a long time.",
+    "dynamic_line": { "gendered_line": "You again.  Any good news?  Haven't heard any in a long time.", "relevant_genders": [ "npc" ] },
     "responses": [
       { "text": "What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
-      { "text": "No, I don’t have any.", "topic": "TALK_DONE" }
+      { "text": "No, I don't have any.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A1_Hurt",
-    "dynamic_line": "I can’t tell if you’re joking or not, please don’t say such things.",
+    "dynamic_line": "I can't tell if you're joking or not, please don't say such things.",
     "responses": [
-      { "text": "Oh, I wasn’t joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
-      { "text": "I’m sorry, I should be going before I do something bad again.", "topic": "TALK_DONE" }
+      { "text": "Oh, I wasn't joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
+      { "text": "I'm sorry, I should be going before I do something bad again.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -75,7 +86,37 @@
     "dynamic_line": "We're just trying to find a safe place right now.  I think there's a FEMA camp nearby that should have room for us.",
     "responses": [
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
-      { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Good luck with that.  <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEES_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The refugee nods along",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": ", then frowns.  \"Nope, not ringing any bells, sorry.\"",
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"Maybe, yeah.  I saw a weird building sort of like that a while back, but we were on the move and couldn't stop to check it out.\"",
+            "relevant_genders": [ "npc" ]
+          }
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
     ]
   },
   {
@@ -93,11 +134,11 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
-      { "text": "Thanks for the story.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the story.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -112,11 +153,11 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
-      { "text": "Thanks for the information.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the information.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -153,7 +194,7 @@
         "text": "Can you give me directions to where you're going too?  I love cartography.",
         "topic": "TALK_CARAVAN_REFUGEE_A_FEMA"
       },
-      { "text": "Thanks for the information.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the information.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -184,7 +225,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_B1_Job",
-    "dynamic_line": "I'm a refugee, but don't get the wrong idea.  I've got big dreams of settling down after this and starting a big family.  I just need to find the right place and the right person.  Last couple of places didn't work out so well.",
+    "dynamic_line": {
+      "gendered_line": "I'm a refugee, but don't get the wrong idea.  I've got big dreams of settling down after this and starting a big family.  I just need to find the right place and the right person.  Last couple of places didn't work out so well.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So you're not attached right now?", "topic": "TALK_CARAVAN_REFUGEE_B1_Attached" },
       {
@@ -199,11 +243,11 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
-      { "text": "Not interested.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Not interested.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -223,11 +267,11 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
-      { "text": "Yeah, I guess it's hard all over.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Yeah, I guess it's hard all over.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -248,7 +292,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -261,8 +305,8 @@
     "dynamic_line": "Sure, I can mark it on your map if you like.  Here.",
     "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
     "responses": [
-      { "text": "Thanks for the tip!  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the tip!  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Thanks for the tip!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

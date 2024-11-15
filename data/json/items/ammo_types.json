@@ -7,9 +7,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "700nx",
-    "name": ".700 Nitro Express",
-    "default": "700nx"
+    "id": "458wm",
+    "name": ".458 Winchester Magnum",
+    "default": "458wm"
   },
   {
     "type": "ammunition_type",
@@ -22,6 +22,12 @@
     "id": "4570",
     "name": ".45-70",
     "default": "4570_sp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "50ae",
+    "name": ".50 AE",
+    "default": "50ae_jhp"
   },
   {
     "type": "ammunition_type",
@@ -43,6 +49,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "77mm_arisaka",
+    "name": "7.7x58mm Japanese",
+    "default": "77mm_arisaka_jsp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -61,9 +73,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "gene_sting",
+    "name": "yugg stinger",
+    "default": "gene_sting_barb"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "bolt_ballista",
+    "name": "ballista bolts",
+    "default": "bolt_ballista_steel"
   },
   {
     "type": "ammunition_type",
@@ -85,6 +109,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "atlatl",
+    "name": "atlatl spears",
+    "default": "steel_atlatl_spear"
+  },
+  {
+    "type": "ammunition_type",
     "id": "pebble",
     "name": "pebbles",
     "default": "pebble"
@@ -100,12 +130,6 @@
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "shotpaper",
-    "name": "20ga percussion",
-    "default": "shot_paper_00"
   },
   {
     "type": "ammunition_type",
@@ -213,7 +237,7 @@
     "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
-    "default": "45colt_jhp"
+    "default": "45colt_cowboy"
   },
   {
     "type": "ammunition_type",
@@ -237,7 +261,7 @@
     "type": "ammunition_type",
     "id": "762",
     "name": "7.62x39mm",
-    "default": "762_m43"
+    "default": "762_m87"
   },
   {
     "type": "ammunition_type",
@@ -255,7 +279,7 @@
     "type": "ammunition_type",
     "id": "303",
     "name": ".303 British",
-    "default": "303_bthp"
+    "default": "303_fmjbt"
   },
   {
     "type": "ammunition_type",
@@ -427,6 +451,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_oil",
+    "name": "crude oil",
+    "default": "crude_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
     "default": "thread"
@@ -448,6 +478,12 @@
     "id": "tape",
     "name": "duct tape",
     "default": "duct_tape"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "superglue",
+    "name": "super glue",
+    "default": "super_glue"
   },
   {
     "type": "ammunition_type",
@@ -511,6 +547,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "biogas",
+    "name": "biogas",
+    "default": "biogas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"
@@ -528,6 +570,7 @@
     "default": "8mm_caseless"
   },
   {
+    "//": "To-do: Remove when 20x66 is fully obsoleted",
     "type": "ammunition_type",
     "id": "20x66mm",
     "name": "20x66mm caseless shotgun",
@@ -634,12 +677,6 @@
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "papershot",
-    "name": "20ga percussion",
-    "default": "nail"
   },
   {
     "type": "ammunition_type",
@@ -766,6 +803,24 @@
     "id": "123ln",
     "name": "12.3ln cartridge",
     "default": "123ln"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x110",
+    "name": "27.3x110 Diyua",
+    "default": "273x110canister"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x44",
+    "name": "27.3x44 Diyua",
+    "default": "273x44HE"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x44RG",
+    "name": "27.3x44 Diyua Grenade",
+    "default": "273x44RG"
   },
   {
     "type": "ammunition_type",

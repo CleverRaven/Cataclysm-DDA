@@ -3,25 +3,32 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
+#include <map>
 #include <memory>
-#include <type_traits>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
-#include "game.h"
-#include "input.h"
+#include "flat_set.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "map.h"
 #include "json.h"
+#include "map.h"
+#include "map_selector.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
@@ -31,7 +38,9 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 
 using namespace auto_pickup;
 
@@ -240,7 +249,7 @@ drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint &location )
 {
     drop_locations result;
-    const map_cursor map_location = map_cursor( location );
+    const map_cursor map_location = map_cursor( tripoint_bub_ms( location ) );
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {
@@ -248,6 +257,10 @@ drop_locations auto_pickup::select_items(
         // do not auto pickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
+            continue;
+        }
+        // do not auto pickup spilt liquids
+        if( item_entry->made_of( phase_id::LIQUID ) ) {
             continue;
         }
         rule_state pickup_state = get_autopickup_rule( item_entry );
@@ -317,14 +330,17 @@ void user_interface::show()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
         draw_border( w_border, BORDER_COLOR, title );
+
+        wattron( w, c_light_gray );
         // |-
-        mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO );
+        mvwaddch( w_border, point( 0, 3 ), LINE_XXXO );
         // -|
-        mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX );
+        mvwaddch( w_border, point( 79, 3 ), LINE_XOXX );
         // _|_
-        mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        mvwputch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
+        mvwaddch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        mvwaddch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        mvwaddch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        wattroff( w, c_light_gray );
         wnoutrefresh( w_border );
 
         // Redraw the header
@@ -345,15 +361,15 @@ void user_interface::show()
                                 _( "<Enter>-Edit" ) ) + 2;
         shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
-        for( int i = 0; i < 78; i++ ) {
-            if( i == 4 || i == 50 || i == 60 ) {
-                mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXXX );
-                mvwputch( w_header, point( i, 3 ), c_light_gray, LINE_XOXO );
-            } else {
-                // Draw line under header
-                mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX );
-            }
+        wattron( w_header, c_light_gray );
+        mvwhline( w_header, point( 0,  2 ), LINE_OXOX, 78 );
+        for( int x : {
+                 4, 50, 60
+             } ) {
+            mvwaddch( w_header, point( x, 2 ), LINE_OXXX );
+            mvwaddch( w_header, point( x, 3 ), LINE_XOXO );
         }
+        wattroff( w_header, c_light_gray );
         mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
         mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
         mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
@@ -377,14 +393,11 @@ void user_interface::show()
         wnoutrefresh( w_header );
 
         // Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
-                if( j == 4 || j == 50 || j == 60 ) {
-                    mvwputch( w, point( j, i ), c_light_gray, LINE_XOXO );
-                } else {
-                    mvwputch( w, point( j, i ), c_black, ' ' );
-                }
-            }
+        mvwrectf( w, point_zero, c_black, ' ', 79, iContentHeight );
+        for( int x : {
+                 4, 50, 60
+             } ) {
+            mvwvline( w, point( x, 0 ), c_light_gray, LINE_XOXO, iContentHeight );
         }
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), point( 0, 5 ) );
@@ -687,11 +700,7 @@ void rule::test_pattern() const
         wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
-                mvwputch( w_test_rule_content, point( j, i ), c_black, ' ' );
-            }
-        }
+        mvwrectf( w_test_rule_content, point_zero, c_black, ' ', 79, iContentHeight );
 
         calcStartPos( iStartPos, iLine, iContentHeight, vMatchingItems.size() );
 

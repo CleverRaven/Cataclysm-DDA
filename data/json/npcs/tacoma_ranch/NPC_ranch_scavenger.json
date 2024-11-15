@@ -23,20 +23,20 @@
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
             {
-              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+              "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] }
             },
             {
-              "not": { "u_has_var": "scavenger_hospital_raid_started", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+              "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_scavenger_hospital_raid_started" } ] }
             }
           ]
         },
-        "effect": [ { "u_add_var": "scavenger_hospital_raid", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "u_add_var": "mission_tacoma_ranch_scavenger_hospital_raid", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
       { "text": "Let's see what you've managed to find.", "topic": "TALK_RANCH_SCAVENGER_1", "effect": "start_trade" },
       { "text": "Any lucky find?", "topic": "TALK_RANCH_SCAVENGER_ASK_RESTOCK" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -48,7 +48,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_SCAVENGER_1_JOB",
-    "dynamic_line": "I organize scavenging runs to bring in supplies that we can't produce ourselves.  I try and provide incentives to get migrants to join one of the teams… it's dangerous work, but keeps our outpost alive.  Selling anything we can't use helps keep us afloat with the traders.  If you wanted to drop off a companion or two to assist in one of the runs, I'd appreciate it.",
+    "dynamic_line": {
+      "gendered_line": "I organize scavenging runs to bring in supplies that we can't produce ourselves.  I try and provide incentives to get migrants to join one of the teams… it's dangerous work, but keeps our outpost alive.  Selling anything we can't use helps keep us afloat with the traders.  If you wanted to drop off a companion or two to assist in one of the runs, I'd appreciate it.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "I'll think about it.", "topic": "TALK_RANCH_SCAVENGER_1" } ]
   },
   {
@@ -82,11 +85,16 @@
     "id": "MISSION_RANCH_SCAVENGER_1",
     "type": "mission_definition",
     "name": { "str": "Make 12 Simple Knife Spears" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [
+        { "item": "spear_knife", "amount": 12 },
+        { "item": "spear_knife_superior", "amount": 12 },
+        { "item": "spear_knife_proper", "amount": 12 }
+      ]
+    },
     "difficulty": 5,
     "value": 50000,
-    "item": "spear_knife",
-    "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_2",
     "dialogue": {
@@ -124,6 +132,15 @@
             { "chance": 100, "item": "allsporting", "x": 14, "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
           ],
           "place_item": [ { "item": "30gal_drum", "x": 8, "y": 19, "faction": "tacoma_commune" } ]
+        }
+      ],
+      "effect": [
+        {
+          "u_consume_item_sum": [
+            { "item": "spear_knife", "amount": 12 },
+            { "item": "spear_knife_superior", "amount": 12 },
+            { "item": "spear_knife_proper", "amount": 12 }
+          ]
         }
       ]
     }

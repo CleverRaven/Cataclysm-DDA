@@ -2,44 +2,26 @@
   {
     "type": "effect_on_condition",
     "id": "test_EOC_CAFFEINE_ADDICTION",
-    "condition": {
-      "compare_num": [
-        { "rand": 2000 },
-        "<=",
-        { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": { "val": 2000, "step": 20 } }
-      ]
-    },
+    "condition": { "math": [ "rand(2000)", "<=", "addiction_rational(2000, 20, u_addiction_intensity('test_caffeine'))" ] },
     "effect": [
       { "u_add_morale": "morale_craving_caffeine", "bonus": -5, "max_bonus": -30 },
       {
-        "run_eocs": [
-          {
-            "id": "test_EOC_CAFFEINE_ADDICTION_MODSTIM",
-            "condition": {
-              "and": [
-                {
-                  "compare_num": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": -10 } ]
-                },
-                {
-                  "compare_num": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
-                }
-              ]
-            },
-            "effect": { "arithmetic": [ { "u_val": "stim" }, "-=", { "const": 1 } ] }
-          },
-          {
-            "id": "test_EOC_CAFFEINE_ADDICTION_SHAKES",
-            "condition": {
-              "and": [
-                { "compare_num": [ { "u_val": "addiction_intensity", "addiction": "test_caffeine" }, ">=", { "const": 8 } ] },
-                {
-                  "compare_num": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
-                }
-              ]
-            },
-            "effect": [ { "u_add_effect": "shakes", "duration": "2 minutes" } ]
-          }
-        ]
+        "if": {
+          "and": [
+            { "math": [ "u_val('stim')", ">", "u_addiction_intensity('test_caffeine') * -10" ] },
+            { "math": [ "rand(10)", "<", "u_addiction_intensity('test_caffeine') * -10" ] }
+          ]
+        },
+        "then": { "math": [ "u_val('stim')", "--" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_addiction_intensity('test_caffeine')", ">=", "8" ] },
+            { "math": [ "rand(392)", "<", "u_addiction_intensity('test_caffeine')" ] }
+          ]
+        },
+        "then": { "u_add_effect": "shakes", "duration": "2 minutes" }
       }
     ]
   },

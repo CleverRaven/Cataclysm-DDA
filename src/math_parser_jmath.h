@@ -14,11 +14,12 @@ struct dialogue;
 
 struct jmath_func {
     jmath_func_id id;
+    std::vector<std::pair<jmath_func_id, mod_id>> src;
     bool was_loaded = false;
     int num_params{};
 
-    double eval( dialogue &d ) const;
-    double eval( dialogue &d, std::vector<double> const &params ) const;
+    double eval( const_dialogue const &d ) const;
+    double eval( const_dialogue const &d, std::vector<double> const &params ) const;
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_func( const JsonObject &jo, std::string const &src );

@@ -6,9 +6,8 @@
     "description": "A makeshift fish trap made from plastic bottles.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside to eat the bait, but can't get out.  Not humane and prohibited by law, but there are no cops left to care.",
     "weight": "85 g",
     "volume": "2 L",
-    "price": 500,
-    "price_postapoc": 50,
-    "to_hit": -2,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -25,9 +24,8 @@
     "weight": "800 g",
     "volume": "12 L",
     "longest_side": "50 cm",
-    "price": 500,
-    "price_postapoc": 50,
-    "to_hit": -2,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "material": [ "dry_plant" ],
     "symbol": ";",
     "color": "brown",
@@ -43,12 +41,11 @@
     "description": "A simple metal fishing hook.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 25,
-    "price_postapoc": 25,
+    "price": "25 cent",
+    "price_postapoc": "25 cent",
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "cyan",
-    "melee_damage": { "cut": 3 }
+    "color": "cyan"
   },
   {
     "id": "fishing_hook_bone",
@@ -57,12 +54,11 @@
     "description": "An improvised fishing hook carved from wood or bone.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 25,
-    "price_postapoc": 25,
+    "price": "25 cent",
+    "price_postapoc": "25 cent",
     "material": [ "bone" ],
     "symbol": ",",
-    "color": "white",
-    "melee_damage": { "cut": 3 }
+    "color": "white"
   },
   {
     "id": "fishing_rod_basic",
@@ -72,14 +68,14 @@
     "weight": "1700 g",
     "volume": "1250 ml",
     "longest_side": "90 cm",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -90,22 +86,21 @@
     "weight": "1000 g",
     "volume": "1250 ml",
     "longest_side": "200 cm",
-    "price": 20000,
-    "price_postapoc": 1500,
+    "price": "200 USD",
+    "price_postapoc": "15 USD",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
-    "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
       { "type": "lead", "portion": 7 },
       { "type": "steel", "portion": 4 },
       { "type": "cotton", "portion": 4 },
-      { "type": "plastic", "portion": 3 }
+      { "type": "fiberglass", "portion": 3 }
     ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "REACH_ATTACK" ],
+    "melee_damage": { "bash": 6, "cut": 1 }
   },
   {
     "id": "fishing_rod_2pc_packed",
@@ -115,16 +110,15 @@
     "weight": "1050 g",
     "volume": "1300 ml",
     "longest_side": "100 cm",
-    "price": 22000,
-    "price_postapoc": 1600,
+    "price": "220 USD",
+    "price_postapoc": "16 USD",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
-    "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
       { "type": "lead", "portion": 7 },
       { "type": "steel", "portion": 4 },
       { "type": "cotton", "portion": 4 },
-      { "type": "plastic", "portion": 4 }
+      { "type": "fiberglass", "portion": 4 }
     ],
     "symbol": "/",
     "color": "blue",
@@ -148,7 +142,7 @@
     "longest_side": "190 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "SHEATH_SPEAR", "REACH_ATTACK" ] },
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Disassemble",
@@ -156,7 +150,7 @@
       "target": "fishing_rod_2pc_packed",
       "msg": "You take apart your two-piece fishing rod."
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "fishing_rod_tele_packed",
@@ -166,17 +160,17 @@
     "weight": "1150 g",
     "volume": "600 ml",
     "longest_side": "50 cm",
-    "price": 25000,
-    "price_postapoc": 1750,
+    "price": "250 USD",
+    "price_postapoc": "17 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
-    "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
       { "type": "lead", "portion": 7 },
       { "type": "steel", "portion": 5 },
       { "type": "cotton", "portion": 4 },
-      { "type": "plastic", "portion": 4 }
+      { "type": "fiberglass", "portion": 4 }
     ],
+    "flags": [ "BELT_CLIP" ],
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "PR24-retracted",
@@ -198,7 +192,7 @@
     "longest_side": "210 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Retract",
@@ -206,7 +200,7 @@
       "target": "fishing_rod_tele_packed",
       "msg": "You retract your telescoping fishing rod."
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "plastichoboreel",
@@ -218,9 +212,9 @@
     "weight": "400 g",
     "volume": "400 ml",
     "longest_side": "158 mm",
-    "price": 1300,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "price": "13 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "black",
@@ -236,10 +230,11 @@
     "weight": "500 g",
     "volume": "380 ml",
     "longest_side": "150 mm",
-    "price": 3500,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "price": "35 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "wood" ],
+    "flags": [ "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],

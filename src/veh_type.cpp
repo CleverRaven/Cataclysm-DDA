@@ -23,10 +23,10 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -104,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
+    { "NO_LEAK", VPFLAG_NO_LEAK },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
@@ -116,6 +117,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
     { "CARGO", VPFLAG_CARGO },
+    { "CARGO_PASSABLE", VPFLAG_CARGO_PASSABLE },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
@@ -136,7 +138,12 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ROOF", VPFLAG_ROOF },
     { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
     { "BATTERY", VPFLAG_BATTERY },
-    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER }
+    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER },
+    { "HUGE_OK", VPFLAG_HUGE_OK },
+    { "NEED_LEG", VPFLAG_NEED_LEG },
+    { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
+    { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
+    { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
@@ -261,6 +268,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name_, strict );
     assign( jo, "item", base_item, strict );
+    assign( jo, "remove_as", removed_item, strict );
     assign( jo, "location", location, strict );
     assign( jo, "durability", durability, strict );
     assign( jo, "damage_modifier", dmg_mod, strict );
@@ -281,8 +289,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "broken_color", color_broken, strict );
     assign( jo, "comfort", comfort, strict );
-    assign( jo, "floor_bedding_warmth", floor_bedding_warmth, strict );
-    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, strict );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
+    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
+    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
+    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -420,11 +432,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         JsonObject jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
-        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
-        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
+        if( jttd.has_string( "post_field" ) ) {
+            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
+            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
+            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
+        }
     }
 }
 
@@ -938,6 +952,12 @@ void vpart_info::check() const
                       id.c_str() );
         }
     }
+    if( !!transform_terrain_info && !( transform_terrain_info->post_terrain ||
+                                       transform_terrain_info->post_furniture ||
+                                       transform_terrain_info->post_field ) ) {
+        debugmsg( "transform_terrain_info must contain at least one of post_terrain, post_furniture and post_field for vehicle part %s",
+                  id.c_str() );
+    }
 }
 
 void vehicles::parts::reset()
@@ -1010,7 +1030,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             } else if( !base.magazine_default().is_null() ) {
                 class::item tmp_mag( base.magazine_default() );
                 tmp_mag.ammo_set( tmp_mag.ammo_default() );
-                base.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                base.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
             }
         }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -1090,8 +1110,7 @@ static time_duration scale_time( const std::map<skill_id, int> &sk, time_duratio
                                          MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    // 10% reduction per assisting Character
     const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
@@ -1379,26 +1398,20 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.member( "id", "/TO_BE_REPLACED/" );
     json.member( "type", "vehicle" );
     json.member( "name", "/TO_BE_REPLACED/" );
-    std::map<point, std::list<const vehicle_part *>> vp_map;
+    std::map<point_rel_ms, std::list<const vehicle_part *>> vp_map;
     int mount_min_y = 123;
     int mount_max_y = -123;
     // Form a map of existing real parts
-    // Structural parts first
+    // get_all_parts() gets all non-fake parts
+    // The parts are already in installation order
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const vehicle_part &p = vpr.part();
-        if( p.is_fake ) {
-            continue;
-        }
-        if( p.info().location == part_location_structure ) {
-            vp_map[p.mount].push_front( &p );
-            continue;
-        }
-        mount_max_y = mount_max_y < p.mount.y ? p.mount.y : mount_max_y;
-        mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
+        mount_max_y = mount_max_y < p.mount.y() ? p.mount.y() : mount_max_y;
+        mount_min_y = mount_min_y > p.mount.y() ? p.mount.y() : mount_min_y;
         vp_map[p.mount].push_back( &p );
     }
-    int mount_min_x = vp_map.begin()->first.x;
-    int mount_max_x = vp_map.rbegin()->first.x;
+    int mount_min_x = vp_map.begin()->first.x();
+    int mount_max_x = vp_map.rbegin()->first.x();
 
     // print the vehicle's blueprint.
     json.member( "blueprint" );
@@ -1407,11 +1420,11 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     for( int x = mount_max_x; x >= mount_min_x; x-- ) {
         std::string row;
         for( int y = mount_min_y; y <= mount_max_y; y++ ) {
-            if( veh.part_displayed_at( point( x, y ), false, true, true ) == -1 ) {
+            if( veh.part_displayed_at( point_rel_ms( x, y ), false, true, true ) == -1 ) {
                 row += " ";
                 continue;
             }
-            const vpart_display &c = veh.get_display_of_tile( point( x, y ), false, false, true, true );
+            const vpart_display &c = veh.get_display_of_tile( point_rel_ms( x, y ), false, false, true, true );
             row += utf32_to_utf8( c.symbol );
         }
         json.write( row );
@@ -1432,35 +1445,9 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         return;
     };
     for( auto &vp_pos : vp_map ) {
-        auto fake = make_shared_fast<vehicle>( vproto_id() );
-        vehicle &fakev = *fake;
-        auto iter = vp_pos.second.begin();
-        // Ensure that the entries in the list can be installed in order.
-        // Might be a infinite loop if debug hammerspace created improper parts combination.
-        // So add a iteration limit to avoid this.
-        int iteration = 0;
-        for( ; iter != vp_pos.second.end(); ) {
-            vehicle_part g = **iter;
-            if( fakev.can_mount( point_zero, g.info() ).success() ) {
-                fakev.install_part( point_zero, std::move( g ) );
-                iter++;
-                continue;
-            }
-            iteration++;
-            auto iter2 = std::next( iter, 1 );
-            vp_pos.second.splice( vp_pos.second.end(), vp_pos.second, iter );
-            iter = iter2;
-            // It's impossible to hit this limit when a single mount point has fewer than 50 parts.
-            // So we can assume only infinite loop hits this limit.
-            if( iteration > 1250 ) {
-                debugmsg( "Error exporting vehicle: mount point (%d,%d) has illegal vehicle part sequence.",
-                          vp_pos.first.x, vp_pos.first.y );
-                return;
-            }
-        }
         json.start_object();
-        json.member( "x", vp_pos.first.x );
-        json.member( "y", vp_pos.first.y );
+        json.member( "x", vp_pos.first.x() );
+        json.member( "y", vp_pos.first.y() );
 
         json.member( "parts" );
         json.start_array();
@@ -1602,7 +1589,8 @@ void vehicles::finalize_prototypes()
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }
                 if( pt.fuel ) {
-                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
+                    vp.ammo_set( pt.fuel,
+                                 pt.fuel->ammo ? vp.ammo_capacity( pt.fuel->ammo->type ) : vp.item_capacity( pt.fuel ) );
                 }
             }
 
@@ -1717,10 +1705,10 @@ void vpart_category::reset()
 void vpart_migration::load( const JsonObject &jo )
 {
     vpart_migration migration;
-    mandatory( jo, /* was_loaded = */ true, "from", migration.part_id_old );
-    mandatory( jo, /* was_loaded = */ true, "to", migration.part_id_new );
-    optional( jo, /* was_loaded = */ true, "variant", migration.variant );
-    optional( jo, /* was_loaded = */ true, "add_veh_tools", migration.add_veh_tools );
+    mandatory( jo, false, "from", migration.part_id_old );
+    mandatory( jo, false, "to", migration.part_id_new );
+    optional( jo, false, "variant", migration.variant );
+    optional( jo, false, "add_veh_tools", migration.add_veh_tools );
     vpart_migrations.emplace( migration.part_id_old, migration );
 }
 

@@ -18,7 +18,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -38,7 +38,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "fencing_foil_sharpened",
@@ -59,7 +59,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -81,7 +81,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
@@ -102,7 +102,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -122,7 +122,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "kris",
@@ -142,7 +142,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -163,7 +163,7 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -184,7 +184,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -217,6 +217,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -241,6 +242,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -326,7 +328,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "3 h",
-    "book_learn": [ [ "textbook_armschina", 5 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_armschina", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -350,7 +352,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
-    "book_learn": [ [ "textbook_weapwest", 4 ] ],
+    "book_learn": [ [ "bronze_book", 3 ], [ "bronze_mag", 4 ], [ "textbook_weapwest", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -370,6 +372,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
+    "book_learn": [ [ "bronze_book", 3 ], [ "bronze_mag", 3 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -380,6 +383,27 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "spear_shaft", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "pike_bronze",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "6 h",
+    "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_weapwest", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving", "skill_penalty": 0 }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -399,7 +423,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -419,7 +443,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -438,7 +462,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -457,7 +481,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -476,7 +500,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -496,7 +520,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -516,7 +540,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -536,25 +560,8 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "spear_survivor",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ "melee", 5 ],
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -594,7 +601,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" }, { "proficiency": "prof_bladesmith" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "casting_mold", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "cordage_short", 2, "LIST" ] ],
       [ [ "scrap_bronze", 2 ] ],
@@ -636,7 +643,7 @@
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -832,6 +839,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_homemade_halfpike",
+    "id_suffix": "from_spike",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -847,6 +855,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_homemade_halfpike",
+    "id_suffix": "from_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -857,15 +866,8 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
-      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -918,14 +920,7 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
@@ -944,15 +939,8 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "spear_shaft", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
-      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -964,17 +952,21 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
-        [ "knife_combat_mod", 1 ],
+        [ "knife_combat_army", 1 ],
+        [ "knife_combat_marine", 1 ],
+        [ "knife_KABAR", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_army", 1 ],
+        [ "knife_combat_marine", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
         [ "knife_rm42", 1 ],
@@ -1002,11 +994,15 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
-        [ "knife_combat_mod", 1 ],
+        [ "knife_combat_army", 1 ],
+        [ "knife_combat_marine", 1 ],
+        [ "knife_KABAR", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_army", 1 ],
+        [ "knife_combat_marine", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
         [ "knife_rm42", 1 ],
@@ -1014,7 +1010,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1032,7 +1028,11 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [
+      [ [ "spear_knife", 1 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1050,11 +1050,15 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
-        [ "knife_combat_mod", 1 ],
+        [ "knife_combat_army", 1 ],
+        [ "knife_combat_marine", 1 ],
+        [ "knife_KABAR", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_army", 1 ],
+        [ "knife_combat_marine", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
         [ "knife_rm42", 1 ],
@@ -1062,7 +1066,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1095,7 +1099,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1115,7 +1119,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1135,7 +1139,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1155,7 +1159,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1175,7 +1179,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1186,7 +1190,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "618 h 30 m",
+    "time": "18 h 30 m",
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1196,7 +1200,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1217,7 +1221,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1244,7 +1248,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1265,7 +1269,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1309,7 +1313,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1328,7 +1332,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1348,7 +1352,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -1369,7 +1373,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1390,7 +1394,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1444,16 +1448,10 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "fencing_foil_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "fencing_foil_sharpened", 1 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1467,16 +1465,10 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "fencing_epee_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "fencing_epee_sharpened", 1 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1490,16 +1482,10 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_shock_weapons" } ],
-    "components": [
-      [ [ "fencing_sabre_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "fencing_sabre_sharpened", 1 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1518,7 +1504,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {

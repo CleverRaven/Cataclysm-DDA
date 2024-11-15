@@ -43,6 +43,7 @@
   },
   {
     "result": "plut_cell",
+    "id_suffix": "from_slurry",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
@@ -164,7 +165,7 @@
     "autolearn": [ [ "electronics", 4 ] ],
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
+    "tools": [ [ [ "soldering_iron", 200 ], [ "soldering_iron_portable", 200 ], [ "integrated_welder", 200 ] ] ],
     "components": [
       [ [ "afs_circuitry_2", 1 ] ],
       [ [ "cable", 100 ] ],
@@ -175,6 +176,7 @@
   },
   {
     "result": "plut_cell",
+    "id_suffix": "from_fuel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
@@ -185,7 +187,7 @@
     "autolearn": [ [ "electronics", 7 ] ],
     "book_learn": [ [ "textbook_atomic", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 50 ] ] ],
+    "tools": [ [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ] ] ],
     "components": [
       [ [ "nuclear_fuel", 2 ] ],
       [ [ "e_scrap", 5 ] ],
@@ -375,7 +377,7 @@
       { "id": "DRILL", "level": 2 },
       { "id": "SAW_W", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "integrated_welder", 450 ] ] ],
     "components": [
       [ [ "cable", 80 ] ],
       [ [ "afs_circuitry_1", 1 ] ],

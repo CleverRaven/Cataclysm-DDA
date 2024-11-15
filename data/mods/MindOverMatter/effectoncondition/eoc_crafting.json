@@ -2,28 +2,28 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD",
-    "condition": { "compare_num": [ { "u_val": "focus" }, ">=", { "const": 75 } ] },
+    "condition": { "math": [ "u_val('focus')", ">=", "75" ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "50" ] } ],
     "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_2",
-    "condition": { "compare_num": [ { "u_val": "focus" }, ">=", { "const": 50 } ] },
+    "condition": { "math": [ "u_val('focus')", ">=", "50" ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "25" ] } ],
     "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_3" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_3",
-    "condition": { "compare_num": [ { "u_val": "focus" }, ">=", { "const": 34 } ] },
+    "condition": { "math": [ "u_val('focus')", ">=", "34" ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "10" ] } ],
     "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_4" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_4",
-    "condition": { "compare_num": [ { "u_val": "focus" }, ">=", { "const": 30 } ] },
+    "condition": { "math": [ "u_val('focus')", ">=", "30" ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   }
 ]

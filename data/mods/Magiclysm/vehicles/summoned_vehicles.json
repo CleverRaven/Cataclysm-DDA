@@ -14,7 +14,7 @@
     "description": "A column of mana energy that enables a floating disk to move.",
     "weight": "500 g",
     "volume": "500 ml",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",
@@ -37,6 +37,20 @@
       { "x": 0, "y": 0, "parts": [ "horn_car", "engine_vtwin_magic", "alternator_motorbike" ] },
       { "x": 1, "y": 0, "parts": [ "headlight", "battery_motorbike" ] },
       { "x": -1, "y": 0, "parts": [ "muffler", "box" ] }
+    ]
+  },
+  {
+    "id": "magic_comcycle",
+    "type": "vehicle",
+    "copy-from": "magic_motorcycle",
+    "name": "Co-op cycle",
+    "blueprint": [
+      [ "o#>o" ],
+      [ " #> " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "wheel_mount_light", "wheel_motorbike", "seat" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_handle", "box" ] }
     ]
   },
   {
@@ -86,7 +100,7 @@
     "id": "mana",
     "type": "AMMO",
     "category": "chems",
-    "name": "mana core power",
+    "name": { "str_sp": "mana core power" },
     "description": "Seeing this is a bug.",
     "weight": "10 g",
     "volume": "10 ml",

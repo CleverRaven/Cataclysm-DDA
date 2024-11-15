@@ -135,7 +135,7 @@ class event_multiset_watcher : public base_watcher
 template<typename Watcher>
 class watcher_set
 {
-        static_assert( std::is_base_of<base_watcher, Watcher>::value,
+        static_assert( std::is_base_of_v<base_watcher, Watcher>,
                        "Watcher must be derived from base_watcher" );
     public:
         void insert( Watcher *watcher ) {
@@ -212,6 +212,7 @@ class stats_tracker : public event_subscriber
         std::vector<const score *> valid_scores() const;
 
         void clear();
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;

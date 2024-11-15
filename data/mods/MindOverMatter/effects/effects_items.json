@@ -2,13 +2,13 @@
   {
     "id": "instability_remover",
     "type": "effect_type",
-    "name": [ "Severe Itching" ],
-    "desc": [ "You rubbed the cream all over your skin.  Hopefully it was a good idea." ],
+    "name": [ "Morphic Reinforcement" ],
+    "desc": [ "You're not exactly sure what morphic reinforcement means, but it definitely itches like crazy." ],
     "apply_message": "Your entire body itches terribly!",
     "remove_message": "The itching finally fades away.",
     "rating": "mixed",
     "max_duration": "24 hours",
-    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "3 m" ] } ],
+    "vitamins": [ { "vitamin": "mutagen", "rate": [ [ -1, -1 ] ], "tick": [ "2 m" ] } ],
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -1 ],
@@ -18,7 +18,15 @@
       "h_mod_chance": [ 1 ],
       "h_mod_chance_bot": [ 5 ],
       "h_mod_tick": [ 3600 ]
-    }
+    },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+  },
+  {
+    "id": "effect_noetic_resilience_trigger",
+    "type": "effect_type",
+    "//": "Hidden effect to set off an EoC",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "id": "force_field_generated",
@@ -30,5 +38,54 @@
     "rating": "good",
     "max_duration": "1 minutes",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.94 } ] } ]
+  },
+  {
+    "id": "effect_psyshield_protection",
+    "type": "effect_type",
+    "//": "Blank to create uncertainty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "psi_blind", "psi_deaf", "effect_telepathic_primal_terror", "psi_dazed" ],
+    "flags": [ "PSYSHIELD_PROTECT" ]
+  },
+  {
+    "id": "effect_shield_belt_telekin_protection",
+    "type": "effect_type",
+    "//": "Blank to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "TELEKIN_SHIELD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_black_nether_water_disease",
+    "name": [ "Unearthly Cold" ],
+    "desc": [ "You are chilled from the inside out." ],
+    "apply_message": "A numbing cold spreads out from your stomach to your whole body.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 300 ],
+      "vomit_chance": [ 600 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 2 ],
+      "health_tick": [ 60 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_max": [ 2 ],
+      "sleepiness_chance": [ 4 ],
+      "sleepiness_tick": [ 60 ],
+      "sleepiness_max_val": [ 700 ]
+    },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -40 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_black_nether_water_nightmares",
+    "//": "Hidden effect to set off an EoC",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

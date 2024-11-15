@@ -11,6 +11,7 @@
       [ "vac_mold", 20 ],
       [ "polycarbonate_sheet", 20 ],
       [ "wax", 30 ],
+      [ "wax_paraffin", 30 ],
       [ "straw_pile", 15 ],
       { "item": "charcoal", "prob": 25, "charges": [ 200, 400 ] },
       [ "clay_lump", 100 ]
@@ -66,7 +67,7 @@
       { "item": "tinyweldtank", "prob": 2, "count": [ 1, 3 ] },
       { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
       { "item": "polisher", "prob": 1, "charges": [ 0, 100 ] },
-      { "item": "welder", "prob": 2, "charges": [ 0, 10000 ] },
+      { "item": "welder", "prob": 2 },
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
@@ -95,8 +96,8 @@
       [ "glasses_safety", 25 ],
       { "item": "charcoal", "prob": 50, "charges": [ 200, 400 ] },
       { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
-      [ "material_sand", 80 ],
-      { "item": "chemistry_set", "prob": 5, "charges": [ 0, 500 ] },
+      { "group": "sandbag", "prob": 5 },
+      { "item": "chemistry_set", "prob": 5 },
       [ "sandpaper", 50 ]
     ]
   },

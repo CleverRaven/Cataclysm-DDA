@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -47,10 +47,11 @@ enum mission_kind : int {
     Caravan_Commune_Center_Job,
 
     //  Faction camp tasks
-    Camp_Distribute_Food,  //  Direct action, not serialized
-    Camp_Determine_Leadership,
-    Camp_Hide_Mission,     //  Direct action, not serialized
-    Camp_Reveal_Mission,   //  Direct action, not serialized
+    Camp_Distribute_Food,        //  Direct action, not serialized
+    Camp_Determine_Leadership,   //  Direct action, not serialized
+    Camp_Have_Meal,              //  Direct action, not serialized
+    Camp_Hide_Mission,           //  Direct action, not serialized
+    Camp_Reveal_Mission,         //  Direct action, not serialized
     Camp_Assign_Jobs,
     Camp_Assign_Workers,
     Camp_Abandon,
@@ -60,6 +61,7 @@ enum mission_kind : int {
     Camp_Gather_Materials,
     Camp_Collect_Firewood,
     Camp_Menial,
+    Camp_Survey_Field,
     Camp_Survey_Expansion,
     Camp_Cut_Logs,
     Camp_Clearcut,
@@ -72,7 +74,6 @@ enum mission_kind : int {
     Camp_Recruiting,
     Camp_Scouting,
     Camp_Combat_Patrol,
-    Camp_Chop_Shop,  //  Obsolete removed during 0.E
     Camp_Plow,
     Camp_Plant,
     Camp_Harvest,
@@ -183,7 +184,8 @@ npc_ptr individual_mission( npc &p, const std::string &desc, const mission_id &m
 npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                             const std::string &desc, const mission_id &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false );
+                            const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false,
+                            const npc_ptr &preselected_choice = nullptr );
 
 ///All of these missions are associated with the ranch camp and need to be updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const mission_id &miss_id );

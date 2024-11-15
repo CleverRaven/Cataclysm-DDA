@@ -21,14 +21,14 @@
   {
     "id": "afs_calorie_water",
     "type": "COMESTIBLE",
-    "name": "nutriment water",
+    "name": { "str_sp": "nutriment water" },
     "copy-from": "water_clean",
     "comestible_type": "DRINK",
     "color": "white",
     "calories": 400,
     "healthy": 3,
     "description": "Nutriment that has been dissolved in water to dilute its taste.  Unnervingly resembles spoiled milk.",
-    "price": 10000,
+    "price": "100 USD",
     "looks_like": "bleach",
     "fun": -2,
     "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ], [ "bad_food", 10 ] ]
@@ -36,7 +36,7 @@
   {
     "id": "afs_sundew",
     "type": "COMESTIBLE",
-    "name": "Spite Soda",
+    "name": { "str_sp": "Spite Soda" },
     "weight": "10 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -53,7 +53,7 @@
     "healthy": -6,
     "addiction_potential": 6,
     "description": "Spite Soda, the only soda native to the Salus system.  'Stay Frosty, Drink Spite'.  Visitors to the Salus system who have drank Spite Soda have described it as the taste of transhumanist dialectical materialism.",
-    "price": 1000,
+    "price": "10 USD",
     "looks_like": "diesel",
     "container": "can_drink",
     "material": [ "alcohol" ],
@@ -78,7 +78,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "food cubes" },
     "symbol": "f",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
     "color": "white",
     "calories": 700,
@@ -93,7 +93,7 @@
     "id": "afs_food_to_go",
     "type": "COMESTIBLE",
     "name": { "str_sp": "Foodplace's Food-to-go™" },
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "symbol": "f",
     "copy-from": "protein_bar_evac",
     "color": "magenta",
@@ -107,8 +107,8 @@
   {
     "id": "afs_loop_fruit",
     "type": "COMESTIBLE",
-    "name": { "str": "loop 'fruit'", "str_pl": "loop 'fruits'" },
-    "container": "bag_plastic",
+    "name": { "str_sp": "loop 'fruit'" },
+    "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
     "color": "white",
     "calories": 200,
@@ -131,13 +131,13 @@
     "description": "Smooth crackers colored grayish-green.  Used to be perfectly edible seaweed, or so the wrapper claims.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ], [ "veggy_allergen", 1 ] ],
     "volume": "74 ml"
   },
   {
     "id": "afs_beefsim",
     "type": "COMESTIBLE",
-    "name": "beefsim",
+    "name": { "str_sp": "beefsim" },
     "container": "can_food",
     "copy-from": "protein_bar_evac",
     "color": "red",
@@ -147,7 +147,7 @@
     "description": "Soy or pureed rat?  Better not to know.\n(But its probably both.)",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "volume": "111 ml"
   },
   {
@@ -163,14 +163,14 @@
     "description": "Yellow chunks float on creamy liquid, like flotsam on a filthy summer pond.  Branding implies at least 26 other flavors, but you have neither seen or heard about any of them.",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "afs_escapepod_ration",
     "type": "COMESTIBLE",
     "name": { "str_sp": "landfall survival rations" },
     "symbol": "o",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
     "color": "white",
     "calories": 500,
@@ -203,6 +203,7 @@
     "volume": "100 ml",
     "weight": "50 g",
     "description": "Time and the elements have reverted this heavily processed meal to its original form.  Eating it isn't even worth thinking about.",
-    "material": [ "flesh", "veggy" ]
+    "material": [ "flesh", "veggy" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

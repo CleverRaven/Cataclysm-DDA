@@ -5,8 +5,7 @@
     "copy-from": "v29",
     "name": { "str": "wrist-stunner" },
     "description": "A severed robotic hand from a Wraitheon Sentinel.  The powerful electro-laser stun gun embed on its wrist is still functional, and can be used when connected to an UPS.",
-    "price": 720000,
-    "to_hit": -2,
+    "price": "7 kUSD 200 USD",
     "material": [ "superalloy", "plastic" ],
     "color": "cyan",
     "range": 10,
@@ -22,7 +21,7 @@
     "type": "GUN",
     "copy-from": "afs_sentinel_stunner",
     "name": { "str": "wrist-trilaser" },
-    "description": "A powerful tri-barreled laser weapon, still mounted to the robotic hand of the wraitheon drone it originally belonged to.  Can still be fired when connected to an UPS.",
+    "description": "A powerful tri-barreled laser weapon, still mounted to the robotic hand of the Wraitheon drone it originally belonged to.  Can still be fired when connected to an UPS.",
     "color": "red",
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
@@ -48,8 +47,8 @@
     "description": "This is an x-ray laser stripped from a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for its ability to destroy power armor.",
     "weight": "5140 g",
     "volume": "1500 ml",
-    "price": 400000,
-    "price_postapoc": 8000,
+    "price": "4 kUSD",
+    "price_postapoc": "80 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -72,7 +71,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "melee_damage": { "bash": 4 }
   },
@@ -149,7 +148,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_archeotech_laspistol",
@@ -167,7 +167,7 @@
     "overheat_threshold": 150,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ammo_to_fire": 0,
-    "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
+    "ammo_effects": [ "IGNITE", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "energy_drain": "30 kJ",
     "built_in_mods": [ "afs_holo_aim_assist" ],
@@ -181,7 +181,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_explosive_pumped_laser",
@@ -208,7 +209,7 @@
     "clip_size": 1,
     "reload": 300,
     "loudness": 200,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_82mm_flashbulb": 1 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -225,13 +226,14 @@
     "overheat_threshold": 100,
     "cooling_value": 1,
     "heat_per_shot": 20,
-    "volume": "3 L",
+    "volume": "8 L",
+    "longest_side": "1065 mm",
     "range": 37,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "extend": { "ammo_effects": [ "TACTICAL_LASER_EXPLOSION" ] },
     "ammo_to_fire": 0,
     "energy_drain": "50 kJ",
-    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "default_mods": [ "red_dot_sight" ],
     "pocket_data": [
       {
@@ -268,7 +270,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_a7",
@@ -295,6 +298,14 @@
     ]
   },
   {
+    "id": "afs_a7_mon",
+    "type": "GUN",
+    "copy-from": "afs_a7",
+    "name": { "str": "mounted a7 laser rifle" },
+    "energy_drain": "0 kJ",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
     "id": "makeshift_scrambler",
     "type": "GUN",
     "copy-from": "hm12",
@@ -302,7 +313,7 @@
     "description": "This 'energy weapon' appears to be haphazardly jury-rigged from commercially available electronics.  It has a radar dish placed where a barrel would be, and the frame of a weapon is covered in a mesh of wiring.  Despite its appearance, this weapon can temporarily stun robots if you manage to hit their sensors.",
     "weight": "4050 g",
     "volume": "4500 ml",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "range": 20,
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,

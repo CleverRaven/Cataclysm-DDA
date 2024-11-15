@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
+    "age": 67,
+    "height": 153,
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -113,7 +115,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
+      "no": "Hi, what brings you here?"
     },
     "responses": [
       {
@@ -131,16 +133,15 @@
       {
         "text": "Hi, nice farm you have here.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK1",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, Jack suggested I stop by and say hello.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK3",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" } ],
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_met_Jack_Isherwood" } ] } ]
         }
       },
       {
@@ -156,7 +157,7 @@
       },
       { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_CLAIRE_RESTOCK" },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -175,7 +176,7 @@
     "responses": [
       { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
       { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -185,7 +186,7 @@
     "responses": [
       { "text": "What happened to Barry?", "topic": "TALK_BARRY" },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,8 +196,8 @@
     "responses": [
       { "text": "He did mention you make remedies, are they effective?", "topic": "TALK_CLAIRE_MEDICINE" },
       { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
-      { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -204,8 +205,8 @@
     "id": "TALK_CLAIRE_MEDICINE",
     "dynamic_line": "I have always studied and made some natural remedies, but now they are more essential than ever.  Who knows the next time we'll see a trained doctor.  These remedies aren't always as effective, but they can do the job in a pinch.",
     "responses": [
-      { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -214,14 +215,14 @@
     "dynamic_line": "Some of their cows were killed before we realized what was happening, Barry and Carlos went into the forest to find the predator but it was like nothing they'd ever seen.  Carlos may be willing to tell you more.",
     "responses": [
       {
-        "text": "I'd like to ask you something else…",
+        "text": "<done_conversation_section>",
         "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       }
     ]
   },
@@ -230,8 +231,8 @@
     "id": "TALK_CLAIRE_FARM",
     "dynamic_line": "We've always tried to live a quiet life out here, I suppose we are doing better than most.",
     "responses": [
-      { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -239,8 +240,8 @@
     "id": "TALK_CLAIRE_HUSBAND",
     "dynamic_line": "Jack and I have been together for 40 years.  He's been my anchor through all of this chaos.",
     "responses": [
-      { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -248,8 +249,8 @@
     "id": "TALK_CLAIRE_DAUGHTER",
     "dynamic_line": "Jesse and her family live up at the horse farm.  They may have some jobs for you.",
     "responses": [
-      { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -257,8 +258,8 @@
     "id": "TALK_CLAIRE_BROTHER",
     "dynamic_line": "Eddie's dairy is at the end of the road.  He's may have some jobs for you if you are interested.",
     "responses": [
-      { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -279,7 +280,7 @@
       { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ISHERWOOD_CLAIRE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -356,8 +357,8 @@
     "has_generic_rewards": false,
     "start": {
       "assign_mission_target": {
-        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
-        "om_special": "Isherwood Farms",
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farm Mutable'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farm Mutable",
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
@@ -371,7 +372,7 @@
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_spawn_item": "isherwood_herbal_remedies", "count": 1 },
-        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_claire_missions", "value": "yes" }
       ]
     },
     "dialogue": {

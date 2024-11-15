@@ -1,0 +1,50 @@
+[
+  {
+    "type": "palette",
+    "id": "commercial",
+    "parameters": {
+      "display_cooler": {
+        "type": "furn_str_id",
+        "default": {
+          "distribution": [
+            [ "f_glass_fridge", 1 ],
+            [ "f_glass_fridge_double", 1 ],
+            [ "f_display_fridge", 1 ],
+            [ "f_glass_freezer", 1 ],
+            [ "f_display_freezer", 1 ]
+          ]
+        }
+      },
+      "display_fridge": {
+        "type": "furn_str_id",
+        "default": { "distribution": [ [ "f_glass_fridge", 1 ], [ "f_glass_fridge_double", 1 ], [ "f_display_fridge", 1 ] ] }
+      },
+      "display_freezer": { "type": "furn_str_id", "default": { "distribution": [ [ "f_glass_freezer", 1 ], [ "f_display_freezer", 1 ] ] } },
+      "coolers_to_sell": {
+        "type": "furn_str_id",
+        "default": {
+          "distribution": [
+            [ "f_fridge", 1 ],
+            [ "f_minifridge", 1 ],
+            [ "f_glass_fridge", 1 ],
+            [ "f_glass_fridge_double", 1 ],
+            [ "f_heavy_duty_fridge", 1 ],
+            [ "f_display_fridge", 1 ],
+            [ "f_minifreezer", 1 ],
+            [ "f_chest_minifreezer", 1 ],
+            [ "f_freezer", 1 ],
+            [ "f_heavy_duty_freezer", 1 ],
+            [ "f_glass_freezer", 1 ],
+            [ "f_display_freezer", 1 ]
+          ]
+        }
+      },
+      "freezer_to_sell": {
+        "type": "furn_str_id",
+        "default": {
+          "distribution": [ [ "f_minifreezer", 1 ], [ "f_chest_minifreezer", 1 ], [ "f_freezer", 1 ], [ "f_heavy_duty_freezer", 1 ] ]
+        }
+      }
+    }
+  }
+]

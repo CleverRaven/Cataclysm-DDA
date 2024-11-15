@@ -1,0 +1,28 @@
+# Find a symbol in all MSYS2 system object libraries
+# Print files for find_package() or pkg_check_modules()
+
+[[ ! -f sym-locatedb ]] && {
+	echo "Creating filesystem database ..."
+	updatedb --localpaths='/usr/lib /mingw64/lib' \
+		 --output=sym-locatedb 
+}
+[[ ! -f sym-db ]] && {
+	echo "Creating symbols database ..."
+	locate --database=sym-locatedb \*.a | \
+		parallel -j 8 nm --print-file-name --defined-only >>sym-db
+}
+echo "Searching symbol ..."
+definitions=$(grep $1$ sym-db)
+found=$(cut --delimiter=\  --fields=3 <<<"$definitions" | sort --unique)
+echo "Found symbols:"
+echo "$found"
+files=$(cygpath --unix -f - <<<"$definitions")
+files=$(cut --delimiter=: --fields=1 <<<"$files" |sort --unique)
+echo "Files containing symbols:"
+echo "$files"
+packages=$(pacman --query --owns --quiet $files |sort --unique)
+echo "Packages containing files:"
+echo "$packages"
+pfiles=$(pacman --query --list --quiet $packages)
+echo "Useful files in packages:"
+echo "$pfiles" |egrep 'pkgconfig|\.cmake'

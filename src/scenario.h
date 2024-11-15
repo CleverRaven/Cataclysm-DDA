@@ -24,7 +24,6 @@ class scenario
         friend class generic_factory<scenario>;
         friend struct mod_tracker;
         string_id<scenario> id;
-        std::vector<std::pair<string_id<scenario>, mod_id>> src;
         bool was_loaded = false;
         translation _name_male;
         translation _name_female;
@@ -36,11 +35,16 @@ class scenario
         bool extra_professions = false; // If true, professions add to default professions.
         std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
 
+        // White/blacklist of hobbies that can be selected with this scenario
+        std::set<string_id<profession>> hobby_exclusion;
+        bool hobbies_whitelist = true;
+
         /**
          * @ref permitted_professions populates this vector on the first call, which takes
          * a bit of work. On subsequent calls, this vector is returned.
         */
         mutable std::vector<string_id<profession>> cached_permitted_professions;
+        mutable std::vector<string_id<profession>> cached_permitted_hobbies;
 
         std::set<trait_id> _allowed_traits;
         std::set<trait_id> _forced_traits;
@@ -84,7 +88,7 @@ class scenario
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
         /** calls @ref check_definition for each scenario */
-        static void check_definitions();
+        static void finalize();
         /** Check that item definitions are valid */
         void check_definition() const;
 
@@ -113,6 +117,7 @@ class scenario
 
         const profession *weighted_random_profession() const;
         std::vector<string_id<profession>> permitted_professions() const;
+        std::vector<string_id<profession>> permitted_hobbies() const;
 
         bool traitquery( const trait_id &trait ) const;
         std::set<trait_id> get_locked_traits() const;
@@ -150,6 +155,7 @@ class scenario
         const std::vector<effect_on_condition_id> &eoc() const;
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
+        std::vector<std::pair<string_id<scenario>, mod_id>> src;
 };
 
 struct scen_blacklist {

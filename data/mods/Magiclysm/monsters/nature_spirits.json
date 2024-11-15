@@ -26,8 +26,8 @@
     "vision_night": 5,
     "material": [ "veggy" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a pile of moss." },
+    "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a pile of moss." },
     "death_drops": "mossling_drops"
   },
   {
@@ -64,19 +64,19 @@
       "BASHES",
       "GROUP_BASH",
       "CAMOUFLAGE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "NO_BREATHE",
       "PATH_AVOID_FIRE",
       "FLAMMABLE"
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into splinters." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into splinters." },
     "death_drops": "dryad_drops"
   },
   {
     "id": "mon_brackenwight",
     "type": "MONSTER",
     "name": "brackenwight",
-    "description": "An animate pile of moss, leaves, sticks, and other forest detritus, towering almost three metres high.  Three pits near the top with a lambent green glow might be eyes.  It slowly walks on massive limbs.",
+    "description": "An animate pile of moss, leaves, sticks, and other forest detritus, towering almost three meters high.  Three pits near the top with a lambent green glow might be eyes.  It slowly walks on massive limbs.",
     "default_faction": "forest_spirit_faction",
     "species": [ "FOREST_SPIRIT" ],
     "volume": "339500 ml",
@@ -106,13 +106,13 @@
         "type": "spell",
         "spell_data": { "id": "druid_rootstrike", "min_level": 5 },
         "cooldown": 20,
-        "monster_message": "Questing roots explode out of %1$s toward <npcname>!"
+        "monster_message": "Questing roots explode out of %1$s toward %3$s!"
       }
     ],
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "PATH_AVOID_FIRE" ],
     "biosignature": { "biosig_item": "withered", "biosig_timer": 12 },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a massive pile of leaves and sticks." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a massive pile of leaves and sticks." },
     "death_drops": "brackenwight_drops"
   },
   {
@@ -152,7 +152,7 @@
         "monster_message": "%1$s stomps heavily and the ground shakes!"
       }
     ],
-    "death_function": { "message": "%s collapses into broken stone!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s collapses into broken stone!", "corpse_type": "NO_CORPSE" },
     "death_drops": "gnome_drops",
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "BASHES", "FIREPROOF", "ACIDPROOF", "DIGS", "STUN_IMMUNE" ]
   }

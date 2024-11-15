@@ -19,9 +19,7 @@
       "LIGHTSTEP",
       "WILDWALKER",
       "ANTIJUNK",
-      "FLIMSY",
       "WEAKSTOMACH",
-      "PALE",
       "DISIMMUNE",
       "PICKYEATER"
     ]
@@ -66,7 +64,7 @@
       "DARKSIGHT",
       "GOBLIN_BUILD",
       "GOBLIN_TEETH",
-      "NIGHTVISION3",
+      "GOBLIN_EYES",
       "SAPROVORE",
       "SNOUT",
       "NAILS",
@@ -103,7 +101,7 @@
       "RESISTWARM",
       "LIZ_EYE",
       "REGEN_LIZ",
-      "MUZZLE_LONG",
+      "MUZZLE_LONG_LIZ",
       "WEBBED_LIZ_FEET",
       "TALONS",
       "SLIT_NOSTRILS",
@@ -121,7 +119,7 @@
     "traits": [
       "THRESH_SPECIES_RAVENFOLK",
       "RAVENFOLK_BUILD",
-      "WINGS_BIRD",
+      "RAVENFOLK_WINGS",
       "DOWN",
       "BEAK_RAVEN",
       "RAVENFOLK_LEGS",

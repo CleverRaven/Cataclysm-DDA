@@ -1,0 +1,12 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "stream", "stream_end", "stream_corner" ],
+    "copy-from": "generic_open_land",
+    "name": "stream",
+    "sym": ".",
+    "color": "light_blue",
+    "vision_levels": "blends_till_details",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  }
+]

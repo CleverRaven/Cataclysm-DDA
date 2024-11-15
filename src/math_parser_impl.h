@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "dialogue_helpers.h"
+#include "type_id.h"
 #include "math_parser_diag.h"
 #include "math_parser_func.h"
 
@@ -39,7 +40,9 @@ constexpr bool operator>( binary_op const &lhs, binary_op const &rhs )
            ( lhs.precedence == rhs.precedence && lhs.assoc == binary_op::associativity::left );
 }
 enum class paren {
-    left = 0,
+    left_sq = 0,
+    right_sq,
+    left,
     right,
 };
 
@@ -57,7 +60,7 @@ struct thingie;
 struct oper {
     oper( thingie l_, thingie r_, binary_op::f_t op_ );
 
-    double eval( dialogue &d ) const;
+    double eval( const_dialogue const &d ) const;
 
     std::shared_ptr<thingie> l, r;
     binary_op::f_t op{};
@@ -65,7 +68,7 @@ struct oper {
 struct func {
     explicit func( std::vector<thingie> &&params_, math_func::f_t f_ );
 
-    double eval( dialogue &d ) const;
+    double eval( const_dialogue const &d ) const;
 
     std::vector<thingie> params;
     math_func::f_t f{};
@@ -73,27 +76,27 @@ struct func {
 struct func_jmath {
     explicit func_jmath( std::vector<thingie> &&params_, jmath_func_id const &id_ );
 
-    double eval( dialogue &d ) const;
+    double eval( const_dialogue const &d ) const;
 
     std::vector<thingie> params;
     jmath_func_id id;
 };
 
 struct func_diag_eval {
-    using eval_f = std::function<double( dialogue & )>;
+    using eval_f = diag_eval_dbl_f;
     explicit func_diag_eval( eval_f &&f_ ) : f( f_ ) {}
 
-    double eval( dialogue &d ) const {
+    double eval( const_dialogue const &d ) const {
         return f( d );
     }
 
     eval_f f;
 };
 struct func_diag_ass {
-    using ass_f = std::function<void( dialogue &, double )>;
+    using ass_f = diag_assign_dbl_f;
     explicit func_diag_ass( ass_f &&f_ ) : f( f_ ) {}
 
-    static double eval( dialogue &/* d */ )  {
+    static double eval( const_dialogue const &/* d */ )  {
         debugmsg( "eval() called on assignment function" );
         return 0;
     }
@@ -108,13 +111,7 @@ struct var {
     template<class... Args>
     explicit var( Args &&... args ) : varinfo( std::forward<Args>( args )... ) {}
 
-    double eval( dialogue &d ) const {
-        std::string const str = read_var_value( varinfo, d );
-        if( str.empty() ) {
-            return 0;
-        }
-        return std::stod( str );
-    }
+    double eval( const_dialogue const &d ) const;
 
     var_info varinfo;
 };
@@ -124,6 +121,10 @@ struct kwarg {
     std::string key;
     std::shared_ptr<thingie> val;
 };
+struct array {
+    explicit array( std::vector<thingie> &&params_ ): params( params_ ) {}
+    std::vector<thingie> params;
+};
 struct ternary {
     ternary() = default;
     explicit ternary( thingie cond_, thingie mhs_, thingie rhs_ );
@@ -131,7 +132,7 @@ struct ternary {
     std::shared_ptr<thingie> mhs;
     std::shared_ptr<thingie> rhs;
 
-    double eval( dialogue &d ) const;
+    double eval( const_dialogue const &d ) const;
 };
 struct thingie {
     thingie() = default;
@@ -141,14 +142,14 @@ struct thingie {
     explicit thingie( std::in_place_type_t<T> /*t*/, Args &&...args )
         : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
 
-    constexpr double eval( dialogue &d ) const;
+    constexpr double eval( const_dialogue const &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var, kwarg, ternary>;
+        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var, kwarg, ternary, array>;
     impl_t data;
 };
 
-constexpr double thingie::eval( dialogue &d ) const
+constexpr double thingie::eval( const_dialogue const &d ) const
 {
     return std::visit( overloaded{
         []( double v )
@@ -156,14 +157,19 @@ constexpr double thingie::eval( dialogue &d ) const
             return v;
         },
         // NOLINTNEXTLINE(cata-use-string_view)
-        []( const std::string & v )
+        []( std::string const & v )
         {
-            debugmsg( "Unexpected string operand %.*s", v.size(), v.data() );
+            debugmsg( "Unexpected string operand %s", v );
             return 0.0;
         },
         []( kwarg const & v )
         {
             debugmsg( "Unexpected kwarg %s", v.key );
+            return 0.0;
+        },
+        []( array const & /* v */ )
+        {
+            debugmsg( "Unexpected array" );
             return 0.0;
         },
         [&d]( auto const & v ) -> double

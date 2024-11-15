@@ -17,6 +17,8 @@
 #include <string>
 
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "coordinate_constants.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -33,7 +35,7 @@
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
         dealt_projectile_attack &attack, const std::string &weapon_type )
 {
-    static const tripoint target_point{ 5, 5, 0 };
+    static const tripoint_bub_ms target_point{ 5, 5, 0 };
     map &here = get_map();
     for( int i = 0; i < 10; ++i ) {
         projectile projectile_copy = attack.proj;
@@ -81,7 +83,7 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
     test_projectile.critical_multiplier = weapon.ammo_data()->ammo->critical_multiplier;
 
     dealt_projectile_attack attack {
-        test_projectile, nullptr, dealt_damage_instance(), tripoint_zero, accuracy_critical - 0.05
+        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms_zero, accuracy_critical - 0.05
     };
     if( !killable.empty() ) {
         test_projectile_attack( killable, true, attack, weapon_type );

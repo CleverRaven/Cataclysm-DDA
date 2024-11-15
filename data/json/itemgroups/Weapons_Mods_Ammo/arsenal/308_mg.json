@@ -3,7 +3,17 @@
     "type": "item_group",
     "id": "milspec_arsenal_308_mg_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_308_mg_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_308_mg_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_30_308_1tracer4ap_200", "count": [ 1, 4 ] },
+          { "item": "ammo_can_30_308_4fmj1tracer_200", "count": [ 1, 4 ] },
+          { "item": "ammo_can_50_308_600", "count": [ 1, 4 ] },
+          { "item": "ammo_can_fat_50_308_1tracer4ap_600", "count": [ 1, 4 ] }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -11,10 +21,10 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_308_mg_gun&mags" },
-      { "group": "ammo_can_belt308_full", "prob": 30 },
-      { "group": "ammo_can_belt308_full", "prob": 80, "count": [ 0, 1 ] },
-      { "group": "ammo_can_belt308_part", "count": [ 1, 2 ] },
-      { "group": "ammo_can_belt308_part", "count": [ 1, 2 ], "prob": 50 }
+      { "group": "ammo_can_308_mg_any_full", "prob": 30 },
+      { "group": "ammo_can_308_mg_any_full", "prob": 80, "count": [ 0, 1 ] },
+      { "group": "ammo_can_308_mg_any_part", "count": [ 1, 2 ] },
+      { "group": "ammo_can_308_mg_any_part", "count": [ 1, 2 ], "prob": 50 }
     ]
   },
   {
@@ -26,24 +36,5 @@
       { "item": "m240", "count": 1, "prob": 40 },
       { "item": "m240", "count": 1, "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt308_full",
-    "//": "ammo belts are awfully broken due #57981, looks like this group will require the fix after resolving the bug",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_can_belt308_pouch", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt308_part",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_can_belt308_pouch", "count": [ 0, 1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt308_pouch",
-    "container-item": "cheap_ammo_pouch_belt308",
-    "items": [ { "item": "belt308", "count": 1 } ]
   }
 ]

@@ -1,6 +1,88 @@
 [
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_1", "necropolis_a_2", "necropolis_a_3" ],
+      [ "necropolis_a_10", "necropolis_a_11", "necropolis_a_12" ]
+    ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................................................................",
+        ".....................C..................................................",
+        "...............................ssssssss|-v---v-|.....#..................",
+        ".......#.......................ssssssssw  @@d  |................#.......",
+        "...............................|-;-vvv-|  @@   v........................",
+        "...............................|c ccOcc|       v........................",
+        "........................#......vc     c|       |........................",
+        "................#..............vc     f|+|+|-+-|..........x.............",
+        "..........x....................v         |r|c B|.....#..................",
+        "...#........................|--|o       ?|-|S B|........................",
+        "................C...........|r +    nn  ?|r|c t|........................",
+        "............................|--|c   nn  ?|+|-+-|...........#............",
+        "............................|tS|c       ?|     |........................",
+        "............................v  +         +   @@v........................",
+        ".........#..................|--| ----|   |   @@v........................",
+        "....................#.......|           P|    d|........................",
+        "............................|  hnnh  |;;-|-vvv-|........................",
+        "............................v  hnnh  |sssssss...........................",
+        "............................v  hnnh  vsssssss...........................",
+        "....#.....x.................|        |ss.....................#..........",
+        ".............#..............|-vv--vv-|ss......#......X..................",
+        "......................................ss................................",
+        "......................................ss................................",
+        "...............X......................ss................................",
+        ".qQQQQQQQQQQQQQQQQQQQQQQQq......sssssssssssssssss8777777777777777777778.",
+        ".q.......................q.....ssssssssssssssssss8ssrrrrrrrrrrsssssssr8.",
+        ".q..|-vv-|----|-|-----|..q....ss_________________9sssssssssssssssssssr8.",
+        ".q..|ccSc|BtcS|r|d @@ |..q...ss__________________9sssssssssssssssZZssr8.",
+        ".q..|c   |B   | +  @@ v..q..ss___________________9sssssssssssssssZZssr8.",
+        ".q..vO   |--+-|-|     |..q.ss____________________9sssssssssssssssssssr8.",
+        ".q..vc          +     v..qss_____________________9sssssssssssssssssssr8.",
+        ".q..|f   |c    ?| ddd |..qss_____________________9sssssssssssssssZZssr8.",
+        ".q..|-| -|c    ?|-----|..qss_________________s...8sssZZssssZZssssZZssr8.",
+        ".q....|        ?v........qss________________ss...8sssZZssssZZssssssssr8.",
+        ".q....V hnnh    |........qss________________ss...8sssssssssssssssssssr8.",
+        ".q....V hnnh    ;sssssssssss_______,,_______ss...8sssssssssssssssZZssr8.",
+        ".q....V         ;sssssssssss_______,,_______ss...8srrrrrrrrrsssssZZssr8.",
+        ".q....|      ooP|....s...qss_______,,_______ss..|------------|rssssssr8.",
+        ".q....|;|--+----|--|es...qss________________ss..|rrrrrrrrrrrr|rssssssr8.",
+        ".q..ssss|r         =_______________,,_______ss..wc          r|rssZZssr8.",
+        ".q..sЮss|r         =_______________,,_______ss..wc  rr  rr  r|rssZZssr8.",
+        ".q..sЯss|r         =_______________,,_______ss..wc  rr  rr  r|rssssssr8.",
+        ".q..sЮss|r         =________________________ss..|r           [sssssssr8.",
+        ".q..ssss|r         =_______________,,_______ss..wc  rr       [sssssssr8.",
+        ".q......|----------|.....qss_______,,_______ss..wc  rr  cc  r|rssssssr8.",
+        ".q.......................qss_______,,_______ss..wc      6   r|rssZZssr8.",
+        ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|rcccr  c   r|rssZZssr8.",
+        "..........................ss_______,,_______ss..|-www-[[-www-|777777778."
+      ],
+      "palettes": [ "necropolis_a" ],
+      "terrain": { "Ю": "t_sidewalk", "Я": "t_sidewalk" },
+      "furniture": { "Ю": "f_chair", "Я": "f_table" },
+      "toilets": { "t": {  } },
+      "place_monsters": [
+        { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
+        { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
+        { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
+        { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.1 },
+        { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
+        { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.1 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "electric_car", "x": 15, "y": 41, "chance": 75, "rotation": 0 },
+        { "vehicle": "flatbed_truck", "x": 55, "y": 30, "chance": 50, "rotation": 180 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_4", "necropolis_a_5", "necropolis_a_6" ],
+      [ "necropolis_a_13", "necropolis_a_14", "necropolis_a_15" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -54,7 +136,6 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": {  },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -69,18 +150,17 @@
         { "vehicle": "policecar", "x": 53, "y": 13, "chance": 25, "rotation": -30 },
         { "vehicle": "policecar", "x": 67, "y": 13, "chance": 25, "rotation": 30 },
         { "vehicle": "policecar", "x": 60, "y": 16, "chance": 25, "rotation": 90 },
-        { "vehicle": "car", "x": 30, "y": 31, "chance": 30, "rotation": 135 }
+        { "vehicle": "car", "x": 30, "y": 31, "chance": 100, "rotation": 135 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_4", "necropolis_a_5", "necropolis_a_6" ],
-      [ "necropolis_a_13", "necropolis_a_14", "necropolis_a_15" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_7", "necropolis_a_8", "necropolis_a_9" ],
+      [ "necropolis_a_16", "necropolis_a_17", "necropolis_a_18" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -134,7 +214,7 @@
         "..|P           : | hhhhh |ss________________,________,________8........."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "l": "t_floor", "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -176,16 +256,15 @@
         { "vehicle": "policecar", "x": 57, "y": 38, "chance": 50, "rotation": 180 },
         { "vehicle": "policecar", "x": 57, "y": 45, "chance": 50, "rotation": 180 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_7", "necropolis_a_8", "necropolis_a_9" ],
-      [ "necropolis_a_16", "necropolis_a_17", "necropolis_a_18" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_19", "necropolis_a_20", "necropolis_a_21" ],
+      [ "necropolis_a_28", "necropolis_a_29", "necropolis_a_30" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -217,13 +296,13 @@
         ".....|e      | r[   ccccccccccc        cccc|.sss....T.......ss...T......",
         "..#..| EEEEE | r[                         c|.sss............bss.........",
         ".....| EEEEE | r[             cc  cc  ZZ  c|.sss............bss.........",
-        ".....|zzEEEE | r[  rrrrrrrrr   c   c  ZZ  c|.sss............bss.........",
-        ".....|zzEEEE | r[  rrrrrrrrr  6c  6c      cV.sss........T.....ss........",
+        ".....|zEEEEE | r[  rrrrrrrrr   c   c  ZZ  c|.sss............bss.........",
+        ".....|zEEEEE | r[  rrrrrrrrr  6c  6c      cV.sss........T.....ss........",
         "....X| EEEEE | r[                         cV.sss..............ss......T.",
-        ".....|zzEEEzz| r[                         cV.sss.............ssss.......",
-        ".....|zzEEEzz| r[  rrrrrrrrr   ZZ  ZZ  c  c|.sss...T........ssssss......",
+        ".....|zEEEEEz| r[                         cV.sss.............ssss.......",
+        ".....|zEEEEEz| r[  rrrrrrrrr   ZZ  ZZ  c  c|.sss...T........ssssss......",
         ".....| EEEEE + r[  rrrrrrrrr   ZZ  ZZ  c  c|.sss........aAassssssss.....",
-        ".....|zzEEEE |--|                      c {c{.sss........aUasssssssssssss",
+        ".....|zEEEEE |--|                      c {c{.sss........aUasssssssssssss",
         ".....|zz        +              Z{  ZZ  c  {{.sss........aUasssssssssssss",
         ".....|6         +  rrrrrrrrr   Z{{ ZZ    {{{{sss........aAassssssss.....",
         ".....|-------|  |  rrrrrrrrr     { {   {{){|.sss...T........ssssss......",
@@ -239,7 +318,7 @@
         "...........ss|r {{  {{{{sMsssssMsMMsMMMMMMMMMMMMMMMNNNMNNMNNNNNNMss....."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "z": "t_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -286,16 +365,15 @@
         { "item": "kitchen", "x": [ 24, 30 ], "y": [ 25, 25 ], "chance": 70 },
         { "item": "field", "x": [ 48, 71 ], "y": [ 24, 47 ], "chance": 70 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_19", "necropolis_a_20", "necropolis_a_21" ],
-      [ "necropolis_a_28", "necropolis_a_29", "necropolis_a_30" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_22", "necropolis_a_23", "necropolis_a_24" ],
+      [ "necropolis_a_31", "necropolis_a_32", "necropolis_a_33" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -349,7 +427,7 @@
         "..ss________________sss..........|c      |---------|      h    @@ |--|.."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "collapsed_building_rubble", "x": [ 0, 9 ], "y": [ 0, 4 ], "chance": 70 },
@@ -392,18 +470,17 @@
       ],
       "place_vehicles": [
         { "vehicle": "fire_truck", "x": 15, "y": 8, "chance": 90, "rotation": 45 },
-        { "vehicle": "car", "x": 45, "y": 5, "chance": 30, "rotation": 45 }
+        { "vehicle": "car", "x": 45, "y": 5, "chance": 100, "rotation": 45 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_22", "necropolis_a_23", "necropolis_a_24" ],
-      [ "necropolis_a_31", "necropolis_a_32", "necropolis_a_33" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_25", "necropolis_a_26", "necropolis_a_27" ],
+      [ "necropolis_a_34", "necropolis_a_35", "necropolis_a_36" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -457,7 +534,6 @@
         "......|-{{{{ssMsMssMssMMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..M..MM......"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -488,16 +564,15 @@
         { "item": "collapsed_building_rubble", "x": [ 48, 71 ], "y": [ 24, 47 ], "chance": 50 },
         { "item": "field", "x": [ 48, 71 ], "y": [ 24, 47 ], "chance": 70 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_25", "necropolis_a_26", "necropolis_a_27" ],
-      [ "necropolis_a_34", "necropolis_a_35", "necropolis_a_36" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "om_terrain": [
+      [ "necropolis_a_37", "necropolis_a_38", "necropolis_a_39" ],
+      [ "necropolis_a_46", "necropolis_a_47", "necropolis_a_48" ]
+    ],
+    "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -551,7 +626,7 @@
         "........|BB|d@@d@@ n|sss________________________sss|   jjjjjj D|l    |ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "D": "t_floor", "l": "t_floor", "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "home_hw", "x": [ 12, 15 ], "y": [ 20, 21 ], "chance": 75 },
@@ -605,16 +680,15 @@
         { "vehicle": "fire_truck", "x": 32, "y": 28, "chance": 90, "rotation": 270 }
       ],
       "place_vendingmachines": [ { "item_group": "vending_drink", "x": 64, "y": 47 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_37", "necropolis_a_38", "necropolis_a_39" ],
-      [ "necropolis_a_46", "necropolis_a_47", "necropolis_a_48" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_40", "necropolis_a_41", "necropolis_a_42" ],
+      [ "necropolis_a_49", "necropolis_a_50", "necropolis_a_51" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -641,24 +715,24 @@
         "sssssssssssssssssssssssssss__________________sssssssssssssssssssssssssss",
         "ssssssssssssssssssssssssssss_________,,,,,,_ssssssssssssssssssssssssssss",
         "..ss{{{{--|--|--|-----|sssss________________sss#######|--ww-++-ww---|sss",
-        "..ss{{ {@d|BB|BB|d@@ n|ss.ss_______,,_______ss##shhsss|hh      chnnh|sss",
-        "..ss{{{@@ | t|t | @@ hwss.ss_______,,_______ss#shnnhss|nn      chnnh|sss",
-        "..ss{     | S|S |     wss.ss_______,,_______ss#shnnhsswnn  h        |sss",
-        "..ss{     |+-|-+|     |ss.ss________________ssssshhssswhh  n   hcc  |777",
+        "..ss{{ {@d|BB|BB|d@@ n|ss.ss_______,,_______ss##sЮЮsss|hh      chnnh|sss",
+        "..ss{{{@@ | t|t | @@ hwss.ss_______,,_______ss#sЮЯЯЮss|nn      chnnh|sss",
+        "..ss{     | S|S |     wss.ss_______,,_______ss#sЮЯЯЮsswnn  h        |sss",
+        "..ss{     |+-|-+|     |ss.ss________________sssssЮЮssswhh  n   hcc  |777",
         "..ss;       f|f       ;ss.ss_______,,_______sssssssssswcc  h   hc  r|sss",
         "..ss| nnnn   |   nnnn |ss.ss_______,,_______ss#sssssss|hh      hc  r|sss",
-        "..ss|-----|--|--|-----|ss.ss_______,,_______ss#sshhsss|nn  h   hc  f|sss",
-        "..ss|n @@d|BB|BB|d@@ n|ss.ss________________ss#shnnhsswnn  n   hc  f|sss",
-        "..sswh @@ | t|t | @@ hwss.ss_______,,_______ss#shnnhsswhh  h   hc  c|sss",
-        "..ssw     | S|S |     wss.ss_______,,_______ss#sshhssswcc      hc  S|sss",
+        "..ss|-----|--|--|-----|ss.ss_______,,_______ss#ssЮЮsss|nn  h   hc  f|sss",
+        "..ss|n @@d|BB|BB|d@@ n|ss.ss________________ss#sЮЯЯЮsswnn  n   hc  f|sss",
+        "..sswh @@ | t|t | @@ hwss.ss_______,,_______ss#sЮЯЯЮsswhh  h   hc  c|sss",
+        "..ssw     | S|S |     wss.ss_______,,_______ss#ssЮЮssswcc      hc  S|sss",
         "..ss|     |+-|-+|     |ss.ss_______,,_______ss#sssssss|         c  r|sss",
         "..ss;       f|f       ;ss.ss________________ssssssssss[         c  r|sss",
         "..ss| nnnn   |   nnnn |ss.ss_______,,_______ssssssssss[  |----|c-- -|sss",
         "..ss|-----|--|--|-----|ss.ss_______,,_______ss#sssssss|  +    |    c|sss",
-        "..ss|n @@d|BB|BB|d@@ n|ss.ss_______,,_______ss#sshhsssw  |S t |c   S|Dss",
-        "..sswh @@ | t|t | @@ hwss.ss________________ss#shnnhssw  |----|c   S|Dss",
-        "..ssw     | S|S |     wss.ss_______,,_______ss#shnnhssw  +    |c    ;sss",
-        "..ss|     |+-|-+|     |ss.ss_______,,_______ss##shhsss|  |S t |cOOff|797",
+        "..ss|n @@d|BB|BB|d@@ n|ss.ss_______,,_______ss#ssЮЮsssw  |S t |c   S|Dss",
+        "..sswh @@ | t|t | @@ hwss.ss________________ss#sЮЯЯЮssw  |----|c   S|Dss",
+        "..ssw     | S|S |     wss.ss_______,,_______ss#sЮЯЯЮssw  +    |c    ;sss",
+        "..ss|     |+-|-+|     |ss.ss_______,,_______ss##sЮЮsss|  |S t |cOOff|797",
         "..ss;       f|f       ;ss.ss_______,,________ss#####ss|--|----|-----|sss",
         "..ss| nnnnn  |   nnnn |ss.ss_______________________,__,_________________",
         "..ss|--------|--------|ss.ss_______,,______________,,,,_________________",
@@ -668,7 +742,8 @@
         "ss________________________ss_______,,______________,,,,_________________"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Ю": "t_sidewalk", "Я": "t_sidewalk" },
+      "furniture": { "Ю": "f_chair", "Я": "f_table" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 17, 17 ], "y": [ 23, 23 ], "chance": 80 },
@@ -703,16 +778,15 @@
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.1 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_40", "necropolis_a_41", "necropolis_a_42" ],
-      [ "necropolis_a_49", "necropolis_a_50", "necropolis_a_51" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_43", "necropolis_a_44", "necropolis_a_45" ],
+      [ "necropolis_a_52", "necropolis_a_53", "necropolis_a_54" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -766,7 +840,6 @@
         "___________________________________,,_______ss......C..................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "collapsed_building_rubble", "x": [ 15, 23 ], "y": [ 0, 18 ], "chance": 70 },
@@ -812,16 +885,15 @@
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.1 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_43", "necropolis_a_44", "necropolis_a_45" ],
-      [ "necropolis_a_52", "necropolis_a_53", "necropolis_a_54" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_55", "necropolis_a_56", "necropolis_a_57" ],
+      [ "necropolis_a_64", "necropolis_a_65", "necropolis_a_66" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -875,7 +947,7 @@
         ".............###.s______,______,______,______s##s___,,___s|hnnh  hnnh|ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "D": "t_floor", "l": "t_floor" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 13, 18 ], "y": [ 4, 4 ], "chance": 70 },
@@ -925,21 +997,20 @@
         { "vehicle": "flatbed_truck", "x": 32, "y": 20, "chance": 75, "rotation": 0 },
         { "vehicle": "car", "x": 36, "y": 10, "chance": 75, "rotation": 45 },
         { "vehicle": "ambulance", "x": 37, "y": 12, "chance": 90, "rotation": 270 },
-        { "vehicle": "truck_trailer", "x": 4, "y": 40, "chance": 30, "rotation": 0 },
-        { "vehicle": "semi_truck", "x": 12, "y": 38, "chance": 30, "rotation": 0 },
+        { "vehicle": "truck_trailer", "x": 4, "y": 40, "chance": 100, "rotation": 0 },
+        { "vehicle": "semi_truck", "x": 12, "y": 38, "chance": 100, "rotation": 0 },
         { "vehicle": "policecar", "x": 22, "y": 35, "chance": 90, "rotation": 90 }
       ],
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 64, "y": 0 }, { "item_group": "vending_drink", "x": 68, "y": 17 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_55", "necropolis_a_56", "necropolis_a_57" ],
-      [ "necropolis_a_64", "necropolis_a_65", "necropolis_a_66" ]
-    ],
-    "type": "mapgen",
-    "weight": 20050
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_58", "necropolis_a_59", "necropolis_a_60" ],
+      [ "necropolis_a_67", "necropolis_a_68", "necropolis_a_69" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -993,7 +1064,6 @@
         "____________,,____________ss_______,,_______ss__________________________"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1016,16 +1086,15 @@
         { "vehicle": "pickup", "x": 64, "y": 19, "chance": 50, "rotation": 270 },
         { "vehicle": "car", "x": 69, "y": 20, "chance": 50, "rotation": 270 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_58", "necropolis_a_59", "necropolis_a_60" ],
-      [ "necropolis_a_67", "necropolis_a_68", "necropolis_a_69" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_a_61", "necropolis_a_62", "necropolis_a_63" ],
+      [ "necropolis_a_70", "necropolis_a_71", "necropolis_a_72" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1079,7 +1148,6 @@
         "_____________________________s.......#.................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1113,16 +1181,12 @@
         { "item": "bed", "x": [ 53, 54 ], "y": [ 20, 21 ], "chance": 80 },
         { "item": "field", "x": [ 48, 71 ], "y": [ 24, 47 ], "chance": 70 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_a_61", "necropolis_a_62", "necropolis_a_63" ],
-      [ "necropolis_a_70", "necropolis_a_71", "necropolis_a_72" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_a_73", "necropolis_a_74", "necropolis_a_75" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1152,7 +1216,7 @@
         "........................................................#..............."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "D": "t_floor" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 18, 19 ], "y": [ 13, 16 ], "chance": 70 },
@@ -1178,13 +1242,12 @@
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_a_73", "necropolis_a_74", "necropolis_a_75" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_a_76", "necropolis_a_77", "necropolis_a_78" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1214,8 +1277,7 @@
         "............................________________ss.........................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "gaspumps": { "&": { "amount": [ 0, 100 ] } },
+      "gaspumps": { "&": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1231,13 +1293,12 @@
         { "item": "magazines", "x": [ 67, 67 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "snacks", "x": [ 67, 70 ], "y": [ 7, 7 ], "chance": 70 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_a_76", "necropolis_a_77", "necropolis_a_78" ] ],
-    "type": "mapgen",
-    "weight": 1000000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_a_79", "necropolis_a_80", "necropolis_a_81" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1267,7 +1328,7 @@
         "..............#........................................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "z": "t_floor" },
       "toilets": { "t": {  } },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
       "place_items": [
@@ -1293,9 +1354,6 @@
         { "vehicle": "car", "x": 10, "y": 10, "chance": 75, "rotation": 270 },
         { "vehicle": "pickup", "x": 21, "y": 10, "chance": 75, "rotation": 270 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_a_79", "necropolis_a_80", "necropolis_a_81" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   }
 ]

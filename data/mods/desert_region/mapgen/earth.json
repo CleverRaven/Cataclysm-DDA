@@ -3,14 +3,12 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sandstone",
-    "weight": 100,
     "object": { "fill_ter": "t_sandstone" }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "mesa",
-    "weight": 100,
     "object": { "fill_ter": "t_sandstone" }
   },
   {
@@ -18,6 +16,7 @@
     "method": "json",
     "om_terrain": [ [ "mesa_edge_v1", "mesa_edge_v2" ] ],
     "//": "Z = 0",
+    "//1": "These would probably be better done as conditional nests of mesa though z-level testing would need adding",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -200,6 +199,7 @@
     "method": "json",
     "om_terrain": [ [ "mesa_2way_top_v1", "mesa_2way_top_v2" ] ],
     "//": "Z = 2",
+    "//1": "Why does this use predecessor when it replaces the whole map?",
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -736,5 +736,22 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "#": "t_null", " ": "t_open_air" }
     }
+  },
+  {
+    "type": "palette",
+    "id": "trail_width_palette",
+    "//": "Number indicates number of tiles from center",
+    "nested": {
+      "0": { "chunks": [ "1x1_trail" ] },
+      "1": { "chunks": [ [ "1x1_trail", 1 ], [ "null", 1 ] ] },
+      "2": { "chunks": [ [ "1x1_trail", 0 ], [ "null", 1 ] ] },
+      "3": { "chunks": [ [ "1x1_trail", 0 ], [ "null", 1 ] ] },
+      "4": { "chunks": [ [ "1x1_trail", 0 ], [ "null", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "trail_path_palette",
+    "terrain": { ".": "t_railroad_rubble" }
   }
 ]

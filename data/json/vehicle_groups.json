@@ -129,14 +129,7 @@
   {
     "type": "vehicle_group",
     "id": "boatrent",
-    "vehicles": [
-      [ "canoe", 2000 ],
-      [ "kayak", 1500 ],
-      [ "kayak_racing", 500 ],
-      [ "DUKW", 250 ],
-      [ "raft", 2000 ],
-      [ "wood_rowboat_double", 1500 ]
-    ]
+    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ], [ "raft", 2000 ], [ "wood_rowboat_double", 1500 ] ]
   },
   {
     "type": "vehicle_group",
@@ -146,7 +139,7 @@
   {
     "type": "vehicle_group",
     "id": "lake",
-    "vehicles": [ [ "DUKW", 250 ], [ "cabin_cruiser_wood", 1500 ] ]
+    "vehicles": [ [ "cabin_cruiser_wood", 1500 ] ]
   },
   {
     "type": "vehicle_group",
@@ -301,6 +294,7 @@
       [ "humvee", 600 ],
       [ "humvee_gl", 150 ],
       [ "military_cargo_truck", 300 ],
+      [ "military_cargo_truck_b", 300 ],
       [ "policecar", 400 ],
       [ "policecar_k9", 2 ],
       [ "policesuv", 400 ],
@@ -312,7 +306,6 @@
       [ "van_full-size", 600 ],
       [ "van_cargo", 400 ],
       [ "van_camper", 200 ],
-      [ "rara_x", 800 ],
       [ "apc", 300 ],
       [ "apc-gl", 100 ],
       [ "aapc-mg", 100 ],
@@ -416,6 +409,7 @@
       [ "pickup", 300 ],
       [ "4seat_pickup", 125 ],
       [ "portable_generator", 50 ],
+      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
@@ -468,6 +462,7 @@
       [ "scooter", 100 ],
       [ "scooter_electric", 100 ],
       [ "portable_generator", 50 ],
+      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
@@ -581,7 +576,6 @@
       [ "golf_cart", 300 ],
       [ "scooter", 300 ],
       [ "bicycle", 1000 ],
-      [ "rara_x", 300 ],
       [ "unicycle", 100 ],
       [ "bicycle_electric", 200 ],
       [ "motorcycle", 500 ],
@@ -594,6 +588,7 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
+      [ "portable_diesel_generator", 25 ],
       [ "4x4_car", 100 ],
       [ "4x4_car_diesel", 100 ],
       [ "underlift_tow_truck", 250 ]
@@ -638,6 +633,7 @@
       [ "motorcycle", 10 ],
       [ "motorcycle_chassis", 20 ],
       [ "portable_generator", 20 ],
+      [ "portable_diesel_generator", 20 ],
       [ "motorcycle_3wheel", 5 ],
       [ "motorcycle_3wheel_super", 5 ],
       [ "quad_bike", 10 ],
@@ -652,6 +648,7 @@
     "id": "military_vehicles",
     "vehicles": [
       [ "military_cargo_truck", 1000 ],
+      [ "military_cargo_truck_b", 1000 ],
       [ "humvee", 500 ],
       [ "humvee_gl", 250 ],
       [ "humvee_tow", 125 ],
@@ -663,6 +660,11 @@
   },
   {
     "type": "vehicle_group",
+    "id": "military_cargo_trucks",
+    "vehicles": [ [ "military_cargo_truck", 500 ], [ "military_cargo_truck_b", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "farm_vehicles",
     "vehicles": [
       [ "tractor_plow", 1000 ],
@@ -671,7 +673,8 @@
       [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
       [ "excavator", 500 ],
-      [ "wheelbarrow", 100 ]
+      [ "wheelbarrow", 100 ],
+      [ "portable_diesel_generator", 75 ]
     ]
   },
   {
@@ -1078,25 +1081,25 @@
   {
     "type": "vehicle_group",
     "id": "workshop_vehicles",
-    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
+    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ], [ "portable_diesel_generator", 20 ] ]
   },
   {
     "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-      [ "helicopter_apache_1a", 100 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_osprey_2a", 100 ],
-      [ "helicopter_osprey_2b", 400 ],
-      [ "helicopter_osprey_2c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ],
-      [ "2seater2_Wreck", 400 ],
-      [ "SmallFlier3_Wreck", 400 ],
-      [ "Smallflier1_Wreck", 400 ],
-      [ "SmallFlier2_Wreck", 400 ],
+      [ "helicopter_apache_1a", 1 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_osprey_2a", 1 ],
+      [ "helicopter_osprey_2b", 4 ],
+      [ "helicopter_osprey_2c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ],
+      [ "2seater2_Wreck", 4000 ],
+      [ "SmallFlier3_Wreck", 4000 ],
+      [ "Smallflier1_Wreck", 4000 ],
+      [ "SmallFlier2_Wreck", 4000 ],
       [ "Medevac1_Wreck", 400 ],
       [ "Medevac2_Wreck", 400 ]
     ]
@@ -1105,16 +1108,16 @@
     "type": "vehicle_group",
     "id": "crashed_helicopters_small",
     "vehicles": [
-      [ "helicopter_apache_1a", 100 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ],
-      [ "2seater2_Wreck", 400 ],
-      [ "SmallFlier3_Wreck", 400 ],
-      [ "Smallflier1_Wreck", 400 ],
-      [ "SmallFlier2_Wreck", 400 ],
+      [ "helicopter_apache_1a", 1 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ],
+      [ "2seater2_Wreck", 4000 ],
+      [ "SmallFlier3_Wreck", 4000 ],
+      [ "Smallflier1_Wreck", 4000 ],
+      [ "SmallFlier2_Wreck", 4000 ],
       [ "Medevac1_Wreck", 400 ],
       [ "Medevac2_Wreck", 400 ]
     ]
@@ -1128,13 +1131,13 @@
       [ "2seater2_Wreck", 200 ],
       [ "SmallFlier3_Wreck", 100 ],
       [ "SmallFlier2", 400 ],
-      [ "Medevac1", 100 ],
+      [ "Medevac1", 10 ],
       [ "Smallflier1_Wreck", 200 ],
       [ "SmallFlier2_Wreck", 200 ],
-      [ "Medevac1_Wreck", 100 ],
+      [ "Medevac1_Wreck", 10 ],
       [ "SmallFlier3", 400 ],
-      [ "Medevac2", 200 ],
-      [ "Medevac2_Wreck", 200 ]
+      [ "Medevac2", 20 ],
+      [ "Medevac2_Wreck", 20 ]
     ]
   },
   {
@@ -1144,9 +1147,9 @@
       [ "2seater2", 100 ],
       [ "SmallFlier1", 400 ],
       [ "SmallFlier2", 400 ],
-      [ "Medevac1", 100 ],
+      [ "Medevac1", 10 ],
       [ "SmallFlier3", 400 ],
-      [ "Medevac2", 200 ]
+      [ "Medevac2", 20 ]
     ]
   },
   {
@@ -1157,15 +1160,15 @@
       [ "Medevac2", 200 ],
       [ "Medevac1_Wreck", 200 ],
       [ "Medevac2_Wreck", 200 ],
-      [ "helicopter_apache_1a", 200 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_osprey_2a", 100 ],
-      [ "helicopter_osprey_2b", 400 ],
-      [ "helicopter_osprey_2c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ]
+      [ "helicopter_apache_1a", 2 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_osprey_2a", 1 ],
+      [ "helicopter_osprey_2b", 4 ],
+      [ "helicopter_osprey_2c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ]
     ]
   },
   {
@@ -1176,12 +1179,12 @@
       [ "Medevac2", 200 ],
       [ "Medevac1_Wreck", 200 ],
       [ "Medevac2_Wreck", 200 ],
-      [ "helicopter_apache_1a", 200 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ]
+      [ "helicopter_apache_1a", 2 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ]
     ]
   },
   {
@@ -1246,7 +1249,6 @@
     "vehicles": [
       [ "electric_car", 100 ],
       [ "suv_electric", 70 ],
-      [ "rara_x", 40 ],
       [ "car_luxury", 40 ],
       [ "car_micro", 40 ],
       [ "car_micro_hybrid", 40 ],
@@ -1606,6 +1608,7 @@
       [ "flatbed_truck", 800 ],
       [ "semi_truck", 800 ],
       [ "military_cargo_truck", 800 ],
+      [ "military_cargo_truck_b", 800 ],
       [ "humvee_gl", 800 ],
       [ "humvee", 800 ],
       [ "security_van", 800 ],

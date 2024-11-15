@@ -27,6 +27,13 @@ class iteminfo_query;
 struct iteminfo;
 struct tripoint;
 
+/// NEW!ness to player, if they seen such item already
+enum class content_newness {
+    NEW,  // at least one item is new
+    MIGHT_BE_HIDDEN,  // at least one item might be hidden and none are NEW
+    SEEN
+};
+
 class item_contents
 {
     public:
@@ -66,12 +73,16 @@ class item_contents
          * this tracks the remaining volume of any parent pockets
          */
         ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    units::volume remaining_parent_volume = 10000000_ml ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    units::volume remaining_parent_volume = 10000000_ml ) const;
-        ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true,
+                                         bool is_pick_up_inv = false ) const;
         ret_val<void> can_contain_rigid( const item &it, int &copies_remaining,
-                                         bool ignore_pkt_settings = true ) const;
+                                         bool ignore_pkt_settings = true,
+                                         bool is_pick_up_inv = false ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         bool contains_no_solids() const;
@@ -105,9 +116,9 @@ class item_contents
         const;
         /** returns a list of pointers to all top-level items */
         /** if unloading is true it ignores items in pockets that are flagged to not unload */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+        std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );
         /** returns a list of pointers to all top-level items */
-        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_top( pocket_type pk_type ) const;
 
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
@@ -121,6 +132,9 @@ class item_contents
         // returns all the ablative armor in pockets
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;
+
+        /// don't check top level item, do check its pockets, do check all nested
+        content_newness get_content_newness( const std::set<itype_id> &read_items ) const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -233,6 +247,8 @@ class item_contents
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
+        bool container_type_pockets_empty() const;
+
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
 
@@ -256,9 +272,9 @@ class item_contents
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type,
-                                            bool ignore_contents = false );
-        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<item *> insert_item( const item &it, pocket_type pk_type,
+                                     bool ignore_contents = false, bool unseal_pockets = false );
+        void force_insert_item( const item &it, pocket_type pk_type );
         bool can_unload_liquid() const;
 
         /**
@@ -326,17 +342,18 @@ class item_contents
         void remove_items_if( const std::function<bool( item & )> &filter );
 
         // whether the contents has a pocket with the associated type
-        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_pocket_type( pocket_type pk_type ) const;
         bool has_unrestricted_pockets() const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
-                           item_pocket::pocket_type pk_type ) const;
+                           pocket_type pk_type ) const;
 
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool watertight_container = false );
 
         void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
@@ -371,10 +388,10 @@ class item_contents
         // this will be where the algorithm picks the best pocket in the contents
         // returns nullptr if none is found
         ret_val<item_pocket *> find_pocket_for( const item &it,
-                                                item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
+                                                pocket_type pk_type = pocket_type::CONTAINER );
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
-                item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
+                pocket_type pk_type = pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
 

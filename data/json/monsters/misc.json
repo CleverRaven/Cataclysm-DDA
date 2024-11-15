@@ -1,6 +1,6 @@
 [
   {
-    "id": "debug_mon",
+    "id": "pseudo_debug_mon",
     "type": "MONSTER",
     "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
@@ -61,7 +61,7 @@
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
     "name": { "str": "middle-strength debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2  grabbing zombie.",
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2 grabbing zombie.",
     "grab_strength": 50
   },
   {
@@ -69,7 +69,7 @@
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
     "name": { "str": "strong debug grabber" },
-    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3  grabbing zombie.",
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3 grabbing zombie.",
     "grab_strength": 100
   },
   {
@@ -118,7 +118,7 @@
     "copy-from": "mon_debug_grabber",
     "weight": "100 kg",
     "name": { "str": "debug dragger" },
-    "description": "This monster exists to drag you behind it briefly",
+    "description": "This monster exists to drag you behind it briefly.",
     "special_attacks": [
       {
         "id": "grab_drag",
@@ -136,7 +136,7 @@
     ]
   },
   {
-    "id": "weakpoint_mon",
+    "id": "pseudo_weakpoint_mon",
     "type": "MONSTER",
     "name": { "str": "weakpoint monster" },
     "description": "This monster exists only for weakpoint testing purposes.",
@@ -161,7 +161,7 @@
         "armor_penalty": { "bullet": 25 },
         "coverage": 50,
         "coverage_mult": { "all": 0.5 },
-        "required_effects": [ "stunned" ]
+        "condition": { "npc_has_any_effect": [ "stunned" ] }
       },
       { "name": "impossible to hit", "coverage": 100, "difficulty": { "all": 100.0 } },
       {
@@ -220,7 +220,7 @@
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 500,
     "speed": 100,
@@ -403,26 +403,5 @@
     "harvest": "exempt",
     "revert_to_itype": "mannequin_decoy",
     "flags": [ "IMMOBILE", "NO_BREATHE", "NOT_HALLUCINATION" ]
-  },
-  {
-    "id": "mon_dummy_tutorial",
-    "type": "MONSTER",
-    "name": { "str": "dummy", "str_pl": "dummies" },
-    "description": "This dummy serves for only one purpose - to teach players how to hit monsters.",
-    "looks_like": "f_mannequin",
-    "default_faction": "",
-    "species": [ "UNKNOWN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 50,
-    "speed": 100,
-    "material": [ "wood" ],
-    "symbol": "X",
-    "color": "white",
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "vision_day": 1,
-    "harvest": "exempt",
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is destroyed." },
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION" ]
   }
 ]

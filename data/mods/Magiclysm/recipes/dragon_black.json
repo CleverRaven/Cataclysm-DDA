@@ -395,6 +395,7 @@
   {
     "type": "recipe",
     "result": "mutagen_black_dragon",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
@@ -410,6 +411,7 @@
   {
     "type": "recipe",
     "result": "iv_black_dragon",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",

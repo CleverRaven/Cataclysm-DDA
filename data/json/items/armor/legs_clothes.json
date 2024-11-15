@@ -6,8 +6,8 @@
     "description": "A traditional, ankle-length Buddhist skirt.  The bottom protrudes, and appears in the rough shape of a triangle.",
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 6500,
-    "price_postapoc": 50,
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kilt",
@@ -41,9 +41,8 @@
     "description": "A pair of basketball shorts.  Comfortable and light.",
     "weight": "190 g",
     "volume": "1 L",
-    "price": 1300,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "13 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "shorts",
@@ -89,9 +88,8 @@
     "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
     "weight": "520 g",
     "volume": "1750 ml",
-    "price": 4900,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "49 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -116,8 +114,8 @@
     "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
     "weight": "100 g",
     "volume": "250 ml",
-    "price": 6500,
-    "price_postapoc": 50,
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "skirt",
@@ -137,8 +135,8 @@
     "description": "A very short and breezy red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to safely practice cheerleading in this.",
     "weight": "70 g",
     "volume": "200 ml",
-    "price": 6500,
-    "price_postapoc": 50,
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "skirt",
@@ -157,8 +155,8 @@
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
-    "price": 10000,
-    "price_postapoc": 50,
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "pants_ski",
@@ -190,8 +188,8 @@
     "description": "A simple pair of short shorts.",
     "weight": "92 g",
     "volume": "250 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "boxer_briefs",
@@ -207,8 +205,8 @@
     "description": "A simple pair of fur short shorts.",
     "weight": "118 g",
     "volume": "250 ml",
-    "price": 5500,
-    "price_postapoc": 100,
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "hot_pants_leather",
@@ -225,8 +223,8 @@
     "description": "A simple pair of leather short shorts.",
     "weight": "106 g",
     "volume": "250 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "hot_pants",
@@ -240,16 +238,15 @@
     "id": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "jeans" },
-    "description": "A pair of blue jeans with two deep pockets.",
+    "description": "A pair of jeans with two deep pockets.",
     "weight": "600 g",
     "volume": "2 L",
-    "price": 5000,
-    "price_postapoc": 150,
-    "to_hit": 1,
+    "price": "50 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "pants",
-    "color": "blue",
+    "color": "light_blue",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -282,19 +279,197 @@
     ],
     "warmth": 10,
     "material_thickness": 0.65,
-    "//": "Lightweight 10 oz denim jeans.",
+    "//": "Mediumweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
-      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
-      { "id": "jeans2", "text": "A pair of black skinny jeans." },
+      { "id": "jeans1", "text": "A pair of blue jeans with two deep pockets." },
+      { "id": "jeans2", "text": "A pair of black jeans with two deep pockets." },
       { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
-      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
-      {
-        "id": "jeans5",
-        "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
-      }
+      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." }
     ],
     "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "jeans_ripped",
+    "type": "ARMOR",
+    "name": { "str": "ripped jeans", "str_pl": "pairs of ripped jeans" },
+    "description": "A pair of jeans that has been ripped over the knees.  It may have been fashionable before Cataclysm, but it's just a pair of sub-par jeans now.",
+    "weight": "580 g",
+    "volume": "2 L",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ]
+      },
+      {
+        "encumbrance": [ 0, 0 ],
+        "coverage": 20,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.65,
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "jeans_vintage",
+    "type": "ARMOR",
+    "name": { "str_sp": "vintage jeans" },
+    "description": "A pair of vintage jeans that has started to lose its color.  It appears to be slightly heavier and thicker; but hey, don't let that stop you from wearing the fashion of the olden days!",
+    "weight": "700 g",
+    "volume": "2 L",
+    "price": "115 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.8,
+    "//": "Mediumweight 12 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS", "FANCY" ],
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "snippet_category": [
+      {
+        "id": "vintage_jeans1",
+        "text": "A pair of vintage jeans that has been around for so long that very little remains of its once vibrant blue color.  Otherwise it's surprisingly well preserved though."
+      },
+      {
+        "id": "vintage_jeans2",
+        "text": "A very old pair of black vintage jeans.  From paint marks here and there you assume this belonged to a painter."
+      },
+      {
+        "id": "vintage_jeans3",
+        "text": "A groovy pair of stone washed denim jeans from the 80s.  It gets baggy around the ankles.  Perfect for pretending as if Cataclysm never happened and you are on your way to dance floor."
+      },
+      {
+        "id": "vintage_jeans4",
+        "text": "A pair of vintage blue jeans that has been preserved perfectly.  You can see the leather brand on its behind of company that hasn't been around for a long while, even before the Cataclysm.  This would have made a fortune if; well, you know, it wasn't apocalypse."
+      }
+    ]
+  },
+  {
+    "id": "jeans_skinny",
+    "type": "ARMOR",
+    "name": { "str_sp": "skinny jeans" },
+    "description": "A pair of skinny jeans with two pockets.",
+    "weight": "500 g",
+    "volume": "1300 ml",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "10 cm",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "10 cm",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "680 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "8 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "680 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "8 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 0.52,
+    "//": "Lightweight 8 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "snippet_category": [
+      { "id": "jeans_skinny1", "text": "A pair of blue skinny jeans with two pockets." },
+      { "id": "jeans_skinny2", "text": "A pair of black skinny jeans with two pockets." },
+      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with two pockets." }
+    ],
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -303,9 +478,8 @@
     "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
     "weight": "600 g",
     "volume": "2 L",
-    "price": 5000,
-    "price_postapoc": 150,
-    "to_hit": 1,
+    "price": "50 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jeans",
@@ -350,15 +524,36 @@
     "id": "kilt",
     "type": "ARMOR",
     "name": { "str": "kilt" },
-    "description": "No true Scotsman would leave home without his kilt.",
+    "description": "No true Scotsman would leave home without his kilt.  Kilts lack pockets and thus a belt and sporran are necessary accessories.",
     "weight": "500 g",
     "volume": "1500 ml",
-    "price": 6500,
-    "price_postapoc": 50,
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "skirt",
     "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 95, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "kilt_utility",
+    "type": "ARMOR",
+    "name": { "str": "utility kilt" },
+    "description": "Common in America, the utility kilt takes the traditional woolen kilt and constructs it out of cotton canvas and then adds a pocket that would never be on a traditional kilt.",
+    "weight": "500 g",
+    "volume": "1500 ml",
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kilt",
+    "color": "brown_yellow",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -383,8 +578,8 @@
     "description": "No true Scotsman would leave home without his kilt.",
     "weight": "1814 g",
     "volume": "1500 ml",
-    "price": 6500,
-    "price_postapoc": 100,
+    "price": "65 USD",
+    "price_postapoc": "1 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "kilt",
@@ -409,12 +604,12 @@
   {
     "id": "leggings",
     "type": "ARMOR",
-    "name": { "str_sp": "leggings" },
+    "name": { "str": "leggings", "str_pl": "pairs of leggings" },
     "description": "Skin-tight nylon leggings, sometimes used when exercising, that keep your legs nice and warm.",
     "weight": "155 g",
     "volume": "500 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "lycra" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -422,7 +617,98 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "leggings_red",
+        "name": { "str": "red leggings", "str_pl": "pairs of red leggings" },
+        "description": "This pair is red.",
+        "color": "red",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "leggings_blue",
+        "name": { "str": "blue leggings", "str_pl": "pairs of blue leggings" },
+        "description": "This pair is blue.",
+        "color": "blue",
+        "append": true,
+        "weight": 15
+      },
+      {
+        "id": "leggings_purple",
+        "name": { "str": "purple leggings", "str_pl": "pairs of purple leggings" },
+        "description": "This pair is a vibrant purple.",
+        "color": "magenta",
+        "append": true,
+        "weight": 15
+      },
+      {
+        "id": "leggings_olive",
+        "name": { "str": "olive leggings", "str_pl": "pairs of olive leggings" },
+        "description": "This pair is a muted olive green.",
+        "color": "green",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "leggings_brown",
+        "name": { "str": "brown leggings", "str_pl": "pairs of brown leggings" },
+        "description": "This pair is brown.",
+        "color": "brown",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "leggings_black",
+        "name": { "str": "black leggings", "str_pl": "pairs of black leggings" },
+        "description": "This pair is black.",
+        "color": "black",
+        "append": true,
+        "weight": 50
+      },
+      {
+        "id": "leggings_fire",
+        "name": { "str": "fire leggings", "str_pl": "pairs of fire leggings" },
+        "description": "This pair has a printed flame pattern.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "leggings_zerba",
+        "name": { "str": "zebra leggings", "str_pl": "pairs of zebra leggings" },
+        "description": "This pair has a zebra stripe pattern.",
+        "color": "light_gray",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "leggings_leopard",
+        "name": { "str": "leopard print leggings", "str_pl": "pairs of leopard print leggings" },
+        "description": "This pair has a leopard print pattern.",
+        "color": "yellow",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "leggings_tiger",
+        "name": { "str": "tiger stripe leggings", "str_pl": "pairs of tiger stripe leggings" },
+        "description": "This pair has a tiger stripe pattern.",
+        "color": "yellow",
+        "append": true,
+        "weight": 5
+      },
+      {
+        "id": "leggings_geometric",
+        "name": { "str": "geometric leggings", "str_pl": "pairs of geometric leggings" },
+        "description": "This pair has a simple geometric pattern.",
+        "color": "dark_gray",
+        "append": true,
+        "weight": 5
+      }
+    ]
   },
   {
     "id": "loincloth",
@@ -431,8 +717,8 @@
     "description": "Rags stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "75 g",
     "volume": "250 ml",
-    "price": 900,
-    "price_postapoc": 10,
+    "price": "9 USD",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "briefs",
@@ -448,8 +734,8 @@
     "description": "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  Now you are a true barbarian warrior.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 7500,
-    "price_postapoc": 10,
+    "price": "75 USD",
+    "price_postapoc": "10 cent",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "loincloth_leather",
@@ -466,8 +752,8 @@
     "description": "Leather patches stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "550 g",
     "volume": "250 ml",
-    "price": 7500,
-    "price_postapoc": 10,
+    "price": "75 USD",
+    "price_postapoc": "10 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "loincloth",
@@ -483,8 +769,8 @@
     "description": "Bits of wool stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "56 g",
     "volume": "250 ml",
-    "price": 900,
-    "price_postapoc": 10,
+    "price": "9 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "loincloth",
@@ -501,8 +787,8 @@
     "description": "Apparently the microskirt wasn't short enough.",
     "weight": "115 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "skirt",
@@ -518,9 +804,8 @@
     "description": "A pair of khaki pants.  Slightly warmer than jeans.",
     "weight": "560 g",
     "volume": "2 L",
-    "price": 4900,
-    "price_postapoc": 100,
-    "to_hit": 1,
+    "price": "49 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jeans",
@@ -583,8 +868,8 @@
       },
       {
         "id": "pants_grey",
-        "name": { "str": "grey pants", "str_pl": "pairs of grey pants" },
-        "description": "A set of storm gray pants speckled with dark stains so deeply assimilated into the fabric that they’re nigh-irremovable.  You vehemently hope that they’re just the mortal remains of some spilled beverage.",
+        "name": { "str": "gray pants", "str_pl": "pairs of gray pants" },
+        "description": "A set of storm gray pants speckled with dark stains so deeply assimilated into the fabric that they're nigh-irremovable.  You vehemently hope that they're just the mortal remains of some spilled beverage.",
         "color": "dark_gray",
         "weight": 10
       },
@@ -647,14 +932,14 @@
       {
         "id": "pants_hot_pink",
         "name": { "str": "hot-pink sweatpants", "str_pl": "pairs of hot-pink sweatpants" },
-        "description": "Flaunting an almost aggressively vibrant shade of bright pink, this pair of soft, plush pants is slightly warmer than far duller jeans and makes a bold statement to any onlookers: human, zombie, or otherwise.  Though, perhaps dressing up like an anthropomorphic Easter egg isn’t, in retrospect, the wisest way to prolong your time on this earth.",
+        "description": "Flaunting an almost aggressively vibrant shade of bright pink, this pair of soft, plush pants is slightly warmer than far duller jeans and makes a bold statement to any onlookers: human, zombie, or otherwise.  Though, perhaps dressing up like an anthropomorphic Easter egg isn't, in retrospect, the wisest way to prolong your time on this earth.",
         "color": "pink",
         "weight": 8
       },
       {
         "id": "pants_pebble ",
         "name": { "str": "pebble-khaki pants", "str_pl": "pairs of pebble-khaki pants" },
-        "description": "A pair of comfortable pants dyed pebble-khaki, a type of hue consisting of muted greys and browns.",
+        "description": "A pair of comfortable pants dyed pebble-khaki, a type of hue consisting of muted grays and browns.",
         "color": "dark_gray",
         "weight": 8
       },
@@ -682,7 +967,7 @@
       {
         "id": "pants_od",
         "name": { "str": "olive-drab pants", "str_pl": "pairs of olive-drab pants" },
-        "description": "While these aren’t US-issued military trousers or even civilian tactical pants, this article of clothing possesses a blend of dark greens, browns, and blacks identical to the camouflage pattern of Vietnam-era army uniforms.  Slightly warmer than regular jeans, it’s a decent piece of faux-military kit for those unwilling to shill out on a pair of actual BDU pants.",
+        "description": "While these aren't US-issued military trousers or even civilian tactical pants, this article of clothing possesses a blend of dark greens, browns, and blacks identical to the camouflage pattern of Vietnam-era army uniforms.  Slightly warmer than regular jeans, it's a decent piece of faux-military kit for those unwilling to shill out on a pair of actual BDU pants.",
         "color": "green",
         "weight": 8
       },
@@ -696,7 +981,7 @@
       {
         "id": "pants_ecru",
         "name": { "str": "ecru pants", "str_pl": "pairs of ecru pants" },
-        "description": "A pair of moderately warm and comfortable ecru pants dyed a pale, greyish yellow color.",
+        "description": "A pair of moderately warm and comfortable ecru pants dyed a pale, grayish yellow color.",
         "color": "light_gray",
         "weight": 6
       },
@@ -766,28 +1051,28 @@
       {
         "id": "pants_desert",
         "name": { "str": "desert-camo pants", "str_pl": "pairs of desert-camo pants" },
-        "description": "Dyed a mix of brown, tan, and yellowish beige hues, this pair of hardy trousers is designed to seamlessly blend into arid environments.  That being said, the fact that New England is famously devoid of deserts means that the pattern’s only utility is in looking cool.",
+        "description": "Dyed a mix of brown, tan, and yellowish beige hues, this pair of hardy trousers is designed to seamlessly blend into arid environments.  That being said, the fact that New England is famously devoid of deserts means that the pattern's only utility is in looking cool.",
         "color": "brown",
         "weight": 6
       },
       {
         "id": "pants_alpine",
         "name": { "str": "alpine-camo pants", "str_pl": "pairs of alpine-camo pants" },
-        "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed pants possess a network of jagged shapes and mottled lines, designed to break up the wearer’s profile and better conceal them against the background landscape of mountains.",
+        "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed pants possess a network of jagged shapes and mottled lines, designed to break up the wearer's profile and better conceal them against the background landscape of mountains.",
         "color": "light_gray",
         "weight": 6
       },
       {
         "id": "pants_urban",
         "name": { "str": "urban-camo pants", "str_pl": "pairs of urban-camo pants" },
-        "description": "A set of rugged yet comfortable pants dyed in various scales of gray, black, and dirty white, possessing a set of sizable pockets, and printed with squares and irregular polygons to disrupt a wearer’s silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular pair of trousers contains 50 shades of gray.",
+        "description": "A set of rugged yet comfortable pants dyed in various scales of gray, black, and dirty white, possessing a set of sizable pockets, and printed with squares and irregular polygons to disrupt a wearer's silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular pair of trousers contains 50 shades of gray.",
         "color": "dark_gray",
         "weight": 6
       },
       {
         "id": "pants_ocean",
         "name": { "str": "ocean-camo pants", "str_pl": "pairs of ocean-camo pants" },
-        "description": "Printed with a camouflage pattern most commonly associated with naval vessels or aircraft, this pair of pants is festooned with a wide array of blue hues and disruptive lines, with a touch of light gray also making its presence known.  Warmer than jeans and possessing a number of deep pockets, this comfortable pair of trousers would do an admirable job of concealing you in maritime environments.  You have yet to come up with a reason why you’d ever be in a maritime environment.",
+        "description": "Printed with a camouflage pattern most commonly associated with naval vessels or aircraft, this pair of pants is festooned with a wide array of blue hues and disruptive lines, with a touch of light gray also making its presence known.  Warmer than jeans and possessing a number of deep pockets, this comfortable pair of trousers would do an admirable job of concealing you in maritime environments.  You have yet to come up with a reason why you'd ever be in a maritime environment.",
         "color": "blue",
         "weight": 6
       },
@@ -808,7 +1093,7 @@
       {
         "id": "pants_black_camo",
         "name": { "str": "black-camo pants", "str_pl": "pairs of black-camo pants" },
-        "description": "Dyed a deep hue of urban black, this pair of hardwearing pants is designed to assist a wearer in concealing themselves within nighttime environments and low-light conditions.  While they’re simple civilian trousers given a stealth-black paint job and don’t hold a candle to their more marshal brothers, they still look cool and are great at making you feel like you’re Spetsnaz.",
+        "description": "Dyed a deep hue of urban black, this pair of hardwearing pants is designed to assist a wearer in concealing themselves within nighttime environments and low-light conditions.  While they're simple civilian trousers given a stealth-black paint job and don't hold a candle to their more marshal brothers, they still look cool and are great at making you feel like you're Spetsnaz.",
         "color": "black",
         "weight": 6
       },
@@ -829,7 +1114,7 @@
       {
         "id": "pants_nude",
         "name": { "str": "nude trackpants", "str_pl": "pairs of nude trackpants" },
-        "description": "While this plush pair of pink, flesh-colored trousers doesn’t, thankfully, possess any unmentionables in and of itself, it will almost certainly make you look like you're striding about with your legs, caboose, and immodesty on display if it’s too tight.  Who knows, perhaps it would be enough to blind some poor, unfortunate zombies.",
+        "description": "While this plush pair of pink, flesh-colored trousers doesn't, thankfully, possess any unmentionables in and of itself, it will almost certainly make you look like you're striding about with your legs, caboose, and immodesty on display if it's too tight.  Who knows, perhaps it would be enough to blind some poor, unfortunate zombies.",
         "color": "pink",
         "weight": 4
       },
@@ -871,7 +1156,7 @@
       {
         "id": "pants_emerald",
         "name": { "str": "emerald-green pants", "str_pl": "pairs of emerald-green pants" },
-        "description": "There isn't such a thing as too shiny, or at least there wasn’t for the maker of this particular pair of vibrant green pants.  Composed from glossy cotton dyed with a subtle blue cast and equipped with a pair of sizable pockets, it would be fashionable were it not for the fact that dawning them makes the wearer look like a post-apocalyptic leprechaun.",
+        "description": "There isn't such a thing as too shiny, or at least there wasn't for the maker of this particular pair of vibrant green pants.  Composed from glossy cotton dyed with a subtle blue cast and equipped with a pair of sizable pockets, it would be fashionable were it not for the fact that dawning them makes the wearer look like a post-apocalyptic leprechaun.",
         "color": "green",
         "weight": 4
       },
@@ -941,7 +1226,7 @@
       {
         "id": "pants_poppy",
         "name": { "str": "poppy-red pants", "str_pl": "pairs of poppy-red pants" },
-        "description": "A fine choice to have donned during Veterans Day, this pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren’t any poppies blowing between crosses, the heaps of dead are certainly high.",
+        "description": "A fine choice to have donned during Veterans Day, this pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren't any poppies blowing between crosses, the heaps of dead are certainly high.",
         "color": "red",
         "weight": 4
       },
@@ -955,28 +1240,28 @@
       {
         "id": "pants_lemon",
         "name": { "str": "lemon-yellow pants", "str_pl": "pairs of lemon-yellow pants" },
-        "description": "A set of bewilderingly bright pants dyed a cheery shade of creamy yellow and sown with a set of deep pockets.  You are confused both as to which pre-Cataclysm fashion trend spawned this abomination and why its hue doesn’t look like the actual fruit.",
+        "description": "A set of bewilderingly bright pants dyed a cheery shade of creamy yellow and sown with a set of deep pockets.  You are confused both as to which pre-Cataclysm fashion trend spawned this abomination and why its hue doesn't look like the actual fruit.",
         "color": "yellow",
         "weight": 2
       },
       {
         "id": "pants_mustard",
         "name": { "str": "mustard-yellow pants", "str_pl": "pairs of mustard-yellow pants" },
-        "description": "The world’s a butchered hamburger of dead flesh, and you’re the condiment.  At least, that’s what you’ll look like if you choose to stride about in this set of comfortable, insulated trousers, their fabric dyed a deep yellow and touched up by rich brown undertones.",
+        "description": "The world's a butchered hamburger of dead flesh, and you're the condiment.  At least, that's what you'll look like if you choose to stride about in this set of comfortable, insulated trousers, their fabric dyed a deep yellow and touched up by rich brown undertones.",
         "color": "yellow",
         "weight": 2
       },
       {
         "id": "pants_canary",
         "name": { "str": "canary-yellow pants", "str_pl": "pairs of canary-yellow pants" },
-        "description": "Much like the bird from which the hue of this pair of pants derives its name, this set of trousers is dyed a warm and extremely vibrant hue of yellow.  Equipped with deep pockets and warmer than regular jeans, you feel relatively sure that wearing this would let you be seen by any survivors, zombies, or even the ISS, if it’s still in orbit.",
+        "description": "Much like the bird from which the hue of this pair of pants derives its name, this set of trousers is dyed a warm and extremely vibrant hue of yellow.  Equipped with deep pockets and warmer than regular jeans, you feel relatively sure that wearing this would let you be seen by any survivors, zombies, or even the ISS, if it's still in orbit.",
         "color": "yellow",
         "weight": 2
       },
       {
         "id": "pants_flag",
-        "name": { "str": "liberty’s pants", "str_pl": "pairs of liberty’s pants" },
-        "description": "These pair of sky blue pants are resplendent with a pair of stitched American flags, their flag poles running down each leg, and a standard flanking the trousers’ front and rear.  \"Freedom\" is boldly stitched across the fly and enclosed by a ring of golden stars, while the back bears the legend, \"Liberbooty!\"",
+        "name": { "str": "liberty's pants", "str_pl": "pairs of liberty's pants" },
+        "description": "These pair of sky blue pants are resplendent with a pair of stitched American flags, their flag poles running down each leg, and a standard flanking the trousers' front and rear.  \"Freedom\" is boldly stitched across the fly and enclosed by a ring of golden stars, while the back bears the legend, \"Liberbooty!\"",
         "color": "light_blue",
         "weight": 2
       }
@@ -989,8 +1274,8 @@
     "description": "A tough pair of pants lined with pockets.  Favored by the military.",
     "weight": "720 g",
     "volume": "2500 ml",
-    "price": 3500,
-    "price_postapoc": 250,
+    "price": "35 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_cargo",
@@ -1057,6 +1342,10 @@
         "text": "A tough pair of military pants with the black, brown, green and tan Battle Dress camouflage pattern.  They look old."
       },
       {
+        "id": "apants_OCP",
+        "text": "A tough and breathable pair of military pants in Operational Camouflage Pattern."
+      },
+      {
         "id": "mil_pants_navy",
         "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the US Navy."
       }
@@ -1073,8 +1362,8 @@
     "description": "A pair of pants lined with pockets, offering lots of storage.",
     "weight": "670 g",
     "volume": "2250 ml",
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1135,8 +1424,8 @@
     "description": "In a pinch, these pants can be used for an impromptu game of checkers.",
     "weight": "630 g",
     "volume": "1250 ml",
-    "price": 4000,
-    "price_postapoc": 100,
+    "price": "40 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1183,9 +1472,8 @@
     "description": "A hefty pair of fur-lined pants.",
     "weight": "920 g",
     "volume": "4 L",
-    "price": 20000,
-    "price_postapoc": 100,
-    "to_hit": 1,
+    "price": "200 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton", "fur" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1243,8 +1531,8 @@
     "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
     "weight": "400 g",
     "volume": "1500 ml",
-    "price": 4800,
-    "price_postapoc": 40,
+    "price": "48 USD",
+    "price_postapoc": "40 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1261,9 +1549,8 @@
     "description": "A pair of black leather pants.  Very tough, but cumbersome and without much storage.",
     "weight": "980 g",
     "volume": "2500 ml",
-    "price": 12000,
-    "price_postapoc": 250,
-    "to_hit": 1,
+    "price": "120 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1297,8 +1584,8 @@
     "description": "A pair of pants meant for alpine skiing.",
     "weight": "450 g",
     "volume": "2 L",
-    "price": 6500,
-    "price_postapoc": 250,
+    "price": "65 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1346,9 +1633,8 @@
     "description": "A pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
     "weight": "560 g",
     "volume": "1500 ml",
-    "price": 4900,
-    "price_postapoc": 100,
-    "to_hit": 1,
+    "price": "49 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1371,9 +1657,8 @@
     "description": "A pair of dark blue shorts, the kind used by postal service workers.",
     "weight": "230 g",
     "volume": "1 L",
-    "price": 4000,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "shorts_cargo",
@@ -1429,13 +1714,12 @@
   {
     "id": "santa_shorts",
     "type": "ARMOR",
-    "name": { "str_sp": "santa shorts" },
+    "name": { "str_sp": "Santa shorts" },
     "description": "A pair of red shorts with white trim.  For when Santa is on summer vacation.",
     "weight": "230 g",
     "volume": "1 L",
-    "price": 2200,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "22 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "shorts",
@@ -1456,13 +1740,12 @@
   {
     "id": "santa_pants",
     "type": "ARMOR",
-    "name": { "str_sp": "santa pants" },
+    "name": { "str_sp": "Santa pants" },
     "description": "A pair of red pants with white faux fur trim, commonly used by bearded men on Christmas.  Somewhat warm and has two deep pockets.",
     "weight": "800 g",
     "volume": "3 L",
-    "price": 20000,
-    "price_postapoc": 100,
-    "to_hit": 1,
+    "price": "200 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1510,9 +1793,8 @@
     "description": "A pair of khaki shorts.",
     "weight": "230 g",
     "volume": "1 L",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "boxer_shorts",
@@ -1573,9 +1855,8 @@
     "description": "A pair of shorts lined with pockets, offering decent storage.",
     "weight": "340 g",
     "volume": "1500 ml",
-    "price": 4000,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "shorts",
@@ -1650,9 +1931,8 @@
     "description": "A pair of denim shorts.",
     "weight": "260 g",
     "volume": "1250 ml",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "shorts",
@@ -1699,14 +1979,36 @@
     ]
   },
   {
+    "id": "skirt_denim",
+    "type": "ARMOR",
+    "name": { "str": "jean skirt" },
+    "description": "A blue skirt made from denim.",
+    "//": "supossed to be a 10 oz denim skirt",
+    "weight": "300 g",
+    "volume": "700 ml",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "blue",
+    "warmth": 7,
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ],
+    "material_thickness": 0.65,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "skirt",
     "type": "ARMOR",
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
     "weight": "225 g",
     "volume": "250 ml",
-    "price": 6500,
-    "price_postapoc": 50,
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kilt",
@@ -1718,6 +2020,89 @@
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "skirt_red",
+        "name": { "str": "red skirt" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 40
+      },
+      {
+        "id": "skirt_blue",
+        "name": { "str": "blue skirt" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_yellow",
+        "name": { "str": "yellow skirt" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_green",
+        "name": { "str": "green skirt" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_purple",
+        "name": { "str": "purple skirt" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_pink",
+        "name": { "str": "pink skirt" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_cyan",
+        "name": { "str": "cyan skirt" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_black",
+        "name": { "str": "black skirt" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_white",
+        "name": { "str": "white skirt" },
+        "color": "light_gray",
+        "description": "This one is colored white.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_brown",
+        "name": { "str": "brown skirt" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 24
+      }
     ]
   },
   {
@@ -1727,8 +2112,8 @@
     "description": "A long skirt with no pockets.  Slightly more cumbersome but warmer than a normal skirt.",
     "weight": "500 g",
     "volume": "550 ml",
-    "price": 6500,
-    "price_postapoc": 75,
+    "price": "65 USD",
+    "price_postapoc": "75 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kilt",
@@ -1745,8 +2130,8 @@
     "description": "A primitive skirt made from grass.  Not actually useful for much other than looking like a tribal person.",
     "weight": "72 g",
     "volume": "500 ml",
-    "price": 100,
-    "price_postapoc": 5,
+    "price": "1 USD",
+    "price_postapoc": "5 cent",
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "kilt",
@@ -1766,8 +2151,8 @@
     "description": "A very short leather skirt, clearly designed to look good, not be practical.",
     "weight": "230 g",
     "volume": "250 ml",
-    "price": 9500,
-    "price_postapoc": 50,
+    "price": "95 USD",
+    "price_postapoc": "50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "skirt",
@@ -1792,9 +2177,8 @@
     "description": "A pair of pants with horizontal black and white stripes.",
     "weight": "560 g",
     "volume": "2 L",
-    "price": 500,
-    "price_postapoc": 100,
-    "to_hit": 1,
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants_checkered",
@@ -1841,9 +2225,8 @@
     "description": "A pair of gray canvas work pants.",
     "weight": "1040 g",
     "volume": "2 L",
-    "price": 5000,
-    "price_postapoc": 100,
-    "to_hit": 1,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1895,8 +2278,8 @@
     "description": "A tough pair of pants lined with pockets, thickly padded for warmth.  Favored by the military.",
     "weight": "1000 g",
     "volume": "2500 ml",
-    "price": 4375,
-    "price_postapoc": 250,
+    "price": "43 USD 75 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_army",
@@ -1958,8 +2341,8 @@
     "description": "Plain white zubon for use in martial arts.",
     "weight": "150 g",
     "volume": "750 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -1976,8 +2359,8 @@
     "description": "A water-resistant pair of lightweight, flexible hiking pants with a good number of pockets.",
     "weight": "250 g",
     "volume": "1750 ml",
-    "price": 5000,
-    "price_postapoc": 300,
+    "price": "50 USD",
+    "price_postapoc": "3 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -2032,8 +2415,8 @@
     "description": "Coated in more pockets than is probably either necessary or healthy and looking like they belong within a SWAT locker, these rugged combat pants possess a water-repellent coating, tough double-stitched seams, reinforced belt loops, and articulated knees.",
     "weight": "720 g",
     "volume": "2500 ml",
-    "price": 8099,
-    "price_postapoc": 250,
+    "price": "80 USD 99 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
     "symbol": "[",
     "looks_like": "pants",
@@ -2176,7 +2559,7 @@
       {
         "id": "tactical_pants_desert",
         "name": { "str": "desert-camo tactical pants", "str_pl": "pairs of desert-camo tactical pants" },
-        "description": "This pair sports a warm, yellowish beige desert tan hue—a bold choice, considering New England’s notable lack of deserts.",
+        "description": "This pair sports a warm, yellowish beige desert tan hue—a bold choice, considering New England's notable lack of deserts.",
         "color": "brown",
         "weight": 10,
         "append": true
@@ -2197,6 +2580,32 @@
         "color": "green",
         "append": true
       }
+    ]
+  },
+  {
+    "id": "skirt_bostonchan",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan skirt" },
+    "description": "A short skirt for the Boston-Chan costume.",
+    "weight": "230 g",
+    "volume": "250 ml",
+    "price": "95 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "blue",
+    "warmth": 10,
+    "material_thickness": 0.6,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   }
 ]

@@ -37,11 +37,11 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         u.set_skill_level( skill_survival, 10 );
         u.wield( scalpel );
         monster cow( monid, mon_pos );
-        const tripoint cow_loc = cow.pos();
+        const tripoint_bub_ms cow_loc = cow.pos_bub();
         cow.die( nullptr );
         u.move_to( cow.get_location() );
         player_activity act( actid, 0, true );
-        act.targets.emplace_back( map_cursor( u.pos() ), &*here.i_at( cow_loc ).begin() );
+        act.targets.emplace_back( map_cursor( u.get_location() ), &*here.i_at( cow_loc ).begin() );
         while( !act.is_null() ) {
             activity_handlers::butcher_finish( &act, &u );
         }

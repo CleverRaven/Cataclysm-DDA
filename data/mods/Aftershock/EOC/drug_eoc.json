@@ -1,0 +1,38 @@
+[
+  {
+    "//": "This ensures the effect dissapears if the player gets hit in combat or the antiseptic wears off",
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_MEDIGEL_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "disinfected", { "context_val": "effect" } ] },
+        { "u_has_effect": "afs_medigel_eff", "bodypart": { "context_val": "bodypart" } }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "afs_medigel_eff", "target_part": { "context_val": "bodypart" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_MEDIGEL_ADD",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [ { "u_has_effect": "afs_medigel_eff_trigger" }, { "compare_string": [ "disinfected", { "context_val": "effect" } ] } ]
+    },
+    "effect": [
+      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "heal_part" } },
+      { "u_add_effect": "afs_medigel_eff", "duration": "3 days", "target_part": { "u_val": "heal_part" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "The instant use effects of stimpacks",
+    "id": "EOC_AFS_STIMPACK",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": { "compare_string": [ "afs_stimpack", { "context_val": "itype" } ] },
+    "effect": [ { "math": [ "u_pain()", "-=", "80" ] }, { "math": [ "u_val('stamina')", "+=", "2500" ] } ]
+  }
+]

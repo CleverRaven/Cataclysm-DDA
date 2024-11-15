@@ -35,7 +35,6 @@
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "point.h"
 #include "rng.h"
@@ -53,10 +52,6 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 
-static const mon_flag_str_id mon_flag_DROPS_AMMO( "DROPS_AMMO" );
-static const mon_flag_str_id mon_flag_NOGIB( "NOGIB" );
-static const mon_flag_str_id mon_flag_SILENT_DISAPPEAR( "SILENT_DISAPPEAR" );
-
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 item_location mdeath::normal( monster &z )
@@ -65,7 +60,7 @@ item_location mdeath::normal( monster &z )
         return {};
     }
 
-    if( !z.quiet_death ) {
+    if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
         }
@@ -100,12 +95,14 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
     distance = std::abs( distance );
-    const item chunk( chunk_name, calendar::turn, pile_size );
+    const item chunk( chunk_name, calendar::turn );
     map &here = get_map();
-    for( int i = 0; i < chunk_amt; i += pile_size ) {
+    int placed_chunks = 0;
+    while( placed_chunks < chunk_amt ) {
         bool drop_chunks = true;
-        tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
-        const auto traj = line_to( z.pos(), tarp );
+        tripoint_bub_ms tarp( z.pos_bub() + point( rng( -distance, distance ), rng( -distance,
+                              distance ) ) );
+        const std::vector<tripoint_bub_ms> traj = line_to( z.pos_bub(), tarp );
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
@@ -130,8 +127,11 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
             }
         }
         if( drop_chunks ) {
-            here.add_item_or_charges( tarp, chunk );
+            for( int i = placed_chunks; i < chunk_amt && i < placed_chunks + pile_size; i++ ) {
+                here.add_item_or_charges( tarp, chunk );
+            }
         }
+        placed_chunks += pile_size;
     }
 }
 
@@ -148,12 +148,12 @@ item_location mdeath::splatter( monster &z )
 
     map &here = get_map();
     if( gibbable ) {
-        const auto area = here.points_in_radius( z.pos(), 1 );
+        const tripoint_range<tripoint_bub_ms> area = here.points_in_radius( z.pos_bub(), 1 );
         int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
 
         if( z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
-            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos() ) );
+            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos_bub() ) );
         }
 
         for( int i = 0; i < number_of_gibs; ++i ) {
@@ -201,7 +201,10 @@ item_location mdeath::splatter( monster &z )
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        return here.add_item_ret_loc( z.pos(), corpse );
+        if( !z.has_eaten_enough() ) {
+            corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
+        }
+        return here.add_item_ret_loc( z.pos_bub(), corpse );
     }
     return {};
 }
@@ -232,7 +235,7 @@ void mdeath::broken( monster &z )
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
     map &here = get_map();
-    here.add_item_or_charges( z.pos(), broken_mon );
+    here.add_item_or_charges( z.pos_bub(), broken_mon );
 
     if( z.type->has_flag( mon_flag_DROPS_AMMO ) ) {
         for( const std::pair<const itype_id, int> &ammo_entry : z.ammo ) {
@@ -255,14 +258,14 @@ void mdeath::broken( monster &z )
                                 mags.insert( mags.end(), mag );
                                 ammo_count -= mag.type->magazine->capacity;
                             }
-                            here.spawn_items( z.pos(), mags );
+                            here.spawn_items( z.pos_bub(), mags );
                             spawned = true;
                             break;
                         }
                     }
                 }
                 if( !spawned ) {
-                    here.spawn_item( z.pos(), ammo_entry.first, ammo_entry.second, 1,
+                    here.spawn_item( z.pos_bub(), ammo_entry.first, ammo_entry.second, 1,
                                      calendar::turn );
                 }
             }
@@ -289,5 +292,8 @@ item_location make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    return get_map().add_item_ret_loc( z.pos(), corpse );
+    if( !z.has_eaten_enough() ) {
+        corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
+    }
+    return get_map().add_item_ret_loc( z.pos_bub(), corpse );
 }

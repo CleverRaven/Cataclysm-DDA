@@ -2,19 +2,20 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
-#include <iosfwd>
+#include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "calendar.h"
 #include "point.h"
-#include "talker.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class talker;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -35,6 +36,7 @@ enum computer_action {
     COMPACT_GEIGER,
     COMPACT_IRRADIATOR,
     COMPACT_LIST_BIONICS,
+    COMPACT_LIST_MUTATIONS,
     COMPACT_LOCK,
     COMPACT_MAP_SEWER,
     COMPACT_MAP_SUBWAY,
@@ -161,7 +163,7 @@ class computer
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
-        std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
 
         void remove_option( computer_action action );
 };

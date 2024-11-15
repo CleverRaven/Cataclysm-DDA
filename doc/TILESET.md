@@ -9,6 +9,12 @@
 - [Including tilesets with the distribution](#including-tilesets-with-the-distribution)
 - [Legacy tilesets](#legacy-tilesets)
 
+>[!NOTE]
+>If you are looking for specific tileset information or style guides, try the tileset repository:
+> - [Main page](https://github.com/I-am-Erk/CDDA-Tilesets)
+> - [Tilesets documentation](https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/doc)
+> - [Rendered documentation](https://i-am-erk.github.io/CDDA-Tilesets/)
+
 ## Terminology
 
 ##### Tileset
@@ -388,7 +394,7 @@ Weighted variations are also possible, and can be combined with rotation:
 ```json
 {
   "id": "graffiti",
-  "fg": [ 
+  "fg": [
     { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
     { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
   ],
@@ -407,9 +413,11 @@ To create the sprite id, the graffiti's text is:
 * truncated to 32 characters
 * converted to capital letters
 * all punctuation is removed
+* special characters are removed
 * spaces are replaced by underscores
 
 So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
+"Escape Pods & Vehicle Bay" becomes `graffiti_ESCAPE_PODS__VEHICLE_BAY`
 
 ### `tile_info.json`
 ```c++
@@ -506,7 +514,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top). This only works for items, Fields are instead drawn in the order they are stacked on the tile.
 
-`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random for each item.
 
 `"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
@@ -516,7 +524,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"field": "fd_fire"` the field id. (only supported in field_variants)
 
-`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
+`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random based on map position.
 
 `"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
@@ -554,7 +562,7 @@ Requires `pyvips` module, see below.
 
 #### Python and pyvips
  * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing, check 'add Python to PATH'.)
- 
+
 Installation of pyvips can be skipped if you are planning to use `updtset.cmd` - see below. Otherwise:
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:

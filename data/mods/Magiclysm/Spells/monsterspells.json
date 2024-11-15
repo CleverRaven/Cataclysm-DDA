@@ -156,7 +156,7 @@
     "id": "mon_demon_fireball",
     "name": "Demon Fireball",
     "description": "This is a monster only spell.",
-    "flags": [ "IGNITE_FLAMMABLE" ],
+    "flags": [ "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
     "min_damage": 15,
     "max_damage": 15,
@@ -203,7 +203,7 @@
     "range_increment": 0.1,
     "effect": "attack",
     "shape": "line",
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "id": "shambling_aoe",
@@ -213,7 +213,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE", "SPLIT_DAMAGE" ],
     "max_level": 0,
     "min_damage": 15,
     "max_damage": 70,
@@ -256,5 +256,253 @@
     "min_duration": 100,
     "max_duration": 300,
     "duration_increment": 40
+  },
+  {
+    "id": "mon_troll_regenerate_limb_spell",
+    "type": "SPELL",
+    "name": "Troll regenerate limbs",
+    "description": "Allows trolls to remove the maimed effect if their HP is high enough.",
+    "valid_targets": [ "self" ],
+    "effect": "remove_effect",
+    "effect_str": "maimed_arm",
+    "shape": "blast"
+  },
+  {
+    "type": "SPELL",
+    "id": "monster_invisibility_spell",
+    "name": { "str": "monster invisibility" },
+    "description": "Makes the target invisible",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "invisibility",
+    "shape": "blast",
+    "message": "",
+    "max_level": 35,
+    "min_duration": 1000,
+    "max_duration": 36000,
+    "duration_increment": 1000,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "id": "monster_ranged_gas_attack",
+    "type": "SPELL",
+    "name": "Gas Attack Ranged",
+    "description": "Spreads toxic gas around at range.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_PROJECTILE" ],
+    "damage_type": "biological",
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 10,
+    "min_range": 3,
+    "max_range": 13,
+    "range_increment": 1,
+    "effect": "emit",
+    "effect_str": "emit_toxic_stream",
+    "shape": "blast",
+    "field_id": "fd_toxic_gas",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "aoe_increment": 0.5
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_bloodlust_spell",
+    "name": { "str": "Bloodlust" },
+    "description": "Speeds up an ally.",
+    "valid_targets": [ "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "effect_str": "frenzy",
+    "max_level": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_duration": 6000,
+    "max_duration": 12000,
+    "base_casting_time": 200,
+    "flags": [ "NO_EXPLOSION_SFX", "RANDOM_DURATION" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "ankheg_acid_spit",
+    "name": { "str": "Ankheg Acid Spit" },
+    "description": "Spews a line of acid from your mouth.",
+    "valid_targets": [ "hostile" ],
+    "damage_type": "acid",
+    "max_level": 40,
+    "min_damage": 10,
+    "max_damage": 20,
+    "min_range": 8,
+    "max_range": 12,
+    "range_increment": 0.1,
+    "effect": "attack",
+    "extra_effects": [ { "id": "ankheg_acid_spit_self", "hit_self": true } ],
+    "shape": "line",
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_chance": 2,
+    "field_intensity_increment": 0.1,
+    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "ankheg_acid_spit_self",
+    "name": { "str": "Ankheg Acid Spit Self" },
+    "description": "Maims the ankheg's acid gland after spitting acid.",
+    "flags": [ "RANDOM_DURATION", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "maimed_acid_gland",
+    "shape": "blast",
+    "min_duration": 720000,
+    "max_duration": 2160000
+  },
+  {
+    "type": "SPELL",
+    "id": "catoblepas_gaze_spell",
+    "name": { "str": "catoblepas gaze" },
+    "description": "Does a big thwack of damage if the target can see the catoblepas",
+    "valid_targets": [ "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CATOBLEPAS_GAZE",
+    "shape": "blast",
+    "message": "",
+    "max_level": 20,
+    "min_range": 15,
+    "max_range": 15,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CATOBLEPAS_GAZE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "BLIND" } },
+        { "not": { "u_has_effect": "BLIND" } },
+        { "not": { "u_has_worn_with_flag": "BLIND" } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CATOBLEPAS_GAZE_2",
+            "condition": "u_is_character",
+            "effect": [
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "head",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'head') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "torso",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'torso') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "arm_l",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'arm_l') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "arm_r",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'arm_r') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "leg_l",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'leg_l') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "leg_r",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'leg_r') + 1" ] }
+              }
+            ],
+            "false_effect": [
+              {
+                "u_add_effect": "effect_catoblepas_gaze_monster",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze_monster') + 1" ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "feral_dabble_spell_selector_spell",
+    "name": { "str": "Dabbler Spell selector", "//~": "NO_I18N" },
+    "description": "Random chance for a feral to have a single spell.  This picks a random spell.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_DABBLE_SPELLS_SELECTOR_SPELL",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_DABBLE_SPELLS_SELECTOR_SPELL",
+    "effect": [ { "math": [ "n_feral_dabbler_chosen_spell_number", "=", "rand(99) + 1" ] } ]
+  },
+  {
+    "id": "summon_wisps_monster",
+    "type": "SPELL",
+    "name": "Ignus Fatuus Monster",
+    "description": "Summons ghostly foxfire worked from living marsh vapor to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
+    "valid_targets": [ "ground" ],
+    "effect": "summon",
+    "effect_str": "mon_wisp",
+    "shape": "blast",
+    "flags": [ "CONJURATION_SPELL", "LOUD", "SOMATIC", "HOSTILE_SUMMON" ],
+    "energy_source": "MANA",
+    "difficulty": 2,
+    "max_level": 25,
+    "min_damage": 1,
+    "max_damage": 8,
+    "damage_increment": 0.28,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_range": 3,
+    "max_range": 7,
+    "range_increment": 0.16,
+    "min_duration": 6000,
+    "max_duration": 60000,
+    "duration_increment": 2160
+  },
+  {
+    "id": "windrun_monster",
+    "type": "SPELL",
+    "name": "Windrunning Monster",
+    "description": "A magical wind pushes you forward as you move, easing your movements and increasing speed.",
+    "energy_source": "MANA",
+    "difficulty": 1,
+    "effect": "attack",
+    "effect_str": "enchant_windrun_monster",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "SILENT", "VERBAL", "NO_HANDS", "NO_PROJECTILE" ],
+    "max_level": 10,
+    "min_duration": 6000,
+    "max_duration": 30000,
+    "duration_increment": 2400
   }
 ]

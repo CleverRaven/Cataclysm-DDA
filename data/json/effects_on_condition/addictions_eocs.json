@@ -1,46 +1,38 @@
 [
   {
+    "type": "jmath_function",
+    "id": "addiction_rational",
+    "num_args": 3,
+    "//": "(val / max(1, (val - (step * intensity)))) - 1",
+    "//2": "_0 = val, _1 = step, _2 = intensity",
+    "return": "(_0 / max(1, (_0 - (_1 * _2)))) - 1"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_CAFFEINE_ADDICTION",
-    "condition": {
-      "compare_num": [
-        { "rand": 2000 },
-        "<=",
-        { "u_val": "addiction_intensity", "addiction": "caffeine", "mod": { "val": 2000, "step": 20 } }
-      ]
-    },
+    "condition": { "math": [ "rand(2000)", "<=", "addiction_rational(2000, 20, u_addiction_intensity('caffeine'))" ] },
     "effect": [
       { "u_message": "You want some caffeine.", "type": "warning" },
       { "u_add_morale": "morale_craving_caffeine", "bonus": -5, "max_bonus": -30 },
       {
-        "run_eocs": [
-          {
-            "id": "EOC_CAFFEINE_ADDICTION_MODSTIM",
-            "condition": {
-              "and": [
-                { "compare_num": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "caffeine", "mod": -10 } ] },
-                {
-                  "compare_num": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
-                }
-              ]
-            },
-            "effect": { "arithmetic": [ { "u_val": "stim" }, "-=", { "const": 1 } ] }
-          },
-          {
-            "id": "EOC_CAFFEINE_ADDICTION_SHAKES",
-            "condition": {
-              "and": [
-                { "compare_num": [ { "u_val": "addiction_intensity", "addiction": "caffeine" }, ">=", { "const": 8 } ] },
-                {
-                  "compare_num": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
-                }
-              ]
-            },
-            "effect": [
-              { "u_message": "Your hands start shaking… you need it bad!", "type": "bad" },
-              { "u_add_effect": "shakes", "duration": "2 minutes" }
-            ]
-          }
+        "if": {
+          "and": [
+            { "math": [ "u_val('stim')", ">", "u_addiction_intensity('caffeine') * -10" ] },
+            { "math": [ "rand(10)", "<", "u_addiction_intensity('caffeine')" ] }
+          ]
+        },
+        "then": { "math": [ "u_val('stim')", "--" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_addiction_intensity('caffeine')", ">=", "8" ] },
+            { "math": [ "rand(392)", "<", "u_addiction_intensity('caffeine')" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "Your hands start shaking… you need it bad!", "type": "bad" },
+          { "u_add_effect": "shakes", "duration": "2 minutes" }
         ]
       }
     ]
@@ -49,84 +41,37 @@
     "type": "effect_on_condition",
     "id": "EOC_SLEEP_ADDICTION",
     "//": "Actual effects processed in player::can_sleep().  Here, only prolong this addiction longer than usual.",
-    "condition": {
-      "and": [
-        { "compare_num": [ { "rand": 2 }, "==", { "const": 1 } ] },
-        { "compare_num": [ { "u_val": "addiction_turns", "addiction": "sleeping pill" }, "<", { "const": 0 } ] }
-      ]
-    },
-    "effect": { "arithmetic": [ { "u_val": "addiction_turns", "addiction": "sleeping pill" }, "+=", { "const": 1 } ] }
+    "condition": { "and": [ { "one_in_chance": 2 }, { "math": [ "u_addiction_turns('sleeping pill')", "<", "0" ] } ] },
+    "effect": { "math": [ "u_addiction_turns('sleeping pill')", "++" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_R_ADDICTION",
-    "condition": {
-      "compare_num": [
-        { "rand": 800 },
-        "<=",
-        { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": { "val": 800, "step": 20 } }
-      ]
-    },
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-            "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-            "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-          }
-        ]
-      }
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_B_ADDICTION",
-    "condition": {
-      "compare_num": [
-        { "rand": 800 },
-        "<=",
-        { "u_val": "addiction_intensity", "addiction": "marloss_b", "mod": { "val": 800, "step": 20 } }
-      ]
-    },
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_b'))" ] },
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about nutty cyan seeds as big as your hand.", "type": "info" },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_MARLOSS_B_ADDICTION_MODFOCUS",
-            "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-            "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-          }
-        ]
-      }
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_Y_ADDICTION",
-    "condition": {
-      "compare_num": [
-        { "rand": 800 },
-        "<=",
-        { "u_val": "addiction_intensity", "addiction": "marloss_y", "mod": { "val": 800, "step": 20 } }
-      ]
-    },
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_y'))" ] },
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about succulent, pale golden gel, sweet but light.", "type": "info" },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_MARLOSS_Y_ADDICTION_MODFOCUS",
-            "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-            "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-          }
-        ]
-      }
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
     ]
   },
   {
@@ -135,69 +80,44 @@
     "condition": { "u_has_trait": "MUT_JUNKIE" },
     "effect": [
       {
-        "run_eocs": [
+        "if": { "math": [ "rand(600)", "<=", "addiction_rational(600, 50, u_addiction_intensity('mutagen'))" ] },
+        "then": [
           {
-            "id": "EOC_MUTAGEN_ADDICTION_JUNKIE_MORALE",
-            "condition": {
-              "compare_num": [ { "rand": 600 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 600, "step": 50 } } ]
-            },
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_MUTAGEN_ADDICTION_JUNKIE_MORALE_MSG",
-                    "condition": { "compare_num": [ { "rand": 6 }, "<", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
-                    "effect": { "u_message": "You so miss the exquisite rainbow of post-humanity.", "type": "warning" },
-                    "false_effect": { "u_message": "Your body is SOO booorrrring.  Just a little sip to liven things up?", "type": "warning" }
-                  }
-                ]
-              },
-              { "u_add_morale": "morale_craving_mutagen", "bonus": -20, "max_bonus": -200 }
-            ]
+            "if": { "math": [ "rand(6)", "<", "u_addiction_intensity('mutagen')" ] },
+            "then": { "u_message": "You so miss the exquisite rainbow of post-humanity.", "type": "warning" },
+            "else": { "u_message": "Your body is SOO booorrrring.  Just a little sip to liven things up?", "type": "warning" }
           },
+          { "u_add_morale": "morale_craving_mutagen", "bonus": -20, "max_bonus": -200 }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_val('focus')", ">", "40" ] },
+            { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('mutagen'))" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "u_val('focus')", "-=", "u_addiction_intensity('mutagen')" ] },
           {
-            "id": "EOC_MUTAGEN_ADDICTION_JUNKIE_FOCUS",
-            "condition": {
-              "and": [
-                { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-                {
-                  "compare_num": [ { "rand": 800 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 800, "step": 20 } } ]
-                }
-              ]
-            },
-            "effect": [
-              { "arithmetic": [ { "u_val": "focus" }, "-=", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
-              {
-                "u_message": "You daydream what it'd be like if you were *different*.  Different is good.",
-                "type": "warning"
-              }
-            ]
+            "u_message": "You daydream what it'd be like if you were *different*.  Different is good.",
+            "type": "warning"
           }
         ]
       }
     ],
-    "false_effect": {
-      "run_eocs": [
-        {
-          "id": "EOC_MUTAGEN_ADDICTION_NOJUNKIE",
-          "condition": {
-            "compare_num": [ { "rand": 500 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 500, "step": 15 } } ]
+    "false_effect": [
+      {
+        "if": { "math": [ "rand(500)", "<=", "addiction_rational(500, 15, u_addiction_intensity('mutagen'))" ] },
+        "then": [
+          {
+            "if": { "math": [ "rand(6)", "<", "u_addiction_intensity('mutagen')" ] },
+            "then": { "u_message": "You haven't had any mutagen lately.", "type": "warning" },
+            "else": { "u_message": "You could use some new parts…", "type": "warning" }
           },
-          "effect": [
-            {
-              "run_eocs": [
-                {
-                  "id": "EOC_MUTAGEN_ADDICTION_NOJUNKIE_MSG",
-                  "condition": { "compare_num": [ { "rand": 6 }, "<", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
-                  "effect": { "u_message": "You haven't had any mutagen lately.", "type": "warning" },
-                  "false_effect": { "u_message": "You could use some new parts…", "type": "warning" }
-                }
-              ]
-            },
-            { "u_add_morale": "morale_craving_mutagen", "bonus": -5, "max_bonus": -50 }
-          ]
-        }
-      ]
-    }
+          { "u_add_morale": "morale_craving_mutagen", "bonus": -5, "max_bonus": -50 }
+        ]
+      }
+    ]
   }
 ]

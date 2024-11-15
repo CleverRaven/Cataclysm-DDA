@@ -86,7 +86,8 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
+        { "item": "sheet_cotton", "count": 3 },
+        { "item": "cotton_patchwork", "count": 6 }
       ]
     },
     "max_volume": "875 L",
@@ -104,6 +105,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
@@ -124,7 +126,8 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
+        { "item": "sheet_cotton", "count": 3 },
+        { "item": "cotton_patchwork", "count": 6 }
       ]
     },
     "max_volume": "875 L",
@@ -137,6 +140,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": 1 },
         { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
@@ -488,7 +492,11 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
+      "items": [
+        { "item": "wooden_post", "count": 1 },
+        { "item": "nail", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal", "count": 1 }
+      ]
     },
     "max_volume": "10 L",
     "bash": {
@@ -497,9 +505,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": 1 },
         { "item": "nail", "charges": [ 1, 5 ] },
-        { "item": "splinter", "count": 2 },
+        { "item": "splinter", "count": [ 4, 16 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "scrap", "count": [ 4, 10 ] }
       ]
@@ -1015,7 +1022,7 @@
     "id": "f_displaycase",
     "name": "display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.",
+    "description": "A secure wooden case at about waist-height, with glass paneling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -1024,12 +1031,12 @@
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
     "rotates_to": "INDOORFLOOR",
     "lockpick_result": "f_displaycase_o",
-    "lockpick_message": "With a satisfying click, the lock and the display case opens",
+    "lockpick_message": "With a satisfying click, the lock and the display case opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1042,7 +1049,7 @@
     "id": "f_displaycase_o",
     "name": "open display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.  This one has had its lock picked and is open.",
+    "description": "A secure wooden case at about waist-height, with glass paneling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.  This one has had its lock picked and is open.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -1053,7 +1060,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1066,7 +1073,7 @@
     "id": "f_displaycase_b",
     "name": "broken display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.  Careful not to cut yourself when looting.",
+    "description": "A secure wooden case at about waist-height, with glass paneling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.  Careful not to cut yourself when looting.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost_mod": 2,
@@ -1103,12 +1110,12 @@
       ]
     },
     "lockpick_result": "f_board_map_o",
-    "lockpick_message": "With a satisfying click, the locked glass panel opens",
+    "lockpick_message": "With a satisfying click, the locked glass panel opens.",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1140,7 +1147,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1194,7 +1201,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1217,7 +1224,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1398,7 +1405,8 @@
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER" ],
+    "max_volume": "1500 L",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT", "FIRE_CONTAINER", "LIQUIDCONT" ],
     "deconstruct": {
       "items": [
         { "item": "frame", "count": [ 2, 3 ] },
@@ -1494,6 +1502,7 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "examine_action": "locked_object",
     "prying": {
       "result": "f_metal_crate_o",
       "message": "You wrench open the metal crate.",
@@ -1518,7 +1527,7 @@
     "id": "f_metal_crate_o",
     "name": "open metal crate",
     "looks_like": "f_metal_crate_c",
-    "description": "This large metal crate’s lid is unsealed, and hinges open easily to reveal a number of storage shelves inside.  Once open, the side panels also swing wider for easy access.",
+    "description": "This large metal crate's lid is unsealed, and hinges open easily to reveal a number of storage shelves inside.  Once open, the side panels also swing wider for easy access.",
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": 5,
@@ -1614,7 +1623,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "sheet_metal_small", "count": [ 3, 8 ] },
+        { "item": "material_aluminium_ingot", "count": [ 3, 8 ] },
         { "item": "lock", "count": [ 0, 1 ] },
         { "item": "scrap_aluminum", "count": [ 3, 15 ] },
         { "item": "hinge", "count": [ 0, 2 ] },
@@ -1689,7 +1698,7 @@
     "type": "furniture",
     "id": "f_pallet_belted_open",
     "name": "damaged pallet",
-    "description": "A wooden pallet, containing cargo and possessing a torn cover.  You can reach the contents, but it’s awfully hard due to the belts still being in place.",
+    "description": "A wooden pallet, containing cargo and possessing a torn cover.  You can reach the contents, but it's awfully hard due to the belts still being in place.",
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,

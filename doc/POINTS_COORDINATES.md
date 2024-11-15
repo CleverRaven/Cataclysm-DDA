@@ -22,7 +22,7 @@ Two origins for map square coordinates are common:
   for the whole game, relative to a fixed origin.
 * **Local** coordinates, which are relative to the corner of the current "reality
   bubble", or `map` roughly centered on the avatar.  In local map square
-  coordinates, `x` and `y` values will both fall in the range [0,120).
+  coordinates, `x` and `y` values will both fall in the range [0,132).
 
 The next scale is **submap** (sm) coordinates.  One submap is 12x12
 (`SEEX`x`SEEY`) map squares.  Submaps are the scale at which chunks of the map
@@ -40,7 +40,7 @@ Lastly, these is a system called **segment** (seg) coordinates.  These are only
 used in saving/loading submaps and you are unlikely to encounter them.
 
 As well as absolute and local coordinates, sometimes we need to use coordinates
-relative so some larger scale.  For example, when performing mapgen for a
+relative to some larger scale.  For example, when performing mapgen for a
 single overmap, we want to work with coordinates within that overmap.  This
 will be an overmap terrain-scale point relative to the corner of its containing
 overmap, and so typically take `x` and `y` values in the range [0,180).
@@ -81,8 +81,8 @@ origin.
 
 To work with these coordinate systems we have a variety of types.  These are
 defined in [`coordinates.h`](../src/coordinates.h).  For example, we have
-`point_abs_ms` for absolute map-square coordinates.  The three parts of the
-type name are *dimension*`_`*origin*`_`*scale*.
+`point_abs_ms` for absolute map-square coordinates.  The four parts of the
+type name are *dimension*`_`*origin*`_`*scale*(_ib).
 
 * **dimension** is either `point` for two-dimensional or `tripoint` for
   three-dimensional.
@@ -104,6 +104,8 @@ type name are *dimension*`_`*origin*`_`*scale*.
   * `seg` for segment.
   * `om` for overmap.
   * `mnt` for vehicle mount coordinates (only relevant for the `veh` origin).
+* The optional **_ib** suffix denotes that the type is guaranteed to be inbounds
+  for the given origin. It is only meaningful for `bub` and `sm` origins.
 
 ## Raw point types
 

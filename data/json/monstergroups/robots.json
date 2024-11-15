@@ -28,11 +28,6 @@
     ]
   },
   {
-    "name": "GROUP_HAZMATBOT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_hazmatbot" } ]
-  },
-  {
     "type": "monstergroup",
     "name": "GROUP_ROBOT_SECUBOT",
     "monsters": [ { "monster": "mon_secubot", "cost_multiplier": 0, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": 30 } ] } } ]
@@ -41,15 +36,5 @@
     "type": "monstergroup",
     "name": "GROUP_TURRET_SPEAKER",
     "monsters": [ { "monster": "mon_turret_speaker" } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_TURRET_RIOT",
-    "monsters": [ { "monster": "mon_turret_riot", "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_TURRET_SEARCHLIGHT",
-    "monsters": [ { "monster": "mon_turret_searchlight", "cost_multiplier": 0 } ]
   }
 ]

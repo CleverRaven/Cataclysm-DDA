@@ -5,7 +5,8 @@
     "name": "Burn at Both Ends",
     "description": "A candle burns the most brightly at both ends, and yet it burns twice as fast.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
@@ -35,6 +36,7 @@
     "type": "SPELL",
     "name": "Soul Burn",
     "description": "This is a description for a spell the player will never see.",
+    "flags": [ "ENHANCEMENT_SPELL" ],
     "effect": "attack",
     "effect_str": "soul_burn",
     "shape": "blast",
@@ -63,7 +65,7 @@
     "name": "Soul Afterburner",
     "description": "You burn a small portion of your soul to gain a large burst of speed.",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "mod_moves",
     "shape": "blast",
     "min_damage": 1500,
@@ -72,6 +74,6 @@
     "max_level": 35,
     "difficulty": 6,
     "spell_class": "SOULFIRE",
-    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true } ]
+    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true }, { "id": "eoc_enhancement_setup", "hit_self": true } ]
   }
 ]

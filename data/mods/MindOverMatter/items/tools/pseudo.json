@@ -1,0 +1,13 @@
+[
+  {
+    "id": "black_nether_crystal_pseudo_tool",
+    "type": "TOOL",
+    "name": { "str": "nether crystal outcropping" },
+    "description": "This is the pseudo-tool provided by having a nearby cluster of black nether crystal.  You shouldn't see this as an individual item.",
+    "symbol": "O",
+    "color": "red",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "flags": [ "ZERO_WEIGHT" ]
+  }
+]

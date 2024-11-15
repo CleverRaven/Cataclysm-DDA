@@ -40,7 +40,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
-    "reproduction": { "baby_egg": "egg_spider_web", "baby_count": 3, "baby_timer": 15 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_spider_web" }, "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
@@ -91,13 +91,13 @@
     "vision_night": 18,
     "harvest": "arachnid_spider",
     "dissect": "dissect_spider_sample_single",
-    "reproduction": { "baby_egg": "egg_spider_cellar", "baby_count": 3, "baby_timer": 15 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_spider_cellar" }, "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "path_settings": { "max_dist": 50, "avoid_sharp": true },
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 1, "cut": 5, "acid": 3, "bullet": 2 }
   },
   {
@@ -130,7 +130,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
-    "reproduction": { "baby_egg": "egg_spider_widow", "baby_count": 3, "baby_timer": 15 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_spider_widow" }, "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_widow_mega" },
@@ -170,7 +170,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_spider_sample_single",
-    "reproduction": { "baby_egg": "egg_spider_jumping", "baby_count": 3, "baby_timer": 15 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_spider_jumping" }, "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [
       {
@@ -184,7 +184,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER" ],
     "armor": { "cut": 3, "bullet": 2 }
   },
   {
@@ -239,7 +239,7 @@
     "id": "mon_big_rat",
     "type": "MONSTER",
     "name": { "str": "big rat" },
-    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "description": "This cat-sized rat snuffles along the ground looking for things to eat.  It hisses at anything that comes near it, baring sizable teeth.",
     "default_faction": "ratkin",
     "bodytype": "pig",
@@ -274,7 +274,7 @@
       { "id": "scratch", "max_mul": 1.5 }
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER" ],
     "harvest": "mutant_mammal_small_fur",
     "dissect": "dissect_rat_sample_single"
   },
@@ -282,6 +282,7 @@
     "id": "mon_zap_rat",
     "copy-from": "mon_zap_rat",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -291,6 +292,7 @@
     "id": "mon_tunnel_rat",
     "copy-from": "mon_tunnel_rat",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -300,6 +302,7 @@
     "id": "mon_pack_rat",
     "copy-from": "mon_pack_rat",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -309,6 +312,7 @@
     "id": "mon_teke_mouse",
     "copy-from": "mon_teke_mouse",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -317,6 +321,304 @@
   {
     "id": "mon_mausketeer",
     "copy-from": "mon_mausketeer",
+    "type": "MONSTER",
+    "aggro_character": true,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie",
+    "copy-from": "mon_zombie",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_fat",
+    "copy-from": "mon_zombie_fat",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_tough",
+    "copy-from": "mon_zombie_tough",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_child",
+    "copy-from": "mon_zombie_child",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_rot",
+    "copy-from": "mon_zombie_rot",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_crawler",
+    "copy-from": "mon_zombie_crawler",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_dog",
+    "copy-from": "mon_zombie_dog",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_dog_zombie_cop",
+    "copy-from": "mon_dog_zombie_cop",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_dog_zombie_rot",
+    "copy-from": "mon_dog_zombie_rot",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_cop",
+    "copy-from": "mon_zombie_cop",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_fursuit",
+    "copy-from": "mon_zombie_fursuit",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_swat",
+    "copy-from": "mon_zombie_swat",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_medical",
+    "copy-from": "mon_zombie_medical",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_hazmat",
+    "copy-from": "mon_zombie_hazmat",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_fireman",
+    "copy-from": "mon_zombie_fireman",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_swimmer_base",
+    "copy-from": "mon_zombie_swimmer_base",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_static",
+    "copy-from": "mon_zombie_static",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_paramilitary",
+    "copy-from": "mon_zombie_paramilitary",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_survivor",
+    "copy-from": "mon_zombie_survivor",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_survivor_elite",
+    "copy-from": "mon_zombie_survivor_elite",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_beekeeper",
+    "copy-from": "mon_beekeeper",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_technician",
+    "copy-from": "mon_zombie_technician",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_runner",
+    "copy-from": "mon_zombie_runner",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_soldier",
+    "copy-from": "mon_zombie_soldier",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_milbase_personnel",
+    "copy-from": "mon_zombie_milbase_personnel",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_military_pilot",
+    "copy-from": "mon_zombie_military_pilot",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "copy-from": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_cop",
+    "copy-from": "mon_feral_cop",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "copy-from": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "copy-from": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_tool",
+    "copy-from": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_sapien_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_soldier",
+    "copy-from": "mon_feral_soldier",
     "type": "MONSTER",
     "vision_day": 99,
     "vision_night": 99,
@@ -336,7 +638,7 @@
     "volume": "100 L",
     "weight": "100 kg",
     "phase": "GAS",
-    "hp": 350,
+    "hp": 3000,
     "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
@@ -358,11 +660,18 @@
     "melee_training_cap": 0,
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 6,
-    "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "path_settings": {
+      "max_dist": 40,
+      "allow_open_doors": true,
+      "avoid_traps": true,
+      "avoid_sharp": true,
+      "allow_climb_stairs": true,
+      "avoid_dangerous_fields": true
+    },
     "special_attacks": [
-      [ "UPGRADE", 10 ],
-      [ "RESURRECT", 5 ],
-      [ "SHRIEK_ALERT", 20 ],
+      [ "UPGRADE", 0 ],
+      [ "RESURRECT", 0 ],
+      [ "SHRIEK_ALERT", 0 ],
       {
         "type": "melee",
         "id": "LTNT_ILLUMINATE_YOU",
@@ -376,21 +685,17 @@
         "damage_max_instance": [ { "damage_type": "pure", "amount": 0.0 } ],
         "no_dmg_msg_u": "The shadows recede, leaving you with nowhere to hide!",
         "no_dmg_msg_npc": "The shadows recede from <npcname>, and now they stand out like a floodlight!",
-        "cooldown": 10
+        "cooldown": 1
       },
       {
         "type": "spell",
-        "spell_data": { "id": "hive_raptor_spawn", "hit_self": true },
-        "cooldown": 10,
-        "monster_message": "The shadow opens its mouth, and a gore-smeared winged beast flies out of it!"
+        "spell_data": { "id": "gargantuan_raptor_spawn", "hit_self": true },
+        "cooldown": 0,
+        "monster_message": "The shadow opens its mouth, and gore-smeared winged beasts fly out of it!"
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": {
-      "effect": { "id": "death_defense_mode_victory", "hit_self": true, "min_level": 1 },
-      "message": "Grapsing at the air, the shadow melts away and vanishes!",
-      "corpse_type": "NO_CORPSE"
-    },
+    "death_function": { "message": "Grasping at the air, the shadow melts away and vanishes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -413,22 +718,9 @@
       "FILTHY",
       "STUN_IMMUNE",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER"
     ],
     "//3": "Because it's Defense Mode, you can hurt it with bullets.  Otherwise, It'd be too hard to fight.",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 25, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
-  },
-  {
-    "id": "death_defense_mode_victory",
-    "type": "SPELL",
-    "name": { "str": "Victory Death" },
-    "valid_targets": [ "hostile" ],
-    "description": "Ends the game in a win condition.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "min_range": 100,
-    "max_range": 100,
-    "effect": "effect_on_condition",
-    "effect_str": "DEFENSE_MODE_QUEUE_WIN_SCREEN"
   }
 ]

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "mmap_file.h"
 #include "translation_plural_evaluator.h"
 
 class InvalidTranslationDocumentException : public std::exception
@@ -32,13 +33,14 @@ enum class Endianness {
 class TranslationDocument
 {
     private:
-        std::string path;
+        std::shared_ptr<mmap_file> mmap_message_object;
         std::size_t number_of_strings; // N
         std::size_t original_strings_table_offset; // O
         std::size_t translated_strings_table_offset; // T
         // std::size_t hash_table_size; // S
         // std::size_t hash_table_offset; // H
-        std::string data;
+        const char *data;
+        std::size_t data_size;
         Endianness endianness;
         std::vector<std::size_t> original_offsets;
         std::vector<std::vector<std::size_t>> translated_offsets;

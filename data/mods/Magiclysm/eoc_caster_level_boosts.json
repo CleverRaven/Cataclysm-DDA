@@ -14,18 +14,10 @@
     "condition": { "u_has_trait": "MAGUS" },
     "effect": [
       {
-        "math": [
-          "u_level_boost",
-          "=",
-          "u_val('item_count', 'item: magus_booster_1_active') + u_val('item_count', 'item: magus_booster_2_active') * 2"
-        ]
+        "math": [ "u_level_boost", "=", "u_item_count('magus_booster_1_active') + u_item_count('magus_booster_2_active') * 2" ]
       },
       {
-        "math": [
-          "u_val('spell_level_adjustment', 'school: MAGUS')",
-          "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: MAGUS') )"
-        ]
+        "math": [ "u_school_level_adjustment('MAGUS')", "=", "limit_caster_level_boost(u_level_boost, u_school_level('MAGUS') )" ]
       }
     ]
   },
@@ -37,17 +29,13 @@
     "condition": { "u_has_trait": "KELVINIST" },
     "effect": [
       {
-        "math": [
-          "u_level_boost",
-          "=",
-          "u_val('item_count', 'item: kelvinist_booster_1_active') + u_val('item_count', 'item: kelvinist_booster_2_active') * 2"
-        ]
+        "math": [ "u_level_boost", "=", "u_item_count('kelvinist_booster_1_active') + u_item_count('kelvinist_booster_2_active') * 2" ]
       },
       {
         "math": [
-          "u_val('spell_level_adjustment', 'school: KELVINIST')",
+          "u_school_level_adjustment('KELVINIST')",
           "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: KELVINIST') )"
+          "limit_caster_level_boost(u_level_boost, u_school_level('KELVINIST') )"
         ]
       }
     ]
@@ -63,21 +51,21 @@
         "math": [
           "u_level_boost",
           "=",
-          "max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) + u_val('charge_count', 'item: technomancer_booster_2_active') / 5"
+          "max( 0, u_effect_intensity('technomancer_cl_booster_effect') ) + u_charge_count('technomancer_booster_2_active') / 5"
         ]
       },
       {
         "math": [
-          "u_val('spell_level_adjustment', 'school: TECHNOMANCER')",
+          "u_school_level_adjustment('TECHNOMANCER')",
           "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: TECHNOMANCER') )"
+          "limit_caster_level_boost(u_level_boost, u_school_level('TECHNOMANCER') )"
         ]
       },
       {
         "math": [
           "u_doodad_boost",
           "=",
-          "max( 0, limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: TECHNOMANCER') ) - max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) )"
+          "max( 0, limit_caster_level_boost(u_level_boost, u_school_level('TECHNOMANCER') ) - max( 0, u_effect_intensity('technomancer_cl_booster_effect') ) )"
         ]
       }
     ]
@@ -103,12 +91,12 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "BIOMANCER" },
     "effect": [
-      { "math": [ "u_level_boost", "=", "max( 0, u_val('effect_intensity', 'effect: biomancer_cl_booster_effect') )" ] },
+      { "math": [ "u_level_boost", "=", "max( 0, u_effect_intensity('biomancer_cl_booster_effect') )" ] },
       {
         "math": [
-          "u_val('spell_level_adjustment', 'school: BIOMANCER')",
+          "u_school_level_adjustment('BIOMANCER')",
           "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: BIOMANCER') )"
+          "limit_caster_level_boost(u_level_boost, u_school_level('BIOMANCER') )"
         ]
       }
     ]
@@ -120,13 +108,9 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "ANIMIST" },
     "effect": [
-      { "math": [ "u_level_boost", "=", "u_val('field_strength', 'field: fd_blood')" ] },
+      { "math": [ "u_level_boost", "=", "u_field_strength('fd_blood')" ] },
       {
-        "math": [
-          "u_val('spell_level_adjustment', 'school: ANIMIST')",
-          "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: ANIMIST') )"
-        ]
+        "math": [ "u_school_level_adjustment('ANIMIST')", "=", "limit_caster_level_boost(u_level_boost, u_school_level('ANIMIST') )" ]
       }
     ]
   },
@@ -140,9 +124,9 @@
       { "math": [ "u_level_boost", "=", "weather('precipitation') * 2" ] },
       {
         "math": [
-          "u_val('spell_level_adjustment', 'school: STORMSHAPER')",
+          "u_school_level_adjustment('STORMSHAPER')",
           "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: STORMSHAPER') )"
+          "limit_caster_level_boost(u_level_boost, u_school_level('STORMSHAPER') )"
         ]
       }
     ]
@@ -198,9 +182,9 @@
       },
       {
         "math": [
-          "u_val('spell_level_adjustment', 'school: EARTHSHAPER')",
+          "u_school_level_adjustment('EARTHSHAPER')",
           "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: EARTHSHAPER') )"
+          "limit_caster_level_boost(u_level_boost, u_school_level('EARTHSHAPER') )"
         ]
       }
     ]
@@ -266,11 +250,7 @@
         ]
       },
       {
-        "math": [
-          "u_val('spell_level_adjustment', 'school: DRUID')",
-          "=",
-          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: DRUID') )"
-        ]
+        "math": [ "u_school_level_adjustment('DRUID')", "=", "limit_caster_level_boost(u_level_boost, u_school_level('DRUID') )" ]
       }
     ]
   }

@@ -1,0 +1,121 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_pools",
+    "//": "There should be about 75% chance of this nest being empty.  Please adjust the weight accordingly if you add more pool mapgen variants.",
+    "weight": 9,
+    "object": { "mapgensize": [ 24, 24 ], "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_pools",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "             wwww       ",
+        "               www      ",
+        "            wwwww       ",
+        "          wwwww         ",
+        "       wwwwwwwww     ww ",
+        "       wwwwww       www ",
+        "      wwww wwwww        ",
+        "             wwww       ",
+        "          wwwwwwww      ",
+        "            wwww        ",
+        "     wwwwww       ww    ",
+        "   wwwwww          ww   ",
+        "   wwww             www ",
+        "            ww    wwww  ",
+        "           wwwww        ",
+        "         wwwwww         ",
+        "           www          ",
+        "      wwwwwwwww         ",
+        "        wwwwww          ",
+        "           ww           ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "w": "t_water_sh_murky_underground" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_pools",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "             wwww       ",
+        "               www      ",
+        "            wwwww       ",
+        "          wwwww         ",
+        "       wwwwwwwww        ",
+        "       wwwwww           ",
+        "      wwww wwwww        ",
+        "             www        ",
+        "           wwww         ",
+        "        www   wwww      ",
+        "     wwwwww       ww    ",
+        "   wwwwww          ww   ",
+        "   wwww             www ",
+        "   www            wwww  ",
+        "    wwww                ",
+        "       www              ",
+        "       wwwwwww          ",
+        "      wwwww             ",
+        "                        ",
+        "                     ww ",
+        "                   www  ",
+        "                   w    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "w": "t_water_sh_murky_underground" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_pools",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      w ww              ",
+        "    wwwww               ",
+        "     wwwww              ",
+        "      wwwww             ",
+        "                w       ",
+        "              www       ",
+        "            wwww        ",
+        "           wwww         ",
+        "           wwwww        ",
+        "             www        ",
+        "           wwww         ",
+        "            www         ",
+        "                        ",
+        "                        ",
+        "                     ww ",
+        "                  wwww  ",
+        "                    ww  ",
+        "        w            w  ",
+        "      www             w ",
+        "    wwwwwww         www ",
+        "   wwwww            w   ",
+        "  www               www ",
+        " www               www  ",
+        "                   w    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "w": "t_water_sh_murky_underground" }
+    }
+  }
+]

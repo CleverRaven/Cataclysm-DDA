@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_augustmoon_reroll_vending_machine",
+    "global": true,
+    "effect": [
+      {
+        "mapgen_update": "augustmoon_concourse_vending1",
+        "om_terrain": "augustmoon_main_concourse1",
+        "target_var": { "global_val": "augustmoon_main_concourse1" }
+      },
+      {
+        "mapgen_update": "augustmoon_concourse_vending2",
+        "om_terrain": "augustmoon_main_concourse2",
+        "target_var": { "global_val": "augustmoon_main_concourse2" }
+      }
+    ]
+  }
+]

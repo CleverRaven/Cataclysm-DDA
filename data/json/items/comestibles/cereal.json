@@ -2,7 +2,7 @@
   {
     "abstract": "cereal_tpl",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "cereal" },
+    "name": { "str_sp": "cereal", "//~": "NO_I18N" },
     "weight": "40 g",
     "volume": "250 ml",
     "color": "yellow",
@@ -12,23 +12,23 @@
     "comestible_type": "FOOD",
     "quench": -2,
     "calories": 145,
-    "description": "A generic box of cereal, you shouldn't see this.",
-    "price": 300,
-    "price_postapoc": 200,
+    "description": { "str": "A generic box of cereal, you shouldn't see this.", "//~": "NO_I18N" },
+    "price": "3 USD",
+    "price_postapoc": "2 USD",
     "material": [ "wheat" ],
     "flags": [ "EDIBLE_FROZEN", "USE_EAT_VERB" ],
     "looks_like": "cereal",
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 32 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 32 ], [ "wheat_allergen", 1 ] ],
     "fun": 8
   },
   {
     "abstract": "cereal_fpsugar_tpl",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "Foodplace cereal" },
+    "name": { "str_sp": "Foodplace cereal", "//~": "NO_I18N" },
     "quench": -3,
     "calories": 225,
     "healthy": -1,
-    "description": "A generic box of Foodplace brand sugary cereal, you shouldn't see this.",
+    "description": { "str": "A generic box of Foodplace brand sugary cereal, you shouldn't see this.", "//~": "NO_I18N" },
     "price_postapoc": "66 cent",
     "material": [ "foodplace_foodstuff" ],
     "looks_like": "cereal",
@@ -36,7 +36,7 @@
     "fun": 11,
     "addiction_potential": 5,
     "addiction_type": "caffeine",
-    "fatigue_mod": 25,
+    "sleepiness_mod": 25,
     "stim": 10,
     "copy-from": "cereal_tpl",
     "volume": "41 ml"
@@ -92,7 +92,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal_fp6",
-    "name": { "str": "Fructose Flakes cereal", "str_pl": "Fructose Flakes" },
+    "name": { "str_sp": "Fructose Flakes cereal" },
     "description": "Foodplace brand Fructose Flakes cereal.  Fortified with energy enriched FoodSyrup™ that supports life most efficiently.",
     "copy-from": "cereal_fpsugar_tpl"
   },
@@ -108,7 +108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal",
-    "name": { "str": "sugary cereal" },
+    "name": { "str_sp": "sugary cereal" },
     "weight": "38 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -122,7 +122,7 @@
     "price_postapoc": "25 cent",
     "material": [ "junk" ],
     "volume": "62 ml",
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ] ],
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ], [ "junk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -141,7 +141,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal3",
-    "name": { "str": "corn cereal" },
+    "name": { "str_sp": "corn cereal" },
     "weight": "39 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -156,7 +156,7 @@
     "material": [ "junk" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 42 ] ],
+    "vitamins": [ [ "iron", 42 ], [ "junk_allergen", 1 ] ],
     "fun": 6
   }
 ]

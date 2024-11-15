@@ -10,10 +10,8 @@
         [ "bread_flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
-        [ "flatbread_wheat_free", 1 ],
-        [ "tortilla_corn", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "bread", 1 ],
-        [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
@@ -24,34 +22,41 @@
     ]
   },
   {
+    "id": "bread_toastable",
+    "type": "requirement",
+    "//": "Bread appropriate for toast.",
+    "components": [
+      [
+        [ "bread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ],
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ],
+        [ "snack_bread", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "bread_sandwich",
     "type": "requirement",
     "//": "Bread appropriate for sandwiches.",
     "components": [
       [
+        [ "bread_toastable", 1, "LIST" ],
         [ "flatbread", 1 ],
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "biscuit", 1 ],
-        [ "brioche", 1 ],
         [ "crackers", 1 ],
-        [ "brown_bread", 1 ],
-        [ "hallula", 1 ]
+        [ "toast", 1 ]
       ]
     ]
-  },
-  {
-    "id": "bread_sandwich_wheat_free",
-    "type": "requirement",
-    "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
   },
   {
     "id": "any_bread",
     "type": "requirement",
     "//": "Any type of bread",
-    "components": [ [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ] ]
   },
   {
     "id": "any_peanutbutter",
@@ -65,29 +70,45 @@
     "//": "All of the different bird eggs",
     "components": [
       [
-        [ "egg_bird", 1 ],
         [ "egg_bird_unfert", 1 ],
         [ "egg_chicken", 1 ],
         [ "egg_grouse", 1 ],
-        [ "egg_crow", 1 ],
-        [ "egg_raven", 1 ],
-        [ "egg_bluejay", 1 ],
-        [ "egg_cardinal", 1 ],
-        [ "egg_robin", 1 ],
-        [ "egg_sparrow", 2 ],
+        [ "egg_crow", 3 ],
+        [ "egg_raven", 3 ],
+        [ "egg_bluejay", 6 ],
+        [ "egg_cardinal", 12 ],
+        [ "egg_robin", 7 ],
+        [ "egg_pigeon", 3 ],
+        [ "egg_sparrow", 17 ],
+        [ "egg_waxwing", 17 ],
+        [ "egg_chickadee", 34 ],
         [ "egg_duck", 1 ],
+        [ "egg_duck_domestic", 1 ],
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
+        [ "egg_turkey_domestic", 1 ],
         [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ],
         [ "egg_goose", 1 ],
-        [ "egg_goose_golden", 1 ],
-        [ "egg_hummingbird", 5 ],
-        [ "egg_woodpecker", 5 ],
+        [ "egg_hummingbird", 100 ],
+        [ "egg_woodpecker", 17 ],
         [ "egg_coot", 1 ],
         [ "egg_cormorant", 1 ],
         [ "egg_moorhen", 1 ],
-        [ "egg_grebe", 1 ]
+        [ "egg_grebe", 1 ],
+        [ "egg_guinea_fowl", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_reptile",
+    "type": "requirement",
+    "//": "All of the different reptile eggs",
+    "components": [
+      [
+        [ "egg_turtle_painted", 4 ],
+        [ "egg_turtle_snapping_common", 4 ],
+        [ "egg_wormsnake", 17 ],
+        [ "egg_skink_fivelined", 17 ]
       ]
     ]
   },
@@ -98,17 +119,16 @@
     "components": [
       [
         [ "egg_leo_frog", 1 ],
-        [ "egg_pattern_frog", 1 ],
         [ "egg_bullfrog_frog", 1 ],
-        [ "egg_strange_frog", 1 ],
         [ "egg_fowler_toad", 1 ],
-        [ "egg_foul_toad", 1 ],
         [ "egg_freedom_toad", 1 ],
-        [ "egg_odd_toad", 1 ],
         [ "egg_peeper_frog", 1 ],
-        [ "egg_vocal_frog", 1 ],
         [ "egg_gray_frog", 1 ],
-        [ "egg_shift_frog", 1 ]
+        [ "egg_mink_frog", 1 ],
+        [ "egg_pickerel_frog", 1 ],
+        [ "egg_green_frog", 1 ],
+        [ "egg_wood_frog", 1 ],
+        [ "egg_spade_frog", 1 ]
       ]
     ]
   },
@@ -148,7 +168,10 @@
         [ "egg_moth", 4 ],
         [ "egg_cicada", 4 ],
         [ "egg_fly", 4 ],
-        [ "egg_mosquito", 4 ]
+        [ "egg_mosquito", 4 ],
+        [ "egg_moth_fly", 4 ],
+        [ "egg_silverfish", 4 ],
+        [ "egg_centipede_house", 4 ]
       ]
     ]
   },
@@ -210,7 +233,17 @@
         [ "egg_burbot", 1 ],
         [ "egg_sturgeon_lake", 1 ],
         [ "egg_sturgeon_shortnose", 1 ],
-        [ "egg_fallfish", 1 ]
+        [ "egg_fallfish", 1 ],
+        [ "egg_cod", 1 ],
+        [ "egg_haddock", 1 ],
+        [ "egg_bluefin_tuna", 1 ],
+        [ "egg_halibut", 1 ],
+        [ "egg_pollock", 1 ],
+        [ "egg_flounder", 1 ],
+        [ "egg_mackerel", 1 ],
+        [ "egg_bluefish", 1 ],
+        [ "egg_blackfish", 1 ],
+        [ "egg_porgy", 1 ]
       ]
     ]
   },
@@ -218,7 +251,7 @@
     "id": "eggs_any_shape",
     "type": "requirement",
     "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
-    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "egg_reptile", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "eggs_reptile", 1, "LIST" ] ] ]
   },
   {
     "id": "milk_standard",
@@ -237,7 +270,9 @@
         [ "can_cheese", 1 ],
         [ "cheese_rehydrated", 1 ],
         [ "cottage_cheese", 1 ],
-        [ "mozzarella_cheese", 1 ]
+        [ "mozzarella_cheese", 1 ],
+        [ "mascarpone", 1 ],
+        [ "pecorino_cheese", 1 ]
       ]
     ]
   },
@@ -398,6 +433,7 @@
     "//": "Anything you might consider offal or intestines.",
     "components": [
       [
+        [ "meat_heart", 4, "LIST" ],
         [ "meat_lung", 4, "LIST" ],
         [ "meat_liver", 4, "LIST" ],
         [ "meat_kidney", 4, "LIST" ],
@@ -410,10 +446,16 @@
     ]
   },
   {
+    "id": "meat_red_raw_steak",
+    "type": "requirement",
+    "//": "A whole slab of raw, red meat.  Substitutes pork and beef, but not chicken, in common recipes.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
+  },
+  {
     "id": "meat_raw_steak",
     "type": "requirement",
-    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
+    "//": "An unbroken slab of raw meat including poultry.  For when scraps aren't good enough.",
+    "components": [ [ [ "meat_red_raw_steak", 1, "LIST" ], [ "poultry", 1 ] ] ]
   },
   {
     "id": "meat_red_raw",
@@ -421,7 +463,11 @@
     "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
     "components": [
       [
-        [ "meat_raw_steak", 1, "LIST" ],
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "human_flesh", 1 ],
+        [ "mutant_human_flesh", 1 ],
+        [ "demihuman_flesh", 1 ],
         [ "meat_scrap", 10 ],
         [ "human_meat_scrap", 10 ],
         [ "demihuman_meat_scrap", 10 ],
@@ -441,6 +487,13 @@
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
     "components": [ [ [ "lung", 1 ], [ "human_lung", 1 ], [ "demihuman_lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_heart",
+    "type": "requirement",
+    "components": [
+      [ [ "heart", 1 ], [ "human_heart", 1 ], [ "demihuman_heart", 1 ], [ "mutant_heart", 1 ], [ "mutant_human_heart", 1 ] ]
+    ]
   },
   {
     "id": "meat_liver",
@@ -530,16 +583,22 @@
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "meat_offal", 1, "LIST" ],
+        [ "can_spam", 2 ],
+        [ "lunchmeat", 2 ],
+        [ "can_chicken", 1 ],
+        [ "poultry_raw_any", 2, "LIST" ]
+      ]
     ]
   },
   {
-    "id": "meat_cooked",
+    "id": "meat_red_cooked",
     "type": "requirement",
-    "//": "meat you'd put on a sandwich",
+    "//": "cooked red meat.",
     "components": [
       [
-        [ "any_cracklins", 2, "LIST" ],
         [ "meat_cooked", 1 ],
         [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
@@ -559,6 +618,25 @@
         [ "bologna", 2 ],
         [ "can_spam", 2 ],
         [ "fried_spam", 2 ],
+        [ "meat_canned", 1 ],
+        [ "meat_aspic", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "sausage_wasteland", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "meat_red_cooked", 1, "LIST" ],
+        [ "any_cracklins", 2, "LIST" ],
+        [ "earthworm_dried", 10 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
         [ "fish_scrap_cooked", 10 ],
@@ -571,16 +649,12 @@
         [ "can_sardine", 1 ],
         [ "can_clams", 1 ],
         [ "salted_fish", 1 ],
-        [ "meat_canned", 1 ],
         [ "fish_canned", 1 ],
         [ "fish_pickled", 1 ],
         [ "lobster_canned", 1 ],
-        [ "meat_aspic", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "sausage_wasteland", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "meat_fried", 1 ]
+        [ "poultry_cooked", 1 ],
+        [ "poultry_pepper", 1 ],
+        [ "poultry_smoked", 1 ]
       ]
     ]
   },
@@ -600,17 +674,15 @@
     "id": "meat_soup_ingredients",
     "type": "requirement",
     "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_meat", 2 ] ],
       [
         [ "veggy_potatolike", 1, "LIST" ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "spaghetti_raw", 1 ],
@@ -631,14 +703,21 @@
         [ "oats", 1 ],
         [ "oatmeal", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "poultry_raw_any", 1, "LIST" ],
+        [ "poultry_smoked", 1 ],
+        [ "dry_poultry", 1 ]
+      ]
     ]
   },
   {
     "id": "fish_soup_ingredients",
     "type": "requirement",
     "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_meat", 2 ] ],
       [
         [ "spaghetti_raw", 1 ],
         [ "macaroni_raw", 1 ],
@@ -667,7 +746,7 @@
         [ "crackers", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_lentils", 1 ],
@@ -732,7 +811,7 @@
         [ "crackers", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_lentils", 1 ],
@@ -758,15 +837,17 @@
     "id": "woods_soup_ingredients",
     "type": "requirement",
     "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_meat", 2 ], [ "pine_tea", 2 ] ],
       [
         [ "meat_nofish", 1, "LIST" ],
+        [ "poultry_cooked_any", 1, "LIST" ],
         [ "bacon", 4 ],
         [ "bologna", 5 ],
         [ "meat_pickled", 1 ],
         [ "dry_meat", 1 ],
         [ "jerky", 1 ],
         [ "meat_smoked", 1 ],
+        [ "earthworm_dried", 10 ],
         [ "meat_salted", 1 ],
         [ "meat_fried", 1 ],
         [ "fish", 1 ],
@@ -819,8 +900,8 @@
     "id": "woods_soup_ingredients_veggy",
     "type": "requirement",
     "components": [
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "broth_meat", 1 ], [ "pine_tea", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ],
       [
         [ "veggy_wild", 1 ],
         [ "veggy", 1 ],
@@ -953,7 +1034,8 @@
         [ "honey_mustard", 1 ],
         [ "horseradish", 1 ],
         [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
+        [ "butter", 1 ],
+        [ "raw_butter", 1 ]
       ]
     ]
   },
@@ -1003,7 +1085,7 @@
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
         [ "raspberries", 1 ],
-        [ "rose_hips", 1 ],
+        [ "rose_hips_cut", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "mayapple", 2 ],
         [ "m_stellatum_berries", 2 ],
@@ -1016,44 +1098,10 @@
     ]
   },
   {
-    "id": "sweet_fruit_irradiated",
-    "type": "requirement",
-    "//": "Sweet, irradiated fruit, roughly by mass.",
-    "components": [
-      [
-        [ "irradiated_apple", 1 ],
-        [ "irradiated_apricot", 1 ],
-        [ "irradiated_banana", 1 ],
-        [ "irradiated_blackberries", 1 ],
-        [ "irradiated_blueberries", 1 ],
-        [ "irradiated_cherries", 1 ],
-        [ "irradiated_grapefruit", 1 ],
-        [ "irradiated_grapes", 1 ],
-        [ "irradiated_guayaba", 1 ],
-        [ "irradiated_kiwi", 2 ],
-        [ "irradiated_lulo", 2 ],
-        [ "irradiated_mango", 1 ],
-        [ "irradiated_maracuya", 1 ],
-        [ "irradiated_orange", 1 ],
-        [ "irradiated_papaya", 1 ],
-        [ "irradiated_peach", 1 ],
-        [ "irradiated_pear", 1 ],
-        [ "irradiated_plums", 1 ],
-        [ "irradiated_pomegranate", 1 ],
-        [ "irradiated_raspberries", 1 ],
-        [ "irradiated_rose_hips", 1 ],
-        [ "irradiated_strawberries", 1 ],
-        [ "irradiated_huckleberries", 1 ],
-        [ "irradiated_mulberries", 1 ],
-        [ "irradiated_elderberries", 1 ]
-      ]
-    ]
-  },
-  {
     "id": "sweet_fruit",
     "type": "requirement",
-    "//": "Sweet, unprocessed or irradiated, roughly by mass.",
-    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ], [ "sweet_fruit_irradiated", 1, "LIST" ] ] ]
+    "//": "Sweet, unprocessed, roughly by mass.",
+    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ] ] ]
   },
   {
     "id": "sweet_fruit_like",
@@ -1063,7 +1111,6 @@
       [
         [ "sweet_fruit", 1, "LIST" ],
         [ "lemon", 1 ],
-        [ "irradiated_lemon", 1 ],
         [ "apple_canned", 1 ],
         [ "apple_sugar", 1 ],
         [ "dry_fruit", 1 ],
@@ -1081,10 +1128,8 @@
     "components": [
       [
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "cattail_stalk", 1 ],
         [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "horseradish_greens", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
@@ -1094,7 +1139,10 @@
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "veggy_salted", 1 ],
-        [ "spinach", 1 ]
+        [ "spinach", 1 ],
+        [ "sea_lettuce", 1 ],
+        [ "bladderwrack", 1 ],
+        [ "kelp_sugar", 1 ]
       ]
     ]
   },
@@ -1102,7 +1150,7 @@
     "id": "veggy_potatolike",
     "type": "requirement",
     "//": "Any edible tuber that can be used like potato",
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
+    "components": [ [ [ "potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
   },
   {
     "id": "veggy_any_corn_uncooked",
@@ -1120,43 +1168,35 @@
     "components": [
       [
         [ "broccoli", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "carrot", 2 ],
-        [ "irradiated_carrot", 2 ],
         [ "cattail_stalk", 1 ],
-        [ "burdock_stalk", 1 ],
+        [ "plant_stalk", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "corn_kernels", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
-        [ "irradiated_cucumber", 1 ],
+        [ "gherkin_cut", 1 ],
+        [ "gherkin", 1 ],
         [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "plant_sac", 1 ],
         [ "potato", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
         [ "raw_bamboo", 1 ],
         [ "rhubarb", 1 ],
-        [ "irradiated_rhubarb", 1 ],
         [ "sugar_beet", 1 ],
         [ "tomato", 1 ],
         [ "tomato_cut", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "bell_pepper", 1 ],
         [ "bell_pepper_cut", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
-        [ "irradiated_zucchini", 1 ],
+        [ "eggplant_cut", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
         [ "spinach", 1 ],
@@ -1204,14 +1244,29 @@
         [ "veggy_any", 1, "LIST" ],
         [ "empty_corn_cob", 1 ],
         [ "corn", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "morel_cooked", 1 ],
         [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ]
+        [ "dry_mushroom", 1 ],
+        [ "kombu", 1 ]
       ],
+      [
+        [ "hot_sauce", 1 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 8 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 1 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "salt", 4 ]
+      ]
+    ]
+  },
+  {
+    "id": "broth_meat_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "meat_nofish", 1, "LIST" ], [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ],
       [
         [ "hot_sauce", 1 ],
         [ "seasoning_italian", 4 ],
@@ -1234,13 +1289,12 @@
         [ "macaroni_raw", 1 ],
         [ "noodles_fast", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "veggy_green", 1, "LIST" ],
         [ "veggy_potatolike", 1, "LIST" ],
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],
@@ -1316,6 +1370,12 @@
     ]
   },
   {
+    "id": "soda_pop_diet",
+    "type": "requirement",
+    "//": "Group of diet sodas, do not add alcohol, non-diet soda, or energy drinks/things with stim",
+    "components": [ [ [ "zerocola", 1 ], [ "zeroorange", 1 ], [ "zerotropical", 1 ] ] ]
+  },
+  {
     "id": "sweet_juice",
     "type": "requirement",
     "//": "Non-carbonated, sweet fruit based drinks.",
@@ -1348,5 +1408,26 @@
     "id": "tortilla_any",
     "type": "requirement",
     "components": [ [ [ "tortilla_corn", 1 ], [ "tortilla_flour", 1 ] ] ]
+  },
+  {
+    "id": "poultry_raw_any",
+    "type": "requirement",
+    "//": "Any bird meat, 1 chunk or 5 scraps",
+    "components": [ [ [ "poultry", 1 ], [ "poultry_scrap", 5 ] ] ]
+  },
+  {
+    "id": "poultry_cooked_any",
+    "type": "requirement",
+    "//": "Cooked and ready to eat bird meat, 100ml",
+    "components": [
+      [
+        [ "poultry_cooked", 1 ],
+        [ "poultry_scrap_cooked", 5 ],
+        [ "poultry_pepper", 1 ],
+        [ "poultry_scrap_pepper", 5 ],
+        [ "poultry_smoked", 1 ],
+        [ "can_chicken", 1 ]
+      ]
+    ]
   }
 ]

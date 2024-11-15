@@ -1,6 +1,6 @@
 {
     "name": "object-creator-vcpkg-dependencies",
-    "version-string": "0.F",
+    "version-string": "0.I",
     "dependencies": [
         "sdl2",
         "sdl2-image",

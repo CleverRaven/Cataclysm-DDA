@@ -5,7 +5,7 @@
     "text": [
       {
         "id": "magiclysm_note_1",
-        "text": "\"(Spell Name) RECIPE V3\n---\nRare Ingredients:\n- 17 drams owl's blood - less no effect, more turns bear into large owl\n- 1 gastrolith, large american alligator\n- 3 teeth or claws from a honey badger\n- 8 pounds bear meat, preferably polar bear, grizzly will suffice\nBring a large pot (meat must fully submerge) filled about half way with potion starter fluid (high grade) to a boil.  Add gastrolith and teeth/claws after boiling, add the blood, stir counterclockwise for a minute while chanting standard polymorph spell.  Continue until concoction has a slight glow.  Add the bear meat, remove from heat, cover for 24 hours.\nBear MUST eat all 8 pounds of the meat (claws and gastrolith optional).\n---\n*I've finally gotten my hands on enough polar bear meat.  The grizzly variations are a bit lackluster.*\nThere are flecks of blood on the page.\""
+        "text": "\"(Spell Name) RECIPE V3\n---\nRare Ingredients:\n- 17 drams owl's blood - less no effect, more turns bear into large owl\n- 1 gastrolith, large American alligator\n- 3 teeth or claws from a honey badger\n- 8 pounds bear meat, preferably polar bear, grizzly will suffice\nBring a large pot (meat must fully submerge) filled about half way with potion starter fluid (high grade) to a boil.  Add gastrolith and teeth/claws after boiling, add the blood, stir counterclockwise for a minute while chanting standard polymorph spell.  Continue until concoction has a slight glow.  Add the bear meat, remove from heat, cover for 24 hours.\nBear MUST eat all 8 pounds of the meat (claws and gastrolith optional).\n---\n*I've finally gotten my hands on enough polar bear meat.  The grizzly variations are a bit lackluster.*\nThere are flecks of blood on the page.\""
       },
       {
         "id": "magiclysm_note_2",
@@ -13,7 +13,21 @@
       },
       {
         "id": "magiclysm_note_3",
-        "text": "There was a riot at the mall here.  The only explanation I have is that some idiot was experimenting with a Mass Berserk spell.  There's a *reason* those kinds of spells are classified as military secrets…"
+        "text": "\"There was a riot at the mall here.  The only explanation I have is that some idiot was experimenting with a Mass Berserk spell.  There's a *reason* those kinds of spells are classified as military secrets…\""
+      },
+      { "id": "magiclysm_note_4", "text": "\"Took the bones.  I can use them for luck.\"" },
+      {
+        "id": "magiclysm_note_5",
+        "text": "\"Now's the time we really could use a hidden village of the elves out there.\""
+      },
+      {
+        "id": "magiclysm_note_6",
+        "text": "\"I should have majored in thaumaturgy like my mother said.  Down to a dozen bullets, two bandages, one canteen of water…need to raid the town tonight.  It's now or never.\""
+      },
+      { "id": "magiclysm_note_7", "text": "If only our ancestors hadn't lost the ability to fly." },
+      {
+        "id": "magiclysm_note_8",
+        "text": "Stock up on those broken windows.  They'll help you get in and out without being seen."
       }
     ]
   }

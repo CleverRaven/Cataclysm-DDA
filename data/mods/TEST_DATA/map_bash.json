@@ -1,0 +1,89 @@
+[
+  {
+    "type": "test_data",
+    "bash_test": {
+      "//furn_str_min": [ 1, 6, 8, 12, 12, 18, 35, 40 ],
+      "//ter_str_min": [ 3, 5, 8, 12, 30, 60, 80, 250 ],
+      "furn": [ "f_trashcan", "f_chair", "f_toilet", "f_bathtub", "f_bed", "f_water_heater", "f_workbench", "f_safe_l" ],
+      "ter": [ "t_window", "t_gutter", "t_door_c", "t_wall_wood", "t_wall", "t_wall_log", "t_door_metal_c", "t_wall_resin" ],
+      "tests": [
+        {
+          "id": "naked",
+          "loadout": { "strength": 8, "expected_ability": 4 },
+          "furn_tries": { "f_trashcan": [ 1, 1 ] },
+          "ter_tries": { "t_window": [ 1, 3 ] }
+        },
+        {
+          "id": "boots",
+          "loadout": { "strength": 8, "expected_ability": 12, "worn": [ "boots_rubber" ] },
+          "furn_tries": { "f_trashcan": [ 1, 1 ], "f_chair": [ 1, 20 ], "f_toilet": [ 1, 23 ], "f_bathtub": [ 1, 39 ], "f_bed": [ 1, 29 ] },
+          "ter_tries": { "t_window": [ 1, 1 ], "t_gutter": [ 1, 1 ], "t_door_c": [ 1, 73 ], "t_wall_wood": [ 1, 139 ] }
+        },
+        {
+          "id": "plank",
+          "loadout": { "strength": 8, "expected_ability": 24, "wielded": "2x4" },
+          "furn_tries": {
+            "f_trashcan": [ 1, 1 ],
+            "f_chair": [ 1, 20 ],
+            "f_toilet": [ 1, 23 ],
+            "f_bathtub": [ 1, 39 ],
+            "f_bed": [ 1, 29 ],
+            "f_water_heater": [ 1, 63 ]
+          },
+          "ter_tries": { "t_window": [ 1, 1 ], "t_gutter": [ 1, 1 ], "t_door_c": [ 1, 73 ], "t_wall_wood": [ 1, 139 ] }
+        },
+        {
+          "id": "crowbar",
+          "loadout": { "strength": 8, "expected_ability": 27, "wielded": "crowbar" },
+          "furn_tries": {
+            "f_trashcan": [ 1, 1 ],
+            "f_chair": [ 1, 1 ],
+            "f_toilet": [ 1, 23 ],
+            "f_bathtub": [ 1, 39 ],
+            "f_bed": [ 1, 29 ],
+            "f_water_heater": [ 1, 63 ]
+          },
+          "ter_tries": { "t_window": [ 1, 1 ], "t_gutter": [ 1, 1 ], "t_door_c": [ 1, 73 ], "t_wall_wood": [ 1, 139 ] }
+        },
+        {
+          "id": "mace",
+          "loadout": { "strength": 8, "expected_ability": 48, "wielded": "mace" },
+          "furn_tries": {
+            "f_trashcan": [ 1, 1 ],
+            "f_chair": [ 1, 1 ],
+            "f_toilet": [ 1, 1 ],
+            "f_bathtub": [ 1, 33 ],
+            "f_bed": [ 1, 1 ],
+            "f_water_heater": [ 1, 63 ],
+            "f_workbench": [ 1, 46 ],
+            "f_safe_l": [ 1, 161 ]
+          },
+          "ter_tries": { "t_window": [ 1, 1 ], "t_gutter": [ 1, 1 ], "t_door_c": [ 1, 73 ], "t_wall_wood": [ 1, 139 ], "t_wall": [ 1, 181 ] }
+        },
+        {
+          "id": "sledgehammer",
+          "loadout": { "strength": 8, "expected_ability": 88, "wielded": "hammer_sledge_heavy" },
+          "furn_tries": {
+            "f_trashcan": [ 1, 1 ],
+            "f_chair": [ 1, 1 ],
+            "f_toilet": [ 1, 1 ],
+            "f_bathtub": [ 1, 1 ],
+            "f_bed": [ 1, 1 ],
+            "f_water_heater": [ 1, 1 ],
+            "f_workbench": [ 1, 1 ],
+            "f_safe_l": [ 1, 161 ]
+          },
+          "ter_tries": {
+            "t_window": [ 1, 1 ],
+            "t_gutter": [ 1, 1 ],
+            "t_door_c": [ 1, 1 ],
+            "t_wall_wood": [ 1, 139 ],
+            "t_wall": [ 1, 181 ],
+            "t_wall_log": [ 1, 121 ],
+            "t_door_metal_c": [ 1, 171 ]
+          }
+        }
+      ]
+    }
+  }
+]

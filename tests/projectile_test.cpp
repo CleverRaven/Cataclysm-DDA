@@ -7,14 +7,15 @@
 #include "ballistics.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -24,8 +25,8 @@
 static const itype_id itype_308( "308" );
 static const itype_id itype_m1a( "m1a" );
 
-static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
-                                      int speed, int proj_range )
+static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> &range,
+        const item &gun, int speed, int proj_range )
 {
     projectile test_proj;
     test_proj.speed = speed;
@@ -50,13 +51,17 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     creature_tracker &creatures = get_creature_tracker();
 
     // Move the player out of the way of the test area
-    get_player_character().setpos( { 2, 2, 0 } );
+    get_player_character().setpos( tripoint_bub_ms{ 2, 2, 0 } );
 
     // Ensure that a projectile fired from a gun can pass through a chain link fence
     // First, set up a test area - three tiles in a row
     // One on either side clear, with a chainlink fence in the middle
-    std::vector<tripoint> range = { tripoint_zero, tripoint_east, tripoint( 2, 0, 0 ) };
-    for( const tripoint &pt : range ) {
+    std::vector<tripoint_bub_ms> range = {
+        tripoint_bub_ms_zero,
+        tripoint_bub_ms_zero + tripoint_rel_ms_east,
+        tripoint_bub_ms_zero + tripoint_rel_ms_east * 2
+    };
+    for( const tripoint_bub_ms &pt : range ) {
         REQUIRE( here.inbounds( pt ) );
         here.ter_set( pt, ter_id( "t_dirt" ) );
         here.furn_set( pt, furn_id( "f_null" ) );
@@ -71,7 +76,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     item gun( itype_m1a );
     item mag( gun.magazine_default() );
     mag.ammo_set( itype_308, 5 );
-    gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    gun.put_in( mag, pocket_type::MAGAZINE_WELL );
 
     // Check that a bullet with the correct amount of speed can through obstacles
     CHECK( projectile_end_point( range, gun, 1000, 3 ) == range[2] );

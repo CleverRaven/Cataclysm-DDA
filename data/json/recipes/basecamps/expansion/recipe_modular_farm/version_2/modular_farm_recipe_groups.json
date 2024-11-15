@@ -1,0 +1,34 @@
+[
+  {
+    "type": "recipe_group",
+    "id": "fbmf_2_recipes_1",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "corn_kernels", "description": " Corn Kernels" },
+      { "id": "threshed_barley_flail", "description": " Threshed Barley (with flail)" },
+      { "id": "threshed_buckwheat_flail", "description": " Threshed Buckwheat (with flail)" },
+      { "id": "threshed_canola_flail", "description": " Threshed Canola (with flail)" },
+      { "id": "threshed_lentils_flail", "description": " Threshed Lentils (with flail)" },
+      { "id": "threshed_oats_flail", "description": " Threshed Oats (with flail)" },
+      { "id": "threshed_wheat_flail", "description": " Threshed Wheat (with flail)" },
+      { "id": "barley_win1", "description": " Barley (winnowing)" },
+      { "id": "buckwheat_win1", "description": " Buckwheat (winnowing)" },
+      { "id": "seed_canola_win1", "description": " Canola (winnowing)" },
+      { "id": "dry_lentils_win1", "description": " Lentils (winnowing)" },
+      { "id": "oats_win1", "description": " Oats (winnowing)" },
+      { "id": "wheat_win1", "description": " Wheat (winnowing)" },
+      { "id": "threshed_barley", "description": " Threshed Barley" },
+      { "id": "threshed_buckwheat", "description": " Threshed Buckwheat" },
+      { "id": "threshed_canola", "description": " Threshed Canola" },
+      { "id": "threshed_lentils", "description": " Threshed Lentils" },
+      { "id": "threshed_oats", "description": " Threshed Oats" },
+      { "id": "threshed_wheat", "description": " Threshed Wheat" },
+      { "id": "barley", "description": " Barley" },
+      { "id": "buckwheat", "description": " Buckwheat" },
+      { "id": "seed_canola", "description": " Canola" },
+      { "id": "dry_lentils", "description": " Lentils" },
+      { "id": "oats", "description": " Oats" },
+      { "id": "wheat", "description": " Wheat" }
+    ]
+  }
+]

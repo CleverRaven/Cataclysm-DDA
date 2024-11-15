@@ -26,6 +26,8 @@ then
 
     tools/json_tools/generic_guns_validator.py
 
+    tools/json_tools/gun_variant_validator.py -v -cin data/json
+
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
@@ -233,7 +235,7 @@ else
         ./build-scripts/get_all_mods.py | \
             while read mods
             do
-                run_test ./tests/cata_test '(all_mods)=> ' '~*' --user-dir=all_modded --mods="${mods}"
+                run_test ./tests/cata_test '(all_mods)=> ' '[force_load_game]' --user-dir=all_modded --mods="${mods}"
             done
     fi
 fi

@@ -10,8 +10,8 @@
             "effect_id": "vault_atmosphere",
             "body_part": "mouth",
             "intensity": 1,
-            "min_duration": "100 seconds",
-            "max_duration": "350 seconds",
+            "min_duration": "250 seconds",
+            "max_duration": "750 seconds",
             "immune_inside_vehicle": false
           }
         ]
@@ -57,13 +57,6 @@
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas"
-  },
-  {
-    "id": "fd_darkness",
-    "type": "field_type",
-    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
-    "half_life": "10 seconds",
-    "percent_spread": 50
   },
   {
     "id": "fd_alkahest",

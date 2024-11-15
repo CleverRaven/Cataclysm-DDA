@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_special",
-    "id": "Isherwood Farms",
+    "id": "Isherwood Farms Mutable",
     "overmaps": [  ],
     "occurrences": [ 0, 0 ]
   },
@@ -128,6 +128,18 @@
   {
     "type": "overmap_special",
     "id": "Lumbermill",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "meadow_mutable",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "stream_mutable",
     "overmaps": [  ],
     "occurrences": [ 0, 0 ]
   }

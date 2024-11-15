@@ -43,6 +43,10 @@ Ncurses and tiles versions are available in the [official repos](https://tracker
 
 `sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
 
+#### Flathub
+
+[Download from Flathub](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA)
+
 ## Compile
 
 Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).
@@ -57,8 +61,6 @@ We also have the following build guides:
 Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
 
-[<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
-
 Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
 
 Special thanks to the contributors, including but not limited to, people below:
@@ -72,9 +74,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 Forums:
 https://discourse.cataclysmdda.org
-
-Wiki:
-https://cddawiki.chezzo.com/cdda_wiki/index.php
 
 GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA

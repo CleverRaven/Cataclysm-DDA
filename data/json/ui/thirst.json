@@ -10,17 +10,14 @@
         "id": "parched",
         "text": "Parched",
         "color": "light_red",
-        "condition": { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 520 } ] }
+        "condition": { "math": [ "u_val('instant_thirst')", ">", "520" ] }
       },
       {
         "id": "dehydrated",
         "text": "Dehydrated",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 240 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 520 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst')", "<=", "520" ] } ]
         }
       },
       {
@@ -28,10 +25,7 @@
         "text": "Very thirsty",
         "color": "yellow",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 80 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 240 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst')", "<=", "240" ] } ]
         }
       },
       {
@@ -39,10 +33,7 @@
         "text": "Thirsty",
         "color": "yellow",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 40 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 80 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst')", "<=", "80" ] } ]
         }
       },
       {
@@ -50,10 +41,7 @@
         "text": "",
         "color": "white",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": 0 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 40 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
         }
       },
       {
@@ -61,10 +49,7 @@
         "text": "Slaked",
         "color": "green",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": -20 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": 0 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
         }
       },
       {
@@ -72,17 +57,14 @@
         "text": "Hydrated",
         "color": "green",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": -60 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -20 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
         }
       },
       {
         "id": "turgid",
         "text": "Turgid",
         "color": "green",
-        "condition": { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -60 } ] }
+        "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
       }
     ]
   },

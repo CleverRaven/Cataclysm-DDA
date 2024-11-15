@@ -2,8 +2,8 @@
   {
     "id": "green_maintenance_check",
     "type": "SPELL",
-    "name": { "str": "Green Maintenance Badge Trait" },
-    "description": "Adds trait for badge check.",
+    "name": { "str": "Green Maintenance Badge Trait", "//~": "NO_I18N" },
+    "description": { "str": "Adds trait for badge check.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
@@ -68,9 +68,9 @@
   {
     "id": "yellow_maintenance_check",
     "type": "SPELL",
-    "name": { "str": "Ocher Maintenance Badge Trait" },
+    "name": { "str": "Ocher Maintenance Badge Trait", "//~": "NO_I18N" },
     "//": "renamed player facing name to ocher.",
-    "description": "Adds trait for badge check.",
+    "description": { "str": "Adds trait for badge check.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
@@ -120,7 +120,7 @@
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_lab_security_drone_YM",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -129,8 +129,8 @@
   {
     "id": "blue_maintenance_check",
     "type": "SPELL",
-    "name": { "str": "Blue Maintenance Badge Trait" },
-    "description": "Adds trait for badge check.",
+    "name": { "str": "Blue Maintenance Badge Trait", "//~": "NO_I18N" },
+    "description": { "str": "Adds trait for badge check.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
@@ -180,7 +180,7 @@
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_lab_security_drone_BM",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -189,8 +189,8 @@
   {
     "id": "blue_maintenance_check2",
     "type": "SPELL",
-    "name": { "str": "Blue Maintenance Badge Trait" },
-    "description": "Adds trait for badge check.",
+    "name": { "str": "Blue Maintenance Badge Trait", "//~": "NO_I18N" },
+    "description": { "str": "Adds trait for badge check.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
@@ -266,7 +266,7 @@
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_lab_security_drone_BM2",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -275,8 +275,8 @@
   {
     "id": "green_researcher_check",
     "type": "SPELL",
-    "name": { "str": "Light Green Researcher Badge Trait" },
-    "description": "Adds trait for badge check.",
+    "name": { "str": "Light Green Researcher Badge Trait", "//~": "NO_I18N" },
+    "description": { "str": "Adds trait for badge check.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",
@@ -350,8 +350,8 @@
   {
     "id": "black_security_check",
     "type": "SPELL",
-    "name": { "str": "Black Security Badge Trait" },
-    "description": "Adds trait for badge check.",
+    "name": { "str": "Black Security Badge Trait", "//~": "NO_I18N" },
+    "description": { "str": "Adds trait for badge check.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "the drone scans for your ID badge.",

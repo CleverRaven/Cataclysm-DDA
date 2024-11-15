@@ -1,19 +1,25 @@
 #include "bodypart.h"
 
-#include <cstdlib>
+#include <algorithm>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "assign.h"
 #include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "subbodypart.h"
+#include "init.h"
 #include "json.h"
+#include "json_error.h"
+#include "localized_comparator.h"
 #include "rng.h"
+#include "subbodypart.h"
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
@@ -312,8 +318,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
     optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
-    optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
-    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
+    optional( jo, was_loaded, "drying_rate", drying_rate, 1.0f );
 
     optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
 
@@ -377,7 +382,9 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "env_protection", env_protection, 0 );
 
-    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
+    int legacy_fire_warmth_bonus = units::to_legacy_bodypart_temp_delta( fire_warmth_bonus );
+    optional( jo, was_loaded, "fire_warmth_bonus", legacy_fire_warmth_bonus, 0 );
+    fire_warmth_bonus = units::from_legacy_bodypart_temp_delta( legacy_fire_warmth_bonus );
 
     mandatory( jo, was_loaded, "main_part", main_part );
     if( main_part == id ) {
@@ -387,6 +394,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "windage_effect", windage_effect, efftype_id::NULL_ID() );
+    optional( jo, was_loaded, "no_power_effect", no_power_effect, efftype_id::NULL_ID() );
     optional( jo, was_loaded, "smash_message", smash_message );
     optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
@@ -411,6 +420,10 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
+    optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
+
+    optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
+
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
         const JsonArray &jarr = jo.get_array( "limb_scores" );
@@ -434,8 +447,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_array( "temp_mod" ) ) {
         JsonArray temp_array = jo.get_array( "temp_mod" );
-        temp_min = temp_array.get_int( 0 );
-        temp_max = temp_array.get_int( 1 );
+        temp_min = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 0 ) );
+        temp_max = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 1 ) );
     }
 
     if( jo.has_array( "unarmed_damage" ) ) {
@@ -589,9 +602,19 @@ bool body_part_type::has_limb_score( const limb_score_id &id ) const
     return limb_scores.count( id );
 }
 
+damage_instance body_part_type::unarmed_damage_instance() const
+{
+    return damage;
+}
+
 float body_part_type::unarmed_damage( const damage_type_id &dt ) const
 {
     return damage.type_damage( dt );
+}
+
+float body_part_type::total_unarmed_damage() const
+{
+    return damage.total_damage();
 }
 
 float body_part_type::unarmed_arpen( const damage_type_id &dt ) const
@@ -887,6 +910,11 @@ float bodypart::get_wetness_percentage() const
     }
 }
 
+efftype_id bodypart::get_windage_effect() const
+{
+    return id->windage_effect;
+}
+
 int bodypart::get_encumbrance_threshold() const
 {
     return id->encumbrance_threshold;
@@ -1026,12 +1054,12 @@ int bodypart::get_frostbite_timer() const
     return frostbite_timer;
 }
 
-int bodypart::get_temp_cur() const
+units::temperature bodypart::get_temp_cur() const
 {
     return temp_cur;
 }
 
-int bodypart::get_temp_conv() const
+units::temperature bodypart::get_temp_conv() const
 {
     return temp_conv;
 }
@@ -1049,6 +1077,16 @@ float bodypart::get_bmi_encumbrance_scalar() const
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
 {
     return mut_drench;
+}
+
+float bodypart::get_hit_size() const
+{
+    return id->hit_size;
+}
+
+int bodypart::get_power_efficiency() const
+{
+    return id->power_efficiency;
 }
 
 void bodypart::set_hp_cur( int set )
@@ -1094,12 +1132,12 @@ void bodypart::set_wetness( int set )
     wetness = set;
 }
 
-void bodypart::set_temp_cur( int set )
+void bodypart::set_temp_cur( units::temperature set )
 {
     temp_cur = set;
 }
 
-void bodypart::set_temp_conv( int set )
+void bodypart::set_temp_conv( units::temperature set )
 {
     temp_conv = set;
 }
@@ -1139,12 +1177,12 @@ void bodypart::mod_wetness( int mod )
     wetness += mod;
 }
 
-void bodypart::mod_temp_cur( int mod )
+void bodypart::mod_temp_cur( units::temperature_delta mod )
 {
     temp_cur += mod;
 }
 
-void bodypart::mod_temp_conv( int mod )
+void bodypart::mod_temp_conv( units::temperature_delta mod )
 {
     temp_conv += mod;
 }
@@ -1165,8 +1203,8 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "damage_disinfected", damage_disinfected );
 
     json.member( "wetness", wetness );
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
+    json.member( "temp_cur", units::to_legacy_bodypart_temp( temp_cur ) );
+    json.member( "temp_conv", units::to_legacy_bodypart_temp( temp_conv ) );
     json.member( "frostbite_timer", frostbite_timer );
 
     json.end_object();
@@ -1182,8 +1220,12 @@ void bodypart::deserialize( const JsonObject &jo )
     jo.read( "damage_disinfected", damage_disinfected, true );
 
     jo.read( "wetness", wetness, true );
-    jo.read( "temp_cur", temp_cur, true );
-    jo.read( "temp_conv", temp_conv, true );
+    if( int legacy_temp_cur; jo.read( "temp_cur", legacy_temp_cur, true ) ) {
+        temp_cur = units::from_legacy_bodypart_temp( legacy_temp_cur );
+    }
+    if( int legacy_temp_conv; jo.read( "temp_conv", legacy_temp_conv, true ) ) {
+        temp_conv = units::from_legacy_bodypart_temp( legacy_temp_conv );
+    }
     jo.read( "frostbite_timer", frostbite_timer, true );
 
 }

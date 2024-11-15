@@ -20,6 +20,7 @@ const field_type_str_id fd_churned_earth( "fd_churned_earth" );
 const field_type_str_id fd_cold_air2( "fd_cold_air2" );
 const field_type_str_id fd_cold_air3( "fd_cold_air3" );
 const field_type_str_id fd_cold_air4( "fd_cold_air4" );
+const field_type_str_id fd_construction_site( "fd_construction_site" );
 const field_type_str_id fd_dazzling( "fd_dazzling" );
 const field_type_str_id fd_electricity( "fd_electricity" );
 const field_type_str_id fd_electricity_unlit( "fd_electricity_unlit" );
@@ -222,6 +223,8 @@ void field_type::load( const JsonObject &jo, const std::string_view )
                   fallback_intensity_level.local_light_override );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
+        optional( jao, was_loaded, "concentration", intensity_level.concentration,
+                  1 );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
         if( jao.has_array( "effects" ) ) {
@@ -265,7 +268,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
         int chance;
         std::string issue;
         time_duration duration;
-        std::string speech;
+        translation speech;
         optional( joc, was_loaded, "chance", chance, 0 );
         optional( joc, was_loaded, "issue", issue );
         optional( joc, was_loaded, "duration", duration, 0_turns );
@@ -282,7 +285,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "percent_spread", percent_spread, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
-    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
+    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0_turns );
     optional( jo, was_loaded, "is_splattering", is_splattering, false );
     optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
     optional( jo, was_loaded, "has_fire", has_fire, false );
@@ -306,8 +309,12 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "mopsafe", mopsafe, false );
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
-
-    bash_info.load( jo, "bash", map_bash_info::field, "field " + id.str() );
+    if( jo.has_object( "bash" ) ) {
+        if( !bash_info ) {
+            bash_info.emplace();
+        }
+        bash_info->load( jo.get_object( "bash" ), was_loaded, "field " + id.str() );
+    }
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }

@@ -18,7 +18,6 @@
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "make_static.h"
@@ -28,6 +27,7 @@
 #include "messages.h" //for rust message
 #include "npc.h"
 #include "options.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "ret_val.h"
@@ -37,12 +37,14 @@
 #include "units.h"
 #include "vpart_position.h"
 
+static const itype_id itype_acetaminophen( "acetaminophen" );
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_ibuprofen( "ibuprofen" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
@@ -354,7 +356,13 @@ extern void remove_stale_inventory_quick_shortcuts();
 item *inventory::provide_pseudo_item( const item &tool )
 {
     if( !provisioned_pseudo_tools.insert( tool.typeId() ).second ) {
-        return nullptr; // already provided tool -> bail out
+        // already provided tool -> return existing
+        for( auto &stack : items ) {
+            if( stack.front().typeId() == tool.typeId() ) {
+                return &stack.front();
+            }
+        }
+        return nullptr;
     }
     item *res = &add_item( tool );
     res->set_flag( flag_PSEUDO );
@@ -485,7 +493,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zon
     std::vector<tripoint> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.getlocal( elem ) );
+        pts.push_back( m.bub_from_abs( elem ).raw() );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }
@@ -516,31 +524,37 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     provisioned_pseudo_tools.clear();
 
     for( const tripoint &p : pts ) {
+        const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
-        if( m.ter( p ) == brick_oven ) {
+        if( t == brick_oven ) {
             provide_pseudo_item( itype_brick_oven_pseudo );
         }
-        const furn_t &f = m.furn( p ).obj();
-        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
-            const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-                // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
-                int amount = 0;
-                itype_id ammo_id = ammo->get_id();
-                // Some furniture can consume more than one item type.
-                if( using_ammotype ) {
-                    amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
-                } else {
-                    amount = count_charges_in_list( ammo, m.i_at( p ) );
+        const furn_id &f = m.furn( p );
+        const furn_t &fo = f.obj();
+        if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
+            for( const itype *ammo : fo.crafting_ammo_item_types() ) {
+                if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
+                    // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                    const bool using_ammotype = fo.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                    int amount = 0;
+                    itype_id ammo_id = ammo->get_id();
+                    // Some furniture can consume more than one item type.
+                    // This might be redundant now that we iterate over the ammotypes.
+                    if( using_ammotype ) {
+                        amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
+                    } else {
+                        amount = count_charges_in_list( ammo, m.i_at( p ) );
+                    }
+                    if( amount > 0 ) {
+                        item furn_ammo( ammo_id, calendar::turn, amount );
+                        furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
+                    }
                 }
-                item furn_ammo( ammo_id, calendar::turn, amount );
-                furn_item->put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
             }
         }
         if( m.accessible_items( p ) ) {
@@ -566,13 +580,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
         // Handle any water from map sources.
-        item water = m.water_from( p );
+        item water = m.liquid_from( p );
         if( !water.is_null() ) {
             add_item( water );
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+        if( f->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -796,7 +810,8 @@ bool inventory::has_enough_painkiller( int pain ) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if( ( pain <= 35 && it.typeId() == itype_aspirin ) ||
+        if( ( pain <= 35 && ( it.typeId() == itype_aspirin  || it.typeId() == itype_acetaminophen ||
+                              it.typeId() == itype_ibuprofen ) ) ||
             ( pain >= 50 && it.typeId() == itype_oxycodone ) ||
             it.typeId() == itype_tramadol || it.typeId() == itype_codeine ) {
             return true;
@@ -812,7 +827,7 @@ item *inventory::most_appropriate_painkiller( int pain )
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
-        if( type == itype_aspirin ) {
+        if( type == itype_aspirin || type == itype_acetaminophen || type == itype_ibuprofen ) {
             diff = std::abs( pain - 15 );
         } else if( type == itype_codeine ) {
             diff = std::abs( pain - 30 );
@@ -853,7 +868,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
+                here.liquid_from( player_character.pos_bub() ).typeId() == itype_salt_water ) {
                 // rusting never completely destroys an item, so no need to handle return value
                 elem_stack_iter.inc_damage();
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
@@ -1146,6 +1161,25 @@ bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
     }
     const int leftover = iter->second - to_use;
     return leftover < 0 && leftover * -1 <= total - iter->second;
+}
+
+bool inventory::must_use_hallu_poison( const itype_id &id, int to_use ) const
+{
+    const int total = count_item( id );
+    int bad = 0;
+    for( const std::list<item> &item_list : items ) {
+        for( const item &it : item_list ) {
+            if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
+                                       it.has_flag( flag_HIDDEN_HALLU ) ) ) {
+                if( it.count_by_charges() ) {
+                    bad += it.charges;
+                } else {
+                    bad += it.count();
+                }
+            }
+        }
+    }
+    return total - bad < to_use;
 }
 
 void inventory::replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max )
