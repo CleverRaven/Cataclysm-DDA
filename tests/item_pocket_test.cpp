@@ -1755,12 +1755,12 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
     }
     if( count_by_charges ) {
         size_t charges_on_ground = 0;
-        for( item &it : m.i_at( u.pos() ) ) {
+        for( item &it : m.i_at( u.pos_bub() ) ) {
             charges_on_ground += it.charges;
         }
         CHECK( charges_on_ground == on_ground );
     } else {
-        CHECK( m.i_at( u.pos() ).size() == on_ground );
+        CHECK( m.i_at( u.pos_bub() ).size() == on_ground );
     }
     if( !wear ) {
         CHECK( !!u.get_wielded_item() );
@@ -1845,7 +1845,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         u.wear_item( cont_top_soft, false );
         pack = item_location( u.top_items_loc().front() );
         REQUIRE( pack.get_item() != nullptr );
-        REQUIRE( m.i_at( u.pos() ).size() == 4 );
+        REQUIRE( m.i_at( u.pos_bub() ).size() == 4 );
         REQUIRE( !u.get_wielded_item() );
         REQUIRE( u.top_items_loc().size() == 1 );
         REQUIRE( u.top_items_loc().front()->all_items_top().empty() );
@@ -1853,7 +1853,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         u.wield( cont_top_soft );
         pack = u.get_wielded_item();
         REQUIRE( pack.get_item() != nullptr );
-        REQUIRE( m.i_at( u.pos() ).size() == 4 );
+        REQUIRE( m.i_at( u.pos_bub() ).size() == 4 );
         REQUIRE( !!u.get_wielded_item() );
         REQUIRE( u.get_wielded_item()->all_items_top().empty() );
         REQUIRE( u.top_items_loc().empty() );
@@ -2624,7 +2624,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     REQUIRE( !backpack.is_container_empty() );
     REQUIRE( backpack.only_item().typeId() == bottle.typeId() );
 
-    const tripoint ipos = get_player_character().pos();
+    const tripoint_bub_ms ipos = get_player_character().pos_bub();
     map &m = get_map();
     clear_map();
 
@@ -2804,8 +2804,8 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
 
     SECTION( "container emptied by processing" ) {
         itype_id const id = spawned_w_modifier->get_contents().first_item().typeId();
-        get_map().i_clear( spawned_w_custom_container.position() );
-        get_map().i_clear( spawned_in_def_container.position() );
+        get_map().i_clear( spawned_w_custom_container.pos_bub() );
+        get_map().i_clear( spawned_in_def_container.pos_bub() );
         restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                     get_weather().forced_temperature );
         get_weather().forced_temperature = units::from_celsius( 21 );

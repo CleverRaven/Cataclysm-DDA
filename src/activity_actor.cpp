@@ -112,6 +112,7 @@
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
@@ -156,7 +157,6 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -226,12 +226,15 @@ static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id
+itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const morale_type morale_book( "morale_book" );
@@ -243,7 +246,7 @@ static const morale_type morale_shave( "morale_shave" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_yrax_trifacet( "mon_yrax_trifacet" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
@@ -334,8 +337,8 @@ void aim_activity_actor::start( player_activity &act, Character &who )
     item &it = *weapon.get_item();
 
     if( !check_gun_ability_to_shoot( who, it ) ) {
-        aborted = true; // why doesn't interrupt?
-        act.set_to_null();
+        aborted = true;
+        finish( act, who );
     }
 
     // Time spent on aiming is determined on the go by the player
@@ -541,10 +544,10 @@ item_location aim_activity_actor::get_weapon()
 void aim_activity_actor::restore_view() const
 {
     avatar &player_character = get_avatar();
-    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    bool changed_z = player_character.view_offset.z() != initial_view_offset.z();
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( player_character.view_offset.z );
+        get_map().invalidate_map_cache( player_character.view_offset.z() );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -681,6 +684,50 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
+}
+
+void bash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    avatar *player = who.as_avatar();
+    if( player == nullptr ) {
+        debugmsg( "An NPC (%s) has been assigned ACT_BASH", who.get_name() );
+        who.cancel_activity();
+        return;
+    }
+    while( who.get_moves() > 0 ) {
+        avatar::smash_result res = player->smash( target );
+        if( !res.did_smash ) {
+            add_msg( m_info, _( "Something got in the way of smashing." ) );
+            who.cancel_activity();
+            return;
+        }
+        if( res.success ) {
+            who.cancel_activity();
+            return;
+        }
+        if( res.resistance < 0 || res.skill < res.resistance ) {
+            add_msg( m_info, _( "You're no longer able to make progress smashing here." ) );
+            who.cancel_activity();
+            return;
+        }
+    }
+}
+
+void bash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsin )
+{
+    bash_activity_actor actor( tripoint_bub_ms_zero );
+
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+
+    return actor.clone();
 }
 
 void gunmod_remove_activity_actor::start( player_activity &act, Character & )
@@ -1283,7 +1330,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
-    hotwire_car_activity_actor actor( 0, tripoint_zero );
+    hotwire_car_activity_actor actor( 0, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -1299,7 +1346,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
     int moves_before_quality;
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->hacksaw->valid() ) {
             if( !testing ) {
                 debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
@@ -1309,8 +1356,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         }
 
         moves_before_quality = to_moves<int>( furn_type->hacksaw->duration() );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->hacksaw->valid() ) {
             if( !testing ) {
                 debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
@@ -1419,7 +1465,7 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->hacksaw->valid() ) {
             if( !testing ) {
                 debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
@@ -1439,8 +1485,7 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->hacksaw );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->hacksaw->valid() ) {
             if( !testing ) {
                 debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
@@ -1875,7 +1920,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.fine_detail_vision_mod() > 4 ) {
+    if( who.fine_detail_vision_mod() > 4 && !who.has_flag( json_flag_READ_IN_DARKNESS ) ) {
         // It got too dark during the process of reading, bail out.
         act.set_to_null();
         who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
@@ -2386,48 +2431,49 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( target->made_of_from_type( phase_id::SOLID ) ) {
-            // Spill out any invalid contents first
-            target.overflow();
+        if( !target->made_of_from_type( phase_id::SOLID ) ) {
+            continue;
+        }
+        // Spill out any invalid contents first
+        target.overflow();
 
-            item &leftovers = *target;
-            // Make a copy to be put in the destination location
-            item newit = leftovers;
+        item &leftovers = *target;
+        // Make a copy to be put in the destination location
+        item newit = leftovers;
 
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
+        if( newit.is_owned_by( who, true ) ) {
+            newit.set_owner( who );
+        } else {
+            continue;
+        }
 
-            // Handle charges, quantity == 0 means move all
-            if( quantity != 0 && newit.count_by_charges() ) {
-                newit.charges = std::min( newit.charges, quantity );
-                leftovers.charges -= quantity;
-            } else {
-                leftovers.charges = 0;
-            }
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            newit.charges = std::min( newit.charges, quantity );
+            leftovers.charges -= quantity;
+        } else {
+            leftovers.charges = 0;
+        }
 
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            const tripoint_bub_ms src = target.pos_bub();
-            const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            // Yuck, I'm sticking weariness scaling based on activity level here
-            const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
-                        dest );
-                if( hauling_mode ) {
-                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
-                }
+        // This is for hauling across zlevels, remove when going up and down stairs
+        // is no longer teleportation
+        const tripoint_bub_ms src = target.pos_bub();
+        const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
+        // Yuck, I'm sticking weariness scaling based on activity level here
+        const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
+        who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance / weary_mult );
+        if( to_vehicle ) {
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+        } else {
+            std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                    dest );
+            if( hauling_mode ) {
+                who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
             }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
+        }
+        // If we picked up a whole stack, remove the leftover item
+        if( leftovers.charges <= 0 ) {
+            target.remove_item();
         }
     }
 
@@ -2563,7 +2609,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
     const map &here = get_map();
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->boltcut->valid() ) {
             if( !testing ) {
                 debugmsg( "%s boltcut is invalid", furn_type.id().str() );
@@ -2573,8 +2619,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
         }
 
         act.moves_total = to_moves<int>( furn_type->boltcut->duration() );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->boltcut->valid() ) {
             if( !testing ) {
                 debugmsg( "%s boltcut is invalid", ter_type.id().str() );
@@ -2616,7 +2661,7 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->boltcut->valid() ) {
             if( !testing ) {
                 debugmsg( "%s boltcut is invalid", furn_type.id().str() );
@@ -2636,8 +2681,7 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->boltcut );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->boltcut->valid() ) {
             if( !testing ) {
                 debugmsg( "%s boltcut is invalid", ter_type.id().str() );
@@ -2713,7 +2757,7 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
     const item_location &lockpick,
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2725,7 +2769,7 @@ lockpick_activity_actor lockpick_activity_actor::use_item(
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_bionic(
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2764,8 +2808,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     map &here = get_map();
     const tripoint_bub_ms target = here.bub_from_abs( this->target );
-    const ter_id ter_type = here.ter( target );
-    const furn_id furn_type = here.furn( target );
+    const ter_id &ter_type = here.ter( target );
+    const furn_id &furn_type = here.furn( target );
     optional_vpart_position const veh = here.veh_at( target );
     int locked_part = -1;
     ter_id new_ter_type;
@@ -2933,7 +2977,7 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return target;
     }
 
-    const ter_id terr_type = get_map().ter( *target );
+    const ter_id &terr_type = get_map().ter( *target );
     if( *target == you.pos_bub() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
@@ -2961,7 +3005,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_zero );
+    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -4012,7 +4056,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
-            ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
+            ( ( elapsed + act.moves_total - act.moves_left ) * 1_turns / 100 ) > 5_minutes ) {
             who.add_morale( morale_feeling_good, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
@@ -4100,7 +4144,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
-    workout_activity_actor actor = workout_activity_actor( tripoint_zero );
+    workout_activity_actor actor{ tripoint_bub_ms_min };
 
     JsonObject data = jsin.get_object();
 
@@ -4279,7 +4323,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
     map &here = get_map();
 
     if( here.has_furn( target ) ) {
-        const furn_id furn = here.furn( target );
+        const furn_id &furn = here.furn( target );
 
         if( furn->has_examine( iexamine::harvest_furn ) ) {
             // TODO: Should be generified as a harvest field
@@ -4368,7 +4412,7 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
-    harvest_activity_actor actor( tripoint_zero );
+    harvest_activity_actor actor{ tripoint_bub_ms_min };
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "target", actor.target );
@@ -4520,7 +4564,9 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
              !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
              !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
-           ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
+           ( !monster.type->revert_to_itype.is_empty() ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_trifacet_deactivation_manual ) ||
+             monster.type->id != mon_yrax_trifacet );
 }
 
 int disable_activity_actor::get_disable_turns()
@@ -4930,9 +4976,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 2:
         default:
             // In player inventory and player is wielding something.
-            loc.carrier()->add_msg_if_player( m_neutral,
-                                              _( "The %s no longer fits in your inventory so you drop it instead." ),
-                                              reloadable_name );
+            if( loc.carrier() ) {
+                loc.carrier()->add_msg_if_player( m_neutral,
+                                                  _( "The %s no longer fits in your inventory so you drop it instead." ),
+                                                  reloadable_name );
+            }
             get_map().add_item_or_charges( loc.pos_bub(), reloadable );
             loc.remove_item();
             break;
@@ -4984,7 +5032,7 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.bub_from_abs( monster_coords.at( 0 ) );
+    const tripoint_bub_ms source_pos = here.bub_from_abs( tripoint_abs_ms( monster_coords.at( 0 ) ) );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         // We might end up here if the creature dies while being milked
@@ -5001,7 +5049,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.bub_from_abs( monster_coords.at( 0 ) );
+    const tripoint_bub_ms source_pos = here.bub_from_abs( tripoint_abs_ms( monster_coords.at( 0 ) ) );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
@@ -5348,7 +5396,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
     const map &here = get_map();
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->oxytorch->valid() ) {
             if( !testing ) {
                 debugmsg( "%s oxytorch is invalid", furn_type.id().str() );
@@ -5358,8 +5406,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         }
 
         act.moves_total = to_moves<int>( furn_type->oxytorch->duration() );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->oxytorch->valid() ) {
             if( !testing ) {
                 debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
@@ -5405,7 +5452,7 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->oxytorch->valid() ) {
             if( !testing ) {
                 debugmsg( "%s oxytorch is invalid", furn_type.id().str() );
@@ -5425,8 +5472,7 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->oxytorch );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->oxytorch->valid() ) {
             if( !testing ) {
                 debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
@@ -5637,6 +5683,15 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
 
 void outfit_swap_actor::start( player_activity &act, Character &who )
 {
+    if( !who.is_wielding( *outfit_item ) && !who.wield( *outfit_item ) ) {
+        who.add_msg_if_player( m_warning,
+                               _( "You'll need the outfit in your hands before you can change outfits." ) );
+        act.set_to_null();
+        return;
+    }
+    if( !outfit_item ) { // if we wielded it in the last if, it's invalidated and reacquired here
+        outfit_item = who.get_wielded_item();
+    }
     item fake_storage( outfit_item->typeId() );
     for( const item_location &worn_item : who.get_visible_worn_items() ) {
         act.moves_total += who.item_handling_cost( *worn_item ); // Cost of taking it off
@@ -5779,7 +5834,7 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
         const item_location &tool, const Character &who )
 {
     const pry_data &pdata = data.prying_data();
-    if( pdata.prying_nails ) {
+    if( data.duration() > 1_seconds ) {
         return data.duration();
     }
 
@@ -5795,7 +5850,7 @@ void prying_activity_actor::start( player_activity &act, Character &who )
     const map &here = get_map();
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", furn_type.id().str() );
@@ -5807,8 +5862,7 @@ void prying_activity_actor::start( player_activity &act, Character &who )
         prying_nails = furn_type->prying->prying_data().prying_nails;
         act.moves_total = to_moves<int>(
                               prying_time( *furn_type->prying, tool, who ) );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", ter_type.id().str() );
@@ -5882,23 +5936,21 @@ void prying_activity_actor::handle_prying( Character &who )
     };
 
     auto handle_failure = [&]( const pry_data & pdata ) -> void {
-        if( !pdata.breakable )
+        if( pdata.breakable )
         {
-            return;
-        }
+            int difficulty = pdata.difficulty;
+            difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        int difficulty = pdata.difficulty;
-        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+            /** @EFFECT_MECHANICS reduces chance of breaking when prying */
+            const int dice_mech = dice( 2,
+                                        static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
+            /** @ARM_STR reduces chance of breaking when prying */
+            const int dice_str = dice( 2, who.get_arm_str() );
 
-        /** @EFFECT_MECHANICS reduces chance of breaking when prying */
-        const int dice_mech = dice( 2, static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
-        /** @ARM_STR reduces chance of breaking when prying */
-        const int dice_str = dice( 2, who.get_arm_str() );
-
-        if( dice( 4, difficulty ) > dice_mech + dice_str )
-        {
-            // bash will always succeed
-            here.bash( target, 0, false, true );
+            if( dice( 4, difficulty ) > dice_mech + dice_str ) {
+                // bash will always succeed
+                here.bash( target, 0, false, true );
+            }
         }
 
         if( !data->prying_data().failure.empty() )
@@ -5908,7 +5960,7 @@ void prying_activity_actor::handle_prying( Character &who )
     };
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", furn_type.id().str() );
@@ -5931,8 +5983,7 @@ void prying_activity_actor::handle_prying( Character &who )
         }
 
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", ter_type.id().str() );
@@ -5998,7 +6049,7 @@ void prying_activity_actor::handle_prying_nails( Character &who )
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
-        const furn_id furn_type = here.furn( target );
+        const furn_id &furn_type = here.furn( target );
         if( !furn_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", furn_type.id().str() );
@@ -6016,8 +6067,7 @@ void prying_activity_actor::handle_prying_nails( Character &who )
 
         data = static_cast<const activity_data_common *>( &*furn_type->prying );
         here.furn_set( target, new_furn );
-    } else if( !here.ter( target )->is_null() ) {
-        const ter_id ter_type = here.ter( target );
+    } else if( const ter_id &ter_type = here.ter( target ); !ter_type->is_null() ) {
         if( !ter_type->prying->valid() ) {
             if( !testing ) {
                 debugmsg( "%s prying is invalid", ter_type.id().str() );
@@ -6343,36 +6393,6 @@ std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
-{
-    std::optional<tripoint_bub_ms> p( where );
-    std::vector<drop_location> s( selection );
-    who.cancel_activity();
-    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
-}
-
-void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "where", where );
-    jsout.member( "selection", selection );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
-{
-    pickup_menu_activity_actor actor( {}, {} );
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "where", actor.where );
-    data.read( "selection", actor.selection );
-
-    return actor.clone();
-}
-
 static void chop_single_do_turn( player_activity &act )
 {
     const map &here = get_map();
@@ -6402,11 +6422,12 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int log_quan;
     int stick_quan;
     int splint_quan;
-    if( here.ter( pos ) == ter_t_trunk ) {
+    const ter_id &t = here.ter( pos );
+    if( t == ter_t_trunk ) {
         log_quan = rng( 2, 3 );
         stick_quan = rng( 0, 3 );
         splint_quan = 0;
-    } else if( here.ter( pos ) == ter_t_stump ) {
+    } else if( t == ter_t_stump ) {
         log_quan = rng( 0, 2 );
         stick_quan = 0;
         splint_quan = rng( 5, 15 );
@@ -6533,12 +6554,12 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
 
-    tripoint direction;
+    tripoint_rel_ms direction;
     if( !who.is_npc() &&
         ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
-            if( const std::optional<tripoint> dir = choose_direction(
-                    _( "Select a direction for the tree to fall in." ) ) ) {
+            if( const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
                 direction = *dir;
                 break;
             }
@@ -6579,13 +6600,13 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = tripoint( direc, pos.z() );
+                direction = tripoint_rel_ms( { direc, pos.z() } );
                 break;
             }
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -7214,38 +7235,35 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     }
 
     if( stage == INIT ) {
-        // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_UNLOAD_ALL, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
-            coord_set.insert( p.raw() );
+            coord_set.insert( p );
         }
 
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_STRIP_CORPSES, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
-            coord_set.insert( p.raw() );
+            coord_set.insert( p );
         }
         stage = THINK;
     }
 
     if( stage == THINK ) {
-        //initialize num_processed
+        // initialize num_processed
         num_processed = 0;
-        // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
         src_set.reserve( coord_set.size() );
-        for( const tripoint &p : coord_set ) {
+        for( const tripoint_abs_ms &p : coord_set ) {
             src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
         for( const tripoint_abs_ms &src : src_sorted ) {
-            // TODO: fix point types
-            placement = src.raw();
-            coord_set.erase( src.raw() );
+            placement = src;
+            coord_set.erase( src );
 
             const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
@@ -8013,7 +8031,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 
     int moves = 0;
     for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint &pos = here.getlocal( *pos_iter );
+        const tripoint_bub_ms &pos = here.bub_from_abs( *pos_iter );
         map_stack corpse_pile = here.i_at( pos );
         for( item &corpse : corpse_pile ) {
             if( !corpse.is_corpse() || !corpse.can_revive() ) {
@@ -8041,7 +8059,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                     // Splatter some blood around
                     // Splatter a bit more randomly, so that it looks cooler
                     const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                    const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+                    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
                     const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                      corpse.get_mtype()->gibType() :
                                                      corpse.get_mtype()->bloodType();
@@ -8178,6 +8196,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { ACT_AIM, &aim_activity_actor::deserialize },
     { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
+    { ACT_BASH, &bash_activity_actor::deserialize },
     { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
@@ -8219,7 +8238,6 @@ deserialize_functions = {
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
-    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },

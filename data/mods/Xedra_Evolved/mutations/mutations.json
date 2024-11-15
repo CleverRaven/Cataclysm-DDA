@@ -28,7 +28,8 @@
     "points": -1,
     "starting_trait": true,
     "valid": false,
-    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
+    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)",
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -127,6 +128,35 @@
   },
   {
     "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFIMMUNE",
+    "copy-from": "INFIMMUNE",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GENERIC_UNCANNY_DODGE_TRAIT",
+    "name": { "str": "The Trait That Gives you Uncanny Dodge" },
+    "description": "The Uncanny Dodge flag only works on traits or bionics, so this is a trait for powers that grant it.",
+    "points": 1,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,
@@ -135,7 +165,8 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL", "HEMOVORE" ]
+    "flags": [ "CANNIBAL", "HEMOVORE" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -667,7 +698,7 @@
         ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
@@ -677,7 +708,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" },
     "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
   },
@@ -904,5 +935,15 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_HOMULLUS_HATRED",
+    "name": { "str": "False Homullus" },
+    "points": -4,
+    "description": "The homullus can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "HOMULLUS", 100 ] ]
   }
 ]

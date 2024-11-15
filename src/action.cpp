@@ -1216,10 +1216,10 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
                 message, allow_vertical, /*allow_mouse=*/true, timeout,
     [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "SELECT" ) {
-            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates(
+            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates(
                         g->w_terrain, g->ter_view_p.xy(), true );
             if( mouse_pos ) {
-                const tripoint_rel_ms vec = tripoint_bub_ms( *mouse_pos ) - pos;
+                const tripoint_rel_ms vec = *mouse_pos - pos;
                 if( vec.x() >= -1 && vec.x() <= 1
                     && vec.y() >= -1 && vec.y() <= 1
                     && ( allow_vertical ? vec.z() >= -1 && vec.y() <= 1 : vec.z() == 0 ) ) {
@@ -1284,11 +1284,11 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical, bool allow_autoselect )
 {
-    std::vector<tripoint> valid;
+    std::vector<tripoint_bub_ms> valid;
     map &here = get_map();
     if( allowed ) {
-        for( const tripoint &pos : here.points_in_radius( pos, 1 ) ) {
-            if( allowed( pos ) ) {
+        for( const tripoint_bub_ms &pos : here.points_in_radius( tripoint_bub_ms( pos ), 1 ) ) {
+            if( allowed( pos.raw() ) ) {
                 valid.emplace_back( pos );
             }
         }
@@ -1299,22 +1299,23 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
         add_msg( failure_message );
         return std::nullopt;
     } else if( valid.size() == 1 && auto_select ) {
-        return valid.back();
+        return valid.back().raw();
     }
 
     shared_ptr_fast<game::draw_callback_t> hilite_cb;
     if( !valid.empty() ) {
         hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-            for( const tripoint &pos : valid ) {
+            for( const tripoint_bub_ms &pos : valid ) {
                 here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
             }
         } );
         g->add_draw_callback( hilite_cb );
     }
 
-    const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    const std::optional<tripoint_bub_ms> chosen = choose_adjacent( tripoint_bub_ms( pos ), message,
+            allow_vertical );
     if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
-        return chosen;
+        return std::optional<tripoint>( chosen.value().raw() );
     }
 
     return std::nullopt;

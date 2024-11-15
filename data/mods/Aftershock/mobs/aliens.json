@@ -19,7 +19,7 @@
     "morale": -7,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
-    "reproduction": { "baby_monster": "afs_mon_rabbit", "baby_count": 3, "baby_timer": 55 },
+    "reproduction": { "baby_type": { "baby_monster": "afs_mon_rabbit" }, "baby_count": 3, "baby_timer": 55 },
     "harvest": "alien_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
@@ -63,7 +63,7 @@
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "ANIMAL", "SEES", "HEARS", "SMELLS", "NOHEAD", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "ANIMAL", "SEES", "HEARS", "SMELLS", "NOHEAD", "HARDTOSHOOT" ]
   },
   {
     "id": "afs_mon_boatman",
@@ -206,7 +206,7 @@
     "harvest": "alien_small_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "STUMBLES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "STUMBLES" ]
   },
   {
     "id": "afs_venandi",

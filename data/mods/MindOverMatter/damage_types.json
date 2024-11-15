@@ -63,13 +63,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_DAMAGE_STAGGER_CHANCE",
-    "condition": { "and": [ { "x_in_y_chance": { "x": 2, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": { "math": [ "2 + (u_has_trait('perk_concussive_blasts') * 2)" ] }, "y": 5 } },
+        { "math": [ "_damage_taken", ">", "0" ] }
+      ]
+    },
     "effect": [ { "npc_add_effect": "staggered", "duration": "2 s" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE",
-    "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('perk_concussive_blasts')" ] }, "y": 5 } },
+        { "math": [ "_damage_taken", ">", "0" ] }
+      ]
+    },
     "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
   },
   {

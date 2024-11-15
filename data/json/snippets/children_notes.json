@@ -42,7 +42,7 @@
       { "id": "note_child_21", "text": "\"I saw a huge mushroom yesterday.  I feel itchy.\"" },
       { "id": "note_child_22", "text": "\"I don't want to leave the house, but I'm hungry…\"" },
       { "id": "note_child_23", "text": "\"I went and keeped only necesary items like dad told me\"" },
-      { "id": "note_child_24", "text": "\"Mommy cried the other day…  I don't want to be here anymore.\"" },
+      { "id": "note_child_24", "text": "\"Mommy cried the other day… I don't want to be here anymore.\"" },
       { "id": "note_child_25", "text": "\"Uncle Tim said we are going on a trip, but I just want to see daddy.\"" },
       {
         "id": "note_child_26",
@@ -58,7 +58,7 @@
       },
       {
         "id": "note_child_29",
-        "text": "\"Dad and I have been living in the woods for a week now.  He gives me his pistol when he is out hunting.  It wasn't enough to stop the werewolf that attacked me.  So I had to hide in a small hole for a whole night where it couldn't reach me.  Luckily dad found me and killed it. He also said he will make me a werewolf jacket for my birthday.  A WEREWOLF JACKET, IHAVETHECOOLESTDADINTHEWORLD.\""
+        "text": "\"Dad and I have been living in the woods for a week now.  He gives me his pistol when he is out hunting.  It wasn't enough to stop the werewolf that attacked me.  So I had to hide in a small hole for a whole night where it couldn't reach me.  Luckily dad found me and killed it.  He also said he will make me a werewolf jacket for my birthday.  A WEREWOLF JACKET, IHAVETHECOOLESTDADINTHEWORLD.\""
       },
       {
         "id": "note_child_30",
@@ -74,11 +74,11 @@
       },
       {
         "id": "note_child_33",
-        "text": "\"Daddy and Mommy, some really scary storm is happening outside.  I hear some people telling me everything will be okay and everything will be over if I get out, so I'm going with them to help find you, and if not i left a message to you so you know where I'm gone!  I'm just too hungry to keep waiting anymore…  I'm sorry.\""
+        "text": "\"Daddy and Mommy, some really scary storm is happening outside.  I hear some people telling me everything will be okay and everything will be over if I get out, so I'm going with them to help find you, and if not i left a message to you so you know where I'm gone!  I'm just too hungry to keep waiting anymore… I'm sorry.\""
       },
       {
         "id": "note_child_34",
-        "text": "\"Mommy is behind me forcing me to draw and write notes.  I don't know why, but she has been acting weirder everyday, and I think she hurt daddy…  I'm scared im scared, someone help, im scared im…  (The rest of the note seems to be endless begging for help until it ends in a bloody smear)\""
+        "text": "\"Mommy is behind me forcing me to draw and write notes.  I don't know why, but she has been acting weirder everyday, and I think she hurt daddy… I'm scared im scared, someone help, im scared im… (The rest of the note seems to be endless begging for help until it ends in a bloody smear)\""
       },
       {
         "id": "note_child_35",
@@ -114,7 +114,7 @@
       },
       {
         "id": "note_child_43",
-        "text": "\"Felt queasy and threw up yesterday, puke looked weird.  I took pills for stomach aches but I don't feel any better.\""
+        "text": "\"Felt queasy and threw up yesterday, puke looked weird.  I took pills for stomach ache but I don't feel any better.\""
       },
       {
         "id": "note_child_44",
@@ -130,11 +130,11 @@
       },
       {
         "id": "note_child_47",
-        "text": "\"I'm alone in this shelter now…  i can see some people outside but they are just standing there really quiet and not doing anything.  The monsters seems to ignore them too, maybe they will help me?\""
+        "text": "\"I'm alone in this shelter now… i can see some people outside but they are just standing there really quiet and not doing anything.  The monsters seems to ignore them too, maybe they will help me?\""
       },
       {
         "id": "note_child_48",
-        "text": "\"In case of emergency fill out this form so that you may present it to emergency personnel for identification purposes.  Keep this form with your emergency supplies.  If You need to request new copies of this form, speak with the school safety office.  Remember to keep calm, and stay in one location if possible, this will help emergency personnel to find you.  If this form is found please contact Oak Grove Elementary School.  Name: Aiden.  Parent or Guardian: Mommy Daddy.  Phone number where you can be reached: I don't remember I think it has a 5 in it.  Teacher: Miss daisy.  Current location: I dont no I'm scared, Im hear all alone.  Medical Conditions i.e diabetes: I dont no what that is.  Additional Information: Why is everyone acting so weird?!\""
+        "text": "\"In case of emergency fill out this form so that you may present it to emergency personnel for identification purposes.  Keep this form with your emergency supplies.  If You need to request new copies of this form, speak with the school safety office.  Remember to keep calm, and stay in one location if possible, this will help emergency personnel to find you.  If this form is found please contact Oak Grove Elementary School.  Name: Aiden.  Parent or Guardian: Mommy Daddy.  Phone number where you can be reached: I don't remember I think it has a 5 in it.  Teacher: Miss daisy.  Current location: I dont no I'm scared, Im hear all alone.  Medical Conditions ie diabetes: I dont no what that is.  Additional Information: Why is everyone acting so weird?!\""
       },
       {
         "id": "note_child_49",
@@ -172,6 +172,122 @@
       {
         "id": "note_child_58",
         "text": "\"Dear diary.  Mommy and dad have been making us live in the basement for the last few days.  It's to keep us safe, they say, but it gets really stuffy during the night and I can't sleep, so I sometimes sneak upstairs.  Sometimes I talk to Aunt Maria.  She always stays in the back yard and appears when the sky goes all weird and when scary noises come from outside.  I always ask her to come in, but she tells me she can't and that I should go out instead.  I think it's because dad doesn't want her around, he always told me she died in 2001.  He's a liar, and I think he wants the monsters to eat her.  The door's always locked, but I can reach the garage controls.\""
+      },
+      {
+        "id": "note_child_59",
+        "text": "\"I saw Mr. Henderson today, but he didn't say hi back.  His eyes were all white and he didn't have his glasses on.  He just stood there in the yard staring at the sky.\""
+      },
+      {
+        "id": "note_child_60",
+        "text": "\"Mommy says we're going to grandma's house, but grandma lives in heaven.  I'm confused.\""
+      },
+      {
+        "id": "note_child_61",
+        "text": "\"Daddy told me to hide in the closet, but it's been forever and he hasn't come back yet.  I'm really scared.\""
+      },
+      {
+        "id": "note_child_62",
+        "text": "\"Mommy locked me in the attic and said not to come out, but I can hear strange noises downstairs.\""
+      },
+      {
+        "id": "note_child_63",
+        "text": "\"I miss my friends.  I wonder if they are okay.  I hope I can see them soon.\""
+      },
+      {
+        "id": "note_child_64",
+        "text": "\"Daddy said he will be right back, but it's been a whole day.  I hope he is okay.\""
+      },
+      {
+        "id": "note_child_65",
+        "text": "\"I found an old photo of us at the beach.  I miss those days.  Why can't we go back?\""
+      },
+      {
+        "id": "note_child_66",
+        "text": "\"Mommy said the monsters are not real, but I saw one today.  It was in our backyard.\""
+      },
+      {
+        "id": "note_child_67",
+        "text": "\"I saw a rainbow today.  It made me happy for a little while.  I wish mommy and daddy were here to see it too.\""
+      },
+      {
+        "id": "note_child_68",
+        "text": "\"The lights went out last night and I was so scared.  I wish mommy and daddy were here.\""
+      },
+      {
+        "id": "note_child_69",
+        "text": "\"Mommy and daddy are always busy.  I wish they would play with me like they used to.\""
+      },
+      {
+        "id": "note_child_70",
+        "text": "\"I saw a big bird today.  It was bigger than me!  I wanted to show mommy but she wasn't home.\""
+      },
+      {
+        "id": "note_child_71",
+        "text": "\"I made a drawing for mommy and daddy, but they haven't come home to see it yet.\""
+      },
+      {
+        "id": "note_child_72",
+        "text": "\"I don't like the dark.  It's scary and makes me feel alone.  I wish mommy and daddy were here.\""
+      },
+      {
+        "id": "note_child_73",
+        "text": "\"I heard a loud noise outside last night.  It sounded like a monster.  I'm scared.\""
+      },
+      {
+        "id": "note_child_74",
+        "text": "\"I found an old teddy bear in the attic.  It reminds me of when mommy and daddy used to read me stories before bed.\""
+      },
+      { "id": "note_child_75", "text": "\"I don't want to be alone anymore.  I miss mommy and daddy so much.\"" },
+      {
+        "id": "note_child_76",
+        "text": "\"Mommy said she would be right back, but she hasn't come home yet.  I'm really scared.\""
+      },
+      { "id": "note_child_77", "text": "\"I heard mommy and daddy fighting last night.  I hope they are okay.\"" },
+      {
+        "id": "note_child_78",
+        "text": "\"I miss going to school and seeing my friends.  I hope we can go back soon.\""
+      },
+      {
+        "id": "note_child_79",
+        "text": "\"I found an old book in the attic.  It has pictures of mommy and daddy when they were young.  I wish I could ask them about it.\""
+      },
+      {
+        "id": "note_child_80",
+        "text": "\"I heard a strange noise outside last night.  It sounded like someone crying.  I'm scared.\""
+      },
+      { "id": "note_child_81", "text": "\"I wish mommy and daddy would come home.  I miss them so much.\"" },
+      {
+        "id": "note_child_82",
+        "text": "\"I saw a shooting star last night.  I made a wish that mommy and daddy would come home.\""
+      },
+      {
+        "id": "note_child_83",
+        "text": "\"I found an old toy car in the attic.  It reminds me of when daddy used to play with me.\""
+      },
+      {
+        "id": "note_child_84",
+        "text": "\"I heard a loud noise outside last night.  It scared me so much.  I wish mommy and daddy were here.\""
+      },
+      { "id": "note_child_85", "text": "\"I miss playing outside with my friends.  I hope we can go back soon.\"" },
+      {
+        "id": "note_child_86",
+        "text": "\"I found an old photo album in the attic.  It has pictures of our family trips.  I wish we could go on another trip.\""
+      },
+      {
+        "id": "note_child_87",
+        "text": "\"I heard mommy and daddy talking about leaving.  I don't want them to go.\""
+      },
+      {
+        "id": "note_child_88",
+        "text": "\"I miss mommy's hugs and daddy's bedtime stories.  I hope they come home soon.\""
+      },
+      {
+        "id": "note_child_89",
+        "text": "\"I found an old doll in the attic.  It reminds me of when mommy used to play with me.\""
+      },
+      {
+        "id": "note_child_90",
+        "text": "\"I heard a strange noise outside last night.  It sounded like a monster.  I'm really scared.\""
       }
     ]
   }

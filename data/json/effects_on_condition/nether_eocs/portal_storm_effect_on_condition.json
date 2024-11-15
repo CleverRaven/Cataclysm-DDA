@@ -148,7 +148,7 @@
       },
       { "math": [ "cause_early_portal_storm", "=", "1" ] },
       "next_weather",
-      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
+      { "run_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       {
         "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby, a tiny cataclysm has begun (check mission log for details).",
@@ -208,7 +208,7 @@
         "target_var": { "global_val": "portal_storm_voice_mood" }
       },
       {
-        "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
+        "run_eocs": "EOC_CANCEL_PORTAL_STORM",
         "time_in_future": [
           { "global_val": "ps_min_length", "default": "15 minutes" },
           { "global_val": "ps_max_length", "default": "30 minutes" }
@@ -703,7 +703,7 @@
     },
     "effect": [
       { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel an intense sense of deja vu." },
-      { "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
+      { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
     ]
   },
   {
@@ -907,7 +907,7 @@
       { "mapgen_update": "portal_cell", "target_var": { "global_val": "cell_loc" } },
       { "u_teleport": { "global_val": "cell_start" }, "fail_message": "that sucks" },
       {
-        "queue_eocs": {
+        "run_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
           "effect": [
             { "math": [ "u_in_portal_cell", "=", "0" ] },
@@ -968,7 +968,7 @@
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "math": [ "portal_dungeon_level", "=", "1" ] },
       { "math": [ "visited_a_portal_dungeon", "=", "1" ] },
-      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
@@ -993,7 +993,7 @@
     "condition": { "math": [ "portal_dungeon_level", ">", "0" ] },
     "effect": [
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
-      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
     ]
   },
   {

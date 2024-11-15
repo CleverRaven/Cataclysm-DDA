@@ -123,10 +123,10 @@ static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
 static bool need_invalidate_framebuffers = false;
-
 palette_array windowsPalette;
 
 static Font_Ptr font;
+static Font_Ptr gui_font;
 static Font_Ptr map_font;
 static Font_Ptr overmap_font;
 
@@ -811,7 +811,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     const bool draw_overlays = blink || fast_traveling;
-    o = origin.raw().xy();
+    o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
@@ -1107,6 +1107,20 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     for( om_vehicle &v : overmap_buffer.get_vehicle( center_pos ) ) {
         notes_window_text.emplace_back( c_white, v.name );
     }
+
+    if( ! g->overmap_data.message.empty() ) {
+        const int padding = 2;
+        SDL_Rect message_background_rect = {
+            0,
+            0,
+            fontwidth * utf8_width( g->overmap_data.message ) + padding * 2,
+            fontheight + padding * 2
+        };
+        geometry->rect( renderer, message_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_string( *font, renderer, geometry, g->overmap_data.message, point( padding, padding ),
+                     cata_cursesport::colorpairs[c_white.to_color_pair_index()].FG );
+    }
+
 
     if( !notes_window_text.empty() && !fast_traveling ) {
         constexpr int padding = 2;
@@ -3523,8 +3537,9 @@ static void CheckMessages()
         try_sdl_update();
     }
     if( quit ) {
-        catacurses::endwin();
-        exit( 0 );
+        if( g->uquit != quit_status::QUIT_EXIT_PENDING ) {
+            g->uquit = quit_status::QUIT_EXIT;
+        }
     }
 }
 
@@ -3681,7 +3696,7 @@ void catacurses::init_interface()
             ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
             fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                           /*precheck=*/true, /*force=*/false,
-                                          /*pump_events=*/true );
+                                          /*pump_events=*/true, /*terrain=*/false );
         } catch( const std::exception &err ) {
             dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
             // use_tiles is the cached value of the USE_TILES option.
@@ -3696,7 +3711,7 @@ void catacurses::init_interface()
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
         closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                         /*precheck=*/true, /*force=*/false,
-                                        /*pump_events=*/true );
+                                        /*pump_events=*/true, /*terrain=*/false );
         tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
@@ -3711,7 +3726,7 @@ void catacurses::init_interface()
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/true, /*force=*/false,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for overmap tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3723,11 +3738,17 @@ void catacurses::init_interface()
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
+#if defined(SDL_SOUND)
     // initialize sound set
-    load_soundset();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif // SOUND
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
+    gui_font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
+               windowsPalette, fl.gui_typeface, fl.fontsize, fl.fontblending );
     map_font = std::make_unique<FontFallbackList>( renderer, format, fl.map_fontwidth,
                fl.map_fontheight,
                windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
@@ -3736,7 +3757,7 @@ void catacurses::init_interface()
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-    imclient->load_fonts( font, windowsPalette, fl.typeface );
+    imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
@@ -3752,11 +3773,11 @@ void load_tileset()
     }
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                     /*precheck=*/false, /*force=*/false,
-                                    /*pump_events=*/true );
+                                    /*pump_events=*/true, /*terrain=*/false );
     if( use_far_tiles ) {
         fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                       /*precheck=*/false, /*force=*/false,
-                                      /*pump_events=*/true );
+                                      /*pump_events=*/true, /*terrain=*/false );
     }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
@@ -3764,7 +3785,7 @@ void load_tileset()
     if( overmap_tilecontext ) {
         overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                            /*precheck=*/false, /*force=*/false,
-                                           /*pump_events=*/true );
+                                           /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     }
 }
@@ -3777,6 +3798,7 @@ void catacurses::endwin()
     fartilecontext.reset();
     overmap_tilecontext.reset();
     font.reset();
+    gui_font.reset();
     map_font.reset();
     overmap_font.reset();
     ui_manager::reset();
@@ -3992,8 +4014,8 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win_, const point &offset, const bool center_cursor ) const
 {
     // This information is required by curses, but is not (currently) used in SDL
     ( void ) center_cursor;
@@ -4024,7 +4046,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
                                screen_pos, dim.scaled_font_size, win_size,
                                point_bub_ms( offset ), use_isometric );
 
-    return tripoint( p.raw(), get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p, get_map().get_abs_sub().z() );
 }
 
 int get_terminal_width()

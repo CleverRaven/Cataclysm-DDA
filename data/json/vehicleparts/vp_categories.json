@@ -3,7 +3,7 @@
     "id": "_all",
     "type": "vehicle_part_category",
     "name": { "ctxt": "vp_category", "str": "All" },
-    "short_name": { "ctxt": "vp_category", "str": "*" },
+    "short_name": { "//~": "NO_I18N", "str": "*" },
     "//": "Hardcoded category to display vehicle parts regardless of category.",
     "priority": 0
   },
@@ -11,7 +11,7 @@
     "id": "_filter",
     "type": "vehicle_part_category",
     "name": { "ctxt": "vp_category", "str": "Filter" },
-    "short_name": { "ctxt": "vp_category", "str": "/" },
+    "short_name": { "//~": "NO_I18N", "str": "/" },
     "//": "Hardcoded category used for vehicle part user filter.",
     "priority": 255
   },
@@ -91,7 +91,7 @@
     "id": "other",
     "type": "vehicle_part_category",
     "name": { "ctxt": "vp_category", "str": "Other" },
-    "short_name": { "ctxt": "vp_category", "str": "~" },
+    "short_name": { "//~": "NO_I18N", "str": "~" },
     "//": "Vehicle part category for anything not included in other categories",
     "priority": 100
   }

@@ -154,10 +154,10 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
                 debugmsg( "vehiclefunction_json: unable to get location to place vehicle." );
                 return;
             }
-            const tripoint pos = tripoint( loc->pick_point(), m.get_abs_sub().z() );
+            const tripoint_bub_ms pos{ point_bub_ms( loc->pick_point() ), m.get_abs_sub().z() };
             m.add_vehicle( vehicle->pick(), pos, loc->pick_facing(), fuel, status );
         } else {
-            const tripoint pos = tripoint( location->pick_point(), m.get_abs_sub().z() );
+            const tripoint_bub_ms pos{ point_bub_ms( location->pick_point() ), m.get_abs_sub().z()};
             m.add_vehicle( vehicle->pick(), pos, location->pick_facing(), fuel, status );
         }
     }
@@ -230,10 +230,10 @@ static void builtin_no_vehicles( map &, const std::string_view )
 static void builtin_parkinglot( map &m, const std::string_view )
 {
     for( int v = 0; v < rng( 1, 4 ); v++ ) {
-        tripoint pos_p;
-        pos_p.x = rng( 0, 1 ) * 15 + rng( 4, 5 );
-        pos_p.y = rng( 0, 4 ) * 4 + rng( 2, 4 );
-        pos_p.z = m.get_abs_sub().z();
+        tripoint_bub_ms pos_p;
+        pos_p.x() = rng( 0, 1 ) * 15 + rng( 4, 5 );
+        pos_p.y() = rng( 0, 4 ) * 4 + rng( 2, 4 );
+        pos_p.z() = m.get_abs_sub().z();
 
         if( !m.veh_at( pos_p ) ) {
             units::angle facing;

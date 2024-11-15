@@ -75,7 +75,7 @@
     "id": "ar15_50short",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_50beowulf_short" } ]
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_50beowulf_short" } ]
   },
   {
     "id": "ar15_450",
@@ -93,7 +93,7 @@
     "id": "ar15_450short",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_450_short" } ]
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_450_short" } ]
   },
   {
     "id": "ar15_762",

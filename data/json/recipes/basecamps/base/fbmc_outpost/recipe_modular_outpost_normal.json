@@ -163,7 +163,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+          [ [ "sheet_metal", 2 ], [ "lc_wire", 8 ] ],
           [ [ "pipe", 24 ] ],
           [ [ "processor", 2 ] ],
           [ [ "RAM", 2 ] ],

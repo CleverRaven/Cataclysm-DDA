@@ -94,7 +94,7 @@ class unique_item
         }
         // Spawns this item in the given location on the map.
         // Returns true if item was spawned and false otherwise.
-        bool spawn_item( const tripoint &where ) {
+        bool spawn_item( const tripoint_bub_ms &where ) {
             instance = get_map().add_item( where, instance );
             CHECK_FALSE( get_uid().empty() );
             return !instance.is_null();
@@ -154,9 +154,9 @@ static void add_autopickup_rules( const std::vector<unique_item *> &what, bool i
 }
 
 // Simulate character moving over a tile that contains items.
-static void simulate_auto_pickup( const tripoint &pos, avatar &they )
+static void simulate_auto_pickup( const tripoint_bub_ms &pos, avatar &they )
 {
-    Pickup::autopickup( pos );
+    Pickup::autopickup( pos.raw() );
     process_activity( they );
 }
 
@@ -199,8 +199,8 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -264,7 +264,7 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
                     &item_chocolate_candy
                 } );
                 // make sure the item has remained on the ground
-                REQUIRE( item_plastic_bag.is_on_ground( ground ) );
+                REQUIRE( item_plastic_bag.is_on_ground( ground.raw() ) );
             }
         }
     }
@@ -277,8 +277,8 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -307,7 +307,7 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
             simulate_auto_pickup( ground, they );
             expect_to_find( backpack, { &uitem_light_battery } );
             // make sure the item has remained on the ground
-            REQUIRE( uitem_flashlight.is_on_ground( ground ) );
+            REQUIRE( uitem_flashlight.is_on_ground( ground.raw() ) );
         }
     }
 }
@@ -318,8 +318,8 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -342,7 +342,7 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
             expect_to_find( backpack, { &item_leather_wallet } );
             expect_to_find( *item_leather_wallet.find_in_container( backpack ), { &item_money_five } );
             // make sure the item has remained on the ground
-            REQUIRE( item_money_one.is_on_ground( ground ) );
+            REQUIRE( item_money_one.is_on_ground( ground.raw() ) );
         }
     }
     // small cardboard box (WL) > paper, chocolate candy (BL), marble
@@ -362,7 +362,7 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
                 &item_paper, &item_marble
             } );
             // make sure the item has remained on the ground
-            REQUIRE( item_chocolate_candy.is_on_ground( ground ) );
+            REQUIRE( item_chocolate_candy.is_on_ground( ground.raw() ) );
         }
     }
     // plastic bottle > clean water (2)(WL)
@@ -381,7 +381,7 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
             simulate_auto_pickup( ground, they );
             expect_to_find( backpack, {} );
             // make sure the item has remained on the ground
-            REQUIRE( item_bottled_water.is_on_ground( ground ) );
+            REQUIRE( item_bottled_water.is_on_ground( ground.raw() ) );
         }
     }
     // small tin can (sealed) > canned tuna fish (WL), canned meat
@@ -427,8 +427,8 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
             simulate_auto_pickup( ground, they );
             expect_to_find( backpack, {} );
             // make sure the item seal was not broken
-            REQUIRE( item_sealed_tuna.is_on_ground( ground ) );
-            REQUIRE( item_sealed_tuna.find_on_ground( ground )->all_pockets_sealed() );
+            REQUIRE( item_sealed_tuna.is_on_ground( ground.raw() ) );
+            REQUIRE( item_sealed_tuna.find_on_ground( ground.raw() )->all_pockets_sealed() );
         }
     }
 }
@@ -439,8 +439,8 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -482,9 +482,9 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
             THEN( "only items that do not exceed volume and weight limit should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_cigarette, &item_paper } );
-                expect_to_find( *item_backpack.find_on_ground( ground ), { &item_lump_of_steel } );
+                expect_to_find( *item_backpack.find_on_ground( ground.raw() ), { &item_lump_of_steel } );
                 // make sure excluded items were not dropped on the ground
-                REQUIRE_FALSE( item_lump_of_steel.is_on_ground( ground ) );
+                REQUIRE_FALSE( item_lump_of_steel.is_on_ground( ground.raw() ) );
             }
         }
     }
@@ -503,9 +503,10 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
         THEN( "ignore battery charges" ) {
             simulate_auto_pickup( ground, they );
             expect_to_find( backpack, {} );
-            CHECK( item_storage_battery.is_on_ground( ground ) );
-            REQUIRE( !item_storage_battery.find_on_ground( ground )->all_items_top().empty() );
-            REQUIRE( item_storage_battery.find_on_ground( ground )->all_items_top().front()->charges == 10 );
+            CHECK( item_storage_battery.is_on_ground( ground.raw() ) );
+            REQUIRE( !item_storage_battery.find_on_ground( ground.raw() )->all_items_top().empty() );
+            REQUIRE( item_storage_battery.find_on_ground( ground.raw() )->all_items_top().front()->charges ==
+                     10 );
         }
     }
 }
@@ -516,8 +517,8 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -551,7 +552,7 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
                 expect_to_find( backpack, { &item_pack } );
                 expect_to_find( *item_pack.find_in_container( backpack ), { &item_cigarette, &item_rolling_paper } );
                 // make sure the item has remained on the ground
-                REQUIRE( item_candy_cigarette.is_on_ground( ground ) );
+                REQUIRE( item_candy_cigarette.is_on_ground( ground.raw() ) );
             }
         }
         WHEN( "only the container is owned by avatar" ) {
@@ -565,7 +566,7 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
             THEN( "the item outside the container should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_candy_cigarette } );
-                expect_to_find( *item_pack.find_on_ground( ground ), { &item_cigarette, &item_rolling_paper } );
+                expect_to_find( *item_pack.find_on_ground( ground.raw() ), { &item_cigarette, &item_rolling_paper } );
             }
         }
     }
@@ -577,8 +578,8 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wield body bag and store item reference
     they.set_wielded_item( item( itype_bag_body_bag ) );
@@ -605,7 +606,7 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
                 unique_item item_cigarette = unique_item( itype_cig );
                 unique_item item_rolling_paper = unique_item( itype_rolling_paper );
 
-                item *found = item_corpse.find_on_ground( ground );
+                item *found = item_corpse.find_on_ground( ground.raw() );
                 found->force_insert_item( *item_cigarette.get(), pocket_type_container );
                 found->force_insert_item( *item_rolling_paper.get(), pocket_type_container );
 

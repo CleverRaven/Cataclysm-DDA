@@ -92,7 +92,15 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 10 }, [ "scratch", 5 ] ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_shaman_base" },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "cooldown": 10
+      },
+      [ "scratch", 5 ]
+    ],
     "death_drops": {
       "subtype": "distribution",
       "items": [

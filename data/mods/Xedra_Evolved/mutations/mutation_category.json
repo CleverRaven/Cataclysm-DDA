@@ -54,6 +54,60 @@
     "memorial_message": "Real enough for you?"
   },
   {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_NOBLE",
+    "name": "Fair Folk Noble",
+    "threshold_mut": "THRESH_FAIR_FOLK_NOBLE",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_noble",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_BROWNIE",
+    "name": "Fair Folk Commoner, Brownie",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_brownie",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_POOKA",
+    "name": "Fair Folk Commoner, Pooka",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_POOKA",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_pooka",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_SELKIE",
+    "name": "Fair Folk Commoner, Selkie",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_selkie",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_TROW",
+    "name": "Fair Folk Commoner, Trow",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_TROW",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_trow",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "LILIN",
+    "name": "Lilin",
+    "threshold_mut": "THRESH_LILIN",
+    "mutagen_message": "",
+    "vitamin": "mutagen_lilin",
+    "memorial_message": "The dawn breaks, and the owl lays down for its final rest."
+  },
+  {
     "type": "mutation_type",
     "id": "STOMACH"
   },
@@ -72,5 +126,9 @@
   {
     "type": "mutation_type",
     "id": "MANA_SIPHON"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HERITAGE"
   }
 ]

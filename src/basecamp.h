@@ -284,6 +284,8 @@ class basecamp
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
         // from a building
         std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
+        // All recipes known by NPCs stationed here + all recipes provided by all expansions
+        std::unordered_set<recipe_id> recipe_deck_all() const;
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
@@ -331,8 +333,7 @@ class basecamp
         void place_results( const item &result );
 
         // mission description functions
-        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
-                                    const std::map<recipe_id, translation> &craft_recipes );
+        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir );
 
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
@@ -365,7 +366,8 @@ class basecamp
         npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment, float exertion_level,
-                               const std::map<skill_id, int> &required_skills = {} );
+                               const std::map<skill_id, int> &required_skills = {},
+                               const npc_ptr &preselected_choice = nullptr );
         comp_list start_multi_mission( const mission_id &miss_id,
                                        bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
@@ -380,7 +382,9 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id );
+        // Assembles a dummy NPC with all available recipes and uses player input on the regular crafting GUI to
+        // determine what to make, batch size, who to assign to making it, etc.
+        void start_crafting( const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
@@ -467,17 +471,9 @@ class basecamp
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
-        inline const std::vector<const zone_data * > &get_storage_zone() const {
-            return storage_zones;
-        }
-        // dumping spot in absolute co-ords
-        inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
-            storage_zones = zones;
-        }
         inline const std::unordered_set<tripoint_abs_ms> &get_storage_tiles() const {
             return src_set;
         }
-        // dumping spot in absolute co-ords
         inline void set_storage_tiles( const std::unordered_set<tripoint_abs_ms> &tiles ) {
             src_set = tiles;
         }
@@ -504,10 +500,10 @@ class basecamp
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)
+        // dumping spot in absolute co-ords
         tripoint_abs_ms dumping_spot;
         // Tiles inside STORAGE-type zones that have LIQUIDCONT terrain
         std::vector<tripoint_abs_ms> liquid_dumping_spots;
-        std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)

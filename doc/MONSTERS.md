@@ -346,6 +346,7 @@ Field              | Description
 `id`               | id of the weakpoint. Defaults to `name`, if not specified.
 `name`             | name of the weakpoint. Used in hit messages.
 `coverage`         | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+`is_good`          | marks mutation, that is beneficial for you to hit (like headshot); false means it is a bad weakpoint for you to hit (like thick piece of armor); default true; 
 `coverage_mult`    | object mapping weapon types to constant coverage multipliers.
 `difficulty`       | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
 `armor_mult`       | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
@@ -545,11 +546,9 @@ The monster's reproduction cycle, if any. Supports:
 
 Field          | Description
 ---            | ---
-`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this, `baby_monster_group` or `baby_egg` for reproduction to work.
-`baby_monster_group` | (string, optional) the id of the monstergroup spawned on reproduction for monsters who give live births. You must declare either this, `baby_monster`, or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this, `baby_monster_group` or `baby_monster` for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
+`baby_type`    | (object) Specifies the type of reproduction. Types can be `{ "baby_type": { "baby_egg": "item_id" }`, `{ "baby_type": { "baby_egg_group": "item_group_id" }`, `{ "baby_type": { "baby_monster": "monster_id" }`, `{ "baby_type": { "baby_monster_group": "monster_group_id" }`. Only one type can be used.
 
 ## "zombify_into"
 (monster string id, optional)

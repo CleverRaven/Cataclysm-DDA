@@ -79,12 +79,7 @@
     "charges_per_use": 1,
     "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ],
     "melee_damage": { "bash": 1 }
   },
@@ -145,7 +140,12 @@
     "qualities": [ [ "SIEVE", 1 ], [ "STRAIN", 2 ] ],
     "color": "white",
     "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
+      {
+        "type": "heal",
+        "move_cost": 200,
+        "bleed": 1,
+        "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
+      },
       "WASH_HARD_ITEMS"
     ],
     "flags": [ "NO_SALVAGE" ]

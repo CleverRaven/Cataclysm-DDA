@@ -157,6 +157,47 @@
     "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
   },
   {
+    "id": "stock_mauser",
+    "type": "GUNMOD",
+    "name": { "str": "Mauser C96 stock" },
+    "description": "The hollow removable wooden pistol stock of the C96 Mauser pistol, which doubles as a holster.  It fits both the original clip-loaded C96 and later magazine-fed reproductions, but a gun with an extended magazine won't fit without modification.",
+    "copy-from": "pistol_stock",
+    "volume": "700 ml",
+    "integral_volume": "700 ml",
+    "integral_weight": "590 g",
+    "integral_longest_side": "35 cm",
+    "weight": "590 g",
+    "material": [ "wood" ],
+    "color": "brown",
+    "location": "stock mount",
+    "mod_targets": [ "mauser_c96" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "item_restriction": [ "mauser_c96" ],
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1815 g",
+        "max_item_length": "32 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "thickness": 5 } ],
+          "encumbrance": [ 3, 4 ],
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
+    }
+  },
+  {
     "id": "stock_none",
     "type": "GUNMOD",
     "name": { "str": "sawn-off stock" },

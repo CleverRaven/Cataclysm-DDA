@@ -10,6 +10,7 @@
     "material": [ "flesh", "steel" ],
     "color": "brown",
     "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
     "upgrades": { "half_life": 30, "into_group": "GROUP_FERROUS_UPGRADE" },
@@ -29,8 +30,10 @@
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "bleed_rate": 50,
     "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
+    "upgrades": { "half_life": 30, "into": "mon_zombie_plated" },
     "armor": { "bash": 14, "cut": 14, "stab": 14, "bullet": 14 },
     "extend": { "weakpoint_sets": [ "wps_metal_shell_armor" ], "families": [ "prof_wp_nat_armored" ] }
   },
@@ -50,9 +53,11 @@
     "melee_dice_sides": 4,
     "bleed_rate": 0,
     "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust",
     "grab_strength": 30,
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
+    "upgrades": false,
     "armor": { "bash": 18, "cut": 18, "stab": 18, "bullet": 18 },
     "extend": { "flags": [ "SMELLS" ], "weakpoint_sets": [ "wps_metal_shell_armor" ], "families": [ "prof_wp_nat_armored" ] }
   },
@@ -72,6 +77,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "bleed_rate": 0,
     "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust",
     "grab_strength": 35,
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 20 } ],
     "burn_into": "mon_zombie_scorched_rust",
@@ -97,6 +103,7 @@
     "bleed_rate": 0,
     "vision_day": 14,
     "harvest": "zombie_rust",
+    "decay": "zombie_decay_bone_human_skull_rust",
     "special_attacks": [
       { "id": "bite_humanoid", "cooldown": 5 },
       {

@@ -693,7 +693,7 @@
     "material": [ "platinum" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "link_sheet",
+    "looks_like": "lc_link_sheet",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -894,22 +894,12 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "to_hit": -5,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
     "flags": [ "WATER_BREAK" ],
     "symbol": ";",
     "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1321,6 +1311,10 @@
   {
     "id": "migo_bio_tech",
     "type": "TOOL",
+    "//": [
+      "intentionally do not spawn anywhere, until migo interest would be implemented",
+      "for now, works only as reference for eoc-item-variable interaction"
+    ],
     "name": { "str_sp": "Mi-go Biotech" },
     "conditional_names": [
       { "type": "VAR", "condition": "npctalk_var_mbt_f_function", "value": "morale", "name": { "str_sp": "%s (happy)" } },
@@ -1344,7 +1338,8 @@
       }
     ],
     "description": "A piece of mi-go biotechnology.",
-    "weight": "1 g",
+    "material": [ "alien_resin" ],
+    "weight": "250 g",
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "100 USD",

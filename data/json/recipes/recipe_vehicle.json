@@ -459,7 +459,7 @@
       [ [ "antenna", 1 ] ],
       [ [ "e_scrap", 5 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "wire", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ] ],
       [ [ "circuit", 2 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -508,7 +508,7 @@
     "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "large_space_heater", 1 ] ], [ [ "any_wire", 2, "LIST" ] ] ]
   },
   {
     "result": "mountable_heater_small",
@@ -525,7 +525,7 @@
     "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "small_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "small_space_heater", 1 ] ], [ [ "any_wire", 2, "LIST" ] ] ]
   },
   {
     "result": "mountable_cooler",
@@ -551,7 +551,7 @@
       [ [ "motor_tiny", 2 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 11 ] ],
-      [ [ "wire", 4 ] ],
+      [ [ "any_wire", 4, "LIST" ] ],
       [ [ "scrap", 1 ] ]
     ]
   },
@@ -588,7 +588,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
       [ [ "sheet_metal", 3 ] ],
-      [ [ "wire", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
@@ -616,7 +616,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
       [ [ "sheet_metal", 3 ] ],
-      [ [ "wire", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
@@ -815,7 +815,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "nail", 12 ] ], [ [ "2x4", 2 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "nail", 12 ] ], [ [ "2x4", 2 ] ], [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -893,7 +893,7 @@
     "autolearn": true,
     "//": "40cm weld",
     "using": [ [ "welding_standard", 40 ], [ "cutting_wire_standard", 1 ] ],
-    "components": [ [ [ "wire", 40 ] ] ]
+    "components": [ [ [ "lc_wire", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -908,7 +908,7 @@
     "autolearn": true,
     "//": "45cm weld",
     "using": [ [ "welding_standard", 45 ], [ "cutting_wire_standard", 1 ] ],
-    "components": [ [ [ "wire", 40 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "components": [ [ [ "lc_wire", 40 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -923,7 +923,7 @@
     "autolearn": true,
     "//": "10cm weld",
     "using": [ [ "welding_standard", 10 ], [ "cutting_wire_standard", 1 ] ],
-    "components": [ [ [ "wire", 8 ] ] ]
+    "components": [ [ [ "lc_wire", 8 ] ] ]
   },
   {
     "type": "recipe",

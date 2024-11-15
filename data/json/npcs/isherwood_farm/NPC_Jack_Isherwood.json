@@ -202,7 +202,7 @@
       },
       { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_JACK_RESTOCK" },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -220,8 +220,8 @@
     "dynamic_line": "I live here with my wife, this is our family's land.  My daughter's family and son live down the road.",
     "responses": [
       { "text": "Your whole family survived?", "topic": "TALK_ISHERWOOD_JACK2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -229,8 +229,8 @@
     "id": "TALK_ISHERWOOD_JACK2",
     "dynamic_line": "We've had our losses… now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this though.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -239,8 +239,8 @@
     "dynamic_line": "Even out here we've had some attacks and seen… other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
     "responses": [
       { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -253,7 +253,7 @@
         "topic": "TALK_NONE",
         "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" }
       },
-      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm not interested right now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -262,8 +262,8 @@
     "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -272,8 +272,8 @@
     "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -282,8 +282,8 @@
     "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -313,7 +313,7 @@
       { "text": "Where is your brother's place?", "topic": "TALK_JACK_BROTHER" },
       { "text": "Let's trade items.", "topic": "TALK_ISHERWOOD_JACK", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -329,7 +329,7 @@
         "material_sand",
         "clay_lump",
         "nail",
-        "wire",
+        "lc_wire",
         "rock",
         "steel_chunk",
         "steel_lump"
@@ -337,8 +337,8 @@
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
-      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -31,6 +31,18 @@
         [ "f_boulder_medium", 2 ],
         [ "f_boulder_large", 1 ]
       ]
+    },
+    "items": {
+      "1": [
+        { "item": "trash", "chance": 5, "repeat": 2 },
+        { "item": "creek_bed", "chance": 50, "repeat": 3 },
+        { "item": "wheels", "chance": 1 }
+      ],
+      "2": [
+        { "item": "trash", "chance": 25, "repeat": 2 },
+        { "item": "creek_bed", "chance": 40, "repeat": 5 },
+        { "item": "wheels", "chance": 1 }
+      ]
     }
   }
 ]

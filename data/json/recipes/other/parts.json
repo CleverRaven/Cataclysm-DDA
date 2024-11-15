@@ -626,7 +626,7 @@
     "//": "20cm weld",
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "omnicamera", 1 ] ], [ [ "wire", 4 ] ] ]
+    "components": [ [ [ "omnicamera", 1 ] ], [ [ "mc_wire", 4 ], [ "hc_wire", 4 ], [ "ch_wire", 4 ], [ "qt_wire", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -839,7 +839,7 @@
     "components": [
       [ [ "pipe", 6 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "wire", 3 ] ],
+      [ [ "any_wire", 3, "LIST" ] ],
       [ [ "cable", 10 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
@@ -863,7 +863,7 @@
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "wire", 5 ] ],
+      [ [ "any_wire", 5, "LIST" ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "transponder", 1 ] ],
       [ [ "e_scrap", 2 ] ],
@@ -924,6 +924,20 @@
     "proficiencies": [ { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.1 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "rock_flaking", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "rock",
+    "charges": 3,
+    "byproducts": [ [ "pebble", 9 ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "field_stone", 1 ] ] ]
   },
   {
     "type": "recipe",

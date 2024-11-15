@@ -61,8 +61,8 @@ struct effect_on_condition {
         effect_on_condition_id id;
         std::vector<std::pair<effect_on_condition_id, mod_id>> src;
         eoc_type type;
-        std::function<bool( dialogue & )> condition;
-        std::function<bool( dialogue & )> deactivate_condition;
+        std::function<bool( const_dialogue const & )> condition;
+        std::function<bool( const_dialogue const & )> deactivate_condition;
         talk_effect_t true_effect;
         talk_effect_t false_effect;
         bool has_deactivate_condition = false;
@@ -71,8 +71,8 @@ struct effect_on_condition {
         event_type required_event;
         duration_or_var recurrence;
         bool activate( dialogue &d, bool require_callstack_check = true ) const;
-        bool check_deactivate( dialogue &d ) const;
-        bool test_condition( dialogue &d ) const;
+        bool check_deactivate( const_dialogue const &d ) const;
+        bool test_condition( const_dialogue const &d ) const;
         void apply_true_effects( dialogue &d ) const;
         void load( const JsonObject &jo, std::string_view src );
         void finalize();

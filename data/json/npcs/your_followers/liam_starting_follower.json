@@ -155,13 +155,13 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Meeting4a",
     "dynamic_line": "Thanks.  It's good to hear that.  Look, I'm sure I should be questioning you and making sure you're not gonna attack me with an axe or something, but I just can't anymore.  Come on, let's get Chris out of here and then figure out what to do next.",
-    "responses": [ { "text": "Sure thing.  Let's go.", "effect": "follow", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sure thing.  <lets_go>", "effect": "follow", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Meeting4b",
     "dynamic_line": "All right, yeah.  Fair call.  I'm just a bit shell shocked, but it's good to see you.  Let's get Chris out of here and figure out what to do next",
-    "responses": [ { "text": "Sure thing.  Let's go.", "effect": "follow", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sure thing.  <lets_go>", "effect": "follow", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_FIND_LIAM",

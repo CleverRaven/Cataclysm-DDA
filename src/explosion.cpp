@@ -279,10 +279,10 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
 
     // Draw the explosion, but only if the explosion center is within the reality bubble
     map &bubble_map = get_map();
-    if( bubble_map.inbounds( m->getabs( p ) ) ) {
+    if( bubble_map.inbounds( m->getglobal( p ) ) ) {
         std::map<tripoint, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
-            const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getabs( pt ) ) );
+            const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
 
             if( !bubble_map.inbounds( bubble_pos ) ) {
                 continue;
@@ -334,7 +334,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
         }
 
         // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getabs( pt ) ) );
+        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
         Creature *critter = creatures.creature_at( bubble_pos, true );
         if( critter == nullptr ) {
             continue;
@@ -426,9 +426,9 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range<tripoint_bub_ms> area = m->bub_points_on_zlevel( src.z() );
+    const tripoint_range<tripoint_bub_ms> area = m->points_on_zlevel( src.z() );
 
-    m->build_obstacle_cache( area.min().raw(), area.max().raw() + tripoint_south_east, obstacle_cache );
+    m->build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -456,7 +456,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
         // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getabs( target ) ) );
+        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( target ) ) );
         Creature *critter = creatures.creature_at( bubble_pos );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
@@ -707,8 +707,9 @@ void emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p ) == ter_t_card_science || here.ter( p ) == ter_t_card_military ||
-        here.ter( p ) == ter_t_card_industrial ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_card_science || t == ter_t_card_military ||
+        t == ter_t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -720,11 +721,9 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "The nearby doors slide open!" ) );
             }
-            for( int i = -3; i <= 3; i++ ) {
-                for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p + tripoint( i, j, 0 ) ) == ter_t_door_metal_locked ) {
-                        here.ter_set( p + tripoint( i, j, 0 ), ter_t_floor );
-                    }
+            for( const tripoint &pos : here.points_in_radius( p, 3 ) ) {
+                if( here.ter( pos ) == ter_t_door_metal_locked ) {
+                    here.ter_set( pos, ter_t_floor );
                 }
             }
         }
@@ -855,14 +854,14 @@ void resonance_cascade( const tripoint &p )
     int endx = p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8;
     int starty = p.y < 8 ? 0 : p.y - 8;
     int endy = p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8;
-    tripoint dest( startx, starty, p.z );
+    tripoint_bub_ms dest( startx, starty, p.z );
     map &here = get_map();
-    for( int &i = dest.x; i <= endx; i++ ) {
-        for( int &j = dest.y; j <= endy; j++ ) {
+    for( int &i = dest.x(); i <= endx; i++ ) {
+        for( int &j = dest.y(); j <= endy; j++ ) {
             switch( rng( 1, 80 ) ) {
                 case 1:
                 case 2:
-                    emp_blast( dest );
+                    emp_blast( dest.raw() );
                     break;
                 case 3:
                 case 4:
@@ -923,7 +922,7 @@ void resonance_cascade( const tripoint &p )
                     here.destroy( dest );
                     break;
                 case 19:
-                    explosion( &player_character, dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
+                    explosion( &player_character, dest.raw(), rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
                     break;
                 default:
                     break;
