@@ -2958,6 +2958,7 @@ void end_screen_ui_impl::draw_controls()
     }
 
     if( art.is_valid() ) {
+        cataimgui::PushMonoFont();
         int row = 1;
         for( const std::string &line : art->picture ) {
             cataimgui::draw_colored_text( line );
@@ -2971,10 +2972,12 @@ void end_screen_ui_impl::draw_controls()
             }
             row++;
         }
+        ImGui::PopFont();
     }
 
     if( !input_label.empty() ) {
         ImGui::NewLine();
+        ImGui::AlignTextToFramePadding();
         cataimgui::draw_colored_text( input_label );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
         ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
