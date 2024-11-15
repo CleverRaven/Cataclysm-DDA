@@ -770,7 +770,7 @@
     "type": "mutation",
     "id": "LILIN_STRONGER_MOON",
     "name": { "//~": "This is a reference to Jeremiah 31:35", "str": "The Moon Shall Shine at Night" },
-    "description": "You are closely attuned to the moon, and some of your powers grow stronger with it.  Any ability you have that is amplified the fuller the moon is will not be weakened as much by an unfull but non-new moon.",
+    "description": "You are closely attuned to the moon, and some of your powers grow stronger with it.  Any ability you have that is amplified the fuller the moon is will not be weakened as much by an incomplete but non-new moon.",
     "points": 3,
     "purifiable": false,
     "player_display": false,
@@ -875,6 +875,26 @@
     "prereqs": [ "LILIN_DISEASE_ENHANCEMENT_DAMAGE" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_INCREMENTAL_SPEED_BOOST",
+    "name": { "//~": "This is a reference to Isaiah 45:3", "str": "The Treasures of Darkness" },
+    "description": "You are a being of darkness, closer to it than almost anything else is.  It quickens your essence, and with it your actions, the longer you stay in it.  Each night, you receive an increase to your speed that is higher for each consecutive day spent without being exposed to the sun, up to ten.  The light of the sun breaks this quickening, forcing you to wait once more for the shadows to empower you in this way.",
+    "points": 8,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_SPEED_DODGE_BOOST" ],
+    "prereqs2": [ "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "//": "This enchantment removes the effect if the Lilit is outside at day.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "ench_effects": [ { "effect": "effect_lilin_lose_incremental_speed_boost", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

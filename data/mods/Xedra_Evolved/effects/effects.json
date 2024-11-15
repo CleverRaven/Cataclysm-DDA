@@ -2524,6 +2524,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_incremental_speed_boost",
+    "name": [ { "str": "The Treasures of Darkness" } ],
+    "desc": [ "Having spent a long time in the shadows, you are now quicker than usual." ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 3 ] },
+    "scaling_mods": { "speed_mod": [ 3 ] },
+    "show_intensity": false,
+    "max_intensity": 10
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_lose_incremental_speed_boost",
+    "name": [ { "str": "" } ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_lilin_incremental_speed_boost" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sleep_shield_check",
     "name": [ "Promises of undisrupted sleep" ],
     "desc": [ "I wish you a good night." ],
