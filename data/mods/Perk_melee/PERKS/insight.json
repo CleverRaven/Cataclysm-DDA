@@ -30,7 +30,7 @@
     "type": "mutation",
     "id": "MELEE_PERK_INSIGHT_INFINITE",
     "copy-from": "MELEE_PERK_BASE",
-    "name": { "str": "The psychic sea" },
+    "name": { "str": "The Psychic Sea" },
     "description": "You can accumulate an infinite number of insight stacks.",
     "flags": "MELEE_PERK_INSIGHT_INFINITE"
   },

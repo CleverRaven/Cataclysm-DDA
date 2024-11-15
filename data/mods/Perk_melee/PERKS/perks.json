@@ -34,7 +34,7 @@
     "type": "mutation",
     "id": "MELEE_PERK_MOVING_DODGE",
     "copy-from": "MELEE_PERK_BASE",
-    "name": { "str": "Flowing retreat" },
+    "name": { "str": "Flowing Retreat" },
     "description": "You'll attempt to move away from your attackers when you successfully dodge an attack.  You'll gain a momentum stack if you can normally gain them.",
     "flags": "MELEE_PERK_MOVING_DODGE"
   },
@@ -42,7 +42,7 @@
     "type": "mutation",
     "id": "MELEE_PERK_RIPOSTE",
     "copy-from": "MELEE_PERK_BASE",
-    "name": { "str": "Counter strikes" },
+    "name": { "str": "Counter Strikes" },
     "description": "You gain +1 accuracy for two turns after a successful block.",
     "flags": "MELEE_PERK_RIPOSTE"
   },

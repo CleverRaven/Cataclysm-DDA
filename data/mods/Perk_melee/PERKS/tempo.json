@@ -19,7 +19,7 @@
     "type": "mutation",
     "id": "MELEE_PERK_TEMPO_THROW",
     "copy-from": "MELEE_PERK_BASE",
-    "name": { "str": "Measured throws" },
+    "name": { "str": "Measured Throws" },
     "description": "Your throwing attacks deal 100% more damage for every combat tempo stack you have.",
     "enchantments": [
       {

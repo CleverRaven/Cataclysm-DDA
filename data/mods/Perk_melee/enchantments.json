@@ -54,7 +54,7 @@
       {
         "value": "RANGE_DODGE",
         "add": {
-          "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 4 ? u_val('dexterity') * 0.05 :  u_val('dexterity') * 0.01" ]
+          "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 4 ? u_val('dexterity') * 0.05 : u_val('dexterity') * 0.01" ]
         }
       }
     ]
