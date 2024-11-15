@@ -159,7 +159,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
     }
 
     // Avoid replacing the definitions of the constants themselves
-    if( VarDeclParent && VarDeclParent->getName() == Replacement ) {
+    if( VarDeclParent && VarDeclParent->getQualifiedNameAsString() == Replacement ) {
         return;
     }
 
