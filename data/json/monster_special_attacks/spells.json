@@ -567,26 +567,6 @@
     "max_field_intensity": 2
   },
   {
-    "type": "SPELL",
-    "id": "spread_fungal_acid",
-    "name": { "str": "Spread Hallucinogenic Acid", "//~": "NO_I18N" },
-    "description": { "str": "Splatters hallucinogenic acid in the air in blasts.", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "min_aoe": 2,
-    "max_aoe": 3,
-    "base_casting_time": 100,
-    "min_range": 1,
-    "max_range": 1,
-    "effect": "attack",
-    "effect_str": "emit_hallucinogenic_spores_blast",
-    "shape": "blast",
-    "field_id": "fd_hallucinogenic_spores",
-    "field_chance": 2,
-    "min_field_intensity": 1,
-    "max_field_intensity": 2
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
     "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "npc_is_character", "has_beta" ] },
