@@ -702,7 +702,7 @@
     "id": "mon_zombie_fungus_acidic",
     "type": "MONSTER",
     "name": { "str": "acidic fungal zombie" },
-    "description": "The air around this stumbling fungal coated corpse seems to constantly warp and shift; colors and shapes visibly distort, making it impossible to discern finer details of what's causing this anomaly.  Your nose clogs as the smell of damp carpet and mold assaults it, even from afar.",
+    "description": "A grotesque fusion of rot and mycelium, this zombie's flesh is pocked with open sores that lazily drool a strange yellow-green acid.  Pale fungal stalks have burst through its corroded skin, their slimy caps dripping with what seems to be the same fluid.  The air around it is thick with the scent of rot and acrid chemicals.",
     "default_faction": "fungus",
     "bodytype": "human",
     "species": [ "FUNGUS" ],
