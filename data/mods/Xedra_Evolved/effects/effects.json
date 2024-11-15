@@ -2491,6 +2491,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_silent_at_night",
+    "name": [ { "str": "Silent in Darkness" } ],
+    "desc": [ "Your movements make as little noise as the shadows of the night." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_limb_score_bonuses_at_night",
     "name": [ { "str": "The Night Hunter" } ],
     "desc": [ "Now they will know why they fear the night." ],

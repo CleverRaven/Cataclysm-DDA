@@ -154,6 +154,22 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_SILENT_AT_NIGHT",
+    "name": { "//~": "This is a reference to Samuel 2:9", "str": "Silent in Darkness" },
+    "description": "When shrouded in shadows, you make as little noise as one.  Your movement is fully silent at night unless you're out of ruach.",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+        "ench_effects": [ { "effect": "effect_lilin_silent_at_night", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_SLEEP_EASY_DURING_DAY",
     "name": { "//~": "This is a reference to Genesis 1:5", "str": "And There Was Evening" },
     "points": 2,
