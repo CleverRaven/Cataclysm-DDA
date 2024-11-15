@@ -199,6 +199,17 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_ETERNAL_YOUTH",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
+    "name": { "//~": "This is a reference to Romans 6:23", "str": "The Gift of Eternal Life" },
+    "points": 2,
+    "description": "Your body has now stopped aging, massively extending your longevity.  You can still be killed but as long as your body can heal, all your wounds will eventually fully heal no matter how severe they are.",
+    "prereqs": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
+    "category": [ "LILIN" ],
+    "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_AOE_LINE_DISEASE",
     "name": { "str": "Unleash the Night-Wind" },
     "points": 4,

@@ -1370,6 +1370,7 @@
   {
     "type": "mutation",
     "id": "FAE_IMMORTALITY",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
     "name": { "str": "Faerie Eternity" },
     "points": 8,
     "description": "You seem to have stopped aging.  That would have been an amazing gift before the Cataclysm, but now at least you might live long enough to find some way back to your birthplace Under the Hill.",
@@ -1388,6 +1389,7 @@
       "THRESH_FAIR_FOLK_COMMONER_POOKA",
       "THRESH_FAIR_FOLK_COMMONER_SELKIE",
       "THRESH_FAIR_FOLK_COMMONER_TROW"
-    ]
+    ],
+    "flags": [ "MEND_ALL" ]
   }
 ]

@@ -97,10 +97,12 @@
   {
     "type": "mutation",
     "id": "EXTEND_LIFE",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
     "name": { "str": "Extended Life" },
     "points": 0,
     "description": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
-    "valid": false
+    "valid": false,
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "mutation",
