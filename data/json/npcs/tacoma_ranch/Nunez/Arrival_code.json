@@ -1,6 +1,6 @@
 [
   {
-    "id": "EOC_Nunez_Travel",
+    "id": "EOC_Nunez_Travel_To_Tacoma",
     "type": "effect_on_condition",
     "effect": [
       { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
