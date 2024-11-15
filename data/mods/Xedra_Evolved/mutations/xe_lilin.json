@@ -241,6 +241,21 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_STEADY_SPEED",
+    "name": { "//~": "This is a reference to Psalms 72:5", "str": "Enduring Through All Generations" },
+    "points": 2,
+    "description": "With eternal youth comes the strength to endure past anything one could face.  Your speed won't be lower than its default as long as you have some ruach in you.",
+    "prereqs": [ "LILIN_ETERNAL_YOUTH" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "ench_effects": [ { "effect": "effect_lilin_steady_speed", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_AOE_LINE_DISEASE",
     "name": { "str": "Unleash the Night-Wind" },
     "points": 4,

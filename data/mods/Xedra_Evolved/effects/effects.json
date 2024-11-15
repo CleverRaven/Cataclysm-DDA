@@ -2499,6 +2499,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_steady_speed",
+    "name": [ { "str": "Enduring Through All Generations" } ],
+    "desc": [ "You will endure all obstacles without faltering." ],
+    "rating": "good",
+    "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_limb_score_bonuses_at_night",
     "name": [ { "str": "The Night Hunter" } ],
     "desc": [ "Now they will know why they fear the night." ],
