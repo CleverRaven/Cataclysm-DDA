@@ -412,7 +412,6 @@
     "color": "light_gray",
     "bleed_rate": 0,
     "vision_day": 5,
-    "vision_night": 5,
     "harvest": "zombie_animal_mushroom",
     "upgrades": false,
     "proportional": { "hp": 0.75, "speed": 0.55 },
@@ -456,7 +455,7 @@
   {
     "id": "mon_ziger_fungus",
     "type": "MONSTER",
-    "name": { "str": "tiger fungal pouncer" },
+    "name": { "str": "tiger fungal wight" },
     "description": "This rotting tiger has lost its stumble, as large fungal bulbs seem to have extended its pawpads thoroughly.  Its head crackles when trying to turn, seemingly stuck facing forward.",
     "copy-from": "mon_ziger",
     "default_faction": "fungus",
