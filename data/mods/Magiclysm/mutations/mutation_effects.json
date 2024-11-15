@@ -21,8 +21,8 @@
   {
     "type": "effect_type",
     "id": "dragon_acidburn",
-    "name": [ "Dragon Acid burn" ],
-    "desc": [ "Burned with a black dragon's acid" ],
+    "name": [ { "str": "Dragon Acid burn", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Burned with a black dragon's acid", "//~": "NO_I18N" } ],
     "max_intensity": 4,
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -20 ], "pain_amount": [ 20 ], "hurt_amount": [ 3 ] },
@@ -31,8 +31,8 @@
   {
     "type": "effect_type",
     "id": "lesser_dragon_acidburn",
-    "name": [ "Lesser Dragon Acid burn" ],
-    "desc": [ "Burned with a less potent version of a black dragon's acid" ],
+    "name": [ { "str": "Lesser Dragon Acid burn", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Burned with a less potent version of a black dragon's acid", "//~": "NO_I18N" } ],
     "max_intensity": 4,
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -10 ], "pain_amount": [ 10 ], "hurt_amount": [ 1 ] },

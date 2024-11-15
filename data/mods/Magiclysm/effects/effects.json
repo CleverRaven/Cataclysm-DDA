@@ -1485,8 +1485,8 @@
   {
     "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer",
-    "name": [ "Wielding Stormhammer" ],
-    "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
+    "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],
     "show_in_info": true
   },
   {
