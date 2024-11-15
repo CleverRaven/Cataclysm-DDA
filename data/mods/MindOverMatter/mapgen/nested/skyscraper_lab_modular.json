@@ -770,14 +770,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "furniture": { 
-        "f": "f_air_filter",
-        "M̃": "f_MRI",
-        "Ş": "f_scan_bed",
-        "Ȼ": "f_counter",
-        "ç": "f_counter",
-        "j": "f_curtain"
-      },
+      "furniture": { "f": "f_air_filter", "M̃": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
       "place_item": [
         { "item": "lab_file_IG882_P_item", "x": 8, "y": 4, "chance": 50 },
         { "item": "phavian_psionic_telepathic_mental_engineering_book", "x": 8, "y": 7, "chance": 85 },
@@ -815,14 +808,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "furniture": { 
-        "f": "f_air_filter",
-        "M̃": "f_MRI",
-        "Ş": "f_scan_bed",
-        "Ȼ": "f_counter",
-        "ç": "f_counter",
-        "j": "f_curtain"
-      },
+      "furniture": { "f": "f_air_filter", "M̃": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
       "place_item": [
         { "item": "lab_file_IG882_P_item", "x": 0, "y": 4, "chance": 50 },
         { "item": "phavian_psionic_telepathic_mental_engineering_book", "x": 0, "y": 7, "chance": 85 },
