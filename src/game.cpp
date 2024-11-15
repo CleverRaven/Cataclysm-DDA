@@ -7920,6 +7920,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         }
     }
 
+    ret.reserve( item_order.size() );
     for( auto &elem : item_order ) {
         ret.push_back( temp_items[elem] );
     }
@@ -8176,6 +8177,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     shortcut_print( window, point( getmaxx( window ) - letters, 0 ), c_white, c_light_green, sSort );
 
     std::vector<std::string> tokens;
+    tokens.reserve( 5 + ( !sFilter.empty() ? 1 : 0 ) );
     if( !sFilter.empty() ) {
         tokens.emplace_back( _( "<R>eset" ) );
     }

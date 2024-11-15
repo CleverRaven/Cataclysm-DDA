@@ -1266,6 +1266,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
 {
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
     std::vector<std::tuple<point, int, std::string>> ret;
+    ret.reserve( collision_check_points.size() );
 
     const tripoint_abs_ms veh_pos = global_square_location();
     if( autodrive_local_target != tripoint_abs_ms_zero ) {

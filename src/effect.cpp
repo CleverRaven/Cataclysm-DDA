@@ -891,6 +891,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
+    values.reserve( 9 ); // Pre-allocate space for each value.
     // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
     // place to add them.
     int val = 0;

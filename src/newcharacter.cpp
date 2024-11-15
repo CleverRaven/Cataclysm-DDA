@@ -4143,6 +4143,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_stats );
         std::vector<std::string> vStatNames;
+        vStatNames.reserve( 4 );
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
         vStatNames.emplace_back( _( "Strength:" ) );
         vStatNames.emplace_back( _( "Dexterity:" ) );

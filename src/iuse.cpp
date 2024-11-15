@@ -4390,6 +4390,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::vortex( Character *p, item *it, const tripoint & )
 {
     std::vector<point> spawn;
+    spawn.reserve( 28 );
     for( int i = -3; i <= 3; i++ ) {
         spawn.emplace_back( -3, i );
         spawn.emplace_back( +3, i );
@@ -5813,6 +5814,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
                 return std::nullopt;
             }
             std::vector<item_location> targets;
+            targets.reserve( locs.size() );
             for( const auto& [item_loc, count] : locs ) {
                 targets.emplace_back( item_loc );
             }
@@ -9144,6 +9146,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     std::vector<item_location> books;
+    books.reserve( to_scan.size() );
     for( const auto &pair : to_scan ) {
         books.push_back( pair.first );
     }
