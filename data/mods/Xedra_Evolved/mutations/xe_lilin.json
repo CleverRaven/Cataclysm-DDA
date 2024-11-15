@@ -438,6 +438,7 @@
     "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
     "points": 3,
     "purifiable": false,
+    "changes_to": [ "LILIN_NIGHT_VISION_UPGRADE" ],
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
     "prereqs2": [ "LILIN_THE_EVIL_EYE" ],
     "category": [ "LILIN" ],
@@ -689,6 +690,24 @@
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ],
     "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_NIGHT_VISION_UPGRADE",
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Darkness is not Dark to You" },
+    "description": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.",
+    "points": 7,
+    "purifiable": false,
+    "prereqs": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      { "values": [ { "value": "NIGHT_VIS", "add": 100 } ] },
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception')" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
