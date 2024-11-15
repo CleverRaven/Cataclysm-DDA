@@ -4544,7 +4544,8 @@ void game::mon_info_update( )
                                       mon_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED;
             } else {
-                need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
+                need_processing =  MATT_ATTACK == matt || ( MATT_FOLLOW == matt &&
+                                   critter.get_dest() == u.get_location() );
             }
             if( need_processing ) {
                 if( index < 8 && critter.sees( get_player_character() ) ) {
