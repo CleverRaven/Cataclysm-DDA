@@ -384,6 +384,32 @@
           "and": [
             { "not": "u_has_weapon" },
             { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "u_has_trait": "LILIN_STRONGER_MOON" },
+            {
+              "or": [
+                { "math": [ "moon_phase() == 2" ] },
+                { "math": [ "moon_phase() == 6" ] },
+                { "math": [ "moon_phase() == 7" ] },
+                { "math": [ "moon_phase() == 1" ] }
+              ]
+            }
+          ]
+        },
+        "melee_damage_bonus": [
+          {
+            "type": "biological",
+            "add": {
+              "math": [ "3 + (u_effect_intensity('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": "u_has_weapon" },
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "not": { "u_has_trait": "LILIN_STRONGER_MOON" } },
             {
               "or": [
                 { "math": [ "moon_phase() == 2" ] },
@@ -739,6 +765,19 @@
         "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception')" ] } } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_STRONGER_MOON",
+    "name": { "//~": "This is a reference to Jeremiah 31:35", "str": "The Moon Shall Shine at Night" },
+    "description": "You are closely attuned to the moon, and some of your powers grow stronger with it.  Any ability you have that is amplified the fuller the moon is will not be weakened as much by an unfull but non-new moon.",
+    "points": 3,
+    "purifiable": false,
+    "player_display": false,
+    "//": "prerequisites are having at least one power amplified by the moon.  As this is written, only one such power exists.",
+    "prereqs": [ "LILIN_UNARMED_EXTRA_DAMAGE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
   },
   {
     "type": "mutation",
