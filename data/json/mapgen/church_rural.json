@@ -61,7 +61,7 @@
         "     ||||||||||||||     ",
         "|||||||||||||||||||     ",
         "WWwwWW|||||||||||||     ",
-        "w...6W|||||||||||||     ",
+        "w...0W|||||||||||||     ",
         "w>...W|||||||||||||     ",
         "WWwwWW|||||||||||||     ",
         "     ||||||||||||||     ",
@@ -82,7 +82,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_shingle_flat_roof", "W": "t_wood_wall_w", "w": "t_window", " ": "t_open_air", ".": "t_floor" },
-      "computers": { "6": { "name": "Church Bells 1.0", "options": [ { "name": "Toll Bells", "action": "toll" } ] } }
+      "computers": { "0": { "name": "Church Bells 1.0", "options": [ { "name": "Toll Bells", "action": "toll" } ] } }
     }
   },
   {
