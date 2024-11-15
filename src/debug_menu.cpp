@@ -1069,7 +1069,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
         // sense and can be auto–sized.
         uilist debug = uilist();
         debug.text = msg;
-        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
         debug.entries = menu;
         debug.query();
         const int group = debug.ret;
@@ -3224,7 +3223,6 @@ static void debug_menu_force_temperature()
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
-                      .only_digits( true )
                       .query_int();
 
             return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
