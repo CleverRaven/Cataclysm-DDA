@@ -546,21 +546,21 @@
     "looks_like": "tank_top",
     "color": "white",
     "pocket_data": [
-    {
-      "pocket_type": "CONTAINER",
-      "max_contains_volume": "200 ml",
-      "max_contains_weight": "400 g",
-      "max_item_length": "19 cm",
-      "moves": 80
-    },
-    {
-      "pocket_type": "CONTAINER",
-      "max_contains_volume": "200 ml",
-      "max_contains_weight": "400 g",
-      "max_item_length": "19 cm",
-      "moves": 80
-     }
-  ],
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "400 g",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "400 g",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
