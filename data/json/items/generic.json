@@ -3102,6 +3102,7 @@
     "volume": "15 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
+    "revert_to": "cigar_butt",
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
@@ -3149,6 +3150,7 @@
     "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
+    "revert_to": "cig_butt",
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
@@ -3196,6 +3198,7 @@
     "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
+    "revert_to": "joint_roach",
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
