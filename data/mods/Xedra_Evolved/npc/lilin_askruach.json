@@ -1,0 +1,151 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "//": "I'm writting \"energy\" instead of \"life energy\" or \"life force\"  because it sounds way more bening, which helps when trying to convince others to give some to you.  It also explains why you don't have to explain to them what ruach is.",
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TTALK_FRIEND_FOLLOWER_RUACH_DRAIN_YES",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "not": { "npc_has_trait": "LILIN_TRAITS" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_KINDA",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "not": { "npc_has_trait": "LILIN_TRAITS" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "math": [ "n_npc_trust()", "<=", "9" ] },
+            { "math": [ "n_npc_value()", "<=", "9" ] },
+            { "math": [ "n_npc_trust()", ">", "0" ] },
+            { "math": [ "n_npc_value()", ">", "0" ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_IMPOSSIBLE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "or": [ { "npc_has_trait": "LILIN_TRAITS" }, { "npc_has_trait": "BLOOD_OF_SAINTS" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_NOPE",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_trust()", "<=", "0" ] },
+            { "math": [ "n_npc_value()", "<=", "0" ] },
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "not": { "npc_has_trait": "LILIN_TRAITS" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TTALK_FRIEND_FOLLOWER_RUACH_DRAIN_YES",
+    "//": "As long as you don't drain more than once every three days, NPCs tolerate it better than vampire bites.",
+    "//2": "The fear reduction prevents the fear gain from the drain EOC if you only do it once per three days.  Their trust makes them less afraid than strangers.",
+    "//3": "Unlike vampires, lilin can drain as much as they want.  This is counterbalanced by the EOC reducing the NPC's opinion the more they do it in a short timespan, until the NPC refuses to let them drain more.",
+    "dynamic_line": {
+      "npc_has_effect": "effect_lilin_ruach_drain_side_effects",
+      "yes": "Already needing more?  I suppose that if you really need it, then you can take some more from me.",
+      "no": "Sure!  Anything to help you feel better."
+    },
+    "responses": [
+      {
+        "text": "[Take some ruach] Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "effect": [ { "run_eocs": { "id": "EOC_LILIN_RUACH_DRAIN" }, "alpha_talker": "npc", "beta_talker": "avatar" } ],
+        "opinion": { "fear": -1 }
+      },
+      {
+        "text": "[Take some ruach] Thank you.  See you later.",
+        "topic": "TALK_DONE",
+        "effect": [ { "run_eocs": { "id": "EOC_LILIN_RUACH_DRAIN" }, "alpha_talker": "npc", "beta_talker": "avatar" } ],
+        "opinion": { "fear": -1 }
+      },
+      { "text": "I changed my mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_KINDA",
+    "dynamic_line": {
+      "npc_has_effect": "effect_lilin_ruach_drain_side_effects",
+      "yes": "This soon?  Fine, you can have some more.  But next time ask someone else because I'm not feeling that good.",
+      "no": "Yeah, you can.  but you better not take any more than you need."
+    },
+    "responses": [
+      {
+        "text": "[Take some ruach] Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "effect": [ { "run_eocs": { "id": "EOC_LILIN_RUACH_DRAIN" }, "alpha_talker": "npc", "beta_talker": "avatar" } ],
+        "opinion": { "fear": -1 }
+      },
+      {
+        "text": "[Take some ruach] Thank you.  See you later.",
+        "topic": "TALK_DONE",
+        "effect": [ { "run_eocs": { "id": "EOC_LILIN_RUACH_DRAIN" }, "alpha_talker": "npc", "beta_talker": "avatar" } ],
+        "opinion": { "fear": -1 }
+      },
+      { "text": "I changed my mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_NOPE",
+    "dynamic_line": "Nope.  I'm not giving you any of mine.  Find someone else if you want some.",
+    "responses": [
+      { "text": "Got it.  Can we talk about something else?", "topic": "TALK_FRIEND" },
+      { "text": "Got it.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_IMPOSSIBLE",
+    "dynamic_line": "(you sense that you won't be able to drain this person's ruach, so you decide to not ask your question)",
+    "responses": [
+      { "text": "(Ask them about something else)", "topic": "TALK_FRIEND" },
+      { "text": "(Go do something else)", "topic": "TALK_DONE" }
+    ]
+  }
+]

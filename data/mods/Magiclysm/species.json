@@ -70,8 +70,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "LEPRECHAUN",
-    "description": "a small, mischievous humanoid",
+    "id": "FEY",
+    "description": "a small, magical humanoid",
     "fear_triggers": [ "FIRE" ]
   },
   {

@@ -94,7 +94,7 @@
     "description": "Mischievous shoemakers who wear green and love pulling pranks on mortals.",
     "default_faction": "leprechaun",
     "bodytype": "human",
-    "species": [ "LEPRECHAUN" ],
+    "species": [ "FEY" ],
     "volume": "145 ml",
     "weight": "168 kg",
     "hp": 45,
