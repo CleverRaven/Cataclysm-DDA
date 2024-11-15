@@ -560,7 +560,7 @@ void refresh_display()
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
     ClearScreen();
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
@@ -3337,6 +3337,7 @@ static void CheckMessages()
                 dbg( D_INFO ) << "Fingermotion triggered.";
                 if( ev.tfinger.fingerId == 0 ) {
                     if( !is_quick_shortcut_touch ) {
+                        dbg( D_INFO ) << "Not quick shortcut touch";
                         update_finger_repeat_delay();
                     }
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
@@ -3375,7 +3376,10 @@ static void CheckMessages()
                     finger_down_time = ticks;
                     finger_repeat_time = 0;
                     is_quick_shortcut_touch = get_quick_shortcut_under_finger() != NULL;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_down_x: " << finger_down_x;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_down_y: " << finger_down_y;
                     if( !is_quick_shortcut_touch ) {
+                        dbg( D_INFO ) << "Not quick shortcut touch";
                         update_finger_repeat_delay();
                     }
                     ui_manager::redraw_invalidated();
@@ -3384,6 +3388,8 @@ static void CheckMessages()
                     if( !is_quick_shortcut_touch ) {
                         second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
                         second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_x: " << finger_down_x;
+                        DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_y: " << second_finger_curr_y;
                         is_two_finger_touch = true;
                     }
                 } else if( ev.tfinger.fingerId == 2 ) {
@@ -3400,6 +3406,8 @@ static void CheckMessages()
                 if( ev.tfinger.fingerId == 0 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_curr_x: " << finger_curr_x;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_curr_y: " << finger_curr_y;
                     if( is_quick_shortcut_touch ) {
                         input_event *quick_shortcut = get_quick_shortcut_under_finger();
                         if( quick_shortcut ) {
