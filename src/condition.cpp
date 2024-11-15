@@ -774,7 +774,7 @@ conditional_t::func f_u_has_mission( const JsonObject &jo, std::string_view memb
     };
 }
 
-void conditional_t::f_u_has_achievement( const JsonObject &jo, std::string_view member )
+conditional_t::func f_u_has_achievement( const JsonObject &jo, std::string_view member )
 {
     str_or_var u_achievement = get_str_or_var( jo.get_member( member ), member, true );
     condition = [u_achievement]( dialogue const & d ) {
