@@ -83,8 +83,8 @@
   },
   {
     "id": "immolate_transform",
-    "name": "Immolate Transform",
-    "description": "The part of the Immolate spell that causes the transform.",
+    "name": { "str": "Immolate Transform", "//~": "NO_I18N" },
+    "description": { "str": "The part of the Immolate spell that causes the transform.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "type": "SPELL",
     "effect": "ter_transform",
@@ -136,8 +136,8 @@
   {
     "id": "immolate_push",
     "type": "SPELL",
-    "name": "Immolate Push Effect",
-    "description": "The immolate spell is powerful enough to push targets from its epicenter.",
+    "name": { "str": "Immolate Push Effect", "//~": "NO_I18N" },
+    "description": { "str": "The immolate spell is powerful enough to push targets from its epicenter.", "//~": "NO_I18N" },
     "effect": "directed_push",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -176,8 +176,11 @@
   {
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
-    "name": "Hermes Reborn Fire",
-    "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Hermes Reborn Fire", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "max_level": 35,
     "flags": [ "SPLIT_DAMAGE" ],
