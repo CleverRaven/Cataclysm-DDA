@@ -166,6 +166,10 @@ Plastic tub audit
 Adds throwing practice tools
 Debug spawn NPC by class id
 EOCs modifying calories track spent calories
+Mutations can have a custom activation message
+modify random NPC starting equipment based on time passed
+Throwing items while piloting mechs (with the mech's assist)
+Faction relationships can be modified through dialogue
 Adds whispering fungi to fungi zombie mongroup.
 Added check for stealing prior to obtaining book to read
 Added check for stealing prior to reloading items
@@ -365,6 +369,12 @@ Massive expansion of dialogues and messages for various categories
 Make more zombies wear wedding rings
 Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
 fungalize stages for zombies
+Adds in new .357, .44, and .22 LR lever-action rifles
+Carpets won't always be the same color
+Beds are draggable
+Large clay pots can now be crafted without a lid and used in the slow sand water filter
+Fence posts and bollards are more similar
+Melee weapon item groups for random NPCs
 Remove secret science and military stuff from bank/industry/mall vaults
 No free wiring in log walls
 Military locations can spawn EOD suits
@@ -469,6 +479,7 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
+Repeat survey missions without leaving the interface
 Unify name suffix and profession
 Add daily health widget
 Add labels to structured sidebar tiny bodygraphs
@@ -759,6 +770,24 @@ Prevent Paraclesians from being born with a drivers license
 [MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
+[MoM/Magiclysm interaction] Synchronize anti-Stare powers, Thought Shield spell protects from telepathy
+[Xedra Evolve] Add Ruach counter to sidebars
+[Sky Island/MoM/XE interactions] Allow starting with XE/MoM scenario-limited professions in Sky Island
+Apply copy-from to mod scenarios
+[MoM] Move Mirror-mask bonus to effect, obsolete mutations
+[Xedra Evolved] Require Traverse the Wilds to target a tree as the endpoint
+[Xedra Evolved] More Lilin powers
+[DinoMod] mountable and harnessable audit
+Magus spell Slow description change
+[DinoMod] Eggs process directly into hatchlings
+[MoM] Update mutated animals to match vanilla changes
+[XE] Add cryptid hunting and a few cryptids
+[Magiclysm] Zombie versions of lizardfolk and ravenfolk drop tainted flesh like all other zombies
+[MoM] Update everglow matrix lighting recipes
+[Magiclysm] Feral dabblers: add a small chance for ferals to know a single spell
+[MoM] Remove monster inherent speed boosts, replace with actual powers that have to be used
+[XE] Fix two bugs about learning new blood gifts
+[Magiclysm] Add a trait that prevents magical spellcasting
 Martial Mastery: Fix duration of several technique effects
 Create an external option for disabling zombify_into. Apply it to both Aftershock:Exoplanet and DDtD
 [Xedra Evolved] Moon's tears weapons
@@ -876,6 +905,11 @@ Replace land mines with bear traps in the bandit cabin
 Human lard less dense
 Ballista is no longer pure magic
 Make lab access shafts normally visible once spotted
+Factions don't mind the player smashing zombie corpses
+Remove calcium from Rare Drugs itemgroup
+Ranged weapon selection for random NPCs
+Some factions claim only one OMT
+Added some reaction to furniture when falling down
 Auditing portable charcoal kiln cleanup
 NPCs can funk out to music, too.
 
@@ -1153,6 +1187,26 @@ Faulty guns don't lock your view
 Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix non-battery charge consumption of active items
+Heating elements no longer drop from smashing the fume hood
+Cotton patch can be used to stop bleeding
+No salvage for ballistic plates
+Forbid drinking liquids underwater for characters with `Aqueous Repose` and `Embrace of the Waters` mutations, as it stated in mutations' descriptions
+New appliances have correct owner
+Minor gun fixes
+Fix flatlander not using special attack
+Battery charger appliances now work when outside the reality bubble
+Dropped lit cigarette won't start fires if there's no flammable terrain, furniture, or items on that tile
+Use correct symbols for vehicle front corners
+Invalid recharge type and instant book reading
+Fix scenario spawns
+Stop 20x melatonin spawns
+Debug log no longer one entry behind
+'Burst-fire wielded weapon' now actually sets wielded weapon to burst or auto firing modes
+[Xedra Evolved] Fix homullus trait regressions
+Fix shelter and burning building starts
+Camp food can be distributed from vehicle cargo zones
+Bleeding can be stopped with bandages without waiting an extra turn
+Don't apply parkour bonus when moving prone
 [MoM] Purifiable updates
 Calculate correct height when a uilist has desired_bounds not including a height
 Fix: weariness makes hauling faster instead of slower
@@ -1294,6 +1348,10 @@ Migrate extended description (`x`->`e`) to imgui
 Added palettes to use parameters more generally
 debug dialogue + talk_topic menus
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Refactoring armor order from Cody
+Allow construction pre_terrain to be a list of alternatives
+Refactoring Hub01 dialogues
+Remove furniture/terrain legacy alias code and JSON
 Adds bash_scaling fields to use with spells
 Replace some player responses with snippets
 Make mutation able to use mana as resourse without EoC
@@ -1328,6 +1386,7 @@ stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
 Fixed Linux experimental build automation issues caused by SDL dependencies
+Fix CMake build after adding freetype
 Fixes broken Windows build due to missing ImGui Freetype-related files and map::get_field function deletion
 Fixed broken Android build due to missing FreeType library
 Allow the game to build on OSX
@@ -1339,6 +1398,7 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Do not extract pseudoitems/some UI labels/debug strings for translations
 Audit/NO_I18N effects.json
 Allow new KEYBDINGS window title to be translated
 Omit unnecessary lines from translations

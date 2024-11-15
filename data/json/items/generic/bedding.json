@@ -13,7 +13,7 @@
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "flags": [ "SLEEP_AID_CONTAINER" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "42 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "white",
     "//": "Based on https://www.amazon.com/dp/B01MUDQUN9"

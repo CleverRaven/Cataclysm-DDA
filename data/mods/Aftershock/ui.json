@@ -298,6 +298,7 @@
     "style": "text",
     "clauses": [
       {
+        "id": "danger",
         "text": "  ☢DNGR☢",
         "color": "red",
         "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_ratio", ">=", "0" ] } ] }

@@ -545,6 +545,7 @@ static void monster_ammo_edit( monster &mon )
     char hotkey = 'a';
     const auto &ammo_map = mon.type->starting_ammo;
     std::vector<itype_id> ammos;
+    ammos.reserve( ammo_map.size() );
     for( const std::pair<const itype_id, int> &pair : ammo_map ) {
         ammos.emplace_back( pair.first );
         const itype *display_type = item::find_type( pair.first );

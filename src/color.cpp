@@ -841,6 +841,7 @@ void color_manager::show_gui()
     point iOffset;
 
     std::vector<int> vLines;
+    vLines.reserve( 2 );
     vLines.push_back( -1 );
     vLines.push_back( 48 );
 

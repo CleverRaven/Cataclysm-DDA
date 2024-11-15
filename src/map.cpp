@@ -1848,7 +1848,9 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
     if( !new_f.emissions.empty() ) {
         field_furn_locs.push_back( p );
     }
-    if( old_f.transparent != new_f.transparent ) {
+    if( old_f.transparent != new_f.transparent ||
+        old_f.has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) != new_f.has_flag(
+            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
@@ -2352,7 +2354,9 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
     if( !new_t.emissions.empty() ) {
         field_ter_locs.push_back( p );
     }
-    if( old_t.transparent != new_t.transparent ) {
+    if( old_t.transparent != new_t.transparent ||
+        old_t.has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) != new_t.has_flag(
+            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
@@ -4332,8 +4336,9 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         i_clear( p );
     }
 
-    if( ( smash_furn && has_flag_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
-        ( smash_ter && has_flag_ter( ter_furn_flag::TFLAG_FUNGUS, p ) ) ) {
+    if( ( ( smash_furn && has_flag_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
+          ( smash_ter && has_flag_ter( ter_furn_flag::TFLAG_FUNGUS, p ) ) ) &&
+        field_at( p ).find_field( fd_fire ) == nullptr ) {
         fungal_effects().create_spores( p );
     }
 
