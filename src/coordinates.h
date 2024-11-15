@@ -289,19 +289,24 @@ class coord_point_ob : public
 // These definitions can go in the class in clang and gcc, and are much shorter there,
 // but MSVC doesn't allow that, so...
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::min =
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::min =
     coord_point_ob<Point, Origin, Scale>( Point::min );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::max =
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::max =
     coord_point_ob<Point, Origin, Scale>( Point::max );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::invalid =
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::invalid =
     coord_point_ob<Point, Origin, Scale>( Point::invalid );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::zero =
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::zero =
     coord_point_ob<Point, Origin, Scale>( Point::zero );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::north
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::north
     =
         coord_point_ob<Point, Origin, Scale>( Point::north );
 template<typename Point, origin Origin, scale Scale>
@@ -310,7 +315,8 @@ coord_point_ob_rel<Point, Origin, Scale>::north_east
     =
         coord_point_ob<Point, Origin, Scale>( Point::north_east );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::east
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::east
     =
         coord_point_ob<Point, Origin, Scale>( Point::east );
 template<typename Point, origin Origin, scale Scale>
@@ -319,7 +325,8 @@ coord_point_ob_rel<Point, Origin, Scale>::south_east
     =
         coord_point_ob<Point, Origin, Scale>( Point::south_east );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::south
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::south
     =
         coord_point_ob<Point, Origin, Scale>( Point::south );
 template<typename Point, origin Origin, scale Scale>
@@ -328,7 +335,8 @@ coord_point_ob_rel<Point, Origin, Scale>::south_west
     =
         coord_point_ob<Point, Origin, Scale>( Point::south_west );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob_rel<Point, Origin, Scale>::west
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::west
     =
         coord_point_ob<Point, Origin, Scale>( Point::west );
 template<typename Point, origin Origin, scale Scale>
@@ -337,11 +345,13 @@ coord_point_ob_rel<Point, Origin, Scale>::north_west
     =
         coord_point_ob<Point, Origin, Scale>( Point::north_west );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob_3d<Point, Origin, Scale>::above
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_3d<Point, Origin, Scale>::above
     =
         coord_point_ob<Point, Origin, Scale>( Point::above );
 template<typename Point, origin Origin, scale Scale>
-constexpr const coord_point_ob<Point, Origin, Scale> coord_point_ob_3d<Point, Origin, Scale>::below
+inline constexpr const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_3d<Point, Origin, Scale>::below
     =
         coord_point_ob<Point, Origin, Scale>( Point::below );
 
