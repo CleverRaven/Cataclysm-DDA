@@ -714,7 +714,9 @@ bool do_turn()
 
             // Avoid redrawing the main UI every time due to invalidation
             ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-            g->wait_popup = std::make_unique<static_popup>();
+            if( !g->wait_popup ) {
+                g->wait_popup = std::make_unique<static_popup>();
+            }
             g->wait_popup->on_top( true ).wait_message( "%s", wait_message );
             ui_manager::redraw();
             refresh_display();
