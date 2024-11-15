@@ -554,6 +554,11 @@ void monster::try_upgrade( bool pin_time )
     }
 }
 
+void monster::set_baby_timer( const time_point &time )
+{
+    baby_timer.emplace( time );
+}
+
 void monster::try_reproduce()
 {
     if( !reproduces ) {
