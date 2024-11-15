@@ -56,6 +56,26 @@
   },
   {
     "type": "SPECIES",
+    "id": "DWARF",
+    "description": "a short and stocky humanoid",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ELF",
+    "description": "a tall and slender humanoid",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "LEPRECHAUN",
+    "description": "a small, mischievous humanoid",
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "AIR_SPIRIT",
     "description": "A magical being of wind and rain.",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],

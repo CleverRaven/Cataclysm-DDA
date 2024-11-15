@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN",
+    "//": "Will include elves and dwarves if non-character versions of them are added.",
+    "condition": {
+      "and": [
+        { "not": { "u_has_species": "ZOMBIE" } },
+        {
+          "or": [
+            { "u_has_species": "LIZARDFOLK" },
+            { "u_has_species": "GOBLIN" },
+            { "u_has_species": "GOBLIN_FORGE" },
+            { "u_has_species": "ORC" },
+            { "u_has_species": "OGRE" },
+            { "u_has_species": "RAVENFOLK" },
+            { "u_has_species": "DWARF" },
+            { "u_has_species": "ELF" },
+            { "u_has_species": "LEPRECHAUN" }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  }
+]
