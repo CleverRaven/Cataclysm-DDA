@@ -177,14 +177,14 @@ class coord_point_ob : public
         using base::base;
 
         static constexpr int dimension = Point::dimension;
-        inline static const coord_point_ob min{ Point::min };
-        inline static const coord_point_ob max{ Point::max };
-        inline static const coord_point_ob invalid{ Point::invalid };
+        static const coord_point_ob min;
+        static const coord_point_ob max;
+        static const coord_point_ob invalid;
         constexpr bool is_invalid() const {
             return *this == invalid;
         }
 
-        inline static const coord_point_ob zero{ Point::zero };
+        static const coord_point_ob zero;
 
     private:
         // Because we use templating to delete these members from types that
@@ -194,29 +194,29 @@ class coord_point_ob : public
 
         // The directional constants are only available for *point_rel_*
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _north{ Point::north };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _north;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_east{ Point::north_east };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_east;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _east{ Point::east };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _east;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_east{ Point::south_east };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_east;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _south{ Point::south };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _south;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_west{ Point::south_west };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_west;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _west{ Point::west };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _west;
         template <origin O = Origin>
-        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_west{ Point::north_west };
+        static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_west;
 
         // The vertical constants are only available for tripoint_rel_*
         template <origin O = Origin, typename P = Point>
-        inline static const std::enable_if_t < O == origin::relative &&
-        P::dimension == 3, coord_point_ob > _above{ Point::above };
+        static const std::enable_if_t < O == origin::relative &&
+        P::dimension == 3, coord_point_ob > _above;
         template <origin O = Origin, typename P = Point>
-        inline static const std::enable_if_t < O == origin::relative &&
-        P::dimension == 3, coord_point_ob > _below{ Point::below };
+        static const std::enable_if_t < O == origin::relative &&
+        P::dimension == 3, coord_point_ob > _below;
 
     public:
         // These public references exist unconditionally, but refer to members
@@ -298,6 +298,68 @@ class coord_point_ob : public
             return this_as_tripoint_ob( l.raw() - r );
         }
 };
+
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::min =
+    coord_point_ob<Point, Origin, Scale>( Point::min );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::max =
+    coord_point_ob<Point, Origin, Scale>( Point::max );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::invalid =
+    coord_point_ob<Point, Origin, Scale>( Point::invalid );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale> coord_point_ob<Point, Origin, Scale>::zero =
+    coord_point_ob<Point, Origin, Scale>( Point::zero );
+
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_north = coord_point_ob<Point, Origin, Scale>( Point::north );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_north_east = coord_point_ob<Point, Origin, Scale>
+                ( Point::north_east );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_east = coord_point_ob<Point, Origin, Scale>( Point::east );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_south_east = coord_point_ob<Point, Origin, Scale>
+                ( Point::south_east );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_south = coord_point_ob<Point, Origin, Scale>( Point::south );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_south_west = coord_point_ob<Point, Origin, Scale>
+                ( Point::south_west );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_west = coord_point_ob<Point, Origin, Scale>( Point::west );
+template<typename Point, origin Origin, scale Scale>
+template <origin O>
+const std::enable_if_t<O == origin::relative, coord_point_ob<Point, Origin, Scale>>
+        coord_point_ob<Point, Origin, Scale>::_north_west = coord_point_ob<Point, Origin, Scale>
+                ( Point::north_west );
+
+template<typename Point, origin Origin, scale Scale>
+template <origin O, typename P>
+const std::enable_if_t < O == origin::relative &&P::dimension == 3,
+      coord_point_ob<Point, Origin, Scale> > coord_point_ob<Point, Origin, Scale>::_above =
+          coord_point_ob<Point, Origin, Scale>( Point::above );
+template<typename Point, origin Origin, scale Scale>
+template <origin O, typename P>
+const std::enable_if_t < O == origin::relative &&P::dimension == 3,
+      coord_point_ob<Point, Origin, Scale> > coord_point_ob<Point, Origin, Scale>::_below =
+          coord_point_ob<Point, Origin, Scale>( Point::below );
+
 
 template<typename Point, origin Origin, scale Scale>
 class coord_point_ib : public coord_point_ob<Point, Origin, Scale>
