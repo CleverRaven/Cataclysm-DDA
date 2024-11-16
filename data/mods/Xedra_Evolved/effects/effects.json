@@ -2542,6 +2542,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_allowed_ruach_drain",
+    "name": [ { "str": "Willingly drained" } ],
+    "desc": [
+      "This follower allowed you to take some of their ruach, and they won't respond kindly to being drained more this soon."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sleep_shield_check",
     "name": [ "Promises of undisrupted sleep" ],
     "desc": [ "I wish you a good night." ],

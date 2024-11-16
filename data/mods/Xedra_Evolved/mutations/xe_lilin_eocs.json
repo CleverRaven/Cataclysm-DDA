@@ -295,7 +295,18 @@
     "required_event": "gains_mutation",
     "eoc_type": "EVENT",
     "condition": { "compare_string": [ "LILIN_INCREMENTAL_SPEED_BOOST", { "context_val": "trait" } ] },
-    "effect": [ { "run_eocs": "EOC_LILIN_INCREMENTAL_SPEED_BOOST", "time_in_future": { "math": [ "time_until('night_time')" ] } } ]
+    "effect": [
+      {
+        "run_eocs": "EOC_LILIN_INCREMENTAL_SPEED_BOOST_TRIGGER",
+        "time_in_future": { "math": [ "time_until('night_time')" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "this EOC is required to call the real EOC without having errors.",
+    "id": "EOC_LILIN_INCREMENTAL_SPEED_BOOST_TRIGGER",
+    "effect": { "run_eocs": [ "EOC_LILIN_INCREMENTAL_SPEED_BOOST" ] }
   },
   {
     "type": "effect_on_condition",
