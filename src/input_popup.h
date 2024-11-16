@@ -80,11 +80,11 @@ class string_input_popup_imgui : public input_popup
         void set_identifier( const std::string &ident );
         void set_text( const std::string &txt );
         void use_uilist_history( bool use_uilist );
+        void update_input_history( ImGuiInputTextCallbackData *data );
     protected:
         void draw_input_control() override;
     private:
         void add_to_history( const std::string &value ) const;
-        void update_input_history( bool up );
         void show_history();
         std::string text;
         // currently entered input for history handling
