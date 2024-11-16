@@ -759,7 +759,7 @@
     "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
     "category": [ "LILIN" ],
     "enchantments": [
-      { "values": [ { "value": "NIGHT_VIS", "add": 100 } ] },
+      { "values": [ { "value": "NIGHT_VIS", "add": 250 } ] },
       {
         "condition": { "not": "is_day" },
         "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception')" ] } } ]

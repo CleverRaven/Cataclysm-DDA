@@ -269,7 +269,8 @@
                 { "u_has_species": "HOMULLUS" },
                 { "u_has_species": "FERAL" },
                 { "u_has_species": "HUMAN" },
-                { "u_has_species": "RENFIELD" }
+                { "u_has_species": "RENFIELD" },
+                { "test_eoc": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN" }
               ]
             }
           ]
