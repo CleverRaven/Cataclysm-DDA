@@ -668,22 +668,21 @@ void Character::add_profession_items()
 
     //storage items may not be added first, so a second attempt is needed
     attempt_add_items( prof_items, try_adding_again );
-    prof_items.clear();
-    attempt_add_items( try_adding_again, prof_items );
-    //if there's one item left that still can't be added, attempt to wield it
-    if( prof_items.size() == 1 ) {
-        item last_item = prof_items.front();
-        if( !has_wield_conflicts( last_item ) ) {
-            bool success_wield = wield( last_item );
-            if( success_wield ) {
-                prof_items.pop_front();
+    if( !try_adding_again.empty() ) {
+        prof_items.clear();
+        attempt_add_items( try_adding_again, prof_items );
+        //if there's one item left that still can't be added, attempt to wield it
+        if( prof_items.size() == 1 ) {
+            item last_item = prof_items.front();
+            if( !has_wield_conflicts( last_item ) ) {
+                bool success_wield = wield( last_item );
+                if( success_wield ) {
+                    prof_items.pop_front();
+                }
             }
         }
     }
-    if( !prof_items.empty() ) {
-        debugmsg( "Failed to place %d items in inventory for profession %s", prof_items.size(),
-                  prof->gender_appropriate_name( male ) );
-    }
+
     recalc_sight_limits();
     calc_encumbrance();
 }
