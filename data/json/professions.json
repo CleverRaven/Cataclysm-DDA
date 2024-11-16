@@ -1029,6 +1029,41 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
+    {
+    "type": "profession",
+    "id": "chemist",
+    "name": "Chemist",
+    "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab.  With your colleagues presumably dead and all the institutions of science overrun, you wonder if Alchemy will be making its return.",
+    "npc_background": "BG_survival_story_LAB",
+    "points": 4,
+    "skills": [ { "level": 6, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_organic_chemistry",
+      "prof_inorganic_chemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth",
+      "prof_distilling"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants", "variant": "pants_stone" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "coat_lab" },
+          { "item": "gloves_rubber" },
+          { "item": "glasses_safety" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
   {
     "type": "profession",
     "id": "engineer_chem",
