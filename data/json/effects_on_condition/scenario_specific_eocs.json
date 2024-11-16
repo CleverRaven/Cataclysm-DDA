@@ -308,5 +308,11 @@
     "update_mapgen_id": "SCENARIO_SMOKE",
     "method": "json",
     "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_clear_weather",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "math": [ "weather('humidity')", "=", "0" ] }, { "math": [ "weather('pressure')", "=", "1050" ] }, "next_weather" ]
   }
 ]
