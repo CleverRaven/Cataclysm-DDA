@@ -453,6 +453,7 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
 
     if( !target_group.is_empty() ) {
+        dump.emplace_back( "TOOL", _( "Can transform into one of several items" ) );
         return;
     }
     int amount = std::max( ammo_qty, 1 );
