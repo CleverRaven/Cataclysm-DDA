@@ -1870,7 +1870,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     here.destroy( pos, true );
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
-        if( it.is_null() || it.charges <= 0 ) {
+        if( it.is_null() || ( it.count_by_charges() && it.charges <= 0 ) ) {
             debugmsg( "pickaxe expired during mining" );
             return;
         }
