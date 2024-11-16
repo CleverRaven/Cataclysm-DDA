@@ -1789,7 +1789,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Force an encumbrance update in case they were wearing that item.
     p.calc_encumbrance();
 
-    map &here = get_map();
     for( const auto &salvaged_mat : salvage ) {
         item result( salvaged_mat.first, calendar::turn );
         int amount = salvaged_mat.second;
