@@ -831,7 +831,7 @@
     "id": "sloc_town_in_the_open",
     "name": "Town, in the open",
     "terrain": [
-      { "om_terrain": "road", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" },
       { "om_terrain": "playground", "om_terrain_match_type": "TYPE" },
       { "om_terrain": "park", "om_terrain_match_type": "TYPE" }
     ],
