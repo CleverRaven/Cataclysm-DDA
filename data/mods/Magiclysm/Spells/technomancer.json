@@ -512,8 +512,8 @@
   {
     "id": "overcharge_burn",
     "type": "SPELL",
-    "name": "Overcharge Burn",
-    "description": "The side effects of casting the overcharge spell.",
+    "name": { "str": "Overcharge Burn", "//~": "NO_I18N" },
+    "description": { "str": "The side effects of casting the overcharge spell.", "//~": "NO_I18N" },
     "message": "",
     "effect": "spawn_item",
     "effect_str": "overcharge_burn_scar",

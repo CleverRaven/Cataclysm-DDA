@@ -1593,6 +1593,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
         int maxdepth )
 {
     std::vector<tripoint> direction;
+    direction.reserve( 2 );
     direction.push_back( bashee );
     direction.push_back( basher );
     // Draw a line from the target through the attacker.

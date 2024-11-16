@@ -1243,7 +1243,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "Snakes and Ladders" },
-    "description": "A board game for two or more players, regarded before the Cataclysm as as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
+    "description": "A board game for two or more players, regarded before the Cataclysm as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
     "weight": "300 g",
     "volume": "1800 ml",
     "price": "25 cent",

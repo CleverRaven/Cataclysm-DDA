@@ -1826,6 +1826,7 @@ std::string spell::list_targeted_monster_names() const
         return "";
     }
     std::vector<std::string> all_valid_monster_names;
+    all_valid_monster_names.reserve( type->targeted_monster_ids.size() );
     for( const mtype_id &mon_id : type->targeted_monster_ids ) {
         all_valid_monster_names.emplace_back( mon_id->nname() );
     }
@@ -1842,6 +1843,7 @@ std::string spell::list_targeted_species_names() const
         return "";
     }
     std::vector<std::string> all_valid_species_names;
+    all_valid_species_names.reserve( type->targeted_species_ids.size() );
     for( const species_id &specie_id : type->targeted_species_ids ) {
         all_valid_species_names.emplace_back( specie_id.str() );
     }
@@ -1858,6 +1860,7 @@ std::string spell::list_ignored_species_names() const
         return "";
     }
     std::vector<std::string> all_valid_species_names;
+    all_valid_species_names.reserve( type->ignored_species_ids.size() );
     for( const species_id &species_id : type->ignored_species_ids ) {
         all_valid_species_names.emplace_back( species_id.str() );
     }

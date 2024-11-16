@@ -5845,6 +5845,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
+                                stair_points.reserve( 8 );
                                 if( tw != 0 ) {
                                     stair_points.emplace_back( SEEX - 1, 2 );
                                     stair_points.emplace_back( SEEX - 1, 2 );

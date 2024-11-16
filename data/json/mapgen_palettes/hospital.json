@@ -2,9 +2,9 @@
   {
     "type": "palette",
     "id": "hospital",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
-      "#": "t_wall",
       ":": "t_pavement_y",
       "&": "t_floor",
       ".": "t_floor",

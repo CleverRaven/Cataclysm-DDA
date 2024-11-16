@@ -1349,6 +1349,8 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
     std::vector<tripoint_bub_ms> points;
+    vehicles.reserve( vehs.size() );
+    points.reserve( vehs.size() ); // Each vehicle is at least one point.
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         // Important that this loop excludes fake parts, because those can be
@@ -1506,6 +1508,8 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
     std::vector<tripoint_bub_ms> points;
+    vehicles.reserve( vehs.size() );
+    points.reserve( vehs.size() ); // Each vehicle is at least one point.
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint_bub_ms> occupied = vehicle.v->get_points();
