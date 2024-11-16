@@ -193,8 +193,8 @@
   {
     "id": "railgun_sparks",
     "type": "SPELL",
-    "name": "Railgun Sparks",
-    "description": "The spark portion of the Railgun spell.",
+    "name": { "str": "Railgun Sparks", "//~": "NO_I18N" },
+    "description": { "str": "The spark portion of the Railgun spell.", "//~": "NO_I18N" },
     "valid_targets": [ "ground", "hostile", "ally" ],
     "effect": "attack",
     "shape": "line",
@@ -240,8 +240,11 @@
   {
     "id": "magnetismmage_electrolaser_electro",
     "type": "SPELL",
-    "name": "Electrolaser Electric Damage",
-    "description": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Electrolaser Electric Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "EVOCATION_SPELL" ],
     "effect": "attack",
@@ -261,8 +264,11 @@
   {
     "id": "robot_disabler",
     "type": "SPELL",
-    "name": "Surge mod moves",
-    "description": "Subtract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Surge mod moves", "//~": "NO_I18N" },
+    "description": {
+      "str": "Subtract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "ROBOT", "CYBORG" ],
     "effect": "mod_moves",

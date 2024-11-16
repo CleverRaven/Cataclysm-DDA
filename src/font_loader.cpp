@@ -28,9 +28,6 @@ void font_loader::load_throws( const cata_path &path )
         } else {
             config.read( "gui_typeface", gui_typeface );
         }
-        if( gui_typeface.empty() ) {
-            gui_typeface.emplace_back( PATH_INFO::fontdir() + "Roboto-Medium.ttf" );
-        }
         if( config.has_string( "map_typeface" ) ) {
             map_typeface.emplace_back( config.get_string( "map_typeface" ) );
         } else {
@@ -61,6 +58,7 @@ void font_loader::save( const cata_path &path ) const
             JsonOut json( stream, true ); // pretty-print
             json.start_object();
             json.member( "typeface", typeface );
+            json.member( "gui_typeface", typeface );
             json.member( "map_typeface", map_typeface );
             json.member( "overmap_typeface", overmap_typeface );
             json.end_object();
