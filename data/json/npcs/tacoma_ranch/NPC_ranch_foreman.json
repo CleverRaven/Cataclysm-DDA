@@ -64,7 +64,8 @@
             { "u_has_mission": "MISSION_TACOMA_Nunez" },
             { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
           ]
-        }
+        },
+        "effect": { "u_location_variable": { "u_val": "tacoma_nunez_trailer_arrive" } }
       },
       {
         "text": "Hey, are you looking for workers here?",

@@ -1106,7 +1106,7 @@
     "volume": "1 ml",
     "weight": "3 g",
     "price": "7 USD 50 cent",
-    "price_postapoc": "15 USD",
+    "price_postapoc": "65 cent",
     "symbol": "!",
     "color": "light_blue",
     "use_action": {
@@ -1570,7 +1570,7 @@
     "weight": "40 g",
     "volume": "75 ml",
     "price": "10 USD",
-    "price_postapoc": "50 USD",
+    "price_postapoc": "25 USD",
     "symbol": "!",
     "color": "brown",
     "healthy": -1,

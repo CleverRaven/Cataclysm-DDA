@@ -241,8 +241,17 @@
     "speaker_effect": {
       "effect": [
         { "finish_mission": "MISSION_TACOMA_Nunez", "success": true },
-        { "math": [ "nunez_travel_timer", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
-        { "math": [ "nunez_travel_stage", "=", "1" ] }
+        { "npc_location_variable": { "context_val": "refcenter_nunez_departure" } },
+        { "math": [ "_travel_time", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
+        {
+          "run_eocs": [ "EOC_Nunez_Travel" ],
+          "time_in_future": { "context_val": "travel_time" },
+          "variables": {
+            "refcenter_nunez_departure": { "context_val": "refcenter_nunez_departure" },
+            "tacoma_nunez_trailer_arrive": { "u_val": "tacoma_nunez_trailer_arrive" }
+          }
+        },
+        { "u_lose_var": "tacoma_nunez_trailer_arrive" }
       ]
     }
   },

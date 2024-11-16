@@ -543,8 +543,7 @@
     "price_postapoc": "0 cent",
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
     "emits": [ "emit_tear_gas_stream" ],
-    "countdown_interval": "50 seconds",
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
   {
@@ -788,7 +787,7 @@
     "name": { "str": "armed smoke bomb" },
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1319,9 +1318,9 @@
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "half_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1343,7 +1342,7 @@
     "use_action": {
       "type": "message",
       "message": "You've already activated the bomb - clear the area immediately!",
-      "name": "Activate fuze"
+      "name": "Activate fuse"
     },
     "explode_in_fire": true,
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
@@ -1368,9 +1367,9 @@
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "full_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1392,7 +1391,7 @@
     "use_action": {
       "type": "message",
       "message": "You've already activated the bomb - clear the area immediately!",
-      "name": "Activate fuze"
+      "name": "Activate fuse"
     },
     "explode_in_fire": true,
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },

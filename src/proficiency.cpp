@@ -509,6 +509,7 @@ time_duration proficiency_set::training_time_needed( const proficiency_id &query
 std::vector<proficiency_id> proficiency_set::known_profs() const
 {
     std::vector<proficiency_id> ret;
+    ret.reserve( known.size() );
     for( const proficiency_id &knows : known ) {
         ret.push_back( knows );
     }
