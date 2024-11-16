@@ -2,8 +2,8 @@
   {
     "abstract": "mring_copper",
     "type": "TOOL_ARMOR",
-    "name": "copper magic ring",
-    "description": "A generic copper magic ring.",
+    "name": { "str": "copper magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic copper magic ring.", "//~": "NO_I18N" },
     "weight": "4 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -28,8 +28,8 @@
   {
     "abstract": "mring_silver",
     "type": "TOOL_ARMOR",
-    "name": "magic ring",
-    "description": "A generic silver magic ring.",
+    "name": { "str": "silver magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic silver magic ring.", "//~": "NO_I18N" },
     "weight": "5 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -54,8 +54,8 @@
   {
     "abstract": "mring_gold",
     "type": "TOOL_ARMOR",
-    "name": "magic ring",
-    "description": "A generic gold magic ring.",
+    "name": { "str": "gold magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic gold magic ring.", "//~": "NO_I18N" },
     "weight": "9 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -80,8 +80,8 @@
   {
     "abstract": "mring_platinum",
     "type": "TOOL_ARMOR",
-    "name": "magic ring",
-    "description": "A generic platinum magic ring",
+    "name": { "str": "platinum magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic platinum magic ring", "//~": "NO_I18N" },
     "weight": "11 g",
     "volume": "1 ml",
     "price": "50 USD",

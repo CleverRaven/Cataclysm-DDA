@@ -26,8 +26,8 @@
   {
     "id": "shortwave_2",
     "type": "SPELL",
-    "name": "Shortwave 2",
-    "description": "Cook nearby monsters (and yourself to an extent).",
+    "name": { "str": "Shortwave 2", "//~": "NO_I18N" },
+    "description": { "str": "Cook nearby monsters (and yourself to an extent).", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "EVOCATION_SPELL", "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
     "effect": "attack",

@@ -545,6 +545,7 @@ static void monster_ammo_edit( monster &mon )
     char hotkey = 'a';
     const auto &ammo_map = mon.type->starting_ammo;
     std::vector<itype_id> ammos;
+    ammos.reserve( ammo_map.size() );
     for( const std::pair<const itype_id, int> &pair : ammo_map ) {
         ammos.emplace_back( pair.first );
         const itype *display_type = item::find_type( pair.first );
@@ -1068,7 +1069,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
         // sense and can be auto–sized.
         uilist debug = uilist();
         debug.text = msg;
-        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
         debug.entries = menu;
         debug.query();
         const int group = debug.ret;
@@ -3223,7 +3223,6 @@ static void debug_menu_force_temperature()
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
-                      .only_digits( true )
                       .query_int();
 
             return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
