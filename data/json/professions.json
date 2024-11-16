@@ -1029,7 +1029,7 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
-    {
+  {
     "type": "profession",
     "id": "chemist",
     "name": "Chemist",
