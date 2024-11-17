@@ -682,8 +682,10 @@
     "threshreq": [ "THRESH_IERDE" ],
     "active": true,
     "activated_is_setup": true,
+    "cost": 1,
+    "time": 2,
+    "mana": true,
     "activated_eocs": [ "EOC_IERDE_STONE_FORM_ON" ],
-    "processed_eocs": [ "EOC_IERDE_STONE_FORM_PER_TURN" ],
     "deactivated_eocs": [ "EOC_IERDE_STONE_FORM_OFF" ]
   },
   {

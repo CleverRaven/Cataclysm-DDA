@@ -650,16 +650,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_FORM_PER_TURN",
-    "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
-    "false_effect": [
-      { "u_message": "You do not have enough mana to maintain your earthen body!", "type": "bad" },
-      { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_IERDE_STONE_FORM_OFF",
     "effect": [ { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" } ]
   },
