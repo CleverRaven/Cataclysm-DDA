@@ -109,7 +109,7 @@
     "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_KINDA",
     "dynamic_line": {
       "npc_has_effect": "effect_lilin_ruach_drain_side_effects",
-      "yes": "This soon?  Fine, you can have some more.  But next time ask someone else because I'm not feeling that good.",
+      "yes": "This soon?  Fine, you can have some more.  But next time I'd prefer you ask someone else.",
       "no": "Yeah, you can.  but you better not take any more than you need."
     },
     "responses": [
