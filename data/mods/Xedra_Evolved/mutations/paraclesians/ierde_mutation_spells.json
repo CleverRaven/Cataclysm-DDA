@@ -60,7 +60,7 @@
   {
     "id": "ierde_iron_armor_spell",
     "type": "SPELL",
-    "name": "Invulnerable Iron Armor",
+    "name": "Invulnerable Iron Skin",
     "description": "While on living earth or stone, the Ierde may infuse their body with fae iron, slowing their movement and attacks but rendering them much safer from harm.",
     "teachable": false,
     "valid_targets": [ "self" ],

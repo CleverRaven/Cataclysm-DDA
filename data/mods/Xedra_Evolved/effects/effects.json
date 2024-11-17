@@ -1253,6 +1253,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_limb_breaking_stopper",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "disabled" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_craft_in_darkness",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
@@ -1270,7 +1278,6 @@
   {
     "type": "effect_type",
     "id": "effect_ierde_earthen_shield",
-    "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "Impenetrable Earthen Shield" ],
     "desc": [ "You are protected by the living earth." ],
     "remove_message": "Your earthen shield finally crumbles.",
