@@ -1829,26 +1829,42 @@ conditional_t::func f_has_faction_trust( const JsonObject &jo, std::string_view 
 
 conditional_t::func f_compare_string( const JsonObject &jo, std::string_view member )
 {
-    str_or_var first;
-    str_or_var second;
-    JsonArray objects = jo.get_array( member );
-    if( objects.size() != 2 ) {
-        jo.throw_error( "incorrect number of values.  Expected 2 in " + jo.str() );
+    // return true if at least two strings match, OR
+
+    std::vector<str_or_var> values;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        values.emplace_back( get_str_or_var( jv, member ) );
     }
 
-    if( objects.has_object( 0 ) ) {
-        first = get_str_or_var( objects.next_value(), member, true );
-    } else {
-        first.str_val = objects.next_string();
-    }
-    if( objects.has_object( 1 ) ) {
-        second = get_str_or_var( objects.next_value(), member, true );
-    } else {
-        second.str_val = objects.next_string();
+    return [values]( const_dialogue const & d ) {
+        std::unordered_set<std::string> seen_values;
+        for( const str_or_var &val : values ) { 
+            std::string evaluated_value = val.evaluate( d );
+            if( seen_values.count( evaluated_value ) > 0 ) {
+                return true;
+            }
+            seen_values.insert( evaluated_value );
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_compare_string_match_all( const JsonObject &jo, std::string_view member )
+{
+    // return true if all strings match, AND
+    std::vector<str_or_var> values;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        values.emplace_back( get_str_or_var( jv, member ) );
     }
 
-    return [first, second]( const_dialogue const & d ) {
-        return first.evaluate( d ) == second.evaluate( d );
+    return [values]( const_dialogue const & d ) {
+        std::string first_value = values[0].evaluate( d );
+        for( size_t i = 1; i < values.size(); ++i ) {
+            if( values[i].evaluate( d ) != first_value ) {
+                return false;
+            }
+        }
+        return true;
     };
 }
 
@@ -2628,6 +2644,7 @@ parsers = {
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
     {"math", jarg::member, &conditional_fun::f_math },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
+    {"compare_string_match_all", jarg::member, &conditional_fun::f_compare_string_match_all },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
     {"test_eoc", jarg::member, &conditional_fun::f_test_eoc },
 };
