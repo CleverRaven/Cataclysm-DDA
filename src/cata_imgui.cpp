@@ -1072,9 +1072,9 @@ void cataimgui::init_colors()
     style.Colors[ImGuiCol_FrameBg]                = c_dark_gray;
     style.Colors[ImGuiCol_FrameBgHovered]         = c_black;
     style.Colors[ImGuiCol_FrameBgActive]          = c_dark_gray;
-    style.Colors[ImGuiCol_TitleBg]                = c_blue;
-    style.Colors[ImGuiCol_TitleBgActive]          = c_dark_gray;
-    style.Colors[ImGuiCol_TitleBgCollapsed]       = c_blue;
+    style.Colors[ImGuiCol_TitleBg]                = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBgActive]          = c_blue;
+    style.Colors[ImGuiCol_TitleBgCollapsed]       = c_dark_gray;
     style.Colors[ImGuiCol_MenuBarBg]              = c_black;
     style.Colors[ImGuiCol_ScrollbarBg]            = c_black;
     style.Colors[ImGuiCol_ScrollbarGrab]          = c_dark_gray;
