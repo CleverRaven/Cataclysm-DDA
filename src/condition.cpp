@@ -1838,7 +1838,7 @@ conditional_t::func f_compare_string( const JsonObject &jo, std::string_view mem
 
     return [values]( const_dialogue const & d ) {
         std::unordered_set<std::string> seen_values;
-        for( const str_or_var &val : values ) { 
+        for( const str_or_var &val : values ) {
             std::string evaluated_value = val.evaluate( d );
             if( seen_values.count( evaluated_value ) > 0 ) {
                 return true;
