@@ -706,7 +706,7 @@
     "points": 12,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Ierde is so infused with the power of stone they are approaching invincibility. There is a small chance that attacks against them simply rebound off their rocky skin, and their limbs are so resilient that they will never break.",
+    "description": "The Ierde is so infused with the power of stone they are approaching invincibility.  There is a small chance that attacks against them simply rebound off their rocky skin, and their limbs are so resilient that they will never break.",
     "prereqs": [ "IERDE_STONE_FORM" ],
     "prereqs2": [ "IERDE_STOP_BLEEDING" ],
     "category": [ "IERDE" ],
