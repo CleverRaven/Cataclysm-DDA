@@ -614,11 +614,10 @@ static void edit_global_npctalk_vars()
         std::string key;
         string_input_popup popup_key;
         popup_key
-        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
-        .title( _( "Key\n npctalk_var_" ) )
+        .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        globvars.set_global_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+        globvars.set_global_value( key, query_npctalkvar_new_value() );
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
         globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
     }
@@ -655,11 +654,10 @@ static void edit_character_npctalk_vars( Character &you )
         std::string key;
         string_input_popup popup_key;
         popup_key
-        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
-        .title( _( "Key\n npctalk_var_" ) )
+        .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        you.set_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+        you.set_value( key, query_npctalkvar_new_value() );
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
         you.set_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
     }
@@ -1069,7 +1067,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
         // sense and can be auto–sized.
         uilist debug = uilist();
         debug.text = msg;
-        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
         debug.entries = menu;
         debug.query();
         const int group = debug.ret;
@@ -3224,7 +3221,6 @@ static void debug_menu_force_temperature()
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
-                      .only_digits( true )
                       .query_int();
 
             return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );

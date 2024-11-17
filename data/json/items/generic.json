@@ -1466,9 +1466,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
@@ -1483,9 +1481,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "32700 g",
     "volume": "105 L",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1500,9 +1496,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "32700 g",
     "volume": "105 L",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1516,10 +1510,8 @@
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
     "weight": "100 kg",
-    "volume": "65000 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "volume": "65 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1534,9 +1526,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1551,9 +1541,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1568,9 +1556,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1591,9 +1577,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -1608,9 +1592,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "170200 g",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 10 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1621,12 +1603,10 @@
     "volume": "125 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 7 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1637,12 +1617,10 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1653,12 +1631,10 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1673,9 +1649,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "100 kg",
     "volume": "85 L",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "AMMO",

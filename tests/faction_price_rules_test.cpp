@@ -126,7 +126,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
                  Approx( units::to_cent( carafe.type->price_post ) * 1.25 ).margin( 1 ) );
     }
     WHEN( "condition for price rules satisfied" ) {
-        guy.set_value( "npctalk_var_bool_allnighter_thirsty", "yes" );
+        guy.set_value( "bool_allnighter_thirsty", "yes" );
         REQUIRE( fac.get_price_rules( carafe, guy )->markup == 2.0 );
         THEN( "NPC selling to avatar includes markup and positive fixed adjustment" ) {
             REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
@@ -141,7 +141,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         double const fmarkup = fac.get_price_rules( pants_fur, guy )->markup;
         REQUIRE( guy.get_price_rules( pants_fur )->markup == fmarkup );
         REQUIRE( fmarkup != - 100 );
-        guy.set_value( "npctalk_var_bool_preference_vegan", "yes" );
+        guy.set_value( "bool_preference_vegan", "yes" );
         REQUIRE( guy.get_price_rules( pants_fur )->markup == -100 );
     }
     WHEN( "price rule affects magazine contents" ) {
