@@ -1398,16 +1398,6 @@ void complete_construction( Character *you )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
-            // Make a roof if constructed terrain should have it and it's an open space
-            if( construct::check_up_OK( terp ) ) {
-                const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
-                if( post_terrain->roof ) {
-                    const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top )->has_flag( "EMPTY_SPACE" ) ) {
-                        here.ter_set( top, ter_id( post_terrain->roof ) );
-                    }
-                }
-            }
         }
     }
 
