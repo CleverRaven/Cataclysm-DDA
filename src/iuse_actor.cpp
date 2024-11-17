@@ -1515,6 +1515,18 @@ std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoin
         return std::nullopt;
     }
 
+    const item &to_cut = *item_loc;
+    if( !to_cut.is_owned_by( *p, true ) ) {
+        if( !query_yn( _( "Cutting the %s may anger the people who own it, continue?" ),
+                       to_cut.tname() ) ) {
+            return false;
+        } else {
+            if( to_cut.get_owner() ) {
+                g->on_witness_theft( to_cut );
+            }
+        }
+    }
+
     return salvage_actor::try_to_cut_up( *p, cutter, item_loc );
 }
 
