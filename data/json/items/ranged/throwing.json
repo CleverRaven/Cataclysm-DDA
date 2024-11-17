@@ -134,7 +134,7 @@
     "material": [ "steel" ],
     "volume": "56 ml",
     "weight": "200 g",
-    "longest_side": "20 cm",
+    "longest_side": "35 cm",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
