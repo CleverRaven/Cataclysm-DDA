@@ -2372,7 +2372,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, u.get_value( "npctalk_var_" + var ) );
+            phrase.replace( fa, l, u.get_value( var ) );
         } else if( tag.find( "<npc_val:" ) == 0 ) {
             //adding a npc variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2380,7 +2380,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, me.get_value( "npctalk_var_" + var ) );
+            phrase.replace( fa, l, me.get_value( var ) );
         } else if( tag.find( "<global_val:" ) == 0 ) {
             //adding a global variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2389,7 +2389,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             global_variables &globvars = get_globals();
-            phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+            phrase.replace( fa, l, globvars.get_global_value( var ) );
         } else if( tag.find( "<context_val:" ) == 0 ) {
             //adding a context variable to the string requires dialogue to exist
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2397,7 +2397,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, d.get_value( "npctalk_var_" + var ) );
+            phrase.replace( fa, l, d.get_value( var ) );
         } else if( tag.find( "<item_name:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -4538,8 +4538,7 @@ talk_effect_fun_t::func f_guard_pos( const JsonObject &jo, std::string_view memb
         if( guy ) {
             var_info cur_var = target_var.value();
             if( unique_id ) {
-                //12 since it should start with npctalk_var
-                cur_var.name.insert( 12, guy->get_unique_id() );
+                cur_var.name.insert( 0, guy->get_unique_id() );
             }
             tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d, is_npc );
             guy->set_guard_pos( target_location );
@@ -5723,7 +5722,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
     if( jo.has_object( "variables" ) ) {
         const JsonObject &variables = jo.get_object( "variables" );
         for( const JsonMember &jv : variables ) {
-            context["npctalk_var_" + jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
+            context[jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
         }
     }
 
@@ -5826,7 +5825,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             const JsonObject &variables = member.get_object();
             std::unordered_map<std::string, str_translation_or_var> temp_context;
             for( const JsonMember &jv : variables ) {
-                temp_context["npctalk_var_" + jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
+                temp_context[jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
             }
             context.emplace_back( temp_context );
         }
@@ -6998,8 +6997,8 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
             if( city ) {
                 tripoint_abs_omt city_center_omt = project_to<coords::omt>( city.abs_sm_pos );
                 write_var_value( type, var_name, &d, city_center_omt.to_string() );
-                write_var_value( var_type::context, "npctalk_var_city_name", &d, city.city->name );
-                write_var_value( var_type::context, "npctalk_var_city_size", &d, city.city->size );
+                write_var_value( var_type::context, "city_name", &d, city.city->name );
+                write_var_value( var_type::context, "city_size", &d, city.city->size );
             } else {
                 return;
             }
@@ -7008,8 +7007,8 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
             if( city ) {
                 tripoint_abs_omt city_center_omt = project_to<coords::omt>( city.abs_sm_pos );
                 write_var_value( type, var_name, &d, city_center_omt.to_string() );
-                write_var_value( var_type::context, "npctalk_var_city_name", &d, city.city->name );
-                write_var_value( var_type::context, "npctalk_var_city_size", &d, city.city->size );
+                write_var_value( var_type::context, "city_name", &d, city.city->name );
+                write_var_value( var_type::context, "city_size", &d, city.city->size );
             }
         }
     };
@@ -7906,7 +7905,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
     // set the sentinel
     if( jo.has_string( "sentinel" ) ) {
         const std::string sentinel = jo.get_string( "sentinel" );
-        const std::string varname = "npctalk_var_sentinel_" + id + "_" + sentinel;
+        const std::string varname = "sentinel_" + id + "_" + sentinel;
         condition = [varname, tmp_condition]( dialogue & d ) {
             return d.actor( false )->get_value( varname ) != "yes" && tmp_condition( d );
         };
