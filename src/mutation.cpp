@@ -856,7 +856,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !mut->activated_eocs.empty() ) {
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
-            d.set_value( "npctalk_var_this", mut.str() );
+            d.set_value( "this", mut.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -1013,7 +1013,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        d.set_value( "npctalk_var_this", mut.str() );
+        d.set_value( "this", mut.str() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {

@@ -297,7 +297,7 @@
       { "proficiency": "prof_unarmed_familiar", "required": true },
       { "proficiency": "prof_unarmed_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "pseudo_training_dummy_light", "pseudo_punching_bag" ] ]
+    "tools": [ [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy", "pseudo_punching_bag" ] ]
   },
   {
     "id": "prac_cutting_beg_long_sword",
@@ -814,7 +814,7 @@
       { "proficiency": "prof_shivs_familiar", "required": true },
       { "proficiency": "prof_shivs_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ [ "real_shivs", 1, "LIST" ] ], [ "pseudo_training_dummy_light" ] ]
+    "tools": [ [ [ "real_shivs", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_bashing_beg_baton",

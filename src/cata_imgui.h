@@ -155,4 +155,7 @@ void PushMonoFont();
 
 bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
+
+// Set ImGui theme colors to match colors loaded by the player.
+void init_colors();
 } // namespace cataimgui
