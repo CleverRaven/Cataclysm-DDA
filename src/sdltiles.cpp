@@ -404,7 +404,7 @@ static void WinCreate()
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
-        SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
+        SDL_GetRendererOutputSize( ::window.get(), &WindowWidth, &WindowHeight );
         DebugLog( D_INFO, DC_ALL ) << "WindowWidth (as I don't know why tf it badly cropped): " << WindowWidth;
         DebugLog( D_INFO, DC_ALL ) << "WindowHeight (as I don't know why tf it badly cropped): " << WindowHeight;
     }
