@@ -139,7 +139,7 @@ class npc_class
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
         const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
         const time_duration &get_shop_restock_interval() const;
-        faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
+        faction_price_rule const *get_price_rules( item_location const &it, npc const &guy ) const;
 
         bool is_common() const;
 

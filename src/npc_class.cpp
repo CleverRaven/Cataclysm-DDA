@@ -392,7 +392,8 @@ const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
     return shop_blacklist_id.obj();
 }
 
-faction_price_rule const *npc_class::get_price_rules( item const &it, npc const &guy ) const
+faction_price_rule const *npc_class::get_price_rules( item_location const &it,
+        npc const &guy ) const
 {
     auto const el = std::find_if(
     shop_price_rules.crbegin(), shop_price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {

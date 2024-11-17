@@ -72,7 +72,7 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();
-        ret_val<void> const ret = np.wants_to_buy( *loc, price );
+        ret_val<void> const ret = np.wants_to_buy( loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
                 return string_format( _( "%s does not want to buy this" ), np.get_name() );

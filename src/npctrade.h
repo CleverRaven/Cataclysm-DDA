@@ -48,7 +48,8 @@ namespace npc_trading
 bool pay_npc( npc &np, int cost );
 
 int bionic_install_price( Character &installer, Character &patient, item_location const &bionic );
-int adjusted_price( item const *it, int amount, Character const &buyer, Character const &seller );
+int adjusted_price( item_location const &it, int amount, Character const &buyer,
+                    Character const &seller );
 int trading_price( Character const &buyer, Character const &seller,
                    trade_selector::entry_t const &it );
 int calc_npc_owes_you( const npc &np, int your_balance );

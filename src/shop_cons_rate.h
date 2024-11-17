@@ -22,7 +22,7 @@ struct icg_entry {
     std::function<bool( const_dialogue const & )> condition;
 
     bool operator==( icg_entry const &rhs ) const;
-    bool matches( item const &it, npc const &beta ) const;
+    bool matches( item_location const &it, npc const &beta ) const;
 };
 
 class icg_entry_reader : public generic_typed_reader<icg_entry_reader>
@@ -58,8 +58,8 @@ struct shopkeeper_cons_rates {
     void load( const JsonObject &jo, std::string_view src );
     void check() const;
 
-    int get_rate( item const &it, npc const &beta ) const;
-    bool matches( item const &it, npc const &beta ) const;
+    int get_rate( item_location const &it, npc const &beta ) const;
+    bool matches( item_location const &it, npc const &beta ) const;
 };
 
 struct shopkeeper_blacklist {
@@ -72,7 +72,7 @@ struct shopkeeper_blacklist {
     static const std::vector<shopkeeper_blacklist> &get_all();
     static void load_blacklist( const JsonObject &jo, std::string const &src );
     void load( const JsonObject &jo, std::string_view src );
-    icg_entry const *matches( item const &it, npc const &beta ) const;
+    icg_entry const *matches( item_location const &it, npc const &beta ) const;
 };
 
 #endif // CATA_SRC_SHOP_CONS_RATE_H

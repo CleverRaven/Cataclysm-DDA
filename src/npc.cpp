@@ -2002,14 +2002,14 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
     return at_price >= 0 ? ret_val<void>::make_success() : ret_val<void>::make_failure();
 }
 
-bool npc::wants_to_buy( const item &it ) const
+bool npc::wants_to_buy( item_location const &it ) const
 {
-    return wants_to_buy( it, value( it ) ).success();
+    return wants_to_buy( it, value( *it ) ).success();
 }
 
-ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
+ret_val<void> npc::wants_to_buy( item_location const &it, int at_price ) const
 {
-    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+    if( it->has_flag( flag_DANGEROUS ) || ( it->has_flag( flag_BOMB ) && it->active ) ) {
         return ret_val<void>::make_failure();
     }
 
@@ -2017,11 +2017,11 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
         return ret_val<void>::make_success();
     }
 
-    if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
+    if( it->has_flag( flag_TRADER_AVOID ) || it->has_var( VAR_TRADE_IGNORE ) ) {
         return ret_val<void>::make_failure( _( "Will never buy this" ) );
     }
 
-    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it->is_filthy() ) {
         return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
     }
 
@@ -2269,7 +2269,7 @@ double npc::value( const item &it, double market_price ) const
     return std::round( ret * market_price );
 }
 
-faction_price_rule const *npc::get_price_rules( item const &it ) const
+faction_price_rule const *npc::get_price_rules( item_location const &it ) const
 {
     faction_price_rule const *ret = myclass->get_price_rules( it, *this );
     if( ret == nullptr && get_faction() != nullptr ) {

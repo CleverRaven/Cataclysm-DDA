@@ -948,7 +948,7 @@ class npc : public Character
         void update_worst_item_value();
         double value( const item &it ) const;
         double value( const item &it, double market_price ) const;
-        faction_price_rule const *get_price_rules( item const &it ) const;
+        faction_price_rule const *get_price_rules( item_location const &it ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         time_duration time_to_read( const item &book, const Character &reader ) const;
@@ -982,8 +982,8 @@ class npc : public Character
 
         bool wants_to_sell( const item_location &it ) const;
         ret_val<void> wants_to_sell( const item_location &it, int at_price ) const;
-        bool wants_to_buy( const item &it ) const;
-        ret_val<void> wants_to_buy( const item &/*it*/, int at_price ) const;
+        bool wants_to_buy( item_location const &it ) const;
+        ret_val<void> wants_to_buy( item_location const &it, int at_price ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;

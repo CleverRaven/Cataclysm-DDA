@@ -12,33 +12,42 @@ TEST_CASE( "npc_shop_cons_rates", "[npc][trade]" )
     shopkeeper_cons_rates const &myrates = guy.myclass->get_shopkeeper_cons_rates();
 
     WHEN( "item has no matches" ) {
-        REQUIRE( myrates.get_rate( item( "hammer" ), guy ) == myrates.default_rate );
+        item hammer( "hammer" );
+        CHECK( myrates.get_rate( { map_cursor{ tripoint_bub_ms{} }, &hammer }, guy ) ==
+               myrates.default_rate );
     }
     WHEN( "item is matched by junk threshold" ) {
-        item const glass_shard( "glass_shard" );
+        item glass_shard( "glass_shard" );
         REQUIRE( glass_shard.price_no_contents( true ) < units::to_cent( myrates.junk_threshold ) );
-        REQUIRE( myrates.get_rate( glass_shard, guy ) == -1 );
+        CHECK( myrates.get_rate( {map_cursor{ tripoint_bub_ms{} }, &glass_shard}, guy ) == -1 );
     }
+    item bow_saw( "bow_saw" );
+    item_location saw_loc( map_cursor{ tripoint_bub_ms{} }, &bow_saw );
     WHEN( "item is matched by typeid" ) {
-        REQUIRE( myrates.get_rate( item( "bow_saw" ), guy ) == 2 );
+        CHECK( myrates.get_rate( saw_loc, guy ) == 2 );
     }
     WHEN( "item is matched by typeid and condition is true" ) {
         guy.set_value( "bool_dinner_bow_saw_eater", "yes" );
-        REQUIRE( myrates.get_rate( item( "bow_saw" ), guy ) == 99 );
+        CHECK( myrates.get_rate( saw_loc, guy ) == 99 );
     }
     WHEN( "item is matched by category" ) {
-        REQUIRE( myrates.get_rate( item( "coin_gold" ), guy ) == 10 );
+        item gold( "coin_gold" );
+        REQUIRE( myrates.get_rate( {map_cursor{ tripoint_bub_ms{} }, &gold}, guy ) == 10 );
     }
     WHEN( "item is matched by category but it's junk" ) {
-        REQUIRE( myrates.get_rate( item( "coin_dollar" ), guy ) == -1 );
+        item dollarydoo( "coin_dollar" );
+        REQUIRE( myrates.get_rate( {map_cursor{ tripoint_bub_ms{} }, &dollarydoo}, guy ) == -1 );
     }
     WHEN( "item is matched by item_group" ) {
-        REQUIRE( myrates.get_rate( item( "test_pipe" ), guy ) == 100 );
+        item pipe( "test_pipe" );
+        CHECK( myrates.get_rate( {map_cursor{ tripoint_bub_ms{} }, &pipe}, guy ) == 100 );
     }
     WHEN( "item is matched by entry with both item_group and category" ) {
-        REQUIRE( myrates.get_rate( item( "test_nuclear_carafe" ), guy ) == 50 );
+        item carafe( "test_nuclear_carafe" );
+        CHECK( myrates.get_rate( {map_cursor{ tripoint_bub_ms{} }, &carafe}, guy ) == 50 );
     }
     WHEN( "item is matched by category and an overriding entry" ) {
-        REQUIRE( myrates.get_rate( item( "FMCNote" ), guy ) == 25 );
+        item fmcnote( "FMCNote" );
+        CHECK( myrates.get_rate( {map_cursor{ tripoint_bub_ms{} }, &fmcnote}, guy ) == 25 );
     }
 }
