@@ -1,0 +1,152 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_occupied_a",
+    "object": {
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,''''''''''''''''",
+        "'CCCCCCCC'''''''''",
+        "##:::##+##########",
+        "!pppppJJJ/3$dIa..a",
+        "SG..../...3.dI.../",
+        "SG.....A..3.dIa../",
+        "!...Annn..d..IIIDI",
+        "S./...A...d..D...g",
+        "S.44.G....ddcI...n",
+        "S............D...f",
+        "S.GG.GG....GdI...q",
+        "!.GG.GG...GGdI./Y/",
+        "S.GG.GG..G.GdIYYJY",
+        "G.GG.GG.....A###+#",
+        "S.GG.G......A+ www",
+        "S.GG.....SIID# w  ",
+        "S!!!!S.G.SI..#   x",
+        "SSSGSSGSSSI&q#xxxx"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_unlooted" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_barricaded_a",
+    "object": {
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,''''''''''''''''",
+        "'CCCCCCCC'''''''''",
+        "##:::##+##########",
+        "!pppppjjj$3.pISSSS",
+        "S.........3.pIS..S",
+        "!.JJ.YY...3.pIS..S",
+        "!.JJ.YY...p..IIIDI",
+        "S.ll.Y!...p..D...g",
+        "S.44.Y!...ppcI...n",
+        "S............D...f",
+        "S.YY.YY.Y...pIn..q",
+        "!.YY.YY.Y...pInA.r",
+        "S.YY.YY.Y...pInA.l",
+        "S.YY.YY.Y....###+#",
+        "!.YY.YY.Y....+wwwx",
+        "!.YY.YY.!.IID#wxxx",
+        "S.........I..#xx..",
+        "SS!!SSS!S!I&q#...."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_unlooted" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_furniture_concrete_floor",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "a" ],
+      "terrain": { "a": "t_thconc_floor" },
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_looted_a",
+    "object": {
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,''''''''''''''''",
+        "''''''''''''''''''",
+        "##:::##+##########",
+        "!pppppjjj$3.pISSSS",
+        "S.........3.pIS..S",
+        "!.JJ.YYY..3.pIS..S",
+        "!.JJ..Y...p..III+I",
+        "S.ll.Y!...p..D...g",
+        "S.44.Y!...ppcI...n",
+        "S............D...f",
+        "S.YY.YY.Y...pIn..q",
+        "!.YY.YYY....pInA.r",
+        "S.YYY.Y.Y...pInA.l",
+        "S.YYY.Y.Y....###+#",
+        "!.YY.YYY.Y...+...w",
+        "!.YY.YY.!.IID#....",
+        "S.........I..#w...",
+        "SS!!SSS!S!I&q#w..."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_looted" ],
+      "nested": {
+        "Y": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
+        ".": { "chunks": [ [ "corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_ransacked_a",
+    "object": {
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,''''''''''''''''",
+        "''''''''''''''''''",
+        "##:::##+##########",
+        "!pppppjjj$3.pISSSS",
+        "S.........3.pIS..S",
+        "!.JJ.YYY..3.pIS..S",
+        "!.JJ..Y...p..III+I",
+        "S.ll.Y!...p..D...g",
+        "S.44.Y!...ppcI...n",
+        "S............D...f",
+        "S.YY.YY.Y...pIn..q",
+        "!.YY.YYY....pInA.r",
+        "S.YYY.Y.Y...pInA.l",
+        "S.YYY.Y.Y....###+#",
+        "!.YY.YYY.Y...+...w",
+        "!.YY.YY.!.IID#....",
+        "S.........I..#w...",
+        "SS!!SSS!S!I&q#w..."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_looted" ],
+      "nested": {
+        "Y": { "chunks": [ [ "destroyed_furniture_concrete_floor", 45 ], [ "null", 55 ] ] },
+        "p": { "chunks": [ [ "destroyed_furniture_concrete_floor", 25 ], [ "null", 75 ] ] },
+        "!": { "chunks": [ [ "destroyed_furniture_concrete_floor", 20 ], [ "null", 80 ] ] },
+        "S": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "null", 90 ] ] },
+        ".": { "chunks": [ [ "corpse_blood_casings_1x1", 6 ], [ "null", 20 ] ] }
+      }
+    }
+  }
+]
