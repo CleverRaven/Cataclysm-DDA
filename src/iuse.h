@@ -222,7 +222,7 @@ std::optional<int> craft( Character *, item *, const tripoint & );
 
 std::optional<int> disassemble( Character *, item *, const tripoint & );
 
-std::optional<int> postable( Character *, item *, const tripoint & );
+std::optional<int> post_up( Character *, item *, const tripoint & );
 
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );

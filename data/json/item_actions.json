@@ -691,7 +691,7 @@
   },
   {
     "type": "item_action",
-    "id": "POSTABLE",
+    "id": "POST_UP",
     "name": { "str": "Put up" }
   },
   {

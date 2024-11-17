@@ -592,9 +592,9 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
-    "id": "POSTABLE",
+    "id": "POST_UP",
     "type": "json_flag",
-    "info": "This item can be put up on a wall."
+    "info": "This item can be put up on a wall, like a poster."
   },
   {
     "id": "MELTS",
