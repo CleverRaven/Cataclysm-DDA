@@ -75,9 +75,12 @@
   {
     "type": "mutation",
     "id": "WEREWOLF_HYBRID_FORM_TRAITS",
-    "name": { "str": "Werewolf Hybrid Form" },
+    "name": { "str": "Werewolf Hybrid Form", "//~": "NO_I18N" },
     "points": 99,
-    "description": "You are a hybrid of wolf and human.  This provides the actual effects of werewolf hybrid form.  Should not be player-visible",
+    "description": {
+      "str": "You are a hybrid of wolf and human.  This provides the actual effects of werewolf hybrid form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "visibility": 30,
     "ugliness": 30,
     "valid": false,

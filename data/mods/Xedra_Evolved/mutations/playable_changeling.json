@@ -315,8 +315,8 @@
   {
     "type": "mutation",
     "id": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS",
-    "name": { "str": "Right of Passage Mechanics" },
-    "description": "The mechanical effects of Right of Passage.  You should never see this.",
+    "name": { "str": "Right of Passage Mechanics", "//~": "NO_I18N" },
+    "description": { "str": "The mechanical effects of Right of Passage.  You should never see this.", "//~": "NO_I18N" },
     "points": 10,
     "valid": false,
     "player_display": false,
@@ -854,9 +854,9 @@
   {
     "type": "mutation",
     "id": "POOKA_SHAPESHIFT_FULL_SELECTOR",
-    "name": { "str": "Pinnacle of Forms" },
+    "name": { "str": "Pinnacle of Forms", "//~": "NO_I18N" },
     "points": 6,
-    "description": "This gives you access to the full shapeshift traits.  You should never seen it.",
+    "description": { "str": "This gives you access to the full shapeshift traits.  You should never seen it.", "//~": "NO_I18N" },
     "prereqs": [ "POOKA_SHAPESHIFT_GOOD2", "POOKA_SHAPESHIFT_GOOD3" ],
     "player_display": false,
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
