@@ -1089,7 +1089,7 @@ void cataimgui::init_colors()
     style.Colors[ImGuiCol_Header]                 = c_blue;
     style.Colors[ImGuiCol_HeaderHovered]          = c_black;
     style.Colors[ImGuiCol_HeaderActive]           = c_dark_gray;
-    style.Colors[ImGuiCol_Separator]              = c_blue;
+    style.Colors[ImGuiCol_Separator]              = c_dark_gray;
     style.Colors[ImGuiCol_SeparatorHovered]       = c_white;
     style.Colors[ImGuiCol_SeparatorActive]        = c_white;
     style.Colors[ImGuiCol_ResizeGrip]             = c_light_gray;
