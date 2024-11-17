@@ -4508,6 +4508,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "transform",                      // The type of method, in this case one that transforms the item
   "target": "gasoline_lantern_on",          // The item to transform to
+  "target_group": "twisted_geometry",       // If used, target is a random item from itemgroup
   "variant_type": "condom_plain",           // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
   "active": true,                           // Whether the item is active once transformed
   "ammo_scale": 0,                          // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo
