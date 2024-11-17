@@ -327,10 +327,17 @@
     "id": "MISSION_ISHERWOOD_CARLOS_1",
     "type": "mission_definition",
     "name": { "str": "Find an anvil" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "value": 50000,
-    "item": "anvil",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "anvil" },
+        { "u_has_item": "anvil_crude" },
+        { "u_has_item": "anvil_heavy" },
+        { "u_has_item": "anvil_bronze" }
+      ]
+    },
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
