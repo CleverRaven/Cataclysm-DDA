@@ -614,11 +614,10 @@ static void edit_global_npctalk_vars()
         std::string key;
         string_input_popup popup_key;
         popup_key
-        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
-        .title( _( "Key\n npctalk_var_" ) )
+        .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        globvars.set_global_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+        globvars.set_global_value( key, query_npctalkvar_new_value() );
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
         globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
     }
@@ -655,11 +654,10 @@ static void edit_character_npctalk_vars( Character &you )
         std::string key;
         string_input_popup popup_key;
         popup_key
-        //~This is the title for an input window, where strings like npctalk_var_my_variable are concatenated. The trailing "npctalk_var_" is intended to show that their entry is automatically prepended with that. e.g. if they type "cigar" the resulting var's string is "npctalk_var_cigar"
-        .title( _( "Key\n npctalk_var_" ) )
+        .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        you.set_value( "npctalk_var_" + key, query_npctalkvar_new_value() );
+        you.set_value( key, query_npctalkvar_new_value() );
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
         you.set_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
     }

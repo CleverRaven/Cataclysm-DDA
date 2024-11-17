@@ -270,13 +270,13 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     global_variables &globvars = get_globals();
 
     // reading scoped variables
-    globvars.set_global_value( "npctalk_var_x", "100" );
+    globvars.set_global_value( "x", "100" );
     CHECK( testexp.parse( "x" ) );
     CHECK( testexp.eval( d ) == Approx( 100 ) );
-    get_avatar().set_value( "npctalk_var_x", "92" );
+    get_avatar().set_value( "x", "92" );
     CHECK( testexp.parse( "u_x" ) );
     CHECK( testexp.eval( d ) == Approx( 92 ) );
-    dude.set_value( "npctalk_var_x", "21" );
+    dude.set_value( "x", "21" );
     CHECK( testexp.parse( "n_x" ) );
     CHECK( testexp.eval( d ) == Approx( 21 ) );
     CHECK( testexp.parse( "x + u_x + n_x" ) );
@@ -290,7 +290,7 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
     CHECK( testexp.eval( d ) == Approx( 20 ) );
 
-    d.set_value( "npctalk_var_ctx", "14" );
+    d.set_value( "ctx", "14" );
 
     CHECK( testexp.parse( "_ctx" ) );
     CHECK( testexp.eval( d ) == Approx( 14 ) );
@@ -318,7 +318,7 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.eval( d ) == 25000000 );
 
     // evaluating string variables in dialogue functions
-    globvars.set_global_value( "npctalk_var_someskill", "survival" );
+    globvars.set_global_value( "someskill", "survival" );
     CHECK( testexp.parse( "u_skill(someskill)" ) );
     get_avatar().set_skill_level( skill_survival, 3 );
     CHECK( testexp.eval( d ) == 3 );
@@ -326,16 +326,16 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     // assignment to scoped variables
     CHECK( testexp.parse( "u_testvar", true ) );
     testexp.assign( d, 159 );
-    CHECK( std::stoi( get_avatar().get_value( "npctalk_var_testvar" ) ) == 159 );
+    CHECK( std::stoi( get_avatar().get_value( "testvar" ) ) == 159 );
     CHECK( testexp.parse( "testvar", true ) );
     testexp.assign( d, 259 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_testvar" ) ) == 259 );
+    CHECK( std::stoi( globvars.get_global_value( "testvar" ) ) == 259 );
     CHECK( testexp.parse( "n_testvar", true ) );
     testexp.assign( d, 359 );
-    CHECK( std::stoi( dude.get_value( "npctalk_var_testvar" ) ) == 359 );
+    CHECK( std::stoi( dude.get_value( "testvar" ) ) == 359 );
     CHECK( testexp.parse( "_testvar", true ) );
     testexp.assign( d, 159 );
-    CHECK( std::stoi( d.get_value( "npctalk_var_testvar" ) ) == 159 );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
 
     // assignment to scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina')", true ) );
