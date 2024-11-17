@@ -37,9 +37,13 @@
       },
       {
         "text": "Let's trade.",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
-        "effect": "start_trade"
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
       },
       {
         "text": "Just saying hello.  Keep safe.",
@@ -55,7 +59,15 @@
     "speaker_effect": [ { "effect": "distribute_food_auto" } ],
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
-      { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
       { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
       { "text": "That's all for now.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
@@ -94,7 +106,15 @@
     ],
     "responses": [
       { "text": "Got some time to talk?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
-      { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
       { "text": "I just wanted to look around.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
@@ -162,7 +182,15 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld"
       },
       { "text": "I'm looking for work.  Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
       {
         "text": "Are you interested in buying any processed lumber?",
         "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
@@ -303,8 +331,12 @@
       },
       {
         "text": "Mind if I take a look at your stock?",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
-        "effect": "start_trade"
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
       },
       { "text": "Radios?  That seems awfully specific.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1" },
       { "text": "Good to know.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
@@ -328,6 +360,17 @@
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO",
+    "type": "talk_topic",
+    "dynamic_line": "Listen, buddy.  We were putting away some of the last food you gave us and noticed it was… off.  Okay I'll cut the shit- It was people.  I don't know how you got it, or what you did, but we aren't taking any chances.  You are not welcome here anymore.  <color_red>I'll give you one minute</color> to fuck off and never come back.",
+    "speaker_effect": [
+      {
+        "effect": [ "end_conversation", { "run_eocs": [ "EOC_GAVE_BEGGAR_CANNIBAL_PROOF" ], "time_in_future": "1 minutes" } ]
+      }
+    ],
+    "responses": [ { "text": "But I-", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
