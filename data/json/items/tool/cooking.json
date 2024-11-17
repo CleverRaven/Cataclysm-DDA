@@ -249,7 +249,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "clay pot" },
-    "description": "A crude clay pot with a lid, used for cooking.",
+    "description": "A crude clay pot used for cooking.",
     "weight": "480 g",
     "volume": "2100 ml",
     "price": "25 USD",
