@@ -2017,43 +2017,43 @@
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_noble",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_brownie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_pooka",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_selkie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_trow",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_lilin",
-    "name": [ "Lilin Mutation" ],
-    "desc": [ "You are gaining Lilin powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Lilin Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Lilin powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
@@ -2255,7 +2255,7 @@
     "type": "effect_type",
     "id": "effect_dream_drainer_armor",
     "name": [ "Armored" ],
-    "desc": [ "The bug is shielded.  This is a bug if you have it." ],
+    "desc": [ { "str": "The bug is shielded.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "max_duration": "25 s",
     "rating": "bad",
     "show_intensity": false,
@@ -2281,7 +2281,12 @@
     "type": "effect_type",
     "max_duration": "11 s",
     "name": [ "Moon-starved" ],
-    "desc": [ "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it." ],
+    "desc": [
+      {
+        "str": "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it.",
+        "//~": "NO_I18N"
+      }
+    ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
