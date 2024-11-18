@@ -8661,21 +8661,13 @@ bool item::is_maybe_melee_weapon() const
 
 bool item::made_of_any_food_components( bool deep_search ) const
 {
-    if( components.empty() || !get_comestible() ) {
+    if( components.empty() ) {
         return false;
     }
 
     for( const std::pair<itype_id, std::vector<item>> pair : components ) {
         for( const item &it : pair.second ) {
-            const auto &maybe_food = it.get_comestible();
-            bool must_be_food = maybe_food && ( maybe_food->default_nutrition_read_only().kcal() > 0 ||
-                                                !maybe_food->default_nutrition_read_only().vitamins().empty() );
-            bool has_food_component = false;
-            if( deep_search && !it.components.empty() ) {
-                // make true if any component has food values, even if some don't
-                has_food_component |= it.made_of_any_food_components( deep_search );
-            }
-            if( must_be_food || has_food_component ) {
+            if( it.is_food() || ( deep_search && it.made_of_any_food_components( deep_search ) ) ) {
                 return true;
             }
         }
