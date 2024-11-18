@@ -17,9 +17,11 @@ struct icg_entry {
     itype_id itype;
     item_category_id category;
     item_group_id item_group;
-    translation message;
+    std::function<bool( const_dialogue const & )> item_condition;
 
-    std::function<bool( const_dialogue const & )> condition;
+    std::function<bool( const_dialogue const & )> entry_condition;
+
+    translation message;
 
     bool operator==( icg_entry const &rhs ) const;
     bool matches( item_location const &it, npc const &beta ) const;

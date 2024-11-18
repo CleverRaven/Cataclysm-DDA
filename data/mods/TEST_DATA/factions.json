@@ -22,7 +22,8 @@
       },
       { "item": "test_multitool", "premium": 25, "markup": 1.1 },
       { "item": "log", "price": 10000000 },
-      { "item": "scrap", "price": 10000000 }
+      { "item": "scrap", "price": 10000000 },
+      { "item_condition": { "math": [ " n_weight() == 3460000 " ] }, "price": 12365 }
     ],
     "description": "They debug so you don't have to."
   }

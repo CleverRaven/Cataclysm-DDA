@@ -20,13 +20,16 @@ generic_factory<shopkeeper_blacklist> shop_blacklist_factory( SHOPKEEPER_BLACKLI
 
 bool icg_entry::operator==( icg_entry const &rhs ) const
 {
-    return itype == rhs.itype && category == rhs.category && item_group == rhs.item_group;
+    return itype == rhs.itype && category == rhs.category && item_group == rhs.item_group &&
+           !item_condition && !rhs.item_condition;
 }
 
 bool icg_entry::matches( item_location const &it, npc const &beta ) const
 {
-    const_dialogue temp( get_const_talker_for( get_avatar() ), get_const_talker_for( beta ) );
-    return ( !condition || condition( temp ) ) &&
+    const_dialogue entry_diag( get_const_talker_for( get_avatar() ), get_const_talker_for( beta ) );
+    const_dialogue item_diag( get_const_talker_for( get_avatar() ), get_const_talker_for( it ) );
+    return ( !entry_condition || entry_condition( entry_diag ) ) &&
+           ( !item_condition || item_condition( item_diag ) ) &&
            ( itype.is_empty() || it->typeId() == itype ) &&
            ( category.is_empty() || it->get_category_shallow().id == category ) &&
            ( item_group.is_empty() ||
@@ -104,7 +107,10 @@ icg_entry icg_entry_reader::_part_get_next( JsonObject const &jo )
     optional( jo, false, "group", ret.item_group );
     optional( jo, false, "message", ret.message );
     if( jo.has_member( "condition" ) ) {
-        read_condition( jo, "condition", ret.condition, false );
+        read_condition( jo, "condition", ret.entry_condition, false );
+    }
+    if( jo.has_member( "item_condition" ) ) {
+        read_condition( jo, "item_condition", ret.item_condition, false );
     }
     return ret;
 }

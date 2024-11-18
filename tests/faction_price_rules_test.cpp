@@ -6,6 +6,7 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"
+#include "units.h"
 
 static const skill_id skill_speech( "speech" );
 
@@ -157,6 +158,18 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
             CHECK( npc_trading::adjusted_price( carafe_loc, 1, guy, get_avatar() ) ==
                    Approx( units::to_cent( carafe.type->price_post ) * 0.9 ).margin( 1 ) );
         }
+    }
+    WHEN( "item selected by item_condition" ) {
+        item egg( "test_egg" );
+        item whip( "test_bullwhip" );
+        REQUIRE( egg.weight() != units::from_milligram( 3460000 ) );
+        REQUIRE( whip.weight() == units::from_milligram( 3460000 ) );
+        CHECK( fac.get_price_rules( item_location{ map_cursor{ tripoint_bub_ms{} }, &egg }, guy ) ==
+               nullptr );
+        int const whip_price =
+            fac.get_price_rules( item_location{ map_cursor{ tripoint_bub_ms{} }, &whip }, guy )
+            ->price->evaluate( d );
+        CHECK( whip_price == 12365 );
     }
     WHEN( "personal price rule overrides faction rule" ) {
         double const fmarkup = fac.get_price_rules( pants_fur_loc, guy )->markup.evaluate( d );
