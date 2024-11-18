@@ -324,7 +324,12 @@
     "tools": [ [ [ "surface_heat", 11, "LIST" ] ] ],
     "//": "No frying_oil as a tool, so this must be pan fried, not deep fried",
     "//1": "70g of tripe, so roughly 5 (2.5 scraps' worth) plus 6 for the batter and oil",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   },
   {
