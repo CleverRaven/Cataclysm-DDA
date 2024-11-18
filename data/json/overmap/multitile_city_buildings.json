@@ -1516,8 +1516,7 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gun_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "s_gun_upper_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" }
     ]
   },
   {
@@ -1526,8 +1525,7 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gun_looted_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "s_gun_upper_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" }
     ]
   },
   {
