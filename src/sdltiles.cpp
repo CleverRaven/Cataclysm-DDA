@@ -103,7 +103,6 @@ std::unique_ptr<cataimgui::client> imclient;
 
 #if defined(__IPHONEOS__)
 #include <CataclysmExperimental-Swift.h>
-#include <SDL_render.h>
 #endif
 
 #if defined(EMSCRIPTEN)
@@ -405,9 +404,13 @@ static void WinCreate()
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
-        SDL_GetRendererOutputSize( ::window.get(), &WindowWidth, &WindowHeight );
-        DebugLog( D_INFO, DC_ALL ) << "WindowWidth (as I don't know why tf it badly cropped): " << WindowWidth;
-        DebugLog( D_INFO, DC_ALL ) << "WindowHeight (as I don't know why tf it badly cropped): " << WindowHeight;
+        SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
+#if defined(__IPHONEOS__)
+        WindowWidth = WindowWidth * 2;
+        WindowHeight = WindowHeight * 2;
+#endif
+        DebugLog( D_INFO, DC_ALL ) << "WindowWidth: " << WindowWidth;
+        DebugLog( D_INFO, DC_ALL ) << "WindowHeight: " << WindowHeight;
     }
 #endif
 
