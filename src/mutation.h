@@ -198,6 +198,8 @@ struct mutation_branch {
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
+        // By default startingtrait = true traits can be randomly assigned, this allows that to be reversed.
+        bool random_at_chargen = true;
         bool activated     = false;
         translation activation_msg;
         // Should it activate as soon as it is gained?

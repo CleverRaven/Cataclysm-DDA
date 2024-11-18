@@ -521,7 +521,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tireplate" },
-    "description": "Armor fashioned from from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
+    "description": "Armor fashioned from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
     "weight": "5790 g",
     "volume": "9500 ml",
     "price": "42 USD",

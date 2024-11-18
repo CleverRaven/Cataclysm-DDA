@@ -91,8 +91,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_make_plants_grow", "hedge_ward_off_rain", "hedge_cure_cold_or_flu" ] }
   },
   {
@@ -187,8 +187,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] }
   },
   {
@@ -283,8 +283,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
   },
   {
@@ -382,8 +382,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
@@ -481,8 +481,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
   },
   {
@@ -577,8 +577,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
   },
   {
@@ -692,8 +692,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": {
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
@@ -793,8 +793,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": {
       "type": "learn_spell",
       "spells": [

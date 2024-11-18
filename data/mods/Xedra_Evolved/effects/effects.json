@@ -1253,6 +1253,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_limb_breaking_stopper",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "disabled" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_craft_in_darkness",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
@@ -1270,7 +1278,6 @@
   {
     "type": "effect_type",
     "id": "effect_ierde_earthen_shield",
-    "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "Impenetrable Earthen Shield" ],
     "desc": [ "You are protected by the living earth." ],
     "remove_message": "Your earthen shield finally crumbles.",
@@ -2010,43 +2017,43 @@
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_noble",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_brownie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_pooka",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_selkie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_trow",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_lilin",
-    "name": [ "Lilin Mutation" ],
-    "desc": [ "You are gaining Lilin powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Lilin Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Lilin powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
@@ -2248,7 +2255,7 @@
     "type": "effect_type",
     "id": "effect_dream_drainer_armor",
     "name": [ "Armored" ],
-    "desc": [ "The bug is shielded.  This is a bug if you have it." ],
+    "desc": [ { "str": "The bug is shielded.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "max_duration": "25 s",
     "rating": "bad",
     "show_intensity": false,
@@ -2274,7 +2281,12 @@
     "type": "effect_type",
     "max_duration": "11 s",
     "name": [ "Moon-starved" ],
-    "desc": [ "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it." ],
+    "desc": [
+      {
+        "str": "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it.",
+        "//~": "NO_I18N"
+      }
+    ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
@@ -2491,6 +2503,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_silent_at_night",
+    "name": [ { "str": "Silent in Darkness" } ],
+    "desc": [ "Your movements make as little noise as the shadows of the night." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_steady_speed",
+    "name": [ { "str": "Enduring Through All Generations" } ],
+    "desc": [ "You will endure all obstacles without faltering." ],
+    "rating": "good",
+    "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_limb_score_bonuses_at_night",
     "name": [ { "str": "The Night Hunter" } ],
     "desc": [ "Now they will know why they fear the night." ],
@@ -2505,6 +2533,32 @@
       { "limb_score": "vision", "modifier": 1.35 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_incremental_speed_boost",
+    "name": [ { "str": "The Treasures of Darkness" } ],
+    "desc": [ "Having spent a long time in the shadows, you are now quicker than usual." ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 3 ] },
+    "scaling_mods": { "speed_mod": [ 3 ] },
+    "show_intensity": false,
+    "max_intensity": 10
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_lose_incremental_speed_boost",
+    "name": [ { "str": "" } ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_lilin_incremental_speed_boost" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_allowed_ruach_drain",
+    "name": [ { "str": "Willingly drained" } ],
+    "desc": [
+      "This follower allowed you to take some of their ruach, and they won't respond kindly to being drained more this soon."
+    ]
   },
   {
     "type": "effect_type",

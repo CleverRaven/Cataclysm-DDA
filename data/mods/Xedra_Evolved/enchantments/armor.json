@@ -73,8 +73,8 @@
   {
     "id": "increase_berserking",
     "type": "SPELL",
-    "name": "Berserking",
-    "description": "Increase the berserker variable.",
+    "name": { "str": "Berserking", "//~": "NO_I18N" },
+    "description": { "str": "Increase the berserker variable.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "INCREASE_BERSERKER",

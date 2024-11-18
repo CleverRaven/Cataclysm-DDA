@@ -167,6 +167,24 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
+// Cache for the search function
+static std::map<const itype_id, std::string> item_info_cache;
+static time_point cache_valid_turn;
+
+static std::string cached_item_info( const itype_id &item_type )
+{
+    if( cache_valid_turn != calendar::turn ) {
+        cache_valid_turn = calendar::turn;
+        item_info_cache.clear();
+    }
+    if( item_info_cache.count( item_type ) > 0 ) {
+        return item_info_cache.at( item_type );
+    }
+    const item result( item_type );
+    item_info_cache[item_type] = result.info( true );
+    return item_info_cache.at( item_type );
+}
+
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -212,8 +230,8 @@ std::vector<const recipe *> recipe_subset::search(
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result( r->result() );
-                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                    // Info is always rendered for avatar anyway, no need to cache per Character then.
+                    return lcmatch( remove_color_tags( cached_item_info( r->result() ) ), txt );
                 }
             }
 

@@ -3867,53 +3867,41 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
 
         itype_id item_to_remove;
         double percent = 0.0f;
-        double count_desired;
-        double count_present;
-        double charges_present;
+        double ratio = 0.0f;
+        double amount_desired = 0.0f;
+        int count_present = 0;
+        Character *you = d.actor( is_npc )->get_character();
+        inventory inventory_and_around = you->crafting_inventory( you->pos(), PICKUP_RANGE );
+        std::vector<item_comp> items_to_remove_vector;
 
         for( const auto &pair : item_and_amount ) {
+            int amount_to_remove = 0;
             item_to_remove = itype_id( pair.first.evaluate( d ) );
-            count_desired = pair.second.evaluate( d );
-            count_present = d.actor( is_npc )->get_amount( item_to_remove );
-            charges_present = d.actor( is_npc )->charges_of( item_to_remove );
-            if( charges_present > count_present ) {
-                percent += charges_present / count_desired;
-                // if percent is equal or less than 1, it is safe to remove all charges_present
-                // otherwise loop to remove charges one by one
-                if( percent <= 1 ) {
-                    d.actor( is_npc )->use_charges( item_to_remove, charges_present, true );
+            amount_desired = pair.second.evaluate( d );
+            count_present = inventory_and_around.count_item( item_to_remove );
 
-                    add_msg_debug( debugmode::DF_TALKER,
-                                   "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing all",
-                                   item_to_remove.c_str(), count_desired, charges_present, percent );
-                } else {
-                    percent -= charges_present / count_desired;
-                    while( percent < 1.0f ) {
-                        percent += 1 / count_desired;
-                        d.actor( is_npc )->use_charges( item_to_remove, 1, true );
-                        add_msg_debug( debugmode::DF_TALKER,
-                                       "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing one by one",
-                                       item_to_remove.c_str(), count_desired, charges_present, percent );
-                    }
-                }
+            if( count_present == 0 ) {
+                continue;
+            }
+
+            percent += count_present / amount_desired;
+
+            if( percent <= 1.0 ) {
+                // either lack or just right amount of items to consume
+                items_to_remove_vector = { { item_to_remove, static_cast<int>( count_present ) } };
+                you->consume_items( items_to_remove_vector );
+
             } else {
-                percent += count_present / count_desired;
-                if( percent <= 1 ) {
-                    d.actor( is_npc )->use_amount( item_to_remove, count_present );
-                    add_msg_debug( debugmode::DF_TALKER,
-                                   "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing all",
-                                   item_to_remove.c_str(), count_desired, count_present, percent );
-                } else {
-                    percent -= count_present / count_desired;
-                    while( percent < 1.0f ) {
-                        percent += 1 / count_desired;
-                        d.actor( is_npc )->use_amount( item_to_remove, 1 );
+                // too much items to consume, consuming only to hit 1.00 percent
+                percent -= count_present / amount_desired;
+                ratio = count_present / amount_desired;
 
-                        add_msg_debug( debugmode::DF_TALKER,
-                                       "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing one by one",
-                                       item_to_remove.c_str(), count_desired, count_present, percent );
-                    }
+                while( percent < 1.0 ) {
+                    percent += ratio / count_present;
+                    ++amount_to_remove;
                 }
+                items_to_remove_vector = { { item_to_remove, amount_to_remove } };
+                you->consume_items( items_to_remove_vector );
             }
         }
     };
