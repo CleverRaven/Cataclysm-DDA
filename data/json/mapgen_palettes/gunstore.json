@@ -288,6 +288,7 @@
       ":": "t_window_bars_curtains",
       "+": "t_door_metal_pickable",
       "D": "t_door_c",
+      "P": "t_door_metal_o",
       ",": "t_region_groundcover_urban",
       "'": "t_sidewalk",
       "C": "t_sidewalk",

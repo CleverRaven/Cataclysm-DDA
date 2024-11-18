@@ -1,0 +1,177 @@
+[
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed",
+    "items": [
+      { "group": "guns_rifle_common_boxed_22", "prob": 1760 },
+      { "group": "guns_rifle_common_boxed_223", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_22",
+    "items": [
+      { "group": "boxed_marlin9a", "prob": 3 },
+      { "group": "boxed_ruger_1022", "prob": 100 },
+      { "group": "boxed_rossi_gallery", "prob": 11 },
+      { "group": "boxed_ar15_22", "prob": 2 },
+      { "group": "boxed_rio_bravo", "prob": 15 },
+      { "group": "boxed_henry_golden_boy", "prob": 31 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_marlin9a",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "marlin_9a" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_1022",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ruger_1022" }, { "item": "ruger1022mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rossi_gallery",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rossi_gallery" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_22",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "ar15_22" }, { "item": "22_ar15mag_10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rio_bravo",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rio_bravo" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_henry_golden_boy",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "henry_golden_boy" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_223",
+    "items": [
+      { "group": "boxed_ar15_223_20", "prob": 71 },
+      { "group": "boxed_ar15_223_16", "prob": 263 },
+      { "group": "boxed_ruger_mini", "prob": 100 },
+      { "group": "boxed_bren2_556", "prob": 4 },
+      { "group": "boxed_rdb", "prob": 44 },
+      { "group": "boxed_mdrx_223", "prob": 5 },
+      { "group": "boxed_mdrx_long_223", "prob": 4 },
+      { "group": "boxed_cz600", "prob": 4 },
+      { "group": "boxed_sl8", "prob": 3 },
+      { "group": "boxed_sig556", "prob": 1 },
+      { "group": "boxed_x95", "prob": 27 },
+      { "group": "boxed_ak556", "prob": 19 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "stanag_restricted",
+    "items": [ { "item": "stanag5", "count": [ 1, 2 ], "prob": 10 }, { "item": "stanag10", "count": [ 1, 2 ], "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rdb",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rdb_223" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_223_16",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "modular_ar15" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_223_20",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "ar15_223long" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_cz600",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "cz600" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_bren2_556",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "bren2_556" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_x95",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "iwi_tavor_x95_300blk" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sig556",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "sig_assault_rifle" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mdrx_223",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "mdrx" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mdrx_long_223",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "mdrx_223" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_mini",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "entries": [
+      { "item": "ruger_mini" },
+      {
+        "distribution": [ { "item": "ruger5", "count": [ 1, 2 ], "prob": 10 }, { "item": "ruger10", "count": [ 1, 2 ], "prob": 90 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sl8",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "sl8" }, { "item": "sl8mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ak556",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ak556" }, { "item": "zpap85mag", "count": [ 1, 2 ] } ]
+  }
+]
