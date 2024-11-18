@@ -7104,6 +7104,11 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 
     }
 
+    // Nominal price for perfectly fresh food, decreasing linearly as it gets closer to expiry
+    if( is_food() ) {
+        price *= ( 1.0 - get_relative_rot() );
+    }
+
     if( is_filthy() ) {
         // Filthy items receieve a fixed price malus. This means common clothing ends up
         // with no value (it's *everywhere*), but valuable items retain most of their value.
