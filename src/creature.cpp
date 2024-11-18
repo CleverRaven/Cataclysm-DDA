@@ -490,7 +490,9 @@ bool Creature::sees( const Creature &critter ) const
 
     if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
         const monster *m = this->as_monster();
-        int mindsight_bonus_range =  ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect( effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 ) + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+        int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
+                                        effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
+                                    + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
         int mindsight_vision = 5 + mindsight_bonus_range;
         return target_range <= mindsight_vision;
     }
