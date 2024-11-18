@@ -181,6 +181,11 @@ Add a new widget to display weight as "##.#/##.#[unit]"
 NPC factions get mad if you mess with their property by smashing or deconstructing it etc
 obsolete generic NPC common classes; use the avatar character generator instead
 Allow PCs/NPCs to move diagonally during overmap pathfinding
+Rework lumbermill trading
+No lit cigs in inventory anymore, only in hands or in mouth
+Assign bodysuit_lycra a fallback sprite
+Safe crackers guess combinations more accurately
+Fleeing NPCs will now attack player that got too close
 
 
 ## Content:
@@ -381,6 +386,12 @@ Military locations can spawn EOD suits
 Added a welding store
 Titanium Density Fix
 Add Vitamin C Supplements
+Change flags for rare buildings
+Simple cloth quiver for holding various ammo
+Make field stone a bit more common, which can now also be turned into rocks. Plus general small forest trash updates.
+Allow Motorbike Battery Appliances
+Allow using a heavy training dummy where a light one will suffice
+Buckwheat can no longer be foraged but may still be found where seeds spawn
 
 
 ## Interface:
@@ -493,6 +504,13 @@ Replace popups with informative message when choosing point(s) on the map
 The mission UI can scroll to read longer description
 Added information to crafting menu about crafting speed modifier gained by mutations
 Improved text wrapping in spellbook and spellcasting menus
+Typo, grammar and punctuation pass for ammo descriptions
+Camp crafting uses the normal crafting GUI
+Display the power draw of battery chargers
+Crafting GUI Search: cancel the search with ESC
+use the monospaced font for the ascii art on the end screen
+Increased available space for skills chapter in description tab of character creation menu
+ImGui inherits theme colors
 
 
 ## Mods:
@@ -800,6 +818,21 @@ Aftershock: Add suit batteries for the winter suits.
 [Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
 [Xedra Evolved] Only humans can learn dream magick
 [Xedra Evolved] Add (very small) chance of being attacked by a lilit in your sleep
+Aftershock: Fix examination of the map being illegal on the Space Station.
+[Xedra Evolved/Dinomod] You can drain dinosaur's ruach
+Change Magiclysm Mana Crystals to be a rigid pocket.
+[Xedra Evolved] Fish are immune to the evil eye
+[Xedra Evolved] Simplify Take the Line JSON
+Adjust electron overflow to allow charging values above 5
+[Sky Island] Add possibility of autodocs or CBMs to Exodii crash pods
+[DinoMod] lokiceratops
+Aftershock: Add personal shield generators
+[Xedra Evolved] Add yet more lilin traits
+Make the cryptid mission assigning less likely to hang
+[MOM] Add power to cancel specific concentration effects
+Aftershock: Disable portal storms in Exoplanet
+Martial Mastery: Add three new defensive perks.
+[Magiclysm] Fix demonic possession causing starvation penalties
 
 
 ## Balance:
@@ -912,6 +945,11 @@ Some factions claim only one OMT
 Added some reaction to furniture when falling down
 Auditing portable charcoal kiln cleanup
 NPCs can funk out to music, too.
+Buff heavy-duty flashlight and adjust heavy-duty headlamp to match heavy-duty flashlight
+Nerf atlatls, a lot.
+Martial arts manuals spawn in libraries and houses
+Lower Stream Item Spawns
+Audit Lead Acid Batteries breaks_into
 
 
 ## Bugfixes:
@@ -1232,6 +1270,24 @@ Fix zoo scenario spawn
 Fix regression of calculation of the height of a uilist that has a desired_bounds not including a height
 Lowers electronic skill requirement of clay car batteries from 3 to 2
 Cotton patch can be used to stop bleeding
+Reduce `min_cycle_recoil` of IWI Tavor (.223)
+Several tweaks to Respirator bionic
+Allow Portuguese language to be selected in game
+[MoM] Fix mesmerism EoC
+[Magiclysm] Fix high druid typo
+Corrects issue where Feral Soldiers' gear was more damaged than the Zombies
+Show consistent healing quality
+Removes airtight from things that don't meet in game definition of airtight
+crash start rework
+Increased volume of pillows, body-pillow, and capacity of pillowcase
+Monsters spawned via 'place_critter_within' now gain ammo on spawn
+Safe mode only default warns about aggressive creatures that are actually targeting you
+Trail guides and similar things won't change their home town anymore
+popup messages should show up at the correct size (such as when sleeping, waiting, etc)
+Fix duplicate an in exterminatron description
+[Xedra Evolved] Add dinomod check for lilit kcal drain
+remove debug message in add_profession_items()
+Fix nunez bullet trailer appearing out of nowhere
 
 
 ## Performance:
@@ -1364,6 +1420,11 @@ Spell activated EoCs are passed the target as a context val location variable sp
 terrain/furniture: code deduplication and improved copy-from support
 Add a new event for when worn armor is detroyed by damage.
 allow furniture/terrain copy-from for symbol, color
+Add a new Energy Shield type of armor for use in mods.
+Roof palette has more built-in nests
+obsolete unused generic NPC classes
+abstractify basic walls
+u_/npc_forget_recipe can use categories and subcategories in place of individual ids
 
 ## Build:
 Support Mac arm64 build
@@ -1408,6 +1469,9 @@ Extract blood analysis descs and end screen text
 Dont extract abstract monsters and spells from data/json/monsters/
 Add Portuguese translation
 Obsolete strings now have a comment with an explanation
+Make Portugal Portugues appear in Options
+[AFS] Add NO_I18N/PREFIX_XL
+[Magiclysm] NO_I18N, dont extract monster/fake spells
 
 
 # 0.G (Gaiman)
