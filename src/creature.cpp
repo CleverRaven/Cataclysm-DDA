@@ -108,6 +108,10 @@ static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
+static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
+static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
+static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_30" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
@@ -486,8 +490,9 @@ bool Creature::sees( const Creature &critter ) const
 
     if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
         const monster *m = this->as_monster();
-        int mindsight_vision = ( m->type->vision_day ) / 1.5;
-        return target_range <= std::max( mindsight_vision, m->type->vision_night );
+        int mindsight_bonus_range =  ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect( effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 ) + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+        int mindsight_vision = 5 + mindsight_bonus_range;
+        return target_range <= mindsight_vision;
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {

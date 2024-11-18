@@ -1138,7 +1138,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
-- ```MIND_SEEING``` Can see any target that `HAS_MIND` and is not immune to telepathy out to 2/3rds of its daytime vision range or nighttime vision range, whichever is greater.
+- ```MIND_SEEING``` Can see any target that `HAS_MIND` and is not immune to telepathy out to 5 squares.  This range may be increased by applying the hardcoded effects `eff_mind_seeing_bonus_5`, `eff_mind_seeing_bonus_10`, `eff_mind_seeing_bonus_20`, or `eff_mind_seeing_bonus_30`, each of which increases the vision range by the number.  These effects stack.
 - ```NEMESIS``` Tags Nemesis enemies for the `HAS_NEMESIS` mutation.
 - ```NEVER_WANDER``` This monster will never join wandering hordes.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less.  Visibility is not affected by night vision.
