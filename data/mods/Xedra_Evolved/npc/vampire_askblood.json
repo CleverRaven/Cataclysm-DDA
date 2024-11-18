@@ -43,9 +43,7 @@
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
             { "not": { "npc_has_trait": "VAMPIRE" } },
-            {
-              "not": { "and": [ { "math": [ "n_npc_trust() >= 10" ] }, { "math": [ "n_npc_value() >= 10" ] } ] }
-            },
+            { "not": { "and": [ { "math": [ "n_npc_trust() >= 10" ] }, { "math": [ "n_npc_value() >= 10" ] } ] } },
             { "math": [ "n_npc_trust() > 0" ] },
             { "math": [ "n_npc_value() > 0" ] },
             { "u_has_trait": "VAMPIRE" }
