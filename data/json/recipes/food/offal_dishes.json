@@ -233,7 +233,12 @@
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 11, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
     "components": [ [ [ "meat_heart", 1, "LIST" ] ], [ [ "batter", 3, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   },
   {
