@@ -33,6 +33,7 @@
         " #######ssssssssss      ",
         "                        "
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         "%": "t_region_shrub_decorative",
         "+": "t_door_metal_pickable",
