@@ -575,6 +575,15 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
 *Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
 
+## Gamma Sterilization (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 10 seconds per item of food sterilized<br />
+*Stamina Cost*: 7500, minus 200 per level to a minimum of 4000<br />
+*Channeling Time*: 15 seconds<br />
+*Effects*: Irradiate food, killing bacteria and helping to preserve it for far longer. The psion may irradiate as much food as they can carry, but it takes longer the greater amount of food they wish to irradiate. Every 7 to 9 seconds spent irradiating costs the psion 1 to 3 calories.<br />
+*Prerequisites*: Lucent Barrier 7, Chameleoflage 4, Illuminate 9 *or* Photon Beam 5 *or* Star Flash 3<br />
+
 ## Veil of Light (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
