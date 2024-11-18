@@ -545,7 +545,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 7 minutes and 30 seconds to 14 minutes and 50 seconds, plus 22.5 seconds to 55 seconds per power level<br />
 *Stamina Cost*: 6500, minus 150 per level to a minimum of 2000<br />
 *Channeling Time*: 1500 moves, minus 75 moves per level to a minimum of 150<br />
-*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.<br />
+*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.  Their total Ugliness is reduced by 60% plus 1.5% per level, to a maximum of 100% Ugliness reduction.<br />
 *Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
 
 ## Lucid Shadows
@@ -1299,7 +1299,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 2 minutes and 26 seconds to 6 minutes and 12 seconds, plus 29 seconds to 1 minute and 50 seconds per power level<br />
 *Stamina Cost*: 10000, minus 150 per level to a minimum of 6500<br />
 *Channeling Time*: 10 seconds<br />
-*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
+*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 20 to 35 seconds, minus 0.5 seconds per power level to a minimum of 3 to 7 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 60 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
 *Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
 
 ## Accelerated Resuscitation (C)
@@ -1308,5 +1308,5 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 1 hour 6 minutes and 2 minutes and 18 seconds to 3 hours and 26 minutes, plus 16 minutes and 2 seconds to 46 minutes and 59 seconds per power level<br />
 *Stamina Cost*: 9000, minus 125 per level to a minimum of 6000<br />
 *Channeling Time*: 30 seconds<br />
-*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 10 hit points will be healed to 10 hit points, their attributes and speed will have no penalties based on pain (penalties increase by 10% every 30 seconds until they reach the normal level) and a much faster Anabolic Rejuvenation is placed on them, ticking once every second for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 5x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
+*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 15 hit points will be healed to 15 hit points, their attributes and speed will have no penalties based on pain (penalties increase by 10% every 30 seconds until they reach the normal level) and a much faster Anabolic Rejuvenation is placed on them, ticking once every 1 to 3 seconds for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 3x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
 *Prerequisites*: Anabolic Rejuvenation 6 *or* Banish Illness 8 *and* Revitalizing Meditation 6<br />

@@ -60,6 +60,18 @@
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
+    "id": "mx_mayhem_crash_start",
+    "type": "map_extra",
+    "name": { "str": "Car Crash" },
+    "description": "Car crash is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mayhem_crash_start" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "M",
+    "color": "light_red",
+    "autonote": true,
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
     "id": "mx_roadblock",
     "type": "map_extra",
     "name": { "str": "Roadblock (Police)" },

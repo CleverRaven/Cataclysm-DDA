@@ -17,6 +17,7 @@ struct input_event;
 #include "sdl_wrappers.h"
 #include "color_loader.h"
 #endif
+#include "text.h"
 
 struct point;
 struct ImVec2;
@@ -151,4 +152,10 @@ void load_colors();
 
 void PushGuiFont();
 void PushMonoFont();
+
+bool BeginRightAlign( const char *str_id );
+void EndRightAlign();
+
+// Set ImGui theme colors to match colors loaded by the player.
+void init_colors();
 } // namespace cataimgui

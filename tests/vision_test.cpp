@@ -929,11 +929,11 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
 
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
-            std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
+            std::vector<vehicle_part *> const horns = v->get_parts_at( v->pos_bub(), "HORN", {} );
             v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
-            REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );
+            REQUIRE( v->install_part( point_rel_ms_zero, vpart_inboard_mirror ) != -1 );
         }
         if( fiddle > 0 ) {
             get_map().add_vehicle_to_cache( v );

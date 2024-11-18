@@ -227,18 +227,20 @@ bool map::build_vision_transparency_cache( int zlev )
         }
     }
 
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    // We don't need to deal with cache dirtying, because that was handled when the terrain was changed.
     for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
         if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) && loc != p ) {
-            dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
-            solid_tiles.emplace_back( loc );
+            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
         }
     }
 
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
-
     // The tile player is standing on should always be visible
-    vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    if( inbounds( p ) ) {
+        vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    }
 
     for( const tripoint_bub_ms loc : solid_tiles ) {
         vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
@@ -486,11 +488,11 @@ void map::generate_lightmap( const int zlev )
                         add_light_from_items( p, i_at( p ) );
                     }
 
-                    const ter_id terrain = cur_submap->get_ter( { sx, sy } );
+                    const ter_id &terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
-                    const furn_id furniture = cur_submap->get_furn( {sx, sy } );
+                    const furn_id &furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
                         add_light_source( p, furniture->light_emitted );
                     }

@@ -124,15 +124,17 @@
     {
       "context": "t_puddle",
       "item_variants": [
-        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 100 },
-        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
+        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_murky", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
       ]
     },
     {
       "context": "t_puddle_underground",
       "item_variants": [
-        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 100 },
-        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
+        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_murky", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
       ]
     }
   ]

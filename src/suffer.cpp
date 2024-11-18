@@ -298,7 +298,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
-            d.set_value( "npctalk_var_this", mut_id.str() );
+            d.set_value( "this", mut_id.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -317,9 +317,15 @@ void suffer::while_underwater( Character &you )
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
-        if( you.has_bionic( bio_gills ) && you.get_power_level() >= bio_gills->power_trigger ) {
-            you.oxygen += 5;
-            you.mod_power_level( -bio_gills->power_trigger );
+        if( you.has_bionic( bio_gills ) ) {
+            if( you.get_power_level() >= bio_gills->power_trigger ) {
+                you.oxygen += 5;
+                you.mod_power_level( -bio_gills->power_trigger );
+            } else {
+                you.add_msg_if_player( m_bad,
+                                       _( "You don't have enough bionic power for activation of your Respirator, so you're drowning!" ) );
+                you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+            }
         } else {
             you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
             you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );

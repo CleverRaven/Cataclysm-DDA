@@ -166,6 +166,7 @@
     "time": "25 m",
     "charges": 10,
     "book_learn": [ [ "dairy_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "components": [

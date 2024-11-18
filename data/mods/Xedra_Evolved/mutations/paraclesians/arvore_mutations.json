@@ -92,6 +92,7 @@
     "description": "The trees recognize you as one of their own and allow you to pass easily beneath their boughs.  The grass moves under your feet to speed your passage, and shrubs bend out of the way.  When walking on grass, trees, or other natural foliage, your movement speed is increased.",
     "category": [ "ARVORE" ],
     "leads_to": [ "ARVORE_DEX_BONUS" ],
+    "changes_to": [ "GREENSTRIDE_UPGRADE" ],
     "enchantments": [
       {
         "condition": {
@@ -114,6 +115,47 @@
           ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "GREENSTRIDE_UPGRADE",
+    "name": { "str": "Forestwalker" },
+    "purifiable": false,
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The trees recognize you as one of their own and allow you to pass easily beneath their boughs.  The grass moves under your feet to speed your passage, and shrubs bend out of the way.  When walking on grass, trees, or other natural foliage, your movement speed is increased.  In addition, when in a forest, the trees bend out of your way, allowing you to pass",
+    "category": [ "ARVORE" ],
+    "prereqs": [ "ARVORE_DEX_BONUS" ],
+    "prereqs2": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_mega_fern" },
+            { "u_is_on_terrain": "t_fungus_colony" },
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_bamboo_long" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_bamboo" },
+            { "u_is_on_terrain": "t_bamboo_harvested" },
+            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_forestfloor" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      },
+      {
+        "condition": { "or": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }, { "u_at_om_location": "forest_trail" } ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 5 } ]
       }
     ]
   },
@@ -183,11 +225,10 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore gains the ability to transport themselves from tree to nearby tree while within a forest.",
-    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs": [ "GREENSTRIDE_UPGRADE" ],
     "prereqs2": [ "ARVORE_FOREST_STEALTH" ],
     "category": [ "ARVORE" ],
-    "spells_learned": [ [ "arvore_traverse_the_wilds", 1 ] ],
-    "//": "Ideally this would require the destination as well as the departure point to be in a forest (in which case, maybe it could be expanded to fields), but no way to do that for now."
+    "spells_learned": [ [ "arvore_traverse_the_wilds", 1 ] ]
   },
   {
     "type": "mutation",
@@ -596,7 +637,7 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs": [ "GREENSTRIDE", "GREENSTRIDE_UPGRADE" ],
     "prereqs2": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "description": "The wilderness welcomes you as one of its own, and you have an easier time surviving there and making things from its bounty.  +1.5 Survival skill.",
     "category": [ "ARVORE" ],
@@ -748,7 +789,7 @@
     "points": 13,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
     "prereqs": [ "ARVORE_BLOOD_3" ],
     "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "category": [ "ARVORE" ],

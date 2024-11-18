@@ -1338,7 +1338,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "", to_translation( "System language" ) },
     };
 
-    constexpr std::array<std::pair<const char *, const char *>, 25> language_names = {{
+    constexpr std::array<std::pair<const char *, const char *>, 26> language_names = {{
             // Note: language names are in their own language and are *not* translated at all.
             // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
             // http://en.wikipedia.org/wiki/List_of_language_names
@@ -1360,6 +1360,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "nb", R"(Norsk)" },
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
+            { "pt", R"(Português (Portugal))" },
             { "pt_BR", R"(Português (Brasil))" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
@@ -3333,25 +3334,24 @@ static void draw_borders_external(
         draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
-    mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
+    wattron( w, BORDER_COLOR );
+    mvwaddch( w, point( 0, horizontal_level ), LINE_XXXO ); // |-
+    mvwaddch( w, point( getmaxx( w ) - 1, horizontal_level ), LINE_XOXX ); // -|
     for( const int &x : vert_lines ) {
-        mvwputch( w, point( x + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwaddch( w, point( x + 1, getmaxy( w ) - 1 ), LINE_XXOX ); // _|_
     }
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
-    for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( vert_lines.count( i ) != 0 ) {
-            // intersection
-            mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-        } else {
-            // regular line
-            mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
-        }
+    wattron( w, BORDER_COLOR );
+    mvwhline( w, point_zero, LINE_OXOX, getmaxx( w ) ); // -
+    for( const int &x : vert_lines ) {
+        mvwaddch( w, point( x, 0 ), LINE_OXXX ); // -.-
     }
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
@@ -3609,11 +3609,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         };
 
         // Draw separation lines
-        for( int x : vert_lines ) {
-            for( int y = 0; y < iContentHeight; y++ ) {
-                mvwputch( w_options, point( x, y ), BORDER_COLOR, LINE_XOXO );
-            }
+        wattron( w_options, BORDER_COLOR );
+        for( const int &x : vert_lines ) {
+            mvwvline( w_options, point( x, 0 ), LINE_XOXO, iContentHeight );
         }
+        wattroff( w_options, BORDER_COLOR );
 
         if( recalc_startpos ) {
             // Update scroll position
@@ -4243,6 +4243,8 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "pt" ) {
+            std::locale::global( std::locale( "pt_PT.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {

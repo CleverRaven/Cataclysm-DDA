@@ -151,11 +151,11 @@ void tab_manager::draw( const catacurses::window &w )
     window_pos = point( getbegx( w ), getbegy( w ) );
     draw_border_below_tabs( w );
 
-    for( int i = 1; i < TERMX - 1; i++ ) {
-        mvwputch( w, point( i, 5 ), BORDER_COLOR, LINE_OXOX );
-    }
-    mvwputch( w, point( 0, 5 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( TERMX - 1, 5 ), BORDER_COLOR, LINE_XOXX ); // -|
+    wattron( w, BORDER_COLOR );
+    mvwaddch( w, point( 0, 5 ), LINE_XXXO ); // |-
+    mvwhline( w, point( 1, 5 ), LINE_OXOX, TERMX - 2 ); // -
+    mvwaddch( w, point( TERMX - 1, 5 ), LINE_XOXX ); // -|
+    wattroff( w, BORDER_COLOR );
 }
 
 bool tab_manager::handle_input( const std::string &action, const input_context &ctxt )
@@ -604,10 +604,10 @@ void Character::randomize( const bool random_scenario, bool play_now )
     reset_cardio_acc();
 
     if( is_npc() ) {
-        add_profession_items();
         as_npc()->randomize_personality();
         as_npc()->generate_personality_traits();
         initialize();
+        add_profession_items();
         as_npc()->catchup_skills();
     }
 }
@@ -620,36 +620,66 @@ void Character::add_profession_items()
     }
 
     std::list<item> prof_items = prof->items( outfit, get_mutations() );
+    std::list<item> try_adding_again;
 
-    for( item &it : prof_items ) {
-        if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
-        }
-
-        // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( json_flag_no_auto_equip ) ) {
-            it.unset_flag( json_flag_no_auto_equip );
-            inv->push_back( it );
-        } else if( it.has_flag( json_flag_auto_wield ) ) {
-            it.unset_flag( json_flag_auto_wield );
-            if( !has_wield_conflicts( it ) ) {
-                wield( it );
-            } else {
-                inv->push_back( it );
+    auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
+        for( item &it : prof_items ) {
+            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+                it.active = true;
+                it.item_counter = 450; // Give it some time to dry off
             }
-        } else if( it.is_armor() ) {
-            if( can_wear( it ).success() ) {
-                wear_item( it, false, false );
-            } else {
-                inv->push_back( it );
-            }
-        } else {
-            inv->push_back( it );
-        }
 
-        if( it.is_book() && this->is_avatar() ) {
-            as_avatar()->identify( it );
+            item_location success;
+            item *wield_or_wear = nullptr;
+            // TODO: debugmsg if food that isn't a seed is inedible
+            if( it.has_flag( json_flag_no_auto_equip ) ) {
+                it.unset_flag( json_flag_no_auto_equip );
+                success = try_add( it, nullptr, nullptr, false );
+            } else if( it.has_flag( json_flag_auto_wield ) ) {
+                it.unset_flag( json_flag_auto_wield );
+                if( !has_wield_conflicts( it ) ) {
+                    wield( it );
+                    wield_or_wear = &it;
+                    success = item_location( *this, wield_or_wear );
+                } else {
+                    success = try_add( it, nullptr, nullptr, false );
+                }
+            } else if( it.is_armor() ) {
+                if( can_wear( it ).success() ) {
+                    wear_item( it, false, false );
+                    wield_or_wear = &it;
+                    success = item_location( *this, wield_or_wear );
+                } else {
+                    success = try_add( it, nullptr, nullptr, false );
+                }
+            } else {
+                success = try_add( it, nullptr, nullptr, false );
+            }
+
+            if( it.is_book() && this->is_avatar() ) {
+                as_avatar()->identify( it );
+            }
+
+            if( !success ) {
+                failed_to_add.emplace_back( it );
+            }
+        }
+    };
+
+    //storage items may not be added first, so a second attempt is needed
+    attempt_add_items( prof_items, try_adding_again );
+    if( !try_adding_again.empty() ) {
+        prof_items.clear();
+        attempt_add_items( try_adding_again, prof_items );
+        //if there's one item left that still can't be added, attempt to wield it
+        if( prof_items.size() == 1 ) {
+            item last_item = prof_items.front();
+            if( !has_wield_conflicts( last_item ) ) {
+                bool success_wield = wield( last_item );
+                if( success_wield ) {
+                    prof_items.pop_front();
+                }
+            }
         }
     }
 
@@ -969,6 +999,7 @@ void Character::initialize( bool learn_recipes )
             my_mutations[mut].powered = true;
         }
     }
+    trait_flag_cache.clear();
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1781,9 +1812,11 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         werase( w );
 
         tabs.draw( w );
+        wattron( w, BORDER_COLOR );
         for( int i = 1; i < 3; ++i ) {
-            mvwputch( w, point( i * page_width, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+            mvwaddch( w, point( i * page_width, iHeaderHeight - 1 ), LINE_OXXX );  // '┬'
         }
+        wattroff( w, BORDER_COLOR );
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -2344,7 +2377,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     // Profession spells
     if( !sorted_profs[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Profession spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_profs[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
@@ -2752,7 +2785,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     // Background spells
     if( !sorted_hobbies[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Background spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> spell_pair : sorted_hobbies[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_hobbies[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
@@ -3967,9 +4000,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = freeWidth > 15;
-        const int beginx2 = 46;
+        const int beginx2 = 52;
         const int ncol2 = 40;
-        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
+        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 90;
         const int ncol3 = TERMX - beginx3 - 2;
         const int beginx4 = TERMX <= 130 ? TERMX - TERMX / 5 : 128;
         const int ncol4 = TERMX - beginx4 - 2;
@@ -3992,7 +4025,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_hobbies = catacurses::newwin( TERMY - 11 - 11, ncol4, point( beginx4, 10 ) );
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
-            w_skills = catacurses::newwin( TERMY - 11, 23, point( 22, 10 ) );
+            w_skills = catacurses::newwin( TERMY - 11, 27, point( 22, 10 ) );
             w_height = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
             w_age = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
             w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 8 ) );
@@ -4100,19 +4133,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         draw_points( w, pool, you );
 
         //Draw the line between editable and non-editable stuff.
-        for( int i = 0; i < getmaxx( w ); ++i ) {
-            if( i == 0 ) {
-                mvwputch( w, point( i, 9 ), BORDER_COLOR, LINE_XXXO );
-            } else if( i == getmaxx( w ) - 1 ) {
-                wputch( w, BORDER_COLOR, LINE_XOXX );
-            } else {
-                wputch( w, BORDER_COLOR, LINE_OXOX );
-            }
-        }
+        wattron( w, BORDER_COLOR );
+        mvwaddch( w, point( 0,                9 ), LINE_XXXO ); // |-
+        mvwhline( w, point( 1,                9 ), LINE_OXOX, getmaxx( w ) - 2 ); // |
+        mvwaddch( w, point( getmaxx( w ) - 1, 9 ), LINE_XOXX );  // -|
+        wattroff( w, BORDER_COLOR );
         wnoutrefresh( w );
 
         werase( w_stats );
         std::vector<std::string> vStatNames;
+        vStatNames.reserve( 4 );
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
         vStatNames.emplace_back( _( "Strength:" ) );
         vStatNames.emplace_back( _( "Dexterity:" ) );
@@ -4263,9 +4293,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             if( prof_proficiencies.empty() ) {
                 mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
             } else {
+                wattron( w_proficiencies, c_light_gray );
                 for( const proficiency_id &prof : prof_proficiencies ) {
-                    wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
+                    wprintw( w_proficiencies, "\n" + trim_by_length( prof->name(), 18 ) );
                 }
+                wattroff( w_proficiencies, c_light_gray );
             }
             wnoutrefresh( w_proficiencies );
         }
@@ -4374,9 +4406,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             if( you.hobbies.empty() ) {
                 mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
             } else {
+                wattron( w_hobbies, c_light_gray );
                 for( const profession *prof : you.hobbies ) {
-                    wprintz( w_hobbies, c_light_gray, "\n%s", prof->gender_appropriate_name( you.male ) );
+                    wprintw( w_hobbies, "\n%s", prof->gender_appropriate_name( you.male ) );
                 }
+                wattroff( w_hobbies, c_light_gray );
             }
             wnoutrefresh( w_hobbies );
         }
@@ -4838,14 +4872,14 @@ void Character::add_traits()
 trait_id Character::random_good_trait()
 {
     return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points > 0;
+        return mb.points > 0 && mb.random_at_chargen;
     } );
 }
 
 trait_id Character::random_bad_trait()
 {
     return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points < 0;
+        return mb.points < 0 && mb.random_at_chargen;
     } );
 }
 

@@ -1,8 +1,5 @@
 #include "cata_imgui.h"
 
-#include <stack>
-#include <type_traits>
-
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -10,7 +7,6 @@
 #include <imgui/imgui_freetype.h>
 
 #include "color.h"
-#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "system_locale.h"
@@ -334,6 +330,8 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
         AddGlyphRangesFromCLDRForNL( b );
     } else if( lang == "pl" ) {
         AddGlyphRangesFromCLDRForPL( b );
+    } else if( lang == "pt" ) {
+        AddGlyphRangesFromCLDRForPT( b );
     } else if( lang == "pt_BR" ) {
         AddGlyphRangesFromCLDRForPT( b );
     } else if( lang == "ru" ) {
@@ -1041,4 +1039,67 @@ void cataimgui::PushMonoFont()
 #ifdef TILES
     ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[1] );
 #endif
+}
+
+bool cataimgui::BeginRightAlign( const char *str_id )
+{
+    if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
+        ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch );
+
+        ImGui::TableNextColumn();
+        ImGui::TableNextColumn();
+        return true;
+    }
+    return false;
+}
+
+void cataimgui::EndRightAlign()
+{
+    ImGui::EndTable();
+}
+
+void cataimgui::init_colors()
+{
+    ImGuiStyle &style = ImGui::GetStyle();
+
+    style.Colors[ImGuiCol_Text]                   = c_white;
+    style.Colors[ImGuiCol_TextDisabled]           = c_dark_gray;
+    style.Colors[ImGuiCol_WindowBg]               = c_black;
+    style.Colors[ImGuiCol_ChildBg]                = c_black;
+    style.Colors[ImGuiCol_PopupBg]                = c_black;
+    style.Colors[ImGuiCol_Border]                 = c_white;
+    style.Colors[ImGuiCol_BorderShadow]           = c_blue;
+    style.Colors[ImGuiCol_FrameBg]                = c_dark_gray;
+    style.Colors[ImGuiCol_FrameBgHovered]         = c_black;
+    style.Colors[ImGuiCol_FrameBgActive]          = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBg]                = c_blue;
+    style.Colors[ImGuiCol_TitleBgActive]          = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBgCollapsed]       = c_blue;
+    style.Colors[ImGuiCol_MenuBarBg]              = c_black;
+    style.Colors[ImGuiCol_ScrollbarBg]            = c_black;
+    style.Colors[ImGuiCol_ScrollbarGrab]          = c_dark_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabHovered]   = c_light_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabActive]    = c_white;
+    style.Colors[ImGuiCol_CheckMark]              = c_white;
+    style.Colors[ImGuiCol_SliderGrab]             = c_white;
+    style.Colors[ImGuiCol_SliderGrabActive]       = c_white;
+    style.Colors[ImGuiCol_Button]                 = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonHovered]          = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonActive]           = c_blue;
+    style.Colors[ImGuiCol_Header]                 = c_blue;
+    style.Colors[ImGuiCol_HeaderHovered]          = c_black;
+    style.Colors[ImGuiCol_HeaderActive]           = c_dark_gray;
+    style.Colors[ImGuiCol_Separator]              = c_dark_gray;
+    style.Colors[ImGuiCol_SeparatorHovered]       = c_white;
+    style.Colors[ImGuiCol_SeparatorActive]        = c_white;
+    style.Colors[ImGuiCol_ResizeGrip]             = c_light_gray;
+    style.Colors[ImGuiCol_ResizeGripHovered]      = c_white;
+    style.Colors[ImGuiCol_ResizeGripActive]       = c_white;
+    style.Colors[ImGuiCol_Tab]                    = c_black;
+    style.Colors[ImGuiCol_TabHovered]             = c_blue;
+    style.Colors[ImGuiCol_TabActive]              = c_blue;
+    style.Colors[ImGuiCol_TabUnfocused]           = c_black;
+    style.Colors[ImGuiCol_TabUnfocusedActive]     = c_black;
+    style.Colors[ImGuiCol_TextSelectedBg]         = c_blue;
+    style.Colors[ImGuiCol_NavHighlight]           = c_blue;
 }

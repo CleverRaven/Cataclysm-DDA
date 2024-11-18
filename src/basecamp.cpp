@@ -333,12 +333,12 @@ bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
         return true;
     }
     // Sharing stuff also means sharing access.
-    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_my_stuff ) ) {
         return true;
     }
     // Some factions will share access to infinite water sources, but not food
     if( water_request &&
-        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_public_goods ) ) {
         return true;
     }
     return false;
@@ -409,10 +409,34 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
     return ret_data;
 }
 
+std::unordered_set<recipe_id> basecamp::recipe_deck_all() const
+{
+    std::unordered_set<recipe_id> known_recipes;
+    for( const npc_ptr &guy : assigned_npcs ) {
+        if( guy.get() ) {
+            for( const recipe *rec : guy->get_learned_recipes() ) {
+                known_recipes.insert( rec->ident() );
+            }
+        }
+    }
+
+    for( const auto &exp_data_pair : expansions ) {
+        for( const auto &provides : exp_data_pair.second.provides ) {
+            const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
+            for( const std::pair<const recipe_id, translation> &rec_list : test_s ) {
+                known_recipes.insert( rec_list.first );
+            }
+        }
+    }
+
+    return known_recipes;
+}
+
 // recipes and craft support functions
 std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 {
     std::map<recipe_id, translation> recipes;
+
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return recipes;
@@ -1015,7 +1039,7 @@ void basecamp_action_components::consume_components()
     map &target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
     std::vector<tripoint> src;
-    src.resize( base_.src_set.size() );
+    src.reserve( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
         src.emplace_back( target_map.bub_from_abs( p ).raw() );
     }

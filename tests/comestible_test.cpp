@@ -75,10 +75,10 @@ static int comp_calories( const std::vector<item_comp> &components )
     for( const item_comp &it : components ) {
         const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
         if( temp && temp->cooks_like.is_empty() ) {
-            calories += temp->default_nutrition.kcal() * it.count;
+            calories += temp->default_nutrition_read_only().kcal() * it.count;
         } else if( temp ) {
             const itype *cooks_like = item::find_type( temp->cooks_like );
-            calories += cooks_like->comestible->default_nutrition.kcal() * it.count;
+            calories += cooks_like->comestible->default_nutrition_read_only().kcal() * it.count;
         }
     }
     return calories;
@@ -136,7 +136,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     int kcal = 0;
     for( const item &it : byproducts ) {
         if( it.is_comestible() ) {
-            kcal += it.type->comestible->default_nutrition.kcal() * it.count();
+            kcal += it.type->comestible->default_nutrition_read_only().kcal() * it.count();
         }
     }
     return kcal;
@@ -144,7 +144,7 @@ static int byproduct_calories( const recipe &recipe_obj )
 
 static bool has_mutagen_vit( const islot_comestible &comest )
 {
-    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins();
+    const std::map<vitamin_id, int> &vits = comest.default_nutrition_read_only().vitamins();
     for( const vitamin_id &vit : mutagen_vit_list ) {
         if( vits.find( vit ) != vits.end() && vits.at( vit ) > 0 ) {
             return true;
@@ -179,7 +179,7 @@ TEST_CASE( "comestible_health_bounds", "[comestible]" )
 
 static int get_default_calories_recursive( item &it )
 {
-    int calories = it.type->comestible ? it.type->comestible->default_nutrition.kcal() : 0;
+    int calories = it.type->comestible ? it.type->comestible->default_nutrition_read_only().kcal() : 0;
 
     if( it.count_by_charges() ) {
         calories *= it.charges;
@@ -206,8 +206,9 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const recipe &recipe_obj = recipe_pair.first.obj();
         item temp( recipe_obj.result() );
         const bool is_food = temp.is_food();
+        const bool should_make_sense = temp.made_of_any_food_components();
         const bool has_override = temp.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
-        if( is_food && !has_override ) {
+        if( is_food && should_make_sense && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
                                 byproduct_calories( recipe_obj ) );

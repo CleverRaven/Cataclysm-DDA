@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_automag"
   },
   {
-    "id": [ "henry_big_boy" ],
+    "id": [ "henry_big_boy", "rossi_r92_44_20", "rossi_r92_44_16" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_levergun"
   },
@@ -155,7 +155,19 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895", "draco_9mm" ],
+    "id": [
+      "hk_mp5_semi_pistol",
+      "ksub2000",
+      "calico",
+      "hk_mp5_10_semi",
+      "TDI_10",
+      "mp40semi",
+      "hpt3895",
+      "draco_9mm",
+      "uberti_1873",
+      "rossi_r92_357_16",
+      "rossi_r92_357_20"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -210,7 +222,9 @@
       "ruger_mk4",
       "rough_rider_pistol",
       "rough_rider_pistol_9",
-      "1911_22"
+      "1911_22",
+      "rio_bravo",
+      "henry_golden_boy"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"

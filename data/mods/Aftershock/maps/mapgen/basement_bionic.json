@@ -39,7 +39,7 @@
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "^": "f_exercise",
-        "%": "f_floor_canvas",
+        "%": "f_punching_bag",
         "C": "f_cupboard",
         "{": "f_bigmirror",
         "_": "f_bench",
@@ -72,7 +72,7 @@
         { "item": "stereo", "x": 2, "y": 13, "chance": 50 }
       ],
       "items": { "?": { "item": "autodoc_supplies", "chance": 100 } },
-      "place_monster": [ { "monster": "mon_broken_cyborg", "x": 14, "y": 3, "chance": 100 } ]
+      "place_monster": [ { "monster": "mon_broken_cyborg", "x": 14, "y": 3, "chance": 25 } ]
     }
   }
 ]

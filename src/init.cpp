@@ -131,9 +131,7 @@ namespace
 void check_sigint()
 {
     if( g && g->uquit == quit_status::QUIT_EXIT ) {
-        if( g->query_exit_to_OS() ) {
-            throw game::exit_exception();
-        }
+        g->query_exit_to_OS();
     }
 }
 
@@ -560,7 +558,7 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
     // if give path is a directory
     if( dir_exist( path.get_unrelative_path() ) ) {
         const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
-                "mod_interactions", path, true, false );
+                "mod_interactions", path, true, true );
         files.insert( files.end(), dir_files.begin(), dir_files.end() );
         // if given path is an individual file
     } else if( file_exist( path.get_unrelative_path() ) ) {

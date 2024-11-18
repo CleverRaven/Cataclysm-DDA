@@ -926,6 +926,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "clay_watercont_no_lid",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "77 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "using": [ [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
+    "components": [ [ [ "any_water", 3, "LIST" ] ], [ [ "clay_lump", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jug_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",

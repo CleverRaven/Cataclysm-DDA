@@ -116,8 +116,9 @@ void trap::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
-    if( !assign( jo, "color", color ) ) {
-        jo.throw_error( "missing mandatory member \"color\"" );
+    // TODO: Is there a generic_factory version of this?
+    if( !assign( jo, "color", color ) && !was_loaded ) {
+        jo.throw_error( "Missing mandatory member \"color\"" );
     }
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
@@ -141,8 +142,11 @@ void trap::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "flags", _flags );
     optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?
-    act = trap_function_from_string( jo.get_string( "action" ) );
-
+    if( jo.has_string( "action" ) ) {
+        act = trap_function_from_string( jo.get_string( "action" ) );
+    } else if( !was_loaded ) {
+        jo.throw_error( "Missing mandatory member \"action\"" );
+    }
     optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_none );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );

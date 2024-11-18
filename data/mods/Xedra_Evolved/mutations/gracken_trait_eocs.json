@@ -21,7 +21,7 @@
     "id": "EOC_GRACKEN_ARM_PUSH1_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "gracken_arm_push_spell",

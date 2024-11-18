@@ -877,6 +877,7 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::forest, 30 );
     ret.set_cost( oter_travel_cost_type::swamp, 100 );
     ret.set_cost( oter_travel_cost_type::other, 30 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -958,8 +959,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     };
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
-    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate,
-            g->display_om_pathfinding_progress );
+    const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
+            g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
     return path.points;
 }
 

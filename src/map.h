@@ -2251,6 +2251,8 @@ class map
          * - shifting the map with @ref shift
          */
         tripoint_abs_sm abs_sub;
+        // Cached value of project_to<coords::ms>( abs_sub.xy() )
+        point_abs_ms abs_ms;
         /**
          * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
          */

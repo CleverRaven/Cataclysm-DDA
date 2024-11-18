@@ -24,7 +24,7 @@ static bool operator==( const vehicle_prototype::part_def &l, const vehicle_prot
 
 static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r )
 {
-    return l.pos == r.pos && l.chance == r.chance && l.with_ammo == r.with_ammo &&
+    return l.pos == r.pos && l.chance == r.chance &&
            l.with_ammo == r.with_ammo && l.with_magazine == r.with_magazine && l.item_ids == r.item_ids &&
            // NOLINTNEXTLINE(misc-redundant-expression)
            l.variant_ids == r.variant_ids && l.item_groups == r.item_groups;

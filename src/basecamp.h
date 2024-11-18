@@ -284,6 +284,8 @@ class basecamp
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
         // from a building
         std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
+        // All recipes known by NPCs stationed here + all recipes provided by all expansions
+        std::unordered_set<recipe_id> recipe_deck_all() const;
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
@@ -331,8 +333,7 @@ class basecamp
         void place_results( const item &result );
 
         // mission description functions
-        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
-                                    const std::map<recipe_id, translation> &craft_recipes );
+        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir );
 
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
@@ -365,7 +366,8 @@ class basecamp
         npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment, float exertion_level,
-                               const std::map<skill_id, int> &required_skills = {} );
+                               const std::map<skill_id, int> &required_skills = {},
+                               const npc_ptr &preselected_choice = nullptr );
         comp_list start_multi_mission( const mission_id &miss_id,
                                        bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
@@ -380,7 +382,9 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id );
+        // Assembles a dummy NPC with all available recipes and uses player input on the regular crafting GUI to
+        // determine what to make, batch size, who to assign to making it, etc.
+        void start_crafting( const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );

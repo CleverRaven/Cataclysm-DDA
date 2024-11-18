@@ -2,8 +2,8 @@
   {
     "abstract": "platinum_bracelet_magic",
     "type": "TOOL_ARMOR",
-    "name": { "str": "platinum bracelet" },
-    "description": "A bracelet, completely covered with a large amount of runes from both sides.",
+    "name": { "str": "platinum bracelet", "//~": "NO_I18N" },
+    "description": { "str": "A bracelet, completely covered with a large amount of runes from both sides.", "//~": "NO_I18N" },
     "weight": "50 g",
     "volume": "25 ml",
     "material": [ "platinum", "crystallized_mana" ],

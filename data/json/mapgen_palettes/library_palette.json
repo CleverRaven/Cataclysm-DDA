@@ -55,7 +55,7 @@
       "P": { "item": "SUS_medicine_bookcase", "chance": 60 },
       "A": { "item": "SUS_bushcraft_bookcase", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase", "chance": 70 },
-      "E": { "item": "SUS_book", "chance": 70, "repeat": [ 2, 10 ] },
+      "E": { "item": "SUS_martial_bookcase", "chance": 100 },
       "d": { "item": "SUS_office_desk", "chance": 70 },
       "L": { "item": "SUS_janitors_closet", "chance": 70 },
       "]": { "item": "SUS_office_filing_cabinet", "chance": 75 }
@@ -115,7 +115,7 @@
       "P": { "item": "SUS_medicine_bookcase_vandalized", "chance": 60 },
       "A": { "item": "SUS_bushcraft_bookcase_vandalized", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase_vandalized", "chance": 70 },
-      "E": { "item": "SUS_book", "chance": 20, "repeat": [ 1, 7 ] },
+      "E": { "item": "SUS_martial_bookcase_vandalized", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 20 },
       "L": { "item": "SUS_janitors_closet", "chance": 20 },
       "]": { "item": "SUS_office_filing_cabinet", "chance": 35 }

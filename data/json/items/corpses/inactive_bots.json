@@ -4,11 +4,11 @@
     "type": "TOOL",
     "name": { "str": "inactive EMP hack" },
     "description": "An inactive EMP hack.  Manhacks are fist-sized robots that fly through the air.  This one contains an EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "750 ml",
     "price": "645 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "cyan",
@@ -34,7 +34,7 @@
     "volume": "250 ml",
     "price": "675 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_gray",
@@ -60,7 +60,7 @@
     "volume": "750 ml",
     "price": "595 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -82,11 +82,11 @@
     "type": "TOOL",
     "name": { "str": "inactive tear gas hack" },
     "description": "An inactive tear gas hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing the gas.  Use this item to reprogram and activate the tear gas hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "3000 g",
+    "weight": "3 kg",
     "volume": "750 ml",
     "price": "605 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -108,11 +108,11 @@
     "type": "TOOL",
     "name": { "str": "inactive grenade hack" },
     "description": "An inactive grenade hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use this item to reprogram and activate the grenade hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "250 ml",
     "price": "600 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "green",
@@ -138,7 +138,6 @@
     "volume": "30 L",
     "price": "5 kUSD 5 USD",
     "price_postapoc": "80 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
@@ -149,8 +148,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_manhack",
@@ -161,7 +159,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -186,7 +184,6 @@
     "weight": "172 kg",
     "volume": "30 L",
     "price": "5 kUSD",
-    "to_hit": -3,
     "price_postapoc": "50 USD",
     "material": [ "steel", "plastic" ],
     "symbol": ";",
@@ -198,8 +195,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_crows_m240",
@@ -210,7 +206,6 @@
     "volume": "30 L",
     "price": "5 kUSD",
     "price_postapoc": "60 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -221,19 +216,17 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_turret_riot",
     "type": "TOOL",
     "name": { "str": "inactive riot control turret" },
     "description": "An inactive riot control turret.  Using this item involves loading the unit with the 40x46mm M1006 sponge rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
-    "weight": "125000 g",
+    "weight": "125 kg",
     "volume": "60 L",
     "price": "2 kUSD 5 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
@@ -244,8 +237,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_turret",
@@ -256,7 +248,6 @@
     "volume": "30 L",
     "price": "4 kUSD",
     "price_postapoc": "30 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
@@ -267,8 +258,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_secubot",
@@ -279,7 +269,6 @@
     "volume": "30 L",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -292,8 +281,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_talon_m202a1",
@@ -304,7 +292,6 @@
     "volume": "30 L",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -317,8 +304,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_secubot_liberty",
@@ -329,7 +315,6 @@
     "volume": "30 L",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": "F",
     "color": "light_gray",
@@ -342,8 +327,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer", "fabrication" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_nursebot",
@@ -354,7 +338,6 @@
     "weight": "81500 g",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_blue",
@@ -367,8 +350,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_grocerybot",
@@ -379,7 +361,6 @@
     "weight": "81500 g",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "white",
@@ -392,8 +373,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_grocerybot_busted",
@@ -404,7 +384,6 @@
     "weight": "81500 g",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "white",
@@ -417,8 +396,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_broken_cyborg",
@@ -430,7 +408,6 @@
     "//": "It is a disgusting mass of rotting flesh and jagged metal pieces, no one will buy it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
     "material": [ "steel", "flesh" ],
     "symbol": ";",
     "color": "light_green",
@@ -444,8 +421,7 @@
       "moves": 250,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_prototype_cyborg",
@@ -457,7 +433,6 @@
     "//": "It is an affront to humanity, no one will buy it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
     "material": [ "steel", "flesh" ],
     "symbol": ";",
     "color": "light_green",
@@ -471,8 +446,7 @@
       "moves": 250,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_hazmatbot",
@@ -483,7 +457,6 @@
     "volume": "62500 ml",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -497,8 +470,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_molebot",
@@ -510,7 +482,6 @@
     "volume": "62500 ml",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -524,8 +495,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_skitterbot",
@@ -538,7 +508,6 @@
     "volume": "105 L",
     "price": "800 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
@@ -552,8 +521,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
   },
   {
     "id": "bot_robofac_skittergun",
@@ -563,10 +531,9 @@
     "description": "An inactive Hub 01 exterminatron.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and reloaded successfully, the robot will track you while providing fire-support.",
     "//": "Volume and weight based on Boston Dynamics Spot.",
     "volume": "125 L",
-    "weight": "36000 g",
+    "weight": "36 kg",
     "price": "800 USD",
     "price_postapoc": "250 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
@@ -580,8 +547,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
   },
   {
     "id": "bot_science_bot",
@@ -589,11 +555,10 @@
     "type": "TOOL",
     "name": { "str": "inactive lab defense bot" },
     "description": "An inactive experimental robot plundered from a science lab.  It resembles a human-sized spider and was designed to deploy manhacks.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and deploy a variety of experimental devices.",
-    "weight": "100000 g",
-    "volume": "65000 ml",
+    "weight": "100 kg",
+    "volume": "65 L",
     "price": "800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -607,19 +572,17 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_turret_searchlight",
     "type": "TOOL",
     "name": { "str": "inactive milspec searchlight" },
     "description": "An inactive military-grade automated searchlight.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the searchlight will then identify you as an ally, survey the area, and illuminate approaching hostiles.  Seems to have an unhealthy fascination with you.",
-    "weight": "120000 g",
+    "weight": "120 kg",
     "volume": "92500 ml",
     "price": "5 kUSD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -633,8 +596,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_dispatch",
@@ -645,7 +607,6 @@
     "weight": "250 kg",
     "price": "100 kUSD",
     "price_postapoc": "100 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -658,8 +619,7 @@
       "moves": 300,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_dispatch_military",
@@ -670,7 +630,6 @@
     "weight": "300 kg",
     "price": "1000 kUSD",
     "price_postapoc": "250 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
@@ -683,8 +642,7 @@
       "moves": 300,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_turret_speaker",
@@ -695,7 +653,6 @@
     "volume": "50500 ml",
     "price": "5 kUSD",
     "price_postapoc": "100 USD",
-    "to_hit": -3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -708,8 +665,7 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_tazer_hack",
@@ -720,7 +676,7 @@
     "volume": "750 ml",
     "price": "645 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "cyan",
@@ -746,13 +702,11 @@
     "volume": "50 L",
     "price": "645 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -3,
     "material": [ "steel", "ceramic" ],
     "symbol": ",",
     "color": "cyan",
     "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_trifacet_activation" ] },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
@@ -766,10 +720,8 @@
     "material": [ "steel", "yrax_quartz" ],
     "volume": "119 L",
     "weight": "221 kg",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
-    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_triakis_activation" ] },
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_triakis_activation" ] }
   },
   {
     "id": "bot_golden_monolith",
@@ -785,7 +737,6 @@
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
-    "melee_damage": { "bash": 1000 },
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Activate",
@@ -822,7 +773,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -848,7 +799,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -874,7 +825,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "yellow",
@@ -900,7 +851,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "blue",
@@ -926,7 +877,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "cyan",
@@ -952,7 +903,7 @@
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -979,7 +930,6 @@
     "volume": "30 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
@@ -992,7 +942,6 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   }
 ]

@@ -272,7 +272,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
         m.spawn_item( loc, itype_withered );
     }
     // terrain specific conversions
-    const ter_id tid = m.ter( loc );
+    const ter_id &tid = m.ter( loc );
     static const std::map<ter_id, ter_str_id> dies_into {{
             {ter_t_grass, ter_t_grass_dead},
             {ter_t_grass_long, ter_t_grass_dead},
@@ -379,14 +379,15 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
         // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
         // half it's length so that it spawns more over the center of the debris area
         const bounding_box bbox = veh.get_bounding_box();
-        const point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
-        const point offset( veh.dir_vec().x * length.x / 2, veh.dir_vec().y * length.y / 2 );
-        const point min( std::abs( bbox.p1.x ), std::abs( bbox.p1.y ) );
-        const int x_max = SEEX * 2 - bbox.p2.x - 1;
-        const int y_max = SEEY * 2 - bbox.p2.y - 1;
+        const point_rel_ms length( std::abs( bbox.p2.x() - bbox.p1.x() ),
+                                   std::abs( bbox.p2.y() - bbox.p1.y() ) );
+        const point_rel_ms offset( veh.dir_vec().x * length.x() / 2, veh.dir_vec().y * length.y() / 2 );
+        const point_rel_ms min( std::abs( bbox.p1.x() ), std::abs( bbox.p1.y() ) );
+        const int x_max = SEEX * 2 - bbox.p2.x() - 1;
+        const int y_max = SEEY * 2 - bbox.p2.y() - 1;
 
         // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-        wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
+        wreckage_pos = { clamp( c.x + offset.x(), min.x(), x_max ), clamp( c.y + offset.y(), min.y(), y_max ), abs_sub.z};
     }
 
     vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos.raw(), dir1, rng( 1, 33 ), 1 );
@@ -444,10 +445,10 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
         }
         if( !one_in( 4 ) ) {
-            wreckage->smash( m, 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+            wreckage->smash( m, 0.8f, 1.2f, 1.0f, { dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 }, 6 + dice( 1,
                              10 ) );
         } else {
-            wreckage->smash( m, 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+            wreckage->smash( m, 0.1f, 0.9f, 1.0f, { dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 }, 6 + dice( 1,
                              10 ) );
         }
     }
@@ -1342,12 +1343,14 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
     const furn_t &fid = m.furn( loc ).obj();
-    const ter_id tid = m.ter( loc );
+    const ter_id &tid = m.ter( loc );
     const ter_t &tr = tid.obj();
 
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
     std::vector<tripoint_bub_ms> points;
+    vehicles.reserve( vehs.size() );
+    points.reserve( vehs.size() ); // Each vehicle is at least one point.
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         // Important that this loop excludes fake parts, because those can be
@@ -1359,7 +1362,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             } else {
                 tripoint_abs_omt pos = project_to<coords::omt>( m.getglobal( loc ) );
                 oter_id terrain_type = overmap_buffer.ter( pos );
-                tripoint veh_origin = vehicle.v->global_pos3();
+                tripoint_bub_ms veh_origin = vehicle.v->pos_bub();
                 debugmsg( "burned_ground_parser: Vehicle %s (origin %s; rotation (%f,%f)) has "
                           "out of bounds part at %s in terrain_type %s\n",
                           vehicle.v->name, veh_origin.to_string(),
@@ -1504,18 +1507,20 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     }
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
-    std::vector<tripoint> points;
+    std::vector<tripoint_bub_ms> points;
+    vehicles.reserve( vehs.size() );
+    points.reserve( vehs.size() ); // Each vehicle is at least one point.
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        std::set<tripoint> occupied = vehicle.v->get_points();
-        for( const tripoint &t : occupied ) {
+        std::set<tripoint_bub_ms> occupied = vehicle.v->get_points();
+        for( const tripoint_bub_ms &t : occupied ) {
             points.push_back( t );
         }
     }
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( const tripoint &tri : points ) {
+    for( const tripoint_bub_ms &tri : points ) {
         m.furn_set( tri, furn_f_wreckage );
     }
 
@@ -1538,8 +1543,9 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
             if( p == loc ) {
                 continue;
             }
-            if( m.ter( p ) == ter_t_water_moving_sh || m.ter( p ) == ter_t_water_sh ||
-                m.ter( p ) == ter_t_water_moving_dp || m.ter( p ) == ter_t_water_dp ) {
+            const ter_id &t = m.ter( p );
+            if( t == ter_t_water_moving_sh || t == ter_t_water_sh ||
+                t == ter_t_water_moving_dp || t == ter_t_water_dp ) {
                 return true;
             }
         }
@@ -2122,7 +2128,8 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 
     //Then find an empty 3x3 pavement square (no other traps, furniture, or vehicles)
     for( const tripoint_omt_ms &p : points_in_radius( trap_center, 1 ) ) {
-        if( ( compmap.ter( p ) == ter_t_pavement || compmap.ter( p ) == ter_t_pavement_y ) &&
+        const ter_id &t = compmap.ter( p );
+        if( ( t == ter_t_pavement || t == ter_t_pavement_y ) &&
             compmap.tr_at( p ).is_null() &&
             compmap.furn( p ) == furn_str_id::NULL_ID() &&
             !compmap.veh_at( p ) ) {

@@ -224,7 +224,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     // As float to avoid rounding too many times
-    float kcal = comest.get_comestible()->default_nutrition.kcal();
+    float kcal = comest.get_comestible()->default_nutrition_read_only().kcal();
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
     bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
@@ -262,7 +262,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         return {};
     }
 
-    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins();
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition_read_only().vitamins();
 
     // for actual vitamins convert RDA to a internal value
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -312,6 +312,12 @@ static nutrients compute_default_effective_nutrients( const item &comest,
     return ret;
 }
 
+extern nutrients default_character_compute_effective_nutrients( const item &comest )
+{
+    static npc dummy;
+    return dummy.compute_effective_nutrients( comest );
+}
+
 // Calculate the nutrients that the given character would receive from consuming
 // the given item, taking into account the item components and the character's
 // traits.
@@ -322,8 +328,9 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
         return {};
     }
 
-    // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    // if item has food components, will derive calories from that instead.
+    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) &&
+        comest.made_of_any_food_components( true ) ) {
         nutrients tally{};
         if( comest.recipe_charges == 0 ) {
             // Avoid division by zero
@@ -834,8 +841,9 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     // TODO: This condition occurs way too often. Unify it.
     // update Sep. 26 2018: this apparently still occurs way too often. yay!
-    if( is_underwater() && ( !has_trait( trait_WATERSLEEP ) ||
-                             has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
+    if( is_underwater() &&
+        ( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) ||
+          ( ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) && drinkable ) ) ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 

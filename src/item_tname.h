@@ -79,6 +79,9 @@ using segment_bitset = enum_bitset<tname::segments>;
 std::string print_segment( tname::segments segment, item const &it, unsigned int quantity,
                            segment_bitset const &segments );
 
+using tname_set = std::vector<tname::segments>;
+tname_set const &get_tname_set();
+
 #endif // CATA_IN_TOOL
 } // namespace tname
 

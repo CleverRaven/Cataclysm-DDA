@@ -1950,7 +1950,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             // if not already destroyed to an armor absorb
             destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
             // for the torso we also need to consider if it hits anything hanging off the character or their neck
-            if( secondary_sbp != sub_bodypart_id() ) {
+            if( secondary_sbp != sub_bodypart_id() && !destroy ) {
                 destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
             }
         }
@@ -1963,6 +1963,11 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             destroyed_armor_msg( guy, pre_damage_name );
             armor_destroyed = true;
             armor.on_takeoff( guy );
+
+            item_location loc = item_location( guy, &armor );
+            cata::event e = cata::event::make<event_type::character_armor_destroyed>( guy.getID(),
+                            armor.typeId() );
+            get_event_bus().send_with_talker( &guy, &loc, e );
             for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                 worn_remains.push_back( *it );
             }

@@ -232,6 +232,7 @@
     "item": "crutches",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_DOCTOR_MEDICAL_GLOVES",
     "dialogue": {
       "describe": "We need help…",
@@ -256,6 +257,7 @@
     "item": "gloves_medical",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
     "dialogue": {
       "describe": "We need help…",
@@ -302,6 +304,7 @@
     "end": {
       "update_mapgen": [ { "om_terrain": "ranch_camp_50", "set": [ { "point": "furniture", "id": "f_anesthetic", "x": 19, "y": 19 } ] } ],
       "effect": [
+        { "u_add_var": "mission_flag_Doctor_rewarded", "value": "no" },
         { "u_consume_item": "anesthetic", "count": 3000 },
         { "npc_add_var": "dialogue_tacoma_ranch_provides_surgery", "value": "yes" }
       ]
