@@ -1065,7 +1065,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
     { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
+    { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
