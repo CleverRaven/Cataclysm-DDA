@@ -40,9 +40,54 @@
         "default": {
           "distribution": [ [ "null_palette", 2 ], [ "standard_domestic_damage_palette", 3 ], [ "standard_domestic_damage_large_palette", 1 ] ]
         }
+      },
+      "alarm_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "//": "Determines if house has alarm",
+        "//2": "Couldn't find an exact value of houses with alarms so estimated 25%, change if you have any good source",
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 1 ] ] }
       }
     },
-    "palettes": [ "standard_domestic_palette", { "param": "damage_palette" }, { "param": "tidyness_palette" } ]
+    "palettes": [
+      "standard_domestic_palette",
+      { "param": "damage_palette" },
+      { "param": "alarm_palette" },
+      { "param": "tidyness_palette" }
+    ]
+  },
+  {
+    "type": "palette",
+    "id": "domestic_alarm_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Makes all doors & windows have alarms",
+    "terrain": {
+      "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
+      ":": "t_wall_glass_alarm",
+      "o": "t_window_alarm"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "domestic_locked_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Makes no doors & windows have alarms",
+    "terrain": {
+      "*": [
+        [ "t_door_locked", 4 ],
+        [ "t_door_elocked", 3 ],
+        [ "t_door_locked_peep", 3 ],
+        [ "t_door_elocked_peep", 2 ],
+        [ "t_door_c", 2 ],
+        [ "t_door_o", 1 ]
+      ],
+      ":": "t_wall_glass",
+      "o": [
+        [ "t_window_domestic", 10 ],
+        "t_window_no_curtains",
+        "t_window_open",
+        "t_window_no_curtains_open",
+        [ "t_curtains", 5 ]
+      ]
+    }
   },
   {
     "type": "palette",
