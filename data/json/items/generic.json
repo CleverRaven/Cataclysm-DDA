@@ -2948,7 +2948,7 @@
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "weight": "2317 g",
-    "volume": "20 L",
+    "volume": "50 L",
     "flags": [ "SLEEP_AID" ],
     "variant_type": "generic",
     "variants": [
