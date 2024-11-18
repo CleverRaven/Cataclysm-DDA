@@ -103,6 +103,7 @@ std::unique_ptr<cataimgui::client> imclient;
 
 #if defined(__IPHONEOS__)
 #include <CataclysmExperimental-Swift.h>
+#include <SDL_render.h>
 #endif
 
 #if defined(EMSCRIPTEN)
