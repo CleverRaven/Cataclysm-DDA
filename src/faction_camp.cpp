@@ -203,10 +203,10 @@ static const std::string camp_om_fortifications_spiked_trench_parameter =
     faction_wall_level_n_1_string;
 
 static const std::string var_time_between_succession =
-    "npctalk_var_time_between_succession";
+    "time_between_succession";
 
 static const std::string var_timer_time_of_last_succession =
-    "npctalk_var_timer_time_of_last_succession";
+    "timer_time_of_last_succession";
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -1613,6 +1613,7 @@ void basecamp::choose_new_leader()
         return;
     }
     std::vector<std::string> choices;
+    choices.reserve( 3 );
     int choice = 0;
     choices.emplace_back _( "autocratic" );
     choices.emplace_back _( "sortition" );
@@ -4448,6 +4449,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
+        rec_options.reserve( 4 );
         rec_options.emplace_back( _( "Increase Food" ) );
         rec_options.emplace_back( _( "Decrease Food" ) );
         rec_options.emplace_back( _( "Make Offer" ) );
@@ -5120,6 +5122,7 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
             note_pts.emplace_back( pos );
         }
     } else {
+        note_pts.reserve( range * 4 - 4 );
         //North Limit
         for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
             note_pts.emplace_back( x, origin.y() - range, origin.z() );

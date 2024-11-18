@@ -310,10 +310,10 @@
       "rows": [
         "                        ",
         "  wBGBw          wBGBw  ",
-        "  wjt.wwwwwGGwwwwwFe1w  ",
+        "  wjt.wwwwwGGwwwwwFe0w  ",
         "  Bj..HHwtsssstwth..SB  ",
-        "  w.....+......+....6w  ",
-        "  wK.ytmw.mttm.w.y.>7w  ",
+        "  w.....+......+....dw  ",
+        "  wK.ytmw.mttm.w.y.>Ew  ",
         "  wwwDwwwwwDDwwwwwDwww  ",
         "         x____x         ",
         "         x____x         ",
@@ -350,9 +350,9 @@
         "m": "f_armchair",
         "j": "f_bed",
         "h": "f_chair",
-        "1": "f_cupboard",
-        "6": "f_cupboard",
-        "7": "f_cupboard"
+        "0": "f_cupboard",
+        "d": "f_cupboard",
+        "E": "f_cupboard"
       },
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 50 },

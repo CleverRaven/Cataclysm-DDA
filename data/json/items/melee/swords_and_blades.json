@@ -643,7 +643,7 @@
     "volume": "60 ml",
     "longest_side": "9 cm",
     "price": "30 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",

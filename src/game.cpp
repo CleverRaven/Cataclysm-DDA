@@ -870,6 +870,29 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     m.load( pos_sm, true, pump_events );
 }
 
+void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
+        map_of_vars )
+{
+    // migrate existing variables with npctalk_var prefix to no prefix (npctalk_var_foo to just foo)
+    // remove after 0.J
+
+    if( savegame_loading_version >= 35 ) {
+        return;
+    }
+
+    const std::string prefix = "npctalk_var_";
+    for( auto i = map_of_vars.begin(); i != map_of_vars.end(); ) {
+        if( i->first.rfind( prefix, 0 ) == 0 ) {
+            auto extracted =  map_of_vars.extract( i++ );
+            std::string new_key = extracted.key().substr( prefix.size() );
+            extracted.key() = new_key;
+            map_of_vars.insert( std::move( extracted ) );
+        } else {
+            ++i;
+        }
+    }
+}
+
 // Set up all default values for a new game
 bool game::start_game()
 {
@@ -2958,6 +2981,7 @@ void end_screen_ui_impl::draw_controls()
     }
 
     if( art.is_valid() ) {
+        cataimgui::PushMonoFont();
         int row = 1;
         for( const std::string &line : art->picture ) {
             cataimgui::draw_colored_text( line );
@@ -2971,10 +2995,12 @@ void end_screen_ui_impl::draw_controls()
             }
             row++;
         }
+        ImGui::PopFont();
     }
 
     if( !input_label.empty() ) {
         ImGui::NewLine();
+        ImGui::AlignTextToFramePadding();
         cataimgui::draw_colored_text( input_label );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
         ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
@@ -4544,7 +4570,8 @@ void game::mon_info_update( )
                                       mon_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED;
             } else {
-                need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
+                need_processing =  MATT_ATTACK == matt || ( MATT_FOLLOW == matt &&
+                                   critter.get_dest() == u.get_location() );
             }
             if( need_processing ) {
                 if( index < 8 && critter.sees( get_player_character() ) ) {
@@ -5111,7 +5138,9 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range<tr
     if( id.is_null() ) {
         return nullptr;
     }
-    return place_critter_within( make_shared_fast<monster>( id ), range );
+    shared_ptr_fast<monster> mon = make_shared_fast<monster>( id );
+    mon->ammo = mon->type->starting_ammo;
+    return place_critter_within( mon, range );
 }
 
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
@@ -7914,6 +7943,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         }
     }
 
+    ret.reserve( item_order.size() );
     for( auto &elem : item_order ) {
         ret.push_back( temp_items[elem] );
     }
@@ -8170,6 +8200,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     shortcut_print( window, point( getmaxx( window ) - letters, 0 ), c_white, c_light_green, sSort );
 
     std::vector<std::string> tokens;
+    tokens.reserve( 5 + ( !sFilter.empty() ? 1 : 0 ) );
     if( !sFilter.empty() ) {
         tokens.emplace_back( _( "<R>eset" ) );
     }
@@ -13919,7 +13950,6 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
         const oter_id &past_ter = overmap_buffer.ter( old_abs_omt );
         get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt.raw(), cur_ter );
         // if the player has moved omt then might trigger an EOC for that OMT
-        effect_on_conditions::om_move();
         if( !past_ter->get_exit_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
             effect_on_condition_id eoc = cur_ter->get_exit_EOC();

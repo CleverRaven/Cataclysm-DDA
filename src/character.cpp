@@ -516,8 +516,8 @@ void Character::queue_effect( const std::string &name, const time_duration &dela
                               const time_duration &effect_duration )
 {
     std::unordered_map<std::string, std::string> ctx = {
-        { "npctalk_var_effect", name },
-        { "npctalk_var_duration", std::to_string( to_turns<int>( effect_duration ) ) }
+        { "effect", name },
+        { "duration", std::to_string( to_turns<int>( effect_duration ) ) }
     };
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
@@ -529,7 +529,7 @@ int Character::count_queued_effects( const std::string &effect ) const
     return std::count_if( queued_effect_on_conditions.list.begin(),
     queued_effect_on_conditions.list.end(), [&effect]( const queued_eoc & eoc ) {
         return eoc.eoc == effect_on_condition_add_effect &&
-               eoc.context.at( "npctalk_var_effect" ) == effect;
+               eoc.context.at( "effect" ) == effect;
     } );
 }
 
@@ -582,10 +582,10 @@ Character::Character() :
     update_type_of_scent( true );
     pkill = 0;
     // 55 Mcal or 55k kcal
-    healthy_calories = 55'000'000;
+    healthy_calories = 55000000;
     base_cardio_acc = 1000;
     // this makes sure characters start with normal bmi
-    stored_calories = healthy_calories - 1'000'000;
+    stored_calories = healthy_calories - 1000000;
     initialize_stomach_contents();
 
     name.clear();
@@ -1810,6 +1810,7 @@ void Character::forced_dismount()
         mon->mounted_player = nullptr;
     }
     std::vector<tripoint_bub_ms> valid;
+    valid.reserve( 8 );
     for( const tripoint_bub_ms &jk : get_map().points_in_radius( pos_bub(), 1 ) ) {
         if( g->is_empty( jk ) ) {
             valid.push_back( jk );
@@ -7530,6 +7531,7 @@ void Character::vomit()
 tripoint Character::adjacent_tile() const
 {
     std::vector<tripoint> ret;
+    ret.reserve( 4 );
     int dangerous_fields = 0;
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();

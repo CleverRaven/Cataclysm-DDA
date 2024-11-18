@@ -5845,6 +5845,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
+                                stair_points.reserve( 8 );
                                 if( tw != 0 ) {
                                     stair_points.emplace_back( SEEX - 1, 2 );
                                     stair_points.emplace_back( SEEX - 1, 2 );
@@ -8129,7 +8130,7 @@ void set_queued_points()
 {
     global_variables &globvars = get_globals();
     for( std::pair<const std::string, tripoint_abs_ms> &queued_point : queued_points ) {
-        globvars.set_global_value( "npctalk_var_" + queued_point.first, queued_point.second.to_string() );
+        globvars.set_global_value( queued_point.first, queued_point.second.to_string() );
     }
     queued_points.clear();
 }

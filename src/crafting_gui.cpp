@@ -49,7 +49,6 @@
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -885,9 +884,8 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-static std::pair<std::vector<const recipe *>, bool>
-recipes_from_cat( const recipe_subset &available_recipes, const crafting_category_id &cat,
-                  const std::string &subcat )
+std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
+        &available_recipes, const crafting_category_id &cat, const std::string &subcat )
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return std::make_pair( available_recipes.favorite(), false );

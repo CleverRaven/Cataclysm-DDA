@@ -668,22 +668,21 @@ void Character::add_profession_items()
 
     //storage items may not be added first, so a second attempt is needed
     attempt_add_items( prof_items, try_adding_again );
-    prof_items.clear();
-    attempt_add_items( try_adding_again, prof_items );
-    //if there's one item left that still can't be added, attempt to wield it
-    if( prof_items.size() == 1 ) {
-        item last_item = prof_items.front();
-        if( !has_wield_conflicts( last_item ) ) {
-            bool success_wield = wield( last_item );
-            if( success_wield ) {
-                prof_items.pop_front();
+    if( !try_adding_again.empty() ) {
+        prof_items.clear();
+        attempt_add_items( try_adding_again, prof_items );
+        //if there's one item left that still can't be added, attempt to wield it
+        if( prof_items.size() == 1 ) {
+            item last_item = prof_items.front();
+            if( !has_wield_conflicts( last_item ) ) {
+                bool success_wield = wield( last_item );
+                if( success_wield ) {
+                    prof_items.pop_front();
+                }
             }
         }
     }
-    if( !prof_items.empty() ) {
-        debugmsg( "Failed to place %d items in inventory for profession %s", prof_items.size(),
-                  prof->gender_appropriate_name( male ) );
-    }
+
     recalc_sight_limits();
     calc_encumbrance();
 }
@@ -4001,9 +4000,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = freeWidth > 15;
-        const int beginx2 = 46;
+        const int beginx2 = 52;
         const int ncol2 = 40;
-        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
+        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 90;
         const int ncol3 = TERMX - beginx3 - 2;
         const int beginx4 = TERMX <= 130 ? TERMX - TERMX / 5 : 128;
         const int ncol4 = TERMX - beginx4 - 2;
@@ -4026,7 +4025,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_hobbies = catacurses::newwin( TERMY - 11 - 11, ncol4, point( beginx4, 10 ) );
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
-            w_skills = catacurses::newwin( TERMY - 11, 23, point( 22, 10 ) );
+            w_skills = catacurses::newwin( TERMY - 11, 27, point( 22, 10 ) );
             w_height = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
             w_age = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
             w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 8 ) );
@@ -4143,6 +4142,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_stats );
         std::vector<std::string> vStatNames;
+        vStatNames.reserve( 4 );
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
         vStatNames.emplace_back( _( "Strength:" ) );
         vStatNames.emplace_back( _( "Dexterity:" ) );
