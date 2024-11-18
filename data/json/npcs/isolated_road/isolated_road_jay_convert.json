@@ -307,8 +307,8 @@
   },
   {
     "type": "var_migration",
-    "from": "npctalk_var_number_artisans_gunsmith_ammo_ammount",
-    "to": "npctalk_var_number_artisans_gunsmith_ammo_amount"
+    "from": "number_artisans_gunsmith_ammo_ammount",
+    "to": "number_artisans_gunsmith_ammo_amount"
   },
   {
     "id": "TALK_GUNSMITH_BULLET_PICKUP",

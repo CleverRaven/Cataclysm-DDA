@@ -217,7 +217,7 @@
     "id": "MOM_PSYCHIC_VAMPIRE",
     "name": { "str": "Psychic Vampire" },
     "points": 1,
-    "description": "You can drain a bit of vital energy from from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
+    "description": "You can drain a bit of vital energy from victims when attacking their minds with telepathy or their bodies with vitakinesis.",
     "valid": false,
     "starting_trait": true,
     "purifiable": false,

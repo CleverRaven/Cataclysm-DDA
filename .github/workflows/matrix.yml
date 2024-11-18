@@ -100,19 +100,6 @@ jobs:
             ccache_limit: 2G
             ccache_key: linux-llvm-10-break1
 
-          - compiler: clang++
-            os: macos-12
-            cmake: 0
-            native: osx
-            pch: 0
-            tiles: 1
-            sound: 1
-            localize: 1
-            title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
-            # cache size ??? to be observed
-            ccache_limit: 4G
-            ccache_key: macos-llvm-14-universal-break1
-
           - compiler: g++-9
             os: ubuntu-latest
             cmake: 0
@@ -199,6 +186,19 @@ jobs:
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
             ccache_key: linux-gcc-9-cmake
+
+          - compiler: clang++
+            os: macos-12
+            cmake: 0
+            native: osx
+            pch: 0
+            tiles: 1
+            sound: 1
+            localize: 1
+            title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
+            # cache size ??? to be observed
+            ccache_limit: 4G
+            ccache_key: macos-llvm-14-universal-break1
 
           # Reserving space for msvc ccache & vcpkg cache
             # observed usage:

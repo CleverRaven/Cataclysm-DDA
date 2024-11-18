@@ -49,7 +49,6 @@
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -885,9 +884,8 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-static std::pair<std::vector<const recipe *>, bool>
-recipes_from_cat( const recipe_subset &available_recipes, const crafting_category_id &cat,
-                  const std::string &subcat )
+std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
+        &available_recipes, const crafting_category_id &cat, const std::string &subcat )
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return std::make_pair( available_recipes.favorite(), false );
@@ -1067,7 +1065,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
     { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
+    { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },

@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "robofac_merc_1",
     "name_unique": "Cranberry Foster",
-    "//": "Appears in the the surface of Hub 01 as an external mercenary.",
+    "//": "Appears in the surface of Hub 01 as an external mercenary.",
     "name_suffix": "Hub Mercenary",
     "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "NC_ROBOFAC_MERC_1",

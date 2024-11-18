@@ -585,8 +585,8 @@ TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 {
     clear_map();
     auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
-        return src.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" &&
-               tgt.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target";
+        return src.get_value( "general_dmg_type_test_test_fire" ) == "source" &&
+               tgt.get_value( "general_dmg_type_test_test_fire" ) == "target";
     };
     // Check that ballistics damage processes weird damage types and on-hit EOCs
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,

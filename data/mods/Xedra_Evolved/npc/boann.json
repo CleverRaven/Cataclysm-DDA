@@ -212,7 +212,7 @@
         "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_COMPLETED"
       },
       {
-        "text": "I'm back and I killed the the star-crowned hound",
+        "text": "I'm back and I killed the star-crowned hound",
         "condition": { "compare_string": [ "yes", { "u_val": "killed_star_crown_hound_for_boann" } ] },
         "effect": [
           { "u_spawn_item": "dream_attuning_necklace", "count": 1 },
