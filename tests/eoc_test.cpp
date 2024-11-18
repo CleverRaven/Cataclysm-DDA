@@ -34,9 +34,9 @@ static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_at
 static const effect_on_condition_id
 effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
-effect_on_condition_EOC_compare_string_test( "EOC_compare_string_test" );
-static const effect_on_condition_id
 effect_on_condition_EOC_compare_string_match_all_test( "EOC_compare_string_match_all_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_test( "EOC_compare_string_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
