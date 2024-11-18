@@ -108,7 +108,7 @@
 #include "get_version.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "imgui/imgui.h"
+#include "imgui/imgui_stdlib.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
@@ -2899,7 +2899,7 @@ class end_screen_data
 class end_screen_ui_impl : public cataimgui::window
 {
     public:
-        std::array<char, 255> text;
+        std::string text;
         explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
         }
     protected:
@@ -2925,12 +2925,11 @@ void end_screen_data::draw_end_screen_ui()
     avatar &u = get_avatar();
     const bool is_suicide = g->uquit == QUIT_SUICIDE;
     get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            std::string( p_impl.text.data() ) );
+            p_impl.text );
 }
 
 void end_screen_ui_impl::draw_controls()
 {
-    text[0] = '\0';
     avatar &u = get_avatar();
     ascii_art_id art = ascii_art_ascii_tombstone;
     dialogue d( get_talker_for( u ), nullptr );
@@ -2980,7 +2979,7 @@ void end_screen_ui_impl::draw_controls()
         ImGui::AlignTextToFramePadding();
         cataimgui::draw_colored_text( input_label );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
-        ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
+        ImGui::InputText( "##LAST_WORD_BOX", &text );
         ImGui::SetKeyboardFocusHere( -1 );
     }
 
