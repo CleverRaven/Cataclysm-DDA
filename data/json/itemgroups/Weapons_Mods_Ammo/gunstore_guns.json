@@ -1,10 +1,43 @@
 [
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "firearm_box_extras",
+    "items": [ { "item": "gun_manual" }, { "item": "gun_lock" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "stanag_restricted",
+    "items": [ { "item": "stanag5", "count": [ 1, 2 ], "prob": 10 }, { "item": "stanag10", "count": [ 1, 2 ], "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_boxed",
     "items": [
       { "group": "guns_rifle_common_boxed_22", "prob": 1760 },
-      { "group": "guns_rifle_common_boxed_223", "prob": 100 }
+      { "group": "guns_rifle_common_boxed_223", "prob": 1000 },
+      { "group": "guns_rifle_common_boxed_308", "prob": 320 },
+      { "group": "guns_rifle_common_boxed_45acp", "prob": 271 },
+      { "group": "guns_rifle_common_boxed_762", "prob": 230 },
+      { "group": "guns_rifle_common_boxed_9mm", "prob": 180 },
+      { "group": "guns_rifle_common_boxed_3006", "prob": 149 },
+      { "group": "guns_rifle_common_boxed_357", "prob": 108 },
+      { "group": "guns_rifle_common_boxed_44", "prob": 81 },
+      { "group": "guns_rifle_common_boxed_762R", "prob": 70 },
+      { "group": "guns_rifle_common_boxed_270win", "prob": 57 },
+      { "group": "guns_rifle_common_boxed_300winmag", "prob": 32 },
+      { "group": "guns_rifle_common_boxed_380", "prob": 24 },
+      { "group": "guns_rifle_common_boxed_300blk", "prob": 19 },
+      { "group": "guns_rifle_common_boxed_4570", "prob": 18 },
+      { "group": "guns_rifle_common_boxed_30carbine", "prob": 17 },
+      { "group": "guns_rifle_common_boxed_303", "prob": 16 },
+      { "group": "guns_rifle_common_boxed_338", "prob": 14 },
+      { "group": "guns_rifle_common_boxed_450", "prob": 3 },
+      { "group": "guns_rifle_common_boxed_50beowulf", "prob": 3 },
+      { "group": "guns_rifle_common_boxed_57", "prob": 3 },
+      { "group": "guns_rifle_common_boxed_545", "prob": 3 },
+      { "group": "guns_rifle_common_boxed_7mm_arisaka", "prob": 2 }
     ]
   },
   {
@@ -24,42 +57,42 @@
     "subtype": "collection",
     "id": "boxed_marlin9a",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "marlin_9a" } ]
+    "items": [ { "item": "marlin_9a" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ruger_1022",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "ruger_1022" }, { "item": "ruger1022mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "ruger_1022" }, { "group": "firearm_box_extras" }, { "item": "ruger1022mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_rossi_gallery",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "rossi_gallery" } ]
+    "items": [ { "item": "rossi_gallery" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15_22",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "group": "ar15_22" }, { "item": "22_ar15mag_10", "count": [ 1, 2 ] } ]
+    "items": [ { "group": "ar15_22" }, { "group": "firearm_box_extras" }, { "item": "22_ar15mag_10", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_rio_bravo",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "rio_bravo" } ]
+    "items": [ { "item": "rio_bravo" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_henry_golden_boy",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "henry_golden_boy" } ]
+    "items": [ { "item": "henry_golden_boy" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
@@ -81,72 +114,66 @@
   },
   {
     "type": "item_group",
-    "subtype": "distribution",
-    "id": "stanag_restricted",
-    "items": [ { "item": "stanag5", "count": [ 1, 2 ], "prob": 10 }, { "item": "stanag10", "count": [ 1, 2 ], "prob": 90 } ]
-  },
-  {
-    "type": "item_group",
     "subtype": "collection",
     "id": "boxed_rdb",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "rdb_223" }, { "group": "stanag_restricted" } ]
+    "items": [ { "item": "rdb_223" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15_223_16",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "group": "modular_ar15" }, { "group": "stanag_restricted" } ]
+    "items": [ { "group": "modular_ar15" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15_223_20",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "group": "ar15_223long" }, { "group": "stanag_restricted" } ]
+    "items": [ { "group": "ar15_223long" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_cz600",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "group": "cz600" }, { "group": "stanag_restricted" } ]
+    "items": [ { "group": "cz600" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_bren2_556",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "bren2_556" }, { "group": "stanag_restricted" } ]
+    "items": [ { "item": "bren2_556" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_x95",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "iwi_tavor_x95_300blk" }, { "group": "stanag_restricted" } ]
+    "items": [ { "item": "iwi_tavor_x95_300blk" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_sig556",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "sig_assault_rifle" }, { "group": "stanag_restricted" } ]
+    "items": [ { "item": "sig_assault_rifle" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_mdrx_223",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "group": "mdrx" }, { "group": "stanag_restricted" } ]
+    "items": [ { "group": "mdrx" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_mdrx_long_223",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "group": "mdrx_223" }, { "group": "stanag_restricted" } ]
+    "items": [ { "group": "mdrx_223" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
   },
   {
     "type": "item_group",
@@ -155,6 +182,7 @@
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "entries": [
       { "item": "ruger_mini" },
+      { "group": "firearm_box_extras" },
       {
         "distribution": [ { "item": "ruger5", "count": [ 1, 2 ], "prob": 10 }, { "item": "ruger10", "count": [ 1, 2 ], "prob": 90 } ]
       }
@@ -165,13 +193,500 @@
     "subtype": "collection",
     "id": "boxed_sl8",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "sl8" }, { "item": "sl8mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "sl8" }, { "group": "firearm_box_extras" }, { "item": "sl8mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ak556",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
-    "items": [ { "item": "ak556" }, { "item": "zpap85mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "ak556" }, { "group": "firearm_box_extras" }, { "item": "zpap85mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_308",
+    "items": [
+      { "group": "boxed_ar10", "prob": 89 },
+      { "group": "boxed_m1a", "prob": 100 },
+      { "group": "boxed_rfb_308", "prob": 6 },
+      { "group": "boxed_fn_fal_semi", "prob": 5 },
+      { "group": "boxed_hk_g3", "prob": 1 },
+      { "group": "boxed_ak308", "prob": 20 },
+      { "group": "boxed_steyr_scout", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar10",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ar10" }, { "group": "firearm_box_extras" }, { "item": "ar10mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m1a",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "m1a" }, { "group": "firearm_box_extras" }, { "item": "m14smallmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rfb_308",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rfb_308" }, { "group": "firearm_box_extras" }, { "item": "falmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_fn_fal_semi",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "fn_fal_semi" }, { "group": "firearm_box_extras" }, { "item": "falmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hk_g3",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "hk_g3" }, { "group": "firearm_box_extras" }, { "item": "g3mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ak308",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ak308" }, { "group": "firearm_box_extras" }, { "item": "papm77mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_steyr_scout",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "steyr_scout" }, { "group": "firearm_box_extras" }, { "item": "steyr_scout_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_45acp",
+    "items": [ { "group": "boxed_hk_usc45", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hk_usc45",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "hk_usc45" }, { "group": "firearm_box_extras" }, { "item": "usc10mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_762",
+    "items": [
+      { "group": "boxed_sks", "prob": 34 },
+      { "group": "boxed_aksemi", "prob": 100 },
+      { "group": "boxed_mk47", "prob": 26 },
+      { "group": "boxed_bren2_762", "prob": 1 },
+      { "group": "boxed_ar15_762", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sks",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "sks" }, { "group": "firearm_box_extras" }, { "item": "762x39_clip", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_aksemi",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "aksemi" }, { "group": "firearm_box_extras" }, { "item": "akmag10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mk47",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "mk47" }, { "group": "firearm_box_extras" }, { "item": "akmag10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_bren2_762",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "bren2_762" }, { "group": "firearm_box_extras" }, { "item": "bren2_762mag10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_762",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "entries": [
+      { "group": "ar15_762" },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [
+          { "item": "762_ar15mag_5rd", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "762_ar15mag_10rd", "count": [ 1, 2 ], "prob": 90 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_9mm",
+    "items": [ { "group": "boxed_ksub2000", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ksub2000",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ksub2000" }, { "group": "firearm_box_extras" }, { "item": "glockmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_3006",
+    "items": [
+      { "group": "boxed_browning_blr", "prob": 4 },
+      { "group": "boxed_remington_700", "prob": 243 },
+      { "group": "boxed_ruger_m77", "prob": 62 },
+      { "group": "boxed_garand", "prob": 100 },
+      { "group": "boxed_m1903", "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_browning_blr",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "browning_blr" }, { "group": "firearm_box_extras" }, { "item": "blrmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_remington_700",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "remington_700" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_m77",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ruger_m77" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_garand",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "garand" }, { "group": "firearm_box_extras" }, { "item": "garandclip", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m1903",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "m1903" }, { "group": "firearm_box_extras" }, { "item": "3006_clip", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_357",
+    "items": [
+      { "group": "boxed_uberti_1873", "prob": 100 },
+      { "group": "boxed_rossi_r92_357_16", "prob": 18 },
+      { "group": "boxed_rossi_r92_357_20", "prob": 37 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_uberti_1873",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "uberti_1873" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rossi_r92_357_16",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rossi_r92_357_16" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rossi_r92_357_20",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rossi_r92_357_20" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_44",
+    "items": [
+      { "group": "boxed_henry_big_boy", "prob": 100 },
+      { "group": "boxed_rossi_r92_44_16", "prob": 185 },
+      { "group": "boxed_rossi_r92_44_20", "prob": 121 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_henry_big_boy",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "henry_big_boy" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rossi_r92_44_16",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rossi_r92_44_16" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rossi_r92_44_20",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rossi_r92_44_16" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_762R",
+    "items": [
+      { "group": "boxed_mosin44", "prob": 23 },
+      { "group": "boxed_mosin91_30", "prob": 100 },
+      { "group": "boxed_psl", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mosin44",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "mosin44" }, { "group": "firearm_box_extras" }, { "item": "762R_clip", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mosin91_30",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "mosin91_30" }, { "group": "firearm_box_extras" }, { "item": "762R_clip", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_psl",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "entries": [
+      { "item": "psl" },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [ { "item": "pslmag5", "count": [ 1, 2 ], "prob": 10 }, { "item": "pslmag10", "count": [ 1, 2 ], "prob": 90 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_270win",
+    "items": [ { "group": "boxed_remington700_270", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_remington700_270",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "remington700_270" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_300winmag",
+    "items": [
+      { "group": "boxed_weatherby_5", "prob": 100 },
+      { "group": "boxed_ruger_pr", "prob": 40 },
+      { "group": "boxed_win70", "prob": 27 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_weatherby_5",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "weatherby_5" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_pr",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ruger_pr" }, { "group": "firearm_box_extras" }, { "item": "ruger_pr_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_win70",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "win70" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_380",
+    "items": [ { "group": "boxed_hpt3895", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hpt3895",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "hpt3895" }, { "group": "firearm_box_extras" }, { "item": "hpt3895mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_300blk",
+    "items": [ { "group": "boxed_ar15_300", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_300",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "ar15_300" }, { "group": "firearm_box_extras" }, { "group": "stanag_restricted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_4570",
+    "items": [ { "group": "boxed_sharps", "prob": 100 }, { "group": "boxed_1895sbl", "prob": 67 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sharps",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "sharps" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_1895sbl",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "1895sbl" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_rifle_common_boxed_30carbine",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "m1carbine" }, { "group": "firearm_box_extras" }, { "item": "m1carbinemag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_303",
+    "items": [ { "group": "boxed_number4_mki", "prob": 100 }, { "group": "boxed_smle_mk3", "prob": 53 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_number4_mki",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [
+      { "item": "number4_mki" },
+      { "group": "firearm_box_extras" },
+      { "item": "enfield_303mag", "count": [ 1, 2 ] },
+      { "item": "clip303_5rd", "count": [ 0, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_smle_mk3",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [
+      { "item": "smle_mk3" },
+      { "group": "firearm_box_extras" },
+      { "item": "enfield_303mag", "count": [ 1, 2 ] },
+      { "item": "clip303_5rd", "count": [ 0, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_338",
+    "items": [ { "group": "boxed_mrad_smr", "prob": 100 }, { "group": "boxed_savage112", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mrad_smr",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "mrad_smr" }, { "group": "firearm_box_extras" }, { "item": "mrad_338lapua_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_savage112",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "savage112" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_450",
+    "items": [ { "group": "boxed_ar15_450", "prob": 100 }, { "group": "boxed_ruger_arr", "prob": 97 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_450",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "ar15_450" }, { "group": "firearm_box_extras" }, { "item": "450_ar15mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_arr",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ruger_arr" }, { "group": "firearm_box_extras" }, { "item": "ruger_arr_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_rifle_common_boxed_50beowulf",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "group": "ar15_50" }, { "group": "firearm_box_extras" }, { "item": "50beowulf_ar15mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_57",
+    "items": [ { "group": "boxed_fn_ps90", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_fn_ps90",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "fn_ps90" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_rifle_common_boxed_545",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "ak74_semi" }, { "group": "firearm_box_extras" }, { "item": "ak74mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_boxed_7mm_arisaka",
+    "items": [ { "group": "boxed_type99", "prob": 100 }, { "group": "boxed_type99_sniper", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_type99",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "type99" }, { "group": "firearm_box_extras" }, { "item": "clip_77mm_arisaka", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_type99_sniper",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "type99_sniper" }, { "group": "firearm_box_extras" }, { "item": "clip_77mm_arisaka", "count": [ 0, 2 ] } ]
   }
 ]
