@@ -475,7 +475,8 @@
   },
   {
     "type": "effect_on_condition",
-    "eoc_type": "OM_MOVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
     "id": "EOC_HAVE_U_BEEN_TO_MIGOS",
     "condition": {
       "or": [

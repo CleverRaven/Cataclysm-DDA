@@ -203,10 +203,10 @@ static const std::string camp_om_fortifications_spiked_trench_parameter =
     faction_wall_level_n_1_string;
 
 static const std::string var_time_between_succession =
-    "npctalk_var_time_between_succession";
+    "time_between_succession";
 
 static const std::string var_timer_time_of_last_succession =
-    "npctalk_var_timer_time_of_last_succession";
+    "timer_time_of_last_succession";
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -1613,6 +1613,7 @@ void basecamp::choose_new_leader()
         return;
     }
     std::vector<std::string> choices;
+    choices.reserve( 3 );
     int choice = 0;
     choices.emplace_back _( "autocratic" );
     choices.emplace_back _( "sortition" );
@@ -2280,9 +2281,7 @@ void basecamp::worker_assignment_ui()
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
 
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
-            mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_followers, point( 45, 0 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 2 ) ;
         draw_border( w_followers );
         const nc_color col = c_white;
         const std::string no_npcs = _( "You have no companions following you." );
@@ -2371,9 +2370,7 @@ void basecamp::job_assignment_ui()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_jobs );
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
-            mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_jobs, point( 45, 0 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 2 );
         draw_border( w_jobs );
         mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority" ) );
         const nc_color col = c_white;
@@ -4452,6 +4449,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
+        rec_options.reserve( 4 );
         rec_options.emplace_back( _( "Increase Food" ) );
         rec_options.emplace_back( _( "Decrease Food" ) );
         rec_options.emplace_back( _( "Make Offer" ) );
@@ -4765,7 +4763,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win,
 {
     werase( win );
     const int width = getmaxx( win );
-    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), BORDER_COLOR, LINE_OXOX, width );
 
     std::vector<std::string> tabs( base_camps::all_directions.size() );
     for( const auto &direction : base_camps::all_directions ) {
@@ -5124,6 +5122,7 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
             note_pts.emplace_back( pos );
         }
     } else {
+        note_pts.reserve( range * 4 - 4 );
         //North Limit
         for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
             note_pts.emplace_back( x, origin.y() - range, origin.z() );

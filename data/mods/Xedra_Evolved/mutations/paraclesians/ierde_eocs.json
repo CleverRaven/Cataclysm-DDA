@@ -650,17 +650,20 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_FORM_PER_TURN",
-    "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
-    "false_effect": [
-      { "u_message": "You do not have enough mana to maintain your earthen body!", "type": "bad" },
-      { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" }
-    ]
+    "id": "EOC_IERDE_STONE_FORM_OFF",
+    "effect": [ { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_FORM_OFF",
-    "effect": [ { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" } ]
+    "id": "EOC_IERDE_BODY_OF_ADAMANT_LIMB_HEALER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "IERDE_NO_BROKEN_BONES" },
+    "effect": [
+      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')", "++" ] } },
+      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')", "++" ] } },
+      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')", "++" ] } },
+      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')", "++" ] } }
+    ]
   }
 ]

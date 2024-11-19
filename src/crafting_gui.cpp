@@ -49,7 +49,6 @@
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -885,9 +884,8 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-static std::pair<std::vector<const recipe *>, bool>
-recipes_from_cat( const recipe_subset &available_recipes, const crafting_category_id &cat,
-                  const std::string &subcat )
+std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
+        &available_recipes, const crafting_category_id &cat, const std::string &subcat )
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return std::make_pair( available_recipes.favorite(), false );
@@ -1067,7 +1065,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
     { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
+    { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
@@ -1447,15 +1445,13 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         }
 
         // Draw borders
-        for( int i = 1; i < width - 1; ++i ) { // -
-            mvwputch( w_data, point( i, dataHeight - 1 ), BORDER_COLOR, LINE_OXOX );
-        }
-        for( int i = 0; i < dataHeight - 1; ++i ) { // |
-            mvwputch( w_data, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w_data, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
-        }
-        mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
-        mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
+        wattron( w_data, BORDER_COLOR );
+        mvwhline( w_data, point( 1, dataHeight - 1 ), LINE_OXOX, width - 2 );
+        mvwvline( w_data, point_zero, LINE_XOXO, dataHeight - 1 );
+        mvwvline( w_data, point( width - 1, 0 ), LINE_XOXO, dataHeight - 1 );
+        mvwaddch( w_data, point( 0, dataHeight - 1 ), LINE_XXOO ); // |_
+        mvwaddch( w_data, point( width - 1, dataHeight - 1 ), LINE_XOOX ); // _|
+        wattroff( w_data, BORDER_COLOR );
 
         const int max_recipe_name_width = 27;
         const int recmax = current.size();
@@ -1596,7 +1592,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 static_popup popup;
                 std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
                 static constexpr std::chrono::milliseconds update_interval( 500 );
-
+                // Get a key description for the cancel button.
+                // Rather than propagating the context, create a new one here as a one-off.
+                // See register_action( "QUIT" ) in recipe_dictionary.cpp (line 289 when this was commited).
+                input_context dummy;
+                dummy.register_action( "QUIT" );
+                std::string cancel_btn = dummy.get_button_text( "QUIT", _( "Cancel" ) );
                 std::function<void( size_t, size_t )> progress_callback =
                 [&]( size_t at, size_t out_of ) {
                     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -1605,7 +1606,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     }
                     last_update = now;
                     double percent = 100.0 * at / out_of;
-                    popup.message( _( "Searching… %3.0f%%\n" ), percent );
+                    popup.message( _( "Searching… %3.0f%%\n%s\n" ), percent, cancel_btn );
                     ui_manager::redraw();
                     refresh_display();
                     inp_mngr.pump_events();
@@ -2303,8 +2304,10 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
                      num_recipe ) );
     }
     //Finish border connection with the recipe tabs
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
-    mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
+    mvwaddch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), LINE_OOXX ); // ^|
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
@@ -2406,8 +2409,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
             break;
         }
         case FILTERED: {
-            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );  // ─
-            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO );  // ┌
+            wattron( w, BORDER_COLOR );
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+            mvwaddch( w, point( 0, getmaxy( w ) - 1 ), LINE_OXXO ); // ┌
+            wattroff( w, BORDER_COLOR );
             std::string tab_name = _( "Searched" );
             if( filtered_unread ) {
                 tab_name += " ";  // space for green "+"
@@ -2419,8 +2424,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
             break;
         }
         case BATCH:
-            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );  // ─
-            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO );  // ┌
+            wattron( w, BORDER_COLOR );
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+            mvwaddch( w, point( 0, getmaxy( w ) - 1 ), LINE_OXXO ); // ┌
+            wattroff( w, BORDER_COLOR );
             draw_tab( w, 2, _( "Batch" ), true );
             break;
     }
@@ -2440,8 +2447,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
     std::map<size_t, inclusive_rectangle<point>> subtab_map;
     int width = getmaxx( w );
 
+    wattron( w, BORDER_COLOR );
     mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
     mvwvline( w, point( width - 1, 0 ), LINE_XOXO, getmaxy( w ) );  // |
+    wattroff( w, BORDER_COLOR );
 
     switch( mode ) {
         case NORMAL: {
@@ -2488,10 +2497,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
         case FILTERED:
         case BATCH:
             werase( w );
-            for( int i = 0; i < 3; i++ ) {
-                mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-                mvwputch( w, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
-            }
+            wattron( w, BORDER_COLOR );
+            mvwvline( w, point_zero, LINE_XOXO, 3 ); // |
+            mvwvline( w, point( width - 1, 0 ), LINE_XOXO, 3 ); // |
+            wattroff( w, BORDER_COLOR );
             break;
     }
 

@@ -870,6 +870,29 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     m.load( pos_sm, true, pump_events );
 }
 
+void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
+        map_of_vars )
+{
+    // migrate existing variables with npctalk_var prefix to no prefix (npctalk_var_foo to just foo)
+    // remove after 0.J
+
+    if( savegame_loading_version >= 35 ) {
+        return;
+    }
+
+    const std::string prefix = "npctalk_var_";
+    for( auto i = map_of_vars.begin(); i != map_of_vars.end(); ) {
+        if( i->first.rfind( prefix, 0 ) == 0 ) {
+            auto extracted =  map_of_vars.extract( i++ );
+            std::string new_key = extracted.key().substr( prefix.size() );
+            extracted.key() = new_key;
+            map_of_vars.insert( std::move( extracted ) );
+        } else {
+            ++i;
+        }
+    }
+}
+
 // Set up all default values for a new game
 bool game::start_game()
 {
@@ -2958,6 +2981,7 @@ void end_screen_ui_impl::draw_controls()
     }
 
     if( art.is_valid() ) {
+        cataimgui::PushMonoFont();
         int row = 1;
         for( const std::string &line : art->picture ) {
             cataimgui::draw_colored_text( line );
@@ -2971,10 +2995,12 @@ void end_screen_ui_impl::draw_controls()
             }
             row++;
         }
+        ImGui::PopFont();
     }
 
     if( !input_label.empty() ) {
         ImGui::NewLine();
+        ImGui::AlignTextToFramePadding();
         cataimgui::draw_colored_text( input_label );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
         ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
@@ -3741,11 +3767,13 @@ void game::disp_NPCs()
             mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->get_name(),
                        apos.to_string() );
         }
+        wattron( w, c_white );
         for( const monster &m : all_monsters() ) {
-            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", m.name(),
+            mvwprintw( w, point( 0, i + 4 ), "%s: %d, %d, %d", m.name(),
                        m.posx(), m.posy(), m.posz() );
             ++i;
         }
+        wattroff( w, c_white );
         wnoutrefresh( w );
     } );
 
@@ -3766,14 +3794,16 @@ void game::disp_NPCs()
 // A little helper to draw footstep glyphs.
 static void draw_footsteps( const catacurses::window &window, const tripoint &offset )
 {
+    wattron( window, c_yellow );
     for( const tripoint &footstep : sounds::get_footstep_markers() ) {
         char glyph = '?';
         if( footstep.z != offset.z ) { // Here z isn't an offset, but a coordinate
             glyph = footstep.z > offset.z ? '^' : 'v';
         }
 
-        mvwputch( window, footstep.xy() + offset.xy(), c_yellow, glyph );
+        mvwaddch( window, footstep.xy() + offset.xy(), glyph );
     }
+    wattroff( window, c_yellow );
 }
 
 shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
@@ -4105,15 +4135,16 @@ void game::draw_panels( bool force_draw )
                     label = catacurses::newwin( h, 1,
                                                 point( sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width(), y ) );
                     werase( label );
+                    wattron( label, c_light_red );
                     if( h == 1 ) {
-                        mvwputch( label, point_zero, c_light_red, LINE_OXOX );
+                        mvwaddch( label, point_zero, LINE_OXOX );
                     } else {
-                        mvwputch( label, point_zero, c_light_red, LINE_OXXX );
-                        for( int i = 1; i < h - 1; i++ ) {
-                            mvwputch( label, point( 0, i ), c_light_red, LINE_XOXO );
-                        }
-                        mvwputch( label, point( 0, h - 1 ), c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+                        mvwaddch( label, point_zero, LINE_OXXX );
+                        // NOLINTNEXTLINE(cata-use-named-point-constants)
+                        mvwvline( label, point( 0, 1 ), LINE_XOXO, h - 2 ) ;
+                        mvwaddch( label, point( 0, h - 1 ), sidebar_right ? LINE_XXOO : LINE_XOOX );
                     }
+                    wattroff( label, c_light_red );
                     wnoutrefresh( label );
                 }
                 y += h;
@@ -4539,7 +4570,8 @@ void game::mon_info_update( )
                                       mon_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED;
             } else {
-                need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
+                need_processing =  MATT_ATTACK == matt || ( MATT_FOLLOW == matt &&
+                                   critter.get_dest() == u.get_location() );
             }
             if( need_processing ) {
                 if( index < 8 && critter.sees( get_player_character() ) ) {
@@ -5106,7 +5138,9 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range<tr
     if( id.is_null() ) {
         return nullptr;
     }
-    return place_critter_within( make_shared_fast<monster>( id ), range );
+    shared_ptr_fast<monster> mon = make_shared_fast<monster>( id );
+    mon->ammo = mon->type->starting_ammo;
+    return place_critter_within( mon, range );
 }
 
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
@@ -6422,9 +6456,11 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string desc = string_format( m.ter( lp ).obj().description );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
+    wattron( w_look, c_light_gray );
     for( int i = 0; i < numlines; i++ ) {
-        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+        mvwprintw( w_look, point( column, line++ ), lines[i] );
     }
+    wattroff( w_look, c_light_gray );
 
     // Furniture, if any
     print_furniture_info( lp, w_look, column, line );
@@ -6443,9 +6479,11 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     // furnitures and terrains.
     lines = foldstring( m.features( lp ), max_width );
     numlines = lines.size();
+    wattron( w_look, c_light_gray );
     for( int i = 0; i < numlines; i++ ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
+        mvwprintw( w_look, point( column, ++line ), lines[i] );
     }
+    wattroff( w_look, c_light_gray );
 
     // Move cost from terrain and furniture and vehicle parts.
     // Vehicle part information is printed in a different function.
@@ -6509,9 +6547,11 @@ void game::print_furniture_info( const tripoint &lp, const catacurses::window &w
     desc = string_format( f.obj().description );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
+    wattron( w_look, c_light_gray );
     for( int i = 0; i < numlines; i++ ) {
-        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+        mvwprintw( w_look, point( column, line++ ), lines[i] );
     }
+    wattroff( w_look, c_light_gray );
 
     // If this furniture has a crafting pseudo item, check for tool qualities and print them
     if( !f->crafting_pseudo_item.is_empty() ) {
@@ -6746,41 +6786,35 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
                                         const catacurses::window &w_info_border,
                                         const int iInfoHeight, const int width )
 {
-    for( int i = 1; i < TERMX; ++i ) {
-        if( i < width ) {
-            mvwputch( w_border, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
-            mvwputch( w_border, point( i, TERMY - iInfoHeight - 1 ), c_light_gray,
-                      LINE_OXOX ); // -
-        }
+    wattron( w_border, c_light_gray );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( w_border, point( 1,                       0 ), LINE_OXOX, width - 1 ); // -
+    mvwhline( w_border, point( 1, TERMY - iInfoHeight - 1 ), LINE_OXOX, width - 1 ); // -
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwvline( w_border, point( 0,         1 ), LINE_XOXO, TERMY - iInfoHeight - 1 ); // |
+    mvwvline( w_border, point( width - 1, 1 ), LINE_XOXO, TERMY - iInfoHeight - 1 ); // |
 
-        if( i < TERMY - iInfoHeight ) {
-            mvwputch( w_border, point( 0, i ), c_light_gray, LINE_XOXO ); // |
-            mvwputch( w_border, point( width - 1, i ), c_light_gray, LINE_XOXO ); // |
-        }
-    }
+    mvwaddch( w_border, point_zero,            LINE_OXXO ); // |^
+    mvwaddch( w_border, point( width - 1, 0 ), LINE_OOXX ); // ^|
 
-    mvwputch( w_border, point_zero, c_light_gray, LINE_OXXO ); // |^
-    mvwputch( w_border, point( width - 1, 0 ), c_light_gray, LINE_OOXX ); // ^|
-
-    mvwputch( w_border, point( 0, TERMY - iInfoHeight - 1 ), c_light_gray,
-              LINE_XXXO ); // |-
-    mvwputch( w_border, point( width - 1, TERMY - iInfoHeight - 1 ), c_light_gray,
-              LINE_XOXX ); // -|
+    mvwaddch( w_border, point( 0,         TERMY - iInfoHeight - 1 ), LINE_XXXO ); // |-
+    mvwaddch( w_border, point( width - 1, TERMY - iInfoHeight - 1 ), LINE_XOXX ); // -|
+    wattroff( w_border, c_light_gray );
 
     mvwprintz( w_border, point( 2, 0 ), c_white, _( "Zones manager" ) );
+
     wnoutrefresh( w_border );
 
-    for( int j = 0; j < iInfoHeight - 1; ++j ) {
-        mvwputch( w_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
-        mvwputch( w_info_border, point( width - 1, j ), c_light_gray, LINE_XOXO );
-    }
+    wattron( w_info_border, c_light_gray );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwvline( w_info_border, point( 0,               0 ), LINE_XOXO, iInfoHeight - 1 );
+    mvwvline( w_info_border, point( width - 1,       0 ), LINE_XOXO, iInfoHeight - 1 );
+    mvwhline( w_info_border, point( 0, iInfoHeight - 1 ), LINE_OXOX, width - 1 );
 
-    for( int j = 0; j < width - 1; ++j ) {
-        mvwputch( w_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
-    }
+    mvwaddch( w_info_border, point( 0,         iInfoHeight - 1 ), LINE_XXOO );
+    mvwaddch( w_info_border, point( width - 1, iInfoHeight - 1 ), LINE_XOOX );
+    wattroff( w_info_border, c_light_gray );
 
-    mvwputch( w_info_border, point( 0, iInfoHeight - 1 ), c_light_gray, LINE_XXOO );
-    mvwputch( w_info_border, point( width - 1, iInfoHeight - 1 ), c_light_gray, LINE_XOOX );
     wnoutrefresh( w_info_border );
 }
 
@@ -6912,11 +6946,13 @@ void game::zones_manager()
                 mvwprintz( w_zones_options, point( 1, 1 ), c_white, _( "Options" ) );
 
                 int y = 2;
+                wattron( w_zones_options, c_white );
                 for( const auto &desc : descriptions ) {
-                    mvwprintz( w_zones_options, point( 3, y ), c_white, desc.first );
-                    mvwprintz( w_zones_options, point( 20, y ), c_white, desc.second );
+                    mvwprintw( w_zones_options, point( 3, y ), desc.first );
+                    mvwprintw( w_zones_options, point( 20, y ), desc.second );
                     y++;
                 }
+                wattroff( w_zones_options, c_white );
             }
         }
 
@@ -7907,6 +7943,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         }
     }
 
+    ret.reserve( item_order.size() );
     for( auto &elem : item_order ) {
         ret.push_back( temp_items[elem] );
     }
@@ -8130,26 +8167,21 @@ bool game::take_screenshot() const
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
     const int width = getmaxx( window );
-    for( int i = 1; i < TERMX; i++ ) {
-        if( i < width ) {
-            mvwputch( window, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
-            mvwputch( window, point( i, TERMY - height - 1 ), c_light_gray,
-                      LINE_OXOX ); // -
-        }
+    wattron( window, c_light_gray );
 
-        if( i < TERMY - height ) {
-            mvwputch( window, point( 0, i ), c_light_gray, LINE_XOXO ); // |
-            mvwputch( window, point( width - 1, i ), c_light_gray, LINE_XOXO ); // |
-        }
-    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( window, point( 1,                  0 ), LINE_OXOX, width - 1 ); // -
+    mvwhline( window, point( 1, TERMY - height - 1 ), LINE_OXOX, width - 1 ); // -
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwvline( window, point( 0,         1 ), LINE_XOXO, TERMY - height - 1 ); // |
+    mvwvline( window, point( width - 1, 1 ), LINE_XOXO, TERMY - height - 1 ); // |
 
-    mvwputch( window, point_zero, c_light_gray, LINE_OXXO ); // |^
-    mvwputch( window, point( width - 1, 0 ), c_light_gray, LINE_OOXX ); // ^|
+    mvwaddch( window, point_zero, LINE_OXXO ); // |^
+    mvwaddch( window, point( width - 1, 0 ), LINE_OOXX ); // ^|
 
-    mvwputch( window, point( 0, TERMY - height - 1 ), c_light_gray,
-              LINE_XXXO ); // |-
-    mvwputch( window, point( width - 1, TERMY - height - 1 ), c_light_gray,
-              LINE_XOXX ); // -|
+    mvwaddch( window, point( 0, TERMY - height - 1 ), LINE_XXXO ); // |-
+    mvwaddch( window, point( width - 1, TERMY - height - 1 ), LINE_XOXX ); // -|
+    wattroff( window, c_light_gray );
 
     mvwprintz( window, point( 2, 0 ), c_light_green, "<Tab> " );
     wprintz( window, c_white, _( "Items" ) );
@@ -8168,6 +8200,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     shortcut_print( window, point( getmaxx( window ) - letters, 0 ), c_white, c_light_green, sSort );
 
     std::vector<std::string> tokens;
+    tokens.reserve( 5 + ( !sFilter.empty() ? 1 : 0 ) );
     if( !sFilter.empty() ) {
         tokens.emplace_back( _( "<R>eset" ) );
     }
@@ -8987,9 +9020,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     mvwprintz( w_monsters, point( width - 31, y ), color, sText );
                     const int bar_max_width = 5;
                     const int bar_width = utf8_width( sText );
+                    wattron( w_monsters, c_white );
                     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
-                        mvwprintz( w_monsters, point( width - 27 - i, y ), c_white, "." );
+                        mvwprintw( w_monsters, point( width - 27 - i, y ), "." );
                     }
+                    wattron( w_monsters, c_white );
 
                     if( m != nullptr ) {
                         const auto att = m->get_attitude();
@@ -13915,7 +13950,6 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
         const oter_id &past_ter = overmap_buffer.ter( old_abs_omt );
         get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt.raw(), cur_ter );
         // if the player has moved omt then might trigger an EOC for that OMT
-        effect_on_conditions::om_move();
         if( !past_ter->get_exit_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
             effect_on_condition_id eoc = cur_ter->get_exit_EOC();

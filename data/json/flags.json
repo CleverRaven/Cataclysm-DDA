@@ -662,7 +662,7 @@
   {
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
   },
   {
     "id": "PROVIDES_TECHNIQUES",

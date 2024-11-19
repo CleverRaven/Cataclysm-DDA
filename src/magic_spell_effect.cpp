@@ -1893,7 +1893,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         Creature *victim = creatures.creature_at<Creature>( potential_target );
         dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
         const tripoint_abs_ms target_abs = get_map().getglobal( potential_target );
-        write_var_value( var_type::context, "npctalk_var_spell_location", &d,
+        write_var_value( var_type::context, "spell_location", &d,
                          target_abs.to_string() );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );

@@ -25,6 +25,7 @@
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_foot_locker_aluminum" },
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 6 },
     "//": "Weight and pocket data recalculated from foot_locker with the use of the same resources but with the assumption that walls are gauge 16 aluminum."
   },
   {

@@ -813,6 +813,31 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
     return std::make_pair( pain_string, pain_color );
 }
 
+std::pair<std::string, nc_color> display::faction_text( const Character &u )
+{
+    std::string display_name = _( "None" );
+    nc_color display_color = c_white;
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.global_omt_location().xy() );
+    if( !bcp ) {
+        return std::pair( display_name, display_color );
+    }
+    basecamp *actual_camp = *bcp;
+    const faction_id &owner = actual_camp->get_owner();
+    if( owner->limited_area_claim && u.global_omt_location() != actual_camp->camp_omt_pos() ) {
+        return std::pair( display_name, display_color );
+    }
+    display_name = owner->name;
+    // TODO: Make this magic number into a constant
+    if( owner->likes_u < -10 ) {
+        display_color = c_red;
+    } else if( u.get_faction()->id == owner ) {
+        display_color = c_blue;
+    } else if( owner->likes_u > 10 ) {
+        display_color = c_green;
+    }
+    return std::pair( display_name, display_color );
+}
+
 nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
 {
     nc_color color = c_light_gray; // default

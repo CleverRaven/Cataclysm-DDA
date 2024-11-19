@@ -71,6 +71,7 @@ bool string_id<VehiclePlacement>::is_valid() const
 std::vector<vproto_id> VehicleGroup::all_possible_results() const
 {
     std::vector<vproto_id> result;
+    result.reserve( vehicles.size() );
     for( const weighted_object<int, vproto_id> &wo : vehicles ) {
         result.push_back( wo.obj );
     }

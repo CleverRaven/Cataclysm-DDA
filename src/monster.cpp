@@ -554,6 +554,11 @@ void monster::try_upgrade( bool pin_time )
     }
 }
 
+void monster::set_baby_timer( const time_point &time )
+{
+    baby_timer.emplace( time );
+}
+
 void monster::try_reproduce()
 {
     if( !reproduces ) {
@@ -965,8 +970,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
+    wattron( w, c_light_gray );
     for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_light_gray, lines[i] );
+        mvwprintw( w, point( column, vStart++ ), lines[i] );
     }
 
     if( !mission_fused.empty() ) {
@@ -976,9 +982,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         lines = foldstring( fused_desc, max_width );
         numlines = lines.size();
         for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-            mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+            mvwprintw( w, point( column, ++vStart ), lines[i] );
         }
     }
+    wattroff( w, c_light_gray );
 
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
@@ -1085,6 +1092,10 @@ void monster::print_info_imgui() const
 std::vector<std::string> monster::extended_description() const
 {
     std::vector<std::string> tmp;
+    // Reserve the number of elements we know we will need.
+    // Likely we will need more, but it's best to leave that to
+    // exponential growth.
+    tmp.reserve( 12 );
 
     tmp.emplace_back( get_origin( type->src ) );
     tmp.emplace_back( "--" );

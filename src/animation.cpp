@@ -50,7 +50,7 @@ class basic_animation
 {
     public:
         explicit basic_animation( const int scale ) :
-            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1'000'000L ) {
+            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -71,7 +71,7 @@ class basic_animation
             do {
                 const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
                                                  // Pump events every 100 ms
-                                                 std::chrono::nanoseconds( 100'000'000 ) );
+                                                 std::chrono::nanoseconds( 100000000 ) );
                 if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
                     std::this_thread::sleep_for( sleep_for );
                     inp_mngr.pump_events();
@@ -144,30 +144,32 @@ void draw_explosion_curses( game &g, const tripoint_bub_ms &center, const int r,
     int frame = 0;
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
+        wattron( g.w_terrain, col );
         if( r == 0 ) {
-            mvwputch( g.w_terrain, point( p.y(), p.x() ), col, '*' );
+            mvwaddch( g.w_terrain, point( p.y(), p.x() ), '*' );
         }
 
         for( int i = 1; i <= frame; ++i ) {
             // corner: top left
-            mvwputch( g.w_terrain, p.xy().raw() + point( -i, -i ), col, '/' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( -i, -i ), '/' );
             // corner: top right
-            mvwputch( g.w_terrain, p.xy().raw() + point( i, -i ), col, '\\' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( i, -i ), '\\' );
             // corner: bottom left
-            mvwputch( g.w_terrain, p.xy().raw() + point( -i, i ), col, '\\' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( -i, i ), '\\' );
             // corner: bottom right
-            mvwputch( g.w_terrain, p.xy().raw() + point( i, i ), col, '/' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( i, i ), '/' );
             for( int j = 1 - i; j < 0 + i; j++ ) {
                 // edge: top
-                mvwputch( g.w_terrain, p.xy().raw() + point( j, -i ), col, '-' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( j, -i ), '-' );
                 // edge: bottom
-                mvwputch( g.w_terrain, p.xy().raw() + point( j, i ), col, '-' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( j, i ), '-' );
                 // edge: left
-                mvwputch( g.w_terrain, p.xy().raw() + point( -i, j ), col, '|' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( -i, j ), '|' );
                 // edge: right
-                mvwputch( g.w_terrain, p.xy().raw() + point( i, j ), col, '|' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( i, j ), '|' );
             }
         }
+        wattroff( g.w_terrain, col );
     } );
     g.add_draw_callback( explosion_cb );
 
@@ -769,6 +771,7 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     }
 
     std::vector<tripoint_bub_ms> temp;
+    temp.reserve( points.size() );
     for( const tripoint &it : points ) {
         const tripoint_bub_ms tmp = tripoint_bub_ms( it );
         temp.push_back( tmp );
@@ -889,9 +892,12 @@ namespace
 {
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
+    wattron( win, w.colGlyph );
+    const std::string symbol = w.get_symbol();
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
+        mvwprintw( win, point( drop.first, drop.second ), symbol );
     }
+    wattroff( win, w.colGlyph );
 }
 } //namespace
 
@@ -965,12 +971,10 @@ void draw_zones_curses( const catacurses::window &w, const tripoint_bub_ms &star
     }
 
     nc_color    const col = invert_color( c_light_green );
-    const std::string line( end.x() - start.x() + 1, '~' );
-    int         const x = start.x() - offset.x;
 
-    for( int y = start.y(); y <= end.y(); ++y ) {
-        mvwprintz( w, point( x, y - offset.y ), col, line );
-    }
+    wattron( w, col );
+    mvwrectf( w, ( start.raw() - offset ).xy(), '~', end.x() - start.x() + 1, end.y() - start.y() + 1 );
+    wattroff( w, col );
 }
 } //namespace
 

@@ -1944,7 +1944,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "bookcases and chair for for studies, workrooms, hobby rooms, etc",
+    "//": "bookcases and chair for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_1",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1961,7 +1961,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "bookcases and chair for for studies, workrooms, hobby rooms, etc",
+    "//": "bookcases and chair for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_1A",
     "object": {
       "mapgensize": [ 3, 3 ],

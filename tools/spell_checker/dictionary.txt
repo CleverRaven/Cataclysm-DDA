@@ -877,6 +877,7 @@ Bulgarian
 Bullard
 bullpup
 bullseye
+bullshit
 Buluotuo
 Bulwer
 Bundahis
@@ -3462,6 +3463,7 @@ locs
 Locutus
 Loew
 Loki
+lokiceratops
 lolita
 London
 longarm

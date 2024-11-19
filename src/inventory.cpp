@@ -133,6 +133,7 @@ inventory::inventory() = default;
 invslice inventory::slice()
 {
     invslice stacks;
+    stacks.reserve( items.size() );
     for( auto &elem : items ) {
         stacks.push_back( &elem );
     }
@@ -142,6 +143,7 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
+    stacks.reserve( items.size() );
     for( const auto &item : items ) {
         stacks.push_back( &item );
     }

@@ -75,7 +75,7 @@
     "id": "material_cement",
     "category": "spare_parts",
     "price": "2 USD",
-    "price_postapoc": "10 cent",
+    "price_postapoc": "1 cent",
     "name": { "str_sp": "cement powder" },
     "symbol": "=",
     "color": "dark_gray",

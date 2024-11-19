@@ -152,6 +152,8 @@ static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
 static constexpr int MIN_SPEED_TPS = 1;
 static constexpr int MAX_SPEED_TPS = 3;
+// 16 tiles/s is roughly 55 knots, helicopter efficiency is greatest around 50-70 knots.
+static constexpr int MAX_AIR_SPEED_TPS = 16;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
@@ -301,6 +303,7 @@ struct auto_navigation_data {
     bool land_ok;
     bool water_ok;
     bool air_ok;
+    bool is_flying;
     // the maximum speed to consider driving at, in tiles/s
     int max_speed_tps;
     // max acceleration
@@ -928,7 +931,11 @@ void vehicle::autodrive_controller::precompute_data()
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
         data.air_ok = driven_veh.has_sufficient_rotorlift();
-        data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
+        data.is_flying = driven_veh.is_rotorcraft() && driven_veh.is_flying_in_air();
+        data.max_speed_tps = std::min(
+                                 data.is_flying ? MAX_AIR_SPEED_TPS : MAX_SPEED_TPS,
+                                 driven_veh.safe_velocity() / VMIPH_PER_TPS
+                             );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
             data.acceleration[speed_tps] = driven_veh.acceleration( true, speed_tps * VMIPH_PER_TPS );
@@ -1199,7 +1206,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     }
     for( const point &p : collision_zone ) {
         const tripoint_bub_ms next = data.adjust_z( veh_pos + p );
-        if( !driver.sees( next ) ) {
+        if( !data.is_flying && !driver.sees( next ) ) {
             return collision_check_result::slow_down;
         }
         if( !check_drivable( next ) ) {
@@ -1266,6 +1273,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
 {
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
     std::vector<std::tuple<point, int, std::string>> ret;
+    ret.reserve( collision_check_points.size() );
 
     const tripoint_abs_ms veh_pos = global_square_location();
     if( autodrive_local_target != tripoint_abs_ms_zero ) {

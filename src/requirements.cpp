@@ -836,6 +836,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const read_only_visitable &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
+    output_buffer.reserve( 2 );
     output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
     if( tools.empty() && qualities.empty() ) {
         output_buffer.push_back( colorize( "> ", col ) + colorize( _( "NONE" ), c_green ) );

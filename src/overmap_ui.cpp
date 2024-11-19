@@ -198,11 +198,12 @@ static void update_note_preview( const std::string_view note,
     print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text,
                         report_color_error::no );
     int note_text_width = utf8_width( note_text );
-    mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
-    for( int i = 0; i < note_text_width; i++ ) {
-        mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
-    }
-    mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
+    wattron( *w_preview_title, c_white );
+    mvwaddch( *w_preview_title, point( note_text_width, 0 ), LINE_XOXO );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( *w_preview_title, point( 0, 1 ), LINE_OXOX, note_text_width );
+    mvwaddch( *w_preview_title, point( note_text_width, 1 ), LINE_XOOX );
+    wattroff( *w_preview_title, c_white );
     wnoutrefresh( *w_preview_title );
 
     const point npm_offset( point_south_east );
@@ -891,27 +892,23 @@ static void draw_ascii(
             maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
-        mvwputch( w, point_south_east, c_white, LINE_OXXO );
-        for( int i = 0; i <= maxlen; i++ ) {
-            mvwputch( w, point( i + 2, 1 ), c_white, LINE_OXOX );
-        }
-        mvwputch( w, point( 1, corner_text.size() + 2 ), c_white, LINE_XXOO );
-        const std::string spacer( maxlen, ' ' );
+        mvwrectf( w, point( 2, 2 ), c_yellow, ' ', maxlen, corner_text.size() );
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[i];
-            // clear line, print line, print vertical line on each side.
-            mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
-            mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
             print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second,
                                 report_color_error::no );
-            mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
-        mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
-        for( int i = 0; i <= maxlen; i++ ) {
-            mvwputch( w, point( i + 2, corner_text.size() + 2 ), c_white, LINE_OXOX );
-        }
-        mvwputch( w, point( maxlen + 2, corner_text.size() + 2 ), c_white, LINE_XOOX );
+        wattron( w, c_white );
+        mvwaddch( w, point_south_east, LINE_OXXO ); // .-
+        mvwhline( w, point( 2, 1 ), LINE_OXOX, maxlen ); // -
+        mvwaddch( w, point( 1, corner_text.size() + 2 ), LINE_XXOO ); // '-
+        mvwvline( w, point( 1, 2 ), LINE_XOXO, corner_text.size() ); // |
+        mvwvline( w, point( maxlen + 2, 2 ), LINE_XOXO, corner_text.size() ); // |
+        mvwaddch( w, point( maxlen + 2, 1 ), LINE_OOXX ); // -.
+        mvwhline( w, point( 2, corner_text.size() + 2 ), LINE_OXOX, maxlen + 1 ); // -
+        mvwaddch( w, point( maxlen + 2, corner_text.size() + 2 ), LINE_XOOX ); // -'
+        wattroff( w, c_white );
     }
 
     if( !sZoneName.empty() && tripointZone.xy() == cursor_pos.xy() ) {
@@ -919,21 +916,22 @@ static void draw_ascii(
         sTemp += " " + sZoneName;
 
         const int length = utf8_width( sTemp );
-        for( int i = 0; i <= length; i++ ) {
-            mvwputch( w, point( i, om_map_height - 2 ), c_white, LINE_OXOX );
-        }
-
         mvwprintz( w, point( 0, om_map_height - 1 ), c_yellow, sTemp );
-        mvwputch( w, point( length, om_map_height - 2 ), c_white, LINE_OOXX );
-        mvwputch( w, point( length, om_map_height - 1 ), c_white, LINE_XOXO );
+        wattron( w, c_white );
+        mvwhline( w, point( 0, om_map_height - 2 ), LINE_OXOX, length + 1 );
+        mvwaddch( w, point( length, om_map_height - 2 ), LINE_OOXX );
+        mvwaddch( w, point( length, om_map_height - 1 ), LINE_XOXO );
+        wattroff( w, c_white );
     }
 
     // draw nice crosshair around the cursor
     if( blink && !uistate.place_terrain && !uistate.place_special ) {
-        mvwputch( w, point( om_half_width - 1, om_half_height - 1 ), c_light_gray, LINE_OXXO );
-        mvwputch( w, point( om_half_width + 1, om_half_height - 1 ), c_light_gray, LINE_OOXX );
-        mvwputch( w, point( om_half_width - 1, om_half_height + 1 ), c_light_gray, LINE_XXOO );
-        mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
+        wattron( w, c_light_gray );
+        mvwaddch( w, point( om_half_width - 1, om_half_height - 1 ), LINE_OXXO );
+        mvwaddch( w, point( om_half_width + 1, om_half_height - 1 ), LINE_OOXX );
+        mvwaddch( w, point( om_half_width - 1, om_half_height + 1 ), LINE_XXOO );
+        mvwaddch( w, point( om_half_width + 1, om_half_height + 1 ), LINE_XOOX );
+        wattroff( w, c_light_gray );
     }
     // Done with all drawing!
     wnoutrefresh( w );
@@ -970,16 +968,11 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
 
     // Draw the vertical line
-    for( int j = 0; j < TERMY; j++ ) {
-        mvwputch( wbar, point( 0, j ), c_white, LINE_XOXO );
-    }
+    mvwvline( wbar, point_zero, c_white, LINE_XOXO, TERMY );
 
     // Clear the legend
-    for( int i = 1; i < getmaxx( wbar ); i++ ) {
-        for( int j = 0; j < TERMY; j++ ) {
-            mvwputch( wbar, point( i, j ), c_black, ' ' );
-        }
-    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwrectf( wbar, point( 1, 0 ), c_black, ' ', getmaxx( wbar ), TERMY );
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
@@ -989,17 +982,20 @@ static void draw_om_sidebar( ui_adaptor &ui,
             ui.set_cursor( wbar, desc_pos );
             int line_number = 0;
             for( mongroup * const &mgroup : mgroups ) {
-                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                           c_blue, "  Species: %s", mgroup->type.c_str() );
-                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                           c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size() );
+                wattron( wbar, c_blue );
+                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                           "  Species: %s", mgroup->type.c_str() );
+                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                           "# monsters: %d", mgroup->population + mgroup->monsters.size() );
                 if( !mgroup->horde ) {
+                    wattroff( wbar, c_blue );
                     continue;
                 }
-                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                           c_blue, "  Interest: %d", mgroup->interest );
-                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                           c_blue, "  Target: %s", mgroup->target.to_string() );
+                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                           "  Interest: %d", mgroup->interest );
+                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                           "  Target: %s", mgroup->target.to_string() );
+                wattroff( wbar, c_blue );
                 mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_red, "x" );
             }
@@ -1069,59 +1065,58 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
 
     if( ( data.debug_editor && center_vision != om_vision_level::unseen ) || data.debug_info ) {
-        mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   "abs_omt: %s", cursor_pos.to_string() );
+        wattron( wbar, c_white );
+        mvwprintw( wbar, point( 1, ++lines ), "abs_omt: %s", cursor_pos.to_string() );
         const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
-        mvwprintz( wbar, point( 1, ++lines ), c_white, "oter: %s (rot %d)", oter.id.str(),
-                   oter.get_rotation() );
-        mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   "oter_type: %s", oter.get_type_id().str() );
+        mvwprintw( wbar, point( 1, ++lines ), "oter: %s (rot %d)", oter.id.str(), oter.get_rotation() );
+        mvwprintw( wbar, point( 1, ++lines ), "oter_type: %s", oter.get_type_id().str() );
         // tileset ids come with a prefix that must be stripped
-        mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   "tileset id: '%s'", oter.get_tileset_id( center_vision ).substr( 3 ) );
+        mvwprintw( wbar, point( 1, ++lines ), "tileset id: '%s'",
+                   oter.get_tileset_id( center_vision ).substr( 3 ) );
         std::vector<oter_id> predecessors = overmap_buffer.predecessors( cursor_pos );
         if( !predecessors.empty() ) {
-            mvwprintz( wbar, point( 1, ++lines ), c_white, "predecessors:" );
+            mvwprintw( wbar, point( 1, ++lines ), "predecessors:" );
             for( auto pred = predecessors.rbegin(); pred != predecessors.rend(); ++pred ) {
-                mvwprintz( wbar, point( 1, ++lines ), c_white, "- %s", pred->id().str() );
+                mvwprintw( wbar, point( 1, ++lines ), "- %s", pred->id().str() );
             }
         }
         std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( cursor_pos );
         if( args ) {
             if( *args ) {
                 for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
-                    mvwprintz( wbar, point( 1, ++lines ), c_white, "%s = %s",
-                               arg.first, arg.second.get_string() );
+                    mvwprintw( wbar, point( 1, ++lines ), "%s = %s", arg.first, arg.second.get_string() );
                 }
             } else {
-                mvwprintz( wbar, point( 1, ++lines ), c_white, "args not yet set" );
+                mvwprintw( wbar, point( 1, ++lines ), "args not yet set" );
             }
         }
 
         for( cube_direction dir : all_enum_values<cube_direction>() ) {
             if( std::string *join = overmap_buffer.join_used_at( { cursor_pos, dir } ) ) {
-                mvwprintz( wbar, point( 1, ++lines ), c_white, "join %s: %s",
-                           io::enum_to_string( dir ), *join );
+                mvwprintw( wbar, point( 1, ++lines ), "join %s: %s", io::enum_to_string( dir ), *join );
             }
         }
+        wattroff( wbar, c_white );
 
+        wattron( wbar, c_red );
         for( const mongroup *mg : overmap_buffer.monsters_at( cursor_pos ) ) {
-            mvwprintz( wbar, point( 1, ++lines ), c_red, "mongroup %s (%zu/%u), %s %s%s",
+            mvwprintw( wbar, point( 1, ++lines ), "mongroup %s (%zu/%u), %s %s%s",
                        mg->type.str(), mg->monsters.size(), mg->population,
                        io::enum_to_string( mg->behaviour ),
                        mg->dying ? "x" : "", mg->horde ? "h" : "" );
-            mvwprintz( wbar, point( 1, ++lines ), c_red, "target: %s (%d)",
+            mvwprintw( wbar, point( 1, ++lines ), "target: %s (%d)",
                        project_to<coords::omt>( mg->target ).to_string(), mg->interest );
         }
+        wattroff( wbar, c_red );
     }
 
+    wattron( wbar, c_white );
     if( has_target ) {
         const int distance = rl_dist( cursor_pos, target );
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to current objective:" ) );
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%d tiles" ), distance );
+        mvwprintw( wbar, point( 1, ++lines ), _( "Distance to current objective:" ) );
+        mvwprintw( wbar, point( 1, ++lines ), _( "%d tiles" ), distance );
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%s" ),
-                   length_to_string_approx( distance * 24_meter ) );
+        mvwprintw( wbar, point( 1, ++lines ), _( "%s" ), length_to_string_approx( distance * 24_meter ) );
 
         const int above_below = target.z() - orig.z();
         std::string msg;
@@ -1131,21 +1126,24 @@ static void draw_om_sidebar( ui_adaptor &ui,
             msg = _( "Below us" );
         }
         if( above_below != 0 ) {
-            mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%s" ), msg );
+            mvwprintw( wbar, point( 1, ++lines ), _( "%s" ), msg );
         }
     }
 
     //Show mission targets on this location
     for( mission *&mission : player_character.get_active_missions() ) {
         if( mission->get_target() == cursor_pos ) {
-            mvwprintz( wbar, point( 1, ++lines ), c_white, mission->name() );
+            mvwprintw( wbar, point( 1, ++lines ), mission->name() );
         }
     }
+    wattroff( wbar, c_white );
 
-    mvwprintz( wbar, point( 1, 12 ), c_magenta, _( "Use movement keys to pan." ) );
-    mvwprintz( wbar, point( 1, 13 ), c_magenta, _( string_format( "Press %s to preview route.",
-               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
-    mvwprintz( wbar, point( 1, 14 ), c_magenta, _( "Press again to confirm." ) );
+    wattron( wbar, c_magenta );
+    mvwprintw( wbar, point( 1, 12 ), _( "Use movement keys to pan." ) );
+    mvwprintw( wbar, point( 1, 13 ), _( string_format( "Press %s to preview route.",
+                                        inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
+    mvwprintw( wbar, point( 1, 14 ), _( "Press again to confirm." ) );
+    wattroff( wbar, c_magenta );
     int y = 16;
 
     const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {

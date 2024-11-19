@@ -720,14 +720,11 @@ void Messages::dialog::show()
             // Print line brackets to mark ranges of time
             if( printing_range ) {
                 const size_t last_line = log_from_top ? line - 1 : line + 1;
-                wattron( w, bracket_color );
-                mvwaddch( w, point( border_width + time_width - 1, border_width + last_line ), LINE_XOXO );
-                wattroff( w, bracket_color );
+                mvwputch( w, point( border_width + time_width - 1, border_width + last_line ), bracket_color,
+                          LINE_XOXO );
             }
-            wattron( w, bracket_color );
-            mvwaddch( w, point( border_width + time_width - 1, border_width + line ),
+            mvwputch( w, point( border_width + time_width - 1, border_width + line ), bracket_color,
                       log_from_top ? LINE_XXOO : LINE_OXXO );
-            wattroff( w, bracket_color );
             printing_range = true;
         }
 

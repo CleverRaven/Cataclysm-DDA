@@ -1118,6 +1118,7 @@ void vehicle::operate_scoop()
         sounds::sound( bub_part_pos( scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint_bub_ms> parts_points;
+        parts_points.reserve( 8 );
         for( const tripoint_bub_ms &current :
              here.points_in_radius( bub_part_pos( scoop ), 1 ) ) {
             parts_points.push_back( current );
@@ -1727,7 +1728,7 @@ std::pair<const itype_id &, int> vehicle::tool_ammo_available( const itype_id &t
         return { itype_id::NULL_ID(), 0 };
     }
     // 2 bil ought to be enough for everyone, and hopefully not overflow int
-    const int64_t max = 2'000'000'000;
+    const int64_t max = 2000000000;
     if( ft->ammo->type == ammo_battery ) {
         return { ft, static_cast<int>( std::min<int64_t>( battery_left(), max ) ) };
     } else {

@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "INVALID",
     "category": "MED",
-    "name": { "str": "abstract gracken improvement" },
+    "name": { "str": "abstract gracken improvement", "//~": "NO_I18N" },
     "weight": "2041 g",
     "volume": "2500 ml",
     "material": [ "flesh", "shadowstuff" ],
