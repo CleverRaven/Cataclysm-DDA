@@ -21,6 +21,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "sterilizing",
     "based_on": "time",
+    "can_resume": false,
     "completion_eoc": "EOC_PHOTOKIN_RADIATION_STERILIZATION_FINALIZE"
   },
   {
