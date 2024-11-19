@@ -658,7 +658,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "//": "1u of surface heat since 30g of snails",
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" }  ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "gastropod_purged", 1 ] ] ]
   },
   {
@@ -7520,7 +7520,11 @@
     "time": "30 m",
     "book_learn": [ [ "fermenting_book", 2 ], [ "cookbook_foodfashions", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
+    "proficiencies": [
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_fermenting" },
+      { "proficiency": "prof_lactofermenting" }
+    ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "barely any cooking going on here",
     "components": [
@@ -8875,7 +8879,11 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_scav_cooking" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_scav_cooking" },
+      { "proficiency": "prof_preservation" },
+      { "proficiency": "prof_food_curing" }
+    ],
     "//": "You are smoking roughly 600g of meat, so roughly 60u of smoking_heat.",
     "tools": [
       [ [ "smoking_heat", 160, "LIST" ] ],
@@ -9132,7 +9140,12 @@
     "charges": 10,
     "autolearn": true,
     "qualities": [ { "id": "OVEN", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
+    "proficiencies": [
+      { "proficiency": "prof_baking" },
+      { "proficiency": "prof_baking_bread" },
+      { "proficiency": "prof_fermenting" },
+      { "proficiency": "prof_lactofermenting" }
+    ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "//": "2u of water for baking the bread (not allowing dirty water here since it may not fully boil) + 1u for the new starter.",
     "//1": "This is 14u of flour in total + anything else that may be needed.",
@@ -9627,7 +9640,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook_italian", 2 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_knife_skills", "time_multiplier": 1.5} ],
+    "proficiencies": [ { "proficiency": "prof_knife_skills", "time_multiplier": 1.5 } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
       [ [ "any_bread", 1, "LIST" ] ],
