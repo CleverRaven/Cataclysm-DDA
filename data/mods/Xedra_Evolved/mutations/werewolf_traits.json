@@ -1,0 +1,93 @@
+[
+  {
+    "//": "Werewolf traits should focus on hunting, fighting extradimensional threats, the moon, battle fury, shapeshifting",
+    "type": "mutation",
+    "id": "WEREWOLF_MANA_TRAIT",
+    "name": { "str": "Werewolf Mana", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "Your mana is calculated differently because you're a werewolf.", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "(-1000 * (1 + ( (0.2 + (u_val('intelligence') * 0.1 ) - 1) ) )" ] } } ]
+      }
+    ]
+  },
+  {
+    "//": "Tier 1 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_SMELL_NEARBY_ENEMIES",
+    "name": { "str": "Scent the Prey" },
+    "points": 2,
+    "description": "Your sense of smell is heightened even in human form, allowing you to smell nearby enemies. In war or wolf form, this range is extended.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "//2": "No one but the player has scents so done as a simple detect creatures trait with a very low range. This DOES allow you smell robots, but hopefully if we get JSONized detection we can limit the range of creatures",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_VISION_RANGE",
+            "add": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "//": "Tier 2 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
+    "name": { "str": "Sense the Outsider" },
+    "points": 2,
+    "description": "The People have long fought the things from Outside and developed a keen sense when one of them is near.  When active, you can sense nearby creatures of the Nether or beings from Under the Hill.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 1,
+    "time": 30,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          {
+            "value": "SIGHT_RANGE_FAE",
+            "add": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ), 35)"
+              ]
+            }
+          },
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.3) + (werewolf_tier_four_traits() * 0.45) + (werewolf_tier_five_traits() * 0.6) ), 50)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "//": "Tier 3 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_PARTIAL_SHIFT",
+    "name": { "str": "Partial Shift" },
+    "points": 2,
+    "description": "Transforming fully is very useful but the real mark of mastery is changing only a part of your body.  This is most useful in human form, but can be used in other forms as well, such as transforming your hands back into human ones for easier manipulation.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_WEREWOLF_PARTIAL_SHIFT_activated" ]
+  }
+]
