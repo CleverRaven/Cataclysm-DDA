@@ -9627,7 +9627,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook_italian", 2 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_knife_skills" "time_multiplier": 1.5} ],
+    "proficiencies": [ { "proficiency": "prof_knife_skills", "time_multiplier": 1.5} ],
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
       [ [ "any_bread", 1, "LIST" ] ],
