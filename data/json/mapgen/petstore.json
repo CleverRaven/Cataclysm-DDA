@@ -32,13 +32,13 @@
         "......~~~~~UU~UU~~......",
         "......~~~~~~~~~~~~......"
       ],
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_floor",
         "'": "t_thconc_floor",
         "G": "t_thconc_floor",
-        "-": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "U": "t_concrete",
         "~": "t_concrete",
         "+": "t_door_c",
