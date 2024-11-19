@@ -32,7 +32,7 @@
         ".##################+###,",
         "..............,U<U,,U,,,"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         " ": "t_floor",
@@ -179,7 +179,7 @@
         ".########+#############.",
         "......'U''''<U'........."
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -323,7 +323,7 @@
         "........A...............",
         "........................"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         ",": "t_concrete",

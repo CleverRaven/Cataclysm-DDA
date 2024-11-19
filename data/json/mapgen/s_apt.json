@@ -95,7 +95,12 @@
         "........#>=<=>#.........",
         "........##&#&##........."
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_palette", "parametrized_highrise_walls_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "domestic_general_and_variant_palette",
+        "parametrized_carpets_palette",
+        "parametrized_highrise_walls_palette"
+      ],
       "terrain": {
         ".": "t_open_air",
         "<": "t_stairs_up",

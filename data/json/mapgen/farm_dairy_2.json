@@ -284,7 +284,7 @@
         "...........||||oo||||||oo||||||||o|||...........",
         "................................................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         ":": "t_open_air_rooved",
         ".": "t_open_air",
