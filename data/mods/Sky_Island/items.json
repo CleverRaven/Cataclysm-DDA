@@ -58,7 +58,8 @@
   {
     "type": "ARMOR",
     "id": "warpbag_base",
-    "name": { "str": "warped bag" },
+    "name": { "str": "warped bag", "//~": "NO_I18N" },
+    "description": { "str": "This is a template you shouldn't actually see.", "//~": "NO_I18N" },
     "symbol": "[",
     "color": "light_gray",
     "material": [ "alien_resin" ],
@@ -80,7 +81,6 @@
     "weight": "400 g",
     "volume": "2000 ml",
     "longest_side": "11 meter",
-    "description": "This is a template you shouldn't actually see.",
     "armor": [
       {
         "coverage": 0,
