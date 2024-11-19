@@ -32,6 +32,7 @@
         "...Z...........2UU22U...",
         "........................"
       ],
+      "palettes": [ "parametrized_concrete_carpets_palette" ],
       "terrain": {
         " ": "t_thconc_floor",
         "+": "t_door_locked",
@@ -41,7 +42,7 @@
         "2": "t_concrete",
         "U": "t_concrete",
         "g": "t_door_glass_c",
-        "o": "t_carpet_concrete_purple",
+        "o": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w",
