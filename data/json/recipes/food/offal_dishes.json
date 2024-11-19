@@ -459,7 +459,6 @@
     "tools": [ [ [ "surface_heat", 19, "LIST" ] ] ],
     "//": "lung: 8u, flour: 4u, onion: 2u, oil: 1u, sauce: 1u, wine: 3u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "//": "I feel like there should be a sauce proficiency, but I have no interest in going through these recipies again and it would not add much I think",
     "components": [
       [ [ "meat_lung", 4, "LIST" ] ],
       [ [ "flour_any", 4, "LIST" ] ],
