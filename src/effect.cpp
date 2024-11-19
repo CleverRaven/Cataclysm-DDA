@@ -274,7 +274,6 @@ void weed_msg( Character &p )
                 weed_msg( p );
                 return;
             case 5:
-                return;
             default:
                 return;
         }
