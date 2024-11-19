@@ -103,7 +103,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKINETIC_STERILIZE_FOODS",
     "effect": [
-      { "math": [ "u_photokinetic_sterilize_item_count", "=", "0" ] },
+      { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "=", "0" ] },
       {
         "u_run_inv_eocs": "manual_mult",
         "title": "What food or drink do you want to sterilize?",
@@ -114,19 +114,23 @@
         "true_eocs": [
           {
             "id": "EOC_PHOTOKINETIC_STERILIZE_FOODS_PREP",
-            "effect": [ { "math": [ "u_photokinetic_sterilize_item_count", "++" ] }, { "npc_set_flag": "PHOTOKIN_IRRADIATION_READY" } ]
+            "effect": [
+              { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "+=", "n_weight() / 1000" ] },
+              { "npc_set_flag": "PHOTOKIN_IRRADIATION_READY" }
+            ]
           }
         ]
       },
+      { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "/=", "40" ] },
       {
         "u_add_effect": "effect_photokin_sterilization",
-        "duration": { "math": [ "(u_photokinetic_sterilize_item_count * 10) + 1" ] }
+        "duration": { "math": [ "max( ( u_photokinetic_sterilize_item_weight_in_grams + 1), 1)" ] }
       },
       {
         "u_assign_activity": "ACT_PSI_PHOTOKIN_RADIATION_STERILIZATION",
-        "duration": { "math": [ "u_photokinetic_sterilize_item_count * 10" ] }
+        "duration": { "math": [ "max( ( u_photokinetic_sterilize_item_weight_in_grams + 1), 1)" ] }
       },
-      { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST", "time_in_future": [ 7, 9 ] }
+      { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST" }
     ]
   },
   {
@@ -148,7 +152,7 @@
     "condition": { "u_has_effect": "effect_photokin_sterilization" },
     "effect": [
       { "math": [ "u_calories()", "-=", "rand(2) + 1" ] },
-      { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST", "time_in_future": [ 7, 9 ] }
+      { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST", "time_in_future": [ 10, 15 ] }
     ]
   },
   {
