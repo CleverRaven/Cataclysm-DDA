@@ -2817,7 +2817,7 @@ void item::io( Archive &archive )
     // game::legacy_migrate_npctalk_var_prefix( item_vars );
     // doesn't work here, because item_vars is cata::heap<std::map<>>, not std::unordered_map<>
     // remove after 0.J
-    if( savegame_loading_version < 35 ) {
+    if( savegame_loading_version < 36 ) {
         const std::string prefix = "npctalk_var_";
         for( auto i = item_vars.begin(); i != item_vars.end(); ) {
             if( i->first.rfind( prefix, 0 ) == 0 ) {
