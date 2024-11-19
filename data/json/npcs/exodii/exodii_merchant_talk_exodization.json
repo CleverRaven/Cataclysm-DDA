@@ -251,7 +251,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodized2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you s tarted, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
+      "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you started, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
       "str": "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more."
     },
     "responses": [
