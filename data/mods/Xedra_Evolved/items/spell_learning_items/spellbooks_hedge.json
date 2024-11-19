@@ -50,14 +50,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -91,8 +91,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_make_plants_grow", "hedge_ward_off_rain", "hedge_cure_cold_or_flu" ] }
   },
   {
@@ -146,14 +146,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -187,8 +187,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] }
   },
   {
@@ -242,14 +242,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -283,8 +283,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
   },
   {
@@ -341,14 +341,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -382,8 +382,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
@@ -440,14 +440,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -481,8 +481,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
   },
   {
@@ -536,14 +536,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -577,8 +577,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
   },
   {
@@ -651,14 +651,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -692,8 +692,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": {
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
@@ -752,14 +752,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -793,8 +793,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": {
       "type": "learn_spell",
       "spells": [

@@ -150,6 +150,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "carry_weight_value";
         case widget_var::date_text:
             return "date_text";
+        case widget_var::faction_territory:
+            return "faction_territory";
         case widget_var::env_temp_text:
             return "env_temp_text";
         case widget_var::mood_text:
@@ -309,7 +311,7 @@ bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     d.reason = opt_var; // TODO: remove since it's replaced by context var
-    write_var_value( var_type::context, "npctalk_var_widget", &d, opt_var );
+    write_var_value( var_type::context, "widget", &d, opt_var );
     return !has_condition || condition( d );
 }
 
@@ -1053,6 +1055,7 @@ bool widget::uses_text_function() const
         case widget_var::compass_legend_text:
         case widget_var::date_text:
         case widget_var::env_temp_text:
+        case widget_var::faction_territory:
         case widget_var::mood_text:
         case widget_var::move_count_mode_text:
         case widget_var::pain_text:
@@ -1161,6 +1164,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::env_temp_text:
             desc.first = display::get_temp( ava );
+            break;
+        case widget_var::faction_territory:
+            desc = display::faction_text( ava );
             break;
         case widget_var::mood_text:
             desc = display::morale_face_color( ava );

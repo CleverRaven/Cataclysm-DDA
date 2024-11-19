@@ -272,7 +272,7 @@ diag_eval_dbl_f faction_food_supply_eval( char /* scope */,
 {
     return [fac_val = params[0]]( const_dialogue const & d ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
-        return fac->food_supply.calories;
+        return static_cast<double>( fac->food_supply.calories );
     };
 }
 
@@ -1653,7 +1653,11 @@ diag_eval_dbl_f vitamin_eval( char scope, std::vector<diag_value> const &params,
         if( Character const *const chr = actor->get_const_character(); chr != nullptr ) {
             return chr->vitamin_get( vitamin_id( id.str( d ) ) );
         }
-        debugmsg( "Tried to access vitamins of a non-Character talker" );
+        if( item_location const *const itm = actor->get_const_item(); itm != nullptr ) {
+            const nutrients &nutrient_data = default_character_compute_effective_nutrients( *itm->get_item() );
+            return static_cast<int>( nutrient_data.vitamins().count( vitamin_id( id.str( d ) ) ) );
+        }
+        debugmsg( "Tried to access vitamins of a non-Character/non-item talker" );
         return 0;
     };
 }

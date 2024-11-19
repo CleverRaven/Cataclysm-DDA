@@ -88,7 +88,7 @@
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
           ]
         }
       ],
@@ -130,7 +130,7 @@
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
           ],
           "false_effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
         }
@@ -261,7 +261,7 @@
     },
     "effect": [
       { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
-      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -289,7 +289,7 @@
     },
     "effect": [
       { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
-      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -309,7 +309,7 @@
       },
       { "u_message": "You wrap yourself up in a glamour.", "type": "good" },
       {
-        "queue_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
+        "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
         "time_in_future": [
           { "math": [ "(changeling_common_traits() * 22.5) + (u_skill('deduction') * 230) + 351" ] },
           { "math": [ "(changeling_common_traits() * 57.5) + (u_skill('deduction') * 560) + 789" ] }
@@ -533,7 +533,7 @@
     "effect": [ { "u_add_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ],
     "false_effect": [
       { "u_message": "After your actions you may not invoke the right of passage.", "type": "bad" },
-      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -800,7 +800,7 @@
     ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain all of your shapeshifts!", "type": "bad" },
-      { "queue_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -1196,7 +1196,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a bat.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1256,7 +1256,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a raven.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1315,7 +1315,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a bear.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1373,7 +1373,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a deer.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1430,7 +1430,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a wolf.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1486,7 +1486,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a cougar.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1543,9 +1543,9 @@
       { "u_message": "A thick fog begins to rise.", "type": "neutral" },
       { "math": [ "magic_weather_dense_fog", "=", "1" ] },
       { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
       {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+        "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
         "time_in_future": [
           {
             "math": [
@@ -1564,7 +1564,7 @@
       { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
       { "math": [ "magic_weather_dense_fog", "=", "0" ] },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
@@ -1574,7 +1574,7 @@
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
       { "math": [ "magic_weather_dense_fog", "=", "0" ] }
     ]
   },
@@ -1615,7 +1615,7 @@
                 }
               },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+                "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ]
@@ -1668,7 +1668,7 @@
                 }
               },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+                "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ]
@@ -1696,10 +1696,7 @@
       { "u_add_effect": "effect_controlling_weather", "duration": "30 minutes" },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       { "u_message": "The sky explodes in a frenzy of lightning!", "type": "mixed" },
-      {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END",
-        "time_in_future": [ "10 minutes", "30 minutes" ]
-      }
+      { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END", "time_in_future": [ "10 minutes", "30 minutes" ] }
     ],
     "false_effect": [ { "u_message": "You need a heavy rainstorm to agitate it into lightning.", "type": "bad" } ]
   },

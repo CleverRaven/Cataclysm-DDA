@@ -504,7 +504,9 @@ bool string_id<martialart>::is_valid() const
 std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
-    for( const martialart &ma : martialarts.get_all() ) {
+    std::vector<martialart> martial_arts = martialarts.get_all();
+    result.reserve( martial_arts.size() );
+    for( const martialart &ma : martial_arts ) {
         result.push_back( ma.id );
     }
     return result;

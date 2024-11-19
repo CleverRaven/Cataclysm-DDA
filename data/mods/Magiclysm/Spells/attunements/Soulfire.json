@@ -34,8 +34,8 @@
   {
     "id": "soul_afterburner_effect_1",
     "type": "SPELL",
-    "name": "Soul Burn",
-    "description": "This is a description for a spell the player will never see.",
+    "name": { "str": "Soul Burn", "//~": "NO_I18N" },
+    "description": { "str": "This is a description for a spell the player will never see.", "//~": "NO_I18N" },
     "flags": [ "ENHANCEMENT_SPELL" ],
     "effect": "attack",
     "effect_str": "soul_burn",

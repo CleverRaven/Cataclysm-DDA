@@ -221,6 +221,7 @@ static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
@@ -1113,11 +1114,12 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
         const int page_size = std::min( num_items, list_lines );
 
         werase( w );
-        wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        draw_border( w );
+        wattron( w, BORDER_COLOR );
         mvwhline( w, point( 1, first_item_offset - 1 ), LINE_OXOX, w_items_w - 2 );
         mvwaddch( w, point( 0, first_item_offset - 1 ), LINE_XXXO ); // |-
         mvwaddch( w, point( w_items_w - 1, first_item_offset - 1 ), LINE_XOXX ); // -|
+        wattroff( w, BORDER_COLOR );
 
         trim_and_print( w, point( 2, 1 ), w_items_w - 3, c_light_gray,
                         _( "Money left: %s" ), format_money( money ) );
@@ -1804,15 +1806,28 @@ void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
         // The dialing procedures for safes vary, I'm estimating 5 procedures.
         // See https://hoogerhydesafe.com/resources/combination-lock-dialing-procedures/
         // At the end of the day, that means a 1 / 80,000 chance per attempt.
-        // If someone is interested, they can feel free to add a proficiency for
-        // "safe recognition" to mitigate or eliminate this 2x and 5x factor.
-        if( one_in( 80000 ) ) {
-            you.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-            get_map().furn_set( examp, furn_f_safe_o );
-            return;
+        // If the player has the safecracking proficiency, they know the procedure.
+
+        // With the proficiency, there's a 50% chance to open after 15.4 hours of attempts.
+        // Without the proficiency, there's a 50% chance to open after 154 hours of attempts.
+        if( you.has_proficiency( proficiency_prof_safecracking ) ) {
+            if( one_in( 8000 ) ) {
+                you.add_msg_if_player( m_good, _( "You carefully dial a combination… and it opens!" ) );
+                get_map().furn_set( examp, furn_f_safe_o );
+                return;
+            } else {
+                you.add_msg_if_player( m_info, _( "You carefully dial a combination." ) );
+                return;
+            }
         } else {
-            you.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
-            return;
+            if( one_in( 80000 ) ) {
+                you.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
+                get_map().furn_set( examp, furn_f_safe_o );
+                return;
+            } else {
+                you.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+                return;
+            }
         }
     }
 
@@ -6164,7 +6179,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+    for( const std::pair<const string_id<itype>, int> &mill_type_count : millable_counts ) {
         item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
         const recipe rec = *source.type->milling_data->recipe_;

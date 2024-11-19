@@ -272,15 +272,13 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                          string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
                                                  power_string, units::to_kilojoule( p->get_max_power_level() ) ) );
 
-    mvwputch( window, point( pwr_str_pos - 1, 1 ), BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( window, point( pwr_str_pos - 1, 2 ), BORDER_COLOR, LINE_XXOO ); // |_
-    for( int i = pwr_str_pos; i < getmaxx( window ); i++ ) {
-        mvwputch( window, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
-    }
-    for( int i = 0; i < getmaxx( window ); i++ ) {
-        mvwputch( window, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // -
-    }
-    mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
+    wattron( window, BORDER_COLOR );
+    mvwaddch( window, point( pwr_str_pos - 1, 1 ), LINE_XOXO ); // |
+    mvwaddch( window, point( pwr_str_pos - 1, 2 ), LINE_XXOO ); // |_
+    mvwhline( window, point( pwr_str_pos, 2 ), LINE_OXOX, getmaxx( window ) - pwr_str_pos ); // -
+    mvwhline( window, point_zero, LINE_OXOX, getmaxx( window ) ); // -
+    mvwaddch( window, point( pwr_str_pos - 1, 0 ), LINE_OXXX ); // ^|^
+    wattroff( window, BORDER_COLOR );
     center_print( window, 0, c_light_red, _( "Bionics" ) );
 
     std::string desc_append = string_format(
@@ -387,16 +385,12 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     // Draw symbols to connect additional lines to border
     int width = getmaxx( win );
     int height = getmaxy( win );
-    for( int i = 0; i < height - 1; ++i ) {
-        // |
-        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-        // |
-        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
-    }
-    // |-
-    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO );
-    // -|
-    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
+    wattron( win, BORDER_COLOR );
+    mvwvline( win, point_zero, LINE_XOXO, height - 1 ); // |
+    mvwvline( win, point( width - 1, 0 ), LINE_XOXO, height - 1 ); // |
+    mvwaddch( win, point( 0, height - 1 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( width - 1, height - 1 ), LINE_XOXX ); // -|
+    wattroff( win, BORDER_COLOR );
 
     wnoutrefresh( win );
 }
@@ -444,9 +438,11 @@ static void draw_connectors( const catacurses::window &win, const point &start,
         return;
     }
 
+    wattron( win, BORDER_COLOR );
+
     // draw horizontal line from selected bionic
     const int turn_x = start.x + ( last_x - start.x ) * 2 / 3;
-    mvwputch( win, start, BORDER_COLOR, '>' );
+    mvwaddch( win, start, '>' );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwhline( win, start + point( 1, 0 ), LINE_OXOX, turn_x - start.x - 1 );
 
@@ -482,16 +478,18 @@ static void draw_connectors( const catacurses::window &win, const point &start,
             bp_chr = LINE_XXXO;
         }
 
-        mvwputch( win, point( turn_x, y ), BORDER_COLOR, bp_chr );
+        mvwaddch( win, point( turn_x, y ), bp_chr );
 
         // draw horizontal line to bodypart title
         mvwhline( win, point( turn_x + 1, y ), LINE_OXOX, last_x - turn_x - 1 );
-        mvwputch( win, point( last_x, y ), BORDER_COLOR, '<' );
+        mvwaddch( win, point( last_x, y ), '<' );
 
         // draw amount of consumed slots by this CBM
+        wattroff( win, BORDER_COLOR );
         const std::string fmt_num = string_format( "(%d)", elem.second );
         mvwprintz( win, point( turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ), y ),
                    c_yellow, fmt_num );
+        wattron( win, BORDER_COLOR );
     }
 
     // define and draw a proper intersection character
@@ -523,7 +521,8 @@ static void draw_connectors( const catacurses::window &win, const point &start,
         // '^|^'
         bionic_chr = LINE_OXXX;
     }
-    mvwputch( win, point( turn_x, start.y ), BORDER_COLOR, bionic_chr );
+    mvwaddch( win, point( turn_x, start.y ), bionic_chr );
+    wattroff( win, BORDER_COLOR );
 }
 
 //get a text color depending on the power/powering state of the bionic
@@ -691,9 +690,11 @@ void avatar::power_bionics()
         }
         const int pos_x = WIDTH - 2 - max_width;
         if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
+            wattron( wBio, c_light_gray );
             for( size_t i = 0; i < bps.size(); ++i ) {
-                mvwprintz( wBio, point( pos_x, i + list_start_y ), c_light_gray, bps[i] );
+                mvwprintw( wBio, point( pos_x, i + list_start_y ), bps[i] );
             }
+            wattroff( wBio, c_light_gray );
         }
 
         if( current_bionic_list->empty() ) {

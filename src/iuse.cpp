@@ -595,7 +595,7 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint & )
     // If we're here, we better have a cig to light.
     p->use_charges_if_avail( itype_fire, 1 );
     cig.active = true;
-    p->inv->add_item( cig, false, true );
+    p->wear_item( cig, false );
     p->add_msg_if_player( m_neutral, _( "You light a %s." ), it->tname() );
 
     // Parting messages
@@ -2101,10 +2101,10 @@ class exosuit_interact
                 current_ui->mark_resize();
                 current_ui->on_redraw( [this]( const ui_adaptor & ) {
                     draw_border( w_border, c_white, suit->tname(), c_light_green );
-                    for( int i = 1; i < height - 1; i++ ) {
-                        mvwputch( w_border, point( width_menu + 1, i ), c_white, LINE_XOXO );
-                    }
-                    mvwputch( w_border, point( width_menu + 1, height - 1 ), c_white, LINE_XXOX );
+                    wattron( w_border, c_white );
+                    mvwvline( w_border, point( width_menu + 1, 1 ), LINE_XOXO, height - 2 );
+                    mvwaddch( w_border, point( width_menu + 1, height - 1 ), LINE_XXOX );
+                    wattroff( w_border, c_white );
                     wnoutrefresh( w_border );
                     draw_menu();
                     draw_iteminfo();
@@ -4390,6 +4390,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::vortex( Character *p, item *it, const tripoint & )
 {
     std::vector<point> spawn;
+    spawn.reserve( 28 );
     for( int i = -3; i <= 3; i++ ) {
         spawn.emplace_back( -3, i );
         spawn.emplace_back( +3, i );
@@ -5813,6 +5814,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
                 return std::nullopt;
             }
             std::vector<item_location> targets;
+            targets.reserve( locs.size() );
             for( const auto& [item_loc, count] : locs ) {
                 targets.emplace_back( item_loc );
             }
@@ -9144,6 +9146,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     std::vector<item_location> books;
+    books.reserve( to_scan.size() );
     for( const auto &pair : to_scan ) {
         books.push_back( pair.first );
     }

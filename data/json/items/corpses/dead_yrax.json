@@ -11,9 +11,7 @@
     "material": [ "steel", "yrax_quartz" ],
     "volume": "119 L",
     "weight": "221 kg",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -27,9 +25,7 @@
     "material": [ "steel", "yrax_quartz" ],
     "volume": "119 L",
     "weight": "221 kg",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "broken_golden_monolith",
@@ -42,7 +38,6 @@
     "weight": "8282 kg",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 1000 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -79,7 +74,6 @@
     "longest_side": "400 cm",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 100 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -96,7 +90,6 @@
     "longest_side": "400 cm",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 100 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]

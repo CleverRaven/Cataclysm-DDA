@@ -135,6 +135,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_lokiceratops",
+    "name": { "str": "lokiceratops skull" },
+    "description": "Large dinosaur skull with two large horns above the eyes and a large crest with two large horns pointing out and down.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_triceratops",
     "name": { "str": "triceratops skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",

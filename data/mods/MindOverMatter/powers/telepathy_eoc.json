@@ -31,7 +31,7 @@
         "run_eocs": [
           {
             "id": "EOC_TELEPATH_MESMERIZE_2",
-            "condition": "npc_is_character",
+            "condition": "u_is_character",
             "//": "If you're not totally immune, there's always a chance mesmerism will work",
             "effect": [
               {

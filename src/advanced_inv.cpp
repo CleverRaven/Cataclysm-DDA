@@ -1189,6 +1189,8 @@ bool advanced_inventory::move_all_items()
     } else if( dpane.get_area() == AIM_INVENTORY ) {
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1207,6 +1209,8 @@ bool advanced_inventory::move_all_items()
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
