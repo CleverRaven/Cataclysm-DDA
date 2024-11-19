@@ -353,7 +353,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
-        /* intentional fallthrough */
+            [[fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;

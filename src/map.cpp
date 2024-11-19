@@ -10471,7 +10471,7 @@ void map::function_over( const tripoint_bub_ms &start, const tripoint_bub_ms &en
                                 case ITER_SKIP_ZLEVEL:
                                     smx = my_MAPSIZE + 1;
                                     smy = my_MAPSIZE + 1;
-                                // Fall through
+                                    [[fallthrough]];
                                 case ITER_SKIP_SUBMAP:
                                     sx = SEEX;
                                     sy = SEEY;

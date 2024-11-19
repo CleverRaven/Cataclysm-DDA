@@ -9938,7 +9938,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
                 return;
             }
 
-        // intentional fall-through
+            [[fallthrough]];
 
         case hint_rating::cant:
             add_msg( m_info, _( "You can't reload a %s!" ), loc->tname() );
