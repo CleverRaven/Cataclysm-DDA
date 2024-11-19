@@ -1059,8 +1059,9 @@ void cataimgui::EndRightAlign()
     ImGui::EndTable();
 }
 
-static void inherit_base_colors() {
-    ImGuiStyle& style = ImGui::GetStyle();
+static void inherit_base_colors()
+{
+    ImGuiStyle &style = ImGui::GetStyle();
 
     style.Colors[ImGuiCol_Text] = c_white;
     style.Colors[ImGuiCol_TextDisabled] = c_dark_gray;
@@ -1104,19 +1105,20 @@ static void inherit_base_colors() {
     style.Colors[ImGuiCol_NavHighlight] = c_blue;
 }
 
-static void load_imgui_style_file(cata_path style_path) {
-    ImGuiStyle& style = ImGui::GetStyle();
+static void load_imgui_style_file( cata_path style_path )
+{
+    ImGuiStyle &style = ImGui::GetStyle();
 
-    JsonValue jsin = json_loader::from_path(style_path);
+    JsonValue jsin = json_loader::from_path( style_path );
 
 
     JsonObject jo = jsin.get_object();
 
 
-    if (jo.has_bool("inherit_base_colors") && jo.get_bool("inherit_base_colors")) {
+    if( jo.has_bool( "inherit_base_colors" ) && jo.get_bool( "inherit_base_colors" ) ) {
         inherit_base_colors();
     }
-    JsonObject joc = jo.get_object("colors");
+    JsonObject joc = jo.get_object( "colors" );
 
     std::unordered_map<std::string, int> key_options = {
         {"ImGuiCol_Text", ImGuiCol_Text},
@@ -1173,12 +1175,15 @@ static void load_imgui_style_file(cata_path style_path) {
         {"ImGuiCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg},
         {"ImGuiCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg},
     };
-    for (const auto& [text_key, imgui_key] : key_options) {
-        if (joc.has_array(text_key)) {
-            JsonArray jsarr = joc.get_array(text_key);
+    for( const auto& [text_key, imgui_key] : key_options ) {
+        if( joc.has_array( text_key ) ) {
+            JsonArray jsarr = joc.get_array( text_key );
             float alpha = 1.0; // default to full opacity if not specified explicitly
-            if (jsarr.has_float(3)) alpha = jsarr.get_float(3) / 255.0;
-            ImVec4 color = ImVec4(jsarr.get_float(0) / 255.0, jsarr.get_float(1) / 255.0, jsarr.get_float(2) / 255.0, alpha);
+            if( jsarr.has_float( 3 ) ) {
+                alpha = jsarr.get_float( 3 ) / 255.0;
+            }
+            ImVec4 color = ImVec4( jsarr.get_float( 0 ) / 255.0, jsarr.get_float( 1 ) / 255.0,
+                                   jsarr.get_float( 2 ) / 255.0, alpha );
             style.Colors[imgui_key] = color;
         }
     }
@@ -1189,16 +1194,16 @@ void cataimgui::init_colors()
 {
     const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_style.json";
     const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
-    if (!file_exist(style_path)) {
-        assure_dir_exist(PATH_INFO::config_dir());
-        copy_file(default_style_path, style_path);
+    if( !file_exist( style_path ) ) {
+        assure_dir_exist( PATH_INFO::config_dir() );
+        copy_file( default_style_path, style_path );
     }
 
     try {
-        load_imgui_style_file(style_path);
-    }
-    catch (const JsonError& err) {
-        debugmsg("Failed to load imgui color data from \"%s\": %s", style_path.generic_u8string(), err.what());
+        load_imgui_style_file( style_path );
+    } catch( const JsonError &err ) {
+        debugmsg( "Failed to load imgui color data from \"%s\": %s", style_path.generic_u8string(),
+                  err.what() );
     }
 }
 
