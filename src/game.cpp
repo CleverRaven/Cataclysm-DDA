@@ -871,7 +871,7 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
 }
 
 void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-        map_of_vars )
+        &map_of_vars )
 {
     // migrate existing variables with npctalk_var prefix to no prefix (npctalk_var_foo to just foo)
     // remove after 0.J
