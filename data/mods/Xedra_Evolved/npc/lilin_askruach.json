@@ -13,7 +13,7 @@
             { "u_has_trait": "LILIN_TRAITS" },
             { "not": { "npc_has_trait": "LILIN_TRAITS" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
-            { "not": { "u_has_trait": "OWL_TRAIT" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
             { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
             { "math": [ "n_npc_trust()", ">=", "10" ] },
             { "math": [ "n_npc_value()", ">=", "10" ] }
@@ -35,7 +35,7 @@
             { "u_has_trait": "LILIN_TRAITS" },
             { "not": { "npc_has_trait": "LILIN_TRAITS" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
-            { "not": { "u_has_trait": "OWL_TRAIT" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
             { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
             {
               "not": { "and": [ { "math": [ "n_npc_trust()", ">=", "10" ] }, { "math": [ "n_npc_value()", ">=", "10" ] } ] }
@@ -59,7 +59,7 @@
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
             { "or": [ { "npc_has_trait": "LILIN_TRAITS" }, { "npc_has_trait": "BLOOD_OF_SAINTS" } ] },
-            { "not": { "u_has_trait": "OWL_TRAIT" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
             { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } }
           ]
         }
@@ -80,7 +80,7 @@
             { "u_has_trait": "LILIN_TRAITS" },
             { "not": { "npc_has_trait": "LILIN_TRAITS" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
-            { "not": { "u_has_trait": "OWL_TRAIT" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
             { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } }
           ]
         }
@@ -98,7 +98,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "or": [ { "u_has_trait": "OWL_TRAIT" }, { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } ] }
+            { "or": [ { "u_has_trait": "TURN_INTO_OWL_TRAITS" }, { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } ] }
           ]
         }
       }

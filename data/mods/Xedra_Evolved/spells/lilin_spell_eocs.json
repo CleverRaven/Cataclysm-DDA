@@ -3,7 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN",
     "//": "Lilin cannot drain ruach while in owl or strix form.",
-    "condition": { "and": [ { "not": { "npc_has_trait": "OWL_TRAIT" } }, { "not": { "npc_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } } ] },
+    "condition": {
+      "and": [ { "not": { "npc_has_trait": "TURN_INTO_OWL_TRAITS" } }, { "not": { "npc_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } } ]
+    },
     "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_REAL" } ],
     "false_effect": [ { "npc_message": "You cannot absorb ruach in this form.", "type": "bad" } ]
   },
