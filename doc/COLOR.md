@@ -123,3 +123,112 @@ which are displayed as:
 
 **Note:** Items that use `relic data` automatically turn the item's displayed name in `pink`.  Color tags override this, in case one wants to "hide" it from the player, or to make them look "mundane".  Similarly, if one wants, otherwise mundane items can have colored names.
 
+# User color customization
+## Base colors
+Users can customize the color appearance by setting the color triplets in `config/base_colors.json`. The default config looks like this:
+```json
+[
+  {
+    "type": "colordef",
+    "BLACK": [ 20, 30, 38 ],
+    "DGRAY": [ 121, 97, 49 ],
+    "GRAY": [ 173, 135, 59 ],
+    "WHITE": [ 215, 181, 109 ],
+    "BROWN": [ 120, 83, 42 ],
+    "YELLOW": [ 231, 155, 32 ],
+    "RED": [ 181, 45, 26 ],
+    "LRED": [ 200, 105, 65 ],
+    "GREEN": [ 142, 140, 61 ],
+    "LGREEN": [ 153, 171, 79 ],
+    "BLUE": [ 35, 65, 86 ],
+    "LBLUE": [ 88, 102, 105 ],
+    "MAGENTA": [ 217, 131, 22 ],
+    "LMAGENTA": [ 218, 153, 71 ],
+    "CYAN": [ 77, 72, 127 ],
+    "LCYAN": [ 131, 109, 175 ]
+  }
+]
+```
+The mapping values are [Red, Green, Blue] color triplets, with numbers for each ranging from 0 to 255.
+
+If for whatever reason one wanted to make all the "red" colors appear blue on the screen, they could change the `"RED": [ 181, 45, 26 ],` to something like `"RED": [ 10, 10, 220 ],`.
+
+The game provides a nice built-in color manager with several pre-defined color themes that can be easily switched between.
+
+
+## GUI colors
+The UI *menus* do not (always) adhere to the base color customization, and can be customized separately, in the `config/imgui_style.json`. The default config is:
+```json
+{
+  "inherit_base_colors": false,
+  "colors": {
+  }
+}
+```
+Changing  `inherit_base_colors` to `true` would make the imgui menus follow the base colors theme with some reasonable defaults.
+
+It is, however, also possible to tweak the specific element colors with higher fidelity and not be restricted to the 8-color pallete by specifying the respective elements and colors in the `colors` object. Like so:
+```json
+{
+  "inherit_base_colors": false,
+  "colors": {
+    "ImGuiCol_Text"                 : [255, 255, 255, 255],
+    "ImGuiCol_TextDisabled"         : [128, 128, 128, 255],
+    "ImGuiCol_WindowBg"             : [15, 15, 15, 240],
+    "ImGuiCol_ChildBg"              : [0, 0, 0, 0],
+    "ImGuiCol_PopupBg"              : [20, 20, 20, 240],
+    "ImGuiCol_Border"               : [110, 110, 128, 128],
+    "ImGuiCol_BorderShadow"         : [0, 0, 0, 0],
+    "ImGuiCol_FrameBg"              : [41, 74, 122, 138],
+    "ImGuiCol_FrameBgHovered"       : [66, 150, 250, 102],
+    "ImGuiCol_FrameBgActive"        : [66, 150, 250, 171],
+    "ImGuiCol_TitleBg"              : [10, 10, 10, 255],
+    "ImGuiCol_TitleBgActive"        : [41, 74, 122, 255],
+    "ImGuiCol_TitleBgCollapsed"     : [0, 0, 0, 130],
+    "ImGuiCol_MenuBarBg"            : [36, 36, 36, 255],
+    "ImGuiCol_ScrollbarBg"          : [5, 5, 5, 135],
+    "ImGuiCol_ScrollbarGrab"        : [79, 79, 79, 255],
+    "ImGuiCol_ScrollbarGrabHovered" : [105, 105, 105, 255],
+    "ImGuiCol_ScrollbarGrabActive"  : [130, 130, 130, 255],
+    "ImGuiCol_CheckMark"            : [66, 150, 250, 255],
+    "ImGuiCol_SliderGrab"           : [61, 133, 224, 255],
+    "ImGuiCol_SliderGrabActive"     : [66, 150, 250, 255],
+    "ImGuiCol_Button"               : [66, 150, 250, 102],
+    "ImGuiCol_ButtonHovered"        : [66, 150, 250, 255],
+    "ImGuiCol_ButtonActive"         : [15, 135, 250, 255],
+    "ImGuiCol_Header"               : [66, 150, 250, 79],
+    "ImGuiCol_HeaderHovered"        : [66, 150, 250, 204],
+    "ImGuiCol_HeaderActive"         : [66, 150, 250, 255],
+    "ImGuiCol_Separator"            : [110, 110, 128, 128],
+    "ImGuiCol_SeparatorHovered"     : [26, 102, 191, 199],
+    "ImGuiCol_SeparatorActive"      : [26, 102, 191, 255],
+    "ImGuiCol_ResizeGrip"           : [66, 150, 250, 51],
+    "ImGuiCol_ResizeGripHovered"    : [66, 150, 250, 171],
+    "ImGuiCol_ResizeGripActive"     : [66, 150, 250, 242],
+    "ImGuiCol_Tab"                  : [46, 89, 148, 219],
+    "ImGuiCol_TabHovered"           : [66, 150, 250, 204],
+    "ImGuiCol_TabActive"            : [51, 105, 173, 255],
+    "ImGuiCol_TabUnfocused"         : [18, 26, 38, 247],
+    "ImGuiCol_TabUnfocusedActive"   : [36, 66, 107, 255],
+    "ImGuiCol_PlotLines"            : [156, 156, 156, 255],
+    "ImGuiCol_PlotLinesHovered"     : [255, 110, 89, 255],
+    "ImGuiCol_PlotHistogram"        : [230, 178, 0, 255],
+    "ImGuiCol_PlotHistogramHovered" : [255, 153, 0, 255],
+    "ImGuiCol_TableHeaderBg"        : [48, 48, 51, 255],
+    "ImGuiCol_TableBorderStrong"    : [79, 79, 89, 255],
+    "ImGuiCol_TableBorderLight"     : [59, 59, 64, 255],
+    "ImGuiCol_TableRowBg"           : [0, 0, 0, 0],
+    "ImGuiCol_TableRowBgAlt"        : [255, 255, 255, 15],
+    "ImGuiCol_TextSelectedBg"       : [66, 150, 250, 89],
+    "ImGuiCol_DragDropTarget"       : [255, 255, 0, 230],
+    "ImGuiCol_NavHighlight"         : [66, 150, 250, 255],
+    "ImGuiCol_NavWindowingHighlight": [255, 255, 255, 178],
+    "ImGuiCol_NavWindowingDimBg"    : [204, 204, 204, 51],
+    "ImGuiCol_ModalWindowDimBg"     : [204, 204, 204, 89]
+  }
+}
+```
+The keys in the mapping are the ones provided by Imgui library, and it should be "obvious" or perhaps "intuitive" what those do. Values are `[red, green, blue, opacity]` quadruplets with values between `0` and `255`. However `[red, green, blue]` triplets are also accepted, and in those cases opacity is assumed to be `255` (i.e. fully non-transparent).   
+The values for those in the above snippet are those of the default imgui theme that the game uses, so copy-pasting that into your own `config/imgui_style.json` should yield no visual difference from the empty config. They can be used as a reference.
+
+You can play around with specific values in the imgui playground (accessible from the game main menu -> imgui Demo Screen -> Configuration -> Style -> Colors). Note that "Export"ing the color configuration gives the values in the range of `0.0` to `1.0`, which should be multiplied by `255` to be used in the `imgui_style.json` config.
