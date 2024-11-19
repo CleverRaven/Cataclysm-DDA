@@ -1182,8 +1182,12 @@ static void load_imgui_style_file( cata_path style_path )
             if( jsarr.has_float( 3 ) ) {
                 alpha = jsarr.get_float( 3 ) / 255.0;
             }
-            ImVec4 color = ImVec4( jsarr.get_float( 0 ) / 255.0, jsarr.get_float( 1 ) / 255.0,
-                                   jsarr.get_float( 2 ) / 255.0, alpha );
+            ImVec4 color = ImVec4(
+                               jsarr.get_float( 0 ) / 255.0,
+                               jsarr.get_float( 1 ) / 255.0,
+                               jsarr.get_float( 2 ) / 255.0,
+                               alpha
+                           );
             style.Colors[imgui_key] = color;
         }
     }
@@ -1202,8 +1206,8 @@ void cataimgui::init_colors()
     try {
         load_imgui_style_file( style_path );
     } catch( const JsonError &err ) {
-        debugmsg( "Failed to load imgui color data from \"%s\": %s", style_path.generic_u8string(),
-                  err.what() );
+        debugmsg( "Failed to load imgui color data from \"%s\": %s",
+                  style_path.generic_u8string(), err.what() );
     }
 }
 
