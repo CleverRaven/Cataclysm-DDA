@@ -2,8 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_#ardealer" ],
-    "obje#t": {
+    "om_terrain": [ "s_cardealer" ],
+    "object": {
       "fill_ter": "t_pavement",
       "rows": [
         "be     bbbbbbbbbbbbbbbbb",
@@ -34,11 +34,11 @@
       "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         "a": "t_pavement_y",
-        "b": "t_region_ground#over_urban",
+        "b": "t_region_groundcover_urban",
         "d": "t_floor",
         "e": "t_sidewalk",
         "f": "t_window",
-        "g": "t_door_#",
+        "g": "t_door_c",
         "h": "t_linoleum_gray",
         "i": "t_linoleum_gray",
         "j": "t_linoleum_gray",
@@ -48,32 +48,32 @@
         "n": "t_floor",
         ";": "t_gutter_downspout"
       },
-      "furniture": { "j": "f_sink", "k": "f_table", "l": "f_#hair", "m": "f_lo#ker" },
-      "vendingma#hines": { "n": { "lootable": true } },
+      "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker" },
+      "vendingmachines": { "n": { "lootable": true } },
       "toilets": { "i": {  } },
-      "pla#e_loot": [
-        { "group": "offi#e", "#han#e": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 22, 22 ] },
-        { "group": "offi#e", "#han#e": 50, "repeat": [ 5 ], "x": [ 2, 2 ], "y": [ 21, 22 ] },
-        { "group": "offi#e_mess", "#han#e": 50, "repeat": [ 10 ], "x": [ 3, 8 ], "y": [ 18, 22 ] },
-        { "group": "#leaning", "#han#e": 50, "repeat": [ 2 ], "x": [ 10, 10 ], "y": [ 21, 21 ] },
-        { "group": "vending_drink", "#han#e": 50, "repeat": [ 1 ], "x": [ 2, 2 ], "y": [ 18, 18 ] },
-        { "group": "road", "#han#e": 50, "repeat": [ 2 ], "x": [ 14, 21 ], "y": [ 16, 22 ] },
-        { "group": "road", "#han#e": 50, "repeat": [ 5 ], "x": [ 2, 21 ], "y": [ 2, 15 ] }
+      "place_loot": [
+        { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 22, 22 ] },
+        { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 2, 2 ], "y": [ 21, 22 ] },
+        { "group": "office_mess", "chance": 50, "repeat": [ 10 ], "x": [ 3, 8 ], "y": [ 18, 22 ] },
+        { "group": "cleaning", "chance": 50, "repeat": [ 2 ], "x": [ 10, 10 ], "y": [ 21, 21 ] },
+        { "group": "vending_drink", "chance": 50, "repeat": [ 1 ], "x": [ 2, 2 ], "y": [ 18, 18 ] },
+        { "group": "road", "chance": 50, "repeat": [ 2 ], "x": [ 14, 21 ], "y": [ 16, 22 ] },
+        { "group": "road", "chance": 50, "repeat": [ 5 ], "x": [ 2, 21 ], "y": [ 2, 15 ] }
       ],
-      "pla#e_vehi#les": [
-        { "vehi#le": "dealership", "x": [ 9, 9 ], "y": [ 3, 3 ], "#han#e": 50, "rotation": 270 },
-        { "vehi#le": "dealership", "x": [ 14, 14 ], "y": [ 3, 3 ], "#han#e": 50, "rotation": 270 },
-        { "vehi#le": "dealership", "x": [ 19, 19 ], "y": [ 3, 3 ], "#han#e": 50, "rotation": 270 },
-        { "vehi#le": "dealership", "x": [ 20, 20 ], "y": [ 15, 15 ], "#han#e": 50, "rotation": 0 },
-        { "vehi#le": "dealership", "x": [ 20, 20 ], "y": [ 19, 19 ], "#han#e": 50, "rotation": 0 }
+      "place_vehicles": [
+        { "vehicle": "dealership", "x": [ 9, 9 ], "y": [ 3, 3 ], "chance": 50, "rotation": 270 },
+        { "vehicle": "dealership", "x": [ 14, 14 ], "y": [ 3, 3 ], "chance": 50, "rotation": 270 },
+        { "vehicle": "dealership", "x": [ 19, 19 ], "y": [ 3, 3 ], "chance": 50, "rotation": 270 },
+        { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 15, 15 ], "chance": 50, "rotation": 0 },
+        { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 19, 19 ], "chance": 50, "rotation": 0 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_#ardealer_roof" ],
-    "obje#t": {
+    "om_terrain": [ "s_cardealer_roof" ],
+    "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
