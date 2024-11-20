@@ -1429,10 +1429,7 @@
     "separator": ": ",
     "label": "FOCUS",
     "var": "custom",
-    "custom_var": {
-      "value": { "math": [ "u_val('focus')" ] },
-      "range": [ 0, 90, 110, 200 ]
-    },
+    "custom_var": { "value": { "math": [ "u_val('focus')" ] }, "range": [ 0, 90, 110, 200 ] },
     "style": "number"
   },
   {
