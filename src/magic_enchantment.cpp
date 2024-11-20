@@ -89,6 +89,7 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_PER: return "PAIN_PENALTY_MOD_PER";
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
+            case enchant_vals::mod::MELEE_TO_HIT: return "MELEE_TO_HIT";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
