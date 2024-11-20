@@ -2,7 +2,7 @@
   {
     "type": "technique",
     "id": "tec_devil_tail_puncture",
-    "name": "TAIL_SHOT",
+    "name": { "str": "TAIL_SHOT", "//~": "NO_I18N" },
     "messages": [
       "Your devil tail shoots itself into %s, penetrating its body like a bullet",
       "<npcname>'s devil tail shoots itself into %s, penetrating its body like a bullet"
@@ -21,7 +21,7 @@
   {
     "type": "technique",
     "id": "tec_devil_tail_wide",
-    "name": "TAIL_SWEEP",
+    "name": { "str": "TAIL_SWEEP", "//~": "NO_I18N" },
     "messages": [
       "Your devil tail makes a fast move, heavily cutting everybody in front",
       "<npcname>'s devil tail makes a fast move, heavily cutting everybody in front"
@@ -42,7 +42,7 @@
     "type": "technique",
     "id": "tec_devil_tail_grab",
     "//": "not an actual grab, but would be nice to be so",
-    "name": "TAIL_GRAB",
+    "name": { "str": "TAIL_GRAB", "//~": "NO_I18N" },
     "messages": [
       "Your devil tail grabs %s and throws them to the ground",
       "<npcname>'s devil tail grabs %s and throws them to the ground"

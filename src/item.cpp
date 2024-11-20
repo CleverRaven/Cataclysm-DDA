@@ -173,13 +173,9 @@ static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
 static const itype_id itype_cash_card( "cash_card" );
-static const itype_id itype_cig_butt( "cig_butt" );
-static const itype_id itype_cig_lit( "cig_lit" );
-static const itype_id itype_cigar_butt( "cigar_butt" );
-static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
-static const itype_id itype_joint_roach( "joint_roach" );
+static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_rad_badge( "rad_badge" );
@@ -343,8 +339,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( has_flag( flag_ENERGY_SHIELD ) ) {
         const islot_armor *sh = find_armor_data();
-        set_var( "npctalk_var_MAX_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
-        set_var( "npctalk_var_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
+        set_var( "MAX_ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
+        set_var( "ENERGY_SHIELD_HP", sh->max_energy_shield_hp );
     }
 
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
@@ -5464,11 +5460,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     std::map<damage_type_id, int> dmg_types;
     for( const damage_type &dt : damage_type::get_all() ) {
-        if( dt.physical && dt.melee_only ) {
-            int val = damage_melee( dt.id );
-            if( val ) {
-                dmg_types.emplace( dt.id, val );
-            }
+        int val = damage_melee( dt.id );
+        if( val ) {
+            dmg_types.emplace( dt.id, val );
         }
     }
 
@@ -5480,9 +5474,6 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
         }
         for( const auto &dmg_type : dmg_types ) {
-            if( !dmg_type.first->melee_only ) {
-                continue;
-            }
             info.emplace_back( "BASE", sep + uppercase_first_letter( dmg_type.first->name.translated() ) + ": ",
                                "", iteminfo::no_newline, dmg_type.second );
             sep = space;
@@ -6374,7 +6365,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
-    } else if( is_relic() && !has_flag( flag_MUNDANE ) ) {
+    } else if( ( is_relic() && !has_flag( flag_MUNDANE ) ) || has_flag( flag_RELIC_PINK ) ) {
         ret = c_pink;
     } else if( is_bionic() ) {
         if( player_character.is_installable( this, false ).success() &&
@@ -6864,8 +6855,7 @@ std::string item::tname( unsigned int quantity, tname::segment_bitset const &seg
 {
     std::string ret;
 
-    for( size_t i = 0; i < static_cast<size_t>( tname::segments::last_segment ); i++ ) {
-        tname::segments const idx = static_cast<tname::segments>( i );
+    for( tname::segments idx : tname::get_tname_set() ) {
         if( !segments[idx] ) {
             continue;
         }
@@ -7112,6 +7102,11 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
         price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
+    }
+
+    // Nominal price for perfectly fresh food, decreasing linearly as it gets closer to expiry
+    if( is_food() ) {
+        price *= ( 1.0 - get_relative_rot() );
     }
 
     if( is_filthy() ) {
@@ -9052,10 +9047,10 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
 {
     //Energy shields aren't damaged by attacks but do get their health variable reduced.  They are also only
     //damaged by the damage types they actually protect against.
-    if( has_var( "npctalk_var_ENERGY_SHIELD_HP" ) && resist( du.type, false, bp ) > 0.0f ) {
-        double shield_hp = get_var( "npctalk_var_ENERGY_SHIELD_HP", 0.0 );
+    if( has_var( "ENERGY_SHIELD_HP" ) && resist( du.type, false, bp ) > 0.0f ) {
+        double shield_hp = get_var( "ENERGY_SHIELD_HP", 0.0 );
         shield_hp -= premitigated.amount;
-        set_var( "npctalk_var_ENERGY_SHIELD_HP", shield_hp );
+        set_var( "ENERGY_SHIELD_HP", shield_hp );
         if( shield_hp > 0 ) {
             return armor_status::UNDAMAGED;
         } else {
@@ -9755,7 +9750,8 @@ std::string item::get_book_skill() const
 
 bool item::is_map() const
 {
-    return get_category_shallow().get_id() == item_category_maps;
+    return get_category_shallow().get_id() == item_category_maps ||
+           type->use_methods.count( "reveal_map" );
 }
 
 bool item::seal()
@@ -10785,8 +10781,9 @@ int item::gun_range( bool with_ammo ) const
         range_multiplier *= mod->type->gunmod->range_multiplier;
     }
     if( with_ammo && has_ammo() ) {
-        ret += ammo_data()->ammo->range;
-        range_multiplier *= ammo_data()->ammo->range_multiplier;
+        const itype *ammo_info = ammo_data();
+        ret += ammo_info->ammo->range;
+        range_multiplier *= ammo_info->ammo->range_multiplier;
     }
     ret *= range_multiplier;
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
@@ -11212,7 +11209,7 @@ bool item::has_ammo() const
     }
 
     if( is_magazine() ) {
-        return !contents.empty();
+        return !contents.empty() && contents.first_ammo().has_ammo();
     }
 
     auto mods = is_gun() ? gunmods() : toolmods();
@@ -11237,7 +11234,7 @@ bool item::has_ammo_data() const
     }
 
     if( is_magazine() ) {
-        return !contents.empty();
+        return !contents.empty() && contents.first_ammo().has_ammo_data();
     }
 
     auto mods = is_gun() ? gunmods() : toolmods();
@@ -13441,22 +13438,36 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
     // cig dies out
     if( item_counter == 0 ) {
         if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), type_name() );
         }
-        if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt, carrier );
-        } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt, carrier );
-        } else { // joint
-            convert( itype_joint_roach, carrier );
-            if( carrier != nullptr ) {
-                carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
-                weed_msg( *carrier );
-            }
+        if( type->revert_to ) {
+            convert( *type->revert_to, carrier );
+        } else {
+            type->invoke( carrier, *this, pos, "transform" );
+        }
+        if( typeId() == itype_joint_lit && carrier != nullptr ) {
+            carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
+            here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
+            weed_msg( *carrier );
         }
         active = false;
         return false;
+    }
+
+    if( carrier != nullptr ) {
+        // No lit cigs in inventory, only in hands or in mouth
+        // So if we're taking cig off or unwielding it, extinguish it first
+        if( !carrier->is_worn( *this ) && !carrier->is_wielding( *this ) ) {
+            if( type->revert_to ) {
+                carrier->add_msg_if_player( m_neutral, _( "You extinguish your %s and put it away." ),
+                                            type_name() );
+                convert( *type->revert_to, carrier );
+            } else {
+                type->invoke( carrier, *this, pos, "transform" );
+            }
+            active = false;
+            return false;
+        }
     }
 
     if( !one_in( 10 ) ) {
@@ -13475,7 +13486,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         } else if( carrier->has_trait( trait_LIGHTWEIGHT ) ) {
             duration = 30_seconds;
         }
-        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname() );
+        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), type_name() );
         if( has_flag( flag_TOBACCO ) ) {
             carrier->add_effect( effect_cig, duration );
         } else {
@@ -13486,14 +13497,14 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
             ( carrier->has_trait( trait_JITTERY ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
-                                        tname() );
+                                        type_name() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
-                                        tname() );
+                                        type_name() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
@@ -13574,22 +13585,10 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
         }
     }
 
-    // cig dies out
-    if( has_flag( flag_LITCIG ) ) {
-        if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt, carrier );
-        } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt, carrier );
-        } else { // joint
-            convert( itype_joint_roach, carrier );
-        }
-    } else { // transform (lit) items
-        if( type->revert_to ) {
-            convert( *type->revert_to, carrier );
-        } else {
-            type->invoke( carrier, *this, pos, "transform" );
-        }
-
+    if( type->revert_to ) {
+        convert( *type->revert_to, carrier );
+    } else {
+        type->invoke( carrier, *this, pos, "transform" );
     }
     active = false;
     // Item remains

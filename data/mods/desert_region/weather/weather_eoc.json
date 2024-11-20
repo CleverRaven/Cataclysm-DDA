@@ -67,7 +67,7 @@
     "effect": [
       { "math": [ "cause_early_dust_storm", "=", "1" ] },
       "next_weather",
-      { "queue_eocs": "EOC_CAUSE_DUST_STORM", "time_in_future": [ "5 minutes", "30 minutes" ] },
+      { "run_eocs": "EOC_CAUSE_DUST_STORM", "time_in_future": [ "5 minutes", "30 minutes" ] },
       {
         "run_eocs": [
           {
@@ -105,7 +105,7 @@
       { "math": [ "cause_dust_storm", "=", "1" ] },
       "next_weather",
       {
-        "queue_eocs": "EOC_CANCEL_DUST_STORM",
+        "run_eocs": "EOC_CANCEL_DUST_STORM",
         "time_in_future": [ { "global_val": "ds_min_length", "default": "1 hours" }, { "global_val": "ds_max_length", "default": "5 hours" } ]
       },
       {

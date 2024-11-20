@@ -48,7 +48,7 @@
     "effect": [
       { "u_message": "Your muscles hiss as hydraulic strength fills them!", "type": "good" },
       { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
-      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+      { "run_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
     ]
   },
   {
@@ -58,7 +58,7 @@
     "//": "Sound of hissing hydraulic muscle! (not quite as loud as a car horn)",
     "effect": [
       { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
-      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+      { "run_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
     ]
   },
   {

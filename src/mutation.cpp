@@ -856,7 +856,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !mut->activated_eocs.empty() ) {
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
-            d.set_value( "npctalk_var_this", mut.str() );
+            d.set_value( "this", mut.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -1013,7 +1013,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        d.set_value( "npctalk_var_this", mut.str() );
+        d.set_value( "this", mut.str() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
@@ -1493,6 +1493,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 {
     std::vector<trait_id> ret;
+    ret.reserve( id->prereqs.size() + id->prereqs2.size() ); // Lower bound on size.
     for( const trait_id &it : id->prereqs ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );

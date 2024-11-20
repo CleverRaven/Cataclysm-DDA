@@ -59,7 +59,7 @@
       { "u_message": "You connect to the lock controller." },
       { "u_assign_activity": "ACT_afs_hack", "duration": { "context_val": "t_delay" } },
       {
-        "queue_eoc_with": "EOC_afs_hack_unlock",
+        "run_eocs": "EOC_afs_hack_unlock",
         "time_in_future": { "context_val": "t_delay" },
         "variables": {
           "furn_pos": { "context_val": "furn_pos" },

@@ -22,7 +22,7 @@
     "dodge": 0,
     "harvest": "ogre",
     "stomach_size": 6000,
-    "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_hulk" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
     "grab_strength": 50,

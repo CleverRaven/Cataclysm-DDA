@@ -662,7 +662,7 @@
   {
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -1619,6 +1619,11 @@
     "id": "MUNDANE",
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
     "type": "json_flag"
   },
   {

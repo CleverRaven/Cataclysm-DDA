@@ -53,6 +53,9 @@ class iuse_transform : public iuse_actor
         /** type of the resulting item */
         itype_id target;
 
+        /** or one of items from itemgroup */
+        item_group_id target_group;
+
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
 

@@ -440,7 +440,7 @@
       {
         "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "loc" }, "message": "Select point" },
         "then": {
-          "run_eoc_with": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
+          "run_eocs": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
           "beta_loc": { "global_val": "loc" },
           "false_eocs": { "id": "EOC_teleport_test_other_do_fail_msg", "effect": { "message": "Please select a creature." } }
         },
@@ -469,7 +469,7 @@
       {
         "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "loc" }, "message": "Select point" },
         "then": {
-          "run_eoc_with": {
+          "run_eocs": {
             "id": "_EOC_control_npc_do",
             "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select a NPC." } } ]
           },
@@ -485,7 +485,7 @@
     "id": "EOC_return_to_player",
     "effect": [
       {
-        "run_eoc_with": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
+        "run_eocs": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
         "alpha_talker": "avatar",
         "beta_talker": { "global_val": "player_id" },
         "false_eocs": { "id": "_EOC_return_to_player_fail_msg", "effect": { "message": "Unable to locate your original body." } }
@@ -497,7 +497,7 @@
     "id": "EOC_null_talker_test",
     "effect": [
       {
-        "run_eoc_with": { "id": "_EOC_hello_world_msg", "effect": { "message": "hello world" } },
+        "run_eocs": { "id": "_EOC_hello_world_msg", "effect": { "message": "hello world" } },
         "alpha_talker": "",
         "beta_talker": "",
         "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed a EOC with no talkers!" } }

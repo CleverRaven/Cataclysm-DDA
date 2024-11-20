@@ -4297,7 +4297,10 @@ bool mattack::bio_op_disarm( monster *z )
 
     if( my_roll >= their_roll && !it->has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
-        const tripoint_bub_ms tp = foe->pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        tripoint_bub_ms tp = foe->pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        if( !get_map().can_put_items( tp ) ) {
+            tp = foe->pos_bub();
+        }
         get_map().add_item_or_charges( tp, foe->i_rem( &*it ) );
     } else {
         target->add_msg_if_player( m_good, _( "but you break its grip!" ) );

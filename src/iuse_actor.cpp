@@ -171,6 +171,11 @@ std::unique_ptr<iuse_actor> iuse_transform::clone() const
 void iuse_transform::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "target", target, true );
+    obj.read( "target_group", target_group, true );
+
+    if( !target.is_empty() && !target_group.is_empty() ) {
+        obj.throw_error_at( "target_group", "Cannot use both target and target_group at once" );
+    }
 
     obj.read( "msg", msg_transform );
     obj.read( "variant_type", variant_type );
@@ -272,7 +277,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         }
     }
 
-    if( it.count_by_charges() != target->count_by_charges() && it.count() > 1 ) {
+    if( target_group.is_empty() && it.count_by_charges() != target->count_by_charges() &&
+        it.count() > 1 ) {
         item take_one = it.split( 1 );
         do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );
@@ -293,8 +299,12 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( container.is_empty() ) {
-        obj = &it.convert( target, p );
-        obj->set_itype_variant( variant_type );
+        if( !target_group.is_empty() ) {
+            obj = &it.convert( item_group::item_from( target_group ).typeId(), p );
+        } else {
+            obj = &it.convert( target, p );
+            obj->set_itype_variant( variant_type );
+        }
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -320,7 +330,9 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
         obj->set_itype_variant( variant_type );
         int count = std::max( ammo_qty, 1 );
         item cont;
-        if( target->count_by_charges() ) {
+        if( !target_group.is_empty() ) {
+            cont = item( item_group::item_from( target_group ).typeId(), calendar::turn );
+        } else if( target->count_by_charges() ) {
             cont = item( target, calendar::turn, count );
             count = 1;
         } else {
@@ -423,7 +435,7 @@ std::string iuse_transform::get_name() const
 
 void iuse_transform::finalize( const itype_id & )
 {
-    if( !item::type_is_defined( target ) ) {
+    if( !item::type_is_defined( target ) && target_group.is_empty() ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
     }
 
@@ -439,6 +451,11 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
+
+    if( !target_group.is_empty() ) {
+        dump.emplace_back( "TOOL", _( "Can transform into one of several items" ) );
+        return;
+    }
     int amount = std::max( ammo_qty, 1 );
     item dummy( target, calendar::turn, target->count_by_charges() ? amount : 1 );
     dummy.set_itype_variant( variant_type );
@@ -3034,7 +3051,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
         default:
             // 5 is obsoleted reinforcing, remove after 0.H
-            action_difficulty = 1'000'000; // ensure failure
+            action_difficulty = 1000000; // ensure failure
             break;
     }
 
@@ -3588,19 +3605,19 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
 
     // apply healing over time effects
     if( bandages_power > 0 ) {
-        int bandages_intensity = get_bandaged_level( healer );
+        int bandages_intensity = std::max( 1, get_bandaged_level( healer ) );
         patient.add_effect( effect_bandaged, 1_turns, healed );
         effect &e = patient.get_effect( effect_bandaged, healed );
-        e.set_duration( e.get_int_dur_factor() * ( bandages_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
-        int disinfectant_intensity = get_disinfected_level( healer );
+        int disinfectant_intensity = std::max( 1, get_disinfected_level( healer ) );
         patient.add_effect( effect_disinfected, 1_turns, healed );
         effect &e = patient.get_effect( effect_disinfected, healed );
-        e.set_duration( e.get_int_dur_factor() * ( disinfectant_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * disinfectant_intensity;
@@ -5636,7 +5653,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
     }
 
     dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
-    write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
+    write_var_value( var_type::context, "id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

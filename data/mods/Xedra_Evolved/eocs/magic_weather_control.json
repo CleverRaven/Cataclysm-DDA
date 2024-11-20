@@ -32,7 +32,7 @@
               { "math": [ "magic_weather_light_drizzle", "=", "1" ] },
               { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_DRIZZLE",
+                "run_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_DRIZZLE",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ],
@@ -41,7 +41,7 @@
               { "math": [ "magic_weather_light_drizzle", "=", "1" ] },
               { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_DRIZZLE",
+                "run_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_DRIZZLE",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ]
@@ -84,7 +84,7 @@
       { "math": [ "magic_weather_drizzle", "=", "1" ] },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       {
-        "queue_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_RAIN",
+        "run_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_RAIN",
         "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
       }
     ]
@@ -99,7 +99,7 @@
       { "math": [ "magic_weather_rain", "=", "1" ] },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       {
-        "queue_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_RAINSTORM",
+        "run_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_RAINSTORM",
         "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
       }
     ]
@@ -114,7 +114,7 @@
       { "math": [ "magic_weather_rainstorm", "=", "1" ] },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       {
-        "queue_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_THUNDERSTORM",
+        "run_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_THUNDERSTORM",
         "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
       }
     ]
@@ -129,7 +129,7 @@
       { "math": [ "magic_weather_thunder", "=", "1" ] },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       {
-        "queue_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_LIGHTNINGSTORM",
+        "run_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_LIGHTNINGSTORM",
         "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
       }
     ]
@@ -156,7 +156,7 @@
     "condition": { "compare_string": [ "effect_controlling_weather", { "context_val": "effect" } ] },
     "effect": [
       { "math": [ "u_weather_change_limit", "=", "0" ] },
-      { "queue_eocs": "EOC_WEATHER_CONTROL_DOWNGRADE", "time_in_future": 3 }
+      { "run_eocs": "EOC_WEATHER_CONTROL_DOWNGRADE", "time_in_future": 3 }
     ]
   },
   {
@@ -211,11 +211,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_RAINSTORM",
+          "run_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_RAINSTORM",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_RAINSTORM",
+          "run_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_RAINSTORM",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
@@ -235,11 +235,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_RAIN",
+          "run_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_RAIN",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_RAIN",
+          "run_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_RAIN",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
@@ -259,11 +259,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_DRIZZLE",
+          "run_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_DRIZZLE",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_DRIZZLE",
+          "run_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_DRIZZLE",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
@@ -283,11 +283,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_LIGHT_DRIZZLE",
+          "run_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_LIGHT_DRIZZLE",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_LIGHT_DRIZZLE",
+          "run_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_LIGHT_DRIZZLE",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
@@ -307,11 +307,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
+          "run_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
+          "run_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
@@ -349,7 +349,7 @@
               { "math": [ "magic_weather_flurries", "=", "1" ] },
               { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_SNOWING",
+                "run_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_SNOWING",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ],
@@ -358,7 +358,7 @@
               { "math": [ "magic_weather_flurries", "=", "1" ] },
               { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_SNOWING",
+                "run_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_SNOWING",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ]
@@ -384,7 +384,7 @@
       { "math": [ "magic_weather_snowing", "=", "1" ] },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       {
-        "queue_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_SNOWSTORM",
+        "run_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_SNOWSTORM",
         "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
       }
     ]
@@ -430,11 +430,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_FLURRIES",
+          "run_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_FLURRIES",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_FLURRIES",
+          "run_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_FLURRIES",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
@@ -454,11 +454,11 @@
       {
         "if": { "u_has_effect": "effect_controlling_weather" },
         "then": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_NOTHING",
+          "run_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_NOTHING",
           "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
         },
         "else": {
-          "queue_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_NOTHING",
+          "run_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_NOTHING",
           "time_in_future": [
             { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
             { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }

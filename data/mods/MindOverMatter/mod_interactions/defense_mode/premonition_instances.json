@@ -20,7 +20,7 @@
                 "popup": true
               },
               {
-                "queue_eocs": "DEFENSE_MODE_WAVE_CONTROL_ACTUAL",
+                "run_eocs": "DEFENSE_MODE_WAVE_CONTROL_ACTUAL",
                 "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
               }
             ],
@@ -53,7 +53,7 @@
         "popup": true
       },
       {
-        "queue_eocs": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER_ACTUAL",
+        "run_eocs": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER_ACTUAL",
         "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
       }
     ]
@@ -83,7 +83,7 @@
         "popup": true
       },
       {
-        "queue_eocs": "EOC_DEFENSE_MODE_BANDIT_ATTACK_ACTUAL",
+        "run_eocs": "EOC_DEFENSE_MODE_BANDIT_ATTACK_ACTUAL",
         "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 4) + 5" ] }
       }
     ]

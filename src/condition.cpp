@@ -172,11 +172,8 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
         jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( std::string( member ) );
-    const std::string &type_var = jo.get_string( "type", "" );
-    const std::string &var_context = jo.get_string( "context", "" );
     default_val = get_dbl_or_var( jo, "default", false );
-    return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
-            + var_context ) + "_" + var_basename;
+    return var_basename;
 }
 
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
@@ -432,11 +429,7 @@ static abstract_var_info<T> abstract_read_var_info( const JsonObject &jo )
     }
 
     if( jo.has_string( "var_name" ) ) {
-        const std::string &type_var = jo.get_string( "type", "" );
-        const std::string &var_context = jo.get_string( "context", "" );
-        name = "npctalk_var_" + type_var + ( type_var.empty() ? "" : "_" ) + var_context +
-               ( var_context.empty() ? "" : "_" )
-               + jo.get_string( "var_name" );
+        name = jo.get_string( "var_name" );
     }
     if( jo.has_member( "u_val" ) ) {
         type = var_type::u;
@@ -938,11 +931,14 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_vie
         double count_present;
         double charges_present;
         double total_present;
+        const Character *you = d.const_actor( is_npc )->get_const_character();
+        inventory inventory_and_around = you->crafting_inventory( you->pos(), PICKUP_RANGE );
+
         for( const auto &pair : item_and_amount ) {
             item_to_find = itype_id( pair.first.evaluate( d ) );
             count_desired = pair.second.evaluate( d );
-            count_present = d.const_actor( is_npc )->get_amount( item_to_find );
-            charges_present = d.const_actor( is_npc )->charges_of( item_to_find );
+            count_present = inventory_and_around.amount_of( item_to_find );
+            charges_present = inventory_and_around.charges_of( item_to_find );
             total_present = std::max( count_present, charges_present );
             percent += total_present / count_desired;
 
@@ -1165,7 +1161,7 @@ conditional_t::func f_expects_vars( const JsonObject &jo, std::string_view membe
     return [to_check]( const_dialogue const & d ) {
         std::string missing_variables;
         for( const str_or_var &val : to_check ) {
-            if( d.get_context().find( "npctalk_var_" + val.evaluate( d ) ) == d.get_context().end() ) {
+            if( d.get_context().find( val.evaluate( d ) ) == d.get_context().end() ) {
                 missing_variables += val.evaluate( d ) + ", ";
             }
         }

@@ -693,6 +693,7 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
+    "city_distance": [ 10, -1 ],
     "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ]
   },
   {
