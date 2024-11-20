@@ -28,7 +28,7 @@
         "target_var": { "context_val": "item" },
         "parse_tags": true
       },
-      { "math": [ "v_item", "=", "max(0, min(_max, num_input('', v_item)))" ] },
+      { "math": [ "v_item", "=", "clamp(num_input('', v_item), 0, _max)" ] },
       { "math": [ "n_number_fabricate_price", "=", "0" ] },
       { "math": [ "n_number_fabricate_price", "+=", "1   * n_number_fabricate_2x4" ] },
       { "math": [ "n_number_fabricate_price", "+=", "0.7 * n_number_fabricate_plank_short" ] },
