@@ -620,9 +620,10 @@
         "   LdL  ",
         " C     R",
         " C QQVV ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -725,9 +726,10 @@
         "   RCR  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -864,9 +866,10 @@
         " d C G  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -1003,9 +1006,10 @@
         " d C G  ",
         "       b",
         " b QQQ  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -1389,7 +1393,8 @@
         "(      * |    ",
         "YPPQQSY| |j   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
@@ -1462,7 +1467,8 @@
         " * *     K ",
         "j|K|YnJK   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "L": "f_table",
         "x": "f_pool_table",
@@ -1525,7 +1531,6 @@
         "   #HHH,,HHHHyHHHH"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_r" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "pizza_table", "chance": 10, "repeat": [ 1, 2 ] } ],
         "l": { "item": "pizza_soda", "chance": 80, "repeat": [ 1, 3 ] },
@@ -1572,7 +1577,7 @@
         "   #tS|tS|Æ,,iii,y"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_y", ".": "t_thconc_floor" },
+      "terrain": { ".": "t_thconc_floor" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "diner_food", "chance": 20 } ],
         "l": { "item": "coffee_freezer", "chance": 80, "repeat": [ 1, 3 ] },

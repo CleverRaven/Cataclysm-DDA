@@ -31,8 +31,8 @@
         ".......s_______________ssssssssssssssssssssssssssss_____s................aaaaaaaaaa..aaaaaaaaaa.",
         ".......sssssssssssssssss..........................s_____s........................^....^........."
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "terrain": {
-        "#": "t_brick_wall",
         ".": "t_region_groundcover_urban",
         "_": "t_pavement",
         "b": "t_pavement_y",
@@ -241,8 +241,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_brick_wall", "`": "t_linoleum_white", ";": "t_metal_flat_roof", "<": "t_stairs_up" }
+      "palettes": [ "roof_palette", "parametrized_highrise_walls_palette" ],
+      "terrain": { "`": "t_linoleum_white", ";": "t_metal_flat_roof", "<": "t_stairs_up" }
     }
   },
   {
@@ -253,12 +253,12 @@
       "fill_ter": "t_linoleum_white",
       "rows": [
         "        hhhhhhhh        ",
-        "        habbgbah        ",
+        "        h#bbgb#h        ",
         "        hb....bh        ",
         "        hbfd..bh        ",
         "        hbf.Eebh        ",
         "        hb..eebh        ",
-        "        habbbbah        ",
+        "        h#bbbb#h        ",
         "        hhhhhhhh        ",
         "                        ",
         "                        ",
@@ -277,8 +277,8 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "terrain": {
-        "a": "t_brick_wall",
         "b": "t_wall_glass",
         " ": "t_open_air",
         "d": "t_stairs_down",

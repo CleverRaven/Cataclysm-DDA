@@ -2169,8 +2169,8 @@
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
-    "info": "This item fits in items that use heavy batteries.",
-    "name": "heavy battery"
+    "info": "This item fits in items that use tool batteries.",
+    "name": "tool battery"
   },
   {
     "id": "METHANOL_TANK",
