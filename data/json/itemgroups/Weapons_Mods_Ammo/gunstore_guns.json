@@ -18,7 +18,7 @@
   {
     "type": "item_group",
     "id": "guns_common_boxed",
-    "items": [ { "group": "guns_pistol_common_boxed", "prob": 50 }, { "group": "guns_rifle_common_boxed", "prob": 50 } ]
+    "items": [ { "group": "guns_pistol_common_boxed", "prob": 50 }, { "group": "guns_rifle_common_boxed", "prob": 50 }, { "group": "guns_shotgun_common_boxed", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -1296,5 +1296,126 @@
     "id": "boxed_type99_sniper",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "items": [ { "item": "type99_sniper" }, { "group": "firearm_box_extras" }, { "item": "clip_77mm_arisaka", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_common_boxed",
+    "items": [
+      { "group": "12_gauge_semi_boxed", "prob": 48 },
+      { "group": "12_gauge_pump_boxed", "prob": 34 },
+      { "group": "12_gauge_break_boxed", "prob": 18 },
+      { "group": "boxed_410", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "12_gauge_semi_boxed",
+    "items": [
+      { "group": "12_gauge_semi_internal_magazine_boxed", "prob": 415 },
+      { "group": "boxed_saiga_12", "prob": 28 },
+      { "group": "boxed_m1919_mag", "prob": 271 },
+      { "group": "boxed_srm_1216", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "12_gauge_semi_internal_magazine_boxed",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "entries": [
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [
+          { "item": "benelli_sa", "variant": "m2", "prob": 45 },
+          { "item": "benelli_sa", "variant": "sbe", "prob": 65 },
+          { "item": "remington_870", "variant": "remington_1100", "prob": 85 },
+          { "item": "remington_870", "variant": "browning_a5", "prob": 100 },
+          { "item": "benelli_tsa", "variant": "m2_tac", "prob": 24 },
+          { "item": "mossberg_590", "variant": "slp", "prob": 1 },
+          { "item": "mossberg_930", "variant": "mossberg_930", "prob": 31 },
+          { "item": "mossberg_930", "variant": "m1014", "prob": 11 },
+          { "item": "tavor_12", "prob": 53 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_saiga_12",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "items": [ { "item": "saiga_12" }, { "group": "firearm_box_extras" }, { "item": "saiga10mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m1919_mag",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "entries": [
+      { "group": "firearm_box_extras" },
+      { "item": "mka_1919_5", "count": [ 1, 2 ] },
+      { "distribution": [ { "item": "gfy_1", "prob": 17 }, { "item": "ar12_shotgun", "prob": 254 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_srm_1216",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "items": [ { "item": "srm_1216" }, { "group": "firearm_box_extras" }, { "item": "srm_1216_mag_16", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "12_gauge_pump_boxed",
+    "items": [ { "group": "12_gauge_pump_internal_magazine_boxed", "prob": 520 }, { "group": "boxed_mossberg_590m", "prob": 34 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "12_gauge_pump_internal_magazine_boxed",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "entries": [
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [
+          { "item": "mossberg_500", "prob": 100 },
+          { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 10 },
+          { "item": "winchester_1897", "prob": 17 },
+          { "item": "remington_870_express", "prob": 43 },
+          { "item": "remington_870", "variant": "remington_870", "prob": 49 },
+          { "item": "remington_870", "variant": "ithaca37", "prob": 28 },
+          { "item": "mossberg_590", "variant": "mossberg_590", "prob": 170 },
+          { "item": "ksg", "prob": 78 },
+          { "item": "dp_12", "prob": 25 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mossberg_590m",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "items": [ { "item": "mossberg_590m" }, { "group": "firearm_box_extras" }, { "item": "mossberg_590m_mag_5", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "12_gauge_break_boxed",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "entries": [
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [ { "item": "shotgun_s", "prob": 11 }, { "item": "shotgun_d", "prob": 87 }, { "item": "shotgun_triple", "prob": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_410",
+    "//": "Yes this is a bad name.  We only have one 410 shotgun right now anyways so it can be changed once there's more.",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_shotgun" },
+    "items": [ { "item": "shotgun_410" }, { "group": "firearm_box_extras" } ]
   }
 ]
