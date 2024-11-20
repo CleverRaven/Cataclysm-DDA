@@ -511,7 +511,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
                               const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
-        ter_id fill_ter;
+        cata::value_ptr<mapgen_value<ter_id>> fill_ter;
         oter_id predecessor_mapgen;
 
     protected:
@@ -544,7 +544,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
 
     protected:
         bool setup_internal( const JsonObject &/*jo*/ ) override;
-        ter_id fill_ter;
+        cata::value_ptr<mapgen_value<ter_id>> fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base

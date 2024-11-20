@@ -978,7 +978,6 @@ mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
         dbl_or_var w, const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( std::move( w ) )
     , mapgen_function_json_base( jsobj, context )
-    , fill_ter( t_null )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
@@ -4528,9 +4527,8 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
         jo.throw_error( "\"mapgensize\" only allowed for nested mapgen" );
     }
 
-    // something akin to mapgen fill_background.
-    if( jo.has_string( "fill_ter" ) ) {
-        fill_ter = ter_str_id( jo.get_string( "fill_ter" ) ).id();
+    if( jo.has_member( "fill_ter" ) ) {
+        fill_ter = cata::make_value<mapgen_value<ter_id>>( jo.get_member( "fill_ter" ) );
     }
 
     if( jo.has_member( "rotation" ) ) {
@@ -4545,7 +4543,7 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
 
     jo.read( "fallback_predecessor_mapgen", fallback_predecessor_mapgen_ );
 
-    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
+    return fill_ter || predecessor_mapgen != oter_str_id::NULL_ID() ||
            fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
@@ -4739,10 +4737,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     }
     fallback_terrain_exists = true;
 
-    // No fill_ter? No format? GTFO.
+    // TODO: Pointless check???
     if( !fallback_terrain_exists ) {
         jo.throw_error(
-            "Need one of 'fill_terrain', 'predecessor_mapgen', 'fallback_predecessor_mapgen', 'terrain' or a palette providing 'terrain'." );
+            "Need one of 'fill_ter', 'predecessor_mapgen', 'fallback_predecessor_mapgen', 'terrain' or a palette providing 'terrain'." );
         // TODO: write TFM.
     }
 
@@ -5347,9 +5345,6 @@ static ret_val<void> apply_mapgen_in_phases(
 void mapgen_function_json::generate( mapgendata &md )
 {
     map *const m = &md.m;
-    if( fill_ter != t_null ) {
-        m->draw_fill_background( fill_ter );
-    }
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
@@ -5394,6 +5389,15 @@ void mapgen_function_json::generate( mapgendata &md )
     }
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
+
+    if( fill_ter ) {
+        const ter_id chosen_fill_ter = fill_ter->get( md_with_params );
+        if( chosen_fill_ter != t_null ) {
+            m->draw_fill_background( chosen_fill_ter );
+        } else {
+            debugmsg( "fill_ter resolved to t_null" );
+        }
+    }
 
     apply_mapgen_in_phases( md_with_params, setmap_points, objects, tripoint_rel_ms( tripoint_zero ),
                             context_ );
@@ -7987,7 +7991,6 @@ bool update_mapgen_function_json::setup_update( const JsonObject &jo )
 
 bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 {
-    fill_ter = t_null;
     /* update_mapgen doesn't care about fill_ter or rows */
     return true;
 }
