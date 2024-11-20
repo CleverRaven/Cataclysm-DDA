@@ -2,6 +2,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN",
+    "//": "Lilin cannot drain ruach while in owl or strix form.",
+    "condition": {
+      "and": [ { "not": { "npc_has_trait": "TURN_INTO_OWL_TRAITS" } }, { "not": { "npc_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } } ]
+    },
+    "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_REAL" } ],
+    "false_effect": [ { "npc_message": "You cannot absorb ruach in this form.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_REAL",
     "//": "Humans and humanlike fae give about one day's worth (240) ruach, aliens give a totally random amount, Nether creatures are a huge gamble (they could give you tons of ruach but could also absorb some from you), inhuman fae and vampires give a random amount within a few hours (20-60), animals and cyborgs give an hour's worth (5-15), insects give half of what animals give (2-7), nothing else gives any.",
     "//2": "Ferals currently don't sleep, but future-proofing for when or if they might",
     "condition": "u_is_character",
