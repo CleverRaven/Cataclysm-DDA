@@ -90,7 +90,8 @@ enum class do_activity_reason : int {
     NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_CRAFT,             // There is at least one item to craft.
-    NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
+    NEEDS_DISASSEMBLE,        // There is at least one item to disassemble.
+    REFUSES_THIS_WORK        // Character refuses to do this for some reason, maybe against their beliefs or needs danger prompt.
 
 };
 
@@ -122,7 +123,8 @@ const std::vector<std::string> do_activity_reason_string = {
     "NEEDS_MOP",
     "NEEDS_FISHING",
     "NEEDS_CRAFT",
-    "NEEDS_DISASSEMBLE"
+    "NEEDS_DISASSEMBLE",
+    "REFUSES_THIS_WORK"
 };
 
 struct activity_reason_info {
