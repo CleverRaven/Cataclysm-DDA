@@ -99,15 +99,15 @@
         "    -..............-    ",
         "   --..............--   ",
         "   -................-   ",
-        "   -....|w|ww|w|....-   ",
-        "   -....woooooow....-   ",
+        "   -....|O|OO|O|....-   ",
+        "   -....OooooooO....-   ",
         "   -....|oooooo|....-   ",
-        "   -....woooooow....-   ",
+        "   -....OooooooO....-   ",
         "   -....|oooooo|....-   ",
-        "   -....woooooow....-   ",
+        "   -....OooooooO....-   ",
         "   -....|oooooo|....-   ",
-        "   -....woooooow....-   ",
-        "   -....|w|ww|w|....-   ",
+        "   -....OooooooO....-   ",
+        "   -....|O|OO|O|....-   ",
         "   -................-   ",
         "   --..............--   ",
         "    -..............-    ",
@@ -117,7 +117,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "|": "t_brick_wall", "o": "t_open_air_rooved", "w": "t_window" }
+      "terrain": { ".": "t_tile_flat_roof", "|": "t_brick_wall", "o": "t_open_air_rooved", "O": "t_window" }
     }
   },
   {
