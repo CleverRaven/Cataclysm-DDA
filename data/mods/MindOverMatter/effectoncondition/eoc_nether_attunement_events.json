@@ -1209,6 +1209,38 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_CHRONOKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHRONOKINETIC" },
+        { "compare_string": [ "CHRONOKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_CHRONOKINETIC_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CHRONOKINETIC" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POWERS_IN_NETHER_CHECK_CLAIRSENTIENCE",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",

@@ -18,6 +18,7 @@
               "not": {
                 "u_has_any_trait": [
                   "BIOKINETIC",
+                  "CHRONOKINETIC",
                   "CLAIRSENTIENT",
                   "ELECTROKINETIC",
                   "PHOTOKINETIC",
@@ -37,6 +38,7 @@
             {
               "u_has_any_trait": [
                 "BIOKINETIC",
+                "CHRONOKINETIC",
                 "CLAIRSENTIENT",
                 "ELECTROKINETIC",
                 "PHOTOKINETIC",
@@ -64,6 +66,14 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "BIOKINETIC" },
+    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_CHRONOKIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "CHRONOKINETIC" },
     "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
   },
   {

@@ -41,5 +41,14 @@
     "based_on": "time",
     "can_resume": false,
     "completion_eoc": "ACT_PSI_TELEPATH_MENTAL_ENGINEERING_FINISH"
+  },
+  {
+    "id": "ACT_TIME_FREEZE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "frozen in time",
+    "based_on": "time",
+    "interruptable": false,
+    "interruptable_with_kb": false
   }
 ]

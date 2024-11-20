@@ -30,6 +30,11 @@
     "info": "This is a matrix crystal attuned to biokinesis."
   },
   {
+    "id": "MATRIX_CRYSTAL_CHRONOKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to chronokinesis."
+  },
+  {
     "id": "MATRIX_CRYSTAL_CLAIRSENTIENCE",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to clairsentience."

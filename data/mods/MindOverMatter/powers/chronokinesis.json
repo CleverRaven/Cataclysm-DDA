@@ -1,0 +1,40 @@
+[
+    {
+      "id": "chronokin_chronal_accel",
+      "type": "SPELL",
+      "name": "[Ψ]Chronal Acceleration (C)",
+      "description": "You can speed up the flow of your personal timestream, allowing you to act quicker relative to everything else.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+      "message": "",
+      "teachable": false,
+      "valid_targets": [ "self" ],
+      "spell_class": "CHRONOKINETIC",
+      "skill": "metaphysics",
+      "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+      "difficulty": 6,
+      "max_level": { "math": [ "int_to_level(1)" ] },
+      "effect": "effect_on_condition",
+      "effect_str": "EOC_CHRONOKIN_CHRONAL_ACCEL_INITIATE",
+      "shape": "blast",
+      "min_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_chronal_accel') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "max_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_chronal_accel') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "energy_source": "STAMINA",
+      "base_energy_cost": {
+        "math": [
+          "u_effect_intensity('effect_chronokin_chronal_accel') > -1 ? 0 : max((5500 - (u_spell_level('chronokin_chronal_accel') * 205)), 2250)"
+        ]
+      },
+      "base_casting_time": {
+        "math": [
+          "u_effect_intensity('effect_chronokin_chronal_accel') > -1 ? 10 : max((175 -(u_spell_level('chronokin_chronal_accel') * 5.5)), 100)"
+        ]
+      }
+    }
+]

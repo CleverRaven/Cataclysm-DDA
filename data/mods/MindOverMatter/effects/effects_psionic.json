@@ -539,6 +539,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronokin_chronal_accel",
+    "name": [ "Chronal Acceleration" ],
+    "desc": [ "You are accelerating your relative progression of time compared to the universal baseline." ],
+    "apply_message": "",
+    "remove_message": "The world speeds up again.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 39,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "( 15 + ( u_spell_level('chronokin_accel') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
     "name": [ "Night Eyes" ],

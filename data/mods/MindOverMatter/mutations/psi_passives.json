@@ -50,6 +50,27 @@
   },
   {
     "type": "mutation",
+    "id": "CHRON_CONTROL",
+    "name": { "str": "Chronal Control" },
+    "points": 0,
+    "description": "Your powers protect you from time alterations and allow you to slightly increase your flow of time relative to the baseline.",
+    "flags": [ "ENHANCED_VISION", "WATCH" ],
+    "player_display": true,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "0.1 * u_spell_level_sum('school': 'CHRONOKINETIC')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "CLAIR_SENSES",
     "name": { "str": "Psionic Senses" },
     "points": 0,

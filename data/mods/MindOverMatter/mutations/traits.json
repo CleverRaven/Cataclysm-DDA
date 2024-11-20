@@ -17,6 +17,20 @@
   },
   {
     "type": "mutation",
+    "id": "CHRONOKINETIC",
+    "name": "Awakened Chronokinetic",
+    "points": 0,
+    "description": "Mental control over the flow of time.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [
+      [ "classless_toggleable_concentration_end", 1 ],
+      [ "classless_specific_concentration_end", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "CLAIRSENTIENT",
     "name": "Awakened Clairsentient",
     "points": 0,
@@ -156,6 +170,7 @@
     "purifiable": false,
     "cancels": [
       "BIOKINETIC",
+      "CHRONOKINETIC",
       "CLAIRSENTIENT",
       "ELECTROKINETIC",
       "PHOTOKINETIC",
@@ -179,6 +194,7 @@
     "purifiable": false,
     "cancels": [
       "BIOKINETIC",
+      "CHRONOKINETIC",
       "CLAIRSENTIENT",
       "ELECTROKINETIC",
       "PHOTOKINETIC",

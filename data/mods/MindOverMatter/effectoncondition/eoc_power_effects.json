@@ -47,6 +47,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHRONOKIN_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "CHRONOKIN" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CHRONOKIN" } ] },
+    "effect": [ { "math": [ "u_school_level_adjustment('CHRONOKIN')", "+=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

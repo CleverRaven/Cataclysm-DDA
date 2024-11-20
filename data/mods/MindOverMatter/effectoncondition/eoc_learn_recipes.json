@@ -131,6 +131,31 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHRONO_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "CHRONOKINETIC" },
+    "effect": [ { "run_eocs": "EOC_TEACH_CHRONOKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_CHRONOKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_MOM_DO_NOTHING"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_DO_NOTHING",
+    "//": "temporary",
+    "effect": [ ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
