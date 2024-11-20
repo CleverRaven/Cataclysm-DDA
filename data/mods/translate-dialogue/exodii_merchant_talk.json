@@ -16,7 +16,7 @@
     "dynamic_line": [
       "Good an' fine, then.",
       "Have it as ye'll see.",
-      { "concatenate": [ "For a card an' a wink, eh?", "\"\n\n[TRANSLATE:] \"", "That was a good exchange" ] }
+      { "concatenate": [ "For a card an' a wink, eh?", "\"\n\n[TRANSLATE:] \"", "That was a good exchange." ] }
     ]
   },
   {
@@ -26,7 +26,7 @@
       "concatenate": [
         "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The Enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.",
         "\"\n\n[TRANSLATE:] \"",
-        "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade."
+        "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's not Avalonian steel, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade."
       ]
     }
   },
@@ -59,7 +59,7 @@
       "concatenate": [
         "'Tis as simple as comes to a wobble.  Our vestment be oft made from the fine clothes and hides of the land, and our jibber tears the stuff o' life apart here and there when us'n travel.  For as some can be saved if care be taken, there be no case to store nigh enough o' this.  That, an' our manuc-makers run as hot as a sunstone, no spit'n taste for that which we don't use usselves.",
         "\"\n\n[TRANSLATE:] \"",
-        "It's a simple matter of how we teleport.  Our clothes are often made from cloth and hides from wherever we visit, and our teleporter tears living stuff apart here and there when we travel.  Some can be saved if we take care, but there's no room to store nearly enough extra.  That, and our fabricators are always busy, no time to waste on stuff we don't need for ourselves"
+        "It's a simple matter of how we teleport.  Our clothes are often made from cloth and hides from wherever we visit, and our teleporter tears living stuff apart here and there when we travel.  Some can be saved if we take care, but there's no room to store nearly enough extra.  That, and our fabricators are always busy, no time to waste on stuff we don't need for ourselves."
       ]
     }
   },
@@ -70,7 +70,7 @@
       "concatenate": [
         "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back in <interval>.",
         "\"\n\n[TRANSLATE:] \"",
-        "HEH, you can't get enough of old Rubik's merchandise, eh? Sure as hell, come back in <interval>."
+        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back in <interval>."
       ]
     }
   },
@@ -138,7 +138,7 @@
       "concatenate": [
         "Fer this 'un, I can yank out their bits 'n give 'em to ya, or I can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to me?  I reckon I can turn 'im into a right useful worker.",
         "\"\n\n[TRANSLATE:] \"",
-        "For this one, I can pull out their CBM and give any working to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively why don't you just give them to me I surely can help them adjust to life as a cyborg."
+        "For this one, I can pull out their CBM and give any working to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively, why don't you just give them to me?  I surely can help them adjust to life as a cyborg."
       ]
     }
   },
@@ -288,7 +288,7 @@
       "concatenate": [
         "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.",
         "\"\n\n[TRANSLATE:] \"",
-        "Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different Earth. You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town."
+        "Yeah, that's a big question.  Otherworlds are how you got those ugly bug-creatures around here, you know?  Walking plants, talking mushroom, stuff like that.  Otherlands are closer related.  I'm from Earth, just a different Earth.  You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think.  You should be asking what we're doing hanging out in your part of town."
       ]
     }
   },
@@ -321,7 +321,7 @@
       "concatenate": [
         "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\"",
         "\"\n\n[TRANSLATE:] \"",
-        "Robot?  What does that word mean?  Hang on. …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see."
+        "Robot?  What does that word mean?  Hang on.  …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see."
       ]
     }
   },
@@ -422,7 +422,7 @@
           "concatenate": [
             "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
             " [TRANSLATE: ",
-            "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this",
+            "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
             "]"
           ]
         },
@@ -431,10 +431,10 @@
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
           "no": [
             {
-              "math": [ "exodii_knows_hub01", "==", "1" ],
+              "math": [ "exodii_knows_hub01 == 1" ],
               "yes": [
                 {
-                  "math": [ "warehouse_was_found", "==", "1" ],
+                  "math": [ "warehouse_was_found == 1" ],
                   "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
                   "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
                 }
@@ -454,17 +454,6 @@
         "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
         "\"\n\n[TRANSLATE:] \"",
         "Sure you can, at least a bit.  I'll do my best to speak your Anglic, but seeing as we're from otherlands and all, it's not that simple."
-      ]
-    }
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_Exodus",
-    "type": "talk_topic",
-    "dynamic_line": {
-      "concatenate": [
-        "Oh yeah, right and so.  Each and every.  We wander, we make do.  It's a livin'.",
-        "\"\n\n[TRANSLATE:] \"",
-        "Oh yeah, just that.  Every one of us.  We wander, we make do.  It's a living."
       ]
     }
   },
@@ -552,7 +541,7 @@
       "concatenate": [
         "Ha!  A new string and beans, an I'm ken.  Latched and keyed in the bright shine o' the deadland afore this'n.  He be a thing o' fire and bronze, an' the node appreciates his grit.  \"A cnight of old, clade in shining steel, leading the hoste onward to glorie,\" as 'twere.  This'n finds him an apt one to give rede.  To command in battle, that's t'yark.",
         "\"\n\n[TRANSLATE:] \"",
-        "Ha!  A new part of our crew.  Signed up early on in the world we were in before.  He's a really tough guy, and the node appreciates his grit.  (recites some poetry), as 'twere.  I think he's pretty good as a military commander."
+        "Ha!  A new part of our crew.  Signed up early on in the world we were in before.  He's a really tough guy, and the node appreciates his grit.  (Recites some poetry), as it were.  I think he's pretty good as a military commander."
       ]
     }
   },
