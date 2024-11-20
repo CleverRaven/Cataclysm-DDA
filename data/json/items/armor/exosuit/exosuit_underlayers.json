@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_standard_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit underlayer" },
@@ -31,11 +32,14 @@
   },
   {
     "id": "exo_combat_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit combat underlayer" },
     "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This model includes tough Kevlar to protect from spalling.",
+    "weight": "1250 g",
+    "volume": "3900 ml",
     "material": [ "nomex", "kevlar" ],
     "environmental_protection": 5,
     "armor": [
