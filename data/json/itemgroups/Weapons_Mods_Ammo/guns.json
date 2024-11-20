@@ -52,7 +52,7 @@
     "id": "guns_pistol_common_display",
     "//": "Empty and reasonably common pistols found exclusively in gun stores.",
     "items": [
-      { "group": "guns_rifle_common_boxed", "prob": 74 }
+      { "group": "guns_pistol_common_boxed", "prob": 74 }
     ]
   },
   {

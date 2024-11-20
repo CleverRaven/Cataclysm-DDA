@@ -1448,6 +1448,12 @@
         "name": { "str": "shotgun box", "str_pl": "shotgun boxes" },
         "description": "Judging by the print on the packaging, this one is meant for a shotgun.",
         "append": true
+      },
+      {
+        "id": "box_longarm_handgun",
+        "name": { "str": "large handgun box", "str_pl": "large handgun boxes" },
+        "description": "Despite the size of the box, this one seems to be intended for an oversized handgun.",
+        "append": true
       }
     ]
   },

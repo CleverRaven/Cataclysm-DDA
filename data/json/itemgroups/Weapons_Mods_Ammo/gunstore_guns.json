@@ -13,6 +13,770 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_boxed",
+    "items": [
+      { "group": "guns_pistol_common_boxed_9mm", "prob": 74 },
+      { "group": "guns_pistol_common_boxed_22", "prob": 64 },
+      { "group": "guns_pistol_common_boxed_45", "prob": 20 },
+      { "group": "guns_pistol_common_boxed_380", "prob": 28 },
+      { "group": "guns_pistol_common_boxed_40", "prob": 19 },
+      { "group": "guns_pistol_common_boxed_357mag", "prob": 12 },
+      { "group": "guns_pistol_common_boxed_38", "prob": 11 },
+      { "group": "guns_pistol_common_boxed_44", "prob": 1 },
+      { "group": "guns_pistol_common_boxed_45colt", "prob": 5 },
+      { "group": "guns_pistol_common_boxed_10mm", "prob": 1 },
+      { "group": "guns_pistol_common_boxed_762_39", "prob": 1 },
+      { "group": "guns_pistol_common_boxed_223", "prob": 17 },
+      { "group": "guns_pistol_common_boxed_300", "prob": 8 },
+      { "group": "guns_pistol_common_boxed_57", "prob": 2 },
+      { "group": "guns_pistol_common_boxed_32", "prob": 1 },
+      { "group": "guns_pistol_common_boxed_38super", "prob": 1 },
+      { "group": "guns_pistol_common_boxed_other", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_9mm",
+    "items": [
+      { "group": "boxed_glock_17", "prob": 73 },
+      { "group": "boxed_glock_19", "prob": 100 },
+      { "group": "boxed_m9", "prob": 22 },
+      { "group": "boxed_px4", "prob": 5 },
+      { "group": "boxed_hi_power_9mm", "prob": 9 },
+      { "group": "boxed_walther_ppq_9mm", "prob": 8 },
+      { "group": "boxed_cz75", "prob": 65 },
+      { "group": "boxed_walther_ccp", "prob": 2 },
+      { "group": "boxed_hptc9", "prob": 12 },
+      { "group": "boxed_m18", "prob": 22 },
+      { "group": "boxed_m11", "prob": 6 },
+      { "group": "boxed_hk_mp5_semi_pistol", "prob": 10 },
+      { "group": "boxed_m17", "prob": 24 },
+      { "group": "boxed_p226_9mm", "prob": 73 },
+      { "group": "boxed_sp2022", "prob": 4 },
+      { "group": "boxed_usp_9mm", "prob": 38 },
+      { "group": "boxed_guns_pistol_rare_9mm", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_17",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_17" }, { "group": "firearm_box_extras" }, { "item": "glock17_17", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_19",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_19" }, { "group": "firearm_box_extras" }, { "item": "glockmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m9",
+    "container-item": "box_pistol",
+    "items": [ { "item": "m9" }, { "group": "firearm_box_extras" }, { "item": "m9mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_px4",
+    "container-item": "box_pistol",
+    "items": [ { "item": "px4" }, { "group": "firearm_box_extras" }, { "item": "px4mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hi_power_9mm",
+    "container-item": "box_pistol",
+    "items": [ { "item": "hi_power_9mm" }, { "group": "firearm_box_extras" }, { "item": "bhp9mag_13rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_walther_ppq_9mm",
+    "container-item": "box_pistol",
+    "items": [ { "item": "walther_ppq_9mm" }, { "group": "firearm_box_extras" }, { "item": "ppq9mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_cz75",
+    "container-item": "box_pistol",
+    "items": [ { "item": "cz75" }, { "group": "firearm_box_extras" }, { "item": "cz75mag_16rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_walther_ccp",
+    "container-item": "box_pistol",
+    "entries": [
+      { "item": "walther_ccp" },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [ { "item": "ccpmag", "count": [ 1, 2 ], "prob": 40 }, { "item": "ccpmag_9rd", "count": [ 1, 2 ], "prob": 60 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hptc9",
+    "container-item": "box_pistol",
+    "entries": [
+      { "item": "hptc9" },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [
+          { "item": "hptc9mag_8rd", "count": [ 1, 2 ], "prob": 40 },
+          { "item": "hptc9mag_10rd", "count": [ 1, 2 ], "prob": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m18",
+    "container-item": "box_pistol",
+    "items": [ { "item": "m18" }, { "group": "firearm_box_extras" }, { "item": "p320mag_10rd_9x19mm", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m11",
+    "container-item": "box_pistol",
+    "items": [ { "item": "m11" }, { "group": "firearm_box_extras" }, { "item": "p228mag_13rd_9x19mm", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hk_mp5_semi_pistol",
+    "container-item": "box_pistol",
+    "items": [ { "item": "hk_mp5_semi_pistol" }, { "group": "firearm_box_extras" }, { "item": "mp5mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m17",
+    "container-item": "box_pistol",
+    "items": [ { "item": "m17" }, { "group": "firearm_box_extras" }, { "item": "p320mag_10rd_9x19mm", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_p226_9mm",
+    "container-item": "box_pistol",
+    "items": [ { "item": "p226_9mm" }, { "group": "firearm_box_extras" }, { "item": "p226mag_10rd_9x19mm", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sp2022",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sp2022" }, { "group": "firearm_box_extras" }, { "item": "sp2022mag_10rd_9mm", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_usp_9mm",
+    "container-item": "box_pistol",
+    "items": [ { "item": "usp_9mm" }, { "group": "firearm_box_extras" }, { "item": "usp9mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_guns_pistol_rare_9mm",
+    "items": [
+      {
+        "item": "box_longarm",
+        "variant": "box_longarm_handgun",
+        "contents-group": "firearm_box_extras",
+        "contents-item": [ "draco_9mm", "glockmag" ],
+        "prob": 29
+      },
+      {
+        "item": "box_pistol",
+        "contents-group": "firearm_box_extras",
+        "contents-item": [ "p08", "p08mag_8rd" ],
+        "prob": 13
+      },
+      {
+        "item": "box_pistol",
+        "contents-group": "firearm_box_extras",
+        "contents-item": [ "mauser_c96", "clip9mm_10rd" ],
+        "prob": 11
+      },
+      {
+        "item": "box_longarm",
+        "variant": "box_longarm_handgun",
+        "contents-group": "firearm_box_extras",
+        "contents-item": [ "mp40semi", "mp40mag_32rd" ],
+        "prob": 1
+      },
+      {
+        "item": "box_pistol",
+        "contents-group": "firearm_box_extras",
+        "contents-item": [ "tec9", "tec9mag_10rd" ],
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_22",
+    "items": [
+      { "group": "boxed_walther_p22", "prob": 45 },
+      { "group": "boxed_ruger_lcr_22", "prob": 2 },
+      { "group": "boxed_22_revolver", "prob": 75 },
+      { "group": "boxed_sig_mosquito", "prob": 65 },
+      { "group": "boxed_cp33", "prob": 16 },
+      { "group": "boxed_ruger_mk4", "prob": 113 },
+      { "group": "boxed_ruger_charger", "prob": 16 },
+      { "group": "boxed_1911_22", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_walther_p22",
+    "container-item": "box_pistol",
+    "items": [ { "item": "walther_p22" }, { "group": "firearm_box_extras" }, { "item": "wp22mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_lcr_22",
+    "container-item": "box_pistol",
+    "items": [ { "item": "ruger_lcr_22" }, { "group": "firearm_box_extras" }, { "item": "22_speedloader8", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_22_revolver",
+    "container-item": "box_pistol",
+    "entries": [
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [ { "item": "rough_rider_pistol", "prob": 61 }, { "item": "rough_rider_pistol_9", "prob": 14 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sig_mosquito",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sig_mosquito" }, { "group": "firearm_box_extras" }, { "item": "mosquitomag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_cp33",
+    "container-item": "box_pistol",
+    "items": [ { "item": "cp33" }, { "group": "firearm_box_extras" }, { "item": "cp33_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_mk4",
+    "container-item": "box_pistol",
+    "items": [ { "item": "ruger_mk4" }, { "group": "firearm_box_extras" }, { "item": "ruger_mk4_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_charger",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
+    "items": [ { "item": "ruger_charger" }, { "group": "firearm_box_extras" }, { "item": "ruger1022mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_1911_22",
+    "container-item": "box_pistol",
+    "items": [ { "item": "1911_22" }, { "group": "firearm_box_extras" }, { "item": "1911_22_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_45",
+    "items": [
+      { "group": "boxed_glock_21", "prob": 14 },
+      { "group": "boxed_m1911", "prob": 100 },
+      { "group": "boxed_walther_ppq_45", "prob": 1 },
+      { "group": "boxed_hptjhp", "prob": 2 },
+      { "group": "boxed_usp_45", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_21",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_21" }, { "group": "firearm_box_extras" }, { "item": "glock_21mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m1911",
+    "container-item": "box_pistol",
+    "items": [
+      { "item": "m1911" },
+      { "group": "firearm_box_extras" },
+      { "item": "m1911mag", "count": [ 1, 2 ] },
+      { "item": "m1911bigmag", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_walther_ppq_45",
+    "container-item": "box_pistol",
+    "items": [ { "item": "walther_ppq_45" }, { "group": "firearm_box_extras" }, { "item": "ppq45mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hptjhp",
+    "container-item": "box_pistol",
+    "items": [ { "item": "hptjhp" }, { "group": "firearm_box_extras" }, { "item": "hptjhpmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_usp_45",
+    "container-item": "box_pistol",
+    "items": [ { "item": "usp_45" }, { "group": "firearm_box_extras" }, { "item": "usp45mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_380",
+    "items": [ { "group": "boxed_rugerlcp", "prob": 231 }, { "group": "boxed_hptcf380", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rugerlcp",
+    "container-item": "box_pistol",
+    "items": [ { "item": "rugerlcp" }, { "group": "firearm_box_extras" }, { "item": "rugerlcpmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hptcf380",
+    "container-item": "box_pistol",
+    "entries": [
+      { "item": "hptcf380" },
+      { "group": "firearm_box_extras" },
+      { "distribution": [ { "item": "hptcf380mag_8rd", "prob": 80 }, { "item": "hptcf380mag_10rd", "prob": 20 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_40",
+    "items": [
+      { "group": "boxed_glock_22", "prob": 100 },
+      { "group": "boxed_px4_40", "prob": 20 },
+      { "group": "boxed_hi_power_40", "prob": 3 },
+      { "group": "boxed_hptjcp", "prob": 29 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_22",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_22" }, { "group": "firearm_box_extras" }, { "item": "glock40mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_px4_40",
+    "container-item": "box_pistol",
+    "items": [ { "item": "px4_40" }, { "group": "firearm_box_extras" }, { "item": "px4_40mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hi_power_40",
+    "container-item": "box_pistol",
+    "items": [ { "item": "hi_power_40" }, { "group": "firearm_box_extras" }, { "item": "bhp40mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_hptjcp",
+    "container-item": "box_pistol",
+    "items": [ { "item": "hptjcp" }, { "group": "firearm_box_extras" }, { "item": "hptjcpmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_357mag",
+    "items": [
+      { "group": "boxed_357_revolver", "prob": 179 },
+      { "group": "boxed_sw_619", "prob": 100 },
+      { "group": "boxed_deagle_357", "prob": 38 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_357_revolver",
+    "container-item": "box_pistol",
+    "entries": [
+      { "item": "38_speedloader6", "prob": 10 },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [ { "item": "rp63", "prob": 11 }, { "item": "colt_python", "prob": 96 }, { "item": "chiappa_rhino", "prob": 72 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sw_619",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sw_619" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_deagle_357",
+    "container-item": "box_pistol",
+    "items": [ { "group": "modular_deagle_357" }, { "group": "firearm_box_extras" }, { "item": "deaglemag_357", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_38",
+    "items": [ { "group": "boxed_ruger_lcr_38", "prob": 66 }, { "group": "boxed_model_10_revolver", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_lcr_38",
+    "container-item": "box_pistol",
+    "items": [ { "item": "ruger_lcr_38" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader5", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_model_10_revolver",
+    "container-item": "box_pistol",
+    "items": [ { "item": "model_10_revolver" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader6", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_44",
+    "items": [ { "group": "boxed_44_revolver", "prob": 147 }, { "group": "boxed_deagle_44", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_44_revolver",
+    "container-item": "box_pistol",
+    "entries": [
+      { "item": "44_speedloader6", "prob": 10 },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [
+          { "item": "sw629", "prob": 100 },
+          { "item": "colt_anaconda_8", "prob": 15 },
+          { "item": "colt_anaconda_6", "prob": 24 },
+          { "item": "colt_anaconda_4", "prob": 8 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_deagle_44",
+    "container-item": "box_pistol",
+    "items": [ { "group": "modular_deagle_44" }, { "group": "firearm_box_extras" }, { "item": "deaglemag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_45colt",
+    "items": [
+      { "group": "boxed_raging_bull", "prob": 9 },
+      { "group": "boxed_taurus_judge", "prob": 100 },
+      { "group": "boxed_colt_saa", "prob": 26 },
+      { "group": "boxed_bond_410", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_raging_bull",
+    "container-item": "box_pistol",
+    "items": [ { "item": "raging_bull" }, { "group": "firearm_box_extras" }, { "item": "454_speedloader5", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_taurus_judge",
+    "container-item": "box_pistol",
+    "items": [ { "item": "taurus_judge" }, { "group": "firearm_box_extras" }, { "item": "454_speedloader5", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_colt_saa",
+    "container-item": "box_pistol",
+    "items": [ { "item": "colt_saa" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_bond_410",
+    "container-item": "box_pistol",
+    "items": [ { "item": "bond_410" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_10mm",
+    "items": [
+      { "group": "boxed_glock_40", "prob": 100 },
+      { "group": "boxed_m1911_10", "prob": 30 },
+      { "group": "boxed_p220_10", "prob": 35 },
+      { "group": "boxed_xd_10", "prob": 85 },
+      { "group": "boxed_witness_10", "prob": 10 },
+      { "group": "boxed_TDI_10", "prob": 183 },
+      { "group": "boxed_glock_20", "prob": 121 },
+      { "group": "boxed_glock_29", "prob": 62 },
+      { "group": "boxed_sw_610", "prob": 34 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_40",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_40" }, { "group": "firearm_box_extras" }, { "item": "glock_20mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_m1911_10",
+    "container-item": "box_pistol",
+    "items": [ { "item": "m1911_10" }, { "group": "firearm_box_extras" }, { "item": "m1911_10mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_p220_10",
+    "container-item": "box_pistol",
+    "items": [ { "item": "p220_10" }, { "group": "firearm_box_extras" }, { "item": "p220_10_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_xd_10",
+    "container-item": "box_pistol",
+    "items": [ { "item": "xd_10" }, { "group": "firearm_box_extras" }, { "item": "xd_10_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_witness_10",
+    "container-item": "box_pistol",
+    "items": [ { "item": "witness_10" }, { "group": "firearm_box_extras" }, { "item": "witness_mag_10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_TDI_10",
+    "container-item": "box_pistol",
+    "items": [ { "item": "TDI_10" }, { "group": "firearm_box_extras" }, { "item": "glock_20mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_20",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_20" }, { "group": "firearm_box_extras" }, { "item": "glock_20mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_29",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_29" }, { "group": "firearm_box_extras" }, { "item": "glock_29mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sw_610",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sw_610" }, { "group": "firearm_box_extras" }, { "item": "40_speedloader6", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_pistol_common_boxed_762_39",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
+    "entries": [
+      { "item": "akmag10", "count": [ 1, 2 ] },
+      { "group": "firearm_box_extras" },
+      {
+        "distribution": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_pistol_common_boxed_223",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
+    "entries": [
+      { "group": "stanag_restricted" },
+      { "group": "firearm_box_extras" },
+      { "distribution": [ { "group": "ar_pistol", "prob": 8 }, { "group": "ar_pistol_long", "prob": 10 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_pistol_common_boxed_300",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
+    "entries": [
+      { "group": "stanag_restricted" },
+      { "group": "firearm_box_extras" },
+      { "distribution": [ { "group": "ar_pistol_300", "prob": 2 }, { "group": "ar_pistol_300_long", "prob": 5 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_57",
+    "items": [
+      { "group": "boxed_ruger_57", "prob": 100 },
+      { "group": "boxed_fn57", "prob": 13 },
+      { "group": "boxed_p50", "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ruger_57",
+    "container-item": "box_pistol",
+    "items": [ { "item": "ruger_57" }, { "group": "firearm_box_extras" }, { "item": "ruger_57_10_round_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_fn57",
+    "container-item": "box_pistol",
+    "items": [ { "item": "fn57" }, { "group": "firearm_box_extras" }, { "item": "fn57mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_p50",
+    "container-item": "box_pistol",
+    "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_32",
+    "items": [ { "group": "boxed_kp32", "prob": 100 }, { "group": "boxed_walther_ppk", "prob": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_kp32",
+    "container-item": "box_pistol",
+    "items": [ { "item": "kp32" }, { "group": "firearm_box_extras" }, { "item": "kp32mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_walther_ppk",
+    "container-item": "box_pistol",
+    "items": [ { "item": "walther_ppk" }, { "group": "firearm_box_extras" }, { "item": "ppkmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_pistol_common_boxed_38super",
+    "container-item": "box_pistol",
+    "items": [
+      { "item": "m1911a1_38super" },
+      { "group": "firearm_box_extras" },
+      { "item": "m1911mag_10rd_38super", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_boxed_other",
+    "items": [
+      { "group": "boxed_glock_31", "prob": 42 },
+      { "group": "boxed_bfr", "prob": 5 },
+      { "group": "boxed_deagle_50", "prob": 10 },
+      { "group": "boxed_sw_500", "prob": 29 },
+      { "group": "boxed_makarov", "prob": 7 },
+      { "group": "boxed_tokarev", "prob": 7 },
+      { "group": "boxed_ar15_450short", "prob": 3 },
+      { "group": "boxed_ar15_50short", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_31",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_31" }, { "group": "firearm_box_extras" }, { "item": "glock40mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_bfr",
+    "container-item": "box_pistol",
+    "items": [ { "item": "bfr" }, { "group": "firearm_box_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_deagle_50",
+    "container-item": "box_pistol",
+    "items": [ { "group": "modular_deagle_50" }, { "group": "firearm_box_extras" }, { "item": "deaglemag_50", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sw_500",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sw_500" }, { "group": "firearm_box_extras" }, { "item": "500_speedloader5", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_makarov",
+    "container-item": "box_pistol",
+    "items": [ { "item": "makarov" }, { "group": "firearm_box_extras" }, { "item": "makarovmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_tokarev",
+    "container-item": "box_pistol",
+    "items": [ { "item": "tokarev" }, { "group": "firearm_box_extras" }, { "item": "tokarevmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_450short",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
+    "items": [ { "group": "ar15_450short" }, { "group": "firearm_box_extras" }, { "item": "450_ar15mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15_50short",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_handgun" },
+    "items": [ { "group": "ar15_50short" }, { "group": "firearm_box_extras" }, { "item": "50beowulf_ar15mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_boxed",
     "items": [
       { "group": "guns_rifle_common_boxed_22", "prob": 1760 },
