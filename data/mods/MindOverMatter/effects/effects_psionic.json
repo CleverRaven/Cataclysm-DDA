@@ -554,7 +554,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "( 15 + ( u_spell_level('chronokin_accel') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( 10 + ( 2 * u_spell_level('chronokin_chronal_accel') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
           }

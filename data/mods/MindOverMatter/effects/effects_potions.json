@@ -70,6 +70,34 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronokin_potion",
+    "name": [ "Void Elixir" ],
+    "desc": [ "You drank the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's effects fade and the world speeds up.  Enormously.",
+    "rating": "good",
+    "max_duration": "30 hours",
+    "max_intensity": 1,
+    "enchantments": [
+      {
+        "values": [ { "value": "SPEED", "add": 50 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_chronokin_potion_comedown",
+    "name": [ "Void Elixir Aftereffects" ],
+    "desc": [ "You're suffering the aftereffects of drinking the concentrated matrix crystal concoction." ],
+    "apply_message": "",
+    "remove_message": "The concoction's aftereffects finally wear off.",
+    "rating": "bad",
+    "max_duration": "55 hours",
+    "max_intensity": 1,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": -50 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_potion",
     "name": [ "Gray Elixir" ],
     "desc": [ "You drank the concentrated matrix crystal concoction." ],

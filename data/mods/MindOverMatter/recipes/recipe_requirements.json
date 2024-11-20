@@ -5,6 +5,7 @@
     "components": [
       [
         [ "matrix_crystal_biokin_dust_refined", 1 ],
+        [ "matrix_crystal_chronokin_dust_refined", 1 ],
         [ "matrix_crystal_clair_dust_refined", 1 ],
         [ "matrix_crystal_pyrokin_dust_refined", 1 ],
         [ "matrix_crystal_telekin_dust_refined", 1 ],

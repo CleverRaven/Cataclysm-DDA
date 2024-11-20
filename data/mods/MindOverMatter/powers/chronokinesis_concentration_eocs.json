@@ -2,7 +2,7 @@
     {
       "type": "effect_on_condition",
       "id": "EOC_CHRONOKIN_CHRONAL_ACCEL_INITIATE",
-      "condition": { "not": { "u_has_effect": "effect_biokin_reflex" } },
+      "condition": { "not": { "u_has_effect": "effect_chronokin_chronal_accel" } },
       "effect": [
         { "u_message": "You world slows down.", "type": "good" },
         { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },

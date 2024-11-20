@@ -5,6 +5,7 @@
     "id": "dist_matrix_crystals",
     "items": [
       [ "matrix_crystal_biokinesis", 10 ],
+      [ "matrix_crystal_chronokinesis", 10 ],
       [ "matrix_crystal_clairsentience", 10 ],
       [ "matrix_crystal_electrokinesis", 10 ],
       [ "matrix_crystal_photokinesis", 10 ],
@@ -23,6 +24,7 @@
     "items": [
       [ "null", 100 ],
       [ "matrix_crystal_biokinesis", 10 ],
+      [ "matrix_crystal_chronokinesis", 10 ],
       [ "matrix_crystal_clairsentience", 10 ],
       [ "matrix_crystal_electrokinesis", 10 ],
       [ "matrix_crystal_photokinesis", 10 ],
@@ -40,6 +42,7 @@
     "id": "dist_matrix_crystals_50_50",
     "items": [
       [ "matrix_crystal_drained", 9 ],
+      [ "matrix_crystal_chronokinesis", 1 ],
       [ "matrix_crystal_biokinesis", 1 ],
       [ "matrix_crystal_clairsentience", 1 ],
       [ "matrix_crystal_electrokinesis", 1 ],
@@ -57,6 +60,7 @@
     "id": "collection_matrix_dust",
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_chronokin_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_clair_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_electrokin_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_photokin_dust", "prob": 30, "container-item": "test_tube" },
@@ -74,6 +78,7 @@
     "id": "distribution_matrix_dust",
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_chronokin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_clair_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_electrokin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_photokin_dust", "prob": 1, "container-item": "test_tube" },
@@ -92,6 +97,15 @@
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 3, "container-item": "test_tube" },
       { "item": "matrix_crystal_biokin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_chronokin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_chronokin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_chronokin_dust_refined", "prob": 1, "container-item": "test_tube" }
     ]
   },
   {

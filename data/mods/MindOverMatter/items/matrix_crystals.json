@@ -47,13 +47,8 @@
     "id": "matrix_crystal_chronokinesis",
     "name": { "str_sp": "strange crystal, void" },
     "description": "A strange-looking, surprisingly-heavy crystal that seems to bleach the surrounding environment of color.  Holding it, you feel distorted.",
+    "copy-from": "matrix_crystal_biokinesis",
     "color": "black_white",
-    "symbol": "+",
-    "volume": "10 ml",
-    "weight": "150 g",
-    "longest_side": "21 mm",
-    "material": [ "nether_crystal" ],
-    "looks_like": "art_crystal",
     "flags": [ "MATRIX_CRYSTAL_CHRONOKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
@@ -65,25 +60,17 @@
     "type": "GENERIC",
     "id": "matrix_crystal_chronokin_dust",
     "name": { "str_sp": "crystalline dust, void" },
+    "copy-from": "matrix_crystal_biokin_dust",
     "description": "A bit of crystalline dust that slightly bleaches the environment of color.",
-    "color": "black_white",
-    "symbol": "=",
-    "volume": "1 ml",
-    "weight": "15 g",
-    "material": [ "powder_nonflam" ],
-    "looks_like": "material_quicklime"
+    "color": "black_white"
   },
   {
     "type": "GENERIC",
     "id": "matrix_crystal_chronokin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, void" },
     "description": "Concentrated matrix crystal dust.  It saps even the nearby darkness of essence.",
-    "color": "black_white",
-    "symbol": "=",
-    "volume": "1 ml",
-    "weight": "5 g",
-    "material": [ "powder_nonflam" ],
-    "looks_like": "material_quicklime"
+    "copy-from": "matrix_crystal_biokin_dust_refined",
+    "color": "black_white"
   },
   {
     "type": "TOOL",
