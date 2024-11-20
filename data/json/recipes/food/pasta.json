@@ -6,7 +6,6 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
-    "difficulty": 0,
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
