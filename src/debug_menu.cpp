@@ -3220,7 +3220,7 @@ static void debug_menu_force_temperature()
         auto ask = [&pop]( const std::string & unit, std::optional<float> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
-                      .text( current ? std::to_string( *current ) : "" )
+                      .text( current ? std::to_string( static_cast<int>( std::round( *current ) ) ) : "" )
                       .query_int();
 
             return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );

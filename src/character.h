@@ -3524,7 +3524,7 @@ class Character : public Creature, public visitable
         // providing the recipe or a nearby allied Character knows it.
         bool has_recipe( const recipe *r ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
+        void learn_recipe( const recipe *rec, bool override_never_learn = false );
         void forget_recipe( const recipe *rec );
         void forget_all_recipes();
         int exceeds_recipe_requirements( const recipe &rec ) const;

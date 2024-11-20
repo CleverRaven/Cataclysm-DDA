@@ -7162,7 +7162,7 @@ void iexamine::smoker_options( Character &you, const tripoint_bub_ms &examp )
         case 4:
             // remove food
             rem_f_opt = true;
-        /* fallthrough */
+            [[fallthrough]];
         case 5: {
             //remove charcoal
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {

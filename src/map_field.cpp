@@ -1614,10 +1614,10 @@ void map::player_in_field( Character &you )
                                 parts_burned.emplace_back( "hand_r" );
                                 parts_burned.emplace_back( "arm_l" );
                                 parts_burned.emplace_back( "arm_r" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 2:
                                 parts_burned.emplace_back( "torso" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 1:
                                 parts_burned.emplace_back( "foot_l" );
                                 parts_burned.emplace_back( "foot_r" );

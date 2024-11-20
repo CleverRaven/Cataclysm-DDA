@@ -1657,7 +1657,7 @@ void Character::hardcoded_effects( effect &it )
                     }
                 }
                 mod *= 2;
-            /* fallthrough */
+                [[fallthrough]];
             case 2:
                 // Myoclonic seizure (muscle spasm)
                 if( one_turn_in( 2_hours / mod ) && !has_effect( effect_valium ) ) {
@@ -1696,7 +1696,7 @@ void Character::hardcoded_effects( effect &it )
                     }
                 }
                 mod *= 2;
-            /* fallthrough */
+                [[fallthrough]];
             case 1:
                 // Migraine
                 if( one_turn_in( 2_days / mod ) ) {

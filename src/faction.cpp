@@ -1058,6 +1058,7 @@ void faction_manager::display() const
                     fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
                 }
             }
+            break;
             default:
                 break;
         }

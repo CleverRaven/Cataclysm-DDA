@@ -135,6 +135,7 @@ void advanced_inv_area::init()
             desc[0] = here.has_graffiti_at( pos ) ?
                       here.graffiti_at( pos ) : here.name( pos );
         }
+        break;
         default:
             break;
     }

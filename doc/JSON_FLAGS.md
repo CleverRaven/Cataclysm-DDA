@@ -747,7 +747,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BAD_TASTE``` This comestible gives -5 to taste, that can't be covered through cooking.
 - ```BANK_NOTE_SHAPED``` This item fits into the folded sleeve of wallets, like a bank note.
 - ```BANK_NOTE_STRAP_SHAPED``` This item fits into pockets intended for money straps (like a cash register).
-- ```BATTERY_HEAVY``` This item is a heavy battery, and can be put in pockets that have heavy battery restriction.
+- ```BATTERY_HEAVY``` This item is a tool battery, and can be put in pockets that have tool battery restriction.
 - ```BATTERY_LIGHT``` This item is a light battery, and can be put in pockets that have light battery restriction.
 - ```BATTERY_MEDIUM``` This item is a medium battery, and can be put in pockets that have medium battery restriction.
 - ```BATTERY_ULTRA_LIGHT``` This item is an ultra light battery, and can be put in pockets that have ultra light battery restriction.
