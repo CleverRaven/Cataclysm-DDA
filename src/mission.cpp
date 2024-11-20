@@ -464,6 +464,7 @@ void mission::wrap_up()
                 }
             }
         }
+        break;
         default:
             //Suppress warnings
             break;

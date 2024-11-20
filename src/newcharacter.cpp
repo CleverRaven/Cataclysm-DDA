@@ -563,7 +563,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
                     }
                     break;
                 }
-            /* fallthrough */
+                [[fallthrough]];
             case 5:
                 if( allow_stats ) {
                     switch( rng( 1, 4 ) ) {
@@ -582,7 +582,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
                     }
                     break;
                 }
-            /* fallthrough */
+                [[fallthrough]];
             case 6:
             case 7:
             case 8:

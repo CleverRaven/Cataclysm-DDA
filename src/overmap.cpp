@@ -2431,7 +2431,7 @@ struct mutable_overmap_phase_remainder {
                     return std::nullopt;
                 case joins_tracker::join_status::matched_non_available:
                     ++context_mandatory_joins_shortfall;
-                // fallthrough
+                    [[fallthrough]];
                 case joins_tracker::join_status::matched_available:
                     if( ter_join.type != join_type::available ) {
                         ++num_my_non_available_matched;
@@ -2439,6 +2439,7 @@ struct mutable_overmap_phase_remainder {
                     continue;
                 case joins_tracker::join_status::mismatched_available:
                     suppressed_joins.push_back( pos_d );
+                    break;
                 case joins_tracker::join_status::free:
                     break;
             }
@@ -6848,7 +6849,7 @@ point om_direction::rotate( const point &p, type dir )
         case om_direction::type::invalid:
         case om_direction::type::last:
             debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
-        // Intentional fallthrough.
+            [[fallthrough]];
         case om_direction::type::north:
             break;  // No need to do anything.
         case om_direction::type::east:
@@ -6935,7 +6936,7 @@ om_direction::type om_direction::from_cube( cube_direction c, const std::string 
         case cube_direction::above:
         case cube_direction::below:
             debugmsg( error_msg );
-        // fallthrough
+            [[fallthrough]];
         case cube_direction::last:
             return om_direction::type::invalid;
     }

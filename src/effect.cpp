@@ -187,6 +187,7 @@ void weed_msg( Character &p )
             case 5:
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
                                          translation() ) );
+                return;
             default:
                 return;
         }
@@ -271,6 +272,7 @@ void weed_msg( Character &p )
             case 4:
                 // re-roll
                 weed_msg( p );
+                return;
             case 5:
             default:
                 return;
