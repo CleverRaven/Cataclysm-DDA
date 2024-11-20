@@ -1422,5 +1422,33 @@
     "type": "widget",
     "copy-from": "test_layout_nopad",
     "flags": [  ]
+  },
+  {
+    "id": "test_custom_var_static_range",
+    "type": "widget",
+    "separator": ": ",
+    "label": "FOCUS",
+    "var": "custom",
+    "custom_var": {
+      "value": { "math": [ "u_val('focus')" ] },
+      "range": [ 0, 90, 110, 200 ]
+    },
+    "style": "number"
+  },
+  {
+    "id": "test_custom_var_dynamic_range",
+    "type": "widget",
+    "separator": ": ",
+    "label": "STR",
+    "var": "custom",
+    "custom_var": {
+      "value": { "math": [ "u_val('strength')" ] },
+      "range": [
+        { "math": [ "u_val('strength_base') - 3" ] },
+        { "math": [ "u_val('strength_base')" ] },
+        { "math": [ "u_val('strength_base') + 3" ] }
+      ]
+    },
+    "copy-from": "test_stat_color_num"
   }
 ]
