@@ -1,5 +1,23 @@
 [
   {
+    "id": "prac_lockpicking_inexperienced",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_DEVICES",
+    "name": "lockpicking (inexperienced)",
+    "description": "Figure out how to pick locks by trial and error, though your clumsy attempts will break the pick and jam the lock.",
+    "skill_used": "traps",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "proficiencies": [ { "proficiency": "prof_lockpicking", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "//": "Crude picks will eventually lose their shape and the lock will be ruined by clumsy attempts.",
+    "components": [ [ [ "crude_picklock", 1 ] ], [ [ "lock", 1 ] ] ],
+    "autolearn": [ [ "traps", 0 ] ],
+    "//2": "Lock picking is mostly done by touch, but complete darkness makes it slightly harder.",
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "id": "prac_lockpicking_crude",
     "type": "practice",
     "activity_level": "NO_EXERCISE",
@@ -14,7 +32,7 @@
     "tools": [ [ "lock" ] ],
     "//": "Crude picks will eventually lose their shape",
     "components": [ [ [ "crude_picklock", 1 ] ] ],
-    "autolearn": [ [ "traps", 3 ] ],
+    "autolearn": [ [ "traps", 2 ] ],
     "book_learn": [ [ "book_lockpick", 1 ] ],
     "//2": "Lock picking is mostly done by touch, but complete darkness makes it slightly harder.",
     "flags": [ "BLIND_EASY" ]
@@ -33,7 +51,7 @@
     "time": "1 h",
     "qualities": [ { "id": "LOCKPICK", "level": 5 } ],
     "tools": [ [ "lock" ] ],
-    "autolearn": [ [ "traps", 3 ] ],
+    "autolearn": [ [ "traps", 2 ] ],
     "book_learn": [ [ "book_lockpick", 1 ] ],
     "flags": [ "BLIND_EASY" ]
   },
