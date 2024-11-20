@@ -764,13 +764,13 @@
         "......---",
         "C.....jcd",
         "xc.Ş..---",
-        "C..M̃....C",
+        "C..X....C",
         "Cc......ç",
         "CxC.MMM.C"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "furniture": { "f": "f_air_filter", "M̃": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
+      "furniture": { "f": "f_air_filter", "X": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
       "place_item": [
         { "item": "lab_file_IG882_P_item", "x": 8, "y": 4, "chance": 50 },
         { "item": "phavian_psionic_telepathic_mental_engineering_book", "x": 8, "y": 7, "chance": 85 },
@@ -778,12 +778,12 @@
       ],
       "items": {
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        "d": { "item": "dist_lab_file_phavian_patient_mosaic", "chance": 50 },
         "C": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
         "ç": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
         "Ȼ": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ]
-      }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 1, 4 ] } ]
     }
   },
   {
@@ -802,13 +802,13 @@
         "---......",
         "dcj.....C",
         "---..Ş.cx",
-        "C....̃M̃..C",
+        "C....X..C",
         "ç......cC",
         "C.MMM.CxC"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "furniture": { "f": "f_air_filter", "M̃": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
+      "furniture": { "f": "f_air_filter", "X": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
       "place_item": [
         { "item": "lab_file_IG882_P_item", "x": 0, "y": 4, "chance": 50 },
         { "item": "phavian_psionic_telepathic_mental_engineering_book", "x": 0, "y": 7, "chance": 85 },
@@ -816,12 +816,11 @@
       ],
       "items": {
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        "d": { "item": "dist_lab_file_phavian_patient_mosaic", "chance": 50 },
         "C": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
         "Ȼ": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "ç": [ { "item": "phavian_skyscraper_lab_patient_mosaic", "chance": 75 } ]
-      }
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ]
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 1, 4 ] } ]
     }
   },
   {
