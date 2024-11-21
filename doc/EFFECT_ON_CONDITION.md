@@ -515,28 +515,6 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 { "u_bodytype": "migo" }, { "npc_bodytype": "human" }
 ```
 
-### `u_has_var`, `npc_has_var`
-
-**DEPRECATED**, use `compare_string` in format `{ "compare_string": [ "yes", { "npc_val": "name_of_the_variable" } ] }`
-
-- type: string
-- checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
-- `type`, `context` and `value` of the variable is also required
-
-Note: Not to be confused with the global `has_var` **(no prefix)**, used as [dialogue function](NPCs.md#dialogue-functions) to check if the variable is defined.  In other words, if it exists.
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-#### Examples
-Checks do alpha talker has `u_met_sadie` variable
-```json
-{ "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] }
-```
-
 ### `expects_vars`
 - type: array of strings and/or [variable object](#variable-object)
 - return true if each provided variable exist

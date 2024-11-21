@@ -1131,24 +1131,6 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
     };
 }
 
-conditional_t::func f_has_var( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
-    if( !jo.has_member( "value" ) ) {
-        jo.throw_error( R"(Missing field: "value")" );
-        return []( const_dialogue const & ) {
-            return false;
-        };
-    }
-
-    return [var_name, value, is_npc]( const_dialogue const & d ) {
-        const_talker const *actor = d.const_actor( is_npc );
-        return actor->get_value( var_name ) == value;
-    };
-}
-
 conditional_t::func f_expects_vars( const JsonObject &jo, std::string_view member )
 {
     std::vector<str_or_var> to_check;
@@ -2588,7 +2570,6 @@ parsers = {
     {"u_query_tile", "npc_query_tile", jarg::member, &conditional_fun::f_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
-    {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
     { "follower_present", jarg::string, &conditional_fun::f_follower_present},
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
