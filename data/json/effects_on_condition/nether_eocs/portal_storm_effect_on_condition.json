@@ -1013,7 +1013,7 @@
       ]
     },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength", "default": 0 },
+      "switch": { "global_val": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
         {
           "case": 0,
@@ -1095,7 +1095,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD",
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "switch": { "global_val": "portal_dungeon_level" },
       "cases": [
         {
           "case": 2,
