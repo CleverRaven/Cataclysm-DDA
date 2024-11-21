@@ -687,7 +687,6 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
         ts.prevent_occlusion_min_dist = curr_info.get_float( "retract_dist_min", -1.0f );
         ts.prevent_occlusion_max_dist = curr_info.get_float( "retract_dist_max", 0.0f );
-        ts.show_creature_overlay_icons = curr_info.get_bool( "show_creature_overlay_icons", true );
     }
 
     if( precheck ) {
@@ -4161,7 +4160,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     }
 
-    if( result && !is_player && get_show_creature_overlay_icons() ) {
+    if( result && !is_player && get_option<bool>( "CREATURE_OVERLAY_ICONS" ) ) {
         std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
         if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
             draw_id += "_sees_player";
@@ -4172,21 +4171,6 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     }
     return result;
-}
-
-bool cata_tiles::get_show_creature_overlay_icons()
-{
-    const int &user_option = get_option<int>( "CREATURE_OVERLAY_ICONS" );
-    switch( user_option ) {
-        case 0:
-            return false;
-        case 1:
-            return true;
-        case 2:
-            return tileset_ptr->get_show_creature_overlay_icons();
-        default:
-            cata_fatal( "Invalid CREATURE_OVERLAY_ICONS option" );
-    }
 }
 
 bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
@@ -4404,8 +4388,7 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
 
     // next up, draw all the overlays
     std::vector<std::pair<std::string, std::string>> overlays = override_look_muts.empty() ?
-            ch.get_overlay_ids( get_show_creature_overlay_icons() ) :
-            ch.get_overlay_ids_when_override_look( get_show_creature_overlay_icons() );
+            ch.get_overlay_ids() : ch.get_overlay_ids_when_override_look();
     for( const std::pair<std::string, std::string> &overlay : overlays ) {
         std::string draw_id = overlay.first;
         if( find_overlay_looks_like( ch.male, overlay.first, overlay.second, draw_id ) ) {

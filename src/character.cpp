@@ -3421,15 +3421,14 @@ bool Character::is_wielding( const item &target ) const
     return &weapon == &target;
 }
 
-std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids(
-            const bool show_creature_overlay_icons /*= true*/ ) const
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
 {
     std::vector<std::pair<std::string, std::string>> rval;
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
     std::string variant;
-
+    const bool &show_creature_overlay_icons = get_option<bool>( "CREATURE_OVERLAY_ICONS" );
     // first get effects
     if( show_creature_overlay_icons ) {
         for( const auto &eff_pr : *effects ) {
@@ -3490,13 +3489,11 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids(
     return rval;
 }
 
-std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when_override_look(
-            const bool show_creature_overlay_icons /*= true*/ )
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when_override_look()
         const
 {
-
     std::vector<std::pair<std::string, std::string>> rval;
-    if( !show_creature_overlay_icons ) {
+    if( !get_option<bool>( "CREATURE_OVERLAY_ICONS" ) ) {
         return rval;
     }
     // first get effects

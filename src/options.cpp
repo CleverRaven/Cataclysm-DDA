@@ -2200,10 +2200,8 @@ void options_manager::add_options_interface()
            );
 
         add( "CREATURE_OVERLAY_ICONS", page_id, to_translation( "Show overlay icons over creatures" ),
-        to_translation( "Show, Hide, or let the tileset decide (Auto)." ), {
-            { 0, to_translation( "Hide" ) }, { 1, to_translation( "Show" ) },
-            { 2, to_translation( "Auto" ) }
-        }, 2, 2
+             to_translation( "If true, show overlay icons over creatures such as effects, move mode and whether creatures can see the player." ),
+             true
            );
     } );
 
