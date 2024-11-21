@@ -666,6 +666,45 @@ There are two possible syntaxes.  The first is by defining an enchantment object
         }
       ]
     }
+    "special_vision": [   // defines creatures (monsters or NPC) you can see in some irregular ways, mainly thermal or supernatural
+      {
+        "condition": { "and": [ { "npc_has_flag": "ELECTRIC" }, "u_see_npc" ] },   // this need to return true to see the critter; u is character, npc is critter being watched
+        "distance": 20, // how far special_vision is applied. for technical reasons special_vision do not stack, having multiple special_visions of the same nature will not result in special_visions of bigger distance
+        "descriptions": [ // if condition is true, this will assign a dedicated id (used for tiles) and text, depending on text_condition
+          { 
+            "id": "infrared_creature_tiny", 
+            "text_condition": { "math": [ "n_val('size') == 1" ] }, // be sure to not use condition that can change in between moves (like any math with random result, `rand(1)` etc); 
+                        // while text with tags is stored and re-evaluated only when cursor changes its position, tiles are re-evaluated every frame, even on pause
+            "text": "Message 1."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "text": "Message 2."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "text": "Message 3. <fuck_you>" // tags are also supported
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "text": "Message 4."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "text": "Message 5."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "true" ] }, // descriptions are read in order they are in json, adding dummy condition that always return true can be used as a fallback if none previous condition matches;
+            "text": "Last message." // otherwise default description is `You sense a creature here.`, and default id is `infrared_creature`
+          }
+        ]
+      }
+    ]
   }
 ```
 

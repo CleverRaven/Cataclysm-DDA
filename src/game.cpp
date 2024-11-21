@@ -4189,7 +4189,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
 
-    if( u.sees_with_infrared( critter ) || u.sees_with_specials( critter ) ) {
+    if( u.sees_with_specials( critter ) ) {
         mvwputch( w_terrain, point( mx, my ), c_red, '?' );
     }
 }
@@ -6367,16 +6367,20 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
         case visibility_type::HIDDEN:
             print_visibility_info( w_look, column, line, visibility );
 
+            static std::string raw_description;
+            static std::string parsed_description;
             if( creature != nullptr ) {
-                std::vector<std::string> buf;
-                if( u.sees_with_infrared( *creature ) ) {
-                    creature->describe_infrared( buf );
-                } else if( u.sees_with_specials( *creature ) ) {
-                    creature->describe_specials( buf );
+                if( u.sees_with_specials( *creature ) ) {
+                    // handling against re-evaluation and snippet replacement on redraw
+                    if( raw_description.empty() ) {
+                        raw_description = u.enchantment_cache->get_vision_description( *u.as_character(), *creature );
+                        parse_tags( raw_description, *u.as_character(), *creature );
+                        parsed_description = raw_description;
+                    }
+                    mvwprintw( w_look, point( 1, ++line ), parsed_description );
                 }
-                for( const std::string &s : buf ) {
-                    mvwprintw( w_look, point( 1, ++line ), s );
-                }
+            } else {
+                raw_description.clear();
             }
             break;
     }

@@ -85,10 +85,10 @@ using overmap_location_str_id = string_id<overmap_location>;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
-void parse_tags( std::string &phrase, const Character &u, const Character &me,
+void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
-void parse_tags( std::string &phrase, const Character &u, const Character &me,
+void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const_dialogue const &d, const itype_id &item_type = itype_id::NULL_ID() );
 
 void parse_tags( std::string &phrase, const_talker const &u, const_talker const &me,

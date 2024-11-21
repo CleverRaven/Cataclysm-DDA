@@ -526,29 +526,10 @@
     "points": 2,
     "vitamin_cost": 160,
     "prereqs": [ "SLIT_NOSTRILS", "BLOODFEEDER" ],
-    "flags": [ "INFRARED" ],
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "not": {
-              "or": [
-                { "u_has_effect": "smoke", "bodypart": "mouth" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "tpollen" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "hay_fever" },
-                "u_is_underwater"
-              ]
-            }
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ]
+    "enchantments": [ "THERMAL_VISION_LEAFNOSE" ]
   },
   {
     "type": "mutation",
@@ -2488,7 +2469,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "prereqs": [ "NIGHTVISION3" ],
     "cancels": [ "LIZ_IR" ],
     "category": [ "INSECT", "TROGLOBITE", "SPIDER" ],
@@ -2515,7 +2496,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "types": [ "VISION" ],
     "prereqs": [ "LIZ_EYE" ],
     "category": [ "LIZARD", "RAPTOR" ]

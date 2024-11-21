@@ -2436,6 +2436,7 @@
     "warmth": 10,
     "environmental_protection": 3,
     "material_thickness": 2,
+    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2453,7 +2454,7 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
