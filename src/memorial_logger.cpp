@@ -126,7 +126,9 @@ void memorial_logger::add( const std::string_view male_msg,
         return;
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+    const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
+                             oter_id() :
+                             overmap_buffer.ter( player_character.global_omt_location() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
     const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
@@ -1135,6 +1137,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:
         case event_type::cuts_tree:
         case event_type::opens_spellbook:

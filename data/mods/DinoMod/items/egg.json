@@ -671,6 +671,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_lokiceratops",
+    "name": "lokiceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": { "monster": "mon_lokiceratops_hatchling" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_styracosaurus",
     "name": "styracosaurus egg",
     "copy-from": "egg_dino",

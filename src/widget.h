@@ -60,6 +60,7 @@ enum class widget_var : int {
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
+    faction_territory,  // Name of faction whose base/territory you are at, if any
     mood_text,      // Mood as a text emote, color string
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
@@ -170,7 +171,7 @@ struct widget_clause {
         bool has_condition = false;
         // Whether parse tags in this clause
         bool should_parse_tags = false;
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;
 

@@ -152,6 +152,8 @@ static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
 static constexpr int MIN_SPEED_TPS = 1;
 static constexpr int MAX_SPEED_TPS = 3;
+// 16 tiles/s is roughly 55 knots, helicopter efficiency is greatest around 50-70 knots.
+static constexpr int MAX_AIR_SPEED_TPS = 16;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
@@ -301,6 +303,7 @@ struct auto_navigation_data {
     bool land_ok;
     bool water_ok;
     bool air_ok;
+    bool is_flying;
     // the maximum speed to consider driving at, in tiles/s
     int max_speed_tps;
     // max acceleration
@@ -637,7 +640,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     tileray tdir( to_angle( facing ) );
     ret.tdir = tdir;
     std::map<int, std::pair<int, int>> extent_map;
-    const point_rel_ms pivot = driven_veh.pivot_point_rel();
+    const point_rel_ms pivot = driven_veh.pivot_point();
     for( const vehicle_part &part : driven_veh.parts ) {
         if( part.removed ) {
             continue;
@@ -778,7 +781,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
-    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
+    } else if( terrain_type.is_smashable() ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
     } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
@@ -928,7 +931,11 @@ void vehicle::autodrive_controller::precompute_data()
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
         data.air_ok = driven_veh.has_sufficient_rotorlift();
-        data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
+        data.is_flying = driven_veh.is_rotorcraft() && driven_veh.is_flying_in_air();
+        data.max_speed_tps = std::min(
+                                 data.is_flying ? MAX_AIR_SPEED_TPS : MAX_SPEED_TPS,
+                                 driven_veh.safe_velocity() / VMIPH_PER_TPS
+                             );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
             data.acceleration[speed_tps] = driven_veh.acceleration( true, speed_tps * VMIPH_PER_TPS );
@@ -1199,7 +1206,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     }
     for( const point &p : collision_zone ) {
         const tripoint_bub_ms next = data.adjust_z( veh_pos + p );
-        if( !driver.sees( next ) ) {
+        if( !data.is_flying && !driver.sees( next ) ) {
             return collision_check_result::slow_down;
         }
         if( !check_drivable( next ) ) {
@@ -1266,13 +1273,14 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
 {
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
     std::vector<std::tuple<point, int, std::string>> ret;
+    ret.reserve( collision_check_points.size() );
 
     const tripoint_abs_ms veh_pos = global_square_location();
-    if( autodrive_local_target != tripoint_zero ) {
-        ret.emplace_back( ( autodrive_local_target - veh_pos.raw() ).xy(), catacurses::red, "T" );
+    if( autodrive_local_target != tripoint_abs_ms_zero ) {
+        ret.emplace_back( ( autodrive_local_target - veh_pos ).xy().raw(), catacurses::red, "T" );
     }
-    for( const point &pt_elem : collision_check_points ) {
-        ret.emplace_back( pt_elem - veh_pos.raw().xy(), catacurses::yellow, "C" );
+    for( const point_abs_ms &pt_elem : collision_check_points ) {
+        ret.emplace_back( pt_elem.raw() - veh_pos.raw().xy(), catacurses::yellow, "C" );
     }
 
     if( !active_autodrive_controller ) {
@@ -1422,7 +1430,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
             // nothing we can do about it now, hope we don't crash!
             break;
         }
-        pldrive( driver, { signum( turn_delta ), 0 } );
+        pldrive( driver, signum( turn_delta ), 0 );
     }
     // Don't do anything else below; the driver's turn may be over (moves <= 0) so
     // any extra actions would be "cheating".
@@ -1442,7 +1450,7 @@ void vehicle::stop_autodriving( bool apply_brakes )
     is_patrolling = false;
     is_following = false;
     autopilot_on = false;
-    autodrive_local_target = tripoint_zero;
+    autodrive_local_target = tripoint_abs_ms_zero;
     collision_check_points.clear();
     active_autodrive_controller.reset();
 }

@@ -371,7 +371,7 @@
             { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
           ]
         },
-        "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
+        "melee_damage_bonus": [ { "type": "heat", "add": 35 } ]
       }
     ]
   },
@@ -398,7 +398,7 @@
           ]
         },
         "hit_you_effect": [ { "id": "bio_blade_electric_arc" } ],
-        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
+        "melee_damage_bonus": [ { "type": "electric", "add": 10 } ]
       }
     ]
   },

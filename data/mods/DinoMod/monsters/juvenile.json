@@ -728,6 +728,16 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
+    "id": "mon_lokiceratops_juvenile",
+    "type": "MONSTER",
+    "name": "lokiceratops juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a bony head crest with two horns pointing out and curving down, two brow horns, and a beak.",
+    "copy-from": "mon_lokiceratops",
+    "hp": 200,
+    "upgrades": { "age_grow": 365, "into": "mon_lokiceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_styracosaurus_juvenile",
     "type": "MONSTER",
     "name": "styracosaurus juvenile",

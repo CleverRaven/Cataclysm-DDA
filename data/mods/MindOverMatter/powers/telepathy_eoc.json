@@ -9,7 +9,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_mesmerize')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_mesmerize')" ] }
             ]
           }
         },
@@ -31,7 +31,7 @@
         "run_eocs": [
           {
             "id": "EOC_TELEPATH_MESMERIZE_2",
-            "condition": "npc_is_character",
+            "condition": "u_is_character",
             "//": "If you're not totally immune, there's always a chance mesmerism will work",
             "effect": [
               {
@@ -257,7 +257,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_fear')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_fear')" ] }
             ]
           }
         },

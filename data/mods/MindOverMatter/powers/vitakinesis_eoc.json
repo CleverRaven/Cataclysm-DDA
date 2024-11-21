@@ -27,7 +27,7 @@
             "condition": {
               "and": [
                 { "x_in_y_chance": { "x": { "math": [ "10 + (u_spell_level('vita_concentrated_healing') * 3)" ] }, "y": 100 } },
-                { "math": [ "u_vitamin('dermatik_larva_size')", "<=", "720" ] },
+                { "math": [ "u_vitamin('dermatik_larva_size') <= 720" ] },
                 {
                   "compare_string": [ { "u_val": "latest_concentrated_body_part" }, { "global_val": "IMPREGNATED_BODYPART" } ]
                 }
@@ -42,7 +42,7 @@
             ],
             "false_effect": [
               {
-                "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+                "run_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
                 "time_in_future": [
                   {
                     "math": [
@@ -91,7 +91,7 @@
     "effect": [
       { "u_message": "Your skin tingles as the poison begins to work its way out of your body.", "type": "mixed" },
       {
-        "queue_eocs": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_2",
+        "run_eocs": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_2",
         "time_in_future": [
           { "math": [ "max( ( 15 - (u_spell_level('vita_remove_poison') * u_nether_attunement_power_scaling) ), 1)" ] },
           {
@@ -137,7 +137,7 @@
     "effect": [
       { "u_add_trait": "TOXICFLESH" },
       {
-        "queue_eocs": "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH_REMOVE",
+        "run_eocs": "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH_REMOVE",
         "time_in_future": [
           {
             "math": [
@@ -216,12 +216,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP",
-    "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
+    "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] } ] },
     "effect": [
       { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": "510 minutes" },
       { "u_add_effect": "effect_vitakin_wakeful_resting", "duration": "510 minutes" },
       {
-        "queue_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
+        "run_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
         "time_in_future": [
           { "math": [ "1800 - (u_spell_level('vita_sleeping_trance') * 25 )" ] },
           { "math": [ "3600 - (u_spell_level('vita_sleeping_trance') * 50)" ] }
@@ -235,10 +235,10 @@
     "id": "EOC_VITAKIN_SLEEP_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_wakeful_resting" },
     "effect": [
-      { "if": { "math": [ "u_val('focus')", ">=", "25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
       { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
+        "run_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
         "time_in_future": [
           { "math": [ "1800 - (u_spell_level('vita_sleeping_trance') * 25 )" ] },
           { "math": [ "3600 - (u_spell_level('vita_sleeping_trance') * 50)" ] }
@@ -259,7 +259,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_WAKEFUL_REST_MEDITATE",
-    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] },
+    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] },
     "effect": [ { "run_eocs": [ "EOC_VITAKIN_SLEEP_SLEEPINESS", "EOC_VITAKIN_SLEEP_DEPRIVATION" ] } ],
     "false_effect": [
       {
@@ -276,7 +276,7 @@
     "id": "EOC_VITAKIN_SLEEP_SLEEPINESS",
     "condition": {
       "and": [
-        { "math": [ "u_val('sleepiness')", ">=", "0" ] },
+        { "math": [ "u_val('sleepiness') >= 0" ] },
         {
           "x_in_y_chance": {
             "x": 1,
@@ -290,7 +290,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP_DEPRIVATION",
-    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
+    "condition": { "math": [ "u_val('sleep_deprivation') >= 0" ] },
     "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
   },
   {
@@ -300,21 +300,21 @@
       { "u_assign_activity": "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", "duration": "2400 minutes" },
       { "u_add_effect": "effect_vitakin_healing_trance", "duration": "2400 minutes" },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+        "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
         "time_in_future": [
           { "math": [ "180 + (u_spell_level('vita_healing_trance') * 12)" ] },
           { "math": [ "900 + (u_spell_level('vita_healing_trance') * 48)" ] }
         ]
       },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+        "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
         "time_in_future": [
           { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
           { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
         ]
       },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
+        "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
         "time_in_future": [
           { "math": [ "900 - (u_spell_level('vita_healing_trance') * 12 )" ] },
           { "math": [ "1800 - (u_spell_level('vita_healing_trance') * 25)" ] }
@@ -330,7 +330,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
       { "run_eocs": [ "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+        "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
         "time_in_future": [
           { "math": [ "120 + (u_spell_level('vita_healing_trance') * 12)" ] },
           { "math": [ "300 + (u_spell_level('vita_healing_trance') * 48)" ] }
@@ -345,7 +345,7 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+        "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
         "time_in_future": [
           { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
           { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
@@ -358,10 +358,10 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "if": { "math": [ "u_val('focus')", ">=", "25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
       { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
+        "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
         "time_in_future": [
           { "math": [ "900 - (u_spell_level('vita_healing_trance') * 12 )" ] },
           { "math": [ "1800 - (u_spell_level('vita_healing_trance') * 25)" ] }
@@ -415,7 +415,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
+        "run_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
         "time_in_future": [
           { "math": [ "max( ( 600 - (u_spell_level('vita_cure_disease') * 5  ) ), 1)" ] },
           { "math": [ "max( ( 3600 - (u_spell_level('vita_cure_disease') * 30) ), 1)" ] }
@@ -571,7 +571,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_RAD_PURGE",
-    "condition": { "math": [ "u_val('rad')", ">=", "500" ] },
+    "condition": { "math": [ "u_val('rad') >= 500" ] },
     "effect": [
       { "u_add_effect": "effect_vitakin_purge_rads", "duration": "250 minutes" },
       { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "250 minutes", "intensity": 6 },
@@ -581,7 +581,7 @@
       "run_eocs": [
         {
           "id": "EOC_VITAKIN_RAD_PURGE_2",
-          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "250" ] }, { "math": [ "u_val('rad')", "<=", "499" ] } ] },
+          "condition": { "and": [ { "math": [ "u_val('rad') > 250" ] }, { "math": [ "u_val('rad') <= 499" ] } ] },
           "effect": [
             { "u_add_effect": "effect_vitakin_purge_rads", "duration": "125 minutes" },
             { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "125 minutes", "intensity": 5 },
@@ -591,7 +591,7 @@
             "run_eocs": [
               {
                 "id": "EOC_VITAKIN_RAD_PURGE_3",
-                "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "125" ] }, { "math": [ "u_val('rad')", "<=", "249" ] } ] },
+                "condition": { "and": [ { "math": [ "u_val('rad') >= 125" ] }, { "math": [ "u_val('rad') <= 249" ] } ] },
                 "effect": [
                   { "u_add_effect": "effect_vitakin_purge_rads", "duration": "65 minutes" },
                   {
@@ -605,7 +605,7 @@
                   "run_eocs": [
                     {
                       "id": "EOC_VITAKIN_RAD_PURGE_4",
-                      "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "60" ] }, { "math": [ "u_val('rad')", "<=", "124" ] } ] },
+                      "condition": { "and": [ { "math": [ "u_val('rad') >= 60" ] }, { "math": [ "u_val('rad') <= 124" ] } ] },
                       "effect": [
                         { "u_add_effect": "effect_vitakin_purge_rads", "duration": "30 minutes" },
                         {
@@ -619,7 +619,7 @@
                         "run_eocs": [
                           {
                             "id": "EOC_VITAKIN_RAD_PURGE_5",
-                            "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "30" ] }, { "math": [ "u_val('rad')", "<=", "59" ] } ] },
+                            "condition": { "and": [ { "math": [ "u_val('rad') >= 30" ] }, { "math": [ "u_val('rad') <= 59" ] } ] },
                             "effect": [
                               { "u_add_effect": "effect_vitakin_purge_rads", "duration": "15 minutes" },
                               {
@@ -633,7 +633,7 @@
                               "run_eocs": [
                                 {
                                   "id": "EOC_VITAKIN_RAD_PURGE_6",
-                                  "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "1" ] }, { "math": [ "u_val('rad')", "<=", "29" ] } ] },
+                                  "condition": { "and": [ { "math": [ "u_val('rad') >= 1" ] }, { "math": [ "u_val('rad') <= 29" ] } ] },
                                   "effect": [
                                     { "u_add_effect": "effect_vitakin_purge_rads", "duration": "7 minutes" },
                                     {
@@ -1056,7 +1056,7 @@
     "effect": [
       { "run_eocs": [ "EOC_VITAKIN_SUPER_HEAL_EFFECTS", "EOC_VITA_SUPER_HEAL_DRAIN" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_RUN_HEALING",
+        "run_eocs": "EOC_VITAKIN_SUPER_HEAL_RUN_HEALING",
         "time_in_future": [
           {
             "math": [
@@ -1076,39 +1076,33 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SUPER_HEAL_EFFECTS",
     "effect": [
+      { "if": { "math": [ "u_vitamin('redcells') < 0" ] }, "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] } },
       {
-        "if": { "math": [ "u_vitamin('redcells')", "<", "0" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
-      },
-      {
-        "if": { "math": [ "u_vitamin('redcells')", "<", "-1000" ] },
+        "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
         "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('redcells')", "<", "-10000" ] },
+        "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
         "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
       },
+      { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] } },
       {
-        "if": { "math": [ "u_vitamin('blood')", "<", "0" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] }
-      },
-      {
-        "if": { "math": [ "u_vitamin('blood')", "<", "-1000" ] },
+        "if": { "math": [ "u_vitamin('blood') < -1000" ] },
         "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
       },
       {
-        "if": { "math": [ "u_vitamin('blood')", "<", "-10000" ] },
+        "if": { "math": [ "u_vitamin('blood') < -10000" ] },
         "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
       },
       {
         "if": {
           "or": [
-            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+            { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') < u_hp_max('head')" ] }
           ]
         },
         "then": {
@@ -1117,7 +1111,7 @@
           "var": { "context_val": "id" },
           "effect": [
             {
-              "if": { "math": [ "u_hp(_id)", "<", "u_hp_max(_id)" ] },
+              "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
               "then": {
                 "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
               }
@@ -1126,27 +1120,27 @@
         }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l')", ">=", "1" ] },
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
         "then": { "u_add_effect": "bleed", "target_part": "arm_l", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r')", ">=", "1" ] },
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
         "then": { "u_add_effect": "bleed", "target_part": "arm_r", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l')", ">=", "1" ] },
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
         "then": { "u_add_effect": "bleed", "target_part": "leg_l", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r')", ">=", "1" ] },
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
         "then": { "u_add_effect": "bleed", "target_part": "leg_r", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso')", ">=", "1" ] },
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
         "then": { "u_add_effect": "bleed", "target_part": "torso", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head')", ">=", "1" ] },
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
         "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
       }
     ]
@@ -1187,7 +1181,7 @@
       },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(10) + 2" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
+        "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
         "time_in_future": [
           1,
           {
@@ -1207,27 +1201,27 @@
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
       {
-        "if": { "math": [ "u_hp('torso')", ">", "0" ] },
+        "if": { "math": [ "u_hp('torso') > 0" ] },
         "then": { "math": [ "u_vitakinesis_return_from_death_hp_torso", "=", "u_hp('torso')" ] }
       },
       {
-        "if": { "math": [ "u_hp('head')", ">", "0" ] },
+        "if": { "math": [ "u_hp('head') > 0" ] },
         "then": { "math": [ "u_vitakinesis_return_from_death_hp_head", "=", "u_hp('head')" ] }
       },
       {
-        "if": { "math": [ "u_hp('arm_l')", ">", "0" ] },
+        "if": { "math": [ "u_hp('arm_l') > 0" ] },
         "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_l", "=", "u_hp('arm_l')" ] }
       },
       {
-        "if": { "math": [ "u_hp('arm_r')", ">", "0" ] },
+        "if": { "math": [ "u_hp('arm_r') > 0" ] },
         "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_r", "=", "u_hp('arm_r')" ] }
       },
       {
-        "if": { "math": [ "u_hp('leg_l')", ">", "0" ] },
+        "if": { "math": [ "u_hp('leg_l') > 0" ] },
         "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_l", "=", "u_hp('leg_l')" ] }
       },
       {
-        "if": { "math": [ "u_hp('leg_r')", ">", "0" ] },
+        "if": { "math": [ "u_hp('leg_r') > 0" ] },
         "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_r", "=", "u_hp('leg_r')" ] }
       }
     ]
@@ -1263,7 +1257,7 @@
       { "u_lose_effect": "effect_vita_return_from_death" },
       { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" },
       {
-        "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
+        "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
         "time_in_future": [
           {
             "math": [

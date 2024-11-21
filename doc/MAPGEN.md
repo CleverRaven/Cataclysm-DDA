@@ -1490,6 +1490,7 @@ These are a few palettes that have been generalized to be used in almost any map
 | Palette                          | Usage
 | ---                              | ---
 | `parametrized_walls_palette`     | For having randomized inner and outer walls
+| `parametrized_highrise_walls_palette`     | For having randomized inner and outer walls in high-rise buildings
 | `parametrized_fences_palette`    | For having randomized fences
 | `parametrized_linoleum_palette`  | For having randomized linoleum colors
 | `parametrized_carpets_palette`   | For having randomized carpet colors
@@ -1524,7 +1525,7 @@ update_mapgen updates an existing overmap tile.  These fields provide a way to s
 ### "assign_mission_target"
 
 assign_mission_target assigns an overmap tile as the target of a mission.  Any update_mapgen in the same scope will
-update that overmap tile.  The closet overmap terrain with the required terrain ID will be used, and if there is no
+update that overmap tile.  The closest overmap terrain with the required terrain ID will be used, and if there is no
 matching terrain, an overmap special of om_special type will be created and then the om_terrain within that special will
 be used.
 

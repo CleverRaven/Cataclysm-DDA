@@ -571,7 +571,7 @@ void start_location::handle_heli_crash( avatar &you ) const
             case 1:
             case 2:
                 you.add_effect( effect_bleed, 6_minutes, bp );
-            /* fallthrough */
+                [[fallthrough]];
             case 3:
             case 4:
             // Just damage

@@ -196,6 +196,8 @@ void mapbuffer::save_quad(
 {
     std::vector<point> offsets;
     std::vector<tripoint_abs_sm> submap_addrs;
+    offsets.reserve( 4 );
+    submap_addrs.reserve( 4 );
     offsets.push_back( point_zero );
     offsets.push_back( point_south );
     offsets.push_back( point_east );

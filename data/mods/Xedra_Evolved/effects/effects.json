@@ -1253,6 +1253,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_limb_breaking_stopper",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "disabled" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_craft_in_darkness",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_no_mind_problems",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
@@ -1262,7 +1278,6 @@
   {
     "type": "effect_type",
     "id": "effect_ierde_earthen_shield",
-    "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "Impenetrable Earthen Shield" ],
     "desc": [ "You are protected by the living earth." ],
     "remove_message": "Your earthen shield finally crumbles.",
@@ -2002,43 +2017,43 @@
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_noble",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_brownie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_pooka",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_selkie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_trow",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_lilin",
-    "name": [ "Lilin Mutation" ],
-    "desc": [ "You are gaining Lilin powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Lilin Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Lilin powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
@@ -2240,7 +2255,7 @@
     "type": "effect_type",
     "id": "effect_dream_drainer_armor",
     "name": [ "Armored" ],
-    "desc": [ "The bug is shielded.  This is a bug if you have it." ],
+    "desc": [ { "str": "The bug is shielded.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "max_duration": "25 s",
     "rating": "bad",
     "show_intensity": false,
@@ -2266,7 +2281,12 @@
     "type": "effect_type",
     "max_duration": "11 s",
     "name": [ "Moon-starved" ],
-    "desc": [ "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it." ],
+    "desc": [
+      {
+        "str": "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it.",
+        "//~": "NO_I18N"
+      }
+    ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
@@ -2290,8 +2310,23 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_attack_warning_cooldown",
+    "//": "Hidden effect, used as a blocker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_health_effects_of_draining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_vampire_immune",
-    "//": "Hidden effects, prevents you from being vampirized",
+    "//": "Hidden effect, prevents you from being vampirized",
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "vampire_virus" ]
@@ -2299,14 +2334,30 @@
   {
     "type": "effect_type",
     "id": "effect_gained_lilin_power",
-    "//": "Hidden effects, prevents you from gaining more lilin powers too quickly",
+    "//": "Hidden effect, prevents you from gaining more lilin powers too quickly",
     "name": [ "" ],
     "desc": [ "" ]
   },
   {
     "type": "effect_type",
     "id": "effect_lilin_temporary_glorious",
-    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
+    "//": "Hidden effect, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "lilit_prevent_death_escape",
+    "//": "Hidden effect, allows you to get away after turning into an owl.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "grabbed", "downed" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 0.55 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "lilit_prevent_death_cooldown",
+    "//": "Hidden effect, used to prevent Their Worm Shall Not Die from activating multiple times back to back",
     "name": [ "" ],
     "desc": [ "" ]
   },
@@ -2452,20 +2503,62 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_silent_at_night",
+    "name": [ { "str": "Silent in Darkness" } ],
+    "desc": [ "Your movements make as little noise as the shadows of the night." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_steady_speed",
+    "name": [ { "str": "Enduring Through All Generations" } ],
+    "desc": [ "You will endure all obstacles without faltering." ],
+    "rating": "good",
+    "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_limb_score_bonuses_at_night",
     "name": [ { "str": "The Night Hunter" } ],
     "desc": [ "Now they will know why they fear the night." ],
     "rating": "good",
     "limb_score_mods": [
-      { "limb_score": "balance", "modifier": 1.2 },
-      { "limb_score": "breathing", "modifier": 1.5 },
-      { "limb_score": "lift", "modifier": 1.25 },
-      { "limb_score": "grip", "modifier": 1.25 },
-      { "limb_score": "reaction", "modifier": 1.35 },
-      { "limb_score": "block", "modifier": 1.3 },
-      { "limb_score": "vision", "modifier": 1.5 }
+      { "limb_score": "balance", "modifier": 1.1 },
+      { "limb_score": "breathing", "modifier": 1.3 },
+      { "limb_score": "lift", "modifier": 1.1 },
+      { "limb_score": "grip", "modifier": 1.15 },
+      { "limb_score": "reaction", "modifier": 1.2 },
+      { "limb_score": "block", "modifier": 1.1 },
+      { "limb_score": "vision", "modifier": 1.35 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_incremental_speed_boost",
+    "name": [ { "str": "The Treasures of Darkness" } ],
+    "desc": [ "Having spent a long time in the shadows, you are now quicker than usual." ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 3 ] },
+    "scaling_mods": { "speed_mod": [ 3 ] },
+    "show_intensity": false,
+    "max_intensity": 10
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_lose_incremental_speed_boost",
+    "name": [ { "str": "" } ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_lilin_incremental_speed_boost" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_allowed_ruach_drain",
+    "name": [ { "str": "Willingly drained" } ],
+    "desc": [
+      "This follower allowed you to take some of their ruach, and they won't respond kindly to being drained more this soon."
+    ]
   },
   {
     "type": "effect_type",
@@ -2502,6 +2595,15 @@
       }
     ],
     "removes_effects": [ "grabbed", "bleed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_mesmerize_tracker",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You are in a daze." ],
+    "apply_message": "",
+    "remove_message": "You snap out of your trance.",
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -2573,5 +2675,22 @@
       { "limb_score": "vision", "modifier": 0.55 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_owl_form_pass_through_walls",
+    "//": "Allows owl form lilin with the appropriate traits to fly through walls and avoid attacks",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "TURN_INTO_OWL_TRAITS" },
+        "values": [ { "value": "EVASION", "add": { "math": [ "0.4 + (u_vitamin('lilin_ruach_vitamin') / 18000)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_trait": "TURN_INTO_OWL_TRAITS" }, { "not": "is_day" } ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ]
+      }
+    ]
   }
 ]

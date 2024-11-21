@@ -137,7 +137,7 @@
     "id": "EOC_LESSON_FLASHLIGHT",
     "effect": [
       {
-        "u_message": "There is a <color_light_cyan>flashlight</color> and a <color_light_cyan>light disposable battery</color> lying on the rack.  Flashlights are very useful tools as they allow you to see in the dark.\n\nTo continue the tutorial, please reload the flashlight by pressing <keybind:reload_item>.  Take it with you and move to the stairs.",
+        "u_message": "There is a <color_light_cyan>flashlight</color> and a <color_light_cyan>medium battery</color> lying on the rack.  Flashlights are very useful tools as they allow you to see in the dark.\n\nTo continue the tutorial, please reload the flashlight by pressing <keybind:reload_item>.  Take it with you and move to the stairs.",
         "popup": true,
         "popup_flag": "PF_ON_TOP"
       }

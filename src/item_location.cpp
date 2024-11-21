@@ -485,7 +485,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur.veh.global_part_pos3( cur.part );
+            return cur.veh.bub_part_pos( cur.part ).raw();
         }
 
         Character *carrier() const override {
@@ -534,7 +534,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub(), cur.veh.bub_part_pos( cur.part ) );
 
             // TODO: handle unpacking costs
 
@@ -1165,7 +1165,7 @@ std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );
 }
-std::unique_ptr<talker> get_talker_for( const item_location &it )
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it )
 {
     return std::make_unique<talker_item_const>( &it );
 }

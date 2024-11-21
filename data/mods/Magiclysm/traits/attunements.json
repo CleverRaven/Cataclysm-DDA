@@ -175,11 +175,8 @@
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.\n\nBoreal Wind: Your Boreal Mage abilities grant you good resistance to temperature conditions.  Also, your hands emit a small amount of cold, increasing your damage in melee.",
     "enchantments": [
       {
-        "values": [
-          { "value": "ITEM_DAMAGE_COLD", "add": 9 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
-        ]
+        "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
       }
     ],
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
@@ -684,9 +681,9 @@
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.\n\nIceberg: Your Ice Elemental abilities grant you good resistance to temperature conditions and cold damage, your hands can emit small amount of cold, increasing your damage in melee, and enemies impale themselves on ice spikes when they attack you.",
     "enchantments": [
       {
+        "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
         "values": [
           { "value": "ARMOR_COLD", "multiply": -0.4 },
-          { "value": "ITEM_DAMAGE_COLD", "add": 9 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
           { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
         ]
@@ -998,11 +995,8 @@
     "prereqs": [ "KELVINIST", "ANIMIST" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ITEM_DAMAGE_PURE", "add": 9 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-        ]
+        "melee_damage_bonus": [ { "type": "pure", "add": 9 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
       }
     ],
     "cancels": [
