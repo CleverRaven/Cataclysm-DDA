@@ -72,6 +72,7 @@
     "recurrence": [ "1 hour", "1 hour" ],
     "condition": { "and": [ { "not": { "u_is_wearing": "mana_leech_shackle" } }, { "u_has_item": "mana_leech_shackle" } ] },
     "global": true,
+    "run_for_npcs": true,
     "effect": [
       { "u_remove_item_with": "mana_leech_shackle" },
       { "u_spawn_item": "mana_leech_shackle_unlocked", "suppress_message": true }
