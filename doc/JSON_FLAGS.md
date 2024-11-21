@@ -762,6 +762,9 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BURNOUT``` You can visually inspect how much it is burned out (candle, torch).
 - ```CALORIES_INTAKE``` This item allows you to see detailed info about your calories intake for today and tomorrow in consuming menu.  Can be used with `CALORIES_INTAKE_TRACKER` `use_action`, that shows the same info.
 - ```CAMERA_PRO``` This item is professional camera, and increase the quality of made photos.
+- ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
+- ```CANNOT_MOVE``` A creature with this flag cannot move.
+- ```CANNOT_TAKE_DAMAGE``` A creature with this flag cannot take any damage.
 - ```CATTLE``` Food that only player with `CATTLE` threshold mutation can eat.  See also `INEDIBLE`.
 - ```CBM``` This item is CBM, and works respectively.
 - ```COIN_SHAPED``` This item is shaped like a coin and fits into the coin purse of a wallet.

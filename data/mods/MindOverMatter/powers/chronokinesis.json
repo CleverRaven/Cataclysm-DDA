@@ -1,5 +1,46 @@
 [
     {
+      "id": "chronokin_time_stop",
+      "type": "SPELL",
+      "name": "[Ψ]Timestop",
+      "description": "Freeze your targets in time, preventing them from acting but also preventing them from suffering harm.",
+      "message": "You freeze the time around your targets!",
+      "teachable": false,
+      "valid_targets": [ "ground", "hostile" ],
+      "spell_class": "CHRONOKINETIC",
+      "skill": "metaphysics",
+      "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+      "difficulty": 2,
+      "max_level": { "math": [ "int_to_level(1)" ] },
+      "effect": "attack",
+      "effect_str": "effect_chronokin_time_stop",
+      "shape": "blast",
+      "min_range": {
+        "math": [
+          "min( (( (u_spell_level('chronokin_time_stop') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        ]
+      },
+      "max_range": 80,
+      "min_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_time_stop') * 75) + 125) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "max_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_time_stop') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "energy_source": "STAMINA",
+      "base_energy_cost": 2000,
+      "final_energy_cost": 750,
+      "energy_increment": -75,
+      "base_casting_time": 80,
+      "final_casting_time": 35,
+      "casting_time_increment": -4.5,
+      "ignored_monster_species": [ "PSI_NULL" ]
+    },
+    {
       "id": "chronokin_chronal_accel",
       "type": "SPELL",
       "name": "[Ψ]Chronal Acceleration (C)",

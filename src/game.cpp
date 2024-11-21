@@ -280,6 +280,7 @@ static const efftype_id effect_winded( "winded" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
@@ -12058,6 +12059,10 @@ static std::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
 
 void game::vertical_move( int movez, bool force, bool peeking )
 {
+    if( u.has_flag( json_flag_CANNOT_MOVE ) ) {
+        return;
+    }
+
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {

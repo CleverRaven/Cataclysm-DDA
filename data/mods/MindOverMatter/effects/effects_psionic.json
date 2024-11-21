@@ -564,6 +564,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronokin_time_stop",
+    "name": [ "Frozen in Time" ],
+    "desc": [ "You are completely frozen in time." ],
+    "remove_message": "Everything is suddenly different.",
+    "rating": "bad",
+    "max_duration": 3000,
+    "dur_add_perc": 5,
+    "immune_flags": [ "DIMENSIONAL_ANCHOR" ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE"  ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
     "name": [ "Night Eyes" ],
