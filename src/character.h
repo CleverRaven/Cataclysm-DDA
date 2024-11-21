@@ -2428,14 +2428,16 @@ class Character : public Creature, public visitable
          *
          * Only required for rendering.
          */
-        std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids( const bool
+                show_creature_overlay_icons = true ) const;
         /**
          * Returns a list of the IDs of overlays on this character if the character has override look mutations
          * sorted from "lowest" to "highest".
          *
          * Only required for rendering.
          */
-        std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look(
+                    const bool show_creature_overlay_icons = true ) const;
 
         // --------------- Skill Stuff ---------------
 

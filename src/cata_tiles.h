@@ -177,6 +177,8 @@ class tileset
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
 
+        bool show_creature_overlay_icons = true;
+
         std::vector<texture> tile_values;
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
@@ -231,6 +233,9 @@ class tileset
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
+        }
+        bool get_show_creature_overlay_icons() const {
+            return show_creature_overlay_icons;
         }
 
         const texture *get_tile( const size_t index ) const {
@@ -723,6 +728,7 @@ class cata_tiles
     private:
         std::pair<std::string, bool> get_omt_id_rotation_and_subtile( const tripoint_abs_omt &omp,
                 int &rota, int &subtile );
+        bool get_show_creature_overlay_icons();
     protected:
         template <typename maptype>
         void tile_loading_report_map( const maptype &tiletypemap, TILE_CATEGORY category,

@@ -3421,7 +3421,8 @@ bool Character::is_wielding( const item &target ) const
     return &weapon == &target;
 }
 
-std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids(
+            const bool show_creature_overlay_icons /*= true*/ ) const
 {
     std::vector<std::pair<std::string, std::string>> rval;
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
@@ -3430,8 +3431,10 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     std::string variant;
 
     // first get effects
-    for( const auto &eff_pr : *effects ) {
-        rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
+    if( show_creature_overlay_icons ) {
+        for( const auto &eff_pr : *effects ) {
+            rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
+        }
     }
 
     // then get mutations
@@ -3480,21 +3483,22 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
         rval.emplace_back( "wielded_" + weapon.typeId().str(), variant );
     }
 
-    if( !is_walking() ) {
+    if( !is_walking() && show_creature_overlay_icons ) {
         rval.emplace_back( move_mode.str(), "" );
     }
 
     return rval;
 }
 
-std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when_override_look()
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when_override_look(
+            const bool show_creature_overlay_icons /*= true*/ )
         const
 {
-    std::vector<std::pair<std::string, std::string>> rval;
-    std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
-    std::string overlay_id;
-    std::string variant;
 
+    std::vector<std::pair<std::string, std::string>> rval;
+    if( !show_creature_overlay_icons ) {
+        return rval;
+    }
     // first get effects
     for( const auto &eff_pr : *effects ) {
         rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
