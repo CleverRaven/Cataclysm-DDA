@@ -1922,16 +1922,16 @@
     "id": "mon_zombie_prisoner_death_drops",
     "copy-from": "mon_zombie_prisoner_death_drops",
     "subtype": "collection",
-    "//": "All zombie prisonners receive a shackle, as giving one to every prisoner was safer than hoping that no prisoner is able to teleport",
+    "//": "All prisoner zombies receive a shackle, as giving one to every prisoner was safer than hoping that no prisoner is able to teleport",
     "//2": "The default is that the player and NPCs prisoners managed to remove theirs before the game starts.  The player can decide to start with one if they want to add more challenge",
-    "//3": "Lorewise the shackles become inert if the wearer dies, so zombies won't have non-inert shackles",
+    "//3": "Lorewise the shackles become inert without a living wearer, so zombies won't have non-inert shackles",
     "extend": { "items": [ { "item": "mana_leech_shackle_unlocked", "prob": 100 } ] }
   },
   {
     "type": "item_group",
     "id": "prison_weapons",
     "copy-from": "prison_weapons",
-    "//": "All mana-leech shackles are inert until activated, so they won't ever be found in their active state nuless worn by someone alive",
+    "//": "All mana-leech shackles are inert until activated, so they won't ever be found in their active state unless worn by someone alive",
     "extend": { "items": [ { "group": "mana_leech_shackle_and_unlock_scroll", "prob": 20 } ] }
   },
   {
