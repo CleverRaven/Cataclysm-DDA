@@ -4379,6 +4379,15 @@ field_entry *game::is_in_dangerous_field()
     map &here = get_map();
     for( std::pair<const field_type_id, field_entry> &field : here.field_at( u.pos_bub() ) ) {
         if( u.is_dangerous_field( field.second ) ) {
+            if( u.in_vehicle ) {
+                bool not_safe = false;
+                for( const field_effect &fe : field.second.field_effects() ) {
+                    not_safe |= !fe.immune_inside_vehicle;
+                }
+                if( !not_safe ) {
+                    continue;
+                }
+            }
             return &field.second;
         }
     }
