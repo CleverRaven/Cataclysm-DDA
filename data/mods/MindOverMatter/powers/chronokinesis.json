@@ -3,8 +3,8 @@
       "id": "chronokin_time_freeze",
       "type": "SPELL",
       "name": "[Ψ]Time Freeze",
-      "description": "Freeze your targets in time, preventing them from acting but also preventing them from suffering harm.",
-      "message": "You freeze the time around your targets!",
+      "description": "Freeze your target in time, preventing them from acting but also preventing them from suffering harm.",
+      "message": "You freeze your target in time!",
       "teachable": false,
       "valid_targets": [ "self", "ally", "ground", "hostile" ],
       "spell_class": "CHRONOKINETIC",
@@ -29,6 +29,50 @@
       "max_duration": {
         "math": [
           "( (u_spell_level('chronokin_time_freeze') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "energy_source": "STAMINA",
+      "base_energy_cost": 2000,
+      "final_energy_cost": 750,
+      "energy_increment": -75,
+      "base_casting_time": 80,
+      "final_casting_time": 35,
+      "casting_time_increment": -4.5,
+      "ignored_monster_species": [ "PSI_NULL" ]
+    },
+    {
+      "id": "chronokin_time_bubble",
+      "type": "SPELL",
+      "name": "[Ψ]Time Bubble",
+      "description": "Create a bubble of frozen time around your chosen location, freezing everything within.",
+      "message": "You create a bubble of frozen time!",
+      "teachable": false,
+      "valid_targets": [ "self", "ally", "ground", "hostile" ],
+      "spell_class": "CHRONOKINETIC",
+      "skill": "metaphysics",
+      "//": "Duration is not random because the bubble needs to pop all at once.  Random duration would give different timing for each tile.",
+      "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "IGNORE_WALLS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+      "difficulty": 4,
+      "max_level": { "math": [ "int_to_level(1)" ] },
+      "effect": "attack",
+      "effect_str": "effect_chronokin_time_freeze",
+      "shape": "blast",
+      "min_aoe": 0,
+      "max_aoe": 20,
+      "aoe_increment": 0.2,
+      "field_id": "fd_frozen_time",
+      "field_chance": 1,
+      "min_field_intensity": 10,
+      "max_field_intensity": 10,
+      "min_range": {
+        "math": [
+          "min( (( (u_spell_level('chronokin_time_bubble') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        ]
+      },
+      "max_range": 80,
+      "min_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_time_bubble') * 150) + 1000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
         ]
       },
       "energy_source": "STAMINA",

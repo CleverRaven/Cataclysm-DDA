@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -696,7 +697,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
                          const tripoint_rel_ms &dp,
                          bool just_detect, bool bash_floor )
 {
-
+    
     /*
      * Big TODO:
      * Rewrite this function so that it has "pre-collision" phase (detection)
@@ -920,7 +921,15 @@ veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
     //part density
     float part_dens = 0.0f;
 
-    if( is_body_collision ) {
+    std::optional<field_entry> potential_impassable_field = here.get_impassable_field_at( p );
+    if( potential_impassable_field.has_value() ) {
+        // impassable fields are not destructible
+        ret.type = veh_coll_other;
+        mass2 = 1000;
+        e = 0.10f;
+        part_dens = 80;
+        ret.target_name = potential_impassable_field.value().name();
+    } else if( is_body_collision ) {
         // Check any monster/NPC/player on the way
         // body
         ret.type = veh_coll_body;

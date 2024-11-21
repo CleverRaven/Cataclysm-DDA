@@ -1806,6 +1806,9 @@ class map
         // TODO: Get rid of untyped overload.
         bool has_field_at( const tripoint &p, const field_type_id &type ) const;
         bool has_field_at( const tripoint_bub_ms &p, const field_type_id &type ) const;
+
+        // returns the a field entry that is impassable at the given point if it exists
+        std::optional<field_entry> get_impassable_field_at( const tripoint_bub_ms &p );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
@@ -1813,6 +1816,7 @@ class map
         field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type );
         const field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint_bub_ms &p );
+        bool impassable_field_at( const tripoint_bub_ms &p );
 
         // Check if player can move on top of it during mopping zone activity
         bool mopsafe_field_at( const tripoint_bub_ms &p );

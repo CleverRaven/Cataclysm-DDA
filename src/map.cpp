@@ -2455,7 +2455,7 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
                              const int vpart ) const
 {
     if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ||
-        field.total_move_cost() < 0 ) {
+        field.total_move_cost() < 0 || field.any_negative_move_cost() ) {
         return 0;
     }
 
@@ -6839,11 +6839,34 @@ const field_entry *map::get_field( const tripoint_bub_ms &p, const field_type_id
     return get_field_helper( *this, p, type );
 }
 
+std::optional<field_entry> map::get_impassable_field_at( const tripoint_bub_ms &p )
+{
+    std::optional<field_entry> potential_field;
+    for( auto &pr : field_at( p ) ) {
+        field_entry &fd = pr.second;
+        if( fd.get_intensity_level().move_cost < 0 ) {
+            return fd;
+        }
+    }
+    return potential_field;
+}
+
 bool map::dangerous_field_at( const tripoint_bub_ms &p )
 {
     for( auto &pr : field_at( p ) ) {
         field_entry &fd = pr.second;
         if( fd.is_dangerous() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool map::impassable_field_at( const tripoint_bub_ms &p )
+{
+    for( auto &pr : field_at( p ) ) {
+        field_entry &fd = pr.second;
+        if( fd.get_intensity_level().move_cost < 0 ) {
             return true;
         }
     }

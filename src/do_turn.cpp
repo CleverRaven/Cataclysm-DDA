@@ -271,7 +271,7 @@ void monmove()
 
     for( monster &critter : g->all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos_bub() ) &&
+        if( !critter.is_dead() && (m.impassable( critter.pos_bub() ) && !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
             !critter.can_move_to( critter.pos_bub() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
                            << " can't move to its location!  (" << critter.posx()

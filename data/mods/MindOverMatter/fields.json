@@ -1,5 +1,24 @@
 [
   {
+    "id": "fd_frozen_time",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "frozen time", "sym": "#", "color": "light_gray", "transparent": true, "move_cost": -1000 }
+    ],
+    "priority": 100,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "in",
+    "half_life": "1 seconds",
+    "linear_half_life": true,
+    "bash": {
+      "str_min": 10000,
+      "sound_vol": 0,
+      "sound_fail_vol": 0,
+      "msg_success": "Your strength is stronger than time itself!"
+    }
+  },
+  {
     "id": "fd_pyrokinetic_summon_heat_1",
     "type": "field_type",
     "intensity_levels": [
