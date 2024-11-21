@@ -42,6 +42,7 @@ static std::vector<const vpart_info *> all_turret_types()
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
     clear_map();
+    clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( const vpart_info *turret_vpi : all_turret_types() ) {
