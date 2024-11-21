@@ -11,7 +11,7 @@
     "id": "EOC_MOM_GAMELOAD_TELEKINESIS_LIFTING_FIELD_UPDATE_TELEKINETIC",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_telekinesis_lifting_field_updated", "!=", "1" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_telekinesis_lifting_field_updated != 1" ] } ] },
     "effect": [
       { "run_eocs": "EOC_TELEKIN_LIFTING_FIELD_SWITCHER_REMOVE" },
       { "u_add_trait": "TELEKINETIC_GRAB_POCKETS" },

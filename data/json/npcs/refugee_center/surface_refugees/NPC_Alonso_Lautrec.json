@@ -122,7 +122,7 @@
           "and": [
             { "u_has_trait": "PRETTY" },
             { "npc_has_effect": "Alonso_pants_restored" },
-            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -135,7 +135,7 @@
             { "not": { "u_has_trait": "PRETTY" } },
             { "not": { "u_has_trait": "UGLY" } },
             { "npc_has_effect": "Alonso_pants_restored" },
-            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -147,7 +147,7 @@
           "and": [
             { "u_has_trait": "UGLY" },
             { "npc_has_effect": "Alonso_pants_restored" },
-            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -155,7 +155,7 @@
       {
         "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Too_Young",
-        "condition": { "math": [ "u_val('age')", "<", "18" ] }
+        "condition": { "math": [ "u_val('age') < 18" ] }
       }
     ]
   },

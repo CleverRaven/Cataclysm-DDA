@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_CANDY",
-    "condition": { "math": [ "candymonsters_allowed", "==", "1" ] },
+    "condition": { "math": [ "candymonsters_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_SWEET_HORDE",

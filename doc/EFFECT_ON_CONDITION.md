@@ -93,7 +93,7 @@ Some actions sent additional context variables, that can be used in EoC, in form
 ```
 
 ```json
-{ "math": [ "_act_cost", "==", "2000" ] }
+{ "math": [ "_act_cost == 2000" ] }
 ```
 
 ## Value types
@@ -1745,7 +1745,7 @@ Run inline `are_you_strong` EoC
 ```json
 "run_eocs": {
   "id": "are_you_strong",
-  "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+  "condition": { "math": [ "u_val('strength') > 8" ] },
   "effect": [ { "u_message": "You are strong" } ],
   "false_effect": [ { "u_message": "You are normal" } ]
 }
@@ -1761,17 +1761,17 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
   "id": "are_you_weak",
   "//": "there is a variety of ways you can do the exact same effect that would work better",
   "//2": "but for the sake of example, let's ignore it",
-  "condition": { "math": [ "u_val('strength')", ">", "4" ] },
+  "condition": { "math": [ "u_val('strength') > 4" ] },
   "false_effect": [ { "u_message": "You are weak" } ],
   "effect": {
     "run_eocs": {
       "id": "are_you_strong",
-      "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+      "condition": { "math": [ "u_val('strength') > 8" ] },
       "false_effect": [ { "u_message": "You are normal" } ],
       "effect": {
         "run_eocs": {
           "id": "are_you_super_strong",
-          "condition": { "math": [ "u_val('strength')", ">", "12" ] },
+          "condition": { "math": [ "u_val('strength') > 12" ] },
           "effect": [ { "u_message": "You are super strong" } ],
           "false_effect": [ { "u_message": "You are strong" } ]
         }
@@ -1954,7 +1954,7 @@ In three hours, you will be given five AR-15
     "type": "effect_on_condition",
     "id": "EOC_run_until",
     "effect": [
-      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable", "<", "10" ] } }
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable < 10" ] } }
     ]
   },
   {
@@ -2227,7 +2227,7 @@ Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
     "eoc_type": "ACTIVATION",
     "effect": [
       {
-        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1) == 0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
         "monster_range": 36
       }
     ]
@@ -3131,7 +3131,7 @@ Setting and checking monster vars via `math`.  The first spell targets a monster
   {
     "id": "spell_check_eoc",
     "type": "effect_on_condition",
-    "condition": { "math": [ "u_var_tagged", ">", "0" ] },
+    "condition": { "math": [ "u_var_tagged > 0" ] },
     "effect": [ { "u_cast_spell": { "id": "spell_heal" } } ],
     "false_effect": [ { "u_cast_spell": { "id": "spell_hurt" } } ]
   }

@@ -12,25 +12,25 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Felicity_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Felicity_Mood" },
       {
         "text": "How's your family?",
         "topic": "TALK_GODCO_Felicity_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Is there anything I can do for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "How's the manuscript coming?",
-        "condition": { "math": [ "time_since(n_timer_trade_writing_manuscript)", "<", "time('30 d')" ] },
+        "condition": { "math": [ "time_since(n_timer_trade_writing_manuscript) < time('30 d')" ] },
         "topic": "TALK_GODCO_Felicity_Manuscript_InProgress"
       },
       {
         "text": "How's the manuscript coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_trade_writing_manuscript)", ">=", "time('30 d')" ] },
+            { "math": [ "time_since(n_timer_trade_writing_manuscript) >= time('30 d')" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_gave_u_manuscript" } ] } }
           ]
         },
@@ -43,7 +43,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "Please, go away.  I don't want to talk to you right now.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ],
@@ -78,7 +78,7 @@
         "text": "Hi Felicity.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
           ]
         },
@@ -88,7 +88,7 @@
         "text": "What's all that about?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
           ]
         },

@@ -39,7 +39,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL",
-    "condition": { "math": [ "abyssal_hunger_level", "<", "5" ] },
+    "condition": { "math": [ "abyssal_hunger_level < 5" ] },
     "effect": [
       { "math": [ "abyssal_hunger_level", "++" ] },
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
@@ -94,13 +94,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ABYSSAL_HUNGER_GRANT_SHARD",
-    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "condition": { "math": [ "abyssal_hunger_level != 0" ] },
     "effect": [ { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" }, { "u_spawn_item": "abyssal_hunger_shard" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ABYSSAL_HUNGER_EXIT",
-    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "condition": { "math": [ "abyssal_hunger_level != 0" ] },
     "effect": [
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       {
@@ -117,7 +117,7 @@
     "id": "EOC_DEATH_ABYSSAL_HUNGER",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "condition": { "math": [ "abyssal_hunger_level != 0" ] },
     "effect": [
       {
         "u_message": "It is unclear if you were slain by an immune system or digested but suffice to say, you are no more.",

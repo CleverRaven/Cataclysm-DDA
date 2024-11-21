@@ -7,7 +7,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING",
-    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "condition": { "math": [ "u_val('mana') >= 1" ] },
     "effect": {
       "run_eocs": [
         {

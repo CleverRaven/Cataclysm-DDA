@@ -88,7 +88,7 @@
         "npc_run_monster_eocs": [
           {
             "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
-            "condition": { "math": [ "rand(1)", "==", "0" ] },
+            "condition": { "math": [ "rand(1) == 0" ] },
             "effect": { "run_eocs": "EOC_BANISH_SELF" }
           }
         ],
@@ -140,7 +140,7 @@
       {
         "run_eocs": {
           "id": "EOC_SEX_LAIR_SPAWNS",
-          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2)", "==", "0" ] } ] },
+          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2) == 0" ] } ] },
           "effect": [
             {
               "u_spawn_monster": "mon_zombie_resort_dancer",
@@ -155,7 +155,7 @@
       {
         "run_eocs": {
           "id": "EOC_PANICROOM_SPAWNS",
-          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1)", "==", "0" ] } ] },
+          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1) == 0" ] } ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_SCENARIO_PANICROOM",
