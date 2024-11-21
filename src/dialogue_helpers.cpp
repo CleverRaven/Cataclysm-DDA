@@ -30,8 +30,6 @@ std::optional<std::string> maybe_read_var_value( const var_info &info, const_dia
                                                        call_depth + 1 ) : std::nullopt;
             }
         }
-        case var_type::faction:
-        case var_type::party:
         case var_type::last:
             return std::nullopt;
     }
