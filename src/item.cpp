@@ -1894,7 +1894,7 @@ double item::get_var( const std::string &name, const double default_value ) cons
 
 void item::set_var( const std::string &name, const tripoint &value )
 {
-    item_vars[name] = string_format( "%d,%d,%d", value.x, value.y, value.z );
+    item_vars[name] = value.to_string();
 }
 
 tripoint item::get_var( const std::string &name, const tripoint &default_value ) const
@@ -1903,6 +1903,13 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     if( it == item_vars.end() ) {
         return default_value;
     }
+
+    // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
+    // first is produced by tripoint::to_string, second was old custom format
+    if( it->second[0] == '(' ) {
+        return tripoint::from_string( it->second );
+    }
+
     std::vector<std::string> values = string_split( it->second, ',' );
     cata_assert( values.size() == 3 );
     auto convert_or_error = []( const std::string_view s ) {
