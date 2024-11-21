@@ -59,7 +59,10 @@
     "id": "gain_mana_leech_shackle_unlocked",
     "type": "SPELL",
     "name": "MANA_LEECH_START",
-    "description": { "str": "Workaround that ensures that the inert mana-leech shackle is worn when it is made inert.  You're not supposed to see this.  Delete it when EOCs can spawn items as equipped.", "//~": "NO_I18N" },
+    "description": {
+      "str": "Workaround that ensures that the inert mana-leech shackle is worn when it is made inert.  You're not supposed to see this.  Delete it when EOCs can spawn items as equipped.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
