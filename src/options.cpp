@@ -2431,7 +2431,7 @@ void options_manager::add_options_graphics()
 
         add( "CREATURE_OVERLAY_ICONS", page_id, to_translation( "Show overlay icons over creatures" ),
              to_translation( "If true, show overlay icons over creatures such as effects, move mode and whether creatures can see the player." ),
-             true
+             true, COPT_CURSES_HIDE
            );
 
         add( "SWAP_ZOOM", page_id, to_translation( "Zoom Threshold" ),
