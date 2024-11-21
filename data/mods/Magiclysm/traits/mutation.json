@@ -418,7 +418,10 @@
     "id": "MANA_LEECH_EFFECT",
     "name": { "str": "Mana-Shackled effect" },
     "points": -1,
-    "description": { "str": "The trait that allows mana-leech shackles to prevent spellcasting.  You're not supposed to see this.", "//~": "NO_I18N" },
+    "description": {
+      "str": "The trait that allows mana-leech shackles to prevent spellcasting.  You're not supposed to see this.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "NO_SPELLCASTING" ],
     "purifiable": false,
     "valid": false,
