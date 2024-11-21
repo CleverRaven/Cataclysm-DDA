@@ -3428,7 +3428,6 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     int order;
     std::string overlay_id;
     std::string variant;
-    const bool &show_creature_overlay_icons = get_option<bool>( "CREATURE_OVERLAY_ICONS" );
     // first get effects
     if( show_creature_overlay_icons ) {
         for( const auto &eff_pr : *effects ) {
@@ -3493,7 +3492,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when
         const
 {
     std::vector<std::pair<std::string, std::string>> rval;
-    if( !get_option<bool>( "CREATURE_OVERLAY_ICONS" ) ) {
+    if( !show_creature_overlay_icons ) {
         return rval;
     }
     // first get effects
