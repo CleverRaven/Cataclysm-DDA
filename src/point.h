@@ -66,7 +66,7 @@ struct point {
     }
 
     // Dummy implementation of raw() to allow reasoning about
-    // abstract generic points.
+    // generic points.
     constexpr point raw() const {
         return *this;
     }
