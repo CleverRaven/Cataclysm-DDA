@@ -16,6 +16,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "use_action": [ "POST_UP" ],
     "armor": [
       {
         "encumbrance": 50,
