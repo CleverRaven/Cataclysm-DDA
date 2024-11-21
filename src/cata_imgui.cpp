@@ -1059,6 +1059,9 @@ void cataimgui::EndRightAlign()
     ImGui::EndTable();
 }
 
+// Use the base terminal palette to reasonably color ImGui elements.
+// This might be useful to easily apply the color theme (chosen via
+// Color Manager, likely) to ImGui with minimal effort.
 static void inherit_base_colors()
 {
     ImGuiStyle &style = ImGui::GetStyle();
@@ -1105,7 +1108,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_NavHighlight] = c_blue;
 }
 
-static void load_imgui_style_file( cata_path style_path )
+static void load_imgui_style_file( const cata_path &style_path )
 {
     ImGuiStyle &style = ImGui::GetStyle();
 
@@ -1180,12 +1183,12 @@ static void load_imgui_style_file( cata_path style_path )
             JsonArray jsarr = joc.get_array( text_key );
             float alpha = 1.0; // default to full opacity if not specified explicitly
             if( jsarr.has_float( 3 ) ) {
-                alpha = jsarr.get_float( 3 ) / 255.0;
+                alpha = jsarr.get_float( 3 );
             }
             ImVec4 color = ImVec4(
-                               jsarr.get_float( 0 ) / 255.0,
-                               jsarr.get_float( 1 ) / 255.0,
-                               jsarr.get_float( 2 ) / 255.0,
+                               jsarr.get_float( 0 ),
+                               jsarr.get_float( 1 ),
+                               jsarr.get_float( 2 ),
                                alpha
                            );
             style.Colors[imgui_key] = color;
