@@ -627,6 +627,8 @@ Character::Character() :
     // Only call these if game is initialized
     if( !!g && json_flag::is_ready() ) {
         recalc_sight_limits();
+        trait_flag_cache.clear();
+        bio_flag_cache.clear();
         calc_encumbrance();
         worn.recalc_ablative_blocking(this);
     }
