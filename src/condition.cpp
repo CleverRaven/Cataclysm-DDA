@@ -424,12 +424,6 @@ var_info read_var_info( const JsonObject &jo )
     } else if( jo.has_member( "context_val" ) ) {
         type = var_type::context;
         name = get_talk_varname( jo, "context_val" );
-    } else if( jo.has_member( "faction_val" ) ) {
-        type = var_type::faction;
-        name = get_talk_varname( jo, "faction_val" );
-    } else if( jo.has_member( "party_val" ) ) {
-        type = var_type::party;
-        name = get_talk_varname( jo, "party_val" );
     } else {
         jo.throw_error( "Invalid variable type." );
     }
@@ -470,12 +464,6 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
             } else {
                 debugmsg( "Tried to use an invalid beta talker.  %s", d->get_callstack() );
             }
-            break;
-        case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
-        case var_type::party:
-            debugmsg( "Not implemented yet." );
             break;
         case var_type::context:
             d->set_value( name, value );
