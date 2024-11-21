@@ -929,7 +929,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
         const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && here.is_flammable( *pnt ) && !here.get_field( tripoint_bub_ms( *pnt ), fd_fire ) ) {
+        if( pnt && here.is_flammable( *pnt ) &&
+            !here.get_field( tripoint_bub_ms( *pnt ), field_fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, field_fd_fire, 1 );
             if( has_trait( trait_PYROMANIA ) ) {

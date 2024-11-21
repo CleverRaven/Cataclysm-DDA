@@ -4389,8 +4389,7 @@ field_entry *game::is_in_dangerous_field()
     return nullptr;
 }
 
-std::unordered_set<tripoint> game::get_fishable_locations( int distance,
-        const tripoint &fish_pos )
+std::unordered_set<tripoint> game::get_fishable_locations( int distance, const tripoint &fish_pos )
 {
     // We're going to get the contiguous fishable terrain starting at
     // the provided fishing location (e.g. where a line was cast or a fish
@@ -5101,8 +5100,7 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const trip
     return place_critter_around( mon, p.raw(), 0 );
 }
 
-monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
-                                     const int radius )
+monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
@@ -6606,8 +6604,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look,
-                            const int column,
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
@@ -6671,10 +6668,8 @@ static void add_visible_items_recursive( std::map<std::string, std::pair<int, nc
     }
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look,
-                             const int column,
-                             int &line,
-                             const int last_line )
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+                             int &line, const int last_line )
 {
     if( !m.sees_some_items( lp, u ) ) {
         return;
@@ -7914,8 +7909,7 @@ look_around_result game::look_around( look_around_params looka_params )
 }
 
 static void add_item_recursive( std::vector<std::string> &item_order,
-                                std::map<std::string, map_item_stack> &temp_items, const item *it,
-                                const tripoint &relative_pos )
+                                std::map<std::string, map_item_stack> &temp_items, const item *it, const tripoint &relative_pos )
 {
     const std::string name = it->tname();
 
@@ -8175,8 +8169,7 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height,
-                                  bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
     const int width = getmaxx( window );
     wattron( window, c_light_gray );
@@ -13726,8 +13719,7 @@ void game::climb_down( const tripoint &examp )
     }
 }
 
-void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id,
-                             bool deploy_affordance )
+void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool deploy_affordance )
 {
     const climbing_aid &aid = aid_id.obj();
 

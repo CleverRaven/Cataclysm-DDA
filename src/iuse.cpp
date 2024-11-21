@@ -4927,8 +4927,7 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint & )
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), dest_.value() );
 }
 
-std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it,
-        const std::string &prefix,
+std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         const tripoint &where )
 {
     map &here = get_map();
@@ -5932,8 +5931,7 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     return std::string();
 }
 
-static std::string colorized_feature_description_at( const tripoint &center_point,
-        bool &item_found,
+static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
         const units::volume &min_visible_volume )
 {
     item_found = false;
