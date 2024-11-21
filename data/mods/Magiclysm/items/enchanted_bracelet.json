@@ -110,8 +110,7 @@
     "sided": true,
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": -1 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": -100 } ] },
         { "has": "WORN", "condition": "ALWAYS", "mutations": [ "MANA_LEECH_EFFECT" ] }
       ]
     },
