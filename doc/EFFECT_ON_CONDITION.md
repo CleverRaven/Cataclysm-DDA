@@ -533,8 +533,8 @@ checks this var exists
 ```
 
 ### `compare_string`
-- type: pair of strings or [variable objects](#variable-object)
-- Compare two strings, and return true if strings are equal
+- type: array of strings or [variable objects](#variable-object)
+- Compare all strings, and return true if at least two of them match
 
 #### Examples
 checks if `victim_type` is `mon_zombie_phase_shrike`
@@ -545,6 +545,42 @@ checks if `victim_type` is `mon_zombie_phase_shrike`
 checks is `victim_type` has `zombie` faction
 ```json
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+```
+
+Check if victim_type is any in the list
+```json
+"compare_string": [
+  { "context_val": "victim_type" },
+  "mon_hound_tindalos",
+  "mon_darkman",
+  "mon_zombie_phase_shrike",
+  "mon_swarm_structure",
+  "mon_better_half",
+  "mon_hallucinator",
+  "mon_archunk_strong",
+  "mon_void_spider",
+  "mon_XEDRA_officer",
+  "mon_eigenspectre_3",
+  "mon_eigenspectre_4",
+  "mon_living_vector"
+]
+```
+
+Check if `map_cache` contain value `has`, `lack` or `read`
+```json
+{ "compare_string": [ { "npc_val": "map_cache" }, "has", "lack", "read" ] }
+```
+
+### `compare_string_match_all`
+- type: array of strings or [variable objects](#variable-object)
+- Compare all strings, and return true if all of them match
+- For two strings the check is same as compare_string
+
+#### Examples
+
+Check if two variables are `yes`
+```json
+"compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
 ```
 
 ### `u_profession`
@@ -1336,7 +1372,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | activates_mininuke | Triggers when any character arms a mininuke | { "character", `character_id` } | character / NONE |
 | administers_mutagen |  | { "character", `character_id` },<br/> { "technique", `mutagen_technique` }, | character / NONE |
 | angers_amigara_horrors | Triggers when amigara horrors are spawned as part of a mine finale | NONE | avatar / NONE |
-| avatar_enters_omt |  | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
+| avatar_enters_omt | Triggers when player crosses the overmap boundary, including when player spawns | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
 | avatar_moves |  | { "mount", `mtype_id` },<br/> { "terrain", `ter_id` },<br/> { "movement_mode", `move_mode_id` },<br/> { "underwater", `bool` },<br/> { "z", `int` }, | avatar / NONE |
 | avatar_dies |  | NONE | avatar / NONE |
 | awakes_dark_wyrms | Triggers when `pedestal_wyrm` examine action is used | NONE | avatar / NONE |

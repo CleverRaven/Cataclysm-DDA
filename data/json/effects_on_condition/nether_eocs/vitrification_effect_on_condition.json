@@ -22,9 +22,14 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_vitrified_farm_entry",
+    "id": "EOC_vitrified_farm_entry_event",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
+    "effect": [ { "run_eocs": "EOC_vitrified_farm_entry" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_vitrified_farm_entry",
     "condition": {
       "and": [
         { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] },
@@ -41,6 +46,12 @@
         }
       ]
     },
+    "false_effect": [
+      {
+        "if": { "not": { "u_has_trait": "NOT_GLASS" } },
+        "then": { "run_eocs": [ "EOC_vitrified_farm_entry" ], "time_in_future": "1 seconds" }
+      }
+    ],
     "effect": [
       {
         "place_override": { "global_val": "place_name", "default_str": "Quiet Farmhouse" },

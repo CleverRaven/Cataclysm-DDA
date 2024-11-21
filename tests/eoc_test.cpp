@@ -34,6 +34,10 @@ static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_at
 static const effect_on_condition_id
 effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_match_all_test( "EOC_compare_string_match_all_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_test( "EOC_compare_string_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_item_activate_test( "EOC_item_activate_test" );
@@ -1412,6 +1416,49 @@ TEST_CASE( "EOC_string_test", "[eoc]" )
     CHECK( get_avatar().get_value( "key1" ) == "nest2" );
     CHECK( get_avatar().get_value( "key2" ) == "nest3" );
     CHECK( get_avatar().get_value( "key3" ) == "nest4" );
+}
+
+TEST_CASE( "EOC_compare_string_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_4" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_5" ).empty() );
+
+    CHECK( effect_on_condition_EOC_compare_string_test->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_2" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_3" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_4" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_5" ) ) == Approx( 1 ) );
+
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_4" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_5" ).empty() );
+
+    CHECK( effect_on_condition_EOC_compare_string_match_all_test->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_1" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_2" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_3" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_4" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_5" ) ) == Approx(
+               1 ) );
 }
 
 TEST_CASE( "EOC_run_eocs", "[eoc]" )

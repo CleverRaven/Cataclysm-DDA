@@ -1335,18 +1335,23 @@
         { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
         {
           "or": [
-            { "compare_string": [ "mon_hound_tindalos", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_darkman", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_zombie_phase_shrike", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_swarm_structure", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_better_half", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_hallucinator", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_archunk_strong", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_void_spider", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_eigenspectre_3", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_eigenspectre_4", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_living_vector", { "context_val": "victim_type" } ] }
+            {
+              "compare_string": [
+                { "context_val": "victim_type" },
+                "mon_hound_tindalos",
+                "mon_darkman",
+                "mon_zombie_phase_shrike",
+                "mon_swarm_structure",
+                "mon_better_half",
+                "mon_hallucinator",
+                "mon_archunk_strong",
+                "mon_void_spider",
+                "mon_XEDRA_officer",
+                "mon_eigenspectre_3",
+                "mon_eigenspectre_4",
+                "mon_living_vector"
+              ]
+            }
           ]
         }
       ]
