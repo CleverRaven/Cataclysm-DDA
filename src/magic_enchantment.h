@@ -68,6 +68,7 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
+    MELEE_TO_HIT,
     RANGED_DAMAGE,
     RANGED_ARMOR_PENETRATION,
     ATTACK_NOISE,
