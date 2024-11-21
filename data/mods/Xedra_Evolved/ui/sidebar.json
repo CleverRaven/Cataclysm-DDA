@@ -232,7 +232,8 @@
         "xe_spacebar_mana_bar_block",
         "vampire_blood_levels",
         "spacebar_ruach_counter_block",
-        "spacebar_ruach_numbers_block"
+        "spacebar_ruach_numbers_block",
+        "spacebar_ruach_graph_block"
       ]
     }
   },
