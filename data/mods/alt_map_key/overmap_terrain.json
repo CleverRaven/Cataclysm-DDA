@@ -2107,14 +2107,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "rock",
-    "copy-from": "rock",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "empty_rock",
     "copy-from": "empty_rock",
     "name": "solid rock",
