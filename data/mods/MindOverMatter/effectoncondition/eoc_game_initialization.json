@@ -3,8 +3,8 @@
     "type": "effect_on_condition",
     "id": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS",
     "recurrence": [ "1 minutes", "1 minutes" ],
-    "condition": { "math": [ "u_has_initial_awakening_countup_set", "!=", "1" ] },
-    "deactivate_condition": { "math": [ "u_has_initial_awakening_countup_set", "==", "1" ] },
+    "condition": { "math": [ "u_has_initial_awakening_countup_set != 1" ] },
+    "deactivate_condition": { "math": [ "u_has_initial_awakening_countup_set == 1" ] },
     "effect": [ { "run_eocs": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS_2" } ]
   },
   {

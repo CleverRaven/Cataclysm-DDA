@@ -666,6 +666,45 @@ There are two possible syntaxes.  The first is by defining an enchantment object
         }
       ]
     }
+    "special_vision": [   // defines creatures (monsters or NPC) you can see in some irregular ways, mainly thermal or supernatural
+      {
+        "condition": { "and": [ { "npc_has_flag": "ELECTRIC" }, "u_see_npc" ] },   // this need to return true to see the critter; u is character, npc is critter being watched
+        "distance": 20, // how far special_vision is applied. for technical reasons special_vision do not stack, having multiple special_visions of the same nature will not result in special_visions of bigger distance
+        "descriptions": [ // if condition is true, this will assign a dedicated id (used for tiles) and text, depending on text_condition
+          { 
+            "id": "infrared_creature_tiny", 
+            "text_condition": { "math": [ "n_val('size') == 1" ] }, // be sure to not use condition that can change in between moves (like any math with random result, `rand(1)` etc); 
+                        // while text with tags is stored and re-evaluated only when cursor changes its position, tiles are re-evaluated every frame, even on pause
+            "text": "Message 1."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "text": "Message 2."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "text": "Message 3. <fuck_you>" // tags are also supported
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "text": "Message 4."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "text": "Message 5."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "true" ] }, // descriptions are read in order they are in json, adding dummy condition that always return true can be used as a fallback if none previous condition matches;
+            "text": "Last message." // otherwise default description is `You sense a creature here.`, and default id is `infrared_creature`
+          }
+        ]
+      }
+    ]
   }
 ```
 
@@ -782,7 +821,7 @@ First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks
     "type": "enchantment",
     "id": "BITE_STR",
     "has": "WIELD",
-    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] },
+    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] },
     "values": [ { "value": "STRENGTH", "add": 5 } ]
   }
 ```
@@ -856,6 +895,7 @@ Character status value  | Description
 `MAX_MANA`              | 
 `MAX_STAMINA`           | 
 `MELEE_DAMAGE`          | Adds damage to melee attacks
+`MELEE_TO_HIT`          | Modifies melee attacks' `to_hit`. `add` is recommended since `to_hit` can be below 0 and has a small typical range.
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
 `METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never weary.

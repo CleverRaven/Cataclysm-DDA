@@ -806,7 +806,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_MAP",
-    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "condition": { "math": [ "u_val('pos_z') <= 0" ] },
     "effect": {
       "switch": { "math": [ "u_spell_level('earthshaper_reveal_world_map')" ] },
       "cases": [
@@ -952,7 +952,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE",
-    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "condition": { "math": [ "u_val('pos_z') <= 0" ] },
     "effect": [
       {
         "u_add_effect": "effect_tremorsense",
@@ -966,7 +966,7 @@
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
+    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
     "effect": [
       { "u_lose_effect": "effect_tremorsense" },
       {
@@ -1084,7 +1084,7 @@
             { "u_is_on_terrain": "t_railroad_rubble" }
           ]
         },
-        { "math": [ "u_val('pos_z')", "<=", "0" ] }
+        { "math": [ "u_val('pos_z') <= 0" ] }
       ]
     },
     "effect": [
@@ -1156,7 +1156,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == -9" ] } },
     "effect": [
       {
         "run_eocs": {
@@ -1231,7 +1231,7 @@
     "eoc_type": "EVENT",
     "//": "No cheating and translocating out to keep your buffs",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z') == -9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
     "effect": [ { "u_lose_trait": "EARTHSHAPER_STONE_SLEEP" } ]
   },
   {

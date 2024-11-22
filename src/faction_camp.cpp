@@ -3510,7 +3510,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     int num_to_make = 1;
     npc dummy;
     for( const recipe_id &some_known_recipe : recipe_deck_all() ) {
-        dummy.learn_recipe( &*some_known_recipe );
+        dummy.learn_recipe( &*some_known_recipe, true );
     }
     for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {

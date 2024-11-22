@@ -120,7 +120,7 @@
               "not": {
                 "and": [
                   { "compare_string": [ "yes", { "u_val": "general_BGSS_hospital_2_asked_about_quest" } ] },
-                  { "math": [ "time_since(u_timer_timers_hospital_2_asked_about_quest)", "<", "time('8 h')" ] }
+                  { "math": [ "time_since(u_timer_timers_hospital_2_asked_about_quest) < time('8 h')" ] }
                 ]
               }
             }

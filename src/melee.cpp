@@ -368,7 +368,8 @@ float Character::get_melee_hit_base() const
     hit_weapon = get_hit_weapon( cur_weap );
 
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus();
+    return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus() +
+           enchantment_cache->modify_value( enchant_vals::mod::MELEE_TO_HIT, 0.0f );
 }
 
 float Character::hit_roll() const

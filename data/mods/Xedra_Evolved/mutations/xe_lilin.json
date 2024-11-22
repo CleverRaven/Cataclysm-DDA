@@ -140,7 +140,7 @@
     "id": "LILIN_TURN_INTO_OWL",
     "name": { "str": "On Silent Wings" },
     "points": 8,
-    "description": "You can transform yourself into an owl and take wing on the night air.",
+    "description": "You can transform yourself into an owl and take wing on the night air.  You won't be able to drain ruach while you are in this form.",
     "starting_trait": false,
     "purifiable": false,
     "active": true,
@@ -806,7 +806,7 @@
     "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] } ] },
         "ench_effects": [ { "effect": "effect_lilin_limb_score_bonuses_at_night", "intensity": 1 } ]
       }
     ]
@@ -816,7 +816,7 @@
     "id": "LILIN_TRANSFORM_INTO_WAR_OWL_FORM",
     "name": { "str": "The Strix's Wrath" },
     "points": 10,
-    "description": "You can combine your forms, transforming into a large owl-human hybrid with wings, rending talons, and a deadly beak.",
+    "description": "You can combine your forms, transforming into a large owl-human hybrid with wings, rending talons, and a deadly beak.  You won't be able to drain ruach while you are in this form.",
     "starting_trait": false,
     "purifiable": false,
     "active": true,

@@ -7,6 +7,7 @@
     "name": { "//~": "Named after the American folkloric monster.", "str": "hidebehind" },
     "description": "Even looking directly at this cougar and knowing that it is there, a part of your brain simply refuses to see it.  It flickers in and out of sight in a way that makes your eyes hurt, and if you turn your attention away from it even for a moment, it disappears completely.",
     "morale": 80,
+    "//vision_mindsight": "25",
     "//": "Extended flags are from telepathic suggestion that the hidebehind is not there.",
     "extend": {
       "special_attacks": [
@@ -22,6 +23,15 @@
               { "not": { "npc_has_effect": "telepathic_ignorance" } }
             ]
           },
+          "monster_message": ""
+        },
+        {
+          "id": "psi_hidebehind_apply_mindsight",
+          "type": "spell",
+          "spell_data": { "id": "hidebehind_apply_mindsight", "hit_self": true },
+          "cooldown": 1,
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_20" } } ] },
           "monster_message": ""
         }
       ],

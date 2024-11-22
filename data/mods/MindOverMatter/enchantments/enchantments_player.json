@@ -271,7 +271,7 @@
   {
     "type": "enchantment",
     "id": "enchant_photokin_potion_rads",
-    "condition": { "math": [ "u_val('rad')", ">", "0" ] },
+    "condition": { "math": [ "u_val('rad') > 0" ] },
     "has": "HELD",
     "values": [ { "value": "LUMINATION", "add": 10 } ]
   },

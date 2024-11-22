@@ -42,7 +42,7 @@
         ]
       },
       {
-        "if": { "math": [ "goingtolabs", "==", "1" ] },
+        "if": { "math": [ "goingtolabs == 1" ] },
         "then": [ { "u_consume_item": "warp_labs_catalyst", "count": 1 }, { "math": [ "goingtolabs", "=", "0" ] } ]
       }
     ],
@@ -98,7 +98,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_create_slaughter",
-    "condition": { "math": [ "slaughterunlocked", "==", "1" ] },
+    "condition": { "math": [ "slaughterunlocked == 1" ] },
     "effect": [
       {
         "weighted_list_eocs": [

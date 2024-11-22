@@ -1275,6 +1275,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_sterilization",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_invisibility",
     "name": [ "Invisibility" ],
     "desc": [ "Nothing can see you." ],

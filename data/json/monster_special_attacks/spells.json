@@ -683,7 +683,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness", ">", "10" ] } ] },
+    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness > 10" ] } ] },
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
@@ -721,7 +721,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "math": [ "distance('u', 'npc')", ">", "3" ] },
+    "condition": { "math": [ "distance('u', 'npc') > 3" ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -867,7 +867,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "math": [ "distance('u', 'npc')", ">", "4" ] },
+    "condition": { "math": [ "distance('u', 'npc') > 4" ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -943,8 +943,8 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "portal_dungeon_level > 0" ] },
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {
@@ -964,8 +964,8 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "portal_dungeon_level > 0" ] },
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {

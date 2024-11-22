@@ -158,8 +158,8 @@
         "text": "5.56x45.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "556" ] },
-            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 556" ] },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
         "effect": { "run_eocs": "EOC_gunsmith_set_convert_target", "variables": { "key1": "556" } },
@@ -169,8 +169,8 @@
         "text": "7.62x51.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "76251" ] },
-            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 76251" ] },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
         "effect": { "run_eocs": "EOC_gunsmith_set_convert_target", "variables": { "key1": "76251" } },
@@ -180,8 +180,8 @@
         "text": "7.62x39.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "76239" ] },
-            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 76239" ] },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
         "effect": { "run_eocs": "EOC_gunsmith_set_convert_target", "variables": { "key1": "76239" } },
@@ -191,8 +191,8 @@
         "text": ".300 AAC.",
         "condition": {
           "and": [
-            { "math": [ "u_number_artisans_gunsmith_ammo_from", "!=", "300" ] },
-            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+            { "math": [ "u_number_artisans_gunsmith_ammo_from != 300" ] },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo == 0" ] }
           ]
         },
         "effect": { "run_eocs": "EOC_gunsmith_set_convert_target", "variables": { "key1": "300" } },
@@ -201,7 +201,7 @@
       {
         "text": "See you then.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "1" ] }
+        "condition": { "math": [ "u_number_artisans_failed_to_convert_ammo == 1" ] }
       }
     ]
   },
@@ -209,7 +209,7 @@
     "id": "TALK_GUNSMITH_CONVERT_CONFIRM",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ],
+      "math": [ "u_number_artisans_gunsmith_ammo_amount == 200" ],
       "yes": "Alright, that's 200 rounds minus the 10% service fee.  They'll be converted in a day.",
       "no": "Alright, that's 800 rounds minus the 10% service fee.  They'll be converted in 5 days."
     },

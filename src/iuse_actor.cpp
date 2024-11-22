@@ -1806,7 +1806,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Force an encumbrance update in case they were wearing that item.
     p.calc_encumbrance();
 
-    map &here = get_map();
     for( const auto &salvaged_mat : salvage ) {
         item result( salvaged_mat.first, calendar::turn );
         int amount = salvaged_mat.second;
@@ -1826,7 +1825,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    here.add_item_or_charges( pos, result );
+                    put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { result }, pos );
                 }
             }
         } else {

@@ -6,7 +6,7 @@
     "condition": {
       "and": [
         { "npc_allies_global": 1 },
-        { "math": [ "afs_leadership_act", "==", "1" ] },
+        { "math": [ "afs_leadership_act == 1" ] },
         { "u_query": "You have died.  Continue as one of your followers?", "default": false }
       ]
     },

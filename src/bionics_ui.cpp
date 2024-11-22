@@ -111,7 +111,7 @@ struct bionic_sort_less {
                     return lbd_sort_power < rbd_sort_power;
                 }
             }
-            /* fallthrough */
+            [[fallthrough]];
             case bionic_ui_sort_mode::NAME:
                 return localized_compare( lbd.name.translated(), rbd.name.translated() );
         }

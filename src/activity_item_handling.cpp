@@ -3487,7 +3487,7 @@ static VisitResponse visit_item_contents( item_location &loc,
                     }
                 }
             }
-        /* intentional fallthrough */
+            [[fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;

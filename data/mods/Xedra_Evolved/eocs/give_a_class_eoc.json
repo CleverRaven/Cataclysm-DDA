@@ -11,7 +11,7 @@
             { "math": [ "u_has_trait('INVENTOR') + u_has_trait('DREAMSMITH') == 0" ] }
           ]
         },
-        { "math": [ "magic_potential", ">", "0" ] },
+        { "math": [ "magic_potential > 0" ] },
         { "not": { "u_has_trait": "DREAMLESS" } },
         { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
       ]
@@ -28,9 +28,9 @@
           "and": [
             { "not": { "u_has_trait": "EATER" } },
             { "not": { "u_has_trait": "DREAMER" } },
-            { "math": [ "allow_sequence", "==", "1" ] },
-            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
-            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+            { "math": [ "allow_sequence == 1" ] },
+            { "math": [ "eater_dreamer_sequence == 0" ] },
+            { "math": [ "inventor_dreamsmith_sequence == 0" ] }
           ]
         },
         "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "eater_dreamer_sequence", "++" ] } ]
@@ -40,9 +40,9 @@
           "and": [
             { "not": { "u_has_trait": "INVENTOR" } },
             { "not": { "u_has_trait": "DREAMSMITH" } },
-            { "math": [ "allow_sequence", "==", "1" ] },
-            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
-            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+            { "math": [ "allow_sequence == 1" ] },
+            { "math": [ "eater_dreamer_sequence == 0" ] },
+            { "math": [ "inventor_dreamsmith_sequence == 0" ] }
           ]
         },
         "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", "++" ] } ]
@@ -53,15 +53,11 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_MAGIC_BAD_DREAMS",
     "recurrence": [ "30 m", "2 h" ],
-    "deactivate_condition": {
-      "and": [ { "math": [ "eater_dreamer_sequence", "<", "-1" ] }, { "math": [ "inventor_dreamsmith_sequence", "<", "-1" ] } ]
-    },
+    "deactivate_condition": { "and": [ { "math": [ "eater_dreamer_sequence < -1" ] }, { "math": [ "inventor_dreamsmith_sequence < -1" ] } ] },
     "condition": {
       "and": [
         { "u_has_effect": "sleep" },
-        {
-          "or": [ { "math": [ "eater_dreamer_sequence", ">", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] } ]
-        }
+        { "or": [ { "math": [ "eater_dreamer_sequence > 0" ] }, { "math": [ "inventor_dreamsmith_sequence > 0" ] } ] }
       ]
     },
     "effect": [ { "u_message": "XE_BAD_DREAMS", "type": "bad", "snippet": true } ]
@@ -71,7 +67,7 @@
     "id": "EOC_XE_MAGIC_SEQUENCE_EATER_DREAMER_COUNTER",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "math": [ "eater_dreamer_sequence", ">", "0" ] },
+    "condition": { "math": [ "eater_dreamer_sequence > 0" ] },
     "effect": [
       {
         "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
@@ -136,7 +132,7 @@
     "id": "EOC_XE_MAGIC_SEQUENCE_INVENTOR_DREAMSMITH_COUNTER",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] },
+    "condition": { "math": [ "inventor_dreamsmith_sequence > 0" ] },
     "effect": [
       { "math": [ "inventor_dreamsmith_sequence", "++" ] },
       {
