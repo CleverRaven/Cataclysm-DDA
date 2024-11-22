@@ -2322,13 +2322,13 @@ void veh_interact::display_veh()
         const point_rel_ms pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
 
         mvwhline( w_disp, point( 0, com_s.y() ), c_green, LINE_OXOX, std::min( getmaxx( w_disp ),
-                  com_s.x() + 1));
-        mvwvline( w_disp, point( com_s.x(), 0), c_green, LINE_XOXO, std::min(getmaxy(w_disp),
-                  com_s.y() + 1));
+                  com_s.x() + 1 ) );
+        mvwvline( w_disp, point( com_s.x(), 0 ), c_green, LINE_XOXO, std::min( getmaxy( w_disp ),
+                  com_s.y() + 1 ) );
 
         mvwhline( w_disp, point( std::max( 0, pivot_s.x() ), pivot_s.y() ), c_red, LINE_OXOX,
                   getmaxx( w_disp ) - std::max( 0, pivot_s.x() ) + 1 );
-        mvwvline( w_disp, point( pivot_s.x(), std::max(0, pivot_s.y())), c_red, LINE_XOXO,
+        mvwvline( w_disp, point( pivot_s.x(), std::max( 0, pivot_s.y() ) ), c_red, LINE_XOXO,
                   getmaxy( w_disp ) - std::max( 0, pivot_s.y() ) + 1 );
     }
 
