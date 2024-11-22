@@ -140,7 +140,7 @@
       { "stat": "arpen", "type": "stab", "scaling-stat": "melee", "scale": 2.0 }
     ],
     "messages": [ "You find a weak spot in %s's armor", "<npcname> finds a weak spot in %s's armor!" ],
-    "description": "Increase armor penetration by 2 times melee skill.",
+    "description": "Increase armor penetration by 2 times melee skill",
     "attack_vectors": [ "vector_null" ]
   },
   {
