@@ -90,7 +90,12 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -220,6 +225,7 @@
         "  A A    ",
         "y MMMM  y"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_linoleum_white",
         "G": "t_linoleum_white",
@@ -229,9 +235,9 @@
         "y": "t_linoleum_white",
         "Y": "t_linoleum_white",
         "?": "t_linoleum_white",
-        "H": "t_carpet_green",
-        "L": "t_carpet_green",
-        ".": "t_carpet_green"
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "?": "f_counter",
@@ -298,7 +304,13 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -364,15 +376,16 @@
         "MMMM?M   ",
         "Y   S   Y"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "B": "t_floor",
         "O": "t_floor",
-        "G": "t_carpet_green",
-        "P": "t_carpet_green",
-        "V": "t_carpet_green",
-        "W": "t_carpet_green",
-        ".": "t_carpet_green"
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "P": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "W": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "?": "f_counter",
@@ -439,7 +452,14 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_yellow", "L": "t_carpet_yellow", "B": "t_carpet_yellow", ".": "t_carpet_yellow" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -600,9 +620,10 @@
         "   LdL  ",
         " C     R",
         " C QQVV ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -705,9 +726,10 @@
         "   RCR  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -844,9 +866,10 @@
         " d C G  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -983,9 +1006,10 @@
         " d C G  ",
         "       b",
         " b QQQ  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -1369,7 +1393,8 @@
         "(      * |    ",
         "YPPQQSY| |j   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
@@ -1442,7 +1467,8 @@
         " * *     K ",
         "j|K|YnJK   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "L": "f_table",
         "x": "f_pool_table",
@@ -1505,7 +1531,6 @@
         "   #HHH,,HHHHyHHHH"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_r" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "pizza_table", "chance": 10, "repeat": [ 1, 2 ] } ],
         "l": { "item": "pizza_soda", "chance": 80, "repeat": [ 1, 3 ] },
@@ -1552,7 +1577,7 @@
         "   #tS|tS|Æ,,iii,y"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_y", ".": "t_thconc_floor" },
+      "terrain": { ".": "t_thconc_floor" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "diner_food", "chance": 20 } ],
         "l": { "item": "coffee_freezer", "chance": 80, "repeat": [ 1, 3 ] },

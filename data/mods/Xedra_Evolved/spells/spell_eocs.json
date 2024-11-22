@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_vitamin('dreamer_vit')", ">=", "600" ] },
+    "condition": { "math": [ "u_vitamin('dreamer_vit') >= 600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
       { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
@@ -73,7 +73,7 @@
       { "u_message": "<color_white>Ethereal</color> wings grow from your back.", "type": "good" },
       { "u_add_trait": "ethereal_wings" },
       {
-        "queue_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
+        "run_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)" ] }
       }
     ],
@@ -85,7 +85,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ETHEREAL_WINGS_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       {
@@ -93,7 +93,7 @@
         "type": "good"
       },
       {
-        "queue_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
+        "run_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)" ] }
       },
       {
@@ -117,7 +117,7 @@
       { "u_message": "Ethereal, transparent arms appear behind your shoulders and <color_cyan>glow</color>.", "type": "good" },
       { "u_add_trait": "karma_arms" },
       {
-        "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
+        "run_eocs": "EOC_KARMA_ARMS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
       }
     ],
@@ -129,7 +129,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_KARMA_ARMS_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       {
@@ -137,7 +137,7 @@
         "type": "good"
       },
       {
-        "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
+        "run_eocs": "EOC_KARMA_ARMS_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
       },
       {
@@ -157,7 +157,7 @@
       { "u_message": "You feel like your spine stretched enormously.", "type": "good" },
       { "u_add_trait": "devil_tail" },
       {
-        "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
+        "run_eocs": "EOC_DEVIL_TAIL_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       }
     ],
@@ -166,12 +166,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DEVIL_TAIL_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana')", ">=", "100" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana') >= 100" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "100" ] },
       { "u_message": "Your devilish tail stretches and twists playfully.", "type": "good" },
       {
-        "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
+        "run_eocs": "EOC_DEVIL_TAIL_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       },
       {
@@ -191,7 +191,7 @@
       },
       { "u_add_trait": "stalker_eyes" },
       {
-        "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
+        "run_eocs": "EOC_STALKER_EYES_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
       }
     ],
@@ -203,12 +203,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STALKER_EYES_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       { "u_message": "Your sight darkens for a second, but it quickly turns back.", "type": "good" },
       {
-        "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
+        "run_eocs": "EOC_STALKER_EYES_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
       },
       {
@@ -272,8 +272,8 @@
     "type": "effect_on_condition",
     "id": "EOC_LUCID_DREAM_SWITCH",
     "condition": { "u_has_effect": "effect_lucid_dream" },
-    "effect": [ { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" } ],
-    "false_effect": { "queue_eocs": "EOC_LUCID_DREAM_FORCE_START" }
+    "effect": [ { "run_eocs": "EOC_LUCID_DREAM_FORCE_END" } ],
+    "false_effect": { "run_eocs": "EOC_LUCID_DREAM_FORCE_START" }
   },
   {
     "type": "effect_on_condition",
@@ -296,7 +296,7 @@
       { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
       "u_prevent_death",
       { "math": [ "u_hp('ALL')", "=", "1" ] },
-      { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" }
+      { "run_eocs": "EOC_LUCID_DREAM_FORCE_END" }
     ]
   },
   {

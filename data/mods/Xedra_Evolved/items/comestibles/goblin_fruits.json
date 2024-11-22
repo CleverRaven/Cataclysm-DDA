@@ -2,8 +2,11 @@
   {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_abstract",
-    "name": { "str": "Abstract Goblin Fruit" },
-    "description": "Somehow you got a hold of the platonic goblin fruit, the one fruit to rule them all.  It's a bug if you have this, but the lords of the Bright Lands will surely pay a high price for it.",
+    "name": { "str": "Abstract Goblin Fruit", "//~": "NO_I18N" },
+    "description": {
+      "str": "Somehow you got a hold of the platonic goblin fruit, the one fruit to rule them all.  It's a bug if you have this, but the lords of the Bright Lands will surely pay a high price for it.",
+      "//~": "NO_I18N"
+    },
     "weight": "182 g",
     "volume": "232 ml",
     "color": "magenta",
@@ -477,15 +480,15 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
       { "u_add_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "queue_eocs": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE", "time_in_future": { "math": [ "3000 + rand(10000)" ] } }
+      { "run_eocs": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE", "time_in_future": { "math": [ "3000 + rand(10000)" ] } }
     ],
     "false_effect": [ { "u_message": "You eat the goblin fruit but nothing happens.  Oh well." } ]
   },
@@ -497,10 +500,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },

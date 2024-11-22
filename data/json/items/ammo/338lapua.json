@@ -3,7 +3,7 @@
     "id": "338lapua_hpbt",
     "type": "AMMO",
     "name": { "str_sp": ".338 Lapua HPBT" },
-    "description": ".338 Lapua ammunition, loaded with a 300-grain hollow-point boat-tailed bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  With burgeoning interest amongst military, law enforcement, and civilian circles before the Cataclysm, the .338 cartridge filled the gap between lighter infantry munitions and anti-material rounds, although its potential utility as a hunting cartridge was somewhat diminished due to its high cost.",
+    "description": ".338 Lapua ammunition, loaded with a 300-grain hollow-point boat-tailed bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  With burgeoning interest among military, law enforcement, and civilian circles before the Cataclysm, the .338 cartridge filled the gap between lighter infantry munitions and anti-material rounds, although its potential utility as a hunting cartridge was somewhat diminished due to its high cost.",
     "weight": "16200 mg",
     "volume": "327 ml",
     "longest_side": "94 mm",
@@ -29,7 +29,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".338 Lapua AP485" },
     "material": [ "steel", "brass", "lead", "powder" ],
-    "description": ".338 Lapua ammunition, loaded with a 248-grain armor-piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through the target.",
+    "description": ".338 Lapua ammunition, loaded with a 248-grain armor-piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through, the target.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 20 } }
   },
   {

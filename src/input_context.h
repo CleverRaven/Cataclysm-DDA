@@ -82,8 +82,6 @@ class input_context
             }
         };
 
-        std::vector<manual_key> registered_manual_keys;
-
         // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
         // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
         bool allow_text_entry;
@@ -416,7 +414,9 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
-
+#if defined(__ANDROID__)
+        std::vector<manual_key> registered_manual_keys;
+#endif
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:

@@ -71,7 +71,7 @@
       {
         "text": "Has anyone come recently?",
         "condition": { "compare_string": [ "yes", { "u_val": "global_safe_space_lighthouse_fixed" } ] },
-        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait) >= time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [
@@ -81,7 +81,7 @@
         },
         "failure": { "topic": "TALK_lighthouse_man_survivors_no" }
       },
-      { "text": "Goodbye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -129,7 +129,7 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "math": [ "n_count_cleaning_lighthouse_man", "==", "0" ] },
+            { "math": [ "n_count_cleaning_lighthouse_man == 0" ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]

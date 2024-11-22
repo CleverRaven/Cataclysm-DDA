@@ -462,7 +462,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self", "ground" ],
-    "flags": [ "LOUD" ],
+    "flags": [ "LOUD", "SPLIT_DAMAGE" ],
     "damage_type": "electric",
     "max_level": 4,
     "min_damage": 4,
@@ -564,26 +564,6 @@
     "field_id": "fd_sludge",
     "field_chance": 2,
     "min_field_intensity": 2,
-    "max_field_intensity": 2
-  },
-  {
-    "type": "SPELL",
-    "id": "spread_fungal_acid",
-    "name": { "str": "Spread Hallucinogenic Acid", "//~": "NO_I18N" },
-    "description": { "str": "Splatters hallucinogenic acid in the air in blasts.", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "min_aoe": 2,
-    "max_aoe": 3,
-    "base_casting_time": 100,
-    "min_range": 1,
-    "max_range": 1,
-    "effect": "attack",
-    "effect_str": "emit_hallucinogenic_spores_blast",
-    "shape": "blast",
-    "field_id": "fd_hallucinogenic_spores",
-    "field_chance": 2,
-    "min_field_intensity": 1,
     "max_field_intensity": 2
   },
   {
@@ -703,7 +683,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness", ">", "10" ] } ] },
+    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness > 10" ] } ] },
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
@@ -741,7 +721,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "math": [ "distance('u', 'npc')", ">", "3" ] },
+    "condition": { "math": [ "distance('u', 'npc') > 3" ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -812,6 +792,7 @@
     "name": { "str": "Boomer Claymore Attack", "//~": "NO_I18N" },
     "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "ground" ],
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "cone",
     "min_damage": 30,
@@ -886,7 +867,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "math": [ "distance('u', 'npc')", ">", "4" ] },
+    "condition": { "math": [ "distance('u', 'npc') > 4" ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -962,8 +943,8 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "portal_dungeon_level > 0" ] },
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {
@@ -983,8 +964,8 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "portal_dungeon_level > 0" ] },
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {
@@ -1042,7 +1023,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
+    "effect": [ { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
   },
   {
     "type": "SPELL",
@@ -1063,7 +1044,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_SHADOW_RESPAWN",
     "condition": { "x_in_y_chance": { "x": 8, "y": 10 } },
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
+    "effect": [ { "run_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
     "false_effect": [ { "u_lose_trait": "TAINTED_SHADOW" } ]
   },
   {
@@ -1108,13 +1089,14 @@
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "effect_str": "stunned",
+    "min_range": 4,
     "max_range": 4,
     "shape": "blast",
     "message": "",
     "min_duration": 100,
     "max_duration": 400,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "extra_effects": [ { "id": "flatlander_attack_nausea", "hit_self": true } ]
+    "extra_effects": [ { "id": "flatlander_attack_nausea" } ]
   },
   {
     "type": "SPELL",

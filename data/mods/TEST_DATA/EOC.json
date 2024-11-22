@@ -200,11 +200,7 @@
     "id": "EOC_run_until_test",
     "effect": [
       { "math": [ "u_context", "=", "0" ] },
-      {
-        "run_eoc_until": "EOC_until_nested",
-        "condition": { "math": [ "u_context", "<", "10000" ] },
-        "iteration": 10000
-      }
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "u_context < 10000" ] }, "iterations": 10000 }
     ]
   },
   {
@@ -216,9 +212,9 @@
     "type": "effect_on_condition",
     "id": "EOC_stored_condition_test",
     "effect": [
-      { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
+      { "set_condition": "to_test", "condition": { "math": [ "_context > 0" ] } },
       { "run_eocs": "EOC_stored_condition_test_nested" },
-      { "run_eoc_with": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
+      { "run_eocs": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
     ]
   },
   {
@@ -241,7 +237,7 @@
     "effect": [
       { "math": [ "u_ukey", "=", "3" ] },
       {
-        "run_eoc_with": "EOC_run_with_test_nested",
+        "run_eocs": "EOC_run_with_test_nested",
         "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
       }
     ]
@@ -252,7 +248,7 @@
     "effect": [
       { "math": [ "u_ukey", "=", "3" ] },
       {
-        "queue_eoc_with": "EOC_run_with_test_nested",
+        "run_eocs": "EOC_run_with_test_nested",
         "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } },
         "time_in_future": "1 seconds"
       }
@@ -269,7 +265,7 @@
     "effect": [
       { "math": [ "u_ukey", "=", "3" ] },
       {
-        "run_eoc_with": "EOC_run_with_test_nested2",
+        "run_eocs": "EOC_run_with_test_nested2",
         "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
       }
     ]
@@ -277,7 +273,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_expects_fail",
-    "effect": [ { "run_eoc_with": "EOC_run_with_test_nested2" } ]
+    "effect": [ { "run_eocs": "EOC_run_with_test_nested2" } ]
   },
   {
     "type": "effect_on_condition",
@@ -290,7 +286,7 @@
     "id": "EOC_try_kill",
     "effect": [
       { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
-      { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
+      { "run_eocs": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
     ]
   },
   {
@@ -510,7 +506,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_equals_assign",
-    "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
     "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
   },
   {
@@ -522,7 +518,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_greater_increment",
-    "condition": { "math": [ "math_test", ">", "0" ] },
+    "condition": { "math": [ "math_test > 0" ] },
     "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
     "false_effect": [ { "math": [ "math_test", "--" ] } ]
   },
@@ -866,7 +862,7 @@
     "effect": [
       { "message": "collection: ", "popup": true },
       {
-        "run_eoc_with": {
+        "run_eocs": {
           "id": "_EOC_spawn_item_group_test_collection",
           "effect": {
             "u_spawn_item": "test_EOC_spawn_item_group_collection",
@@ -880,7 +876,7 @@
       },
       { "message": "distribution: ", "popup": true },
       {
-        "run_eoc_with": {
+        "run_eocs": {
           "id": "_EOC_spawn_item_group_test_distribution",
           "effect": {
             "u_spawn_item": "test_EOC_spawn_item_group_distribution",

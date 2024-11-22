@@ -368,7 +368,8 @@ float Character::get_melee_hit_base() const
     hit_weapon = get_hit_weapon( cur_weap );
 
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus();
+    return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus() +
+           enchantment_cache->modify_value( enchant_vals::mod::MELEE_TO_HIT, 0.0f );
 }
 
 float Character::hit_roll() const
@@ -513,43 +514,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
     std::vector<damage_type_id> types_used;
 
-    auto dt_to_ench_dt = []( const damage_type_id & dt ) {
-        if( dt == STATIC( damage_type_id( "acid" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_ACID;
-        } else if( dt == STATIC( damage_type_id( "bash" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_BASH;
-        } else if( dt == STATIC( damage_type_id( "biological" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_BIO;
-        } else if( dt == STATIC( damage_type_id( "bullet" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_BULLET;
-        } else if( dt == STATIC( damage_type_id( "cold" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_COLD;
-        } else if( dt == STATIC( damage_type_id( "cut" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_CUT;
-        } else if( dt == STATIC( damage_type_id( "electric" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_ELEC;
-        } else if( dt == STATIC( damage_type_id( "heat" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_HEAT;
-        } else if( dt == STATIC( damage_type_id( "stab" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_STAB;
-        } else if( dt == STATIC( damage_type_id( "pure" ) ) ) {
-            return enchant_vals::mod::ITEM_DAMAGE_PURE;
-        }
-        return enchant_vals::mod::NUM_MOD;
-    };
-
-    auto modify_damage_type = [&]( const damage_type_id & dt, double val ) {
-        const enchant_vals::mod mod_type = dt_to_ench_dt( dt );
-        if( mod_type == enchant_vals::mod::NUM_MOD ) {
-            return val;
-        } else {
-            val = enchantment_cache->modify_value( dt_to_ench_dt( dt ), val );
-        }
-        return enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE, val );
-    };
-
     for( damage_unit du : dam ) {
-        du.amount = modify_damage_type( du.type, du.amount );
+        du.amount = enchantment_cache->modify_melee_damage( du.type, du.amount );
         modified.add( du );
         types_used.emplace_back( du.type );
     }
@@ -558,7 +524,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
         if( std::find( types_used.begin(), types_used.end(), dt.id ) != types_used.end() ) {
             continue;
         }
-        modified.add_damage( dt.id, modify_damage_type( dt.id, 0.0f ) );
+
+        modified.add_damage( dt.id, enchantment_cache->modify_melee_damage( dt.id, 0.0f ) );
         modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
                              0.0f ) );
     }
@@ -1415,8 +1382,8 @@ void Character::roll_damage( const damage_type_id &dt, bool crit, damage_instanc
     }
 }
 std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_technique(
-    Creature &t, const item_location &weap, bool crit,
-    bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist )
+    Creature const &t, const item_location &weap, bool crit,
+    bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
 {
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
 
@@ -1448,8 +1415,8 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
                                           sub_body_part_sub_limb_debug ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-        Character::evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
-                                       bool crit, bool dodge_counter, bool block_counter )
+        Character::evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
+                                       bool crit, bool dodge_counter, bool block_counter ) const
 {
     // this could be more robust but for now it should work fine
     bool is_loaded = weap && weap->is_magazine_full();
@@ -1468,7 +1435,7 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
 
     // Ignore this technique if we fail the dialog conditions
     if( tec_id->has_condition ) {
-        dialogue d( get_talker_for( this ), get_talker_for( t ) );
+        const_dialogue d( get_const_talker_for( *this ), get_const_talker_for( t ) );
         if( !tec_id->condition( d ) ) {
             add_msg_debug( debugmode::DF_MELEE, "Conditionals failed, attack discarded" );
             return std::nullopt;
@@ -1580,14 +1547,14 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
     return std::nullopt;
 }
 
-bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique )
+bool Character::valid_aoe_technique( Creature const &t, const ma_technique &technique ) const
 {
     std::vector<Creature *> dummy_targets;
     return valid_aoe_technique( t, technique, dummy_targets );
 }
 
-bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                     std::vector<Creature *> &targets )
+bool Character::valid_aoe_technique( Creature const &t, const ma_technique &technique,
+                                     std::vector<Creature *> &targets ) const
 {
     if( technique.aoe.empty() ) {
         return false;
@@ -1671,8 +1638,8 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint &tmp : get_map().points_in_radius( pos(), 1 ) ) {
-            if( tmp == t.pos() ) {
+        for( const tripoint_bub_ms &tmp : get_map().points_in_radius( pos_bub(), 1 ) ) {
+            if( tmp == t.pos_bub() ) {
                 continue;
             }
             monster *const mon = creatures.creature_at<monster>( tmp );
@@ -1835,7 +1802,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     }
     map &here = get_map();
     if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
-        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
+        const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
         tripoint kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
@@ -1857,7 +1824,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
             // Check if it's possible to move to the new tile
             bool move_issue =
-                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
+                g->is_dangerous_tile( prev_pos.raw() ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
@@ -1865,8 +1832,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_effect( effect_amigara ) ||
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
-                if( t.pos() != prev_pos ) {
-                    g->place_player( prev_pos );
+                if( t.pos_bub() != prev_pos ) {
+                    g->place_player( prev_pos.raw() );
                     g->on_move_effects();
                 }
             }
@@ -2086,7 +2053,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
             if( source != nullptr && !source->is_hallucination() ) {
                 for( damage_unit &du : dam.damage_units ) {
-                    shield->damage_armor_durability( du, bp_hit, calculate_by_enchantment( 1,
+                    shield->damage_armor_durability( du, du, bp_hit, calculate_by_enchantment( 1,
                                                      enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
                 }
             }

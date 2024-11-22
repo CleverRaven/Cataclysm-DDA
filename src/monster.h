@@ -114,11 +114,11 @@ class monster : public Creature
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
+        void set_baby_timer( const time_point &time );
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
         void digest_food();
-        void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -540,8 +540,21 @@ class monster : public Creature
         int friendly = 0;
         int anger = 0;
         int morale = 0;
+    private:
         int stomach_size = 0;
         int amount_eaten = 0;
+        void recheck_fed_status();
+    public:
+        void set_amount_eaten( int new_amount );
+        void mod_amount_eaten( int amount_to_add );
+        int get_amount_eaten() const;
+        // Truncates to integer for ease of use
+        int get_stomach_fullness_percent() const;
+        // Whether the monster has eaten enough to reproduce/make milk/get by normally
+        bool has_eaten_enough() const;
+        // Whether their stomach is completely full or more
+        // TODO: Find out why can we even exceed stomach size??
+        bool has_fully_eaten() const;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission

@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_difficultysafeguard",
     "//": "This EOC gets called after a teleport is initialized but before it is finished.  It basically just checks if you're running an older save or somehow missed the difficulty assignment.",
-    "condition": { "math": [ "has_set_difficulty", "==", "0" ] },
+    "condition": { "math": [ "has_set_difficulty == 0" ] },
     "effect": [
       {
         "u_message": "You haven't selected a difficulty.  This could be because you're playing an old save.\n\nYour current difficulty has been set to Normal.  In this setting, you will have 4 hours in every expedition to reach the exit and leave safely.  After this, warp sickness sets in and applies heavy debuffs until you exit.  After 6 hours, warp disintegration begins, and you will rapidly lose health until you exit or die.",
@@ -107,7 +107,7 @@
     "type": "effect_on_condition",
     "id": "EOC_award_material_tokens",
     "//": "If you got home via an exit portal, award material tokens based on raid length.",
-    "condition": { "math": [ "gettokens", "==", "1" ] },
+    "condition": { "math": [ "gettokens == 1" ] },
     "effect": [
       { "math": [ "gettokens", "=", "0" ] },
       { "math": [ "owed_material_tokens", "=", "lengthofthisraid * 75 + 50" ] },
@@ -125,7 +125,7 @@
     "type": "effect_on_condition",
     "id": "EOC_progressgate1",
     "//": "Checks to see if you have successfully completed 5 raids and makes Rank Up 1 available if so.",
-    "condition": { "and": [ { "math": [ "islandrank", "==", "0" ] }, { "math": [ "raidswon", ">=", "10" ] } ] },
+    "condition": { "and": [ { "math": [ "islandrank == 0" ] }, { "math": [ "raidswon >= 10" ] } ] },
     "effect": [
       {
         "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
@@ -138,7 +138,7 @@
     "type": "effect_on_condition",
     "id": "EOC_progressgate2",
     "//": "Checks to see if you have successfully completed 10 raids and makes Rank Up 2 available if so.",
-    "condition": { "and": [ { "math": [ "islandrank", "==", "2" ] }, { "math": [ "raidswon", ">=", "20" ] } ] },
+    "condition": { "and": [ { "math": [ "islandrank == 2" ] }, { "math": [ "raidswon >= 20" ] } ] },
     "effect": [
       {
         "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult.  The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful.  Your mouth tastes of blood.  As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
@@ -252,7 +252,7 @@
         "max_radius": 10,
         "true_eocs": [ { "id": "EOC_map_item_run", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
       },
-      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "1 s" },
+      { "run_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "1 s" },
       { "u_message": "Now teleporting back home.  Please wait…" }
     ]
   },
@@ -300,7 +300,7 @@
       { "run_eocs": [ "EOC_death_heal" ] },
       { "u_spawn_item": "corpse_painful" },
       { "math": [ "raidslost", "++" ] },
-      { "queue_eocs": "EOC_return_OM_teleport", "time_in_future": "1 s" },
+      { "run_eocs": "EOC_return_OM_teleport", "time_in_future": "1 s" },
       {
         "u_message": "You feel the icy grip of death begin to take you, and the world whirls and rushes past.  Reality bends and at the peak of your last mortal moment, something snags you and hauls you through space and time.  Your mind has been preserved, at cost, and your body is not far behind.",
         "popup": true
@@ -311,7 +311,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HEAL_NEWBIE",
     "//": "Runs when using the HEAL function from the Heart of the Island.  Runs a checklist.  If you're under a certain amount of won raids, it heals you for free.  If you're over and you have 4 warp shards, it takes those and heals you.  If you can't pay, it does nothing.",
-    "condition": { "math": [ "islandrank", "==", "0" ] },
+    "condition": { "math": [ "islandrank == 0" ] },
     "effect": [
       { "run_eocs": [ "EOC_healall" ] },
       {
@@ -726,7 +726,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.  UPDATE THE NUMBER IN THE CONDITION BELOW AS VERSIONS UPDATE, THAT'S WHAT DETERMINES WHAT THE OFFICIAL CURRENT VERSION OF THIS MOD IS.",
-    "condition": { "math": [ "versionupdate", "!=", "1" ] },
+    "condition": { "math": [ "versionupdate != 1" ] },
     "effect": [
       { "u_message": "Your save was last used with an older version of Sky Island.  Attempting to update…", "popup": true },
       {
@@ -747,10 +747,10 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.",
-    "condition": { "math": [ "versionupdate", "!=", "1" ] },
+    "condition": { "math": [ "versionupdate != 1" ] },
     "effect": [
       {
-        "if": { "math": [ "versionupdate", "<", "1" ] },
+        "if": { "math": [ "versionupdate < 1" ] },
         "then": [
           {
             "u_message": "Your save was made with a pre-Milestone 1 version of Sky Island, which means it lacks upgrades and the Heart of the Island.  Attempting to update…",
@@ -782,7 +782,7 @@
             "popup": true
           },
           {
-            "if": { "math": [ "raidswon", ">", "0" ] },
+            "if": { "math": [ "raidswon > 0" ] },
             "then": [
               { "math": [ "owed_material_tokens", "=", "50 * raidswon" ] },
               {
@@ -812,7 +812,7 @@
     "eoc_type": "EVENT",
     "//": "Delete after 0.I",
     "required_event": "game_load",
-    "condition": { "math": [ "islandrank", ">=", "2" ] },
+    "condition": { "math": [ "islandrank >= 2" ] },
     "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
   },
   {
@@ -867,7 +867,7 @@
         "run_eocs": [
           {
             "id": "EOC_warped_return_shard_check_2",
-            "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
+            "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10) <= 0" ] },
             "effect": [ { "u_consume_item": "warptoken", "count": 1 }, { "run_eocs": "EOC_return_OM_teleport_check" } ],
             "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
           }
@@ -912,7 +912,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_ENEMY_CHECK_RETURN",
-    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10) <= 0" ] },
     "effect": [ { "u_assign_activity": "ACT_WARP_HOME", "duration": "60 seconds" } ],
     "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
   },
@@ -932,15 +932,15 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "warped_pond_location" },
+          "target_var": { "global_val": "warped_pond_location" },
           "message": "Select nearby water source"
         },
         "then": {
           "if": {
             "or": [
-              { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_water_pump", "loc": { "context_val": "warped_pond_location" } }
+              { "map_terrain_with_flag": "LIQUID", "loc": { "global_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_wooden_well", "loc": { "global_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_water_pump", "loc": { "global_val": "warped_pond_location" } }
             ]
           },
           "then": {

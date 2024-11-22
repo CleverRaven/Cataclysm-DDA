@@ -17,6 +17,7 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "sleep.h"
@@ -113,7 +114,7 @@ struct mut_personality_score {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( dialogue & )>trigger;
+    std::function<bool( const_dialogue const & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -197,7 +198,10 @@ struct mutation_branch {
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
+        // By default startingtrait = true traits can be randomly assigned, this allows that to be reversed.
+        bool random_at_chargen = true;
         bool activated     = false;
+        translation activation_msg;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
         // Should it destroy gear on restricted body parts? (otherwise just pushes it off)
@@ -208,6 +212,7 @@ struct mutation_branch {
         bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait

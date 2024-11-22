@@ -15,11 +15,29 @@
     "id": "TALK_RANCH_FOREMAN",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "Can I help you, marshal?",
-      "no": { "u_male": true, "yes": "Morning sir, how can I help you?", "no": "Morning ma'am, how can I help you?" }
+      "compare_string": [ "no", { "u_val": "mission_flag_Bartender_rewarded" } ],
+      "yes": "Hello again.  If you have no other business with me, I'd like to talk to you about something.",
+      "no": {
+        "compare_string": [ "no", { "u_val": "mission_flag_Doctor_rewarded" } ],
+        "yes": "Hello again.  If you have no other business with me, I'd like to talk to you about something.",
+        "no": {
+          "u_is_wearing": "badge_marshal",
+          "yes": "Can I help you, marshal?",
+          "no": { "u_male": true, "yes": "Morning sir, how can I help you?", "no": "Morning ma'am, how can I help you?" }
+        }
+      }
     },
     "responses": [
+      {
+        "text": "What is it?",
+        "topic": "TALK_RANCH_FOREMAN_reward",
+        "condition": {
+          "or": [
+            { "compare_string": [ "no", { "u_val": "mission_flag_Bartender_rewarded" } ] },
+            { "compare_string": [ "no", { "u_val": "mission_flag_Doctor_rewarded" } ] }
+          ]
+        }
+      },
       {
         "text": "The merchant at the Refugee Center sent me to get a prospectus from you.",
         "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
@@ -46,14 +64,15 @@
             { "u_has_mission": "MISSION_TACOMA_Nunez" },
             { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
           ]
-        }
+        },
+        "effect": { "u_location_variable": { "u_val": "tacoma_nunez_trailer_arrive" } }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
         "condition": { "not": { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] } }
       },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -110,7 +129,7 @@
           ]
         }
       },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -148,6 +167,38 @@
     "responses": [ { "text": "I'll keep an eye out.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_reward",
+    "dynamic_line": "You've done a lot for the ranch, by generally helping the community with both wellness and trade.  As the project lead, I want to make sure these efforts don't go unnoticed.",
+    "responses": [
+      {
+        "text": "You mean setting up the doctor's office?",
+        "topic": "TALK_RANCH_FOREMAN_Doctor_done",
+        "condition": { "compare_string": [ "no", { "u_val": "mission_flag_Doctor_rewarded" } ] }
+      },
+      {
+        "text": "Is this about bootstrapping the trade relating to the bar?",
+        "topic": "TALK_RANCH_FOREMAN_Bartender_done",
+        "condition": { "compare_string": [ "no", { "u_val": "mission_flag_Bartender_rewarded" } ] }
+      },
+      { "text": "Understood.  Back to business.", "topic": "TALK_RANCH_FOREMAN" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Bartender_done",
+    "dynamic_line": "Ever since you got the bartender set up, our liquor business has been running so much better!  As thanks for your efforts, I wanted to reward you with a portion of recent profits.",
+    "speaker_effect": { "effect": [ { "u_spawn_item": "FMCNote", "count": 75 }, { "u_lose_var": "mission_flag_Bartender_rewarded" } ] },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_RANCH_FOREMAN_reward" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Doctor_done",
+    "dynamic_line": "I heard you helped jumpstart our local medical services.  With that basic need covered, everyone has been able to focus on their work a lot more, so to thank you for your efforts, I wanted to reward you.",
+    "speaker_effect": { "effect": [ { "u_spawn_item": "FMCNote", "count": 25 }, { "u_lose_var": "mission_flag_Doctor_rewarded" } ] },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_RANCH_FOREMAN_reward" } ]
+  },
+  {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
     "name": { "str": "Cut 200 planks" },
@@ -157,6 +208,7 @@
     "item": "2x4",
     "count": 200,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_2",
     "dialogue": {
       "describe": "We need help…",
@@ -219,6 +271,7 @@
     "difficulty": 5,
     "value": 50000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_3",
     "dialogue": {
       "describe": "We need help…",
@@ -294,6 +347,7 @@
     "item": "nail",
     "count": 2500,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_4",
     "dialogue": {
       "describe": "We need help…",
@@ -352,6 +406,7 @@
     "item": "salt",
     "count": 3888,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_5",
     "dialogue": {
       "describe": "We need help…",
@@ -419,6 +474,7 @@
     "item": "fertilizer_liquid",
     "count": 120,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_6",
     "dialogue": {
       "describe": "We need help…",
@@ -464,6 +520,7 @@
     "item": "rock",
     "count": 75,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_7",
     "dialogue": {
       "describe": "We need help…",
@@ -511,6 +568,7 @@
     "item": "pipe",
     "count": 50,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_8",
     "dialogue": {
       "describe": "We need help…",
@@ -561,6 +619,7 @@
     "item": "motor",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_9",
     "dialogue": {
       "describe": "We need help…",
@@ -624,6 +683,7 @@
     "item": "bleach",
     "count": 150,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_10_1",
     "dialogue": {
       "describe": "We need help…",
@@ -663,6 +723,7 @@
     "item": "bandages",
     "count": 36,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_10",
     "dialogue": {
       "describe": "We need help…",
@@ -691,6 +752,7 @@
     "item": "disinfectant",
     "count": 60,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help…",
@@ -723,6 +785,7 @@
     "item": "welder",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_12",
     "dialogue": {
       "describe": "We need help…",
@@ -784,6 +847,7 @@
     "item": "battery_car",
     "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_13",
     "dialogue": {
       "describe": "We need help…",
@@ -824,6 +888,7 @@
     "item": "two_way_radio",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_14",
     "dialogue": {
       "describe": "We need help…",
@@ -862,6 +927,7 @@
     "item": "backpack",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_15",
     "dialogue": {
       "describe": "We need help…",
@@ -902,6 +968,7 @@
     "item": "brewing_cookbook",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_16",
     "dialogue": {
       "describe": "We need help…",
@@ -935,6 +1002,7 @@
     "item": "sugar",
     "count": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_FOREMAN_17",
     "dialogue": {
       "describe": "We need help…",
@@ -967,6 +1035,7 @@
     "item": "glass_sheet",
     "count": 30,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",

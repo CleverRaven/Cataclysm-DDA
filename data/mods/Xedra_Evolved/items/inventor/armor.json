@@ -52,17 +52,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [
-      "MORPHIC",
-      "WATERPROOF",
-      "STURDY",
-      "PADDED",
-      "TRADER_AVOID",
-      "PSYSHIELD_PARTIAL",
-      "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "helmet_inventor_on",
@@ -175,7 +165,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "MORPHIC", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -237,7 +227,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "MORPHIC", "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC", "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -349,17 +339,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [
-      "MORPHIC",
-      "WATERPROOF",
-      "STURDY",
-      "SOFT",
-      "TRADER_AVOID",
-      "BELTED",
-      "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "aura_force_on",
@@ -411,8 +391,7 @@
       "CALORIES_INTAKE",
       "ELECTRONIC",
       "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -560,7 +539,8 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
-    "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "melee_damage": { "electric": 10 },
+    "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
@@ -586,12 +566,7 @@
     ],
     "relic_data": {
       "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
-          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
-        }
+        { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
       ]
     },
     "material_thickness": 0.3,
@@ -623,7 +598,7 @@
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
-    "flags": [ "MORPHIC", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC", "MUNDANE", "INVENTOR_CRAFTED" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
@@ -659,7 +634,7 @@
     "id": "wolf_mask_act",
     "type": "TOOL_ARMOR",
     "copy-from": "wolf_mask",
-    "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
+    "name": { "str": "wolf's mask (on)", "str_pl": "wolf's masks (on)" },
     "power_draw": "5 W",
     "environmental_protection": 25,
     "revert_to": "wolf_mask",

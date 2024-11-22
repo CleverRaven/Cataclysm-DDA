@@ -32,6 +32,7 @@
         "**0*********************",
         "                        "
       ],
+      "palettes": [ "parametrized_carpets_palette" ],
       "terrain": {
         "7": "t_region_tree_shade",
         " ": "t_region_groundcover_urban",
@@ -46,9 +47,9 @@
         "8": "t_chainfence",
         "L": "t_sandbox",
         "M": "t_monkey_bars",
-        ",": "t_carpet_red",
-        "a": "t_carpet_red",
-        "#": "t_carpet_red",
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "a": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "#": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "g": "t_door_glass_c",
         "_": "t_pavement",
         "Á": "t_pavement",

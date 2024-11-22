@@ -55,11 +55,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_QUEUE_LEVELING",
-    "recurrence": [ "1 h", "3 h" ],
-    "condition": { "u_has_effect": "sleep" },
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" },
     "effect": [
-      { "if": { "math": [ "xe_eater_leveling", ">", "0" ] }, "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER" } ] },
-      { "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] }, "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER" } ] }
+      {
+        "if": { "math": [ "xe_eater_leveling > 0" ] },
+        "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER", "iterations": { "global_val": "xe_eater_leveling" } } ]
+      },
+      {
+        "if": { "math": [ "xe_dreamer_leveling > 0" ] },
+        "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER", "iterations": { "global_val": "xe_dreamer_leveling" } } ]
+      }
     ]
   },
   {
@@ -173,19 +180,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_2",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "3" ] },
+    "condition": { "math": [ "u_skill('deduction') >= 3" ] },
     "effect": [ { "math": [ "u_spell_level(_xe_spell_2)", "++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_3",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "6" ] },
+    "condition": { "math": [ "u_skill('deduction') >= 6" ] },
     "effect": [ { "math": [ "u_spell_level(_xe_spell_3)", "++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_4",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "8" ] },
+    "condition": { "math": [ "u_skill('deduction') >= 8" ] },
     "effect": [ { "math": [ "u_spell_level(_xe_spell_4)", "++" ] } ]
   },
   {

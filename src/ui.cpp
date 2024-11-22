@@ -56,19 +56,36 @@ class uilist_impl : cataimgui::window
             return parent.desired_bounds.value_or( parent.calculated_bounds );
         }
         void draw_controls() override;
-        void on_resized() override;
 };
-
-void uilist_impl::on_resized()
-{
-    parent.setup();
-}
 
 void uilist_impl::draw_controls()
 {
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
+    }
+
+    if( !parent.categories.empty() ) {
+        if( ImGui::BeginTabBar( "##categories",
+                                ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton ) ) {
+            for( size_t i = 0; i < parent.categories.size(); i++ ) {
+                auto cat = parent.categories[ i ];
+                bool selected = i == parent.switch_to_category;
+                ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
+                if( selected ) {
+                    flags = ImGuiTabItemFlags_SetSelected;
+                    parent.switch_to_category = -1;
+                }
+                if( ImGui::BeginTabItem( cat.second.c_str(), nullptr, flags ) ) {
+                    if( parent.current_category != i ) {
+                        parent.current_category = i;
+                        parent.filterlist();
+                    }
+                    ImGui::EndTabItem();
+                }
+            }
+            ImGui::EndTabBar();
+        }
     }
 
     // An invisible table with three columns. Used to create a sidebar effect.
@@ -127,7 +144,7 @@ void uilist_impl::draw_controls()
                         }
                         if( ImGui::Selectable( "##s", is_selected, flags ) ) {
                             parent.fselected = i;
-                            parent.selected = parent.hovered = parent.fentries[ parent.fselected ];
+                            parent.selected = parent.previewing = parent.fentries[ parent.fselected ];
                             // We are going to return now that the user clicked on something, so scrolling seems
                             // unnecessary. However, the debug spawn item function reuses the same menu to let the
                             // user spawn multiple items and it’s weird if the correct item isn’t scrolled into view
@@ -140,7 +157,7 @@ void uilist_impl::draw_controls()
                                            ImGui::GetCurrentContext()->HoveredIdPreviousFrame;
                         if( is_hovered && mouse_moved ) {
                             // this row is hovered and the hover state just changed, show context for it
-                            parent.hovered = parent.fentries[ i ];
+                            parent.previewing = parent.fentries[ i ];
                         }
 
                         // Force the spacing to be set to the padding value.
@@ -189,7 +206,7 @@ void uilist_impl::draw_controls()
         if( !parent.footer_text.empty() ) {
             description = parent.footer_text;
         } else {
-            description = parent.entries[parent.hovered].desc;
+            description = parent.entries[parent.previewing].desc;
         }
         cataimgui::draw_colored_text( description );
     }
@@ -441,7 +458,7 @@ void uilist::init()
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    hovered = 0;           // current mouse highlight, for entries[index]
+    previewing = 0;           // current mouse highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     desc_enabled = false;  // don't show option description by default
@@ -471,7 +488,7 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
 
     categories.clear();
-    current_category = 0;
+    switch_to_category = current_category = 0;
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -583,12 +600,12 @@ void uilist::filterlist()
         if( fentries.empty() ) {
             selected = -1;
         } else {
-            selected = fentries [ 0 ];
+            previewing = selected = fentries [ 0 ];
         }
     } else if( fselected < static_cast<int>( fentries.size() ) ) {
-        selected = fentries[fselected];
+        previewing = selected = fentries[fselected];
     } else {
-        fselected = selected = -1;
+        previewing = fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
     if( static_cast<int>( fentries.size() ) <= vmax ) {
@@ -681,6 +698,11 @@ void uilist::calc_data()
         text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
+    ImVec2 tabs_size = {};
+    if( !categories.empty() ) {
+        tabs_size.y = ImGui::GetTextLineHeightWithSpacing() + ( 2.0 * s.FramePadding.y );
+    }
+
     ImVec2 desc_size = {};
     if( desc_enabled ) {
         desc_size = calc_size( footer_text );
@@ -695,30 +717,39 @@ void uilist::calc_data()
         float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
         desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
-    float additional_height = title_size.y + text_size.y + desc_size.y + 2.0 *
+    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y + 2.0 *
                               ( s.FramePadding.y + s.WindowBorderSize );
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
-        ImGui::GetMainViewport()->Size.y ) {
-        vmax = floorf( ( ImGui::GetMainViewport()->Size.y - additional_height ) /
+        0.9 * ImGui::GetMainViewport()->Size.y ) {
+        vmax = floorf( ( 0.9 * ImGui::GetMainViewport()->Size.y - additional_height +
+                         ( s.FramePadding.y * 2.0 ) ) /
                        ImGui::GetTextLineHeightWithSpacing() );
     }
 
     float padding = 2.0f * s.CellPadding.x;
-    calculated_hotkey_width = ImGui::CalcTextSize( "X" ).x;
+    calculated_hotkey_width = ImGui::CalcTextSize( "M" ).x;
     calculated_label_width = 0.0;
     calculated_secondary_width = 0.0;
-    for( int fentry : fentries ) {
-        calculated_label_width = std::max( calculated_label_width, calc_size( entries[fentry].txt ).x );
+    for( const uilist_entry &entry : entries ) {
+        calculated_label_width = std::max( calculated_label_width, calc_size( entry.txt ).x );
         calculated_secondary_width = std::max( calculated_secondary_width,
-                                               calc_size( entries[fentry].ctxt ).x );
+                                               calc_size( entry.ctxt ).x );
     }
     calculated_menu_size = { 0.0, 0.0 };
     calculated_menu_size.x += calculated_hotkey_width + padding;
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
-    calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y - additional_height,
-                                       vmax * ImGui::GetTextLineHeightWithSpacing() ) + ( s.FramePadding.y * 2.0 );
+    float max_avail_height = 0.9 * ImGui::GetMainViewport()->Size.y;
+    if( desired_bounds.has_value() ) {
+        float desired_height = desired_bounds.value().h;
+        if( desired_height != -1 ) {
+            max_avail_height = std::min( max_avail_height, desired_height );
+        }
+    }
+    calculated_menu_size.y = std::min( max_avail_height - additional_height +
+                                       ( s.FramePadding.y * 2.0 ),
+                                       vmax * ImGui::GetTextLineHeightWithSpacing() + ( s.FramePadding.y * 2.0 ) );
 
     extra_space_left = 0.0;
     extra_space_right = 0.0;
@@ -732,6 +763,21 @@ void uilist::calc_data()
     calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
                           + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
     calculated_bounds.h = calculated_menu_size.y + additional_height;
+
+    if( desired_bounds.has_value() ) {
+        cataimgui::bounds b = desired_bounds.value();
+        bool h_neg = b.h < 0.0f;
+        bool w_neg = b.w < 0.0f;
+        bool both_neg = h_neg && w_neg;
+        if( !both_neg ) {
+            if( h_neg ) {
+                desired_bounds->h = calculated_bounds.h;
+            }
+            if( w_neg ) {
+                desired_bounds->w = calculated_bounds.w;
+            }
+        }
+    }
 
     if( longest_line_width > calculated_menu_size.x ) {
         calculated_menu_size.x = longest_line_width;
@@ -828,7 +874,7 @@ bool uilist::scrollby( const int scrollby )
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
-        selected = hovered = fentries [ fselected ];
+        selected = previewing = fentries [ fselected ];
         if( callback != nullptr ) {
             callback->select( this );
         }
@@ -845,7 +891,6 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
         } else {
             ui = current_ui = make_shared_fast<uilist_impl>( *this, title );
         }
-        current_ui->on_resized();
     }
     return current_ui;
 }
@@ -955,13 +1000,13 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
-            current_category += ret_act == "UILIST.LEFT" ? -1 : 1;
-            if( current_category < 0 ) {
-                current_category = categories.size() - 1;
-            } else if( current_category >= static_cast<int>( categories.size() ) ) {
-                current_category = 0;
+            int tmp = current_category + ( ret_act == "UILIST.LEFT" ? -1 : 1 );
+            if( tmp < 0 ) {
+                tmp = categories.size() - 1;
+            } else if( tmp >= static_cast<int>( categories.size() ) ) {
+                tmp = 0;
             }
-            filterlist();
+            switch_to_category = static_cast<size_t>( tmp );
         } else if( iter != keymap.end() ) {
             if( allow_unfiltered_hotkeys ) {
                 const bool enabled = entries[iter->second].enabled;
@@ -991,7 +1036,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
-        } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
+        } else if( ( allow_cancel && ret_act == "UILIST.QUIT" ) ||
+                   ( are_we_quitting() && ret_act == "QUIT" ) ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_WAIT_INPUT;
@@ -1078,7 +1124,7 @@ void uilist::settext( const std::string &str )
 
 void uilist::set_selected( int index )
 {
-    selected = hovered = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    selected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
@@ -1146,7 +1192,7 @@ void uimenu::finalize_addentries()
 
 void uimenu::set_selected( int index )
 {
-    menu.selected = menu.hovered = index;
+    menu.selected = menu.previewing = index;
 }
 
 void uimenu::set_title( const std::string &title )

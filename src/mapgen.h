@@ -250,6 +250,14 @@ class jmapgen_piece
         }
 };
 
+class jmapgen_piece_with_has_vehicle_collision : public jmapgen_piece
+{
+    public:
+        ret_val<void> has_vehicle_collision( const mapgendata &dat,
+                                             const tripoint_rel_ms &p ) const override;
+};
+
+
 /**
  * Where to place something on a map.
  */

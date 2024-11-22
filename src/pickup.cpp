@@ -269,7 +269,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                 newit = it;
                 newit.invlet = invlet;
             }
-        // Intentional fallthrough
+            [[fallthrough]];
         case STASH: {
             int last_charges = newit.charges;
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
@@ -400,6 +400,7 @@ void Pickup::autopickup( const tripoint &p )
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
     const map_stack mapitems = local.i_at( p );
+    here.reserve( mapitems.size() );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );
     }
@@ -432,6 +433,8 @@ void Pickup::autopickup( const tripoint &p )
     // At this point we've selected our items, register an activity to pick them up.
     std::vector<int> quantities;
     std::vector<item_location> target_items;
+    target_items.reserve( selected_items.size() );
+    quantities.reserve( selected_items.size() );
     for( drop_location selected : selected_items ) {
         item *it = selected.first.get_item();
         target_items.push_back( selected.first );

@@ -180,6 +180,14 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE",
+    "monsters": [
+      { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_feral_zebra_agent_p90", "weight": 100, "pack_size": [ 0, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_GENIUS_IERDE",
     "monsters": [
       { "monster": "mon_monstrous_badger", "weight": 150, "cost_multiplier": 0 },

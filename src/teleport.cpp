@@ -46,8 +46,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
-        new_pos.x() = origin.x() + rdistance * std::cos( rangle );
-        new_pos.y() = origin.y() + rdistance * std::sin( rangle );
+        new_pos = { origin.x() + int( rdistance * std::cos( rangle ) ), origin.y() + int( rdistance * std::sin( rangle ) ), new_pos.z() };
         tries++;
     } while( here.impassable( new_pos ) && tries < 20 );
     return teleport_to_point( critter, new_pos, safe, add_teleglow );
@@ -62,7 +61,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     Character *const p = critter.as_character();
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
-    tripoint_abs_ms abs_ms( here.getabs( target ) );
+    tripoint_abs_ms abs_ms( here.getglobal( target ) );
     if( abs_ms.z() > OVERMAP_HEIGHT || abs_ms.z() < -OVERMAP_DEPTH ) {
         debugmsg( "%s cannot teleport to point %s: too high or too deep.", critter.get_name(),
                   abs_ms.to_string() );
@@ -96,12 +95,17 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     //handles teleporting into solids.
     if( dest->impassable( dest_target ) ) {
         if( force ) {
-            const std::optional<tripoint_bub_ms> nt =
-                random_point( points_in_radius( dest_target, 5 ),
-            [dest]( const tripoint_bub_ms & el ) {
-                return dest->passable( el );
-            } );
-            dest_target = nt ? *nt : dest_target;
+            std::vector<tripoint_bub_ms> nearest_points = closest_points_first( dest_target, 5 );
+            nearest_points.erase( nearest_points.begin() );
+            //TODO: Swap for this once #75961 merges
+            //std::vector<tripoint_bub_ms> nearest_points = closest_points_first( dest_target, 1, 5 );
+            for( tripoint_bub_ms p : nearest_points ) {
+                if( dest->passable( p ) ) {
+                    dest_target = p;
+                    break;
+                }
+            }
+
         } else {
             if( safe ) {
                 if( c_is_u && display_message ) {
@@ -185,13 +189,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 for( const effect &grab : poor_soul->get_effects_with_flag( json_flag_GRAB ) ) {
                     poor_soul->remove_effect( grab.get_id() );
                 }
-                //apply a bunch of damage to it, similar to a tear in reality
-                poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-                poor_soul->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+                //apply a bunch of damage to it
+                std::vector<bodypart_id> target_bdpts = poor_soul->get_all_body_parts(
+                        get_body_part_flags::only_main );
+                for( const bodypart_id &bp_id : target_bdpts ) {
+                    const float damage_to_deal =
+                        static_cast<float>( poor_soul->get_part_hp_max( bp_id ) ) / static_cast<float>( rng( 6, 12 ) );
+                    poor_soul->apply_damage( nullptr, bp_id, damage_to_deal );
+                }
                 poor_soul->check_dead_state();
             }
         }
@@ -202,12 +207,13 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
         //throw the thing that teleported in the opposite direction as the thing it teleported into.
         g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 40, false, true );
         //do a bunch of damage to it too.
-        critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-        critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-        critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-        critter.apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-        critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-        critter.apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+        std::vector<bodypart_id> target_bdpts = critter.get_all_body_parts(
+                get_body_part_flags::only_main );
+        for( const bodypart_id &bp_id : target_bdpts ) {
+            float damage_to_deal =
+                static_cast<float>( critter.get_part_hp_max( bp_id ) ) / static_cast<float>( rng( 6, 12 ) );
+            critter.apply_damage( nullptr, bp_id, damage_to_deal );
+        }
         critter.check_dead_state();
     }
     //player and npc exclusive teleporting effects

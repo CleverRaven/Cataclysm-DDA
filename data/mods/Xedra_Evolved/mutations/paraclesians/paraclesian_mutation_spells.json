@@ -116,8 +116,8 @@
   {
     "id": "cultivate_goblin_fruit_real",
     "type": "SPELL",
-    "name": "Cultivate Goblin Fruit Real",
-    "description": "The actual spell that calls forth a goblin fruit.  It's a bug if you have it.",
+    "name": { "str": "Cultivate Goblin Fruit Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that calls forth a goblin fruit.  It's a bug if you have it.", "//~": "NO_I18N" },
     "skill": "deduction",
     "flags": [ "SPAWN_GROUP" ],
     "valid_targets": [ "self" ],
@@ -216,8 +216,11 @@
   {
     "id": "paraclesian_translocate",
     "type": "SPELL",
-    "name": "Paraclesian Translocation",
-    "description": "The actual spell that transports you when Paraclesians use translocation spells.  It's a bug if you have it.",
+    "name": { "str": "Paraclesian Translocation", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that transports you when Paraclesians use translocation spells.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "teachable": false,
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "SOMATIC" ],

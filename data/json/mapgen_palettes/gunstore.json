@@ -3,31 +3,9 @@
     "type": "palette",
     "id": "gun_store_palette",
     "//": " P, U, S, h, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
-    "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ],
-            [ "t_wall_gray", 1 ],
-            [ "t_wall_brown", 1 ],
-            [ "t_wall_cyan", 1 ],
-            [ "t_wall_black", 1 ],
-            [ "t_wall_orange", 1 ]
-          ]
-        }
-      }
-    },
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "&": {  } },
     "terrain": {
-      "-": "t_wall_w",
-      "#": "t_brick_wall",
       "q": "t_thconc_floor",
       "&": "t_thconc_floor",
       ":": "t_window_bars_alarm",
@@ -73,8 +51,7 @@
       "<": "t_stairs_up",
       ";": "t_gutter_downspout",
       "W": "t_strconc_wall",
-      "Z": "t_bars",
-      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" }
+      "Z": "t_bars"
     },
     "furniture": {
       "$": "f_atm_off",
@@ -94,7 +71,7 @@
       "m": "f_rack",
       "Y": "f_rack",
       "y": "f_rack",
-      "|": "f_locker",
+      "F": "f_locker",
       "Q": "f_rack",
       "K": "f_rack",
       "L": [ [ "f_rack_l", 65 ], [ "f_rack", 35 ] ],
@@ -118,7 +95,7 @@
     "item": { "/": { "item": "american_flag" } },
     "items": {
       "X": { "item": "SUS_gunstore_safe", "chance": 50, "repeat": [ 10, 20 ] },
-      "O": { "item": "SUS_gunstore_safe_obscure", "chance": 75, "repeat": [ 3, 6 ] },
+      "O": { "item": "guns_common_display", "chance": 75, "repeat": [ 3, 6 ] },
       "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
       "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
       "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
@@ -135,7 +112,7 @@
         "repeat": 3,
         "chance": 75
       },
-      "|": {
+      "F": {
         "item": {
           "//": "civilian magazines kept on racks behind the counter in the FoH",
           "subtype": "collection",

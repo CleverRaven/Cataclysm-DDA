@@ -4,8 +4,9 @@
     "id": "bee_balm",
     "name": { "str_sp": "bee balm" },
     "description": "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
+    "//": "red variety as theres no data on Monarda fistulosa, but this is similar enough - <https://pmc.ncbi.nlm.nih.gov/articles/PMC7356345/table/plants-09-00691-t002/>",
     "comestible_type": "FOOD",
-    "calories": 2,
+    "calories": 1,
     "fun": -5,
     "weight": "10 g",
     "color": "white",
@@ -14,7 +15,7 @@
     "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "vitC", "136 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -339,7 +340,8 @@
     "price_postapoc": "16 cent",
     "material": [ "veggy" ],
     "volume": "70 ml",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "smoking_result": "dry_chili",
+    "flags": [ "FREEZERBURN", "RAW", "SMOKABLE" ],
     "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
@@ -550,8 +552,10 @@
     "price_postapoc": "8 cent",
     "material": [ "garlic" ],
     "volume": "6 ml",
+    "smoking_result": "dry_garlic",
     "fun": -3,
     "vitamins": [ [ "vitC", "900 μg" ], [ "iron", "100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ],
+    "flags": [ "SMOKABLE" ],
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {

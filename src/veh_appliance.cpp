@@ -54,7 +54,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
+bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -62,8 +63,8 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
-        return;
+        debugmsg( "error constructing appliance" );
+        return false;
     }
 
     veh->add_tag( flag_APPLIANCE );
@@ -71,9 +72,18 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     int partnum = -1;
     if( base ) {
         item copied = *base;
-        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
+        if( vpinfo.base_item != copied.typeId() ) {
+            // transform the deploying item into what it *should* be before storing it
+            copied.convert( vpinfo.base_item );
+        }
+        partnum = veh->install_part( point_rel_ms_zero, vpart, std::move( copied ) );
     } else {
-        partnum = veh->install_part( point_zero, vpart );
+        partnum = veh->install_part( point_rel_ms_zero, vpart );
+    }
+    if( partnum == -1 ) {
+        // unrecoverable, failed to be installed somehow
+        here.destroy_vehicle( veh );
+        return false;
     }
     veh->name = vpart->name();
 
@@ -89,7 +99,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Connect to any neighbouring appliances or wires once
     std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
@@ -113,9 +123,11 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
         orient_part( veh, vpinfo, partnum );
     }
+    veh->set_owner( owner );
+    return true;
 }
 
-player_activity veh_app_interact::run( vehicle &veh, const point &p )
+player_activity veh_app_interact::run( vehicle &veh, const point_rel_ms &p )
 {
     veh_app_interact ap( veh, p );
     ap.app_loop();
@@ -123,7 +135,7 @@ player_activity veh_app_interact::run( vehicle &veh, const point &p )
 }
 
 // Registers general appliance actions from keybindings
-veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
+veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
     : a_point( p ), veh( &veh ), ctxt( "APP_INTERACT", keyboard_mode::keycode )
 {
     ctxt.register_directions();
@@ -283,8 +295,8 @@ void veh_app_interact::draw_info()
     }
 
     // Other power output
-    if( !veh->accessories.empty() ) {
-        units::power rate = veh->total_accessory_epower();
+    if( !veh->accessories.empty() || veh->has_part( "RECHARGE" ) ) {
+        units::power rate = veh->total_accessory_epower() + veh->recharge_epower_this_turn;
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
@@ -389,17 +401,17 @@ void veh_app_interact::refill()
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().id.str() );
-        const point q = veh->coord_translate( pt->mount );
+        const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
-        for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
-        act.values.push_back( a_point.x );
-        act.values.push_back( a_point.y );
-        act.values.push_back( -a_point.x );
-        act.values.push_back( -a_point.y );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
+        act.values.push_back( a_point.x() );
+        act.values.push_back( a_point.y() );
+        act.values.push_back( -a_point.x() );
+        act.values.push_back( -a_point.y() );
         act.values.push_back( veh->index_of_part( pt ) );
     }
 }
@@ -448,7 +460,7 @@ void veh_app_interact::rename()
 void veh_app_interact::remove()
 {
     map &here = get_map();
-    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+    const tripoint_bub_ms a_point_bub( veh->mount_to_tripoint( a_point ) );
 
     vehicle_part *vp;
     if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
@@ -480,16 +492,16 @@ void veh_app_interact::remove()
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
-        for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        const tripoint a_point_abs( here.getabs( a_point_bub ) );
+        const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
         act.values.push_back( a_point_abs.y );
-        act.values.push_back( a_point.x );
-        act.values.push_back( a_point.y );
-        act.values.push_back( -a_point.x );
-        act.values.push_back( -a_point.y );
+        act.values.push_back( a_point.x() );
+        act.values.push_back( a_point.y() );
+        act.values.push_back( -a_point.x() );
+        act.values.push_back( -a_point.y() );
         act.values.push_back( veh->index_of_part( vp ) );
     }
 }
@@ -514,7 +526,7 @@ void veh_app_interact::disconnect()
 void veh_app_interact::plug()
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
-    const tripoint pos = veh->global_part_pos3( part );
+    const tripoint_bub_ms pos = veh->bub_part_pos( part );
     item cord( "power_cord" );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
@@ -526,7 +538,7 @@ void veh_app_interact::populate_app_actions()
 {
     map &here = get_map();
     vehicle_part *vp;
-    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+    const tripoint_bub_ms a_point_bub( veh->mount_to_tripoint( a_point ) );
     if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
@@ -585,7 +597,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ).raw(), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];

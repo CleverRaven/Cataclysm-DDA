@@ -58,7 +58,7 @@
   {
     "id": "structured_max_mana_num",
     "type": "widget",
-    "label": "/",
+    "label": { "str": "/", "//~": "NO_I18N" },
     "style": "number",
     "var": "max_mana",
     "colors": [ "c_light_blue" ]

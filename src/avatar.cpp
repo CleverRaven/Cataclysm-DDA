@@ -250,12 +250,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -688,7 +688,7 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
                         memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }
@@ -918,6 +918,15 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
                                     get_name() ) - 1;
+}
+
+std::string avatar::display_name( bool possessive, bool capitalize_first ) const
+{
+    if( !possessive ) {
+        return capitalize_first ? _( "You" ) : _( "you" );
+    } else {
+        return capitalize_first ? _( "Your" ) : _( "your" );
+    }
 }
 
 mfaction_id avatar::get_monster_faction() const
@@ -1227,7 +1236,8 @@ void avatar::rebuild_aim_cache()
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().bub_from_abs( last_target_pos.value() );
+    const tripoint_bub_ms local_last_target = get_map().bub_from_abs( tripoint_abs_ms(
+                last_target_pos.value() ) );
 
     float base_angle = atan2f( local_last_target.y() - posy(),
                                local_last_target.x() - posx() );
@@ -1807,43 +1817,6 @@ std::unique_ptr<talker> get_talker_for( avatar &me )
 std::unique_ptr<talker> get_talker_for( avatar *me )
 {
     return std::make_unique<talker_avatar>( me );
-}
-
-void avatar::randomize_hobbies()
-{
-    hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
-    choices.erase( std::remove_if( choices.begin(), choices.end(),
-    [this]( const string_id<profession> &hobby ) {
-        return !prof->allows_hobby( hobby );
-    } ), choices.end() );
-    if( choices.empty() ) {
-        debugmsg( "Why would you blacklist all hobbies?" );
-        choices = profession::get_all_hobbies();
-    };
-
-    int random = rng( 0, 5 );
-
-    if( random >= 1 ) {
-        add_random_hobby( choices );
-    }
-    if( random >= 3 ) {
-        add_random_hobby( choices );
-    }
-    if( random >= 5 ) {
-        add_random_hobby( choices );
-    }
-}
-
-void avatar::add_random_hobby( std::vector<profession_id> &choices )
-{
-    const profession_id hobby = random_entry_removed( choices );
-    hobbies.insert( &*hobby );
-
-    // Add or remove traits from hobby
-    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
-        toggle_trait( cur.trait );
-    }
 }
 
 void avatar::reassign_item( item &it, int invlet )

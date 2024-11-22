@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -1669,9 +1670,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                      &entry );
 
         if( selected && visible_cells() > 1 ) {
-            for( int hx = x1; hx < hx_max; ++hx ) {
-                mvwputch( win, point( hx, yy ), h_white, ' ' );
-            }
+            mvwhline( win, point( x1, yy ), h_white, ' ', hx_max - x1 );
         }
 
         cata_assert( entry.denial.has_value() );
@@ -2179,7 +2178,7 @@ void inventory_selector::add_nearby_items( int radius )
 void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint &target )
 {
     map_stack items = remote_map->i_at( target );
-    const std::string name = to_upper_case( remote_map->name( target ) );
+    const std::string name = to_upper_case( remote_map->name( tripoint_omt_ms( target ) ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
         return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
@@ -2508,7 +2507,7 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
                     hint );
 
     int const bottom = border + get_header_height();
-    mvwhline( w, point( border, bottom ), LINE_OXOX, getmaxx( w ) - 2 * border );
+    mvwhline( w, point( border, bottom ), BORDER_COLOR, LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
         size_t y = border;
@@ -2778,8 +2777,10 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
     draw_border( w );
 
     const int y = border + get_header_height();
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, y ), LINE_XXXO, 1 );
     mvwhline( w, point( getmaxx( w ) - border, y ), LINE_XOXX, 1 );
+    wattroff( w, BORDER_COLOR );
 }
 
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
@@ -2822,10 +2823,12 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
             const int y = getmaxy( w ) - border;
 
             mvwprintz( w, point( x1, y ), footer.second, footer.first );
-            mvwputch( w, point( x1 - 1, y ), c_light_gray, ' ' );
-            mvwputch( w, point( x2 + 1, y ), c_light_gray, ' ' );
-            mvwputch( w, point( x1 - 2, y ), c_light_gray, LINE_XOXX );
-            mvwputch( w, point( x2 + 2, y ), c_light_gray, LINE_XXXO );
+            wattron( w, c_light_gray );
+            mvwaddch( w, point( x1 - 1, y ), ' ' );
+            mvwaddch( w, point( x2 + 1, y ), ' ' );
+            mvwaddch( w, point( x1 - 2, y ), LINE_XOXX );
+            mvwaddch( w, point( x2 + 2, y ), LINE_XXXO );
+            wattroff( w, c_light_gray );
         }
     }
 }
@@ -4014,6 +4017,12 @@ drop_locations inventory_drop_selector::execute()
 
         const inventory_input input = get_input();
         if( input.action == "CONFIRM" ) {
+            for( drop_location &stuff : to_use ) {
+                if( !avatar_action::check_stealing( get_player_character(), *stuff.first ) ) {
+                    return drop_locations();
+                }
+            }
+
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
@@ -4510,6 +4519,10 @@ std::pair<item_location, bool> unload_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &highlighted = get_active_column().get_highlighted();
             if( highlighted && highlighted.is_selectable() ) {
+                item to_unload = *highlighted.any_item();
+                if( !avatar_action::check_stealing( get_player_character(), to_unload ) ) {
+                    return { item_location(), uistate.unload_auto_contain };
+                }
                 return { highlighted.any_item(), uistate.unload_auto_contain };
             }
         } else if( input.action == "CONTAIN_MODE" ) {

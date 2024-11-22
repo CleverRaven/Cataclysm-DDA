@@ -512,8 +512,8 @@
   {
     "id": "overcharge_burn",
     "type": "SPELL",
-    "name": "Overcharge Burn",
-    "description": "The side effects of casting the overcharge spell.",
+    "name": { "str": "Overcharge Burn", "//~": "NO_I18N" },
+    "description": { "str": "The side effects of casting the overcharge spell.", "//~": "NO_I18N" },
     "message": "",
     "effect": "spawn_item",
     "effect_str": "overcharge_burn_scar",
@@ -556,7 +556,7 @@
     "base_casting_time": 120,
     "final_casting_time": 120,
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "type": "SPELL",
@@ -760,7 +760,7 @@
     "id": "EOC_CONJURE_UPS_SWITCHER",
     "effect": [
       {
-        "queue_eocs": "EOC_CONJURE_UPS_REMOVER",
+        "run_eocs": "EOC_CONJURE_UPS_REMOVER",
         "time_in_future": { "math": [ "((u_spell_level('technomancer_conjure_ups') * 100 ) + 1000) * summoning_proficiency_modifier()" ] }
       },
       {

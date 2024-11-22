@@ -126,7 +126,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ],
+    "id": [
+      "s_library",
+      "s_library_1",
+      "s_library_2",
+      "s_library_3",
+      "urban_library_1",
+      "urban_library_2",
+      "urban_library_3",
+      "urban_library_4",
+      "urban_library_5",
+      "urban_library_6",
+      "urban_library_7",
+      "urban_library_8"
+    ],
     "name": "library",
     "copy-from": "generic_city_building",
     "color": "i_brown",
@@ -134,7 +147,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2", "s_library_roof_3" ],
+    "id": [
+      "s_library_roof",
+      "s_library_roof_1",
+      "s_library_roof_2",
+      "s_library_roof_3",
+      "urban_library_roof_1",
+      "urban_library_roof_2",
+      "urban_library_roof_3",
+      "urban_library_roof_4"
+    ],
     "name": "library roof",
     "copy-from": "generic_city_building",
     "color": "i_brown"

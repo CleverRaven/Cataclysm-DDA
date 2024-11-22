@@ -261,10 +261,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "223", "prob": 60, "charges": [ 1, 30 ] },
-      { "item": "22_cb", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 100, "charges": [ 1, 80 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "22_lr", "prob": 210, "charges": [ 1, 80 ] },
+      { "item": "22_ratshot", "prob": 1, "charges": [ 1, 100 ] },
       { "item": "270win_jsp", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "3006", "prob": 19, "charges": [ 1, 20 ] },
       { "item": "3006_jsp", "prob": 6, "charges": [ 1, 20 ] },
@@ -283,10 +281,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "223", "prob": 40 },
-      { "item": "22_cb", "prob": 30 },
-      { "item": "22_fmj", "prob": 50 },
-      { "item": "22_lr", "prob": 40 },
-      { "item": "22_ratshot", "prob": 30 },
+      { "item": "22_lr", "prob": 150 },
+      { "item": "22_ratshot", "prob": 1 },
       { "item": "270win_jsp", "prob": 25 },
       { "item": "3006", "prob": 25 },
       { "item": "3006_incendiary", "prob": 1 },
@@ -301,10 +297,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "223", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "22_cb", "prob": 20, "charges": [ 0, 6 ] },
-      { "item": "22_fmj", "prob": 15, "charges": [ 0, 6 ] },
-      { "item": "22_lr", "prob": 20, "charges": [ 0, 6 ] },
-      { "item": "22_ratshot", "prob": 10, "charges": [ 0, 6 ] },
+      { "item": "22_lr", "prob": 65, "charges": [ 0, 6 ] },
+      { "item": "22_ratshot", "prob": 1, "charges": [ 0, 6 ] },
       { "item": "270win_jsp", "prob": 2, "charges": [ 0, 6 ] },
       { "item": "3006", "prob": 9, "charges": [ 0, 6 ] },
       { "item": "3006_jsp", "prob": 3, "charges": [ 0, 6 ] },
@@ -385,9 +379,7 @@
     "//": "Ammo for hunting rifles found within hunting supply stores and related locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "22_lr", "prob": 130, "charges": [ 1, 80 ] },
       { "item": "270win_jsp", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "3006", "prob": 23, "charges": [ 1, 20 ] },
       { "item": "3006_jsp", "prob": 7, "charges": [ 1, 20 ] },
@@ -546,13 +538,6 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_shotgun_obscure",
-    "//": "Imported or otherwise very obscure shotgun ammo.",
-    "subtype": "distribution",
-    "entries": [  ]
-  },
-  {
-    "type": "item_group",
     "id": "ammo_shotgun_reloaded",
     "//": "Reloaded shotgun ammo balanced according to rarity.",
     "subtype": "distribution",
@@ -581,7 +566,7 @@
   {
     "type": "item_group",
     "id": "ammo_launcher_grenade_adapter",
-    "//": "Adapters for for firing multiples of civilian legal ammo from a greneade launcher",
+    "//": "Adapters for firing multiples of civilian legal ammo from a greneade launcher",
     "subtype": "distribution",
     "entries": [ { "item": "40x46mm_hornets_nest_22lr", "prob": 50 }, { "item": "40x46mm_hornets_nest_410", "prob": 50 } ]
   },

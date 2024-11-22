@@ -2,8 +2,8 @@
   {
     "type": "SPELL",
     "id": "assassin_teleport",
-    "name": "Assassin Teleport",
-    "description": "This is a sub-spell for Assassin Strike.  It teleports you.",
+    "name": { "str": "Assassin Teleport", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub-spell for Assassin Strike.  It teleports you.", "//~": "NO_I18N" },
     "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "none" ],
@@ -14,8 +14,8 @@
   {
     "type": "SPELL",
     "id": "assassin_toxic_smoke",
-    "name": "Assassin Toxic Smoke",
-    "description": "This is a sub-spell for Assassin Strike.  It generates toxic smoke in an area.",
+    "name": { "str": "Assassin Toxic Smoke", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub-spell for Assassin Strike.  It generates toxic smoke in an area.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ground", "hostile" ],
@@ -86,8 +86,8 @@
   {
     "type": "SPELL",
     "id": "life_drain_stamina",
-    "name": "Life Drain Stamina",
-    "description": "Gives you a bit of stamina.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Life Drain Stamina", "//~": "NO_I18N" },
+    "description": { "str": "Gives you a bit of stamina.  Subspell; you aren't allowed to see it except in debug mode.", "//~": "NO_I18N" },
     "effect": "recover_energy",
     "effect_str": "STAMINA",
     "flags": [ "RESTORATION_SPELL" ],

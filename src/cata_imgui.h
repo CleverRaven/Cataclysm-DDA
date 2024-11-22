@@ -17,6 +17,7 @@ struct input_event;
 #include "sdl_wrappers.h"
 #include "color_loader.h"
 #endif
+#include "text.h"
 
 struct point;
 struct ImVec2;
@@ -68,9 +69,9 @@ class client
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                 const GeometryRenderer_Ptr &sdl_geometry );
-        void load_fonts( const std::unique_ptr<Font> &cata_fonts,
+        void load_fonts( const std::unique_ptr<Font> &gui_font, const std::unique_ptr<Font> &mono_font,
                          const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                         const std::vector<std::string> &typeface );
+                         const std::vector<std::string> &gui_typeface, const std::vector<std::string> &mono_typeface );
 #endif
         ~client();
 
@@ -149,4 +150,14 @@ void init_pair( int p, int f, int b );
 void load_colors();
 #endif
 
+void PushGuiFont();
+void PushMonoFont();
+
+bool BeginRightAlign( const char *str_id );
+void EndRightAlign();
+
+// Set ImGui theme colors to those chosen by the player.
+// This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors
+// for elements not explicitly specified.
+void init_colors();
 } // namespace cataimgui

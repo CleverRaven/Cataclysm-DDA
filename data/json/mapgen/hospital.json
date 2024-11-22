@@ -153,6 +153,7 @@
       "palettes": [ "hospital" ],
       "terrain": { "5": "t_floor", "H": "t_floor", "X": [ "t_door_metal_locked", "t_door_metal_elocked" ], "=": "t_pavement" },
       "furniture": { "H": "f_locker" },
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 39, 41 ], "y": [ 45, 46 ] } ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "computers": {
         "5": {

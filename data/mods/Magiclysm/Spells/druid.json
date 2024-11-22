@@ -5,7 +5,7 @@
     "name": "Vegetative Grasp",
     "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "effect_str": "entangled",
     "shape": "blast",
@@ -39,7 +39,7 @@
     "name": "Root Strike",
     "description": "This spell causes roots to spear out of the ground in a cone and stab into your foes, impaling them.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "effect_str": "root_impale",
     "shape": "cone",
@@ -124,8 +124,11 @@
   {
     "id": "druid_naturequiver1",
     "type": "SPELL",
-    "name": "Nature's Quiver",
-    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Quiver", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": 1,
@@ -139,8 +142,11 @@
   {
     "id": "druid_naturearrows1",
     "type": "SPELL",
-    "name": "Nature's Arrows",
-    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Arrows", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1') * 3) + 15) * (summoning_proficiency_modifier())" ] },
@@ -185,8 +191,11 @@
   {
     "id": "druid_naturequiver1_plus",
     "type": "SPELL",
-    "name": "Nature's Quiver",
-    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Quiver", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": 1,
@@ -200,8 +209,11 @@
   {
     "id": "druid_naturearrows1_plus",
     "type": "SPELL",
-    "name": "Nature's Arrows",
-    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Arrows", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 4) + 30) * (summoning_proficiency_modifier())" ] },
@@ -619,11 +631,7 @@
     "name": "Cause Rot",
     "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
-    "extra_effects": [
-      { "id": "druid_cause_rot_terrain" },
-      { "id": "druid_cause_rot_terrain_bash" },
-      { "id": "eoc_channeling_setup", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "druid_cause_rot_terrain" }, { "id": "eoc_channeling_setup", "hit_self": true } ],
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
@@ -643,6 +651,8 @@
     "aoe_increment": 1.8,
     "min_damage": 1,
     "max_damage": 1,
+    "min_bash_scaling": 20,
+    "max_bash_scaling": 170,
     "min_dot": 1,
     "max_dot": 5,
     "dot_increment": 0.2,
@@ -653,8 +663,8 @@
   {
     "id": "druid_cause_rot_terrain",
     "type": "SPELL",
-    "name": "Cause Rot Terrain Rot",
-    "description": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.",
+    "name": { "str": "Cause Rot Terrain Rot", "//~": "NO_I18N" },
+    "description": { "str": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "effect": "ter_transform",
     "effect_str": "ter_druid_cause_rot_terrain",
     "shape": "blast",
@@ -665,24 +675,6 @@
     "min_aoe": 5,
     "max_aoe": 50,
     "aoe_increment": 1.8
-  },
-  {
-    "id": "druid_cause_rot_terrain_bash",
-    "type": "SPELL",
-    "name": "Cause Rot Terrain Bash",
-    "description": "The bash terrain effect of the Cause Rot spell.  It's a bug if you have it directly.  It would be nice if this could take effect gradually but that's now how terrain bash works.",
-    "effect": "bash",
-    "shape": "blast",
-    "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
-    "max_level": 25,
-    "spell_class": "DRUID",
-    "min_aoe": 5,
-    "max_aoe": 50,
-    "aoe_increment": 1.8,
-    "min_damage": 20,
-    "max_damage": 170,
-    "damage_increment": 6
   },
   {
     "id": "druid_healing",
@@ -812,7 +804,7 @@
     "effect": [
       { "u_add_trait": "TREE_COMMUNION" },
       { "u_activate_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ],
     "false_effect": [
       {
@@ -1082,7 +1074,7 @@
       "run_eocs": [
         {
           "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
-          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "condition": { "math": [ "u_val('pos_z') == 0" ] },
           "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
           "false_effect": {
             "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
@@ -1096,8 +1088,8 @@
   {
     "id": "druid_renew_forest_spell_real",
     "type": "SPELL",
-    "name": "Renewing the Forest Real",
-    "description": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.",
+    "name": { "str": "Renewing the Forest Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.", "//~": "NO_I18N" },
     "flags": [ "CHANNELING_SPELL", "SILENT", "VERBAL", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "shape": "blast",
@@ -1135,11 +1127,11 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "druid_treeshape_location" },
+          "target_var": { "global_val": "druid_treeshape_location" },
           "message": "Select nearby tree"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_treeshape_location" } },
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "druid_treeshape_location" } },
           "then": [
             {
               "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
@@ -1228,7 +1220,7 @@
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
       },
-      { "queue_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {
@@ -1353,5 +1345,32 @@
     "max_duration": 1440000,
     "duration_increment": 96000,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_goodberry",
+    "type": "SPELL",
+    "name": "Goodberry",
+    "description": "Enchant a set of berries, transforming them into magical fruit that will provide a hearty meal's worth of nutrition and a small amount of healing when eaten.  The goodberries will rot away within 24 hours if not eaten.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_GOODBERRY",
+    "shape": "blast",
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "VERBAL" ],
+    "components": "spell_components_goodberry",
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 3,
+    "base_casting_time": 30000,
+    "base_energy_cost": 350,
+    "max_level": 15,
+    "min_duration": 8640000,
+    "max_duration": 8640000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "EoC to summon because summoned comestibles don't have timers",
+    "id": "EOC_DRUID_GOODBERRY",
+    "effect": [ { "u_spawn_item": "item_druid_goodberry", "count": 1, "suppress_message": true } ]
   }
 ]

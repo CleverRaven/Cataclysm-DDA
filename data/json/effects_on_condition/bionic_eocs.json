@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "bio_drain",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "math": [ "u_val('power') >= energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
@@ -51,7 +51,7 @@
     "type": "effect_on_condition",
     "id": "bio_shakes",
     "recurrence": [ "1 hours", "3 hours" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "math": [ "u_val('power') >= energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
       { "u_message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
@@ -68,7 +68,7 @@
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "math": [ "u_val('power')", ">=", "energy('1 kJ')" ] }
+        { "math": [ "u_val('power') >= energy('1 kJ')" ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },

@@ -941,6 +941,15 @@
     "upgrades": false
   },
   {
+    "id": "mon_zeolambia_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal eolambia zombie" },
+    "description": "Once a beaked, slender four-legged dinosaur herbivore with a long neck, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 1.5 },
+    "upgrades": false
+  },
+  {
     "id": "mon_zadrosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal hadrosaurus zombie" },
@@ -1077,6 +1086,25 @@
     "name": { "str": "fungal zuniceratops zombie" },
     "description": "This was once a four-legged dinosaur herbivore with a tall thin bony head crest, two long brow horns, and a beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zzuniceratops",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": false,
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+  },
+  {
+    "id": "mon_zokiceratops_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal lokiceratops zombie" },
+    "description": "This was once a four-legged dinosaur herbivore with a bony head crest with two large horns pointing out and down, two long brow horns, and a beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zokiceratops",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 2,

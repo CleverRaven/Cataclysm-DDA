@@ -25,11 +25,6 @@
     "info": "You are protected against telepathic attack.  Sometimes."
   },
   {
-    "id": "ELECTROKINETIC_CHARGEABLE",
-    "type": "json_flag",
-    "info": "This item can be recharged by an electrokinetic"
-  },
-  {
     "id": "MATRIX_CRYSTAL_BIOKINESIS",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to biokinesis."
@@ -109,13 +104,13 @@
     "//": "This monster is part of a hive mind"
   },
   {
-    "id": "TEEP_IMMUNE",
-    "type": "monster_flag",
-    "//": "Immune to telepathic damage"
-  },
-  {
     "id": "TELEPORT_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to forcible teleportation"
+  },
+  {
+    "id": "PHOTOKIN_IRRADIATION_READY",
+    "type": "json_flag",
+    "//": "Used to tag foods to be radiation sterilized"
   }
 ]

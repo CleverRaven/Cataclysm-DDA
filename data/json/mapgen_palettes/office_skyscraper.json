@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "skyscraper_shopping_palette",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "parameters": {
       "carpet_type": {
         "type": "ter_str_id",
@@ -13,7 +14,6 @@
     "terrain": {
       "*": "t_null",
       "~": { "param": "carpet_type", "fallback": "t_floor" },
-      "#": "t_concrete_wall",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "'": "t_thconc_floor",
@@ -30,10 +30,8 @@
       "E": "t_elevator",
       "G": "t_door_glass_c",
       "H": "t_wall_glass",
-      "R": "t_railing_v",
+      "R": "t_railing",
       "s": "t_sidewalk",
-      "-": "t_brick_wall",
-      "|": "t_brick_wall",
       "Ŧ": "t_ramp_down_high",
       "±": "t_ramp_down_low"
     },
@@ -45,22 +43,8 @@
   {
     "type": "palette",
     "id": "skyscraper_apartment_palette",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "parameters": {
-      "i_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ]
-          ]
-        }
-      },
-      "wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_strconc_wall", 2 ], [ "t_brick_wall", 5 ] ] } },
       "railing_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_glass_railing", 4 ], [ "t_concrete_railing", 7 ] ] } },
       "shrubbery_type": {
         "type": "ter_str_id",
@@ -310,7 +294,6 @@
       "_": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] }
     },
     "terrain": {
-      "#": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" },
       " ": "t_region_groundcover_urban",
       "+": [ [ "t_door_c", 12 ], "t_door_o" ],
       "%": "t_rock",
@@ -320,13 +303,11 @@
       "~": { "param": "carpet_type", "fallback": "t_floor" },
       "G": "t_door_glass_c",
       "R": { "param": "railing_type", "fallback": "t_concrete_railing" },
-      "*": "t_railing_v",
+      "*": "t_railing",
       "W": "t_window",
       "s": "t_sidewalk",
       "J": "t_sidewalk",
       "w": { "param": "window_type", "fallback": "t_window_domestic" },
-      "|": { "param": "wall_type", "fallback": "t_brick_wall" },
-      "-": { "param": "i_wall_type", "fallback": "t_wall_w" },
       "z": "t_flat_roof",
       "Z": "t_glass_roof",
       "(": "t_flat_roof",
@@ -340,7 +321,7 @@
       "S": "t_linoleum_white",
       "T": "t_linoleum_white",
       "b": "t_linoleum_white",
-      "f": "t_chainfence_v",
+      "f": "t_chainfence",
       "g": "t_chaingate_c",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
@@ -348,7 +329,7 @@
       "/": "t_open_air"
     },
     "furniture": {
-      "a": "f_small_satelitte_dish",
+      "a": "f_small_satellite_dish",
       "b": "f_bathtub",
       "j": "f_trashcan",
       "J": "f_dumpster",
@@ -415,10 +396,10 @@
         }
       }
     },
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "*": "t_null",
       "/": "t_open_air",
-      "#": "t_concrete_wall",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "'": "t_thconc_floor",
@@ -446,12 +427,10 @@
       "E": "t_elevator",
       "G": "t_door_glass_c",
       "H": "t_wall_glass",
-      "R": "t_railing_v",
+      "R": "t_railing",
       "s": "t_sidewalk",
       "V": "t_wall_glass",
       "w": "t_window",
-      "-": "t_brick_wall",
-      "|": "t_brick_wall",
       "Δ": "t_ramp_up_low",
       "Ʌ": "t_ramp_up_high",
       "Ŧ": "t_ramp_down_high",

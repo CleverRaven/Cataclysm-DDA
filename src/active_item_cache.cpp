@@ -160,7 +160,7 @@ void active_item_cache::rotate_locations( int turns, const point_rel_ms &dim )
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
             // Should 'rotate' be propaged up to the typed coordinates?
-            ir.location = point_rel_ms( ir.location.raw().rotate( turns, dim.raw() ) );
+            ir.location = ir.location.rotate( turns, dim.raw() );
         }
     }
 }

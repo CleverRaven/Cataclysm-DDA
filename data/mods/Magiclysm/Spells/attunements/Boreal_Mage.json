@@ -5,7 +5,7 @@
     "name": "Auroral Wave",
     "description": "A rippling wave of luminous energy spreads from your hands, a beautiful torrent of magnetic force and chill wind.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "cone",
     "extra_effects": [ { "id": "auroral_wave_cold" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
@@ -30,12 +30,15 @@
   {
     "type": "SPELL",
     "id": "auroral_wave_cold",
-    "name": "Auroral Wave",
-    "description": "This is the cold damage portion of the Auroral Wave spell, it is a wider blast around the central high damage cone.",
+    "name": { "str": "Auroral Wave", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the cold damage portion of the Auroral Wave spell, it is a wider blast around the central high damage cone.",
+      "//~": "NO_I18N"
+    },
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL" ],
+    "flags": [ "EVOCATION_SPELL", "SPLIT_DAMAGE" ],
     "min_damage": 30,
     "max_damage": 100,
     "damage_increment": 2.0,

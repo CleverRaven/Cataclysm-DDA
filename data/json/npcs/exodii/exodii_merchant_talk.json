@@ -89,7 +89,7 @@
           "and": [
             { "u_has_faction_trust": 2 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
-            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            { "math": [ "isherwood_gear_status < 1" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },
@@ -135,7 +135,7 @@
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
-        "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
+        "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
         "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
@@ -186,7 +186,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", "<", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) < time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },
@@ -196,7 +196,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },
@@ -237,7 +237,7 @@
       "//~": "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more.",
       "str": "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be."
     },
-    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
@@ -248,18 +248,22 @@
       { "//~": "That was a good exchange", "str": "For a card an' a wink, eh?" }
     ],
     "speaker_effect": {
-      "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
+      "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
       "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
-      { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
+      {
+        "text": "How come that dude is selling medieval gear in addition to all those guns?",
+        "topic": "TALK_EXODII_MERCHANT_Stock_Medieval",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_met_weaponmaster" } ] }
+      },
       {
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
         "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
       },
       { "text": "Have you anything more back there?", "topic": "TALK_EXODII_MERCHANT_AskedRestock" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -274,8 +278,8 @@
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
         "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -289,8 +293,8 @@
       { "text": "What makes your specific armor so great?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad2" },
       { "text": "Why do I have to make it myself?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad3" },
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -303,8 +307,8 @@
     "responses": [
       { "text": "Why do I have to make it myself?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad3" },
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -317,8 +321,8 @@
     "responses": [
       { "text": "What makes your specific armor so great?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad2" },
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -331,8 +335,8 @@
       }
     ],
     "responses": [
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, thanks.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -351,7 +355,7 @@
       { "text": "Like, ask me a question?  Sure, I guess.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro1a" },
       { "text": "Know where I can find any work?", "topic": "TALK_EXODII_MERCHANT_Jobs" },
       {
-        "text": "No.  I'm too busy to answer your questions, you're supposed to answer mine.  I guess I'll head out.",
+        "text": "No.  I'm too busy to answer your questions, you're supposed to answer mine.  <end_talking_leave>",
         "topic": "TALK_DONE"
       }
     ]
@@ -407,8 +411,8 @@
         "condition": { "u_has_trait": "DEBUG_NODMG" },
         "topic": "TALK_EXODII_MERCHANT_ExodizeTest"
       },
-      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Actually, I changed my mind.  I have to go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Actually, I changed my mind.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -438,8 +442,8 @@
         "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
-      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Actually, I changed my mind.  I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Actually, I changed my mind.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -447,8 +451,8 @@
     "type": "talk_topic",
     "dynamic_line": { "//~": "Nay, mate, still operating", "str": "Nah, mate, still operatin" },
     "responses": [
-      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Ok.  See you later then.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Ok.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -537,8 +541,8 @@
         ],
         "topic": "TALK_DONE"
       },
-      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Actually, forget it.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -682,8 +686,8 @@
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -696,8 +700,8 @@
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -714,8 +718,8 @@
         "condition": { "u_has_intelligence": 9 },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -730,8 +734,8 @@
         "text": "Oh, you mean you got here early in the Cataclysm.  Why is that so good?",
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4a"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -744,8 +748,8 @@
     "speaker_effect": { "effect": { "u_add_var": "knowledge_exodii_transdimensional_u_knows_exodiilore", "value": "yes" } },
     "responses": [
       { "text": "I don't know what fusillies and mobbings are.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro5" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -765,8 +769,8 @@
         "text": "Wait, am I following this right?  You're from a place where this happened before, and you escaped to our world?",
         "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -783,8 +787,8 @@
         "effect": [ { "u_add_var": "dictionary_known_fussily", "value": "yes" }, { "u_spawn_item": "rubik_farthing" } ],
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro6"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -800,8 +804,8 @@
         "text": "Now that we've sorted that out, I have to ask.  You're from a place where this happened before, and you escaped to our world?",
         "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -813,8 +817,8 @@
     },
     "responses": [
       { "text": "I… didn't really follow that.", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -826,8 +830,8 @@
     },
     "responses": [
       { "text": "Oh, like a navigator?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -840,8 +844,8 @@
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_completed_rubik_intro" } ] } },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro3"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -854,8 +858,8 @@
     "speaker_effect": { "effect": { "u_add_var": "knowledge_exodii_transdimensional_u_knows_exodiilore", "value": "yes" } },
     "responses": [
       { "text": "I don't know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -871,8 +875,8 @@
         "topic": "TALK_EXODII_MERCHANT_Purpose2"
       },
       { "text": "Tell me about your own world.", "topic": "TALK_EXODII_MERCHANT_Home" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -889,8 +893,8 @@
         "topic": "TALK_EXODII_MERCHANT_Purpose2"
       },
       { "text": "How did you come to be made of metal like this?", "topic": "TALK_EXODII_MERCHANT_Metal" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -919,8 +923,8 @@
         "text": "What are you meaning with 'razzing up our green and brown'?",
         "topic": "TALK_EXODII_MERCHANT_Purpose2"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -957,8 +961,8 @@
       },
       { "text": "What are you meaning 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -970,10 +974,10 @@
     },
     "responses": [
       { "text": "What are you meaning 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
-      { "text": "Can we talk about something else?  This is confusing.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "This is confusing.  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -986,8 +990,8 @@
     "responses": [
       { "text": "Pack it up?  How can you pack up something like this?", "topic": "TALK_EXODII_MERCHANT_Base2" },
       { "text": "Soon?  How long will you still be here?", "topic": "TALK_EXODII_MERCHANT_BaseTimeLeft" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -999,7 +1003,7 @@
     },
     "responses": [
       { "text": "Good to know you will be here for a while.", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1011,8 +1015,8 @@
     },
     "speaker_effect": { "effect": { "u_add_var": "knowledge_exodii_transdimensional_u_knows_exodiilore", "value": "yes" } },
     "responses": [
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1027,8 +1031,8 @@
         "text": "So you use these cybernetics to prevent zombification, but they don't work perfectly?  Why not?",
         "topic": "TALK_EXODII_MERCHANT_Robot_Make"
       },
-      { "text": "Alright.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1044,8 +1048,8 @@
         "text": "You seem to have a lot of standardized robotic helpers, like those quads.  Is that a different thing?",
         "topic": "TALK_EXODII_MERCHANT_Robot_Quads"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1056,8 +1060,8 @@
     "responses": [
       { "text": "How long does it take you to make one of these walkers?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_Time" },
       { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1069,8 +1073,8 @@
     },
     "responses": [
       { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1083,8 +1087,8 @@
     "speaker_effect": { "effect": { "u_add_var": "dialogue_exodii_rubik_offered_robosell", "value": "yes" } },
     "//2": "In the future, Rubik should be able to sell the player a robot.  This is a placeholder until that time arrives.",
     "responses": [
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1101,10 +1105,10 @@
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
           "no": [
             {
-              "math": [ "exodii_knows_hub01", "==", "1" ],
+              "math": [ "exodii_knows_hub01 == 1" ],
               "yes": [
                 {
-                  "math": [ "warehouse_was_found", "==", "1" ],
+                  "math": [ "warehouse_was_found == 1" ],
                   "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
                   "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
                 }
@@ -1122,7 +1126,7 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } },
-            { "math": [ "exodii_knows_hub01", "!=", "1" ] }
+            { "math": [ "exodii_knows_hub01 != 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
@@ -1133,13 +1137,13 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } },
-            { "math": [ "warehouse_was_found", "!=", "1" ] },
-            { "math": [ "exodii_knows_hub01", "==", "1" ] }
+            { "math": [ "warehouse_was_found != 1" ] },
+            { "math": [ "exodii_knows_hub01 == 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro"
       },
-      { "text": "I'm not interested in anything right now.  I'll see you around.", "topic": "TALK_DONE" }
+      { "text": "I'm not interested in anything right now.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1155,8 +1159,8 @@
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1168,8 +1172,8 @@
     },
     "responses": [
       { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1185,8 +1189,8 @@
         "text": "Wait, am I following this right?  You're from a place where this happened before, and you escaped to our world?",
         "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1199,8 +1203,8 @@
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1219,8 +1223,8 @@
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1232,8 +1236,8 @@
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1256,8 +1260,8 @@
         "text": "Do you know what's going on?  What caused all this?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1294,8 +1298,8 @@
         "text": "Do you know what's going on?  What caused all this?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1307,8 +1311,8 @@
     },
     "responses": [
       { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1322,8 +1326,8 @@
     },
     "responses": [
       { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1335,8 +1339,8 @@
     },
     "responses": [
       { "text": "Tell me about \"ol' Upper Landing\".  What was your home like?", "topic": "TALK_EXODII_MERCHANT_Home" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1351,7 +1355,7 @@
         "text": "You know, every so often you talk normally and I realize you could probably drop the whole accent if you wanted to.",
         "topic": "TALK_EXODII_MERCHANT_Anglic_Tease"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       {
         "text": "I think I've had about enough of trying to figure out what you're talking about, see you later.",
         "topic": "TALK_DONE"
@@ -1370,7 +1374,10 @@
         "text": "What was it you were saying before, about the mission you had for me?",
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
       },
-      { "text": "Well, a person can get sick of trying to piece it together.  See you later.", "topic": "TALK_DONE" }
+      {
+        "text": "Well, a person can get sick of trying to piece it together.  <end_talking_bye>",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -1415,8 +1422,8 @@
         "topic": "TALK_EXODII_MERCHANT_Aliens"
       },
       { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1433,8 +1440,8 @@
         "topic": "TALK_EXODII_MERCHANT_Aliens"
       },
       { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1449,8 +1456,8 @@
         "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.",
         "topic": "TALK_EXODII_MERCHANT_Purpose3"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1467,8 +1474,8 @@
         "condition": { "u_has_intelligence": 8 },
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1483,8 +1490,8 @@
         "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn't some way to survive?",
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1514,8 +1521,8 @@
         "topic": "TALK_EXODII_MERCHANT_Survival2",
         "condition": { "compare_string": [ "yes", { "u_val": "knowledge_rubik_is_cyborg_u_knows_exodiilore" } ] }
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1530,8 +1537,8 @@
         "text": "What?  I mean, really, it seems like you're being hard to understand on purpose.  What are the 'willies'?",
         "topic": "TALK_EXODII_MERCHANT_Survival3"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1546,8 +1553,8 @@
         "text": "What?  I mean, really, it seems like you're being hard to understand on purpose.",
         "topic": "TALK_EXODII_MERCHANT_Survival3"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1563,8 +1570,8 @@
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Aliens"
       },
-      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1596,7 +1603,7 @@
                 { "u_spawn_item": "helmet_riot", "count": 5 },
                 { "u_spawn_item": "armor_riot_arm", "count": 5 },
                 { "u_spawn_item": "armor_riot_leg", "count": 5 },
-                { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+                { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
               ]
             }
           }
@@ -1607,8 +1614,8 @@
         "text": "Any chance I can buy gear this on layaway?",
         "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1624,12 +1631,12 @@
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },
           { "assign_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
-          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+          { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1650,8 +1657,8 @@
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   }
 ]

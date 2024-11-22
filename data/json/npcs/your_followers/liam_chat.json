@@ -24,7 +24,7 @@
         }
       },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -138,7 +138,7 @@
     "responses": [
       { "text": "We hadn't caught up in a while before <the_cataclysm>.  What've you been doing?", "topic": "BGSS_Liam2" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -149,7 +149,7 @@
     "responses": [
       { "text": "How did you make it through the Cataclysm?", "topic": "BGSS_Liam3" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -159,7 +159,7 @@
     "dynamic_line": "I wanna say it was a hell of a story, but really, I was on the way back to Boston from a delivery and a thing about the riots came on the radio.  I was close to the cabin so I just thought, 'this is starting to sound really fuckin bad.'  I called in sick and took a few days to hunker down out of civilization.  By the time I had to think about going back to work, we were into that wild time when half the people were trying to keep things running and the other half were trying to burn everything down.  I shut the blinds and stayed in, until Chris showed up acting like a freak.",
     "responses": [
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -169,7 +169,7 @@
     "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd head out and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan for where to meet up and all.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.\"",
     "responses": [
       { "text": "What happened to your father?  You never talked about him much.", "topic": "BGSS_Liam_Father" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -182,7 +182,7 @@
         "text": "I remember your mom as kind of a quiet lady, she seemed all right.  Should we be trying to find her?",
         "topic": "BGSS_Liam_Mother"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -191,7 +191,7 @@
     "id": "BGSS_Liam_Mother",
     "dynamic_line": "Well, things with her weren't as bad as with my dad, but I don't know if I'd go trying to hunt for her in a zombified city or anything.  Like, sure she didn't beat me up, but she didn't ever lift a finger to help me either.  She was still with him right up until the end, even when it was obvious that she was choosing him over me.  I don't wanna judge her for the life she led, but - \" he trails off for a moment, then twitches his shoulders and resumes.  \"Well, it's like I said.  I hope she's okay but I'm not gonna go risk my neck trying to find her.  You and Chris were my real family, you got me through those years.",
     "responses": [
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -201,8 +201,8 @@
     "dynamic_line": "*stares at you wide-eyed for a beat, then breaks into a shy grin.  \"Aw man, busted.  You *know* I dig those distracted nerdy chicks who don't react to my presence in any way.  It's all good though, you know?  Don't tell her.  I barely know her and it's not like she's in a place to be dating some stranger.\"",
     "speaker_effect": { "effect": { "u_add_var": "u_liam_jenny_feelings", "value": "crushing_hard" } },
     "responses": [
-      { "text": "Your secret's safe with me.  I wanted to talk about something else.", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "Your secret's safe with me.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "Your secret's safe with me.  <done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "Your secret's safe with me.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -710,7 +710,7 @@
         "topic": "TALK_Liam_Opinions_directions_rural_1_FARM",
         "condition": { "u_has_mission": "directions_rural_1_FARM" }
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_FRIEND_Liam" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_Liam" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -724,7 +724,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
     "dynamic_line": {
-      "math": [ "u_hub01_completed_missions", ">=", "1" ],
+      "math": [ "u_hub01_completed_missions >= 1" ],
       "yes": "I'm thinking this kinda sounds like that intercom and their vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale.  Anyway, I bet that's where we're going.",
       "no": "I'm thinking this sounds *awesome*, and also possibly we're gonna die.  At least we'll die investigating a vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale."
     },
@@ -825,7 +825,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_discovered_robofac_intercom" } ],
       "yes": {
-        "math": [ "u_hub01_completed_missions", ">=", "1" ],
+        "math": [ "u_hub01_completed_missions >= 1" ],
         "yes": "Is that just that Hub place, with the intercom?  Not that it's not cool, but it's nothing new to us.  Woah… we've really seen some shit, haven't we.",
         "no": "It sounds to me like this might be that intercom we found out in that weird building?  I'm just guessing.  We should go confirm."
       },

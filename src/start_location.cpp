@@ -183,7 +183,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
     std::vector<tripoint> boardables;
     for( const tripoint &p : range ) {
         bool must_board_around = false;
-        const ter_id t = m.ter( p );
+        const ter_id &t = m.ter( p );
         if( t == ter_t_window_domestic || t == ter_t_window || t == ter_t_window_no_curtains ) {
             // Windows are always to the outside and must be boarded
             must_board_around = true;
@@ -220,9 +220,10 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         // If the furniture is movable and the character can move it, use it to barricade
         //  is workable here as NPCs by definition are not starting the game.  (Let's hope.)
         ///\EFFECT_STR determines what furniture might be used as a starting area barricade
-        if( m.furn( p ).obj().is_movable() &&
-            m.furn( p ).obj().move_str_req < get_player_character().get_str() ) {
-            if( m.furn( p ).obj().movecost == 0 ) {
+        const furn_t &fo = m.furn( p ).obj();
+        if( fo.is_movable() &&
+            fo.move_str_req < get_player_character().get_str() ) {
+            if( fo.movecost == 0 ) {
                 // Obstacles are better, prefer them
                 furnitures1.push_back( p );
             } else {
@@ -248,7 +249,8 @@ void start_location::prepare_map( tinymap &m ) const
     const int z = m.get_abs_sub().z();
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
-        board_up( m, m.points_on_zlevel( z ) );
+        const tripoint_range <tripoint_omt_ms> temp = m.points_on_zlevel( z );
+        board_up( m, { temp.min().raw(), temp.max().raw() } );
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
@@ -456,7 +458,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Sometimes it may be impossible to automatically found an ideal location
     // but the player may be more creative than this algorithm and do away with just "good"
     int best_rate = 0;
-    tripoint best_spot = you.pos();
+    tripoint_bub_ms best_spot = you.pos_bub();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
     cata::mdarray<int, point_bub_ms> checked = {};
@@ -470,7 +472,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         if( zone.get_type() == zone_type_ZONE_START_POINT ) {
             if( here.inbounds( zone.get_center_point() ) ) {
                 found_good_spot = true;
-                best_spot = here.getlocal( zone.get_center_point() );
+                best_spot = here.bub_from_abs( zone.get_center_point() );
                 break;
             }
         }
@@ -479,9 +481,10 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Otherwise, find a random starting spot
 
     int tries = 0;
-    const auto check_spot = [&]( const tripoint & pt ) {
+    const auto check_spot = [&]( const tripoint_bub_ms & pt ) {
         ++tries;
-        const int rate = rate_location( here, pt, must_be_inside, accommodate_npc, bash, tries, checked );
+        const int rate = rate_location( here, pt.raw(), must_be_inside, accommodate_npc, bash, tries,
+                                        checked );
         if( best_rate < rate ) {
             best_rate = rate;
             best_spot = pt;
@@ -493,17 +496,17 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
-                             HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
-                             you.posz() );
+        tripoint_bub_ms rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
+                                    HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
+                                    you.posz() );
         found_good_spot = check_spot( rand_point );
     }
     // If we haven't got a good location by now, screw it and brute force it
     // This only happens in exotic locations (deep of a science lab), but it does happen
     if( !found_good_spot ) {
-        tripoint tmp = you.pos();
-        int &x = tmp.x;
-        int &y = tmp.y;
+        tripoint_bub_ms tmp = you.pos_bub();
+        int &x = tmp.x();
+        int &y = tmp.y();
         for( x = 0; x < MAPSIZE_X; x++ ) {
             for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
                 found_good_spot = check_spot( tmp );
@@ -526,12 +529,12 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     m.build_outside_cache( m.get_abs_sub().z() );
     point player_pos = get_player_character().pos().xy();
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
-    std::vector<tripoint> valid;
-    for( const tripoint &p : m.points_on_zlevel() ) {
+    std::vector<tripoint_omt_ms> valid;
+    for( const tripoint_omt_ms &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ||
                m.has_flag_ter( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) ||
                m.is_outside( p ) ||
-               ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
+               ( p.x() >= u.x - rad && p.x() <= u.x + rad && p.y() >= u.y - rad && p.y() <= u.y + rad ) ) ) {
             if( m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
                 m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );
@@ -568,7 +571,7 @@ void start_location::handle_heli_crash( avatar &you ) const
             case 1:
             case 2:
                 you.add_effect( effect_bleed, 6_minutes, bp );
-            /* fallthrough */
+                [[fallthrough]];
             case 3:
             case 4:
             // Just damage

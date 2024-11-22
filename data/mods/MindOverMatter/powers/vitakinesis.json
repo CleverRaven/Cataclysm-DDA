@@ -208,8 +208,16 @@
     "effect_str": "effect_vitakin_hurt",
     "shape": "blast",
     "damage_type": "biological",
-    "min_dot": 1,
-    "max_dot": 1,
+    "min_dot": {
+      "math": [
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+      ]
+    },
+    "max_dot": {
+      "math": [
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+      ]
+    },
     "min_range": 1,
     "min_duration": {
       "math": [
@@ -615,31 +623,6 @@
       ]
     },
     "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 1000" ] }
-  },
-  {
-    "id": "vita_super_heal_healing",
-    "type": "SPELL",
-    "name": "Anabolic Rejuvenation Heal",
-    "description": "The healing part of Anabolic Rejuvenation.",
-    "valid_targets": [ "self" ],
-    "teachable": false,
-    "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
-    "max_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
-    "effect": "attack",
-    "shape": "blast",
-    "flags": [ "PSIONIC", "SILENT" ]
-  },
-  {
-    "id": "vita_super_heal_drain",
-    "type": "SPELL",
-    "name": "Anabolic Rejuvenation draining",
-    "description": "The draining part of Anabolic Rejuvenation.",
-    "valid_targets": [ "self" ],
-    "teachable": false,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
-    "shape": "blast",
-    "flags": [ "PSIONIC", "SILENT" ]
   },
   {
     "id": "vita_limb_restore",

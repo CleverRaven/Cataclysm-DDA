@@ -139,7 +139,7 @@
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
@@ -284,7 +284,7 @@
       { "id": "biomancer_visceral_backlash", "hit_self": true },
       { "id": "eoc_evocation_setup", "hit_self": true }
     ],
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "difficulty": 4,
@@ -307,8 +307,8 @@
   {
     "id": "biomancer_visceral_paralyze",
     "type": "SPELL",
-    "name": "Visceral Paralysis",
-    "description": "Paralytic side effect of Projection.",
+    "name": { "str": "Visceral Paralysis", "//~": "NO_I18N" },
+    "description": { "str": "Paralytic side effect of Projection.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile" ],
     "effect": "attack",
     "effect_str": "biomancer_dart_venom",
@@ -331,8 +331,8 @@
   {
     "id": "biomancer_visceral_backlash",
     "type": "SPELL",
-    "name": "Visceral Backlash",
-    "description": "Hits the user with side effects too.",
+    "name": { "str": "Visceral Backlash", "//~": "NO_I18N" },
+    "description": { "str": "Hits the user with side effects too.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "biomancer_visceral_side_effects",
@@ -365,8 +365,8 @@
   {
     "id": "corrosive_aura_spell",
     "type": "SPELL",
-    "name": "Caustic Feedback",
-    "description": "This is a sub-spell of the Caustic Aura spell.",
+    "name": { "str": "Caustic Feedback", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub-spell of the Caustic Aura spell.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
@@ -492,16 +492,16 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
       { "u_add_trait": "BIO_GIANT_GROWTH" },
       {
-        "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+        "run_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
         "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 ) * ( transformation_proficiency_modifier() )" ] }
       }
     ],
@@ -515,10 +515,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -598,7 +598,7 @@
       { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
       {
-        "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
+        "run_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
         "time_in_future": {
           "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
         }
@@ -761,7 +761,7 @@
       { "u_add_trait": "ACIDBLOOD" },
       { "u_add_trait": "ACIDPROOF" },
       {
-        "queue_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+        "run_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
         "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 600 ) + 1800 ) * ( enhancement_proficiency_modifier() )" ] }
       }
     ],

@@ -15,7 +15,7 @@
     "type": "talk_topic",
     "dynamic_line": "&The veterans seem happy to have you, and you listen as the older mercenary narrates <merc_story>.\n\nYou all share some drinks while going over the details and as the conversation winds down.",
     "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" } ] } ],
-    "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "effect": "end_conversation", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BEM_CHATTING_VETERANS_DRINKING",
@@ -25,7 +25,7 @@
       {
         "effect": [
           { "u_add_effect": "drunk", "duration": "370 minutes" },
-          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
+          { "run_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
           { "u_add_faction_trust": 1 }
         ]
       }
@@ -33,10 +33,7 @@
     "responses": [
       {
         "text": "Bar… barshender!  We… we?",
-        "effect": [
-          "end_conversation",
-          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }
-        ],
+        "effect": [ "end_conversation", { "run_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -58,7 +55,7 @@
       },
       {
         "text": "Recall the time you were tricked into fighting against distorted versions of yourself while lost in a place beyond time.",
-        "condition": { "math": [ "visited_a_portal_dungeon", "==", "1" ] },
+        "condition": { "math": [ "visited_a_portal_dungeon == 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
@@ -83,12 +80,12 @@
       },
       {
         "text": "Recall that time when you used a tactical nuclear weapon.",
-        "condition": { "math": [ "u_mininuke_activated", ">=", "1" ] },
+        "condition": { "math": [ "u_mininuke_activated >= 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
         "text": "Try to gross each other out with tales of mutant butchery.",
-        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent')", ">=", "50" ] },
+        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent') >= 50" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BUTCHERY"
       },
       {
@@ -126,7 +123,7 @@
     "type": "talk_topic",
     "dynamic_line": "&You make some small talk and share a pair of drinks after finishing your story.",
     "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" }, { "u_add_faction_trust": 1 } ] } ],
-    "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "effect": "end_conversation", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE",
@@ -140,7 +137,7 @@
     "type": "talk_topic",
     "dynamic_line": "&The veterans eagerly accept your challenge, and none of you can really stomach the prospect of more drinks after the first pair of tales.",
     "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" }, { "u_add_faction_trust": 1 } ] } ],
-    "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "effect": "end_conversation", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BEM_CHATTING_VETERANS_TELL_STORY_LIXA",

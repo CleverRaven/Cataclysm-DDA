@@ -14,7 +14,7 @@
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Corrie_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Corrie_Mood" },
       { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Corrie_Community" },
@@ -39,7 +39,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "&Corrie briefly glances at you and shoots a glare.  \"What do you want?\"",
       "no": "Hey there, <name_g>.  Welcome to the losers club."
     },
@@ -83,7 +83,7 @@
         "text": "Hey Corrie, you free?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
           ]
         },
@@ -93,14 +93,14 @@
         "text": "Hey Corrie, you free?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_Angry"
       },
       {
-        "text": "Hey Corrie.  I gotta go.",
+        "text": "Hey Corrie.  <end_talking_leave>",
         "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] },
         "topic": "TALK_DONE"
       }
@@ -134,15 +134,15 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_2",
     "dynamic_line": [ "Sure.  I can clear a few minutes of my oh-so hectic schedule." ],
-    "responses": [ { "text": "Sorry Corrie, I can't stay to chat.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sorry Corrie.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_Story",
     "dynamic_line": "&Corrie blankly stares at the wall for a moment.  \"Me and my friends were in the cities when it hit, I was the only one to make it out.  Some gigantic horror… devoured… everything in its way.  There was a memorial service and all, organized by the church-goers.  By far the nicest thing they've done for me.\"",
     "responses": [
-      { "text": "Sorry for bringing it up.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Sorry for bringing it up.  Well, bye.", "topic": "TALK_DONE" }
+      { "text": "Sorry for bringing it up.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Sorry for bringing it up.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -150,8 +150,8 @@
     "id": "TALK_GODCO_Corrie_Community",
     "dynamic_line": "Like second-class citizens, that's how they treat us.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -179,7 +179,7 @@
           ]
         }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "No rest for the weary…", "topic": "TALK_DONE" }
     ]
   },
@@ -189,7 +189,7 @@
     "dynamic_line": "Not much.  I told you not to go for the icons.",
     "responses": [
       {
-        "text": "Sorry to hear that.  What were you saying before?",
+        "text": "Sorry to hear that.  <done_conversation_section>",
         "effect": [
           { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
           { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
@@ -233,7 +233,7 @@
         ]
       },
       {
-        "text": "Glad to help.  What were you saying before?",
+        "text": "Glad to help.  <done_conversation_section>",
         "topic": "TALK_NONE",
         "effect": [ { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" } ]
       },
@@ -250,8 +250,8 @@
     "dynamic_line": "Oh, I completely forget.  Here you are.",
     "speaker_effect": { "effect": [ { "u_spawn_item": "jerky", "count": 5 } ] },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -260,22 +260,22 @@
     "dynamic_line": "Basic repairs and upkeep, mostly.  The generator in the basement is on its last legs, so I've been thinking about building a solar array for this place.  Helena's against it, but I want to change her mind.  All I need are a few spare parts.",
     "responses": [
       { "text": "I can help you get the items you need.", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_Recruit",
     "dynamic_line": "Sure, I'll come.  I hate staying here, and you've gone out of your way to help me.  I appreciate that, <name_g>.",
-    "responses": [ { "text": "Let's hit the road.", "topic": "TALK_DONE", "effect": "follow" } ]
+    "responses": [ { "text": "<lets_go>", "topic": "TALK_DONE", "effect": "follow" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_You_Mutant",
     "dynamic_line": "Nearly everyone here went to a church that was a bit… out there, shall we say.  They hate what they call \"mutants\", how some creatures and people have physically changed inexplicably after everything went to shit.  I'm glad they didn't kill you on the spot, not many people are left out there.",
     "responses": [
-      { "text": "Well, thank's for telling me.  Let's talk about something else.", "topic": "TALK_GODCO_Corrie_2" },
+      { "text": "Well, thank's for telling me.  <done_conversation_section>", "topic": "TALK_GODCO_Corrie_2" },
       { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
     ]
   },

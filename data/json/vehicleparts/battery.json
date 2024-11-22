@@ -12,9 +12,11 @@
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "folded_volume": "10 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 9 ] },
-      { "item": "steel_chunk", "count": [ 6, 9 ] },
-      { "item": "scrap", "count": [ 6, 9 ] }
+      { "item": "lead", "charges": [ 1680, 2380 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 5, 8 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] },
+      { "item": "shredded_rubber", "charges": [ 10, 14 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -34,9 +36,11 @@
     "durability": 100,
     "folded_volume": "1500 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] }
+      { "item": "lead", "charges": [ 252, 357 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 1, 2 ] }
     ]
   },
   {
@@ -48,9 +52,11 @@
     "durability": 30,
     "folded_volume": "750 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] }
+      { "item": "lead", "charges": [ 126, 178 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk" },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 0, 1 ] }
     ]
   },
   {

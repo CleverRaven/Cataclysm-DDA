@@ -603,13 +603,20 @@ template<typename T>
 void requirement_data::check_consistency( const std::vector< std::vector<T> > &vec,
         const std::string &display_name )
 {
+
     for( const auto &list : vec ) {
+        bool requirement_was_empty = true;
         for( const auto &comp : list ) {
+            requirement_was_empty = false;
             if( comp.requirement ) {
                 debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name );
             }
 
             comp.check_consistency( display_name );
+        }
+        if( requirement_was_empty ) {
+            debugmsg( "Requirement %s is empty, recipes using it have no valid results.  Some input must be invalid.",
+                      display_name );
         }
     }
 }
@@ -716,6 +723,10 @@ void requirement_data::finalize()
         } );
         requirement_data::alter_tool_comp_vector &vec = r.second.tools;
         for( auto &list : vec ) {
+            if( list.empty() ) {
+                debugmsg( "Requirements data %s tools vector contains impossible requirements.  Recipes using this requirement set will be impossible to make.",
+                          r.first.c_str() );
+            }
             std::vector<tool_comp> new_list;
             for( tool_comp &comp : list ) {
                 const auto replacements = item_controller->subtype_replacement( comp.type );
@@ -825,6 +836,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const read_only_visitable &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
+    output_buffer.reserve( 2 );
     output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
     if( tools.empty() && qualities.empty() ) {
         output_buffer.push_back( colorize( "> ", col ) + colorize( _( "NONE" ), c_green ) );
