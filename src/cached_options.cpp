@@ -11,6 +11,7 @@ bool prevent_occlusion_retract;
 bool prevent_occlusion_transp;
 float prevent_occlusion_min_dist;
 float prevent_occlusion_max_dist;
+bool show_creature_overlay_icons;
 bool use_tiles;
 bool use_far_tiles;
 bool use_pinyin_search;

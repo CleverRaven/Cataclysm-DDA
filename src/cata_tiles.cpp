@@ -4121,7 +4121,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     }
 
-    if( result && !is_player ) {
+    if( result && !is_player && show_creature_overlay_icons ) {
         std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
         if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
             draw_id += "_sees_player";
