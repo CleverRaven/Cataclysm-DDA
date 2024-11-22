@@ -36,21 +36,80 @@
       "id": "EOC_CHRONOKIN_CHRONAL_ACCEL_DRAIN",
       "condition": { "u_has_effect": "effect_chronokin_chronal_accel" },
       "effect": [
-        { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+        { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
         { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-        { "math": [ "u_spell_exp('chronokin_chronal_accel')", "+=", "maintenance_exp_factor(u_val('focus'))" ] },
+        { "math": [ "u_spell_exp('chronokin_stabilize_timeline')", "+=", "maintenance_exp_factor(u_val('focus'))" ] },
         { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
         {
           "run_eocs": "EOC_CHRONOKIN_CHRONAL_ACCEL_DRAIN",
           "time_in_future": [
             {
               "math": [
-                "( (u_spell_level('chronokin_chronal_accel') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "( (u_spell_level('chronokin_stabilize_timeline') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             },
             {
               "math": [
-                "( (u_spell_level('chronokin_chronal_accel') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "( (u_spell_level('chronokin_stabilize_timeline') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          ]
+        }
+      ],
+      "false_effect": []
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_CHRONOKIN_STABILIZE_TIMELINE_INITIATE",
+      "condition": { "not": { "u_has_effect": "effect_chronokin_stabilized_timeline" } },
+      "effect": [
+        { "u_message": "You world slows down.", "type": "good" },
+        { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+        { "u_add_effect": "effect_chronokin_stabilized_timeline", "duration": "PERMANENT" },
+        {
+          "run_eocs": "EOC_CHRONOKIN_STABILIZE_TIMELINE_DRAIN",
+          "time_in_future": [
+            {
+              "math": [
+                "( (u_spell_level('chronokin_stabilize_timeline') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            },
+            {
+              "math": [
+                "( (u_spell_level('chronokin_stabilize_timeline') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          ]
+        }
+      ],
+      "false_effect": [ { "run_eocs": "EOC_CHRONOKIN_REMOVE_STABILIZE_TIMELINE" } ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_CHRONOKIN_REMOVE_STABILIZE_TIMELINE",
+      "condition": { "u_has_effect": "effect_chronokin_stabilized_timeline" },
+      "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_chronokin_stabilized_timeline" } ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_CHRONOKIN_STABILIZE_TIMELINE_DRAIN",
+      "condition": { "u_has_effect": "effect_chronokin_stabilized_timeline" },
+      "effect": [
+        { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+        { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+        { "math": [ "u_spell_exp('chronokin_stabilize_timeline')", "+=", "maintenance_exp_factor(u_val('focus'))" ] },
+        { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+        {
+          "run_eocs": "EOC_CHRONOKIN_STABILIZE_TIMELINE_DRAIN",
+          "time_in_future": [
+            {
+              "math": [
+                "( (u_spell_level('chronokin_stabilize_timeline') * 15) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            },
+            {
+              "math": [
+                "( (u_spell_level('chronokin_stabilize_timeline') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           ]

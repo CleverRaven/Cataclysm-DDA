@@ -1,5 +1,10 @@
 [
   {
+    "id": "STABILIZED_TIMELINE",
+    "type": "json_flag",
+    "info": "you are immune to adverse affects on your timeline."
+  },
+  {
     "id": "LIFESHIELD",
     "type": "json_flag",
     "info": "You are immune to life drain."

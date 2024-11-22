@@ -2455,7 +2455,7 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
                              const int vpart ) const
 {
     if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ||
-        field.total_move_cost() < 0 || field.any_negative_move_cost() ) {
+        field.total_move_cost() < 0 ) {
         return 0;
     }
 
@@ -2517,12 +2517,12 @@ bool map::is_open_air( const tripoint_bub_ms &p ) const
 
 // Move cost: 3D
 
-int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
+int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle, const bool ignore_fields ) const
 {
-    return move_cost( tripoint_bub_ms( p ), ignored_vehicle );
+    return move_cost( tripoint_bub_ms( p ), ignored_vehicle, ignore_fields );
 }
 
-int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle ) const
+int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle, const bool ignore_fields ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
@@ -2535,14 +2535,16 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle ) c
         return 0;
     }
 
+    field static nofield;
+
     const furn_t &furniture = current_submap->get_furn( l ).obj();
     const ter_t &terrain = current_submap->get_ter( l ).obj();
     const field &field = current_submap->get_field( l );
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
-
-    return move_cost_internal( furniture, terrain, field, veh, part );
+    
+    return move_cost_internal( furniture, terrain, (!ignore_fields ? field : nofield), veh, part );
 }
 
 bool map::impassable( const tripoint &p ) const
@@ -2563,6 +2565,16 @@ bool map::passable( const tripoint &p ) const
 bool map::passable( const tripoint_bub_ms &p ) const
 {
     return move_cost( p ) != 0;
+}
+
+bool map::passable_skip_fields( const tripoint &p ) const
+{
+    return passable_skip_fields( tripoint_bub_ms( p ) );
+}
+
+bool map::passable_skip_fields( const tripoint_bub_ms &p ) const
+{
+    return move_cost( p, (const vehicle*)nullptr, true ) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const
@@ -2614,11 +2626,11 @@ bool map::passable_ter_furn( const tripoint_bub_ms &p ) const
 
 int map::combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                             const vehicle *ignored_vehicle,
-                            const int modifier, const bool flying, const bool via_ramp ) const
+                            const int modifier, const bool flying, const bool via_ramp, const bool ignore_fields ) const
 {
     static constexpr std::array<int, 4> mults = { 0, 50, 71, 100 };
-    const int cost1 = move_cost( from, ignored_vehicle );
-    const int cost2 = move_cost( to, ignored_vehicle );
+    const int cost1 = move_cost( from, ignored_vehicle, ignore_fields );
+    const int cost2 = move_cost( to, ignored_vehicle, ignore_fields );
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
     size_t match = trigdist ? ( from.x() != to.x() ) + ( from.y() != to.y() ) +
@@ -6851,15 +6863,9 @@ std::optional<field_entry> map::get_impassable_field_at( const tripoint_bub_ms &
     return potential_field;
 }
 
-bool map::dangerous_field_at( const tripoint_bub_ms &p )
+bool map::impassable_field_at( const tripoint &p )
 {
-    for( auto &pr : field_at( p ) ) {
-        field_entry &fd = pr.second;
-        if( fd.is_dangerous() ) {
-            return true;
-        }
-    }
-    return false;
+    return impassable_field_at( tripoint_bub_ms(p) );
 }
 
 bool map::impassable_field_at( const tripoint_bub_ms &p )
@@ -6867,6 +6873,33 @@ bool map::impassable_field_at( const tripoint_bub_ms &p )
     for( auto &pr : field_at( p ) ) {
         field_entry &fd = pr.second;
         if( fd.get_intensity_level().move_cost < 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<field_type_id> map::get_impassable_field_type_ids_at( const tripoint &p )
+{
+    return get_impassable_field_type_ids_at( tripoint_bub_ms(p) );
+}
+
+std::vector<field_type_id> map::get_impassable_field_type_ids_at( const tripoint_bub_ms &p )
+{
+    std::vector<field_type_id> fields;
+    for( auto &fa : field_at( p ) ) {
+        if( fa.second.get_intensity_level().move_cost < 0 ) {
+            fields.emplace_back(fa.first);
+        }
+    }
+    return fields;
+}
+
+bool map::dangerous_field_at( const tripoint_bub_ms &p )
+{
+    for( auto &pr : field_at( p ) ) {
+        field_entry &fd = pr.second;
+        if( fd.is_dangerous() ) {
             return true;
         }
     }

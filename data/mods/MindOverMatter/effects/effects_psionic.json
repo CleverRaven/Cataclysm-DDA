@@ -569,10 +569,22 @@
     "desc": [ "You are completely frozen in time." ],
     "remove_message": "Everything is suddenly different.",
     "rating": "bad",
-    "max_duration": 3000,
+    "max_duration": "7 days",
     "dur_add_perc": 5,
-    "immune_flags": [ "DIMENSIONAL_ANCHOR" ],
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
     "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE"  ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_chronokin_stabilized_timeline",
+    "name": [ "Stabilized Timeline" ],
+    "desc": [ "You are protected from adverse changes in your personal timestream." ],
+    "remove_message": "Everything is suddenly different.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "dur_add_perc": 5,
+    "flags": [ "STABILIZED_TIMELINE" ],
     "show_in_info": true
   },
   {

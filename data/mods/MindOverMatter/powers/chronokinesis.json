@@ -95,7 +95,7 @@
       "spell_class": "CHRONOKINETIC",
       "skill": "metaphysics",
       "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-      "difficulty": 6,
+      "difficulty": 2,
       "max_level": { "math": [ "int_to_level(1)" ] },
       "effect": "effect_on_condition",
       "effect_str": "EOC_CHRONOKIN_CHRONAL_ACCEL_INITIATE",
@@ -119,6 +119,44 @@
       "base_casting_time": {
         "math": [
           "u_effect_intensity('effect_chronokin_chronal_accel') > -1 ? 10 : max((175 -(u_spell_level('chronokin_chronal_accel') * 5.5)), 100)"
+        ]
+      }
+    },
+    {
+      "id": "chronokin_stabilize_timeline",
+      "type": "SPELL",
+      "name": "[Ψ]Stabilize Timeline (C)",
+      "description": "Stabilize your personal timeline, making yourself immune to adverse changes to time around you.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+      "message": "",
+      "teachable": false,
+      "valid_targets": [ "self" ],
+      "spell_class": "CHRONOKINETIC",
+      "skill": "metaphysics",
+      "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+      "difficulty": 2,
+      "max_level": { "math": [ "int_to_level(1)" ] },
+      "effect": "effect_on_condition",
+      "effect_str": "EOC_CHRONOKIN_STABILIZE_TIMELINE_INITIATE",
+      "shape": "blast",
+      "min_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_stabilize_timeline') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "max_duration": {
+        "math": [
+          "( (u_spell_level('chronokin_stabilize_timeline') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        ]
+      },
+      "energy_source": "STAMINA",
+      "base_energy_cost": {
+        "math": [
+          "u_effect_intensity('effect_chronokin_stabilize_timeline') > -1 ? 0 : max((5500 - (u_spell_level('chronokin_stabilize_timeline') * 205)), 2250)"
+        ]
+      },
+      "base_casting_time": {
+        "math": [
+          "u_effect_intensity('effect_chronokin_stabilize_timeline') > -1 ? 10 : max((175 -(u_spell_level('chronokin_stabilize_timeline') * 5.5)), 100)"
         ]
       }
     }
