@@ -71,7 +71,7 @@
   {
     "type": "effect_type",
     "id": "effect_chronokin_potion",
-    "name": [ "Void Elixir" ],
+    "name": [ "Monochrome Elixir" ],
     "desc": [ "You drank the concentrated matrix crystal concoction." ],
     "apply_message": "",
     "remove_message": "The concoction's effects fade and the world speeds up.  Enormously.",
@@ -87,7 +87,7 @@
   {
     "type": "effect_type",
     "id": "effect_chronokin_potion_comedown",
-    "name": [ "Void Elixir Aftereffects" ],
+    "name": [ "Monochrome Elixir Aftereffects" ],
     "desc": [ "You're suffering the aftereffects of drinking the concentrated matrix crystal concoction." ],
     "apply_message": "",
     "remove_message": "The concoction's aftereffects finally wear off.",

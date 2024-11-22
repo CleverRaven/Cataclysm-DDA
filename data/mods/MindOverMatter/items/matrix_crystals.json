@@ -45,7 +45,7 @@
   {
     "type": "TOOL",
     "id": "matrix_crystal_chronokinesis",
-    "name": { "str_sp": "strange crystal, void" },
+    "name": { "str_sp": "strange crystal, monochrome" },
     "description": "A strange-looking, surprisingly-heavy crystal that seems to bleach the surrounding environment of color.  Holding it, you feel distorted.",
     "copy-from": "matrix_crystal_biokinesis",
     "color": "black_white",
@@ -59,7 +59,7 @@
   {
     "type": "GENERIC",
     "id": "matrix_crystal_chronokin_dust",
-    "name": { "str_sp": "crystalline dust, void" },
+    "name": { "str_sp": "crystalline dust, monochrome" },
     "copy-from": "matrix_crystal_biokin_dust",
     "description": "A bit of crystalline dust that slightly bleaches the environment of color.",
     "color": "black_white"
@@ -67,7 +67,7 @@
   {
     "type": "GENERIC",
     "id": "matrix_crystal_chronokin_dust_refined",
-    "name": { "str_sp": "refined matrix crystal powder, void" },
+    "name": { "str_sp": "refined matrix crystal powder, monochrome" },
     "description": "Concentrated matrix crystal dust.  It saps even the nearby darkness of essence.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
     "color": "black_white"

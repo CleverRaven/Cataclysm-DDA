@@ -29,7 +29,7 @@
     "id": "matrix_crystal_chronokin_dust_potion",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str_sp": "void crystalline elixir" },
+    "name": { "str_sp": "monochrome crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid slightly saps color from the nearby environment.",
     "material": [ "water" ],
     "weight": "255 g",
