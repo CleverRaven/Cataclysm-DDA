@@ -132,7 +132,6 @@
     "id": "PENETRATE",
     "name": "Penetrating Strike",
     "melee_allowed": true,
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "crit_tec": true,
     "reach_ok": true,
     "flat_bonuses": [
@@ -141,7 +140,7 @@
       { "stat": "arpen", "type": "stab", "scaling-stat": "melee", "scale": 2.0 }
     ],
     "messages": [ "You find a weak spot in %s's armor", "<npcname> finds a weak spot in %s's armor!" ],
-    "description": "30% armor penetration, crit only, min 4 melee",
+    "description": "Increase armor penetration by 2 times melee skill.",
     "attack_vectors": [ "vector_null" ]
   },
   {
