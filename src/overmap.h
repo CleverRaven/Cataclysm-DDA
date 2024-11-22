@@ -515,7 +515,6 @@ class overmap
                                 std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        bool build_slimepit( const tripoint_om_omt &origin, int s );
         void place_ravines();
 
         // Connection laying
@@ -540,7 +539,6 @@ class overmap
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
         std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
-        void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
         void good_river( const tripoint_om_omt &p );
