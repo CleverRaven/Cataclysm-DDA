@@ -134,10 +134,11 @@
     "melee_allowed": true,
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "crit_tec": true,
-    "mult_bonuses": [
-      { "stat": "arpen", "type": "bash", "scale": 1.3 },
-      { "stat": "arpen", "type": "cut", "scale": 1.3 },
-      { "stat": "arpen", "type": "stab", "scale": 1.3 }
+    "reach_ok": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "melee", "scale": 2.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "melee", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "melee", "scale": 2.0 }
     ],
     "messages": [ "You find a weak spot in %s's armor", "<npcname> finds a weak spot in %s's armor!" ],
     "description": "30% armor penetration, crit only, min 4 melee",
