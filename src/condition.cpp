@@ -1411,10 +1411,11 @@ conditional_t::func f_see_opposite_coordinates( bool is_npc )
             d.const_actor( !is_npc )->get_const_creature() ) {
             tripoint_bub_ms alpha_pos = d.const_actor( is_npc )->get_const_creature()->pos_bub();
             tripoint_bub_ms beta_pos = d.const_actor( !is_npc )->get_const_creature()->pos_bub();
-            int alpha_vision =
-                500; // function is made specifically to bypass light level, and the only way to pick the creature vision distance is affected by light level
 
-            return get_map().sees( alpha_pos, beta_pos, alpha_vision );
+            // function is made specifically to bypass light level, and the only way to pick the creature vision distance is affected by light level
+            // hence MAX_VIEW_DISTANCE
+            return get_map().sees( alpha_pos, beta_pos, MAX_VIEW_DISTANCE );
+
         } else {
             return false;
         }

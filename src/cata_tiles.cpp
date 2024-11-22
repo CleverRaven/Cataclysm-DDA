@@ -4046,9 +4046,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         const Creature &critter = *pcritter;
 
         if( !you.sees( critter ) ) {
-            if( you.sees_with_specials( critter ) ) {
-                return draw_from_id_string( you.enchantment_cache->get_vision_tile( you, *pcritter ),
-                                            TILE_CATEGORY::NONE, empty_string, p, 0, 0, lit_level::LIT, false, height_3d );
+            const_dialogue d( get_const_talker_for( you ), get_const_talker_for( critter ) );
+            enchant_cache::special_vision sees_with_special = you.enchantment_cache->get_vision( d );
+            if( !sees_with_special.is_empty() ) {
+                const enchant_cache::special_vision_descriptions special_vis_desc =
+                    you.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                return draw_from_id_string( special_vis_desc.id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
+                                            lit_level::LIT, false, height_3d );
             }
             return false;
         }
@@ -4109,14 +4113,20 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         if( pcritter == nullptr ) {
             return false;
         }
-        // scope_is_blocking is true if player is aiming and aim FOV limits obscure that position
-        const bool scope_is_blocking = you.is_avatar() && you.as_avatar()->cant_see( p );
-        const bool sees_with_specials = !scope_is_blocking && you.sees_with_specials( *pcritter );
-        if( sees_with_specials ) {
-            // try drawing infrared creature if invisible and not overridden
-            // return directly without drawing overlay
-            return draw_from_id_string( you.enchantment_cache->get_vision_tile( you, *pcritter ),
-                                        TILE_CATEGORY::NONE, empty_string, p, 0, 0, lit_level::LIT, false, height_3d );
+        const_dialogue d( get_const_talker_for( you ), get_const_talker_for( *pcritter ) );
+        const enchant_cache::special_vision sees_with_special = you.enchantment_cache->get_vision( d );
+        if( !sees_with_special.is_empty() ) {
+
+            const bool scope_is_blocking = you.is_avatar() && ( you.as_avatar()->cant_see( p ) ||
+                                           sees_with_special.ignores_aiming_cone );
+            if( !scope_is_blocking ) {
+                const enchant_cache::special_vision_descriptions special_vis_desc =
+                    you.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                return draw_from_id_string( special_vis_desc.id, TILE_CATEGORY::NONE, empty_string, p,
+                                            0, 0, lit_level::LIT, false, height_3d );
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

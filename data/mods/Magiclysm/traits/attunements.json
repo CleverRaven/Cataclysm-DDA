@@ -780,7 +780,7 @@
     "purifiable": false,
     "valid": false,
     "description": "This attunement grants you a magical control over the forces of magnetism.\n\nPower: Your Magnetism Mage abilities grant you a good defense against firearms, perfect electric immunity, and the ability to see electric creatures from any distance.",
-    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "add": -50 }, { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] } ],
+    "enchantments": [ "ELECTRIC_VISION", { "values": [ { "value": "ARMOR_BULLET", "add": -50 } ] } ],
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
     "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ], [ "robot_disabler_explosion", 5 ] ],
     "cancels": [

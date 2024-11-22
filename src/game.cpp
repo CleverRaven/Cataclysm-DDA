@@ -4187,9 +4187,12 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         critter.draw( w_terrain, point_bub_ms( center.xy() ), false );
         return;
     }
-
-    if( u.sees_with_specials( critter ) ) {
-        mvwputch( w_terrain, point( mx, my ), c_red, '?' );
+    const_dialogue d( get_const_talker_for( u ), get_const_talker_for( critter ) );
+    const enchant_cache::special_vision sees_with_special = u.enchantment_cache->get_vision( d );
+    if( !sees_with_special.is_empty() ) {
+        const enchant_cache::special_vision_descriptions special_vis_desc =
+            u.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+        mvwputch( w_terrain, point( mx, my ), special_vis_desc.color, special_vis_desc.symbol );
     }
 }
 
@@ -6378,10 +6381,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             static std::string raw_description;
             static std::string parsed_description;
             if( creature != nullptr ) {
-                if( u.sees_with_specials( *creature ) ) {
+                const_dialogue d( get_const_talker_for( u ), get_const_talker_for( *creature ) );
+                const enchant_cache::special_vision sees_with_special = u.enchantment_cache->get_vision( d );
+                if( !sees_with_special.is_empty() ) {
                     // handling against re-evaluation and snippet replacement on redraw
                     if( raw_description.empty() ) {
-                        raw_description = u.enchantment_cache->get_vision_description( *u.as_character(), *creature );
+                        const enchant_cache::special_vision_descriptions special_vis_desc =
+                            u.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                        raw_description = special_vis_desc.description.translated();
                         parse_tags( raw_description, *u.as_character(), *creature );
                         parsed_description = raw_description;
                     }

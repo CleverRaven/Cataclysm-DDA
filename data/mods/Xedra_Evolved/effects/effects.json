@@ -1293,7 +1293,14 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
+      {
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('strength') + u_val('perception')" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -1748,10 +1755,11 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_FAE",
-            "add": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] }
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
           }
         ]
       }
@@ -1770,7 +1778,19 @@
     "name": [ "Blood-and-Ash Paste" ],
     "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
     "rating": "mixed",
-    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 40 } ] } ],
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+            },
+            "distance": 40,
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          }
+        ]
+      }
+    ],
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.6 } ],
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 60 ], "pain_tick": [ 180 ] },
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
