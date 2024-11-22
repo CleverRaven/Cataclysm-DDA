@@ -1699,6 +1699,7 @@ void Character::process_bionic( bionic &bio )
                                _( "Your %s activates and you feel your throat open up and air filling your lungs!" ),
                                bio.info().name );
             remove_effect( effect_asthma );
+            mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_evap ) {
         if( is_underwater() ) {
