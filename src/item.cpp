@@ -1894,7 +1894,7 @@ double item::get_var( const std::string &name, const double default_value ) cons
 
 void item::set_var( const std::string &name, const tripoint &value )
 {
-    item_vars[name] = string_format( "%d,%d,%d", value.x, value.y, value.z );
+    item_vars[name] = value.to_string();
 }
 
 tripoint item::get_var( const std::string &name, const tripoint &default_value ) const
@@ -1903,6 +1903,13 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     if( it == item_vars.end() ) {
         return default_value;
     }
+
+    // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
+    // first is produced by tripoint::to_string, second was old custom format
+    if( it->second[0] == '(' ) {
+        return tripoint::from_string( it->second );
+    }
+
     std::vector<std::string> values = string_split( it->second, ',' );
     cata_assert( values.size() == 3 );
     auto convert_or_error = []( const std::string_view s ) {
@@ -8666,21 +8673,13 @@ bool item::is_maybe_melee_weapon() const
 
 bool item::made_of_any_food_components( bool deep_search ) const
 {
-    if( components.empty() || !get_comestible() ) {
+    if( components.empty() ) {
         return false;
     }
 
     for( const std::pair<itype_id, std::vector<item>> pair : components ) {
         for( const item &it : pair.second ) {
-            const auto &maybe_food = it.get_comestible();
-            bool must_be_food = maybe_food && ( maybe_food->default_nutrition_read_only().kcal() > 0 ||
-                                                !maybe_food->default_nutrition_read_only().vitamins().empty() );
-            bool has_food_component = false;
-            if( deep_search && !it.components.empty() ) {
-                // make true if any component has food values, even if some don't
-                has_food_component |= it.made_of_any_food_components( deep_search );
-            }
-            if( must_be_food || has_food_component ) {
+            if( it.is_food() || ( deep_search && it.made_of_any_food_components( deep_search ) ) ) {
                 return true;
             }
         }

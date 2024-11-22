@@ -60,7 +60,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__chainsaw",
-          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
+          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level() > 5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
           "effect": [
             { "turn_cost": 0.8 },
             { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
@@ -391,7 +391,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__elec_chainsaw",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
@@ -469,7 +469,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
-            "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+            "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {

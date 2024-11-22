@@ -101,7 +101,7 @@
   {
     "type": "enchantment",
     "id": "ench_arvore_sense_sun",
-    "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] },
+    "condition": { "math": [ "u_val('pos_z') >= 0" ] },
     "ench_effects": [ { "effect": "effect_arvore_sense_sun", "intensity": 1 } ]
   },
   {

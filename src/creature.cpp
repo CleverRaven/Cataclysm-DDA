@@ -103,6 +103,10 @@ static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
+static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
+static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_30" );
+static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
 static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_invisibility( "invisibility" );
@@ -485,9 +489,11 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
-        const monster *m = this->as_monster();
-        int mindsight_vision = ( m->type->vision_day ) / 1.5;
-        return target_range <= std::max( mindsight_vision, m->type->vision_night );
+        int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
+                                        effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
+                                    + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+        int mindsight_vision = 5 + mindsight_bonus_range;
+        return target_range <= mindsight_vision;
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
@@ -3391,39 +3397,6 @@ void Creature::load_hit_range( const JsonObject &jo )
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
     }
-}
-
-void Creature::describe_infrared( std::vector<std::string> &buf ) const
-{
-    std::string size_str;
-    switch( get_size() ) {
-        case creature_size::tiny:
-            size_str = pgettext( "infrared size", "tiny" );
-            break;
-        case creature_size::small:
-            size_str = pgettext( "infrared size", "small" );
-            break;
-        case creature_size::medium:
-            size_str = pgettext( "infrared size", "medium" );
-            break;
-        case creature_size::large:
-            size_str = pgettext( "infrared size", "large" );
-            break;
-        case creature_size::huge:
-            size_str = pgettext( "infrared size", "huge" );
-            break;
-        case creature_size::num_sizes:
-            debugmsg( "Creature has invalid size class." );
-            size_str = "invalid";
-            break;
-    }
-    buf.emplace_back( _( "You see a figure radiating heat." ) );
-    buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
-}
-
-void Creature::describe_specials( std::vector<std::string> &buf ) const
-{
-    buf.emplace_back( _( "You sense a creature here." ) );
 }
 
 tripoint_abs_ms Creature::get_location() const

@@ -18,7 +18,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_BEAR_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
@@ -130,7 +130,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_COUGAR_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
@@ -229,7 +229,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_DEER_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
@@ -341,7 +341,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_RAVEN_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_val('mana')", "-=", "50" ] },

@@ -8,15 +8,15 @@
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_FAIL",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('clair_danger_sense')", "<=", "7" ] },
-            { "math": [ "u_spell_level('clair_danger_sense')", "!=", "-1" ] }
+            { "math": [ "u_spell_level('clair_danger_sense') <= 7" ] },
+            { "math": [ "u_spell_level('clair_danger_sense') != -1" ] }
           ]
         }
       },
       {
         "text": "[Premonition 8+] *Determine if the voice is a threat*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">", "7" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') > 7" ] }
       }
     ]
   },
@@ -62,7 +62,7 @@
       {
         "text": "[Clarity 3+] *Is the voice lying?*",
         "topic": "TALK_PORTAL_STORM_CLARITY",
-        "condition": { "math": [ "u_spell_level('clair_clear_sight')", ">=", "3" ] }
+        "condition": { "math": [ "u_spell_level('clair_clear_sight') >= 3" ] }
       }
     ]
   },
@@ -82,7 +82,7 @@
       {
         "text": "[Gateway 8+] Thanks, but here I can leave without your help.  Be seeing you.  (End your story)",
         "topic": "TALK_PORTAL_STORM_TELEPORT_OUT",
-        "condition": { "math": [ "u_spell_level('teleport_gateway')", ">=", "8" ] },
+        "condition": { "math": [ "u_spell_level('teleport_gateway') >= 8" ] },
         "effect": { "give_achievement": "teleported_offworld" }
       }
     ]

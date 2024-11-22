@@ -45,6 +45,127 @@
   },
   {
     "type": "enchantment",
+    "id": "THERMAL_VISION_GOOD",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 60,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "text": "You see a huge figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "true" ] },
+            "text": "You see a figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_GOOD_PASSIVE",
+    "condition": "ALWAYS",
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 60,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "text": "You see a huge figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "true" ] },
+            "text": "You see a figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_LEAFNOSE",
+    "condition": {
+      "not": {
+        "or": [
+          { "u_has_effect": "smoke", "bodypart": "mouth" },
+          { "u_has_effect": "asthma" },
+          { "u_has_effect": "tpollen" },
+          { "u_has_effect": "hay_fever" },
+          "u_is_underwater"
+        ]
+      }
+    },
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 10,
+        "descriptions": [
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "true" ] },
+            "text": "You sense a creature with your thermal nostrils."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_great_mech",
+    "condition": "ALWAYS",
+    "values": [ { "value": "NIGHT_VIS", "add": 14 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "nvg_great",
     "name": { "str": "Night Vision Goggles" },
     "description": "You are wearing night vision goggles which allow you to see really well in the dark.",

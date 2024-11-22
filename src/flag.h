@@ -179,7 +179,6 @@ extern const flag_id flag_IN_CBM;
 extern const flag_id flag_INTEGRATED;
 extern const flag_id flag_IRRADIATED;
 extern const flag_id flag_IRREMOVABLE;
-extern const flag_id flag_IR_EFFECT;
 extern const flag_id flag_IS_ARMOR;
 extern const flag_id flag_IS_PET_ARMOR;
 extern const flag_id flag_IS_UPS;

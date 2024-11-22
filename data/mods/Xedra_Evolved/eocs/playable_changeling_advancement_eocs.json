@@ -93,10 +93,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
-      "and": [
-        { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
-        { "math": [ "u_changeling_advancement_dreams_counter", ">=", "1" ] }
-      ]
+      "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] } ]
     },
     "effect": [
       { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true },
@@ -116,7 +113,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" },
-        { "math": [ "u_changeling_advancement_dreams_counter", ">=", "1" ] }
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
       ]
     },
     "effect": [
@@ -137,7 +134,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_POOKA" },
-        { "math": [ "u_changeling_advancement_dreams_counter", ">=", "1" ] }
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
       ]
     },
     "effect": [
@@ -158,7 +155,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
-        { "math": [ "u_changeling_advancement_dreams_counter", ">=", "1" ] }
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
       ]
     },
     "effect": [
@@ -179,7 +176,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_TROW" },
-        { "math": [ "u_changeling_advancement_dreams_counter", ">=", "1" ] }
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
       ]
     },
     "effect": [

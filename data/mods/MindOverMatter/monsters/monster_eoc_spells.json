@@ -24,14 +24,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_2",
-    "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
+    "condition": { "math": [ "u_val('mana') >= 150" ] },
     "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
     "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_3" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_3",
-    "condition": { "math": [ "u_val('stamina')", ">=", "200" ] },
+    "condition": { "math": [ "u_val('stamina') >= 200" ] },
     "effect": [
       { "u_cast_spell": { "id": "eater_drain_stamina" } },
       { "u_message": "For a moment, you feel exhausted.", "type": "bad" }
@@ -135,7 +135,7 @@
         "run_eocs": [
           {
             "id": "EOC_NULL_BREAK_CONCENTRATION_2",
-            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
+            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
             "effect": [
               {
                 "run_eocs": [

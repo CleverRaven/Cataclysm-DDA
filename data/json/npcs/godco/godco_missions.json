@@ -1403,7 +1403,7 @@
     "description": "Find some proof that the representative near the New England Community Church is crooked.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
+    "goal_condition": { "math": [ "freemerch_godco_trader_investigated == 1" ] },
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

@@ -187,7 +187,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" },
-        { "math": [ "_success", "==", "true" ] },
+        { "math": [ "_success == true" ] },
         { "or": [ { "compare_string": [ "telepathic_blast", { "context_val": "spell" } ] } ] }
       ]
     },
@@ -201,7 +201,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" },
-        { "math": [ "_success", "==", "true" ] },
+        { "math": [ "_success == true" ] },
         {
           "or": [
             { "compare_string": [ "vita_hurt_touch", { "context_val": "spell" } ] },

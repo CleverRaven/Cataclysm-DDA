@@ -174,7 +174,7 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 5" ],
           "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead",
           "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
         },

@@ -49,7 +49,7 @@
     "id": "EOC_DREAMSMITHS_RECIPES_ENCH",
     "//": "If your DREAMSMITH_RECIPE_SCORE bigger than DREAMSMITH_RECIPE_SCORE_TARGET, you take a spell, DREAMSMITH_RECIPE_SCORE is zeroed, and DREAMSMITH_RECIPE_SCORE_TARGET is increased for 25. Const 25 is respond for gap between each recipe gain. Now it's 1 casts for first gain, 6 for second, 5 for third and further.",
     "condition": {
-      "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "DREAMSMITH_RECIPE_SCORE", ">=", "DREAMSMITH_RECIPE_SCORE_TARGET" ] } ]
+      "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "DREAMSMITH_RECIPE_SCORE >= DREAMSMITH_RECIPE_SCORE_TARGET" ] } ]
     },
     "effect": [
       {
@@ -124,7 +124,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "DREAMSMITH" },
-        { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", ">=", "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET + 1000" ] }
+        { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER >= DREAMSMITH_RECIPE_SCORE_SUPER_TARGET + 1000" ] }
       ]
     },
     "effect": [
