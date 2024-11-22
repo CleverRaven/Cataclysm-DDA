@@ -156,17 +156,17 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
             if( vp.info().location != "structure" ) {
                 continue;
             }
-            const point &pmount = vp.mount();
+            const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint &ppos = vp.pos();
+            const tripoint_bub_ms &ppos = vp.pos_bub();
             CAPTURE( ppos );
-            if( cycles > ( transition_cycle - pmount.x ) ) {
-                CHECK( ppos.z == target_z );
+            if( cycles > ( transition_cycle - pmount.x() ) ) {
+                CHECK( ppos.z() == target_z );
             } else {
-                CHECK( ppos.z == 0 );
+                CHECK( ppos.z() == 0 );
             }
-            if( pmount.x == 0 && pmount.y == 0 ) {
-                CHECK( player_character.pos() == ppos );
+            if( pmount.x() == 0 && pmount.y() == 0 ) {
+                CHECK( player_character.pos_bub() == ppos );
             }
         }
         vpts = veh.get_points();

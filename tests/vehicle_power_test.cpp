@@ -68,13 +68,13 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         tripoint_abs_ms target_global = here.getglobal( target );
         const vpart_id vpid( cord.typeId().str() );
 
-        point vcoords = source_vp->mount();
+        point_rel_ms vcoords = source_vp->mount_pos();
         vehicle_part source_part( vpid, item( cord ) );
         source_part.target.first = target_global;
         source_part.target.second = target_veh->global_square_location();
         source_veh->install_part( vcoords, std::move( source_part ) );
 
-        vcoords = target_vp->mount();
+        vcoords = target_vp->mount_pos();
         vehicle_part target_part( vpid, item( cord ) );
         tripoint_bub_ms source_global( cord.get_var( "source_x", 0 ),
                                        cord.get_var( "source_y", 0 ),

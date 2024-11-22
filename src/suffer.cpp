@@ -317,15 +317,9 @@ void suffer::while_underwater( Character &you )
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
-        if( you.has_bionic( bio_gills ) ) {
-            if( you.get_power_level() >= bio_gills->power_trigger ) {
-                you.oxygen += 5;
-                you.mod_power_level( -bio_gills->power_trigger );
-            } else {
-                you.add_msg_if_player( m_bad,
-                                       _( "You don't have enough bionic power for activation of your Respirator, so you're drowning!" ) );
-                you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-            }
+        if( you.has_bionic( bio_gills ) && you.get_power_level() >= bio_gills->power_trigger ) {
+            you.oxygen += 5;
+            you.mod_power_level( -bio_gills->power_trigger );
         } else {
             you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
             you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );

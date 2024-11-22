@@ -4896,7 +4896,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
     const auto can_link = [&here, &to_ports]( const tripoint & point ) {
         const optional_vpart_position ovp = here.veh_at( point );
-        return ovp && ovp->vehicle().avail_linkable_part( ovp->mount(), to_ports ) != -1;
+        return ovp && ovp->vehicle().avail_linkable_part( ovp->mount_pos(), to_ports ) != -1;
     };
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
                                          "", can_link, false, false );
@@ -4939,7 +4939,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
 
         // Get the part name for the connection message, using the vehicle name as a fallback.
-        const int part_index = sel_vp->vehicle().avail_linkable_part( sel_vp->mount(), to_ports );
+        const int part_index = sel_vp->vehicle().avail_linkable_part( sel_vp->mount_pos(), to_ports );
         const std::string sel_vp_name = part_index == -1 ? sel_vp->vehicle().name :
                                         sel_vp->vehicle().part( part_index ).name( false );
 

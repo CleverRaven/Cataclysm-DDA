@@ -13654,7 +13654,7 @@ std::string item::link_name() const
 
 ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
 {
-    return linked_vp ? link_to( linked_vp->vehicle(), linked_vp->mount(), link_type ) :
+    return linked_vp ? link_to( linked_vp->vehicle(), linked_vp->mount_pos(), link_type ) :
            ret_val<void>::make_failure();
 }
 
@@ -13665,11 +13665,12 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
         return ret_val<void>::make_failure();
     }
     // Link up the second vehicle first so, if it's a tow cable, the first vehicle will tow the second.
-    ret_val<void> result = link_to( second_linked_vp->vehicle(), second_linked_vp->mount(), link_type );
+    ret_val<void> result = link_to( second_linked_vp->vehicle(), second_linked_vp->mount_pos(),
+                                    link_type );
     if( !result.success() ) {
         return result;
     }
-    return link_to( first_linked_vp->vehicle(), first_linked_vp->mount(), link_type );
+    return link_to( first_linked_vp->vehicle(), first_linked_vp->mount_pos(), link_type );
 }
 
 ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )

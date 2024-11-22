@@ -654,7 +654,7 @@ void editmap::draw_main_ui_overlay()
                                                false );
                     }
                     if( const optional_vpart_position ovp = tmpmap.veh_at( tmp_p ) ) {
-                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount() );
+                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount_pos() );
                         char part_mod = 0;
                         if( vd.is_open ) {
                             part_mod = 1;
@@ -662,7 +662,8 @@ void editmap::draw_main_ui_overlay()
                             part_mod = 2;
                         }
                         const units::angle veh_dir = ovp->vehicle().face.dir();
-                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo, ovp->mount() );
+                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
+                                                ovp->mount_pos().raw() );
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
                     }

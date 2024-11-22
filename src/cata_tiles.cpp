@@ -149,7 +149,8 @@ pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
     return pixel_minimap_mode::solid;
 }
 
-auto simple_point_hash = []( const auto &p )
+// Generic function for hashing points. Untype them to use them.
+auto simple_point_hash = []( const point &p )
 {
     return p.x + p.y * 65536;
 };
@@ -2804,7 +2805,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::FIELD:
         case TILE_CATEGORY::LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = simple_point_hash( here.getglobal( pos ).raw() );
+            seed = simple_point_hash( here.getglobal( pos ).raw().xy() );
             break;
         case TILE_CATEGORY::VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -2822,7 +2823,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             } else {
                 const optional_vpart_position vp = here.veh_at( pos );
                 if( vp ) {
-                    seed = simple_point_hash( vp->mount() );
+                    seed = simple_point_hash( vp->mount_pos().raw() );
                 }
             }
         }
@@ -2836,7 +2837,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
-                    seed = simple_point_hash( here.getglobal( pos ).raw() );
+                    seed = simple_point_hash( here.getglobal( pos ).raw().xy() );
                 }
             }
         }
@@ -2845,14 +2846,14 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::OVERMAP_TERRAIN:
         case TILE_CATEGORY::OVERMAP_VISION_LEVEL:
         case TILE_CATEGORY::MAP_EXTRA:
-            seed = simple_point_hash( pos );
+            seed = simple_point_hash( pos.xy() );
             break;
         case TILE_CATEGORY::NONE:
             // graffiti
             if( found_id == "graffiti" ) {
                 seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
             } else if( string_starts_with( found_id, "graffiti" ) ) {
-                seed = simple_point_hash( here.getglobal( pos ).raw() );
+                seed = simple_point_hash( here.getglobal( pos ).raw().xy() );
             }
             break;
         case TILE_CATEGORY::ITEM:
@@ -3631,7 +3632,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                     // get the sprite to draw
                     // roll is based on the maptile seed to keep visuals consistent
-                    int roll = simple_point_hash( p ) % layer_var.total_weight;
+                    int roll = simple_point_hash( p.xy() ) % layer_var.total_weight;
                     std::string sprite_to_draw;
                     for( const auto &sprite_list : layer_var.sprite ) {
                         roll = roll - sprite_list.second;
@@ -3897,7 +3898,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
     const optional_vpart_position ovp = here.veh_at( p );
     if( ovp && !invisible[0] ) {
         const vehicle &veh = ovp->vehicle();
-        const vpart_display vd = veh.get_display_of_tile( ovp->mount() );
+        const vpart_display vd = veh.get_display_of_tile( ovp->mount_pos() );
         if( !vd.id.is_null() ) {
             const int subtile = vd.is_open ? open_ : vd.is_broken ? broken : 0;
             const int rotation = angle_to_dir4( 270_degrees - veh.face.dir() );

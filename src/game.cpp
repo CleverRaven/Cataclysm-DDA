@@ -1059,11 +1059,11 @@ bool game::start_game()
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint pos = vp.pos();
+                    const tripoint_bub_ms pos = vp.pos_bub();
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
+                    for( const int sp : v.v->parts_at_relative( vp.mount_pos(), true ) ) {
                         vpart_reference( *v.v, sp ).items().clear();
                     }
 
@@ -1225,7 +1225,7 @@ vehicle *game::place_vehicle_nearby(
                 point_sm_ms remainder;
                 std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( abs_local );
                 veh->sm_pos = quotient.raw();
-                veh->pos = remainder.raw();
+                veh->pos = remainder;
 
                 veh->unlock();          // always spawn unlocked
                 veh->toggle_tracking(); // always spawn tracked
@@ -5555,7 +5555,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
 
 void game::exam_appliance( vehicle &veh, const point &c )
 {
-    player_activity act = veh_app_interact::run( veh, c );
+    player_activity act = veh_app_interact::run( veh, point_rel_ms( c ) );
     if( act ) {
         u.set_moves( 0 );
         u.assign_activity( act );
@@ -5568,7 +5568,7 @@ void game::exam_vehicle( vehicle &veh, const point &c )
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    player_activity act = veh_interact::run( veh, c );
+    player_activity act = veh_interact::run( veh, point_rel_ms( c ) );
     if( act ) {
         u.set_moves( 0 );
         u.assign_activity( act );
@@ -5627,8 +5627,8 @@ void game::control_vehicle()
     vehicle *veh = nullptr;
     if( const optional_vpart_position vp = m.veh_at( u.pos_bub() ) ) {
         veh = &vp->vehicle();
-        const int controls_idx = veh->avail_part_with_feature( vp->mount(), "CONTROLS" );
-        const int reins_idx = veh->avail_part_with_feature( vp->mount(), "CONTROL_ANIMAL" );
+        const int controls_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROLS" );
+        const int reins_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROL_ANIMAL" );
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
@@ -6055,7 +6055,7 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
             if( !vp->vehicle().is_appliance() ) {
                 vp->vehicle().interact_with( examp, with_pickup );
             } else {
-                g->exam_appliance( vp->vehicle(), vp->mount() );
+                g->exam_appliance( vp->vehicle(), vp->mount_pos().raw() );
             }
             return;
         } else {
@@ -10856,7 +10856,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z() = vp_grab->pos().z - u.posz();
+        u.grab_point.z() = vp_grab->pos_bub().z() - u.posz();
     }
 
     if( pulling ) {

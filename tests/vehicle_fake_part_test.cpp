@@ -415,11 +415,12 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         CAPTURE( you.pos() );
         REQUIRE( veh->can_close( vp.part_index(), you ) );
         REQUIRE( veh->can_close( fake_door.part_index(), you ) );
-        you.setpos( vp.pos() );
+        you.setpos( vp.pos_bub() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         // Move to the location of the fake part and repeat the assetion
-        you.setpos( fake_door.pos() );
+        you.setpos( fake_door.pos_bub() );
+        you.setpos( fake_door.pos_bub() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         you.setpos( prev_player_pos );

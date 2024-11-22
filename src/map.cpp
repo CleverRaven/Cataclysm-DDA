@@ -1253,7 +1253,7 @@ bool map::deregister_vehicle_zone( zone_data &zone ) const
     const tripoint_bub_ms pos = bub_from_abs( zone.get_start_point() );
     if( const std::optional<vpart_reference> vp = veh_at( pos ).cargo() ) {
         vehicle &veh = vp->vehicle();
-        auto bounds = veh.loot_zones.equal_range( vp->mount() );
+        auto bounds = veh.loot_zones.equal_range( vp->mount_pos() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
             if( &zone == &( it->second ) ) {
                 veh.loot_zones.erase( it );
@@ -1280,7 +1280,7 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
             continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
         }
         for( const vpart_reference &vpr : v.v->get_all_parts() ) {
-            const tripoint_bub_ms vppos = static_cast<tripoint_bub_ms>( vpr.pos() );
+            const tripoint_bub_ms vppos = vpr.pos_bub();
             if( rl_dist( zpos, vppos ) > max_range ) {
                 continue;
             }
@@ -1602,7 +1602,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
     }
 
     veh.shed_loose_parts( trinary::SOME, &dst );
-    smzs = veh.advance_precalc_mounts( dst_offset.raw(), src.raw(), dp.raw(), ramp_offset,
+    smzs = veh.advance_precalc_mounts( dst_offset, src, dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
 
@@ -3854,7 +3854,7 @@ bool map::terrain_moppable( const tripoint_bub_ms &p )
     // Moppable vehicles ( blood splatter )
     if( const optional_vpart_position ovp = veh_at( p ) ) {
         vehicle *const veh = &ovp->vehicle();
-        for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+        for( const int elem : veh->parts_at_relative( ovp->mount_pos(), true ) ) {
             const vehicle_part &vp = veh->part( elem );
             if( vp.blood > 0 ) {
                 return true;
@@ -3899,7 +3899,7 @@ bool map::mop_spills( const tripoint_bub_ms &p )
 
     if( const optional_vpart_position ovp = veh_at( p ) ) {
         vehicle *const veh = &ovp->vehicle();
-        for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+        for( const int elem : veh->parts_at_relative( ovp->mount_pos(), true ) ) {
             vehicle_part &vp = veh->part( elem );
             if( vp.blood > 0 ) {
                 vp.blood = 0;
@@ -6025,7 +6025,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         }
         const auto it = std::find_if( begin( cargo_parts ),
         end( cargo_parts ), [&]( const vpart_reference & part ) {
-            return active_item_ref.location.raw() == part.mount();
+            return active_item_ref.location == part.mount_pos();
         } );
 
         if( it == end( cargo_parts ) ) {
@@ -6996,7 +6996,7 @@ void map::add_splatter( const field_type_id &type, const tripoint_bub_ms &where,
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             // Might be -1 if all the vehicle's parts at where are marked for removal
-            const int part = veh->part_displayed_at( vp->mount(), true );
+            const int part = veh->part_displayed_at( vp->mount_pos(), true );
             if( part != -1 ) {
                 veh->part( part ).blood += 200 * std::min( intensity, 3 ) / 3;
                 return;
@@ -7628,7 +7628,7 @@ void map::draw_from_above( const catacurses::window &w, const tripoint_bub_ms &p
         tercol = curr_furn.color();
     } else if( ( veh = veh_at_internal( p, part_below ) ) != nullptr ) {
         const vpart_position vpp( const_cast<vehicle &>( *veh ), part_below );
-        const vpart_display vd = veh->get_display_of_tile( vpp.mount(), true, true, true );
+        const vpart_display vd = veh->get_display_of_tile( vpp.mount_pos(), true, true, true );
         const int roof = veh->roof_at_part( part_below );
         sym = vd.symbol_curses;
         tercol = roof >= 0 || vpp.obstacle_at_part() ? c_light_gray : c_light_gray_cyan;
@@ -9046,7 +9046,7 @@ void map::actualize( const tripoint_rel_sm &grid )
         // spill out items too large, MIGRATION pockets etc from vehicle parts
         for( const vpart_reference &vp : veh->get_all_parts() ) {
             const item &base_const = vp.part().get_base();
-            const_cast<item &>( base_const ).overflow( vp.pos() );
+            const_cast<item &>( base_const ).overflow( vp.pos_bub().raw() );
         }
         veh->refresh();
     }
