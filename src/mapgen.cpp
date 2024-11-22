@@ -4887,6 +4887,16 @@ std::unordered_set<point> nested_mapgen::all_placement_coords() const
     return result;
 }
 
+void nested_mapgen::add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight )
+{
+    funcs_.add( p, weight );
+}
+
+void update_mapgen::add( std::unique_ptr<update_mapgen_function_json> &&p )
+{
+    funcs_.push_back( std::move( p ) );
+}
+
 void jmapgen_objects::finalize()
 {
     std::stable_sort( objects.begin(), objects.end(), compare_phases );
