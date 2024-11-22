@@ -1300,6 +1300,11 @@ bool talker_character_const::get_is_alive() const
     return !me_chr_const->is_dead_state();
 }
 
+bool talker_character_const::is_warm() const
+{
+    return me_chr_const->is_warm();
+}
+
 void talker_character::die()
 {
     me_chr->die( nullptr );

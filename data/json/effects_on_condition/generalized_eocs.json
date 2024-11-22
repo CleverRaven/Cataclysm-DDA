@@ -14,7 +14,7 @@
         { "one_in_chance": { "context_val": "chance" } },
         { "u_near_om_location": { "context_val": "omt" }, "range": 30 },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= _days_till_spawn" ] },
-        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">=", "time('1 d')" ] },
+        { "math": [ "time_since(u_timer_caravan_RandEnc) >= time('1 d')" ] },
         { "not": { "u_near_om_location": { "context_val": "omt" }, "range": 2 } },
         { "get_condition": "random_enc_condition" }
       ]
@@ -41,9 +41,9 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] },
+        { "math": [ "time_since(u_timer_caravan_RandEnc) > time('1 h')" ] },
         { "not": { "u_near_om_location": { "global_val": "random_encounter_omt" }, "range": 2 } },
-        { "math": [ "RandEnc", "==", "1" ] }
+        { "math": [ "RandEnc == 1" ] }
       ]
     },
     "effect": [

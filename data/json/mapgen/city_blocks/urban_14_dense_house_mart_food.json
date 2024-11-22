@@ -424,9 +424,9 @@
         "            ---------------------               ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": [ "parametrized_walls_palette", "roof_palette" ],
       "terrain": {
-        "%": "t_brick_wall",
+        "%": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
         "*": "t_door_metal_pickable",
         "`": "t_thconc_floor",
         "b": "t_thconc_floor",

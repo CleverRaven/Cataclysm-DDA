@@ -1247,9 +1247,7 @@ double calculate_aim_cap( const Character &you, const tripoint_bub_ms &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = get_creature_tracker().creature_at( target, true );
-    // No p.sees_with_specials() here because special senses are not precise enough
-    // to give creature's exact size & position, only which tile it occupies
-    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
+    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_specials( *victim ) ) ) {
         const int range = rl_dist( you.pos_bub(), target );
         // Get angle of triangle that spans the target square.
         const double angle = 2 * atan2( 0.5, range );
@@ -2048,7 +2046,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 static bool pl_sees( const Creature &cr )
 {
     Character &u = get_player_character();
-    return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
+    return u.sees( cr ) || u.sees_with_specials( cr );
 }
 
 static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
@@ -4120,10 +4118,17 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
             text_y += max_lines;
         } else {
             std::vector<std::string> buf;
-            if( you->sees_with_infrared( *dst_critter ) ) {
-                dst_critter->describe_infrared( buf );
-            } else if( you->sees_with_specials( *dst_critter ) ) {
-                dst_critter->describe_specials( buf );
+            static std::string raw_description;
+            static std::string critter_name;
+            if( you->sees_with_specials( *dst_critter ) ) {
+                // handling against re-evaluation and snippet replacement on redraw
+                if( critter_name != dst_critter->get_name() ) {
+                    raw_description = you->enchantment_cache->get_vision_description( *you->as_character(),
+                                      *dst_critter );
+                    parse_tags( raw_description, *you->as_character(), *dst_critter );
+                    critter_name = dst_critter->get_name();
+                }
+                buf.emplace_back( raw_description );
             }
             for( size_t i = 0; i < static_cast<size_t>( max_lines ); i++, text_y++ ) {
                 if( i >= buf.size() ) {

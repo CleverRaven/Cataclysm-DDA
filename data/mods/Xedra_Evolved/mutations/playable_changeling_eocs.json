@@ -554,7 +554,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "BROWNIE_HOMEBODY" },
-        { "math": [ "u_brownie_homebody_speed_bonus", "<=", "19" ] },
+        { "math": [ "u_brownie_homebody_speed_bonus <= 19" ] },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
@@ -568,7 +568,7 @@
     "condition": {
       "and": [
         "u_is_outside",
-        { "math": [ "u_brownie_homebody_speed_bonus", ">", "0" ] },
+        { "math": [ "u_brownie_homebody_speed_bonus > 0" ] },
         {
           "not": {
             "or": [
@@ -702,7 +702,7 @@
     "id": "EOC_BROWNIE_HOME_TELEPORT_SET_DESTINATION",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus", ">=", "12" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus >= 12" ] } ] },
     "effect": [ { "u_location_variable": { "u_val": "brownie_home_teleport_loc" } } ]
   },
   {
@@ -767,7 +767,7 @@
         "npc_must_see": true
       },
       {
-        "if": { "math": [ "brownie_home_teleport", "==", "0" ] },
+        "if": { "math": [ "brownie_home_teleport == 0" ] },
         "then": [
           { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
           { "u_message": "You slip through the door and head straight home.", "type": "good" }
@@ -780,7 +780,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK",
-    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "condition": { "math": [ "u_val('mana') >= 1" ] },
     "effect": [
       {
         "run_eocs": [
@@ -1157,7 +1157,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
-    "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+    "condition": { "math": [ "u_val('mana') >= 2" ] },
     "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
     "false_effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
@@ -1183,7 +1183,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
@@ -1244,7 +1244,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
@@ -1303,7 +1303,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
@@ -1362,7 +1362,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
@@ -1419,7 +1419,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
@@ -1473,7 +1473,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },
@@ -1538,7 +1538,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
-    "condition": { "math": [ "magic_weather_dense_fog", "!=", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
     "effect": [
       { "u_message": "A thick fog begins to rise.", "type": "neutral" },
       { "math": [ "magic_weather_dense_fog", "=", "1" ] },
@@ -1570,7 +1570,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
-    "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
@@ -1581,7 +1581,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
-    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
     "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER" } ],
     "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
   },
@@ -1589,10 +1589,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER",
     "condition": {
-      "and": [
-        { "math": [ "u_weather_change_limit", "<=", "2" ] },
-        { "not": { "u_has_effect": "effect_controlling_weather_rains" } }
-      ]
+      "and": [ { "math": [ "u_weather_change_limit <= 2" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rains" } } ]
     },
     "effect": [
       {
@@ -1634,7 +1631,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
-    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
     "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER" } ],
     "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
   },
@@ -1642,10 +1639,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER",
     "condition": {
-      "and": [
-        { "math": [ "u_weather_change_limit", "<=", "3" ] },
-        { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } }
-      ]
+      "and": [ { "math": [ "u_weather_change_limit <= 3" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } } ]
     },
     "effect": [
       {
@@ -1703,7 +1697,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END",
-    "condition": { "math": [ "magic_weather_lightning", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_lightning == 1" ] },
     "effect": [
       { "math": [ "u_weather_change_limit", "=", "0" ] },
       { "u_lose_effect": "effect_controlling_weather" },

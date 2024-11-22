@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_vitamin('dreamer_vit')", ">=", "600" ] },
+    "condition": { "math": [ "u_vitamin('dreamer_vit') >= 600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
       { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
@@ -85,7 +85,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ETHEREAL_WINGS_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       {
@@ -129,7 +129,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_KARMA_ARMS_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       {
@@ -166,7 +166,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DEVIL_TAIL_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana')", ">=", "100" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana') >= 100" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "100" ] },
       { "u_message": "Your devilish tail stretches and twists playfully.", "type": "good" },
@@ -203,7 +203,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STALKER_EYES_CONTINUE",
-    "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       { "u_message": "Your sight darkens for a second, but it quickly turns back.", "type": "good" },

@@ -291,12 +291,12 @@
       "effect_on_conditions": [
         {
           "id": "EOC_SEVENOCLOCK_ALREADY_TRACKED",
-          "condition": { "math": [ "u_tracked_sevenoclock", "==", "1" ] },
+          "condition": { "math": [ "u_tracked_sevenoclock == 1" ] },
           "effect": [ { "u_message": "You already know where these footprints lead." } ]
         },
         {
           "id": "EOC_SEVENOCLOCK_TRACK",
-          "condition": { "math": [ "u_tracked_sevenoclock", "==", "0" ] },
+          "condition": { "math": [ "u_tracked_sevenoclock == 0" ] },
           "effect": [
             { "u_message": "You carefully examine the footprints, determining where they lead." },
             { "assign_mission": "MISSION_SEVENOCLOCK" },
@@ -322,12 +322,12 @@
       "effect_on_conditions": [
         {
           "id": "EOC_DEATHWORM_ALREADY_TRACKED",
-          "condition": { "math": [ "u_tracked_deathworm", "==", "1" ] },
+          "condition": { "math": [ "u_tracked_deathworm == 1" ] },
           "effect": [ { "u_message": "You already know where this hole leads." } ]
         },
         {
           "id": "EOC_DEATHWORM_TRACK",
-          "condition": { "math": [ "u_tracked_deathworm", "==", "0" ] },
+          "condition": { "math": [ "u_tracked_deathworm == 0" ] },
           "effect": [
             { "u_message": "You carefully examine the hole, determining where it leads." },
             { "assign_mission": "MISSION_DEATHWORM" },

@@ -29,7 +29,7 @@
         "text": "We've got him, let's get out of here.",
         "condition": {
           "and": [
-            { "math": [ "isherwood_family_coming", "==", "1" ] },
+            { "math": [ "isherwood_family_coming == 1" ] },
             { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] }
           ]
         },

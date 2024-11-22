@@ -1423,8 +1423,7 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_30_338fmjbt_200",
-    "replace": "ammunition_can_30",
-    "variant": "ammunition_can_30_338fmjbt_200"
+    "replace": "ammunition_can_30"
   },
   {
     "type": "MIGRATION",
@@ -1465,8 +1464,7 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_50_300AAC_otm_840",
-    "replace": "ammunition_can_50",
-    "variant": "ammunition_can_50_300AAC_otm_840"
+    "replace": "ammunition_can_50"
   },
   {
     "type": "MIGRATION",
@@ -1477,8 +1475,7 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_50_338fmjbt_400",
-    "replace": "ammunition_can_50",
-    "variant": "ammunition_can_50_338fmjbt_400"
+    "replace": "ammunition_can_50"
   },
   {
     "type": "MIGRATION",
@@ -2122,5 +2119,10 @@
     "id": "sigp230mag",
     "type": "MIGRATION",
     "replace": "ppkmag"
+  },
+  {
+    "id": "ammo_box_army_20_338",
+    "type": "MIGRATION",
+    "replace": "ammo_box_4"
   }
 ]

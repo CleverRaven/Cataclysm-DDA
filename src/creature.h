@@ -967,12 +967,6 @@ class Creature : public viewer
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
-        /** Describe this creature as seen by the avatar via infrared vision. */
-        void describe_infrared( std::vector<std::string> &buf ) const;
-
-        /** Describe this creature as detected by the avatar's special senses. */
-        void describe_specials( std::vector<std::string> &buf ) const;
-
         // Message related stuff
         // These functions print to the sidebar message log. Unlike add_msg which prints messages
         // unconditionally, these only print messages when invoked for certain creature types:

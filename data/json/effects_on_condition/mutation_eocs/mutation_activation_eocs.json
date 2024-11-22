@@ -10,7 +10,7 @@
     "condition": {
       "and": [
         { "expects_vars": [ "prep_time", "spell_to_cast", "message_success", "message_fail" ] },
-        { "math": [ "u_val('stamina')", ">", "_energy_amount" ] }
+        { "math": [ "u_val('stamina') > _energy_amount" ] }
       ]
     },
     "effect": [

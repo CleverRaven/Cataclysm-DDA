@@ -84,7 +84,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EXODII_MERCHANT_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
       }
     ]
   },
@@ -121,7 +121,7 @@
       {
         "text": "[Telepathy 10+] *Go deeper*.",
         "topic": "TALK_EXODII_MERCHANT_deep_scan",
-        "condition": { "math": [ "u_school_level('TELEPATH')", ">=", "10" ] }
+        "condition": { "math": [ "u_school_level('TELEPATH') >= 10" ] }
       }
     ]
   },

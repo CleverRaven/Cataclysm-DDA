@@ -582,7 +582,7 @@
   {
     "id": "MIND_SEEING",
     "type": "monster_flag",
-    "//": "This monster can see everything within its vision range regardless of light or obstacles, unless that thing is undetectable to telepathy"
+    "//": "This monster can see everything within 5 squares + its vision bonuses regardless of light or obstacles, unless that thing is undetectable to telepathy"
   },
   {
     "id": "NEVER_WANDER",

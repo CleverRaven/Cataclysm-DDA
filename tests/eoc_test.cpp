@@ -34,6 +34,10 @@ static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_at
 static const effect_on_condition_id
 effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_match_all_test( "EOC_compare_string_match_all_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_test( "EOC_compare_string_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_item_activate_test( "EOC_item_activate_test" );
@@ -1414,6 +1418,49 @@ TEST_CASE( "EOC_string_test", "[eoc]" )
     CHECK( get_avatar().get_value( "key3" ) == "nest4" );
 }
 
+TEST_CASE( "EOC_compare_string_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_4" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_5" ).empty() );
+
+    CHECK( effect_on_condition_EOC_compare_string_test->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_2" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_3" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_4" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_5" ) ) == Approx( 1 ) );
+
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_4" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_5" ).empty() );
+
+    CHECK( effect_on_condition_EOC_compare_string_match_all_test->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_1" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_2" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_3" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_4" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_5" ) ) == Approx(
+               1 ) );
+}
+
 TEST_CASE( "EOC_run_eocs", "[eoc]" )
 {
     clear_avatar();
@@ -1457,18 +1504,14 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     clear_avatar();
     clear_map();
     clear_npcs();
-    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
-    guy->normalize();
-    overmap_buffer.insert_npc( guy );
-    guy->spawn_at_precise( u.get_location() + tripoint_east );
-    g->load_npcs();
+    npc &guy = spawn_npc( u.pos_bub().xy() + point_east, "thug" );
     tripoint_abs_ms mon_loc = u.get_location() + tripoint_west;
     monster *zombie = g->place_critter_at( mon_zombie, get_map().bub_from_abs( mon_loc ) );
     REQUIRE( zombie != nullptr );
 
     item hammer( "hammer" );
-    item_location hammer_loc( map_cursor{ guy->get_location() }, &hammer );
-    dialogue d2( get_talker_for( *guy ), get_talker_for( hammer_loc ) );
+    item_location hammer_loc( map_cursor{ guy.get_location() }, &hammer );
+    dialogue d2( get_talker_for( guy ), get_talker_for( hammer_loc ) );
     talker *alpha_talker = d2.actor( false );
     talker *beta_talker = d2.actor( true );
 
@@ -1485,10 +1528,10 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     CHECK( globvars.get_global_value( "beta_name" ) == alpha_talker->get_name() );
 
     d2.set_value( "alpha_var", "avatar" );
-    d2.set_value( "beta_var", std::to_string( guy->getID().get_value() ) );
+    d2.set_value( "beta_var", std::to_string( guy.getID().get_value() ) );
     CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
     CHECK( globvars.get_global_value( "alpha_name" ) == get_avatar().get_name() );
-    CHECK( globvars.get_global_value( "beta_name" ) == guy->get_name() );
+    CHECK( globvars.get_global_value( "beta_name" ) == guy.get_name() );
 
     d2.set_value( "alpha_var", std::string{} );
     d2.set_value( "beta_var", std::string{} );
