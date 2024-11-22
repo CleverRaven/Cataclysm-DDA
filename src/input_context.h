@@ -404,9 +404,7 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
-#if defined(__ANDROID__)
         std::vector<manual_key> registered_manual_keys;
-#endif
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
