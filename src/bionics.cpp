@@ -1693,13 +1693,10 @@ void Character::process_bionic( bionic &bio )
             mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_gills ) {
-        const units::energy trigger_cost = bio.info().power_trigger / 8;
-        if( has_effect( effect_asthma ) && get_power_level() >= trigger_cost ) {
+        if( has_effect( effect_asthma ) ) {
             add_msg_if_player( m_good,
-                               _( "Your %s activates and you feel your throat open up and air filling your lungs!" ),
-                               bio.info().name );
+                               _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
-            mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_evap ) {
         if( is_underwater() ) {

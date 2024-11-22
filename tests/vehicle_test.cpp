@@ -334,7 +334,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_rel_ms_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount_pos() + point_rel_ms_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );

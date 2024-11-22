@@ -87,7 +87,7 @@ SDL_Color get_map_color_at( const tripoint &p )
 {
     const map &here = get_map();
     if( const optional_vpart_position vp = here.veh_at( p ) ) {
-        const vpart_display vd = vp->vehicle().get_display_of_tile( vp->mount() );
+        const vpart_display vd = vp->vehicle().get_display_of_tile( vp->mount_pos() );
         return curses_color_to_SDL( vd.color );
     }
 

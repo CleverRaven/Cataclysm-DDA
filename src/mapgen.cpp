@@ -2686,10 +2686,10 @@ static inclusive_rectangle<point> vehicle_bounds( const vehicle_prototype &vp )
     cata_assert( !vp.parts.empty() );
 
     for( const vehicle_prototype::part_def &part : vp.parts ) {
-        min.x = std::min( min.x, part.pos.x );
-        max.x = std::max( max.x, part.pos.x );
-        min.y = std::min( min.y, part.pos.y );
-        max.y = std::max( max.y, part.pos.y );
+        min.x = std::min( min.x, part.pos.x() );
+        max.x = std::max( max.x, part.pos.x() );
+        min.y = std::min( min.y, part.pos.y() );
+        max.y = std::max( max.y, part.pos.y() );
     }
 
     return { min, max };
@@ -6907,7 +6907,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     point_sm_ms remainder;
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
     veh->sm_pos = quotient.raw();
-    veh->pos = remainder.raw();
+    veh->pos = remainder;
     veh->init_state( *this, veh_fuel, veh_status );
     veh->place_spawn_items();
     veh->face.init( dir );
