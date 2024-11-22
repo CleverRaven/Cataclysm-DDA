@@ -1693,7 +1693,8 @@ void Character::process_bionic( bionic &bio )
             mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_gills ) {
-        if( has_effect( effect_asthma ) ) {
+        const units::energy trigger_cost = bio.info().power_trigger / 8;
+        if( has_effect( effect_asthma ) && get_power_level() >= trigger_cost ) {
             add_msg_if_player( m_good,
                                _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
