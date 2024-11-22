@@ -291,7 +291,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         .on_submit( [this] { control_doors(); } );
     }
 
-    if( camera_on || ( has_parts( {"CAMERA", "CAMERA_CONTROL"} ).all() ) ) {
+    if( camera_on || has_parts( {"CAMERA", "CAMERA_CONTROL"} ).all() ) {
         menu.add( camera_on
                   ? colorize( _( "Turn off camera system" ), c_pink )
                   : _( "Turn on camera system" ) )
