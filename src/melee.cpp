@@ -1931,9 +1931,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                     monster *m = t.as_monster();
                     if( m->is_grabbing( eff.get_bp().id() ) ) {
                         m->remove_grab( eff.get_bp().id() );
+                        const std::string released_body_part_name = eff.get_bp()->name.translated();
                         remove_effect( eff.get_id(), eff.get_bp() );
                         add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
-                                       eff.get_bp()->name );
+                                       released_body_part_name );
                     }
                 }
             }
