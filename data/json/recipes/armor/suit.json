@@ -1641,7 +1641,7 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "3 h",
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 34 ] ]
   },
@@ -1654,7 +1654,7 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "4 h",
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "autolearn": true,
     "using": [ [ "tailoring_denim_patchwork", 24 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
@@ -1669,7 +1669,7 @@
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
     "time": "5 h",
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "using": [ [ "tailoring_fur_patchwork_simple", 7 ] ],
@@ -1685,7 +1685,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "5 h",
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "autolearn": true,
     "using": [ [ "tailoring_leather_patchwork_simple", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
@@ -1730,7 +1730,7 @@
     "skills_required": [ "tailor", 6 ],
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 8 ], [ "tailor_portfolio", 8 ] ],
-    "using": [ [ "sewing_standard", 200 ], [ "tailoring_nomex_patchwork", 40 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "tailoring_nomex_patchwork", 40 ], [ "glue_strong", 1000 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1739,7 +1739,6 @@
     ],
     "components": [
       [ [ "sheet_kevlar_layered", 8 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 5 ] ],
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_light", 1 ],
@@ -1753,11 +1752,10 @@
     "type": "recipe",
     "copy-from": "entry_suit",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 150 ], [ "tailoring_nomex_patchwork", 30 ] ],
+    "using": [ [ "sewing_standard", 150 ], [ "tailoring_nomex_patchwork", 30 ], [ "glue_strong", 750 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "duct_tape", 150 ], [ "superglue", 3 ] ],
       [
         [ "kevlar", 1 ],
         [ "ballistic_vest_light", 1 ],
@@ -1771,11 +1769,10 @@
     "type": "recipe",
     "copy-from": "entry_suit",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 300 ], [ "tailoring_nomex_patchwork", 50 ] ],
+    "using": [ [ "sewing_standard", 300 ], [ "tailoring_nomex_patchwork", 50 ], [ "glue_strong", 1500 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_kevlar_layered", 12 ] ],
-      [ [ "duct_tape", 300 ], [ "superglue", 7 ] ],
       [
         [ "kevlar", 2 ],
         [ "ballistic_vest_light", 2 ],
@@ -1822,6 +1819,7 @@
         [ "welder_crude", 97 ],
         [ "soldering_iron", 97 ],
         [ "soldering_iron_portable", 97 ],
+        [ "integrated_electrokit", 97 ],
         [ "integrated_welder", 97 ]
       ],
       [ [ "swage", -1 ] ],
@@ -1851,6 +1849,7 @@
         [ "welder_crude", 72 ],
         [ "soldering_iron", 72 ],
         [ "soldering_iron_portable", 72 ],
+        [ "integrated_electrokit", 72 ],
         [ "integrated_welder", 72 ]
       ],
       [ [ "swage", -1 ] ],
@@ -1880,6 +1879,7 @@
         [ "welder_crude", 109 ],
         [ "soldering_iron", 109 ],
         [ "soldering_iron_portable", 109 ],
+        [ "integrated_electrokit", 109 ],
         [ "integrated_welder", 109 ]
       ],
       [ [ "swage", -1 ] ],

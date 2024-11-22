@@ -16,7 +16,7 @@ echo "> Extracting strings from C++ code"
 xgettext --default-domain="cataclysm-dda" \
          --add-comments="~" \
          --sort-by-file \
-         --output="lang/po/gui.pot" \
+         --output="lang/po/base.pot" \
          --keyword="_" \
          --keyword="pgettext:1c,2" \
          --keyword="n_gettext:1,2" \
@@ -40,24 +40,32 @@ version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
 echo "> Extracting strings from JSON"
 if ! lang/extract_json_strings.py \
         -i data \
+        -i data/json \
+        -i data/mods \
         -x data/mods/TEST_DATA \
+        -X data/json/furniture_and_terrain/terrain-regional-pseudo.json \
+        -X data/json/furniture_and_terrain/furniture-regional-pseudo.json \
         -X data/json/items/book/abstract.json \
         -X data/json/npcs/TALK_TEST.json \
+        -X data/core/sentinels.json \
         -X data/raw/color_templates/no_bright_background.json \
+        -X data/mods/Magiclysm/Spells/debug.json \
+        -D data/mods/BlazeIndustries \
+        -D data/mods/desert_region \
         -n "$package $version" \
-        -r lang/po/gui.pot \
-        -o lang/po/json.pot
+        -r lang/po/base.pot
 then
     echo "Error in extracting strings from JSON. Aborting."
     exit 1
 fi
 
-echo "> Merging translation templates"
-msgcat -o lang/po/cataclysm-dda.pot --use-first lang/po/json.pot lang/po/gui.pot
+echo "> Unification of translation template"
+msguniq -o lang/po/cataclysm-dda.pot lang/po/base.pot
 if [ ! -f lang/po/cataclysm-dda.pot ]; then
     echo "Error in merging translation templates. Aborting."
     exit 1
 fi
+sed -i "/^#\. #-#-#-#-#  [a-zA-Z0-9(). -]*#-#-#-#-#$/d" lang/po/cataclysm-dda.pot
 
 # convert line endings to unix
 os="$(uname -s)"

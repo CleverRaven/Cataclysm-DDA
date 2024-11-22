@@ -4,6 +4,7 @@
 
 #include <map>
 #include <string>
+#include "calendar.h"
 #include "units.h"
 
 // Fixed window sizes.
@@ -144,6 +145,9 @@ constexpr int BIO_CQB_LEVEL = 5;
 
 // Minimum size of a horde to show up on the minimap.
 constexpr int HORDE_VISIBILITY_SIZE = 3;
+
+// How often a NPC can move one tile on the overmap
+constexpr time_duration time_between_npc_OM_moves = 5_minutes;
 
 /**
  * Average annual temperature in Kelvin used for climate, weather and temperature calculation.

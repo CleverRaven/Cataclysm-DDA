@@ -10,7 +10,6 @@
     "volume": "750 ml",
     "price": "130 USD",
     "price_postapoc": "50 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",

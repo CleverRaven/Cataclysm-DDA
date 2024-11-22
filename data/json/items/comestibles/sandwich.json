@@ -19,7 +19,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,28 +40,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_egg_salad_wheat_free",
-    "name": { "str": "wheat free egg salad sandwich", "str_pl": "wheat free egg salad sandwiches" },
-    "weight": "156 g",
-    "color": "brown",
-    "spoils_in": "1 day 10 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 266,
-    "description": "A delicious egg salad sandwich on wheat-free bread.",
-    "price": "5 USD 50 cent",
-    "price_postapoc": "2 USD",
-    "material": [ "egg", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 6,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -94,7 +73,15 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 12,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
+    "vitamins": [
+      [ "vitC", 26 ],
+      [ "calcium", 8 ],
+      [ "iron", 49 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -122,7 +109,15 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
+    "vitamins": [
+      [ "vitC", 26 ],
+      [ "calcium", 8 ],
+      [ "iron", 49 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -142,7 +137,7 @@
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -162,7 +157,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -183,7 +178,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -204,7 +199,14 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 7 ],
+      [ "iron", 12 ],
+      [ "wheat_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +227,14 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 7 ],
+      [ "iron", 12 ],
+      [ "wheat_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -244,7 +253,8 @@
     "material": [ "junk", "wheat" ],
     "primary_material": "wheat",
     "volume": "120 ml",
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,14 +274,14 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_sauce",
     "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "copy-from": "bread",
-    "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
+    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",
@@ -300,7 +310,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -321,28 +331,14 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_veggy_cheese_wheat_free",
-    "name": { "str": "gluten free vegetable sandwich with cheese", "str_pl": "gluten free vegetable sandwiches with cheese" },
-    "weight": "189 g",
-    "color": "light_gray",
-    "spoils_in": "2 days",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 557,
-    "description": "A gluten free vegetarian combination of cheese and vegetable on bread, simple yet satisfying.",
-    "price": "8 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "veggy", "milk" ],
-    "volume": "250 ml",
-    "flags": [ "EATEN_COLD" ],
-    "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ] ]
+    "vitamins": [
+      [ "vitC", 36 ],
+      [ "calcium", 34 ],
+      [ "iron", 28 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -374,7 +370,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "150 ml",
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -394,7 +390,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -415,7 +411,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -436,7 +432,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 10,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -456,7 +452,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -475,7 +471,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -494,7 +490,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -526,422 +522,14 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_cheese_grilled_wheat_free",
-    "name": { "str": "wheat-free grilled cheese sandwich", "str_pl": "wheat-free grilled cheese sandwiches" },
-    "weight": "156 g",
-    "color": "brown",
-    "spoils_in": "1 day 10 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 366,
-    "description": "A delicious grilled cheese sandwich made with wheat-free bread, because everything is better with melted cheese.",
-    "price": "5 USD 50 cent",
-    "price_postapoc": "2 USD",
-    "material": [ "milk", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 10,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_deluxe_wheat_free",
-    "name": { "str": "wheat-free deluxe sandwich", "str_pl": "wheat-free deluxe sandwiches" },
-    "conditional_names": [
-      {
-        "type": "COMPONENT_ID_SUBSTRING",
-        "condition": "mutant",
-        "name": { "str": "wheat-free \"deluxe\" sandwich", "str_pl": "wheat-free \"deluxe\" sandwiches" }
-      },
-      {
-        "type": "COMPONENT_ID_SUBSTRING",
-        "condition": "egg",
-        "name": { "str": "deluxe wheat-free breakfast sandwich", "str_pl": "deluxe wheat-free breakfast sandwiches" }
-      }
-    ],
-    "weight": "292 g",
-    "color": "brown",
-    "spoils_in": "1 day 8 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 449,
-    "description": "A sandwich of meat, vegetables, and cheese with condiments made with wheat-free bread.  Tasty and nutritious!",
-    "price": "6 USD",
-    "price_postapoc": "150 cent",
-    "material": [ "flesh", "veggy", "milk" ],
-    "primary_material": "processed_food",
-    "volume": "125 ml",
-    "fun": 12,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_reuben_wheat_free",
-    "name": { "str": "wheat-free reuben sandwich", "str_pl": "wheat-free reuben sandwiches" },
-    "conditional_names": [
-      {
-        "type": "COMPONENT_ID_SUBSTRING",
-        "condition": "mutant",
-        "name": { "str": "wheat-free \"fauxben\" sandwich", "str_pl": "wheat-free \"fauxben\" sandwiches" }
-      }
-    ],
-    "weight": "292 g",
-    "color": "brown",
-    "spoils_in": "1 day 8 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "calories": 449,
-    "description": "A pre-Cataclysm classic, probably made with significant substitutions.  Key components are the special sauce and sauerkraut, with wheat-free bread, meat, and cheese fried in a pan.",
-    "price": "6 USD",
-    "price_postapoc": "150 cent",
-    "material": [ "flesh", "veggy", "milk" ],
-    "primary_material": "processed_food",
-    "volume": "125 ml",
-    "fun": 14,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_cucumber_wheat_free",
-    "name": { "str": "wheat-free cucumber sandwich", "str_pl": "wheat-free cucumber sandwiches" },
-    "weight": "120 g",
-    "color": "light_green",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 6,
-    "calories": 504,
-    "description": "A refreshing cucumber sandwich made with wheat-free bread.  Not very filling, but quite tasty.",
-    "price": "4 USD",
-    "volume": "250 ml",
-    "material": [ "veggy" ],
-    "flags": [ "EATEN_COLD" ],
-    "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_cheese_wheat_free",
-    "name": { "str": "wheat-free cheese sandwich", "str_pl": "wheat-free cheese sandwiches" },
-    "weight": "106 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 366,
-    "description": "A simple cheese sandwich made with wheat-free bread.",
-    "price": "5 USD",
-    "price_postapoc": "2 USD",
-    "material": [ "milk", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 8,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_jam_wheat_free",
-    "name": { "str": "wheat-free jam sandwich", "str_pl": "wheat-free jam sandwiches" },
-    "weight": "140 g",
-    "color": "brown",
-    "spoils_in": "1 day 13 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 262,
-    "description": "A delicious jam sandwich made with wheat-free bread.",
-    "price": "2 USD",
-    "price_postapoc": "2 USD",
-    "material": [ "fruit", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_jam_cheese_wheat_free",
-    "name": { "str": "wheat-free jam and cheese sandwich", "str_pl": "wheat-free jam and cheese sandwiches" },
-    "weight": "140 g",
-    "color": "brown",
-    "spoils_in": "1 day 13 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 382,
-    "description": "A delicious jam and cheese sandwich made with wheat-free bread.",
-    "price": "2 USD",
-    "price_postapoc": "2 USD",
-    "material": [ "fruit", "veggy", "milk" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_jam_butter_wheat_free",
-    "name": { "str": "wheat-free jam and butter sandwich", "str_pl": "wheat-free jam and butter sandwiches" },
-    "weight": "154 g",
-    "color": "brown",
-    "spoils_in": "1 day 13 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 363,
-    "description": "A delicious jam and butter sandwich made with wheat-free bread.",
-    "price": "2 USD",
-    "price_postapoc": "2 USD",
-    "material": [ "milk", "fruit", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_fairy_wheat_free",
-    "name": { "str_sp": "wheat-free fairy bread" },
-    "weight": "56 g",
-    "color": "brown",
-    "spoils_in": "3 days",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 220,
-    "description": "An 'open-faced sandwich' consisting of sliced wheat-free bread, a healthy crust-to-crust slathering of butter, and sprinkles.  A wheat-free alternative to a staple of birthday parties in Australia.",
-    "price": "85 cent",
-    "price_postapoc": "3 USD",
-    "material": [ "junk", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "120 ml",
-    "fun": 10
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_honey_wheat_free",
-    "name": { "str": "wheat-free honey sandwich", "str_pl": "wheat-free honey sandwiches" },
-    "weight": "142 g",
-    "color": "brown",
-    "spoils_in": "10 days",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 328,
-    "description": "A delicious honey sandwich made with wheat-free bread.",
-    "price": "1 USD 75 cent",
-    "material": [ "honey", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 6,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_sauce_wheat_free",
-    "name": { "str": "boring wheat-free sandwich", "str_pl": "boring wheat-free sandwiches" },
-    "copy-from": "cornbread",
-    "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
-    "color": "brown",
-    "spoils_in": "1 day 22 hours",
-    "container": "wrapper",
-    "quench": 1,
-    "description": "A simple sauce sandwich made with wheat-free bread.  Not very filling, but it beats eating just the bread.",
-    "price": "2 USD",
-    "price_postapoc": "2 USD"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_veggy_wheat_free",
-    "name": { "str": "wheat-free vegetable sandwich", "str_pl": "wheat-free vegetable sandwiches" },
-    "weight": "189 g",
-    "color": "light_gray",
-    "spoils_in": "2 days",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "calories": 202,
-    "description": "Wheat-free bread and vegetables, that's it.",
-    "price": "8 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
-    "flags": [ "EATEN_COLD" ],
-    "fun": 1,
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 28 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_t_wheat_free",
-    "name": { "str": "wheat-free meat sandwich", "str_pl": "wheat-free meat sandwiches" },
-    "conditional_names": [
-      {
-        "type": "VITAMIN",
-        "condition": "human_flesh_vitamin",
-        "name": { "str": "wheat-free slob sandwich", "str_pl": "wheat-free slob sandwiches" }
-      },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "wheat-free satyr sandwich", "str_pl": "wheat-free satyr sandwiches" }
-      },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
-    ],
-    "weight": "203 g",
-    "color": "light_gray",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 433,
-    "description": "Wheat-free bread and meat, that's it.",
-    "price": "450 cent",
-    "price_postapoc": "125 cent",
-    "material": [ "flesh", "veggy" ],
-    "volume": "150 ml",
-    "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_pb_wheat_free",
-    "name": { "str": "wheat-free peanut butter sandwich", "str_pl": "wheat-free peanut butter sandwiches" },
-    "weight": "204 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -1,
-    "calories": 358,
-    "description": "Some peanut butter smothered between two pieces of wheat-free bread.  Not very filling, and will stick to the roof of your mouth like glue.",
-    "price": "2 USD 50 cent",
-    "price_postapoc": "3 USD",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
-    "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_pbj_wheat_free",
-    "name": { "str": "wheat-free PB&J sandwich", "str_pl": "wheat-free PB&J sandwiches" },
-    "weight": "204 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "calories": 378,
-    "description": "A delicious peanut butter and jelly sandwich made with wheat-free bread.  It reminds you of the times your mother would make you lunch.",
-    "price": "1 USD 75 cent",
-    "price_postapoc": "1 USD 75 cent",
-    "material": [ "fruit", "veggy" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_pbh_wheat_free",
-    "name": { "str": "wheat-free PB&H sandwich", "str_pl": "wheat-free PB&H sandwiches" },
-    "weight": "207 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "calories": 755,
-    "description": "Some damned fool put honey on this peanut butter wheat-free sandwich, who in their right mind- oh wait, this is pretty good.",
-    "price": "1 USD 75 cent",
-    "price_postapoc": "1 USD 75 cent",
-    "material": [ "veggy", "honey" ],
-    "primary_material": "veggy",
-    "volume": "250 ml",
-    "fun": 10,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sandwich_pbm_wheat_free",
-    "name": { "str": "wheat-free PB&M sandwich", "str_pl": "wheat-free PB&M sandwiches" },
-    "weight": "205 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "calories": 365,
-    "description": "Who knew you could mix maple syrup and peanut butter to create yet another tasty sandwich?  This one is made with wheat-free bread.",
-    "price": "1 USD 75 cent",
-    "price_postapoc": "1 USD 75 cent",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
-    "fun": 6,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "fish_sandwich_wheat_free",
-    "name": { "str": "wheat-free fish sandwich", "str_pl": "wheat-free fish sandwiches" },
-    "weight": "201 g",
-    "color": "yellow",
-    "spoils_in": "1 day",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 481,
-    "description": "A delicious fish sandwich made with wheat-free bread.",
-    "price": "8 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "flesh", "veggy" ],
-    "volume": "250 ml",
-    "fun": 14,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "blt_wheat_free",
-    "name": { "str": "wheat-free BLT" },
-    "weight": "220 g",
-    "color": "brown",
-    "spoils_in": "2 days 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "calories": 447,
-    "description": "A bacon, lettuce, and tomato sandwich on toasted wheat-free bread.",
-    "price": "2 USD",
-    "price_postapoc": "125 cent",
-    "material": [ "flesh", "veggy", "tomato" ],
-    "primary_material": "processed_food",
-    "volume": "125 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 8,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
+    "vitamins": [
+      [ "vitC", 10 ],
+      [ "calcium", 7 ],
+      [ "iron", 18 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -961,26 +549,12 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 17,
-    "vitamins": [ [ "calcium", "108 mg" ], [ "iron", "3 mg" ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "chicken_sandwich_wheat_free",
-    "name": { "str": "wheat-free chicken sandwich", "str_pl": "wheat-free chicken sandwiches" },
-    "weight": "187 g",
-    "color": "brown",
-    "spoils_in": "2 days",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 468,
-    "description": "A wheat-free sandwich of crispy fried chicken topped with condiments and veggies.",
-    "price": 1000,
-    "price_postapoc": 250,
-    "material": [ "flesh", "veggy" ],
-    "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 17,
-    "vitamins": [ [ "calcium", "108 mg" ], [ "iron", "3 mg" ] ]
+    "vitamins": [
+      [ "calcium", "108 mg" ],
+      [ "iron", "3 mg" ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   }
 ]

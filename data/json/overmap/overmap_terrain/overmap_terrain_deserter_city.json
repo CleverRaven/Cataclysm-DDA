@@ -13,10 +13,11 @@
       "deserter_city_office_3fb",
       "deserter_city_office_roofb"
     ],
+    "vision_levels": "large_city_building",
     "name": "deserter outpost",
     "sym": "D",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SIDEWALK" ]
   }
 ]

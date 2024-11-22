@@ -46,7 +46,7 @@ static std::vector<cata_variant> is_mounted( const cata_variant &v )
 
 static std::vector<cata_variant> is_swimming_terrain( const cata_variant &v )
 {
-    const ter_id ter = v.get<ter_id>();
+    const ter_id &ter = v.get<ter_id>();
     const bool swimming = ter->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) &&
                           ter->has_flag( ter_furn_flag::TFLAG_SWIMMABLE );
     std::vector<cata_variant> result = { cata_variant( swimming ) };

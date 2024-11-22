@@ -119,6 +119,21 @@ submap *mapbuffer::lookup_submap( const tripoint_abs_sm &p )
     return iter->second.get();
 }
 
+bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
+{
+    const auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
+        try {
+            return unserialize_submaps( p );
+        } catch( const std::exception &err ) {
+            debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
+        }
+        return false;
+    }
+
+    return true;
+}
+
 void mapbuffer::save( bool delete_after_save )
 {
     assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
@@ -181,6 +196,8 @@ void mapbuffer::save_quad(
 {
     std::vector<point> offsets;
     std::vector<tripoint_abs_sm> submap_addrs;
+    offsets.reserve( 4 );
+    submap_addrs.reserve( 4 );
     offsets.push_back( point_zero );
     offsets.push_back( point_south );
     offsets.push_back( point_east );

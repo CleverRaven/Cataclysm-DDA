@@ -15,10 +15,11 @@
       "campus_admin_0_1_3",
       "campus_admin_0_2_3"
     ],
+    "vision_levels": "large_building",
     "name": "campus admin building",
     "sym": "A",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SOURCE_CHEMISTRY", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
@@ -49,10 +50,11 @@
       "campus_commons_0_3_2",
       "campus_commons_1_3_2"
     ],
+    "vision_levels": "large_building",
     "name": "campus commons building",
     "sym": "C",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
@@ -67,6 +69,7 @@
       "campus_commons_0_3_3",
       "campus_commons_1_3_3"
     ],
+    "vision_levels": "roof_or_air",
     "name": "campus commons roof",
     "color": "blue",
     "copy-from": "campus_commons_0_0_0"
@@ -91,16 +94,18 @@
       "campus_media_1_0_3",
       "campus_media_1_1_3"
     ],
+    "vision_levels": "large_building",
     "name": "campus media building",
     "sym": "C",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "campus_media_0_0_4", "campus_media_0_1_4", "campus_media_1_0_4", "campus_media_1_1_4" ],
     "name": "campus media building roof",
+    "vision_levels": "roof_or_air",
     "color": "blue",
     "copy-from": "campus_media_0_0_0"
   },
@@ -117,15 +122,17 @@
       "campus_health_0_1_2",
       "campus_health_0_2_2"
     ],
+    "vision_levels": "large_building",
     "name": "campus health building",
     "sym": "C",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "campus_health_0_0_3", "campus_health_0_1_3", "campus_health_0_2_3" ],
+    "vision_levels": "roof_or_air",
     "name": "campus health building roof",
     "copy-from": "campus_health_0_0_0"
   },
@@ -146,15 +153,17 @@
       "campus_lecture_0_3_2"
     ],
     "name": "campus lecture hall",
+    "vision_levels": "large_building",
     "sym": "C",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "campus_lecture_0_0_3", "campus_lecture_0_1_3", "campus_lecture_0_2_3", "campus_lecture_0_3_3" ],
     "name": "campus lecture hall roof",
+    "vision_levels": "roof_or_air",
     "color": "blue",
     "copy-from": "campus_lecture_0_0_0"
   },
@@ -182,10 +191,11 @@
       "pedestrian_12_9_0",
       "pedestrian_13_9_0"
     ],
+    "vision_levels": "blends_till_details",
     "name": "campus pedestrian area",
     "sym": ".",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]

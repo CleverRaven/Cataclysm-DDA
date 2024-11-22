@@ -254,38 +254,11 @@
   },
   {
     "type": "terrain",
-    "id": "t_atm",
-    "name": "ATM",
-    "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure.  You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  This thing has seen better days; there's been a run on the bank, and this machine has the dents and cracks to prove it.",
-    "symbol": "&",
-    "color": "magenta",
-    "move_cost": 0,
-    "coverage": 55,
-    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
-    "examine_action": "atm",
-    "bash": {
-      "str_min": 40,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "money_strap_twenty", "count": [ 1, 59 ] },
-        { "item": "money_strap_fifty", "count": [ 1, 39 ] },
-        { "item": "money_twenty", "count": [ 1, 99 ] },
-        { "item": "money_fifty", "count": [ 1, 99 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_ticket_vendor",
     "name": "ticket vendor",
     "description": "A machine with a little screen and slots, intended to take your money and provide you with a ticket.",
     "symbol": "&",
-    "looks_like": "t_atm",
+    "looks_like": "f_atm",
     "color": "blue",
     "move_cost": 0,
     "coverage": 55,
@@ -324,9 +297,11 @@
     "description": "A large wall-mounted panel, covered with fragile metal sheets that regulate airflow.",
     "symbol": "=",
     "color": "light_gray",
-    "looks_like": "t_chainfence_v",
+    "looks_like": "t_chainfence",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": {
       "str_min": 6,
@@ -449,6 +424,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_truss_pillar",
+    "name": "truss pillar",
+    "description": "A hollow metal pillar composed of interconnected beams that distribute loads efficiently while maintaining stability and strength.",
+    "symbol": "H",
+    "color": "light_gray",
+    "looks_like": "t_radio_tower",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_sewage_pipe",
     "name": "high gauge pipe",
     "description": "A section of high gauge pipe.",
@@ -484,6 +482,79 @@
       "sound_fail": "clang!",
       "ter_set": "t_sewage",
       "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drill_machinery",
+    "name": "drilling machinery",
+    "description": "All the machinery required to operate and control de drill string and the drill bit down below.  It is now inactive.",
+    "symbol": "&",
+    "color": "black",
+    "looks_like": "f_machinery_heavy",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "WALL" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "steel_plate", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drill_string",
+    "name": "drill string",
+    "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
+    "symbol": "O",
+    "color": "black",
+    "looks_like": "t_little_column",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "THIN_OBSTACLE", "PERMEABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "steel_plate", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_underwater_drill_string",
+    "name": "drill string",
+    "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
+    "symbol": "O",
+    "color": "blue",
+    "looks_like": "t_little_column",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "THIN_OBSTACLE", "PERMEABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_saltwater_cube",
+      "items": [
         { "item": "steel_lump", "prob": 50 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 0, 4 ] },
@@ -500,6 +571,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 6,
@@ -588,6 +661,8 @@
     "looks_like": "f_console",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "NOITEM", "PERMEABLE" ],
     "examine_action": "nanofab",
     "bash": {
@@ -621,6 +696,8 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
@@ -644,6 +721,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "slot_machine_examine" ] },
     "bash": {
@@ -692,6 +770,7 @@
         { "item": "pipe", "count": [ 0, 2 ] }
       ]
     },
+    "liquid_source": { "id": "water" },
     "examine_action": "water_source"
   },
   {
@@ -717,6 +796,7 @@
       "ter_set": "t_covered_well",
       "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ]
     },
+    "liquid_source": { "id": "water" },
     "examine_action": "water_source"
   },
   {
@@ -729,7 +809,8 @@
     "color": "light_gray",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SALT_WATER" ],
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
     "deconstruct": { "ter_set": "t_covered_well", "items": [ { "item": "well_pump", "count": 1 }, { "item": "pipe", "count": [ 1, 6 ] } ] },
     "bash": {
       "str_min": 15,
@@ -757,6 +838,7 @@
     "move_cost": 0,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
+    "liquid_source": { "id": "water_clean", "count": [ 40, 240 ] },
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -782,6 +864,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": { "str_min": 8, "str_max": 80, "sound": "whack!", "sound_fail": "clang!", "ter_set": "t_sai_box_damaged" },
     "deconstruct": {
@@ -809,6 +893,8 @@
     "looks_like": "f_wreckage",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": {
       "str_min": 6,
@@ -848,6 +934,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -885,6 +973,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -922,6 +1012,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -961,6 +1053,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1003,6 +1097,8 @@
     "color": "i_light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1037,6 +1133,8 @@
     "color": "light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1080,6 +1178,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1118,6 +1218,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1154,12 +1256,13 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "INDOORS" ],
     "coverage": 30,
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": 1 },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "chain", "prob": 10 },
         { "item": "scrap", "count": [ 1, 5 ] },
@@ -1230,6 +1333,8 @@
       ]
     },
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "55gal_drum" }, { "item": "water_faucet" } ] },
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "WALL" ]
   },
   {
@@ -1248,6 +1353,7 @@
       "sound_fail": "whump!",
       "items": [ { "item": "rock_large", "count": [ 0, 20 ] }, { "item": "sharp_rock", "count": [ 0, 16 ] } ]
     },
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "rock_large", "count": 22 } ] },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
   },
   {
@@ -1259,6 +1365,7 @@
     "color": "green",
     "looks_like": "t_pit",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
@@ -1353,6 +1460,7 @@
     "coverage": 30,
     "floor_bedding_warmth": 1000,
     "comfort": 3,
+    "connect_groups": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
@@ -1364,6 +1472,7 @@
       "HIDE_PLACE",
       "EASY_DECONSTRUCT"
     ],
+    "deconstruct": { "ter_set": "t_pit_shallow", "items": [ { "item": "stick", "count": 12 }, { "item": "pine_bough", "count": 24 } ] },
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1385,6 +1494,7 @@
     "comfort": 4,
     "move_cost": 2,
     "coverage": 30,
+    "connect_groups": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
@@ -1395,6 +1505,10 @@
       "HIDE_PLACE",
       "EASY_DECONSTRUCT"
     ],
+    "deconstruct": {
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "stick", "count": 12 }, { "item": "pine_bough", "count": 24 }, { "item": "withered", "count": 80 } ]
+    },
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1428,6 +1542,7 @@
         { "item": "pine_bough", "count": [ 0, 2 ] }
       ]
     },
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
   },
   {
@@ -1455,6 +1570,7 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
   },
   {

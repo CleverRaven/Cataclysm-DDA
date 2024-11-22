@@ -15,7 +15,7 @@
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -144,7 +144,7 @@ class player_activity
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
         /**
-         * Preform necessary initialization to start or resume the activity. Must be
+         * Perform necessary initialization to start or resume the activity. Must be
          * called whenever a Character starts a new activity.
          * When resuming an activity, do not call activity_actor::start
          */

@@ -54,7 +54,6 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -2,
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "red",
@@ -140,6 +139,7 @@
       {
         "type": "heal",
         "move_cost": 200,
+        "bleed": 1,
         "used_up_item": { "id": "fibercloth_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
       },
       "WASH_HARD_ITEMS"

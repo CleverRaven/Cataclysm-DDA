@@ -2,7 +2,7 @@
   {
     "type": "AMMO",
     "id": "84x246mm_he",
-    "//": "84mm HE 441D RS. Ref:TC 3-22.84.  35494gr projectile travelling at 787.4fps.",
+    "//": "84mm HE 441D RS. Ref:TC 3-22.84.  35494gr projectile traveling at 787.4fps.",
     "price": "700 USD",
     "price_postapoc": "120 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -47,7 +47,7 @@
     "type": "AMMO",
     "id": "84x246mm_smoke",
     "copy-from": "84x246mm_he",
-    "//": "84mm SMOKE 469C.  35340gr projectile travelling at 787.4 fps.",
+    "//": "84mm SMOKE 469C.  35340gr projectile traveling at 787.4 fps.",
     "price": "450 USD",
     "price_postapoc": "120 USD",
     "name": { "str_sp": "84x245mm smoke" },

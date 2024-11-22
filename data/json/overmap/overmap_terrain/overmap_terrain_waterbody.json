@@ -3,10 +3,11 @@
     "type": "overmap_terrain",
     "abstract": "generic_lake",
     "copy-from": "generic_water",
+    "vision_levels": "water_body",
     "name": "lake",
     "sym": "#",
     "color": "blue",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK", "WATER" ]
   },
   {
@@ -43,10 +44,11 @@
     "type": "overmap_terrain",
     "abstract": "generic_ocean",
     "copy-from": "generic_water",
+    "vision_levels": "water_body",
     "name": "ocean",
     "sym": "#",
     "color": "blue",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "OCEAN" ]
   },
   {
@@ -77,6 +79,7 @@
     "type": "overmap_terrain",
     "id": "ocean_bed",
     "copy-from": "generic_ocean",
-    "name": "ocean bed (submerged)"
+    "name": "ocean bed (submerged)",
+    "extras": "ocean_bed"
   }
 ]

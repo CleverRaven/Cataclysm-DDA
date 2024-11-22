@@ -75,13 +75,18 @@
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
       { "item": "eyepatch_leather", "prob": 20 },
-      { "item": "hakama", "prob": 1 }
+      { "item": "hakama", "prob": 1 },
+      { "item": "devil_tail", "prob": 15 },
+      { "item": "angel_wings", "prob": 15 },
+      { "item": "cuffs", "prob": 25 },
+      { "item": "collar_playboy", "prob": 25 },
+      { "item": "tail_bunny_playboy", "prob": 25 }
     ]
   },
   {
     "type": "item_group",
     "id": "costume_cloacks",
-    "//": "cloacks for costumes, cosplay and costume parties",
+    "//": "cloaks for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
       { "item": "cloak_vampire", "prob": 25 },
@@ -206,7 +211,10 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "nun_wimple", "prob": 12 }
+      { "item": "nun_wimple", "prob": 12 },
+      { "item": "devil_horn_headband", "prob": 15 },
+      { "item": "angel_halo_headband", "prob": 15 },
+      { "item": "bunny_ears_black", "prob": 25 }
     ]
   },
   {
@@ -316,7 +324,7 @@
       { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
       { "item": "rashguard", "variant": "gothic_rashguard_shirt", "prob": 10 },
       { "item": "postman_shirt", "prob": 10 },
-      { "item": "flag_shirt", "prob": 15 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "dress_shirt", "prob": 10 },
       { "item": "longshirt", "prob": 10 },
       { "item": "striped_shirt", "prob": 15 }
@@ -339,6 +347,8 @@
       { "item": "dragonsuit", "prob": 10 },
       { "item": "felinesuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
+      { "item": "wool_suit_devil", "prob": 15 },
+      { "item": "bunny_suit_playboy", "prob": 25 },
       { "item": "dinosuit", "prob": 10 },
       { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
@@ -383,7 +393,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "flag_jumpsuit", "prob": 25 },
-      { "item": "flag_shirt", "prob": 25 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "pants", "variant": "pants_flag", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },

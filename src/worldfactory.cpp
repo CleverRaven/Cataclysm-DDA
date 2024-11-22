@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <array>
+#include <charconv>
+#include <ctime>
 #include <exception>
 #include <iterator>
 #include <memory>
@@ -144,6 +146,7 @@ WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
     retworld->active_mod_order = mods;
+    retworld->create_timestamp();
     return add_world( std::move( retworld ) );
 }
 
@@ -154,6 +157,7 @@ WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<
     }
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
+    retworld->create_timestamp();
     return add_world( std::move( retworld ) );
 }
 
@@ -175,6 +179,8 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
             return nullptr;
         }
     }
+
+    retworld->create_timestamp();
 
     return add_world( std::move( retworld ) );
 }
@@ -273,6 +279,8 @@ WORLD *worldfactory::make_new_world( special_game_type special_type )
 
     special_world->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
 
+    special_world->create_timestamp();
+
     if( !special_world->save() ) {
         return nullptr;
     }
@@ -296,6 +304,10 @@ bool WORLD::save( const bool is_conversion ) const
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
                                     "] directory for saving";
+        return false;
+    }
+
+    if( !save_timestamp() ) {
         return false;
     }
 
@@ -364,6 +376,15 @@ void worldfactory::init()
         all_worlds[worldname] = std::make_unique<WORLD>();
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
+
+        bool save = false;
+
+        // load timestamp or create for legacy world
+        if( !all_worlds[worldname]->load_timestamp() ) {
+            all_worlds[worldname]->create_timestamp();
+            save = true;
+        }
+
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
@@ -374,6 +395,10 @@ void worldfactory::init()
         if( !all_worlds[worldname]->load_options() ) {
             all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
+            save = true;
+        }
+
+        if( save ) {
             all_worlds[worldname]->save();
         }
     };
@@ -480,8 +505,8 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     int iMinScreenWidth = 0;
     size_t num_pages = 1;
 
-    std::map<int, bool> mapLines;
-    mapLines[3] = true;
+    std::set<int> mapLines;
+    mapLines.insert( 3 );
 
     std::map<int, std::vector<std::string> > world_pages;
     std::map<int, inclusive_rectangle<point>> button_map;
@@ -535,42 +560,32 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         button_map.clear();
         draw_border( w_worlds_border, BORDER_COLOR, _( "World selection" ) );
-        mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+        wattron( w_worlds_border, BORDER_COLOR );
+        mvwaddch( w_worlds_border, point( 0, 4 ), LINE_XXXO ); // |-
+        mvwaddch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), LINE_XOXX ); // -|
 
-        for( auto &mapLine : mapLines ) {
-            if( mapLine.second ) {
-                mvwputch( w_worlds_border, point( mapLine.first + 1, TERMY - 1 ), BORDER_COLOR,
-                          LINE_XXOX ); // _|_
-            }
+        for( const int &mapLine : mapLines ) {
+            mvwaddch( w_worlds_border, point( mapLine + 1, TERMY - 1 ), LINE_XXOX ); // _|_
         }
+        wattroff( w_worlds_border, BORDER_COLOR );
 
         wnoutrefresh( w_worlds_border );
 
-        for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
-            if( mapLines[i] ) {
-                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-            } else {
-                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // Draw header line
-            }
+        wattron( w_worlds_header, BORDER_COLOR );
+        mvwhline( w_worlds_header, point_zero, LINE_OXOX, getmaxx( w_worlds_border ) );
+        for( const int &mapLine : mapLines ) {
+            mvwaddch( w_worlds_header, point( mapLine, 0 ), LINE_OXXX ); // ^|^
         }
+        wattroff( w_worlds_header, BORDER_COLOR );
 
         wnoutrefresh( w_worlds_header );
 
         //Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < getmaxx( w_worlds ); j++ ) {
-                if( mapLines[j] ) {
-                    mvwputch( w_worlds, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                } else {
-                    mvwputch( w_worlds, point( j, i ), c_black, ' ' );
-                }
-
-                if( i < iTooltipHeight ) {
-                    mvwputch( w_worlds_tooltip, point( j, i ), c_black, ' ' );
-                }
-            }
+        mvwrectf( w_worlds, point_zero, c_black, ' ', getmaxx( w_worlds ), iContentHeight );
+        for( const int &mapLine : mapLines ) {
+            mvwvline( w_worlds, point( mapLine, 1 ), BORDER_COLOR, LINE_XOXO, iContentHeight - 2 );
         }
+        mvwrectf( w_worlds_tooltip, point_zero, c_black, ' ', getmaxx( w_worlds ), iTooltipHeight );
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
@@ -1170,16 +1185,11 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else {
             werase( win );
             draw_border_below_tabs( win );
-            wmove( win, point( 0, 2 ) );
-            for( int i = 0; i < getmaxx( win ); i++ ) {
-                if( i == 0 ) {
-                    wputch( win, c_light_gray, LINE_OXXO );
-                } else if( i == getmaxx( win ) - 1 ) {
-                    wputch( win, c_light_gray, LINE_OOXX );
-                } else {
-                    wputch( win, c_light_gray, LINE_OXOX );
-                }
-            }
+            wattron( win, c_light_gray );
+            mvwaddch( win, point( 0, 2 ), LINE_OXXO ); // .-
+            mvwhline( win, point( 1, 2 ), LINE_OXOX, getmaxx( win ) - 2 ); // -
+            mvwaddch( win, point( getmaxx( win ) - 1, 2 ), LINE_OOXX ); // -.
+            wattroff( win, c_light_gray );
         }
         draw_modselection_borders( win, ctxt );
 
@@ -1623,39 +1633,28 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         };
 
         if( all_sliders_drawn && y <= content_height ) {
-            // Finish button
-            nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            nc_color acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            std::string btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                                 colorize( ctxt.get_desc( "FINALIZE", 1U ), acc_clr2 ),
-                                                 colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
-            const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
-            print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( static_cast<int>( wg_sliders.size() + 1 ),
-                             inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
-            // Reset button
-            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                     colorize( ctxt.get_desc( "RESET", 1U ), acc_clr2 ),
-                                     colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
-            const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
-            print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( static_cast<int>( wg_sliders.size() + 2 ),
-                             inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
-            // Randomize button
-            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                     colorize( ctxt.get_desc( "RANDOMIZE", 1U ), acc_clr2 ),
-                                     colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
-            const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
-            print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( static_cast<int>( wg_sliders.size() + 3 ),
-                             inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            int opt_num = wg_sliders.size() + 1;
+            nc_color acc_clr;
+            nc_color acc_clr2;
+            nc_color base_clr;
+            std::string btn_txt;
+            auto add_button = [&]( const char *action, const char *label, int x ) {
+                const bool hi = sel_opt == opt_num;
+                acc_clr = get_clr( c_yellow, hi );
+                acc_clr2 = get_clr( c_light_green, hi );
+                base_clr = get_clr( c_white, hi );
+                btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                         colorize( ctxt.get_desc( action,     1U ), acc_clr2 ),
+                                         colorize( "][", acc_clr ), label, colorize( "]", acc_clr ) );
+                const point pos( x - utf8_width( btn_txt, true ) / 2, y );
+                print_colored_text( w_confirmation, pos, base_clr, base_clr, btn_txt );
+                btn_map.emplace( opt_num ++,
+                                 inclusive_rectangle<point>( pos, pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            };
+            add_button( "FINALIZE", _( "Finish" ), win_width / 4 );
+            add_button( "RESET", _( "Reset" ), win_width / 2 );
+            add_button( "RANDOMIZE", _( "Randomize" ), win_width * 3 / 4 );
+            y++;
         }
 
         // Content scrollbar
@@ -1669,11 +1668,11 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         .apply( w_confirmation );
 
         // Bottom box
-        mvwputch( w_confirmation, point( 0, win_height - 10 ), BORDER_COLOR, LINE_XXXO );
-        for( int i = 0; i < win_width; i++ ) {
-            wputch( w_confirmation, BORDER_COLOR, LINE_OXOX );
-        }
-        wputch( w_confirmation, BORDER_COLOR, LINE_XOXX );
+        wattron( w_confirmation, BORDER_COLOR );
+        mvwaddch( w_confirmation, point( 0,             win_height - 10 ), LINE_XXXO );
+        mvwhline( w_confirmation, point( 1,             win_height - 10 ), LINE_OXOX, win_width - 2 );
+        mvwaddch( w_confirmation, point( win_width - 1, win_height - 10 ), LINE_XOXX );
+        wattroff( w_confirmation, BORDER_COLOR );
 
         // Hint text
         std::string hint_txt =
@@ -1746,12 +1745,15 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "FINALIZE" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 1;
+            ui_manager::redraw();
         } else if( action == "RESET" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 2;
+            ui_manager::redraw();
         } else if( action == "RANDOMIZE" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 3;
+            // no confirmation prompt, no need to redraw the ui
         }
 
         // Handle other inputs
@@ -1854,36 +1856,33 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     std::array<int, 5> ls = {{iMinScreenWidth - 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 - 2, TERMY - 14, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
+    wattron( win, BORDER_COLOR );
+
     for( int i = 0; i < 5; ++i ) {
-        point p( xs[i], ys[i] );
-        int l = ls[i];
+        const point p( xs[i], ys[i] );
         if( hv[i] ) {
-            for( int j = 0; j < l; ++j ) {
-                mvwputch( win, p + point( j, 0 ), BORDER_COLOR, LINE_OXOX ); // -
-            }
+            mvwhline( win, p, LINE_OXOX, ls[i] ); // -
         } else {
-            for( int j = 0; j < l; ++j ) {
-                mvwputch( win, p + point( 0, j ), BORDER_COLOR, LINE_XOXO ); // |
-            }
+            mvwvline( win, p, LINE_XOXO, ls[i] ); // |
         }
     }
 
     // Add in connective characters
-    mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( 0, TERMY - 11 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwaddch( win, point( 0, 4 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( 0, TERMY - 11 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, 4 ), LINE_XXXO ); // |-
 
-    mvwputch( win, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 11 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth - 1, 4 ), LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth - 1, TERMY - 11 ), LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, 4 ), LINE_XOXX ); // -|
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, 2 ), LINE_OXXX ); // -.-
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, 2 ), LINE_OXXX ); // -.-
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), LINE_XXOX ); // _|_
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), LINE_XXOX ); // _|_
+
+    wattroff( win, BORDER_COLOR );
 
     // Add tips & hints
     fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
@@ -1960,6 +1959,67 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated ) co
         popup( msg, PF_GET_KEY );
     }
     return false;
+}
+
+bool WORLD::create_timestamp()
+{
+#if defined( TIME_UTC ) && !defined( MACOSX ) && !defined(__ANDROID__)
+    std::timespec t;
+    if( std::timespec_get( &t, TIME_UTC ) != TIME_UTC ) {
+        return false;
+    }
+#else
+    // MinGW-w64 with pthread, MacOS, Android, etc
+    timespec t;
+    if( clock_gettime( CLOCK_REALTIME, &t ) != 0 ) {
+        return false;
+    }
+#endif
+
+    std::array<char, sizeof( "yyyymmddHHMMSS" )> ts;
+    // Using UTC time instead of local time with time zone offset, because %z
+    // returns the localized time zone name instead of the time zone offset on
+    // MinGW-w64, which does not conform to the standard.
+    const std::size_t ts_len = strftime( ts.data(), ts.size(), "%Y%m%d%H%M%S",
+                                         std::gmtime( &t.tv_sec ) );
+    if( !ts_len ) {
+        return false;
+    }
+
+    std::ostringstream str;
+    str.imbue( std::locale::classic() );
+    str << std::string_view( ts.data(), ts_len );
+    str << std::setw( 9 ) << std::setfill( '0' ) << t.tv_nsec;
+    timestamp = str.str();
+    return true;
+}
+
+bool WORLD::save_timestamp() const
+{
+    if( timestamp.empty() ) {
+        return true;
+    }
+
+    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    return write_to_file( path, [this]( std::ostream & file ) {
+        JsonOut jsout( file );
+        jsout.write( timestamp );
+    }, _( "world timestamp" ) );
+}
+
+bool WORLD::load_timestamp()
+{
+    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    return read_from_file_optional_json( path, [this]( const JsonValue & jv ) {
+        const std::string ts = jv.get_string();
+        // Sanitize the string since it is used in paths
+        for( const char ch : ts ) {
+            if( ch < '0' || ch > '9' ) {
+                jv.throw_error( "Invalid character encountered in world timestamp." );
+            }
+        }
+        timestamp = ts;
+    } );
 }
 
 void WORLD::load_options( const JsonArray &options_json )

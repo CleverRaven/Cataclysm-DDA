@@ -25,6 +25,7 @@
 class basecamp;
 class character_id;
 enum class cube_direction : int;
+enum class om_vision_level : int8_t;
 class map_extra;
 class monster;
 class npc;
@@ -41,6 +42,7 @@ struct overmap_path_params {
     std::map<oter_travel_cost_type, int> travel_cost_per_type;
     bool avoid_danger = true;
     bool only_known_by_player = true;
+    bool allow_diagonal = false;
 
     void set_cost( const oter_travel_cost_type &type, int v ) {
         travel_cost_per_type.emplace( type, v );
@@ -194,8 +196,9 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
-        bool seen( const tripoint_abs_omt &p );
-        void set_seen( const tripoint_abs_omt &p, bool seen = true );
+        om_vision_level seen( const tripoint_abs_omt &p );
+        bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
+        void set_seen( const tripoint_abs_omt &p, om_vision_level seen );
         bool has_camp( const tripoint_abs_omt &p );
         bool has_vehicle( const tripoint_abs_omt &p );
         bool has_horde( const tripoint_abs_omt &p );
@@ -229,6 +232,10 @@ class overmapbuffer
          * If there are any, it's not safe.
          */
         bool is_safe( const tripoint_abs_omt &p );
+        /**
+         * Check if the tripoint is part of or surrounded by a city, ignoring z-level
+         */
+        bool is_in_city( const tripoint_abs_omt &p );
 
         /**
          * Move the tracking mark of the given vehicle.

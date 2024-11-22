@@ -26,6 +26,7 @@
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -36,6 +37,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
@@ -54,9 +56,15 @@ static const itype_id itype_fake_burrowing( "fake_burrowing" );
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_ROBUST_GENETIC( "ROBUST_GENETIC" );
 static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_HUGE( "SHAPESHIFT_SIZE_HUGE" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_LARGE( "SHAPESHIFT_SIZE_LARGE" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_SMALL( "SHAPESHIFT_SIZE_SMALL" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_TINY( "SHAPESHIFT_SIZE_TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_TEMPORARY_SHAPESHIFT( "TEMPORARY_SHAPESHIFT" );
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
@@ -79,7 +87,6 @@ static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
@@ -129,20 +136,27 @@ bool Character::has_trait_variant( const trait_and_var &test ) const
 
 bool Character::has_trait_flag( const json_character_flag &b ) const
 {
-    // UGLY, SLOW, should be cached as my_mutation_flags or something
+    auto iter = trait_flag_cache.find( b );
+    if( iter != trait_flag_cache.end() ) {
+        return iter->second;
+    }
+
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
+            trait_flag_cache[b] = true;
             return true;
         } else if( mut_data.activated ) {
             Character &player = get_player_character();
             if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
                 ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
+                trait_flag_cache[b] = true;
                 return true;
             }
         }
     }
 
+    trait_flag_cache[b] = false;
     return false;
 }
 
@@ -175,7 +189,7 @@ bool Character::has_base_trait( const trait_id &b ) const
 int Character::get_instability_per_category( const mutation_category_id &categ ) const
 {
     int mut_count = 0;
-    bool robust = has_trait( trait_ROBUST );
+    bool robust = has_flag( json_flag_ROBUST_GENETIC );
     // For each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
         // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
@@ -200,21 +214,57 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
             }
         }
     }
+    mut_count = enchantment_cache->modify_value( enchant_vals::mod::MUT_INSTABILITY_MOD, mut_count );
+    mut_count = std::max( mut_count, 0 );
     return mut_count;
 }
 
-int get_total_nonbad_in_category( const mutation_category_id &categ )
+int Character::get_total_in_category( const mutation_category_id &categ,
+                                      enum mut_count_type count_type ) const
+{
+    std::vector<trait_id> list = get_in_category( categ, count_type );
+    return list.size();
+
+}
+
+int Character::get_total_in_category_char_has( const mutation_category_id &categ,
+        enum mut_count_type count_type ) const
 {
     int mut_count = 0;
-
-    // Iterate through all available traits in this category and count every one that isn't bad or the threshold.
-    for( const trait_id &traits_iter : mutations_category[categ] ) {
-        const mutation_branch &mdata = traits_iter.obj();
-        if( mdata.points > -1 && !mdata.threshold ) {
-            mut_count += 1;
+    std::vector<trait_id> list = get_in_category( categ, count_type );
+    for( const trait_id mut : list ) {
+        if( has_trait( mut ) ) {
+            mut_count++;
         }
     }
     return mut_count;
+}
+
+std::vector<trait_id> Character::get_in_category( const mutation_category_id &categ,
+        enum mut_count_type count_type ) const
+{
+    std::vector<trait_id> list;
+    bool is_type = false;
+
+    // Iterate through all available traits in this category and count every one that match our count_type.
+    for( const trait_id &traits_iter : mutations_category[categ] ) {
+        const mutation_branch &mdata = traits_iter.obj();
+        switch( count_type ) {
+            case mut_count_type::POSITIVE:
+                is_type = ( mdata.points >= 0 );
+                break;
+            case mut_count_type::NEGATIVE:
+                is_type = ( mdata.points <= 0 );
+                break;
+            default:
+                is_type = true; // all traits
+                break;
+        }
+        if( is_type && !mdata.threshold ) {
+            list.push_back( mdata.id );
+        }
+    }
+    return list;
 }
 
 void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
@@ -259,6 +309,8 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     if( !trait.obj().vanity ) {
         mutation_effect( trait, false );
     }
+
+    trait_flag_cache.clear();
 }
 
 void Character::do_mutation_updates()
@@ -291,6 +343,7 @@ void Character::set_mut_variant( const trait_id &trait, const mutation_variant *
     auto mutit = my_mutations.find( trait );
     if( mutit != my_mutations.end() ) {
         mutit->second.variant = variant;
+        trait_flag_cache.clear();
     }
 }
 
@@ -314,6 +367,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     if( !mut.vanity ) {
         mutation_loss_effect( trait );
     }
+    trait_flag_cache.clear();
     do_mutation_updates();
 }
 
@@ -330,6 +384,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     if( has_trait( target ) ) {
         my_mutations[target].powered = start_powered;
     }
+    trait_flag_cache.clear();
 }
 
 bool Character::can_power_mutation( const trait_id &mut ) const
@@ -337,8 +392,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
+    bool mana = mut->mana && magic->available_mana() >= mut->cost;
 
-    return !hunger && !sleepiness && !thirst;
+    return !hunger && !sleepiness && !thirst && !mana;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -487,17 +543,32 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_flag( json_flag_TINY ) ) {
-        size_class = creature_size::tiny;
-    } else if( has_flag( json_flag_SMALL ) ) {
-        size_class = creature_size::small;
-    } else if( has_flag( json_flag_LARGE ) ) {
-        size_class = creature_size::large;
-    } else if( has_flag( json_flag_HUGE ) ) {
-        size_class = creature_size::huge;
+    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT ) ) {
+        if( has_flag( json_flag_SHAPESHIFT_SIZE_TINY ) ) {
+            size_class = creature_size::tiny;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_SMALL ) ) {
+            size_class = creature_size::small;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_LARGE ) ) {
+            size_class = creature_size::large;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_HUGE ) ) {
+            size_class = creature_size::huge;
+        } else {
+            size_class = creature_size::medium;
+        }
     } else {
-        size_class = creature_size::medium;
+        if( has_flag( json_flag_TINY ) ) {
+            size_class = creature_size::tiny;
+        } else if( has_flag( json_flag_SMALL ) ) {
+            size_class = creature_size::small;
+        } else if( has_flag( json_flag_LARGE ) ) {
+            size_class = creature_size::large;
+        } else if( has_flag( json_flag_HUGE ) ) {
+            size_class = creature_size::huge;
+        } else {
+            size_class = creature_size::medium;
+        }
     }
+    path_settings->size = size_class;
 }
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
@@ -524,7 +595,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos_bub(), armor );
             return true;
         }
         if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
@@ -564,19 +635,19 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos_bub(), armor );
         }
         return true;
     } );
 
-    for( std::pair<mtype_id, int> moncam : branch.moncams ) {
+    for( const std::pair<const mtype_id, int> &moncam : branch.moncams ) {
         add_moncam( moncam );
     }
 
     if( branch.starts_active ) {
         my_mutations[mut].powered = true;
     }
-
+    trait_flag_cache.clear();
     on_mutation_gain( mut );
 }
 
@@ -603,10 +674,11 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalculate_bodyparts();
     }
 
-    for( std::pair<mtype_id, int> moncam : branch.moncams ) {
+    for( const std::pair<const mtype_id, int> &moncam : branch.moncams ) {
         remove_moncam( moncam.first );
     }
 
+    trait_flag_cache.clear();
     on_mutation_loss( mut );
 }
 
@@ -638,6 +710,7 @@ void Character::set_cost_timer( const trait_id &mut, time_duration set )
     const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
     if( iter != my_mutations.end() ) {
         iter->second.charge = set;
+        trait_flag_cache.clear();
     } else if( all_iter == all_mut.end() ) {
         // don't have the mutation and don't have it from an item
         debugmsg( "Tried to set cost timer of %s but doesn't have this mutation.", mut.c_str() );
@@ -749,6 +822,8 @@ void Character::activate_mutation( const trait_id &mut )
                            mutation_name( mut ) );
         return;
     }
+
+    trait_flag_cache.clear();
     if( tdata.powered && tdata.charge > 0_turns ) {
         // Already-on units just lose a bit of charge
         tdata.charge -= 1_turns;
@@ -767,6 +842,9 @@ void Character::activate_mutation( const trait_id &mut )
         if( mdata.sleepiness ) {
             mod_sleepiness( cost );
         }
+        if( mdata.mana ) {
+            magic->mod_mana( *this, -cost );
+        }
         tdata.powered = true;
         recalc_sight_limits();
     }
@@ -778,7 +856,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !mut->activated_eocs.empty() ) {
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
-            d.set_value( "npctalk_var_this", mut.str() );
+            d.set_value( "this", mut.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -801,7 +879,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos_bub(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_LONG_TONGUE2 ||
                mut == trait_GASTROPOD_EXTREMITY2 ||
@@ -810,7 +888,7 @@ void Character::activate_mutation( const trait_id &mut )
         assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
-        get_map().add_field( pos(), fd_sludge, 1 );
+        get_map().add_field( pos_bub(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
@@ -860,7 +938,7 @@ void Character::activate_mutation( const trait_id &mut )
         }        // Check for adjacent trees.
         bool adjacent_tree = false;
         map &here = get_map();
-        for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
+        for( const tripoint_bub_ms &p2 : here.points_in_radius( pos_bub(), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;
             }
@@ -917,6 +995,7 @@ void Character::activate_mutation( const trait_id &mut )
 void Character::deactivate_mutation( const trait_id &mut )
 {
     my_mutations[mut].powered = false;
+    trait_flag_cache.clear();
 
     // Handle stat changes from deactivation
     apply_mods( mut, false );
@@ -934,7 +1013,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        d.set_value( "npctalk_var_this", mut.str() );
+        d.set_value( "this", mut.str() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
@@ -1036,7 +1115,7 @@ bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
     bool ret = false;
 
     // The following values are, respectively, the total number of non-bad traits in a category and
-    int muts_max = get_total_nonbad_in_category( categ );
+    int muts_max = get_total_in_category( categ, mut_count_type::POSITIVE );
     // how many good mutations we have in total. Mutations which don't belong to the tree we're mutating towards count double for this value. Starting traits don't count at all.
     int insta_actual = get_instability_per_category( categ );
 
@@ -1317,7 +1396,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate_category: mutate_towards category %s", cat.c_str() );
-    if( select_mutation || mutation_selector( valid, cat, use_vitamins ) ) {
+    if( select_mutation && mutation_selector( valid, cat, use_vitamins ) ) {
         // Stop if mutation properly handled by mutation selector
         return;
     }
@@ -1414,6 +1493,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 {
     std::vector<trait_id> ret;
+    ret.reserve( id->prereqs.size() + id->prereqs2.size() ); // Lower bound on size.
     for( const trait_id &it : id->prereqs ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
@@ -1970,6 +2050,10 @@ std::unordered_set<trait_id> Character::get_same_type_traits( const trait_id &fl
 
 bool Character::purifiable( const trait_id &flag ) const
 {
+    if( my_intrinsic_mutations.count( flag ) > 0 ) {
+        return false;
+    }
+    // If we haven't set the trait unpurifiable in gametime check its definition
     return flag->purifiable;
 }
 

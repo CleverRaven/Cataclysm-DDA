@@ -56,7 +56,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
@@ -93,21 +92,23 @@ static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 
+static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
+static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
+
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const limb_score_id limb_score_manip( "manip" );
+
+static const morale_type morale_failure( "morale_failure" );
 
 static const quality_id qual_BOIL( "BOIL" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
-
-static const string_id<struct furn_t> furn_f_fake_bench_hands( "f_fake_bench_hands" );
-
-static const string_id<struct furn_t> furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
@@ -157,7 +158,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
         return false;
     }
 
-    if( rec.category == "CC_BUILDING" ) {
+    if( rec.category->is_building ) {
         add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
         return false;
     }
@@ -170,6 +171,9 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec, const tripo
     float darkness = fine_detail_vision_mod( p ) - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
+    }
+    if( has_flag( json_flag_CRAFT_IN_DARKNESS ) ) {
+        return 1.0f; // through supernatural means, you can see in the dark and craft without a problem
     }
     bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
     if( darkness > 0 && !rec_blind ) {
@@ -267,18 +271,17 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
             debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
             return 0.0f;
         }
-    } else if( here.furn( *loc ).obj().workbench ) {
+    } else if( const auto &fw = here.furn( *loc ).obj().workbench ) {
         // Furniture workbench
-        const furn_t &f = here.furn( *loc ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        multiplier = fw->multiplier;
+        allowed_mass = fw->allowed_mass;
+        allowed_volume = fw->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = furn_f_ground_crafting_spot.obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        const auto &fg = furn_f_ground_crafting_spot.obj().workbench;
+        multiplier = fg->multiplier;
+        allowed_mass = fg->allowed_mass;
+        allowed_volume = fg->allowed_volume;
     }
 
     const units::mass &craft_mass = craft.weight();
@@ -294,6 +297,16 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
     multiplier *= lerped_multiplier( craft_volume, allowed_volume, DEFAULT_TILE_VOLUME );
 
     return multiplier;
+}
+
+float Character::workbench_crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint_bub_ms> &loc )const
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    return Character::workbench_crafting_speed_multiplier( craft, tmp );
 }
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
@@ -384,6 +397,18 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
 
     return total_multi;
+}
+
+float Character::crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint_bub_ms> &loc, bool use_cached_workbench_multiplier,
+        float cached_workbench_multiplier ) const
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    return Character::crafting_speed_multiplier( craft, tmp, use_cached_workbench_multiplier,
+            cached_workbench_multiplier );
 }
 
 bool Character::has_morale_to_craft() const
@@ -502,7 +527,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            if( optional_vpart_position vp = here.veh_at( pos() ) ) {
+            if( optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
                 const itype_id &ftype = prod.typeId();
                 int fuel_cap = vp->vehicle().fuel_capacity( ftype );
                 int fuel_amnt = vp->vehicle().fuel_left( ftype );
@@ -571,9 +596,9 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
     map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
+    for( const tripoint_bub_ms &loc : closest_points_first( pos_bub(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
-        if( pos() != loc && !here.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
+        if( pos_bub() != loc && !here.clear_path( pos_bub(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
         }
         if( here.accessible_items( loc ) ) {
@@ -762,11 +787,11 @@ static item_location set_item_inventory( Character &p, item &newit )
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
+    for( const tripoint_bub_ms &tile : closest_points_first( tripoint_bub_ms( loc ), 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &get_map().add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
-            return item_location( map_cursor( tile ), it_on_map );
+            return item_location( map_cursor( tripoint_bub_ms( tile ) ), it_on_map );
         }
     }
     debugmsg( "Could not place %s on map near (%d, %d, %d)", newit.tname(), loc.x, loc.y, loc.z );
@@ -827,21 +852,21 @@ static item_location place_craft_or_disassembly(
     // Check if we are standing next to a workbench. If so, just use that.
     float best_bench_multi = 0.0f;
     map &here = get_map();
-    for( const tripoint &adj : here.points_in_radius( ch.pos(), 1 ) ) {
+    for( const tripoint_bub_ms &adj : here.points_in_radius( ch.pos_bub(), 1 ) ) {
         if( here.dangerous_field_at( adj ) ) {
             continue;
         }
         if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench_multi ) {
                 best_bench_multi = wb->multiplier;
-                target = adj;
+                target = adj.raw();
             }
         } else if( const std::optional<vpart_reference> vp = here.veh_at(
                        adj ).part_with_feature( "WORKBENCH", true ) ) {
             if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_bench_multi = wb_info->multiplier;
-                    target = adj;
+                    target = adj.raw();
                 }
             } else {
                 debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
@@ -1346,7 +1371,7 @@ bool item::handle_craft_failure( Character &crafter )
         }
         destroy_random_component( *this, crafter );
         if( crafter.has_trait( trait_INT_ALPHA ) ) {
-            crafter.add_morale( MORALE_FAILURE, -10, -50, 10_hours, 5_hours );
+            crafter.add_morale( morale_failure, -10, -50, 10_hours, 5_hours );
         }
     }
     if( starting_components > 0 && this->components.empty() ) {
@@ -1367,7 +1392,7 @@ bool item::handle_craft_failure( Character &crafter )
             crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                            _( "Ugh, this should be EASY with how smart you are!" ),
                                            _( "<npcname> seems to get really upset over this." ) );
-            crafter.add_morale( MORALE_FAILURE, -10, -50, 10_hours, 5_hours );
+            crafter.add_morale( morale_failure, -10, -50, 10_hours, 5_hours );
         }
     }
 
@@ -1501,9 +1526,17 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
     if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
         // TODO: reconsider recipe memorization
         if( knows_recipe( &making ) ) {
-            add_msg( _( "You craft %s from memory." ), making.result_name() );
+            if( is_avatar() ) {
+                add_msg( _( "You craft %s from memory." ), making.result_name() );
+            } else {
+                add_msg( _( "%1s crafts %2s from memory." ), get_name(), making.result_name() );
+            }
         } else {
-            add_msg( _( "You craft %s using a reference." ), making.result_name() );
+            if( is_avatar() ) {
+                add_msg( _( "You craft %s using a reference." ), making.result_name() );
+            } else {
+                add_msg( _( "%1s crafts %2s using a reference." ), get_name(), making.result_name() );
+            }
             // If we made it, but we don't know it, we're using a book, device or NPC
             // as a reference and have a chance to learn it.
             // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1548,6 +1581,15 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
             debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
         }
     }
+}
+
+void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms> &loc )
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    Character::complete_craft( craft, tmp );
 }
 
 bool Character::can_continue_craft( item &craft )
@@ -1682,7 +1724,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 buffer += tool_continue_reqs.list_missing();
                 popup( buffer, PF_NONE );
             } else {
-                add_msg_if_npc( _( "<npcname> don't have the necessary tools to continue crafting!" ) );
+                add_msg_if_npc( _( "<npcname> doesn't have the necessary tools to continue crafting!" ) );
             }
             return false;
         }
@@ -2130,7 +2172,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         }
     }
     for( item &it : ret ) {
-        it.spill_contents( *this );
+        // leave battery/liquids/gases in their containers, spill out solids
+        if( !it.contains_no_solids() ) {
+            it.spill_contents( *this );
+        }
         // todo: make a proper solution that overflows with the proper item_location
         it.overflow( pos() );
     }
@@ -2372,6 +2417,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                         craft.set_tools_to_continue( false );
                         return false;
                     }
+                    break;
                 case usage_from::none:
                 case usage_from::cancel:
                 case usage_from::num_usages_from:
@@ -2615,8 +2661,9 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             if( obj.get_owner() ) {
                 std::vector<npc *> witnesses;
                 for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
+                    if( rl_dist( elem.pos_bub(), player_character.pos_bub() ) < MAX_VIEW_DISTANCE &&
+                        elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( player_character.pos_bub() ) ) {
                         elem.say( "<witnessed_thievery>", 7 );
                         npc *npc_to_add = &elem;
                         witnesses.push_back( npc_to_add );
@@ -2701,8 +2748,8 @@ void Character::disassemble_all( bool one_pass )
 
     bool found_any = false;
     std::vector<item_location> to_disassemble;
-    for( item &it : get_map().i_at( pos() ) ) {
-        to_disassemble.emplace_back( map_cursor( pos() ), &it );
+    for( item &it : get_map().i_at( pos_bub() ) ) {
+        to_disassemble.emplace_back( map_cursor( get_location() ), &it );
     }
     for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
@@ -2934,6 +2981,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             act_item.set_relative_rot( dis_item.get_relative_rot() );
+            act_item.set_owner( *this );
 
             ret_val<item> removed = dis_item.components.remove( newit.typeId() );
             if( removed.success() ) {
@@ -3057,7 +3105,7 @@ std::vector<Character *> Character::get_crafting_helpers() const
                && !guy.in_sleep_state()
                && guy.is_obeying( *this )
                && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
-               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+               && get_map().clear_path( pos_bub(), guy.pos_bub(), PICKUP_RANGE, 1, 100 );
     } );
 }
 
@@ -3066,7 +3114,7 @@ std::vector<Character *> Character::get_crafting_group() const
     return g->get_characters_if( [this]( const Character & guy ) {
         return guy.is_ally( *this )
                && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
-               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+               && get_map().clear_path( pos_bub(), guy.pos_bub(), PICKUP_RANGE, 1, 100 );
     } );
 }
 
@@ -3103,7 +3151,7 @@ item_location npc::get_item_to_craft()
 
     // check items around npc
     map &here = get_map();
-    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
+    for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
         if( here.dangerous_field_at( adj ) ) {
             continue;
         }
@@ -3145,7 +3193,7 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
     } );
 
     map &here = get_map();
-    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
+    for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
         if( here.dangerous_field_at( adj ) ) {
             continue;
         }

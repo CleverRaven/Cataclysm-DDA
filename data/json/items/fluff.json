@@ -62,6 +62,12 @@
         "weight": 2
       },
       {
+        "id": "deck_of_tarot_cards",
+        "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+        "description": "A deck of tarot cards.  Commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
+        "weight": 2
+      },
+      {
         "id": "deck_of_cards_makeshift",
         "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
         "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them.",
@@ -641,6 +647,23 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "ouija",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Ouija board" },
+    "description": "A wooden board with the alphabet and numbers on its face.  Commonly used for communing with spirits of the dead.  A planchette is included in the set.",
+    "weight": "357 g",
+    "volume": "1000 ml",
+    "longest_side": "36 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
     "id": "dnd",
     "type": "GENERIC",
     "category": "other",
@@ -805,7 +828,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate leveling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": "70 USD 50 cent",
@@ -881,7 +904,7 @@
     "use_action": [ "PLAY_GAME" ],
     "variants": [
       {
-        "id": "terraforming_mars",
+        "id": "terraforming_mercury",
         "name": { "str": "Terraforming - Mercury", "str_pl": "sets of Terraforming - Mercury" },
         "description": "This board game is set in the 4300s, where corporations are working together to terraform the planet Mercury, the smallest and innermost planet in our solar system.  Each player (or just the player) will have unique abilities and resources at their disposal, and they will need to strategize and cooperate with one another to achieve their goals."
       },
@@ -922,7 +945,7 @@
       },
       {
         "id": "terraforming_earth",
-        "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
+        "name": { "str": "Terraforming - Earth", "str_pl": "sets of Terraforming - Earth" },
         "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet's ecosystems, atmosphere, and climate while also competing for resources and prestige."
       }
     ]
@@ -1220,7 +1243,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "Snakes and Ladders" },
-    "description": "A board game for two or more players, regarded before the Cataclysm as as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
+    "description": "A board game for two or more players, regarded before the Cataclysm as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
     "weight": "300 g",
     "volume": "1800 ml",
     "price": "25 cent",
@@ -1563,7 +1586,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "id": "glass_apple",
@@ -1579,7 +1602,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "id": "glass_boat",
@@ -1594,7 +1617,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -1616,10 +1639,11 @@
     "type": "GENERIC",
     "id": "sketch",
     "copy-from": "paper",
-    "name": { "str_sp": "sketch" },
+    "category": "other",
+    "name": { "str": "sketch", "str_pl": "sketches" },
     "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
     "price": "0 cent",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "5 cent",
     "variants": [
       {
         "id": "sketch_goofy_doodles",
@@ -1657,10 +1681,11 @@
     "type": "GENERIC",
     "id": "painting",
     "copy-from": "sheet_canvas",
+    "category": "other",
     "name": { "str_sp": "painting" },
     "description": "A painting that someone has made.",
     "price": "100 USD",
-    "price_postapoc": "200 USD",
+    "price_postapoc": "1 USD",
     "variants": [
       {
         "id": "painting_character",
@@ -1696,14 +1721,13 @@
     "color": "light_gray",
     "name": { "str": "stone sculpture" },
     "description": "A medium-sized stone sculpture.",
-    "category": "spare_parts",
+    "category": "other",
     "material": "stone",
     "weight": "7884 g",
     "volume": "20813 ml",
     "longest_side": "30 cm",
     "price": "1 kUSD",
-    "price_postapoc": "300 USD",
-    "to_hit": -2,
+    "price_postapoc": "1 USD",
     "variants": [
       {
         "id": "statue_person",
@@ -1746,15 +1770,14 @@
     "symbol": ";",
     "color": "brown",
     "name": { "str": "clay sculpture" },
-    "description": "A medium-sized clay sculpture.",
-    "category": "spare_parts",
+    "description": "A small clay sculpture.",
+    "category": "other",
     "material": "clay",
     "weight": "150 g",
     "volume": "94 ml",
     "longest_side": "30 cm",
     "price": "800 USD",
-    "price_postapoc": "150 USD",
-    "to_hit": -2,
+    "price_postapoc": "25 cent",
     "variants": [
       {
         "id": "statue_person",
@@ -1790,5 +1813,61 @@
       }
     ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_collapsible",
+    "name": { "str": "collapsible butterfly net" },
+    "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.  It must be extended to use.",
+    "weight": "247 g",
+    "volume": "780 ml",
+    "longest_side": "235 mm",
+    "color": "light_gray",
+    "symbol": "P",
+    "material": [ { "type": "aluminum", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
+    "price_postapoc": "15 cent",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 },
+    "use_action": {
+      "menu_text": "Extend",
+      "type": "transform",
+      "target": "butterfly_net_collapsible_extended",
+      "msg": "You snap open your butterfly net."
+    },
+    "//": "Volume based on https://www.amazon.com/dp/B0CBLV98KP with the assumption that it's a cylinder with a 6.5cm diameter - using 13cm would give ridiculously high volume, and the 13cm assumption on the website includes only half of the collapsed length."
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_collapsible_extended",
+    "name": { "str": "collapsible butterfly net (extended)", "str_pl": "collapsible butterfly nets (extended)" },
+    "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
+    "copy-from": "butterfly_net_collapsible",
+    "longest_side": "92 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "use_action": {
+      "menu_text": "Collapse",
+      "type": "transform",
+      "target": "butterfly_net_collapsible",
+      "msg": "You collapse your butterfly net."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_makeshift",
+    "name": { "str": "butterfly net" },
+    "description": "A piece of canvas stretched over a stick.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
+    "weight": "376 g",
+    "volume": "865 ml",
+    "longest_side": "92 cm",
+    "color": "brown",
+    "symbol": "P",
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
+    "price_postapoc": "5 cent",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 }
   }
 ]

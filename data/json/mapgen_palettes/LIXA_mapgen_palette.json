@@ -8,7 +8,7 @@
       "C": "t_pavement",
       "?": "t_pavement",
       ".": "t_thconc_floor",
-      "/": "t_strconc_wall",
+      "/": "t_lixa_wall",
       "|": "t_wall_w",
       "i": "t_thconc_floor_olight",
       "H": "t_thconc_floor",

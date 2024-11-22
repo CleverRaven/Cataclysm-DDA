@@ -1,6 +1,35 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_CONCENTRATED_HEALING",
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        { "math": [ "u_spell_level('vita_health_power') >= 5" ] },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_concentrated_healing') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_vita_concentrated_healing" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_concentrated_healing') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_concentrated_healing" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could reroute stem cells and blood flow to injured parts, speeding their healing at the expense of your uninjured areas, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_STOP_BLEEDING",
     "recurrence": [
       { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
@@ -9,18 +38,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "5" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_slow_bleeding') >= 5" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_stop_bleeding')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_stop_bleeding') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_stop_bleeding" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_stop_bleeding') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_stop_bleeding" },
@@ -40,17 +70,20 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('vita_health_power')", ">=", "6" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_health_power') >= 6" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_health_power_ally')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_health_power_ally') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_healing_touch" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_health_power_ally') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -71,24 +104,24 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "5" ] },
-                { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "5" ] }
+                { "math": [ "u_spell_level('vita_health_power_ally') >= 5" ] },
+                { "math": [ "u_spell_level('vita_slow_bleeding') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_hurt_touch')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_hurt_touch') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_hurt_touch" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_hurt_touch') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_hurt_touch" },
@@ -108,17 +141,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('vita_health_power')", ">=", "8" ] },
+                { "math": [ "u_spell_level('vita_health_power') >= 8" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "3" ] }
+                    { "math": [ "u_spell_level('vita_slow_bleeding') >= 7" ] },
+                    { "math": [ "u_spell_level('vita_stop_bleeding') >= 3" ] }
                   ]
                 }
               ]
@@ -126,13 +159,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_remove_poison')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_remove_poison') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_remove_poison" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_remove_poison') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_remove_poison" },
@@ -152,18 +183,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_remove_poison') >= 5" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_cure_disease')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_cure_disease') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_cure_disease" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_cure_disease') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_cure_disease" },
@@ -183,78 +215,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('vita_health_power')", ">=", "8" ] },
-                { "math": [ "u_spell_level('vita_cure_disease')", ">=", "4" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('vita_health_power') >= 8" ] }, { "math": [ "u_spell_level('vita_cure_disease') >= 4" ] } ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_sleeping_trance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_sleeping_trance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_sleeping_trance" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_sleeping_trance') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_sleeping_trance" },
       {
         "u_message": "Use of your powers has led to an insight.  You could enter a trance, allowing your mind and body to restore themselves more efficiently than natural sleep, if you can figure out the proper technique.",
-        "popup": true
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_LEARNING_PAIN_SPLIT",
-    "recurrence": [
-      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
-      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
-    ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        {
-          "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
-            {
-              "and": [
-                {
-                  "or": [
-                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('vita_cure_disease')", ">=", "5" ] }
-                  ]
-                },
-                {
-                  "or": [
-                    { "math": [ "u_spell_level('vita_health_power')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "8" ] }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_pain_split')", "<=", "0" ] },
-        { "not": { "u_know_recipe": "practice_vita_pain_split" } }
-      ]
-    },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] } ] },
-    "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
-      { "u_learn_recipe": "practice_vita_pain_split" },
-      {
-        "u_message": "Use of your powers has led to an insight.  You could reroute stem cells and blood flow to injured parts, speeding their healing at the expense of your uninjured areas, if you can figure out the proper technique.",
         "popup": true
       }
     ]
@@ -269,18 +249,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_cure_disease')", ">=", "7" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_cure_disease') >= 7" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_stop_infection')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_stop_infection') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_stop_infection" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_stop_infection') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_stop_infection" },
@@ -300,26 +281,24 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('vita_stop_infection')", ">=", "5" ] },
-                { "math": [ "u_spell_level('vita_pain_split')", ">=", "6" ] }
+                { "math": [ "u_spell_level('vita_stop_infection') >= 5" ] },
+                { "math": [ "u_spell_level('vita_concentrated_healing') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_healing_trance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_healing_trance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_healing_trance" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_healing_trance') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_healing_trance" },
@@ -339,18 +318,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "8" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_hurt_touch') >= 8" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_attack_touch')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_attack_touch') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_attack_touch" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_attack_touch') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_attack_touch" },
@@ -370,17 +350,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('vita_healing_trance')", ">=", "6" ] },
+                { "math": [ "u_spell_level('vita_healing_trance') >= 6" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('vita_stop_infection')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('vita_remove_poison') >= 8" ] },
+                    { "math": [ "u_spell_level('vita_stop_infection') >= 8" ] }
                   ]
                 }
               ]
@@ -388,13 +368,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_blood_purge')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_blood_purge') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_blood_purge" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_blood_purge') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_blood_purge" },
@@ -414,17 +392,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('vita_stop_infection')", ">=", "12" ] },
+                { "math": [ "u_spell_level('vita_stop_infection') >= 12" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('vita_cure_disease')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('vita_concentrated_healing') >= 8" ] },
+                    { "math": [ "u_spell_level('vita_cure_disease') >= 12" ] }
                   ]
                 }
               ]
@@ -432,13 +410,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_banish_illness')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_banish_illness') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_banish_illness" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_banish_illness') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_banish_illness" },
@@ -458,23 +434,23 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_health_power')", ">=", "14" ] },
-                    { "math": [ "u_spell_level('vita_healing_trance')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('vita_health_power') >= 14" ] },
+                    { "math": [ "u_spell_level('vita_healing_trance') >= 9" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('vita_blood_purge')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('vita_concentrated_healing') >= 10" ] },
+                    { "math": [ "u_spell_level('vita_remove_poison') >= 7" ] },
+                    { "math": [ "u_spell_level('vita_blood_purge') >= 5" ] }
                   ]
                 }
               ]
@@ -482,11 +458,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_super_heal')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_super_heal') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_super_heal" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_super_heal') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_vita_super_heal" },
@@ -506,17 +482,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('vita_super_heal')", ">=", "6" ] },
+                { "math": [ "u_spell_level('vita_super_heal') >= 6" ] },
                 {
                   "and": [
-                    { "math": [ "u_spell_level('vita_banish_illness')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('vita_healing_trance')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('vita_banish_illness') >= 8" ] },
+                    { "math": [ "u_spell_level('vita_healing_trance') >= 6" ] }
                   ]
                 }
               ]
@@ -524,12 +500,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_return_from_death')", "<=", "0" ] },
+        { "math": [ "u_spell_level('vita_return_from_death') <= 0" ] },
         { "not": { "u_know_recipe": "practice_vita_return_from_death" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_return_from_death') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },

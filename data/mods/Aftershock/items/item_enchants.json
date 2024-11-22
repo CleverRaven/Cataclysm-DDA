@@ -14,17 +14,8 @@
     "has": "WIELD",
     "name": { "str": "Active Motion Detector" },
     "description": "Actively detects nearby movement.",
-    "condition": { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping", ">=", "1" ] },
+    "condition": { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping >= 1" ] },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": 24 } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "afs_ench_esab",
-    "has": "WIELD",
-    "condition": "ACTIVE",
-    "name": { "str": "Super Heated Blade" },
-    "description": "The energy radiating from this weapon cuts and burns with ease.",
-    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 18 }, { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
   },
   {
     "type": "enchantment",

@@ -261,7 +261,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( const JsonObject &jo, const std::string &src )
+void ma_technique::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, translation() );
@@ -405,7 +405,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string &src )
+void martialart::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -504,7 +504,9 @@ bool string_id<martialart>::is_valid() const
 std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
-    for( const martialart &ma : martialarts.get_all() ) {
+    std::vector<martialart> martial_arts = martialarts.get_all();
+    result.reserve( martial_arts.size() );
+    for( const martialart &ma : martial_arts ) {
         result.push_back( ma.id );
     }
     return result;

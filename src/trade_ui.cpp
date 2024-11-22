@@ -121,21 +121,12 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
 
         zone_manager &zmgr = zone_manager::get_manager();
 
-        // FIXME: migration for traders in old saves - remove after 0.G
-        zone_data const *const fallback =
-            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
-        bool const legacy = fallback != nullptr && fallback->get_name() == fallback_name;
+        std::unordered_set<tripoint> const src =
+            zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
 
-        if( legacy ) {
-            _panes[_trader]->add_nearby_items( PICKUP_RANGE );
-        } else {
-            std::unordered_set<tripoint> const src =
-                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
-
-            for( tripoint const &pt : src ) {
-                _panes[_trader]->add_map_items( pt );
-                _panes[_trader]->add_vehicle_items( pt );
-            }
+        for( tripoint const &pt : src ) {
+            _panes[_trader]->add_map_items( pt );
+            _panes[_trader]->add_vehicle_items( pt );
         }
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );

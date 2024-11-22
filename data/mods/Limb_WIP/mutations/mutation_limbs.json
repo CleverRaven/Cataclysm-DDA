@@ -310,7 +310,7 @@
     "name": "feathered arm",
     "copy-from": "arm_feathers_l",
     "side": "right",
-    "heading": "feathered right Arm",
+    "heading": "feathered right arm",
     "main_part": "arm_feathers_r",
     "opposite_part": "arm_feathers_l",
     "windage_effect": "winded_arm_r",

@@ -23,18 +23,18 @@
         "be                     b",
         "be                     b",
         "beeeeeeeee             b",
-        "bcfgfffffc             b",
-        "bcndddddkc       aaaaaab",
-        "bcdddddlkc;            b",
-        "bckkkkddkcccc          b",
-        "bcmldkdddcjic          b",
-        "bcmddddmdghhc          b",
-        "bcccccccccccc    aaaaaab"
+        "b#fgfffff#             b",
+        "b#ndddddk#       aaaaaab",
+        "b#dddddlk#;            b",
+        "b#kkkkddk####          b",
+        "b#mldkddd#ji#          b",
+        "b#mddddmdghh#          b",
+        "b############    aaaaaab"
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         "a": "t_pavement_y",
         "b": "t_region_groundcover_urban",
-        "c": "t_adobe_brick_wall",
         "d": "t_floor",
         "e": "t_sidewalk",
         "f": "t_window",
@@ -48,7 +48,8 @@
         "n": "t_floor",
         ";": "t_gutter_downspout"
       },
-      "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker", "n": "f_vending_c" },
+      "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker" },
+      "vendingmachines": { "n": { "lootable": true } },
       "toilets": { "i": {  } },
       "place_loot": [
         { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 22, 22 ] },

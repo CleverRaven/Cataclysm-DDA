@@ -32,7 +32,7 @@
     "spoils_in": "365 days",
     "fun": -1,
     "calories": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -54,7 +54,7 @@
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -103,7 +103,8 @@
     "primary_material": "dried_vegetable",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -123,6 +124,6 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE", "FORAGE_POISON", "FORAGE_HALLU", "RAW" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   }
 ]

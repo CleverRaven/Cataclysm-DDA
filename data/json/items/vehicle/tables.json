@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "v_table",
     "name": { "str": "fancy table" },
-    "description": "A very fancy table from a very fancy RV.  If times were better, it might be useful for something other than firewood.",
+    "description": "A very fancy table for those with fancy lives.  If times were better, it might be useful for something other than firewood.",
     "weight": "9071 g",
     "to_hit": -8,
     "color": "red",

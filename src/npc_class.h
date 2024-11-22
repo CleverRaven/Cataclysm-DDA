@@ -15,7 +15,7 @@ class npc;
 class JsonObject;
 class Trait_group;
 
-struct dialogue;
+struct const_dialogue;
 struct faction_price_rule;
 
 namespace trait_group
@@ -52,7 +52,7 @@ struct shopkeeper_item_group {
     int trust = 0;
     bool strict = false;
     translation refusal;
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -75,6 +75,7 @@ class npc_class
         translation job_description;
 
         bool common = true;
+        double common_spawn_weight = 1;
 
         distribution bonus_str;
         distribution bonus_dex;
@@ -109,6 +110,8 @@ class npc_class
         item_group_id carry_override;
         item_group_id weapon_override;
 
+        translation bye_message_override;
+
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
         // the int is what level the spell starts at
@@ -138,9 +141,9 @@ class npc_class
         const time_duration &get_shop_restock_interval() const;
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
-        void load( const JsonObject &jo, std::string_view src );
+        bool is_common() const;
 
-        static const npc_class_id &from_legacy_int( int i );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const npc_class_id &random_common();
 
@@ -154,26 +157,5 @@ class npc_class
 
         static void check_consistency();
 };
-
-// TODO: Get rid of that
-extern const npc_class_id NC_NONE;
-extern const npc_class_id NC_EVAC_SHOPKEEP;
-extern const npc_class_id NC_SHOPKEEP;
-extern const npc_class_id NC_HACKER;
-extern const npc_class_id NC_CYBORG;
-extern const npc_class_id NC_DOCTOR;
-extern const npc_class_id NC_TRADER;
-extern const npc_class_id NC_NINJA;
-extern const npc_class_id NC_COWBOY;
-extern const npc_class_id NC_SCIENTIST;
-extern const npc_class_id NC_BOUNTY_HUNTER;
-extern const npc_class_id NC_THUG;
-extern const npc_class_id NC_SCAVENGER;
-extern const npc_class_id NC_ARSONIST;
-extern const npc_class_id NC_HUNTER;
-extern const npc_class_id NC_SOLDIER;
-extern const npc_class_id NC_BARTENDER;
-extern const npc_class_id NC_JUNK_SHOPKEEP;
-extern const npc_class_id NC_HALLU;
 
 #endif // CATA_SRC_NPC_CLASS_H

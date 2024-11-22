@@ -132,7 +132,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 }, { "damage_type": "acid", "amount": 4 } ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "dodge": 1,
     "harvest": "zombie_dog_acid",
     "grab_strength": 20,

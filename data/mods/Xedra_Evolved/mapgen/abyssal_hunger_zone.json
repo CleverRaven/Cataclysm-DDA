@@ -1,0 +1,125 @@
+[
+  {
+    "type": "palette",
+    "id": "abyssal_hunger_palette",
+    "terrain": { "0": "t_abyssal_flesh_floor", "1": "t_abyssal_flesh_wall", "B": "t_abyssal_brain", "a": "t_open_air" },
+    "furniture": { "T": "f_shard_location" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "abyssal_hunger_roof",
+    "object": {
+      "set": [ { "square": "terrain", "id": "t_abyssal_flesh_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "abyssal_hunger_dungeon",
+    "object": {
+      "rows": [
+        "111111111111111111111111",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "111111111111111111111111"
+      ],
+      "palettes": [ "abyssal_hunger_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 },
+        { "point": "trap", "id": "tr_abyssal_hunger_next_level", "x": [ 1, 22 ], "y": 22 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "abyssal_hunger_brain",
+    "object": {
+      "rows": [
+        "111111111111111111111111",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "100000000000000000000001",
+        "110000000000000000000011",
+        "111000000000000000000111",
+        "111000000000000000000111",
+        "111000000BB00BB000000111",
+        "11100000BBB00BBB00000111",
+        "11100000BBBTTBBB00000111",
+        "11100000BBBBBBBB00000111",
+        "11100000BBBBBBBB00000111",
+        "11100000BBBBBBBB00000111",
+        "111000000BBBBBB000000111",
+        "111110000000000000011111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111"
+      ],
+      "palettes": [ "abyssal_hunger_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "abyssal_hunger_cleanup",
+    "object": {
+      "set": [
+        { "square": "item_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "trap_remove", "id": "tr_null", "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_abyssal_hunger_next_level",
+    "name": "Hole to elsewhere",
+    "color": "blue",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "abyssal_hunger_next_level" }
+  },
+  {
+    "type": "SPELL",
+    "id": "abyssal_hunger_next_level",
+    "name": "abyssal hunger next level",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL"
+  }
+]

@@ -9,6 +9,7 @@
 #include <numeric>
 #include <ostream>
 
+#include "avatar_action.h"
 #include "bodygraph.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -141,7 +142,8 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<void>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) &&
+    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_INTEGRATED ) &&
+        !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_MORPHIC ) &&
         !it.has_flag( flag_UNRESTRICTED ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const mutation_branch &branch = mut.obj();
@@ -260,7 +262,13 @@ Character::wear( int pos, bool interactive )
 std::optional<std::list<item>::iterator>
 Character::wear( item_location item_wear, bool interactive )
 {
-    item to_wear = *item_wear;
+    item &to_wear = *item_wear;
+
+    // Need to account for case where we're trying to wear something that belongs to someone else
+    if( !avatar_action::check_stealing( *this, to_wear ) ) {
+        return std::nullopt;
+    }
+
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
@@ -685,9 +693,9 @@ bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item 
     return worn.is_worn_item_visible( worn_item, worn_item_body_parts );
 }
 
-std::list<item> Character::get_visible_worn_items() const
+std::list<item_location> Character::get_visible_worn_items() const
 {
-    return worn.get_visible_worn_items( *this );
+    return const_cast<outfit &>( worn ).get_visible_worn_items( *this );
 }
 
 double Character::armwear_factor() const
@@ -991,7 +999,8 @@ bool outfit::is_worn_module( const item &thing ) const
 {
     return thing.has_flag( flag_CANT_WEAR ) &&
     std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
-        return elem.contained_where( thing ) != nullptr;
+        return elem.has_flag( flag_MODULE_HOLDER ) &&
+               elem.contained_where( thing ) != nullptr;
     } );
 }
 
@@ -1071,12 +1080,13 @@ item *outfit::item_worn_with_id( const itype_id &i )
     return it_with_id;
 }
 
-std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
+std::list<item_location> outfit::get_visible_worn_items( const Character &guy )
 {
-    std::list<item> result;
-    for( auto i = worn.cbegin(), end = worn.cend(); i != end; ++i ) {
+    std::list<item_location> result;
+    for( auto i = worn.begin(), end = worn.end(); i != end; ++i ) {
         if( guy.is_worn_item_visible( i ) ) {
-            result.push_back( *i );
+            item_location loc_here( const_cast<Character &>( guy ), &*i );
+            result.emplace_back( loc_here );
         }
     }
     return result;
@@ -1119,7 +1129,7 @@ int outfit::swim_modifier( const int swim_skill ) const
     int ret = 0;
     if( swim_skill < 10 ) {
         for( const item &i : worn ) {
-            ret += i.volume() / 125_ml * ( 10 - swim_skill );
+            ret += i.volume() * ( 10 - swim_skill ) / 125_ml;
         }
     }
     return ret;
@@ -1169,6 +1179,9 @@ std::list<item> outfit::remove_worn_items_with( const std::function<bool( item &
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
+            if( iter->can_unload() ) {
+                iter->spill_contents( guy );
+            }
             iter->on_takeoff( guy );
             result.splice( result.begin(), worn, iter++ );
         } else {
@@ -1937,7 +1950,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             // if not already destroyed to an armor absorb
             destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
             // for the torso we also need to consider if it hits anything hanging off the character or their neck
-            if( secondary_sbp != sub_bodypart_id() ) {
+            if( secondary_sbp != sub_bodypart_id() && !destroy ) {
                 destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
             }
         }
@@ -1950,6 +1963,11 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             destroyed_armor_msg( guy, pre_damage_name );
             armor_destroyed = true;
             armor.on_takeoff( guy );
+
+            item_location loc = item_location( guy, &armor );
+            cata::event e = cata::event::make<event_type::character_armor_destroyed>( guy.getID(),
+                            armor.typeId() );
+            get_event_bus().send_with_talker( &guy, &loc, e );
             for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                 worn_remains.push_back( *it );
             }

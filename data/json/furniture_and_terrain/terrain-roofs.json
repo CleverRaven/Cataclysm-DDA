@@ -23,6 +23,7 @@
     "trap": "tr_ledge",
     "roof": "t_flat_roof",
     "examine_action": "ledge",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE" ]
   },
   {
@@ -42,7 +43,7 @@
     "id": "t_gutter",
     "description": "Channels water from the roof towards the ground, it looks flimsy.",
     "name": "rain gutter",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "looks_like": "t_metal_floor",
     "color": "white",
     "move_cost": 3,
@@ -305,6 +306,18 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_roof_red",
+    "name": "red metal roof",
+    "description": "A sturdy section of metallic rooftop, painted red for visibility and weather resistance.",
+    "symbol": ".",
+    "looks_like": "t_metal_roof",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
   },
   {
     "type": "terrain",

@@ -23,7 +23,7 @@
       { "text": "What do you do around here?", "topic": "TALK_EVAC_HUNTER_DO" },
       { "text": "Got anything for sale?", "topic": "TALK_EVAC_HUNTER_SALE" },
       { "text": "Got any survival advice?", "topic": "TALK_EVAC_HUNTER_ADVICE" },
-      { "text": "Goodbye.", "topic": "TALK_EVAC_HUNTER_BYE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_EVAC_HUNTER_BYE" }
     ]
   },
   {

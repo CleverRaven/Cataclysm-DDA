@@ -17,6 +17,8 @@
 #include <string>
 
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "coordinate_constants.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -33,7 +35,7 @@
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
         dealt_projectile_attack &attack, const std::string &weapon_type )
 {
-    static const tripoint target_point{ 5, 5, 0 };
+    static const tripoint_bub_ms target_point{ 5, 5, 0 };
     map &here = get_map();
     for( int i = 0; i < 10; ++i ) {
         projectile projectile_copy = attack.proj;
@@ -57,6 +59,8 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
 {
     for( int i = 0; i < 10; ++i ) {
         monster target{ mtype_id( target_type ), tripoint_zero };
+        //the missed_by field is modified by deal_projectile_attack() and must be reset
+        attack.missed_by = accuracy_critical * 0.75;
         target.deal_projectile_attack( nullptr, attack, false );
         CAPTURE( target_type );
         CAPTURE( target.get_hp() );
@@ -71,7 +75,6 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
                                   const std::string &killable, const std::string &unkillable )
 {
     item weapon( weapon_type );
-    // The standard modern hunting arrow, make this a parameter if we extend to crossbows.
     weapon.ammo_set( itype_id( ammo_type ), 1 );
 
     projectile test_projectile;
@@ -81,7 +84,7 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
     test_projectile.critical_multiplier = weapon.ammo_data()->ammo->critical_multiplier;
 
     dealt_projectile_attack attack {
-        test_projectile, nullptr, dealt_damage_instance(), tripoint_zero, accuracy_critical - 0.05
+        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms_zero, accuracy_critical * 0.75
     };
     if( !killable.empty() ) {
         test_projectile_attack( killable, true, attack, weapon_type );
@@ -98,6 +101,8 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
 
 TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
 {
+    // undodgable bolt fired with a guaranteed crit 10 times
+
     // Selfbow can't kill a turkey
     test_archery_balance( "selfbow", "arrow_metal", "", "mon_turkey" );
     test_archery_balance( "rep_crossbow", "bolt_steel", "", "mon_turkey" );

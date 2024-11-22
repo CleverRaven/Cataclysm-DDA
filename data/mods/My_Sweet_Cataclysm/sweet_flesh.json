@@ -15,7 +15,8 @@
     "looks_like": "marshmallow",
     "material": [ "junk" ],
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -33,7 +34,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -52,7 +53,8 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -80,7 +82,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -100,7 +102,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -120,7 +122,8 @@
     "fun": 2,
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "caff_gum_flesh",
@@ -140,7 +143,8 @@
     "fun": 1,
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -158,7 +162,7 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -179,6 +183,7 @@
     "calories": 270,
     "stim": 1,
     "fun": 7,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   }
 ]

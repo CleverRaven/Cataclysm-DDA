@@ -59,9 +59,76 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_cooking_NE_roof",
+    "object": {
+      "parameters": {
+        "fbmh_2_cooking_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmh_2_fireplace_palette", "fbmh_2_stove_palette" ] }
+        }
+      },
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "C" ],
+      "palettes": [ { "param": "fbmh_2_cooking_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbmh_2_cooking_NE",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_cooking_NE" ], "x": 22, "y": 2 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_cooking_NE" ], "x": 22, "y": 2, "z": 0 },
+        { "chunks": [ "fbmh_2_cooking_NE_roof" ], "x": 22, "y": 2, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_cooking_NE",
+    "object": {
+      "parameters": {
+        "fbmh_2_tent_cooking_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmh_2_tent_fireplace_palette", "fbmh_2_tent_stove_palette" ] }
+        }
+      },
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "f" ],
+      "palettes": [ { "param": "fbmh_2_tent_cooking_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_cooking_NE_roof",
+    "object": {
+      "parameters": {
+        "fbmh_2_tent_cooking_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmh_2_tent_fireplace_palette", "fbmh_2_tent_stove_palette" ] }
+        }
+      },
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "C" ],
+      "palettes": [ { "param": "fbmh_2_tent_cooking_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_cooking_NE",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_cooking_NE" ], "x": 22, "y": 2, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_cooking_NE_roof" ], "x": 22, "y": 2, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -179,8 +246,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 2, "y": 12 },
-        { "point": "furniture", "id": "f_counter", "x": 3, "y": 12 }
+        { "point": "furniture", "id": "f_fireplace", "x": 2, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 2, "y": 12, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 3, "y": 12, "z": 0 }
       ]
     }
   },
@@ -256,8 +324,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_woodstove", "x": 19, "y": 11 },
-        { "point": "furniture", "id": "f_counter", "x": 20, "y": 11 }
+        { "point": "furniture", "id": "f_woodstove", "x": 19, "y": 11, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 19, "y": 11, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 20, "y": 11, "z": 0 }
       ]
     }
   },

@@ -103,7 +103,7 @@ struct effect_dur_mod {
 
 class effect_type
 {
-        friend void load_effect_type( const JsonObject &jo );
+        friend void load_effect_type( const JsonObject &jo, std::string_view src );
         friend class effect;
     public:
         enum class memorial_gender : int {
@@ -444,7 +444,7 @@ class effect
 
 };
 
-void load_effect_type( const JsonObject &jo );
+void load_effect_type( const JsonObject &jo, std::string_view src );
 void reset_effect_types();
 const std::map<efftype_id, effect_type> &get_effect_types();
 

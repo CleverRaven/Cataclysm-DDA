@@ -121,7 +121,7 @@
     "side": "both",
     "base_hp": 60,
     "drench_capacity": 0,
-    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB", "CRAFT_IN_DARKNESS" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "sub_parts": [ "stalker_eye", "stalker_eye" ]
   },

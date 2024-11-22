@@ -1,9 +1,0 @@
-[
-  {
-    "type": "overmap_special",
-    "id": "tutorial",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "tutorial" }, { "point": [ 0, 0, -1 ], "overmap": "tutorial_underground" } ],
-    "locations": [ "land" ],
-    "occurrences": [ 0, 0 ]
-  }
-]

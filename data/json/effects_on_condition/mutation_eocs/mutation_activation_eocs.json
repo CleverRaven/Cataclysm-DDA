@@ -10,7 +10,7 @@
     "condition": {
       "and": [
         { "expects_vars": [ "prep_time", "spell_to_cast", "message_success", "message_fail" ] },
-        { "math": [ "u_val('stamina')", ">", "energy_amount" ] }
+        { "math": [ "u_val('stamina') > _energy_amount" ] }
       ]
     },
     "effect": [
@@ -35,7 +35,7 @@
     "id": "EOC_BIOLUM3_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "3",
           "spell_to_cast": "spell_spit_flare",
@@ -50,7 +50,7 @@
     "id": "EOC_SLIME_SPRAY",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "spell_slime_spray",
@@ -65,7 +65,7 @@
     "id": "EOC_FELINE_LEAP",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2000",
           "prep_time": "1",
@@ -84,7 +84,7 @@
     "id": "EOC_SHORT_LEAP",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2000",
           "prep_time": "2",
@@ -103,7 +103,7 @@
     "id": "EOC_CRUSHING_LEAP",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "6000",
           "prep_time": "3",
@@ -119,7 +119,7 @@
     "id": "EOC_AVIAN_LEAP",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2500",
           "prep_time": "1",

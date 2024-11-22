@@ -216,6 +216,22 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_winch" ] }
   },
   {
+    "id": "artifact_ethereal_wings",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "looks_like": "marble",
+    "name": "stone feather",
+    "description": "You see an incredibly detailed stone feather, almost lifelike in appearance.",
+    "weight": "90 g",
+    "volume": "190 ml",
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "cyan",
+    "use_action": { "type": "learn_spell", "spells": [ "spell_ethereal_wings" ] }
+  },
+  {
     "id": "artifact_karma_arms",
     "type": "GENERIC",
     "category": "artifacts",

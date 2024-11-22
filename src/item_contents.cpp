@@ -7,6 +7,7 @@
 #include <type_traits>
 
 #include "avatar.h"
+#include "cata_imgui.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -14,6 +15,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
@@ -62,6 +64,10 @@ class pocket_favorite_callback : public uilist_callback
                                            const std::vector<item *> &to_organize,
                                            uilist &pocket_selector );
         void refresh( uilist *menu ) override;
+        float desired_extra_space_right( ) override {
+            return std::max( ImGui::GetMainViewport()->Size.x / 2,
+                             ImGui::GetMainViewport()->Size.x - ( 50 * ImGui::CalcTextSize( "X" ).x ) );
+        }
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
 
@@ -83,7 +89,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
             continue;
         }
 
-        if( i == menu->selected ) {
+        if( i == menu->previewing ) {
             selected_pocket = pocket;
             pocket_num = std::get<1>( pocket_val ) + 1;
             break;
@@ -93,30 +99,29 @@ void pocket_favorite_callback::refresh( uilist *menu )
 
     if( selected_pocket != nullptr && !selected_pocket->is_forbidden() ) {
         std::vector<iteminfo> info;
-        int starty = 5;
-        const int startx = menu->w_width - menu->pad_right;
-        const int width = menu->pad_right - 1;
 
-        fold_and_print( menu->window, point( 2, 2 ), width,
-                        c_light_gray, string_format( _( "Currently modifying %s" ),
-                                colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
+        ImGui::TableSetColumnIndex( 2 );
+        ImGui::PushStyleColor( ImGuiCol_Text, c_light_gray );
+        ImGui::TextWrapped( "%s", _( "Currently modifying " ) );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+        ImGui::TextWrapped( "%s", whitelist ? _( "whitelist" ) : _( "blacklist" ) );
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+        ImGui::NewLine();
+        ImGui::NewLine();
 
         selected_pocket->general_info( info, pocket_num, true );
-        starty += fold_and_print( menu->window, point( startx, starty ), width,
-                                  c_light_gray, format_item_info( info, {} ) ) + 1;
-
+        cataimgui::draw_colored_text( format_item_info( info, {} ) );
         info.clear();
+
         selected_pocket->favorite_info( info );
-        starty += fold_and_print( menu->window, point( startx, starty ), width,
-                                  c_light_gray, format_item_info( info, {} ) ) + 1;
-
+        cataimgui::draw_colored_text( format_item_info( info, {} ) );
         info.clear();
-        selected_pocket->contents_info( info, pocket_num, true );
-        fold_and_print( menu->window, point( startx, starty ), width,
-                        c_light_gray, format_item_info( info, {} ) );
-    }
 
-    wnoutrefresh( menu->window );
+        selected_pocket->contents_info( info, pocket_num, true );
+        cataimgui::draw_colored_text( format_item_info( info, {} ) );
+    }
 }
 
 pocket_favorite_callback::pocket_favorite_callback( const std::string &uilist_text,
@@ -722,7 +727,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
 
-            if( !current_pocket_iter->is_type( pocket.saved_type() ) ) {
+            if( !current_pocket_iter->is_type( convert ? pocket.get_pocket_data()->type :
+                                               pocket.saved_type() ) ) {
                 mismatched_pockets.push_back( pocket );
                 continue;
             }
@@ -750,8 +756,9 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item_pocket &pocket : mismatched_pockets ) {
+        const pocket_type mismatched_type = convert ? pocket.get_pocket_data()->type : pocket.saved_type();
         for( const item *it : pocket.all_items_top() ) {
-            const ret_val<item *> inserted = insert_item( *it, pocket.saved_type(), ignore_contents );
+            const ret_val<item *> inserted = insert_item( *it, mismatched_type, ignore_contents );
             if( !inserted.success() ) {
                 uninserted_items.push_back( *it );
                 debugmsg( "error: item %s cannot fit into any pocket while loading: %s",
@@ -1107,6 +1114,7 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
         units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
+    bool has_ret = false;
 
     if( copies_remaining <= 0 ) {
         return ret_val<void>::make_success();
@@ -1137,7 +1145,15 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
         if( copies_remaining <= 0 ) {
             return ret_val<void>::make_success();
         }
+        int n = copies_remaining;
+        bool could_contain = pocket.can_contain( it, n, /*ignore_contents=*/true ).success();
+        if( has_ret && !could_contain ) {
+            // This pocket could never contain the item, even if the pocket was emptied.
+            // So we would prefer to get the failure msg from another pocket which could potentially hold the item.
+            continue;
+        }
         ret = ret_val<void>::make_failure( pocket_contain_code.str() );
+        has_ret = true;
     }
     return ret;
 }
@@ -1374,7 +1390,7 @@ const item &item_contents::first_ammo() const
 bool item_contents::will_spill() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             return true;
         }
     }
@@ -1384,8 +1400,7 @@ bool item_contents::will_spill() const
 bool item_contents::will_spill_if_unsealed() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER )
-            && pocket.will_spill_if_unsealed() ) {
+        if( pocket.is_standard_type() && pocket.will_spill_if_unsealed() ) {
             return true;
         }
     }
@@ -1395,7 +1410,7 @@ bool item_contents::will_spill_if_unsealed() const
 bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
             if( !pocket.empty() ) {
                 return false;
@@ -1408,7 +1423,7 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( pocket.is_standard_type() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
         }
     }
@@ -1731,6 +1746,7 @@ content_newness item_contents::get_content_newness( const std::set<itype_id> &re
                     return content_newness::NEW;
                 case content_newness::MIGHT_BE_HIDDEN:
                     ret = content_newness::MIGHT_BE_HIDDEN;
+                    break;
                 case content_newness::SEEN:
                     break;
             }
@@ -2495,11 +2511,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 }
 
 void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                             temperature_flag flag, float spoil_multiplier_parent )
+                             temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+                            watertight_container );
         }
     }
 }
@@ -2628,6 +2645,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
     std::vector<iteminfo> contents_info;
     std::vector<item_pocket> found_pockets;
     std::map<int, int> pocket_num; // index, amount
+    const bool describe_contents = parts->test( iteminfo_parts::DESCRIPTION_CONTENTS );
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
             bool found = false;
@@ -2636,6 +2654,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                 if( found_pocket == pocket ) {
                     found = true;
                     pocket_num[idx]++;
+                    break;
                 }
                 idx++;
             }
@@ -2643,7 +2662,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                 found_pockets.push_back( pocket );
                 pocket_num[idx]++;
             }
-            pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
+            if( describe_contents ) {
+                pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
+            }
         }
     }
     if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
@@ -2671,6 +2692,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         }
 
         int idx = 0;
+        int pocket_number = 1;
         for( const item_pocket &pocket : found_pockets ) {
             if( pocket.is_forbidden() ) {
                 continue;
@@ -2678,8 +2700,15 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {
-                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d pockets</bold> with capacity:" ),
-                                   pocket_num[idx] ) );
+                std::vector<int> pocket_numbers( pocket_num[idx] );
+                std::iota( pocket_numbers.begin(), pocket_numbers.end(), pocket_number );
+                std::string pocket_numbers_enumeration = enumerate_as_string( pocket_numbers.begin(),
+                pocket_numbers.end(), []( int n ) {
+                    // std::to_string is not addressable, can't be passed directly
+                    return std::to_string( n );
+                } );
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets %s</bold>" ),
+                                   pocket_numbers_enumeration ) );
             } else {
                 // If this is the only pocket the item has, label it "Total capacity"
                 // Otherwise, give it a generic "Pocket" heading (is one of several pockets)
@@ -2687,14 +2716,15 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                 if( only_one_pocket ) {
                     info.emplace_back( "DESCRIPTION", _( "<bold>Total capacity</bold>:" ) );
                 } else {
-                    info.emplace_back( "DESCRIPTION", _( "<bold>Pocket</bold> with capacity:" ) );
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pocket %d</bold>" ), pocket_number ) );
                 }
             }
+            pocket_number += pocket_num[idx];
             idx++;
             pocket.general_info( info, idx, false );
         }
     }
-    if( parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+    if( describe_contents ) {
         info.insert( info.end(), contents_info.begin(), contents_info.end() );
     }
 }
@@ -2718,17 +2748,7 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
     pocket_selector.title = title;
     pocket_selector.text = uilist_text;
     pocket_selector.callback = &cb;
-    pocket_selector.w_x_setup = 0;
-    pocket_selector.w_width_setup = []() {
-        return TERMX;
-    };
-    pocket_selector.pad_right_setup = []() {
-        return std::max( TERMX / 2, TERMX - 50 );
-    };
-    pocket_selector.w_y_setup = 0;
-    pocket_selector.w_height_setup = []() {
-        return TERMY;
-    };
+    pocket_selector.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
     pocket_selector.input_category = input_category;
     pocket_selector.additional_actions = {
         { "FAV_PRIORITY", translation() },

@@ -3,7 +3,7 @@
     "id": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 FMJ" },
-    "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.",
+    "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "ascii_picture": "3006",
     "weight": "25 g",
     "volume": "192 ml",
@@ -87,7 +87,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 JSP" },
-    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.",
+    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
   },
   {
@@ -95,7 +95,6 @@
     "copy-from": "3006_jsp",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 JSP, black powder" },
-    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
@@ -110,7 +109,6 @@
     "copy-from": "3006_jsp",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 JSP, reloaded" },
-    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -129,7 +127,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP" },
-    "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.",
+    "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "material": [ "brass", "steel", "lead", "powder" ],
     "ascii_picture": "3006fmj",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
@@ -139,7 +137,6 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 FMJ, black powder" },
-    "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -154,7 +151,6 @@
     "copy-from": "3006_incendiary",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 tracer, black powder" },
-    "description": ".30-06 M14A1 tracer ammunition to help keep the weapon it is fired from on target.  Someone was down on their luck when they hand-reloaded this - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -166,10 +162,9 @@
   },
   {
     "id": "bp_3006fmj",
-    "copy-from": "bp_3006",
+    "copy-from": "3006fmj",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP, black powder" },
-    "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  It is an extremely powerful and accurate cartridge, but pays for its armor penetration abilities with lowered damage.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -184,7 +179,6 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 FMJ, reloaded" },
-    "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -194,7 +188,6 @@
     "copy-from": "3006_incendiary",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 tracer, reloaded" },
-    "description": ".30-06 M14A1 tracer ammunition to help keep the weapon it is fired from on target.  It's been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -204,7 +197,6 @@
     "copy-from": "3006fmj",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP, reloaded" },
-    "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  It is an extremely powerful and accurate cartridge, but pays for its armor penetration abilities with lowered damage.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

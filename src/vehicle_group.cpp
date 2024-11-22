@@ -38,9 +38,9 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
     return iter->second;
 }
 
-point VehicleLocation::pick_point() const
+point_bub_ms VehicleLocation::pick_point() const
 {
-    return point( x.get(), y.get() );
+    return point_bub_ms( x.get(), y.get() );
 }
 
 /** @relates string_id */
@@ -71,6 +71,7 @@ bool string_id<VehiclePlacement>::is_valid() const
 std::vector<vproto_id> VehicleGroup::all_possible_results() const
 {
     std::vector<vproto_id> result;
+    result.reserve( vehicles.size() );
     for( const weighted_object<int, vproto_id> &wo : vehicles ) {
         result.push_back( wo.obj );
     }
@@ -154,10 +155,10 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
                 debugmsg( "vehiclefunction_json: unable to get location to place vehicle." );
                 return;
             }
-            const tripoint pos = tripoint( loc->pick_point(), m.get_abs_sub().z() );
+            const tripoint_bub_ms pos{ loc->pick_point(), m.get_abs_sub().z() };
             m.add_vehicle( vehicle->pick(), pos, loc->pick_facing(), fuel, status );
         } else {
-            const tripoint pos = tripoint( location->pick_point(), m.get_abs_sub().z() );
+            const tripoint_bub_ms pos{ location->pick_point(), m.get_abs_sub().z()};
             m.add_vehicle( vehicle->pick(), pos, location->pick_facing(), fuel, status );
         }
     }
@@ -230,10 +231,10 @@ static void builtin_no_vehicles( map &, const std::string_view )
 static void builtin_parkinglot( map &m, const std::string_view )
 {
     for( int v = 0; v < rng( 1, 4 ); v++ ) {
-        tripoint pos_p;
-        pos_p.x = rng( 0, 1 ) * 15 + rng( 4, 5 );
-        pos_p.y = rng( 0, 4 ) * 4 + rng( 2, 4 );
-        pos_p.z = m.get_abs_sub().z();
+        tripoint_bub_ms pos_p;
+        pos_p.x() = rng( 0, 1 ) * 15 + rng( 4, 5 );
+        pos_p.y() = rng( 0, 4 ) * 4 + rng( 2, 4 );
+        pos_p.z() = m.get_abs_sub().z();
 
         if( !m.veh_at( pos_p ) ) {
             units::angle facing;

@@ -505,10 +505,38 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "ZOMBIFY_INTO_ENABLED",
+    "info": "Enables the functionality of the \"zombify_into\" JSON field in monster definitions.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "DESCRIBE_MUSIC_FREQUENCY",
     "info": "Determines frequency (in minutes) of displaying music description in sidebar when listening to MP3-players and the like.",
     "stype": "int",
     "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MIN_CATCHUP_EXP_PER_POST_CATA_DAY",
+    "info": "NPCs generated post-cataclysm will, when initially generated, receive this amount of exp to a random skill for each day that has passed since the Cataclysm.",
+    "stype": "int",
+    "value": 50
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MAX_CATCHUP_EXP_PER_POST_CATA_DAY",
+    "info": "Same as above.  This is the second value of rng(min, max) to determine base exp (before other character modifiers).",
+    "stype": "int",
+    "value": 150
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EXTRA_NPC_SKILL_LEVEL_CAP",
+    "info": "The maximum skill level randomly generated NPCs can achieve via MIN_CATCHUP_EXP_PER_POST_CATA_DAY and MAX_CATCHUP_EXP_PER_POST_CATA_DAY.",
+    "stype": "int",
+    "value": 7
   },
   {
     "type": "EXTERNAL_OPTION",

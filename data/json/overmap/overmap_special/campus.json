@@ -63,7 +63,12 @@
       { "point": [ 10, 6, 3 ], "overmap": "campus_commons_1_2_3_north" },
       { "point": [ 9, 7, 3 ], "overmap": "campus_commons_0_3_3_north" },
       { "point": [ 10, 7, 3 ], "overmap": "campus_commons_1_3_3_north" },
-      { "point": [ 12, 10, 0 ], "overmap": "campus_media_0_0_0_north" },
+      {
+        "point": [ 12, 10, 0 ],
+        "overmap": "campus_media_0_0_0_north",
+        "camp": "the_great_library",
+        "camp_name": "The Great Library"
+      },
       { "point": [ 12, 11, 0 ], "overmap": "campus_media_0_1_0_north" },
       { "point": [ 13, 10, 0 ], "overmap": "campus_media_1_0_0_north" },
       { "point": [ 13, 11, 0 ], "overmap": "campus_media_1_1_0_north" },
@@ -120,7 +125,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -147,7 +152,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -190,7 +195,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -221,7 +226,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -244,6 +249,6 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   }
 ]

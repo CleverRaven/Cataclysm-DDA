@@ -28,7 +28,7 @@
       "i": "t_rock_wall_half",
       "í": "t_rock_wall_half",
       "x": "t_wall_wood",
-      "X": "t_rock_floor",
+      "X": "t_thconc_floor",
       "R": "t_door_metal_c",
       "P": "t_door_bar_locked",
       "-": "t_bars",

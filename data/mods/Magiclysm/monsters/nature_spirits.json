@@ -26,7 +26,7 @@
     "vision_night": 5,
     "material": [ "veggy" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
+    "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a pile of moss." },
     "death_drops": "mossling_drops"
   },
@@ -64,7 +64,7 @@
       "BASHES",
       "GROUP_BASH",
       "CAMOUFLAGE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "NO_BREATHE",
       "PATH_AVOID_FIRE",
       "FLAMMABLE"

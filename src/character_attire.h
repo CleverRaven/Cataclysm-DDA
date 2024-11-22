@@ -122,7 +122,7 @@ class outfit
          */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
                           const Character &guy ) const;
-        std::list<item> get_visible_worn_items( const Character &guy ) const;
+        std::list<item_location> get_visible_worn_items( const Character &guy );
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;

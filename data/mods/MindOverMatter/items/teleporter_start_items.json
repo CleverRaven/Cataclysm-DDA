@@ -5,7 +5,6 @@
     "type": "GUN",
     "name": { "str": "Ch47 Fusion Pistol" },
     "description": "The standard-issue officer's sidearm for the Imperial Navy, guaranteed manufactured on Tlalticpactli itself by scions of the Huey Calpulli, the Ch47 replaced the earlier Ch41 and is widely renowned for its accuracy and ease of maintenance.  This particular Ch47 even bears an eagle and snake on the grip, indicating it was produced in a factory in Anáhuac.  Hopefully it'll make a good melee weapon as well.",
-    "to_hit": -2,
     "melee_damage": { "bash": 5 },
     "reload_noise_volume": 5,
     "weight": "800 g",
@@ -102,7 +101,7 @@
     "id": "itzcuauhtli_tunic",
     "copy-from": "dress_shirt",
     "type": "ARMOR",
-    "name": { "str": "Yohualli Èhecatl division tunic" },
+    "name": { "str": "Yohualli Ehēcatl division tunic" },
     "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
   },
   {

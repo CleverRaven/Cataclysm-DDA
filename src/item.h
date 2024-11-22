@@ -149,6 +149,9 @@ struct iteminfo {
         /** Flag indicating decimal with three points of precision.  */
         bool three_decimal;
 
+        /** info is ASCII art (prefer monospaced font) */
+        bool bIsArt;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -157,6 +160,7 @@ struct iteminfo {
             lower_is_better = 1 << 3, ///< Lower values are better for this stat
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
+            is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
         };
 
         /**
@@ -251,7 +255,7 @@ class item : public visitable
          * @param alert whether to display any messages
          * @return same instance to allow method chaining
          */
-        item &deactivate( const Character *ch = nullptr, bool alert = true );
+        item &deactivate( Character *ch = nullptr, bool alert = true );
 
         /** Filter converting instance to active state */
         item &activate();
@@ -368,6 +372,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
+
+        /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
          * Used for nicer messages only.
          */
@@ -421,6 +431,11 @@ class item : public visitable
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
+
+        std::vector<iteminfo> get_info( bool showtext ) const;
+        std::vector<iteminfo> get_info( bool showtext, int batch ) const;
+        std::vector<iteminfo> get_info( const iteminfo_query *parts, int batch ) const;
+
         /**
          * Return all the information about the item and its type.
          *
@@ -799,7 +814,9 @@ class item : public visitable
          * @param map A map object associated with that position.
          * @return true if the item was destroyed during placement.
          */
+        // TODO: Get rid of untyped overload.
         bool on_drop( const tripoint &pos, map &map );
+        bool on_drop( const tripoint_bub_ms &pos, map &map );
 
         /**
          * Consume a specific amount of items of a specific type.
@@ -1051,7 +1068,8 @@ class item : public visitable
          * @return true if the item is fully rotten and is ready to be removed
          */
         bool process_temperature_rot( float insulation, const tripoint &pos, map &here, Character *carrier,
-                                      temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
+                                      temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f,
+                                      bool watertight_container = false );
 
         /** Set the item to HOT and resets last_temp_check */
         void heat_up();
@@ -1390,14 +1408,16 @@ class item : public visitable
          * This version is for items with durability
          * @return the state of the armor
          */
-        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+        armor_status damage_armor_durability( damage_unit &du, damage_unit &premitigated,
+                                              const bodypart_id &bp,
+                                              double enchant_multiplier = 1 );
 
         /**
          * Damage related logic for armor items that warp and transform instead of degrading.
          * Items such as ablative plates are considered with this.
          * @return the state of the armor
          */
-        armor_status damage_armor_transforms( damage_unit &du ) const;
+        armor_status damage_armor_transforms( damage_unit &du, double enchant_multiplier = 1 ) const;
 
         // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
         std::string damage_indicator() const;
@@ -1445,9 +1465,13 @@ class item : public visitable
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
+        // TODO: Get rid of untyped overload.
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
-                      bool recursive = true );
+                      bool watertight_container = false, bool recursive = true );
+        bool process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation = 1,
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool watertight_container = false, bool recursive = true );
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
@@ -1528,7 +1552,10 @@ class item : public visitable
          * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
          * @return true if the item was successfully connected.
          */
+        // TODO: Get rid of untyped overload.
         ret_val<void> link_to( vehicle &veh, const point &mount,
+                               link_state link_type = link_state::no_link );
+        ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
 
         /**
@@ -1672,6 +1699,10 @@ class item : public visitable
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
+        bool can_have_fault_type( const std::string &fault_type ) const;
+
+        std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
+
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
@@ -1742,9 +1773,10 @@ class item : public visitable
         bool can_reload_with( const item &ammo, bool now ) const;
 
         /**
-          * Returns true if any of the contents are not frozen or not empty if it's liquid
+          * Returns true if it doesn't have flag NO_UNLOAD,
+          * and any of the contents are not frozen or not empty if it's liquid
           */
-        bool can_unload_liquid() const;
+        bool can_unload() const;
 
         /**
          * Returns true if none of the contents are solid
@@ -1790,6 +1822,11 @@ class item : public visitable
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
 
+        /** Checks is item affect fall */
+        bool affects_fall() const;
+
+        //flat damage reduction (increase if negative) on fall (some logic may apply)
+        int fall_damage_reduction() const;
         /**
           * if the item will spill if placed into a container
           */
@@ -1807,7 +1844,9 @@ class item : public visitable
          * @param pos Position to dump the contents on.
          * @return If the item is now empty.
          */
+        // TODO: Get rid of untyped overload.
         bool spill_contents( const tripoint &pos );
+        bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         // spill items that don't fit in the container
         void overflow( const tripoint &pos, const item_location &loc = item_location::nowhere );
@@ -1954,6 +1993,13 @@ class item : public visitable
         bool has_any_flag( const Container &flags ) const {
             return std::any_of( flags.begin(), flags.end(), [&]( const T & flag ) {
                 return has_flag( flag );
+            } );
+        }
+
+        template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
+        bool has_any_vitamin( const Container &vitamins ) const {
+            return std::any_of( vitamins.begin(), vitamins.end(), [&]( const T & vitamin ) {
+                return has_vitamin( vitamin );
             } );
         }
 
@@ -2415,11 +2461,16 @@ class item : public visitable
          */
         int shots_remaining( const Character *carrier ) const;
 
+        // Does this use electrical energy, or is it fueled by something else?
+        bool uses_energy() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
+         * Set second parameter to true to ignore vehicle batteries, UPS and bionic power when checking
          */
+
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
+        units::energy energy_remaining( const Character *carrier, bool ignoreExternalSources ) const;
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
@@ -2431,6 +2482,7 @@ class item : public visitable
 
 
     private:
+        units::energy energy_per_second() const;
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:
@@ -2487,7 +2539,9 @@ class item : public visitable
          * @param fuel_efficiency if this is a generator of some kind the efficiency at which it consumes fuel
          * @return amount of ammo consumed which will be between 0 and qty
          */
+        // TODO: Get rid of untyped overload
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
+        int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
@@ -2511,6 +2565,12 @@ class item : public visitable
          */
         int activation_consume( int qty, const tripoint &pos, Character *carrier );
 
+        // Returns whether the item has ammo in it, either directly or via a selected magazine, which
+        // contrasts with ammo_data(), which just returns the magazine data if a magazine is selected,
+        // regardless of whether that magazine is empty or not.
+        bool has_ammo() const;
+        // Cheaper way to just check if ammo_data exists if the data is to be just discarded afterwards.
+        bool has_ammo_data() const;
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
@@ -2526,7 +2586,7 @@ class item : public visitable
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not have a magazine for a specific ammo type */
         std::set<ammotype> ammo_types( bool conversion = true ) const;
-        /** Default ammo for the the item magazine pocket, if item has ammo_types().
+        /** Default ammo for the item magazine pocket, if item has ammo_types().
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
@@ -2539,7 +2599,7 @@ class item : public visitable
         itype_id common_ammo_default( bool conversion = true ) const;
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
-        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+        std::set<ammo_effect_str_id> ammo_effects( bool with_ammo = true ) const;
 
         /* Get the name to be used when sorting this item by ammo type */
         std::string ammo_sort_name() const;
@@ -3002,8 +3062,8 @@ class item : public visitable
         const use_function *get_use_internal( const std::string &use_name ) const;
         template<typename Item>
         static Item *get_usable_item_helper( Item &self, const std::string &use_name );
-        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                               temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
+        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation,
+                               temperature_flag flag, float spoil_modifier, bool watertight_container );
         void iterate_covered_body_parts_internal( side s,
                 const std::function<void( const bodypart_str_id & )> &cb ) const;
         void iterate_covered_sub_body_parts_internal( side s,
@@ -3069,6 +3129,10 @@ class item : public visitable
         bool process_blackpowder_fouling( Character *carrier );
         bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
+        bool process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+                                   int max_air_exposure_hours,
+                                   time_duration time_delta );
+
 
     public:
         static const int INFINITE_CHARGES;
@@ -3077,6 +3141,7 @@ class item : public visitable
         item_components components;
         /** What faults (if any) currently apply to this item */
         cata::heap<std::set<fault_id>> faults;
+        const mtype *get_corpse_mon() const;
 
     private:
         item_contents contents;

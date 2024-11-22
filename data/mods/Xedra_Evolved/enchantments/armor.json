@@ -73,8 +73,8 @@
   {
     "id": "increase_berserking",
     "type": "SPELL",
-    "name": "Berserking",
-    "description": "Increase the berserker variable.",
+    "name": { "str": "Berserking", "//~": "NO_I18N" },
+    "description": { "str": "Increase the berserker variable.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "INCREASE_BERSERKER",
@@ -158,6 +158,17 @@
       { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 10 },
       { "value": "BONUS_DODGE", "add": 1 }
+    ]
+  },
+  {
+    "id": "ench_sevenoclock_coat",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "or": [ { "u_has_effect": "lying_down" }, { "u_has_effect": "sleep" } ] },
+    "values": [
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
+      { "value": "SLEEPY", "add": 9999 }
     ]
   }
 ]

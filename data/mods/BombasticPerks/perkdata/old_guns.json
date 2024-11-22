@@ -7,13 +7,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "moss_brownie",
-    "type": "GUN",
-    "copy-from": "moss_brownie",
-    "name": { "str": "Mossberg Brownie" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "win70",
     "type": "GUN",
     "copy-from": "win70",
@@ -74,13 +67,6 @@
     "type": "GUN",
     "copy-from": "model_10_revolver",
     "name": { "str": "S&W Model 10" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "fn1910",
-    "type": "GUN",
-    "copy-from": "fn1910",
-    "name": { "str": "FN 1910 .380" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -228,20 +214,6 @@
     "type": "GUN",
     "copy-from": "winchester_1897",
     "name": { "str": "6-round trenchgun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "ppsh",
-    "type": "GUN",
-    "copy-from": "ppsh",
-    "name": { "str": "PPSh-41 submachine gun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "mp18",
-    "type": "GUN",
-    "copy-from": "mp18",
-    "name": { "str": "MP 18 submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {

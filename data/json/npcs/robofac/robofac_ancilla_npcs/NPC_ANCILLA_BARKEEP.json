@@ -97,8 +97,7 @@
         "Oh, what can I do for you today?"
       ],
       "no": {
-        "u_has_var": "dialogue_ancilla_barkeep_first_meet",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "dialogue_ancilla_barkeep_first_meet" } ],
         "yes": "Feel free to lounge around, and ask if there's anything you need.",
         "no": "Welcome to the Terminal, scavenger, longest standing underground bar in the state.  Feel free to ask if you need something."
       }
@@ -115,7 +114,7 @@
       { "text": "What do you have on tap?", "topic": "TALK_ANCILLA_BARKEEP_TAP" },
       {
         "text": "There should be a package for me here.",
-        "condition": { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", ">=", "1" ] },
+        "condition": { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed >= 1" ] },
         "topic": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD"
       },
       { "text": "Any good rumors?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },

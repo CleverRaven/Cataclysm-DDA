@@ -11,50 +11,16 @@
         "default": { "distribution": [ [ "null_palette", 400 ], [ "standard_building_vandalized_palette", 600 ] ] }
       }
     },
-    "palettes": [ "standard_building_shared_palette", { "param": "building_variant_palette" } ]
+    "palettes": [ "standard_building_shared_palette", { "param": "building_variant_palette" }, "parametrized_walls_palette" ]
   },
   {
     "type": "palette",
     "id": "standard_building_shared_palette",
-    "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ],
-            [ "t_wall_gray", 1 ],
-            [ "t_wall_brown", 1 ],
-            [ "t_wall_cyan", 1 ],
-            [ "t_wall_black", 1 ],
-            [ "t_wall_orange", 1 ]
-          ]
-        }
-      },
-      "exterior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_concrete_wall", 4 ],
-            [ "t_adobe_brick_wall", 1 ]
-          ]
-        }
-      }
-    },
+    "palettes": [ "parametrized_walls_palette" ],
     "furniture": { "S": "f_sink" },
     "terrain": {
       ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
       "4": "t_gutter_downspout",
-      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
       "-": "t_sidewalk",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
@@ -69,6 +35,7 @@
         "t_door_c",
         [ "t_door_o", 2 ]
       ],
+      "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "o": "t_window"
     },
@@ -92,7 +59,8 @@
           [ "bile_field", 1 ],
           [ "null", 387 ]
         ]
-      }
+      },
+      "¶": { "chunks": [ [ "destroyed_glass_door_wall", 2 ], [ "null", 9 ] ] }
     },
     "toilets": { "t": {  } }
   }

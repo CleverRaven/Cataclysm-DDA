@@ -180,7 +180,7 @@ bool is_assign_target( thingie const &thing )
            std::holds_alternative<func_diag_ass>( thing.data );
 }
 
-std::vector<double> _eval_params( std::vector<thingie> const &params, dialogue &d )
+std::vector<double> _eval_params( std::vector<thingie> const &params, const_dialogue const &d )
 {
     std::vector<double> elems( params.size() );
     std::transform( params.begin(), params.end(), elems.begin(),
@@ -204,7 +204,7 @@ constexpr void _validate_operand( thingie const &thing, std::string_view symbol 
 
 void _validate_unused_kwargs( diag_kwargs const &kwargs )
 {
-    for( diag_kwargs::value_type const &v : kwargs ) {
+    for( diag_kwargs::impl_t::value_type const &v : kwargs.kwargs ) {
         if( !v.second.was_used() ) {
             throw std::invalid_argument( string_format( R"(Unused kwarg "%s")", v.first ) );
         }
@@ -219,17 +219,17 @@ func_jmath::func_jmath( std::vector<thingie> &&params_,
                         jmath_func_id const &id_ ) : params( params_ ),
     id( id_ ) {}
 
-double func::eval( dialogue &d ) const
+double func::eval( const_dialogue const &d ) const
 {
     return f( _eval_params( params, d ) );
 }
 
-double func_jmath::eval( dialogue &d ) const
+double func_jmath::eval( const_dialogue const &d ) const
 {
     return id->eval( d, _eval_params( params, d ) );
 }
 
-double var::eval( dialogue &d ) const
+double var::eval( const_dialogue const &d ) const
 {
     std::string const str = read_var_value( varinfo, d );
     if( str.empty() ) {
@@ -247,7 +247,7 @@ oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
     r( std::make_shared<thingie>( std::move( r_ ) ) ),
     op( op_ ) {}
 
-double oper::eval( dialogue &d ) const
+double oper::eval( const_dialogue const &d ) const
 {
     return ( *op )( l->eval( d ), r->eval( d ) );
 }
@@ -261,7 +261,7 @@ ternary::ternary( thingie cond_, thingie mhs_, thingie rhs_ )
       mhs( std::make_shared<thingie>( std::move( mhs_ ) ) ),
       rhs( std::make_shared<thingie>( std::move( rhs_ ) ) ) {}
 
-double ternary::eval( dialogue &d ) const
+double ternary::eval( const_dialogue const &d ) const
 {
     return cond->eval( d ) > 0 ? mhs->eval( d ) : rhs->eval( d );
 }
@@ -272,7 +272,7 @@ class math_exp::math_exp_impl
         math_exp_impl() = default;
         explicit math_exp_impl( thingie &&t ): tree( t ) {}
 
-        bool parse( std::string_view str, bool assignment ) {
+        bool parse( std::string_view str, bool assignment, bool handle_errors ) {
             if( str.empty() ) {
                 return false;
             }
@@ -283,16 +283,20 @@ class math_exp::math_exp_impl
             try {
                 _parse( str, assignment );
             } catch( std::invalid_argument const &ex ) {
-                error( str, ex.what() );
-                ops = {};
-                output = {};
-                arity = {};
-                tree = thingie { 0.0 };
-                return false;
+                if( handle_errors ) {
+                    debugmsg( error( str, ex.what() ) );
+                    ops = {};
+                    output = {};
+                    arity = {};
+                    tree = thingie { 0.0 };
+                    return false;
+                }
+
+                throw std::invalid_argument( error( str, ex.what() ) );
             }
             return true;
         }
-        double eval( dialogue &d ) const {
+        double eval( const_dialogue const &d ) const {
             return tree.eval( d );
         }
 
@@ -357,7 +361,7 @@ class math_exp::math_exp_impl
         void new_ternary( thingie &lhs, thingie &rhs );
         void new_array();
         void maybe_first_argument();
-        void error( std::string_view str, std::string_view what );
+        std::string error( std::string_view str, std::string_view what );
         void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
         static std::vector<diag_value> _get_diag_vals( std::vector<thingie> &params );
         static diag_value _get_diag_value( thingie &param );
@@ -601,7 +605,7 @@ void math_exp::math_exp_impl::new_func()
                     "All positional arguments must precede keyword-value pairs" );
             }
             kwarg &kw = std::get<kwarg>( output.top().data );
-            kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
+            kwargs.kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
             output.pop();
         }
         for( std::vector<thingie>::size_type i = 0; i < nparams; i++ ) {
@@ -793,10 +797,10 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
         scoped = scoped.substr( 1 );
     }
     validate_string( scoped, "variable", " \'" );
-    output.emplace( std::in_place_type_t<var>(), type, "npctalk_var_" + std::string{ scoped } );
+    output.emplace( std::in_place_type_t<var>(), type, std::string{ scoped } );
 }
 
-void math_exp::math_exp_impl::error( std::string_view str, std::string_view what )
+std::string math_exp::math_exp_impl::error( std::string_view str, std::string_view what )
 {
     std::ptrdiff_t offset =
         std::max<std::ptrdiff_t>( 0, last_token.data() - str.data() );
@@ -811,11 +815,12 @@ void math_exp::math_exp_impl::error( std::string_view str, std::string_view what
         std::holds_alternative<var>( output.top().data ) ) {
         // NOLINTNEXTLINE(cata-translate-string-literal): debug message
         mess = string_format( "%s (or unknown function %s)", mess,
-                              std::get<var>( output.top().data ).varinfo.name.substr( 12 ) );
+                              std::get<var>( output.top().data ).varinfo.name );
     }
 
     offset = std::max<std::ptrdiff_t>( 0, offset - 1 );
-    debugmsg( "%s\n\n%.80s\n%*s▲▲▲\n", mess, str, offset, " " );
+    // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+    return string_format( "\n%s\n\n%.80s\n%*s▲▲▲\n", mess, str, offset, " " );
 }
 
 void math_exp::math_exp_impl::validate_string( std::string_view str, std::string_view label,
@@ -835,10 +840,10 @@ math_exp::math_exp( math_exp_impl impl_ )
 {
 }
 
-bool math_exp::parse( std::string_view str, bool assignment )
+bool math_exp::parse( std::string_view str, bool assignment, bool handle_errors )
 {
     impl = std::make_unique<math_exp_impl>();
-    return impl->parse( str, assignment );
+    return impl->parse( str, assignment, handle_errors );
 }
 
 math_exp::math_exp( math_exp const &other ) :
@@ -855,7 +860,7 @@ math_exp::~math_exp() = default;
 math_exp::math_exp( math_exp &&/* other */ ) noexcept = default;
 math_exp &math_exp::operator=( math_exp &&/* other */ )  noexcept = default;
 
-double math_exp::eval( dialogue &d ) const
+double math_exp::eval( const_dialogue const &d ) const
 {
     return impl->eval( d );
 }

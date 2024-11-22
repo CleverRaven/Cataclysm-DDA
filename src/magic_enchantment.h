@@ -48,6 +48,8 @@ enum class mod : int {
     REGEN_STAMINA,
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
+    MUT_INSTABILITY_MOD,
+    RANGE_DODGE,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
@@ -66,10 +68,13 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
+    MELEE_TO_HIT,
     RANGED_DAMAGE,
+    RANGED_ARMOR_PENETRATION,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
+    VISION_RANGE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
     SIGHT_RANGE_FAE,
@@ -124,17 +129,6 @@ enum class mod : int {
     EXTRA_BIO,
     EXTRA_ELEC_PAIN,
     RECOIL_MODIFIER, //affects recoil when shooting a gun
-    // effects for the item that has the enchantment
-    ITEM_DAMAGE_PURE,
-    ITEM_DAMAGE_BASH,
-    ITEM_DAMAGE_CUT,
-    ITEM_DAMAGE_STAB,
-    ITEM_DAMAGE_BULLET,
-    ITEM_DAMAGE_HEAT,
-    ITEM_DAMAGE_COLD,
-    ITEM_DAMAGE_ELEC,
-    ITEM_DAMAGE_ACID,
-    ITEM_DAMAGE_BIO,
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
@@ -145,6 +139,7 @@ enum class mod : int {
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
     ITEM_ATTACK_SPEED,
+    EQUIPMENT_DAMAGE_CHANCE,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     COMBAT_CATCHUP,
@@ -159,6 +154,7 @@ enum class mod : int {
     MOVECOST_SWIM_MOD,
     MOVECOST_OBSTACLE_MOD,
     MOVECOST_FLATGROUND_MOD,
+    PHASE_DISTANCE,
     SHOUT_NOISE_STR_MULT,
     NIGHT_VIS,
     HEARING_MULT,
@@ -169,9 +165,12 @@ enum class mod : int {
     VOMIT_MUL,
     SCENT_MASK,
     CONSUME_TIME_MOD,
+    THROW_STR,
+    THROW_DAMAGE,
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
+    WEAKPOINT_ACCURACY,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -233,6 +232,10 @@ class enchantment
         double get_value_add( enchant_vals::mod value, const Character &guy ) const;
         double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
+        bool get_vision_distance( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_description( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_tile( const Character &guy, const Creature &critter ) const;
+
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
         // does the enchantment modify bodyparts?
         bool modifies_bodyparts() const;
@@ -266,13 +269,32 @@ class enchantment
         std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
+        std::map<damage_type_id, dbl_or_var> damage_values_add; // NOLINT(cata-serialize)
+        std::map<damage_type_id, dbl_or_var> damage_values_multiply; // NOLINT(cata-serialize)
+
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
+
+        struct special_vision_descriptions {
+            std::string id;
+            std::string description;
+            std::function<bool( const_dialogue const & )> condition;
+        };
+
+        struct special_vision {
+            std::vector<special_vision_descriptions> special_vision_descriptions_vector;
+            std::function<bool( const_dialogue const & )> condition;
+            dbl_or_var range;
+            // todo: add boolean to see/not see with aiming the gun, in cata_tiles::draw_critter_at(), sees_with_specials block
+            // and boolean for precision to be used in calculate_aim_cap()
+        };
+
+        std::vector<special_vision> special_vision_vector;
 
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
-        std::function<bool( dialogue & )> dialog_condition; // NOLINT(cata-serialize)
+        std::function<bool( const_dialogue const & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };
@@ -289,6 +311,8 @@ class enchant_cache : public enchantment
         units::temperature_delta modify_value( enchant_vals::mod mod_val,
                                                units::temperature_delta value ) const;
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
+
+        double modify_melee_damage( const damage_type_id &mod_val, double value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
         void force_add( const enchantment &rhs, const monster &mon );
@@ -302,7 +326,12 @@ class enchant_cache : public enchantment
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
 
         int get_skill_value_add( const skill_id &value ) const;
+        int get_damage_add( const damage_type_id &value ) const;
+        bool get_vision_distance( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_description( const Character &guy, const Creature &critter ) const;
+        std::string get_vision_tile( const Character &guy, const Creature &critter ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
+        double get_damage_multiply( const damage_type_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -343,6 +372,19 @@ class enchant_cache : public enchantment
         // the exact same as above, though specifically for skills
         std::map<skill_id, int> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, int> skill_values_multiply; // NOLINT(cata-serialize)
+
+        std::map<damage_type_id, double> damage_values_add; // NOLINT(cata-serialize)
+        std::map<damage_type_id, double> damage_values_multiply; // NOLINT(cata-serialize)
+
+        using special_vision_descriptions = enchantment::special_vision_descriptions;
+
+        struct special_vision {
+            std::vector<special_vision_descriptions> special_vision_descriptions_vector;
+            std::function<bool( const_dialogue const & )> condition;
+            double range;
+        };
+
+        std::vector<special_vision> special_vision_vector;
 };
 
 template <typename E> struct enum_traits;

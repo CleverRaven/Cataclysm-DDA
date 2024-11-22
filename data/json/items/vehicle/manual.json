@@ -12,16 +12,13 @@
     "volume": "500 ml",
     "category": "veh_parts",
     "price": "90 USD",
-    "price_postapoc": "1 USD",
-    "melee_damage": { "bash": 10 }
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
     "id": "foot_crank",
     "copy-from": "hand_rims",
     "name": { "str": "foot crank" },
-    "description": "A pedal and gear assembly from a bicycle.",
-    "to_hit": -2,
-    "melee_damage": { "bash": 8, "cut": 2 }
+    "description": "A pedal and gear assembly from a bicycle."
   }
 ]

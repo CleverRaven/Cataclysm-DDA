@@ -9,15 +9,14 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_NO_PREREQ_POWER_INSIGHT" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_noise')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_noise') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_noise" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_noise" },
@@ -34,26 +33,21 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "or": [
-                { "math": [ "u_spell_level('telekinetic_push')", ">=", "4" ] },
-                { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] }
-              ]
+              "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 4" ] }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_slam_down')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_slam_down') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_slam_down" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slam_down') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_slam_down" },
@@ -73,26 +67,21 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('telekinetic_push')", ">=", "5" ] },
-                { "math": [ "u_spell_level('telekinetic_pull')", ">=", "5" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('telekinetic_push') >= 5" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 5" ] } ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_momentum')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_momentum') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_momentum" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_momentum') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_momentum" },
@@ -112,21 +101,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
-            { "and": [ { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "6" ] } ] }
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "and": [ { "math": [ "u_spell_level('telekinetic_momentum') >= 6" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_slowfall')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_slowfall') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_slowfall" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slowfall') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_slowfall" },
@@ -146,31 +133,73 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telekinetic_push')", ">=", "7" ] },
-                { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "4" ] }
+                { "math": [ "u_spell_level('telekinetic_push') >= 7" ] },
+                { "math": [ "u_spell_level('telekinetic_slam_down') >= 4" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_wave')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_wave') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_wave" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_wave') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_wave" },
       {
         "u_message": "Use of your powers has led to an insight.  You could release force in all directions, knocking back everyone surrounding you all at once, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_LIFTING_FIELD",
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            {
+              "or": [
+                { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 3" ] },
+                {
+                  "and": [
+                    { "math": [ "u_spell_level('telekinetic_pull') >= 7" ] },
+                    { "math": [ "u_spell_level('telekinetic_momentum') >= 5" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('telekinetic_lifting_field') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_telekinetic_lifting_field" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_lifting_field') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telekinetic_lifting_field" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could hold a single object in place, carrying it next to you without using your hands, if you can figure out the proper technique.",
         "popup": true
       }
     ]
@@ -185,31 +214,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_pull') >= 6" ] }, { "math": [ "u_spell_level('telekinetic_push') >= 6" ] } ]
                 },
-                { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "5" ] }
+                { "math": [ "u_spell_level('telekinetic_momentum') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_strength')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_strength') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_strength" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_strength') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_strength" },
@@ -229,31 +253,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_wave')", ">=", "4" ] },
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "8" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_wave') >= 4" ] }, { "math": [ "u_spell_level('telekinetic_push') >= 8" ] } ]
                 },
-                { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "6" ] }
+                { "math": [ "u_spell_level('telekinetic_slam_down') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_hammer')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_hammer') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_hammer" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_hammer') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_hammer" },
@@ -273,30 +292,31 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "or": [
                 {
                   "and": [
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('telekinetic_pull') >= 8" ] },
+                    { "math": [ "u_spell_level('telekinetic_slowfall') >= 8" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] }
+                { "math": [ "u_spell_level('telekinetic_strength') >= 10" ] },
+                { "math": [ "u_spell_level(' telekinetic_lifting_field') >= 12" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_vehicle_lift')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_vehicle_lift') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_vehicle_lift" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -317,26 +337,24 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telekinetic_wave')", ">=", "8" ] },
-                { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "10" ] }
+                { "math": [ "u_spell_level('telekinetic_wave') >= 8" ] },
+                { "math": [ "u_spell_level('telekinetic_momentum') >= 10" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_shield')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_shield') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_shield" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_shield') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_shield" },
@@ -356,36 +374,31 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "7" ] }
+                    { "math": [ "u_spell_level('telekinetic_slam_down') >= 12" ] },
+                    { "math": [ "u_spell_level('telekinetic_hammer') >= 7" ] }
                   ]
                 },
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "10" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 10" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 10" ] } ]
                 }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_explosion')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_explosion') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_explosion" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_explosion') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_explosion" },
@@ -405,30 +418,30 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('telekinetic_push') >= 12" ] },
+                    { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 5" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "9" ] }
+                { "math": [ "u_spell_level('telekinetic_slowfall') >= 9" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_levitation')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_levitation') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_levitation" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_levitation') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -449,22 +462,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "15" ] },
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "15" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 15" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 15" ] } ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('telekinetic_momentum') >= 10" ] },
+                    { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 6" ] }
                   ]
                 }
               ]
@@ -472,15 +482,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_move_large_weight')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_move_large_weight') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_move_large_weight" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "TELEKINETIC" } },
-        { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_move_large_weight') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -501,37 +508,35 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_wave')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('telekinetic_wave') >= 8" ] },
+                    { "math": [ "u_spell_level('telekinetic_slowfall') >= 9" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telekinetic_strength')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('telekinetic_momentum') >= 12" ] },
+                    { "math": [ "u_spell_level('telekinetic_strength') >= 8" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_shield')", ">=", "7" ] }
+                { "math": [ "u_spell_level('telekinetic_shield') >= 7" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_aegis')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_aegis') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_aegis" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_aegis') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_aegis" },
@@ -551,22 +556,22 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telekinetic_wave')", ">=", "13" ] }
+                    { "math": [ "u_spell_level('telekinetic_explosion') >= 8" ] },
+                    { "math": [ "u_spell_level('telekinetic_wave') >= 13" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('telekinetic_move_large_weight') >= 5" ] },
+                    { "math": [ "u_spell_level('telekinetic_hammer') >= 9" ] }
                   ]
                 }
               ]
@@ -574,12 +579,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_earthshaker')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_earthshaker') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_earthshaker" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_earthshaker') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
