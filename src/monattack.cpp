@@ -3038,7 +3038,7 @@ bool mattack::searchlight( monster *z )
             }
         }
 
-        here.add_field( t, field_type_id( "fd_spotlight" ), 1 );
+        here.add_field( t, field_fd_spotlight, 1 );
     }
 
     return true;

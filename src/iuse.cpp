@@ -896,7 +896,7 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint & )
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
             point offset( rng( -2, 2 ), rng( -2, 2 ) );
-            here.add_field( p->pos_bub() + offset, field_type_id( "fd_methsmoke" ), 2 );
+            here.add_field( p->pos_bub() + offset, field_fd_methsmoke, 2 );
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );

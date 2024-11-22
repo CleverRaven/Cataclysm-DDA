@@ -285,7 +285,6 @@ static const field_type_str_id field_fd_blood_veggy( "fd_blood_veggy" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 static const field_type_str_id field_fd_fungal_haze( "fd_fungal_haze" );
 static const field_type_str_id field_fd_gibs_flesh( "fd_gibs_flesh" );
-static const field_type_str_id field_fd_web( "fd_web" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );

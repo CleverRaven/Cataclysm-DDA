@@ -186,8 +186,6 @@ static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
-static const field_type_str_id field_fd_acid( "fd_acid" );
-
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
 static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );

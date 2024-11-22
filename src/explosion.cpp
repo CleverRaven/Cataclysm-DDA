@@ -76,9 +76,9 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const field_type_str_id field_fd_fire( "fd_fire" );
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_bile( "fd_bile" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
 static const field_type_str_id field_fd_slime( "fd_slime" );
 static const field_type_str_id field_fd_nuke_gas( "fd_nuke_gas" );
 
