@@ -422,12 +422,11 @@
     "category": [ "ARVORE" ],
     "active": true,
     "activated_is_setup": true,
-    "time": 120,
-    "thirst": true,
+    "time": 60,
+    "mana": true,
     "cost": 1,
     "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
-    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ],
-    "//": "Ideally this would be powered by mana, but thirst will work for now"
+    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ]
   },
   {
     "type": "mutation",
@@ -440,12 +439,11 @@
     "category": [ "ARVORE" ],
     "active": true,
     "activated_is_setup": true,
-    "time": 60,
-    "thirst": true,
+    "time": 30,
+    "mana": true,
     "cost": 1,
     "activated_eocs": [ "EOC_ARVORE_POISON_POLLEN_ON" ],
-    "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ],
-    "//": "Ideally this would be powered by mana, but thirst will work for now"
+    "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ]
   },
   {
     "type": "mutation",
@@ -502,6 +500,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "mixed_effect": true,
     "description": "Your energy changes with the seasons: in spring and summer, you're more awake and need less sleep, and the reverse is true in autumn and winter.",
     "prereqs": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "category": [ "ARVORE" ],
@@ -560,8 +559,8 @@
     "category": [ "ARVORE" ],
     "activated_is_setup": false,
     "active": true,
-    "thirst": true,
-    "cost": 1,
+    "mana": true,
+    "cost": 25,
     "activated_eocs": [ "EOC_ARVORE_VINE_DRAG_activated" ]
   },
   {
@@ -809,8 +808,8 @@
     "category": [ "ARVORE" ],
     "activated_is_setup": true,
     "active": true,
-    "time": 60,
-    "thirst": true,
+    "time": 20,
+    "mana": true,
     "cost": 1,
     "activated_eocs": [ "EOC_ARVORE_VINES_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_VINES_OFF" ]
