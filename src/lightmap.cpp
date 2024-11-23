@@ -196,7 +196,7 @@ bool map::build_vision_transparency_cache( int zlev )
     level_cache &map_cache = get_cache( zlev );
 
     // We copy the transparency_cache so we need to recalc if it's dirty
-    if( map_cache.transparency_cache_dirty.none() /*&& !map_cache.vision_transparency_cache_dirty.none()*/ ) {
+    if( map_cache.transparency_cache_dirty.none() /*&& map_cache.vision_transparency_cache_dirty.none()*/ ) {
         return false;
     }
 
@@ -215,6 +215,11 @@ bool map::build_vision_transparency_cache( int zlev )
     if( is_player_z ) {
         // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
         // If you change this, also consider creature::sees and map::obstacle_coverage.
+        // TODO: Is fairly nonsense because it changes vision for everyone only (eg if you @ crouch behind the window W then the NPC N and monster M can't see each other bc the window is counted as opaque)
+        // .N.
+        // .@.
+        // #W#
+        // .M.
         const bool is_crouching = player_character.is_crouching();
         const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
                                  player_character.is_running();
@@ -258,6 +263,7 @@ bool map::build_vision_transparency_cache( int zlev )
     }
 
     // The tile player is standing on should always be visible
+    // Shouldn't this be handled in the player's seen cache instead??
     if( is_player_z && inbounds( p ) ) {
         vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
     }
