@@ -5905,7 +5905,7 @@ void vehicle::idle( bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant( player_character.pos() ) ) {
+    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
         for( int i : planters ) {
             vehicle_part &vp = parts[ i ];
             if( vp.enabled ) {

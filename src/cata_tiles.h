@@ -631,7 +631,7 @@ class cata_tiles
         void void_sct();
 
         void init_draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                              const tripoint &offset );
+                              const tripoint_rel_ms &offset );
         void draw_zones_frame();
         void void_zones();
 

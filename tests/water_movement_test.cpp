@@ -261,8 +261,8 @@ struct swim_scenario {
 static int swimming_steps( avatar &swimmer )
 {
     map &here = get_map();
-    const tripoint left = swimmer.pos();
-    const tripoint right = left + tripoint_east;
+    const tripoint_bub_ms left = swimmer.pos_bub();
+    const tripoint_bub_ms right = left + tripoint_east;
     int steps = 0;
     constexpr int STOP_STEPS = 9000;
     int last_moves = swimmer.get_speed();
@@ -271,11 +271,11 @@ static int swimming_steps( avatar &swimmer )
     swimmer.set_stamina( last_stamina );
     while( swimmer.get_stamina() > 0 && !swimmer.has_effect( effect_winded ) && steps < STOP_STEPS ) {
         if( steps % 2 == 0 ) {
-            REQUIRE( swimmer.pos() == left );
-            REQUIRE( avatar_action::move( swimmer, here, tripoint_east ) );
+            REQUIRE( swimmer.pos_bub() == left );
+            REQUIRE( avatar_action::move( swimmer, here, tripoint_rel_ms_east ) );
         } else {
-            REQUIRE( swimmer.pos() == right );
-            REQUIRE( avatar_action::move( swimmer, here, tripoint_west ) );
+            REQUIRE( swimmer.pos_bub() == right );
+            REQUIRE( avatar_action::move( swimmer, here, tripoint_rel_ms_west ) );
         }
         ++steps;
         REQUIRE( swimmer.get_moves() < last_moves );

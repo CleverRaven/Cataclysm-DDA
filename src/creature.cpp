@@ -1561,9 +1561,9 @@ bool Creature::attack_air( const tripoint &p )
 
     // Attack animation
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        std::map<tripoint, nc_color> area_color;
-        area_color[p] = c_black;
-        explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
+        std::map<tripoint_bub_ms, nc_color> area_color;
+        area_color[tripoint_bub_ms( p )] = c_black;
+        explosion_handler::draw_custom_explosion( area_color, "animation_hit" );
     }
 
     // Chance to remove last known location

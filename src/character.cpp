@@ -7108,12 +7108,7 @@ int Character::get_cardio_acc_base() const
 
 bool Character::invoke_item( item *used )
 {
-    return invoke_item( used, pos() );
-}
-
-bool Character::invoke_item( item *, const tripoint &, int )
-{
-    return false;
+    return invoke_item( used, pos_bub() );
 }
 
 bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
@@ -7123,10 +7118,10 @@ bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
 
 bool Character::invoke_item( item *used, const std::string &method )
 {
-    return invoke_item( used, method, pos() );
+    return invoke_item( used, method, pos_bub() );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
+bool Character::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
                              int pre_obtain_moves )
 {
     if( method.empty() ) {
@@ -7173,7 +7168,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
-                                      pt, method );
+                                      pt.raw(), method );
     if( !charges_used.has_value() ) {
         set_moves( pre_obtain_moves );
         return false;
@@ -7187,7 +7182,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
+        const int consumed = used->activation_consume( charges_used.value(), pt.raw(), this );
         if( consumed == 0 ) {
             // Nothing was consumed from within the item. "Eat" the item itself away.
             i_rem( actually_used );
@@ -7195,7 +7190,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return ret;
     }
 
-    actually_used->activation_consume( charges_used.value(), pt, this );
+    actually_used->activation_consume( charges_used.value(), pt.raw(), this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
         actually_used->is_deployable() ) {
@@ -12674,7 +12669,7 @@ bool Character::can_fly()
 // FIXME: Relies on hardcoded bash damage type
 void Character::knock_back_to( const tripoint &to )
 {
-    if( to == pos() ) {
+    if( to == pos_bub().raw() ) {
         return;
     }
 
@@ -12716,7 +12711,7 @@ void Character::knock_back_to( const tripoint &to )
     if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( here, get_avatar(), to );
+            avatar_action::swim( here, get_avatar(), tripoint_bub_ms( to ) );
         }
         // TODO: NPCs can't swim!
     } else if( here.impassable( to ) ) { // Wait, it's a wall
@@ -13021,10 +13016,10 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             set_moves( pre_obtain_moves );
             return;
         }
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -13053,7 +13048,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             u->read( loc );
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -13063,7 +13058,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );

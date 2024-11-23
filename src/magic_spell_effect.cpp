@@ -472,14 +472,14 @@ static std::set<tripoint_bub_ms> spell_effect_area( const spell &sp, const tripo
     std::set<tripoint_bub_ms> targets = calculate_spell_effect_area( sp, target, caster );
     if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
         // Draw the explosion
-        std::map<tripoint, nc_color> explosion_colors;
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : targets ) {
-            explosion_colors[pt.raw()] = sp.damage_type_color();
+            explosion_colors[pt] = sp.damage_type_color();
         }
 
         std::string exp_name = "explosion_" + sp.id().str();
 
-        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+        explosion_handler::draw_custom_explosion( explosion_colors,
                 exp_name );
     }
     return targets;

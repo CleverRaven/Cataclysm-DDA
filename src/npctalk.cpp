@@ -5463,7 +5463,7 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                 if( target_var.has_value() ) {
                     tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
                     if( get_map().inbounds( target_pos ) ) {
-                        guy->invoke_item( it->get_item(), method_str, get_map().bub_from_abs( target_pos ).raw() );
+                        guy->invoke_item( it->get_item(), method_str, get_map().bub_from_abs( target_pos ) );
                         return;
                     }
                 }

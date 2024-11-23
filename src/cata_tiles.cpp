@@ -4473,12 +4473,12 @@ void cata_tiles::init_draw_sct()
     do_draw_sct = true;
 }
 void cata_tiles::init_draw_zones( const tripoint_bub_ms &_start, const tripoint_bub_ms &_end,
-                                  const tripoint &_offset )
+                                  const tripoint_rel_ms &_offset )
 {
     do_draw_zones = true;
     zone_start = _start;
     zone_end = _end;
-    zone_offset = _offset;
+    zone_offset = _offset.raw();
 }
 void cata_tiles::init_draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id )
 {

@@ -1643,32 +1643,32 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms( tripoint_south );
+        heading = tripoint_rel_ms_south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms_south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms( tripoint_west );
+        heading = tripoint_rel_ms_west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms( tripoint_north_west );
+        heading = tripoint_rel_ms_north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms( tripoint_north );
+        heading = tripoint_rel_ms_north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms( tripoint_north_east );
+        heading = tripoint_rel_ms_north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms( tripoint_east );
+        heading = tripoint_rel_ms_east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms( tripoint_south_east );
+        heading = tripoint_rel_ms_south_east;
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms( tripoint_zero ) ) {
+    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms_zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1737,28 +1737,28 @@ glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, 
     // What's the purpose of assigning a variable that isn't used? Is some code AWOL?
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms( tripoint_south );
+        heading = tripoint_rel_ms_south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms_south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms( tripoint_west );
+        heading = tripoint_rel_ms_west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms( tripoint_north_west );
+        heading = tripoint_rel_ms_north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms( tripoint_north );
+        heading = tripoint_rel_ms_north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms( tripoint_north_east );
+        heading = tripoint_rel_ms_north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms( tripoint_east );
+        heading = tripoint_rel_ms_east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms_south_west;
     }
 }
 
@@ -3221,7 +3221,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -4630,7 +4630,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_rel_ms_zero, false );
 
     JsonObject data = jsin.get_object();
 
@@ -5551,9 +5551,8 @@ void tent_placement_activity_actor::start( player_activity &act, Character & )
 void tent_placement_activity_actor::finish( player_activity &act, Character &p )
 {
     map &here = get_map();
-    const tripoint_bub_ms center = p.pos_bub() + tripoint( ( radius + 1 ) * target.x,
-                                   ( radius + 1 ) * target.y,
-                                   0 );
+    const tripoint_bub_ms center = p.pos_bub() + point( ( radius + 1 ) * target.x(),
+                                   ( radius + 1 ) * target.y() );
 
     // Make a square of floor surrounded by wall.
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
@@ -6606,7 +6605,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
+    here.cut_down_tree( pos, direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
