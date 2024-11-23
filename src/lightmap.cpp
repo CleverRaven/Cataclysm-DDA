@@ -245,7 +245,8 @@ bool map::build_vision_transparency_cache( int zlev )
             }
             for( int smi = 0; smi < SEEX; smi++ ) {
                 for( int smj = 0; smj < SEEY; smj++ ) {
-                    if( cur_submap->get_ter( point_sm_ms{smi, smj} ).obj().translucent ) {
+                    if( cur_submap->get_ter( point_sm_ms{smi, smj} ).obj().has_flag(
+                            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
                         const int i = smi + ( smx * SEEX );
                         const int j = smj + ( smy * SEEY );
                         dirty |= vision_transparency_cache[i][j] != LIGHT_TRANSPARENCY_SOLID;

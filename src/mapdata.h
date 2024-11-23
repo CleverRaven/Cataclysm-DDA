@@ -565,7 +565,6 @@ struct map_data_common_t {
         };
 
         bool transparent = false;
-        bool translucent = false;
 
         const std::set<std::string> &get_flags() const {
             return flags;

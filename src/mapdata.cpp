@@ -778,8 +778,8 @@ void map_data_common_t::set_flag( const std::string &flag )
     std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.set( f.value() );
-        translucent |= f.value() == ter_furn_flag::TFLAG_TRANSLUCENT;
-        transparent |= f.value() == ter_furn_flag::TFLAG_TRANSPARENT || translucent;
+        transparent |= f.value() == ter_furn_flag::TFLAG_TRANSPARENT ||
+                       f.value() == ter_furn_flag::TFLAG_TRANSLUCENT;
     }
 }
 
@@ -787,8 +787,7 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
 {
     flags.insert( io::enum_to_string<ter_furn_flag>( flag ) );
     bitflags.set( flag );
-    translucent |= flag == ter_furn_flag::TFLAG_TRANSLUCENT;
-    transparent |= flag == ter_furn_flag::TFLAG_TRANSPARENT || translucent;
+    transparent |= flag == ter_furn_flag::TFLAG_TRANSPARENT || flag == ter_furn_flag::TFLAG_TRANSLUCENT;
 }
 
 void map_data_common_t::unset_flag( const std::string &flag )
@@ -799,11 +798,8 @@ void map_data_common_t::unset_flag( const std::string &flag )
     std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.reset( f.value() );
-        if( translucent ) {
-            translucent = f.value() != ter_furn_flag::TFLAG_TRANSLUCENT;
-            if( transparent ) {
-                transparent = f.value() != ter_furn_flag::TFLAG_TRANSPARENT;
-            }
+        if( transparent ) {
+            transparent = f.value() != ter_furn_flag::TFLAG_TRANSPARENT;
         }
     }
 }
@@ -812,8 +808,7 @@ void map_data_common_t::unset_flags()
 {
     flags.clear();
     bitflags.reset();
-    transparent = false;
-    translucent = false;
+    transparent = false; //?
 }
 
 void map_data_common_t::set_connect_groups( const std::vector<std::string>
@@ -1036,6 +1031,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         shoot = cata::make_value<map_shoot_info>();
         shoot->load( jo, "shoot", was_loaded );
     }
+
 }
 
 bool ter_t::is_null() const
