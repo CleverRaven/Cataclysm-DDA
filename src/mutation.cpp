@@ -444,32 +444,6 @@ bool reflex_activation_data::is_trigger_true( Character &guy ) const
     return trigger( d );
 }
 
-int Character::get_mod( const trait_id &mut, const std::string &arg ) const
-{
-    const auto &mod_data = mut->mods;
-    int ret = 0;
-    auto found = mod_data.find( std::make_pair( false, arg ) );
-    if( found != mod_data.end() ) {
-        ret += found->second;
-    }
-    return ret;
-}
-
-void Character::apply_mods( const trait_id &mut, bool add_remove )
-{
-    int sign = add_remove ? 1 : -1;
-    int str_change = get_mod( mut, "STR" );
-    str_max += sign * str_change;
-    per_max += sign * get_mod( mut, "PER" );
-    dex_max += sign * get_mod( mut, "DEX" );
-    int_max += sign * get_mod( mut, "INT" );
-
-    reset_stats();
-    if( str_change != 0 ) {
-        recalc_hp();
-    }
-}
-
 bool mutation_branch::conflicts_with_item( const item &it ) const
 {
     if( allow_soft_gear && it.is_soft() ) {
@@ -575,8 +549,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-    } else {
-        apply_mods( mut, true );
     }
 
     recalculate_size();
@@ -655,8 +627,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-    } else {
-        apply_mods( mut, false );
     }
 
     recalculate_size();
@@ -997,8 +967,6 @@ void Character::deactivate_mutation( const trait_id &mut )
     my_mutations[mut].powered = false;
     trait_flag_cache.clear();
 
-    // Handle stat changes from deactivation
-    apply_mods( mut, false );
     recalc_sight_limits();
     const mutation_branch &mdata = mut.obj();
     if( mdata.transform ) {
