@@ -316,7 +316,7 @@
     "type": "COMESTIBLE",
     "id": "chokeberries",
     "name": { "str": "handful of chokeberries", "str_pl": "handfuls of chokeberries" },
-    "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly bitter.",
+    "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
     "copy-from": "cranberries",
     "calories": 46,
     "color": "black",
