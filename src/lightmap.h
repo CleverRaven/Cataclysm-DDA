@@ -4,6 +4,7 @@
 
 #include <cmath> // IWYU pragma: keep
 #include <ostream>
+#include "map_scale_constants.h"
 
 constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
 constexpr float LIGHT_SOURCE_BRIGHT = 10.0f;
@@ -30,10 +31,12 @@ constexpr float LIGHT_AMBIENT_LIT = 10.0f;
  * Note:  LIGHT_TRANSPARENCY_SOLID=0 is a special case (it indicates completely opaque tile)
  * */
 constexpr float LIGHT_TRANSPARENCY_SOLID = 0.0f;
-// Calculated to run out at 60 squares.
-// Cumulative transparency should drop to 0.1 or lower over 60 squares,
-// Bright sunlight should drop to LIGHT_AMBIENT_LOW over 60 squares.
-constexpr float LIGHT_TRANSPARENCY_OPEN_AIR = 0.038376418216f;
+
+// Expected to run out at the maximum view distance as per MAX_VIEW_DISTANCE
+// in map_scale_constants.h.
+// Cumulative transparency should drop to 0.1 or lower, and bright sunlight should drop to
+// LIGHT_AMBIENT_LOW over the same distance.
+constexpr float LIGHT_TRANSPARENCY_OPEN_AIR = 2.3f / MAX_VIEW_DISTANCE;
 
 // indicates starting (full) visibility (for seen_cache)
 constexpr float VISIBILITY_FULL = 1.0f;

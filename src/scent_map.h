@@ -11,7 +11,7 @@
 #include "calendar.h"
 #include "coords_fwd.h"
 #include "enums.h" // IWYU pragma: keep
-#include "game_constants.h"
+#include "map_scale_constants.h"
 #include "point.h"
 #include "type_id.h"
 

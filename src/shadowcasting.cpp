@@ -10,6 +10,9 @@
 #include "list.h"
 #include "point.h"
 
+// historically 8 bits is enough for rise and run, as a shadowcasting radius of 60
+// readily fits within that space. larger shadowcasting volumes may require larger
+// storage units; a radius of 120 definitely will not fit.
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
         // Ensure run is always positive for the inequality operators
@@ -21,8 +24,7 @@ struct slope {
         }
     }
 
-    // We don't need more that 8 bits since the shadowcasting area is not that large,
-    // currently the radius is 60.
+    // see above for commentary on types.
     int_least8_t rise;
     int_least8_t run;
 };
@@ -166,7 +168,7 @@ void cast_horizontal_zlight_segment(
     const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = MAX_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -362,7 +364,7 @@ void cast_vertical_zlight_segment(
     const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = MAX_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
