@@ -339,7 +339,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine, c_light_blue, _( "Version: 0.H (Hebert) Stable Release" ) );
+    center_print( w_open, iLine, c_light_blue, _( "Version: 0.H (Herbert) Stable Release" ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
