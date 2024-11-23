@@ -1189,6 +1189,8 @@ bool advanced_inventory::move_all_items()
     } else if( dpane.get_area() == AIM_INVENTORY ) {
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1207,6 +1209,8 @@ bool advanced_inventory::move_all_items()
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1329,8 +1333,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
     // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
     if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) &&
         changeSquare != AIM_CONTAINER && changeSquare != AIM_PARENT ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
-            spane.get_area() != changeSquare ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( spane.get_area() == AIM_CONTAINER ) {
                 spane.container = item_location::nowhere;
@@ -1338,14 +1341,17 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                 // Update dpane to show items removed from the spane.
                 dpane.recalc = true;
             }
-            if( dpane.get_area() == changeSquare ) {
-                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
-                spane.recalc = true;
-            } else if( spane.get_area() == dpane.get_area() ) {
+            if( spane.get_area() == dpane.get_area() ) {
                 // swap the `in_vehicle` element of each pane if "one in, one out"
                 spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
                 dpane.set_area( squares[dpane.get_area()], !dpane.in_vehicle() );
                 recalc = true;
+            } else if( dpane.get_area() == changeSquare ) {
+                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
+                spane.recalc = true;
+            } else {
+                spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+                spane.recalc = true;
             }
         } else {
             swap_panes();
@@ -2065,7 +2071,10 @@ class query_destination_callback : public uilist_callback
             draw_squares( menu );
         }
         float desired_extra_space_left( ) override {
-            return ImGui::CalcTextSize( "[1] [2] [3]" ).x;
+            cataimgui::PushMonoFont();
+            float rv = ImGui::CalcTextSize( "[1][2][3]" ).x + ( 3.0 * ImGui::GetStyle().ItemSpacing.x );
+            ImGui::PopFont();
+            return rv;
         }
 };
 
@@ -2077,34 +2086,37 @@ void query_destination_callback::draw_squares( const uilist *menu )
     ImGui::NewLine();
     cata_assert( menu->entries.size() >= 9 );
     int sel = 0;
-    if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < menu->entries.size() ) {
+    if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < menu->entries.size() ) {
         sel = _adv_inv.screen_relative_location(
-                  static_cast <aim_location>( menu->hovered + 1 ) );
+                  static_cast <aim_location>( menu->previewing + 1 ) );
     }
-    for( int i = 1; i < 10; i++ ) {
-        aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
-        std::string key = _adv_inv.get_location_key( loc );
-        advanced_inv_area &square = _adv_inv.get_one_square( loc );
-        bool in_vehicle = square.can_store_in_vehicle();
-        const char *bracket = in_vehicle ? "<>" : "[]";
-        // always show storage option for vehicle storage, if applicable
-        bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
-        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-        // TODO(db48x): maybe make these clickable buttons or something
-        ImGui::PushID( i );
-        ImGui::BeginGroup();
-        ImGui::TextColored( bcolor, "%c", bracket[0] );
-        ImGui::SameLine( 0.0, 0.0 );
-        ImGui::TextColored( kcolor, "%s", key.c_str() );
-        ImGui::SameLine( 0.0, 0.0 );
-        ImGui::TextColored( bcolor, "%c", bracket[1] );
-        ImGui::EndGroup();
-        ImGui::PopID();
-        if( i % 3 != 0 ) {
+    cataimgui::PushMonoFont();
+    for( int i = 7; i >= 1; i -= 3 ) { // 7,4,1
+        for( int ii = 0; ii <= 2; ii++ ) { // +0,1,2
+            aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i + ii ) );
+            std::string key = _adv_inv.get_location_key( loc );
+            advanced_inv_area &square = _adv_inv.get_one_square( loc );
+            bool in_vehicle = square.can_store_in_vehicle();
+            const char *bracket = in_vehicle ? "<>" : "[]";
+            // always show storage option for vehicle storage, if applicable
+            bool canputitems = menu->entries[i + ii - 1].enabled && square.canputitems();
+            nc_color bcolor = canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_red;
+            nc_color kcolor = canputitems ? ( sel == loc ? h_white : c_dark_gray ) : c_red;
+            // TODO(db48x): maybe make these clickable buttons or something
+            ImGui::PushID( i + ii );
+            ImGui::BeginGroup();
+            ImGui::TextColored( bcolor, "%c", bracket[0] );
+            ImGui::SameLine( 0.0, 0.0 );
+            ImGui::TextColored( kcolor, "%s", key.c_str() );
+            ImGui::SameLine( 0.0, 0.0 );
+            ImGui::TextColored( bcolor, "%c", bracket[1] );
+            ImGui::EndGroup();
+            ImGui::PopID();
             ImGui::SameLine();
         }
+        ImGui::NewLine();
     }
+    ImGui::PopFont();
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -2136,10 +2148,18 @@ bool advanced_inventory::query_destination( aim_location &def )
             if( size >= MAX_ITEM_IN_SQUARE ) {
                 prefix += _( " (FULL)" );
             }
-            menu.addentry( ordered_loc,
-                           s.canputitems() && s.id != panes[src].get_area(),
-                           get_location_key( ordered_loc )[0],
-                           prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
+            if( s.veh != nullptr ) {
+                menu.addentry_col( ordered_loc,
+                                   s.canputitems() && s.id != panes[src].get_area(),
+                                   get_location_key( ordered_loc )[0],
+                                   prefix + " " + s.name,
+                                   s.veh->name );
+            } else {
+                menu.addentry( ordered_loc,
+                               s.canputitems() && s.id != panes[src].get_area(),
+                               get_location_key( ordered_loc )[0],
+                               prefix + " " + s.name );
+            }
         }
     }
     // Selected keyed to uilist.entries, which starts at 0.

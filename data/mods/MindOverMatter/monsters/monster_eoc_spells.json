@@ -24,14 +24,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_2",
-    "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
+    "condition": { "math": [ "u_val('mana') >= 150" ] },
     "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
     "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_3" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_3",
-    "condition": { "math": [ "u_val('stamina')", ">=", "200" ] },
+    "condition": { "math": [ "u_val('stamina') >= 200" ] },
     "effect": [
       { "u_cast_spell": { "id": "eater_drain_stamina" } },
       { "u_message": "For a moment, you feel exhausted.", "type": "bad" }
@@ -135,7 +135,7 @@
         "run_eocs": [
           {
             "id": "EOC_NULL_BREAK_CONCENTRATION_2",
-            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
+            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
             "effect": [
               {
                 "run_eocs": [
@@ -289,12 +289,7 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [
-                        { "flags": [ "RECHARGE" ] },
-                        { "flags": [ "ELECTRONIC" ] },
-                        { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-                        { "flags": [ "USE_UPS" ] }
-                      ],
+                      "search_data": [ { "uses_energy": true } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
@@ -321,6 +316,112 @@
           }
         ]
       }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "biokinetic_heightened_reflexes_monster",
+    "name": { "str": "Heightened Reflexes enemy check", "//~": "NO_I18N" },
+    "description": "Applies Enhanced Reflexes when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_heightened_reflex", "duration": { "math": [ "rng(180,990)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "biokinetic_heightened_reflexes_enhanced_monster",
+    "name": { "str": "Heightened Reflexes enemy check", "//~": "NO_I18N" },
+    "description": "Applies an even stronger version of Heightened Reflexes when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_ENHANCED_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_ENHANCED_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_heightened_reflex_enhanced", "duration": { "math": [ "rng(270,1530)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "electrokinetic_neuro_acceleration_monster",
+    "name": { "str": "Neuro-Acceleration monster enemy check", "//~": "NO_I18N" },
+    "description": "Applies Neuro-Acceleration when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration", "duration": { "math": [ "rng(225,742)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "electrokinetic_neuro_acceleration_enhanced_monster",
+    "name": { "str": "Neuro-Acceleration Enhanced monster enemy check", "//~": "NO_I18N" },
+    "description": "Applies an enhanced version of Neuro-Acceleration when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration_enhanced", "duration": { "math": [ "rng(225,742)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "hidebehind_apply_obscurity_power",
+    "name": { "str": "Hidebehind Obscurity enemy check" },
+    "description": "Preps for using Obscurity when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MONSTER_APPLY_OBSCURITY",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MONSTER_APPLY_OBSCURITY",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TEEPSHIELD" } },
+        { "not": { "u_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "u_has_effect": "eff_monster_immune_to_telepathy" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "n_power_obscurity_duration", "=", "rng(205,835)" ] },
+      { "u_add_effect": "telepathic_ignorance", "duration": { "math": [ "n_power_obscurity_duration" ] } },
+      { "npc_add_effect": "telepathic_ignorance_self", "duration": { "math": [ "n_power_obscurity_duration" ] } }
     ]
   }
 ]

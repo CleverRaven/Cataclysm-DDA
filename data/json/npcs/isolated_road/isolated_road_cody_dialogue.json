@@ -133,9 +133,9 @@
         "text": "Could you make me a weapon?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
-            { "u_has_var": "dialogue_artisans_blacksmith_heard_the_deal", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_heard_the_deal" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE"
@@ -144,11 +144,10 @@
         "text": "Could you make me a weapon?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
             {
               "//": "this variable means that you have completed quest 1 for Cody and shown Jay",
-              "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest",
-              "value": "yes"
+              "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ]
             }
           ]
         },
@@ -158,68 +157,6 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('21 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
-            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
-          ]
-        },
-        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
-      },
-      {
-        "text": "How is my armor coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('21 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
-            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
-          ]
-        },
-        "topic": "TALK_BLACKSMITH_ARMOR_READY"
-      },
-      {
-        "text": "How is my armor coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('28 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
-            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
-          ]
-        },
-        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
-      },
-      {
-        "text": "How is my armor coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('28 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
-            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
-          ]
-        },
-        "topic": "TALK_BLACKSMITH_ARMOR_READY"
-      },
-      {
-        "text": "How is my armor coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('35 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
-            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
-          ]
-        },
-        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
-      },
-      {
-        "text": "How is my armor coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('35 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
             { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
@@ -230,8 +167,8 @@
         "text": "How is my weapon coming?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "weapon" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "weapon", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_WEAPON_READY"
@@ -373,7 +310,7 @@
     "id": "TALK_BLACKSMITH_BOUGHT_COOP",
     "type": "talk_topic",
     "dynamic_line": [
-      "There yah go, one co-op membership with your name on it.  Shop's in the back, keep it tidy and share if anyone else is around workin'.  Just as a heads-up, you'll need to bring your own charcoal.  There's a kiln in there too, so if you got things to burn, just throw 'em in there there and light up."
+      "There yah go, one co-op membership with your name on it.  Shop's in the back, keep it tidy and share if anyone else is around workin'.  Just as a heads-up, you'll need to bring your own charcoal.  There's a kiln in there too, so if you got things to burn, just throw 'em in there and light up."
     ],
     "responses": [
       { "text": "Thanks.", "topic": "TALK_BLACKSMITH_SERVICES" },
@@ -449,5 +386,14 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE",
+    "//": "If you haven't completed the opening quest yet Cody will blow you off",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Sorry, I don't really have the time to work on something like that.  I've got lots of pieces for sale on the shelves."
+    ],
+    "responses": [ { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" } ]
   }
 ]

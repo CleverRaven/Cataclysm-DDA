@@ -1724,23 +1724,23 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     if( here.ter( source_pos )->has_examine( iexamine::gaspump ) ) {
                         add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
                                  liquid.type_name( 1 ) );
-                    } else if( here.furn( source_pos )->has_examine( iexamine::fvat_full ) ) {
+                    } else if( const furn_id &f = here.furn( source_pos ); f->has_examine( iexamine::fvat_full ) ) {
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            if( here.furn( source_pos ) == furn_f_fvat_wood_full ) {
+                            if( f == furn_f_fvat_wood_full ) {
                                 here.furn_set( source_pos, furn_f_fvat_wood_empty );
                             } else {
                                 here.furn_set( source_pos, furn_f_fvat_empty );
                             }
                         }
-                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                    } else if( f->has_examine( iexamine::compost_full ) ) {
                         add_msg( _( "You squeeze the last drops of %s from the tank." ),
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                            if( f == furn_f_compost_full ) {
                                 here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
@@ -1869,12 +1869,10 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
                                 _( "<npcname> finishes digging." ) );
     here.destroy( pos, true );
     if( !act->targets.empty() ) {
-        item &it = *act->targets.front();
-        if( it.is_null() || it.charges <= 0 ) {
-            debugmsg( "pickaxe expired during mining" );
-            return;
+        item_location it = act->targets.front();
+        if( it ) {
+            you->consume_charges( *it, it->ammo_required() );
         }
-        you->consume_charges( it, it.ammo_required() );
     } else {
         debugmsg( "pickaxe activity targets empty" );
     }
@@ -1921,7 +1919,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     if( !here.is_flammable( where ) ) {
         try_fuel_fire( *act, *you, true );
         if( !here.is_flammable( where ) ) {
-            you->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, where ) ||
+                here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, where ) ) {
+                you->add_msg_if_player( m_info, _( "You can't light a fire on water." ) );
+            } else {
+                you->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            }
             you->cancel_activity();
             return;
         }

@@ -134,6 +134,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const flag_id json_flag_MOP( "MOP" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
+static const gun_mode_id gun_mode_BURST( "BURST" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
@@ -333,6 +334,9 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
+            if( are_we_quitting() ) {
+                break;
+            }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -563,7 +567,7 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    veh->pldrive( get_avatar(), p.xy(), p.z );
+    veh->pldrive( get_avatar(), p.x, p.y, p.z );
 }
 
 static void pldrive( point d )
@@ -719,8 +723,9 @@ static void grab()
         return;
     }
 
+    const optional_vpart_position &vp = here.veh_at( grabp );
     // Object might not be on the same z level if on a ramp.
-    if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
+    if( !( vp || here.has_furn( grabp ) ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
             here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos_bub() ) ) {
             grabp.z() += 1;
@@ -730,7 +735,7 @@ static void grab()
         }
     }
 
-    if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
+    if( vp ) {
         std::string veh_name = vp->vehicle().name;
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
@@ -747,8 +752,8 @@ static void grab()
                 return;
             }
             get_player_character().pause();
-            vp->vehicle().separate_from_grid( vp.value().mount() );
-            if( const optional_vpart_position split_vp = here.veh_at( grabp ) ) {
+            vp->vehicle().separate_from_grid( vp.value().mount_pos() );
+            if( const optional_vpart_position &split_vp = here.veh_at( grabp ) ) {
                 veh_name = split_vp->vehicle().name;
             } else {
                 debugmsg( "Lost the part to drag after splitting power grid!" );
@@ -758,7 +763,7 @@ static void grab()
         //solid vehicles can't be grabbed while boarded
         const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
         if( vp_boarded ) {
-            const std::set<tripoint> grabbed_veh_points = vp->vehicle().get_points();
+            const std::set<tripoint_bub_ms> grabbed_veh_points = vp->vehicle().get_points();
             if( &vp_boarded->vehicle() == &vp->vehicle() &&
                 !empty( vp->vehicle().get_avail_parts( VPFLAG_OBSTACLE ) ) ) {
                 add_msg( m_info, _( "You can't move the %s while you're boarding it." ), veh_name );
@@ -902,29 +907,14 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
+static bool is_smashable_corpse( const item &maybe_corpse )
+{
+    return maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
+           maybe_corpse.can_revive();
+}
+
 static void smash()
 {
-    avatar &player_character = get_avatar();
-    map &here = get_map();
-    if( player_character.is_mounted() ) {
-        auto *mons = player_character.mounted_creature.get();
-        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
-            if( !mons->check_mech_powered() ) {
-                add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
-                         mons->get_name() );
-                return;
-            }
-        }
-    }
-    const int move_cost = !player_character.is_armed() ? 80 :
-                          player_character.get_wielded_item()->attack_time( player_character ) *
-                          0.8;
-    bool mech_smash = false;
-    int smashskill = player_character.smash_ability();
-    if( player_character.is_mounted() ) {
-        mech_smash = true;
-    }
-
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
@@ -932,60 +922,114 @@ static void smash()
     }
     tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
 
-    if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+    // Little hack: If there's a smashable corpse, it'll always be bashed first. So don't bother warning about
+    // terrain smashing unless it's actually possible.
+    bool smashable_corpse_at_target = false;
+    for( const item &maybe_corpse : get_map().i_at( smashp ) ) {
+        if( is_smashable_corpse( maybe_corpse ) ) {
+            smashable_corpse_at_target = true;
+            break;
+        }
+    }
+
+    if( !smashable_corpse_at_target && !g->warn_player_maybe_anger_local_faction( true ) ) {
         return; // player declined to smash faction's stuff
     }
 
+    avatar &player_character = get_avatar();
+    avatar::smash_result res = player_character.smash( smashp );
+    if( res.did_smash && !res.success &&
+        res.resistance > 0 && res.skill >= res.resistance &&
+        query_yn( _( "Keep smashing until destroyed?" ) ) ) {
+        player_character.assign_activity( bash_activity_actor( smashp ) );
+    }
+}
+
+avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
+{
+    avatar::smash_result ret;
+    ret.did_smash = false;
+    ret.success = false;
+    ret.skill = -1;
+    ret.resistance = -1;
+
+    map &here = get_map();
+    if( is_mounted() ) {
+        auto *mons = mounted_creature.get();
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
+            if( !mons->check_mech_powered() ) {
+                add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
+                         mons->get_name() );
+                return ret;
+            }
+        }
+    }
+    const int move_cost = !is_armed() ? 80 :
+                          get_wielded_item()->attack_time( *this ) * 0.8;
+    bool mech_smash = false;
+    int smashskill = smash_ability();
+    ret.skill = smashskill;
+    if( is_mounted() ) {
+        mech_smash = true;
+    }
+
     bool smash_floor = false;
-    if( smashp.z() != player_character.posz() ) {
-        if( smashp.z() > player_character.posz() ) {
+    if( smashp.z() != posz() ) {
+        if( smashp.z() > posz() ) {
             // TODO: Knock on the ceiling
-            return;
+            return ret;
         }
 
-        smashp.z() = player_character.posz();
+        smashp.z() = posz();
         smash_floor = true;
     }
+
     get_event_bus().send<event_type::character_smashes_tile>(
-        player_character.getID(), here.ter( smashp ).id(), here.furn( smashp ).id() );
-    if( player_character.is_mounted() ) {
-        monster *crit = player_character.mounted_creature.get();
+        getID(), here.ter( smashp ).id(), here.furn( smashp ).id() );
+    if( is_mounted() ) {
+        monster *crit = mounted_creature.get();
         if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             crit->use_mech_power( 3_kJ );
         }
     }
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
-        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
-        if( bash_info.str_min == -1 ) {
+        const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
+        if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
-            return;
-        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
-            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+            ret.did_smash = true;
+            return ret;
+        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+            sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
+                           "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
-            here.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
-            player_character.mod_moves( - bash_info.fd_bash_move_cost );
-            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
-            return;
+            here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            mod_moves( - bash_info->fd_bash_move_cost );
+            add_msg( m_info, bash_info->field_bash_msg_success.translated() );
+            ret.did_smash = true;
+            ret.success = true;
+            return ret;
         } else {
-            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+            sounds::sound( smashp, bash_info->sound_fail_vol, sounds::sound_t::combat, bash_info->sound_fail,
                            true, "smash",
                            "field" );
-            return;
+
+            ret.resistance = bash_info->str_min;
+            ret.did_smash = true;
+            return ret;
         }
     }
 
     bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
-        if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-            maybe_corpse.can_revive() ) {
+        if( is_smashable_corpse( maybe_corpse ) ) {
             if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
-                !player_character.is_immune_field( fd_acid ) ) {
+                !is_immune_field( fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
-                    return; // Player doesn't want an acid bath
+                    return ret; // Player doesn't want an acid bath
                 }
             }
             should_pulp = true; // There is at least one corpse to pulp
@@ -993,20 +1037,20 @@ static void smash()
     }
 
     if( should_pulp ) {
-        player_character.assign_activity( pulp_activity_actor( here.getglobal( smashp ), true ) );
-        return; // don't smash terrain if we've smashed a corpse
+        assign_activity( pulp_activity_actor( here.getglobal( smashp ), true ) );
+        return ret; // don't smash terrain if we've smashed a corpse
     }
 
     vehicle *veh = veh_pointer_or_null( here.veh_at( smashp ) );
     if( veh != nullptr ) {
-        if( !veh->handle_potential_theft( player_character ) ) {
-            return;
+        if( !veh->handle_potential_theft( *this ) ) {
+            return ret;
         }
     }
 
-    if( !player_character.has_weapon() ) {
+    if( !has_weapon() ) {
         const bodypart_id bp_null( "bp_null" );
-        std::pair<bodypart_id, int> best_part_to_smash = player_character.best_part_to_smash();
+        std::pair<bodypart_id, int> best_part_to_smash = this->best_part_to_smash();
         if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
             std::string name_to_bash = _( "thing" );
             if( here.is_bashable_furn( smashp ) ) {
@@ -1026,18 +1070,19 @@ static void smash()
     const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
-    item_location weapon = player_character.used_weapon();
+    item_location weapon = used_weapon();
     if( bash_result.did_bash ) {
+        ret.did_smash = true;
         if( !mech_smash ) {
-            player_character.set_activity_level( MODERATE_EXERCISE );
-            player_character.handle_melee_wear( weapon );
-            weary_mult = 1.0f / player_character.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
+            set_activity_level( MODERATE_EXERCISE );
+            handle_melee_wear( weapon );
+            weary_mult = 1.0f / exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
-            const int mod_sta = 2 * player_character.get_standard_stamina_cost();
-            player_character.burn_energy_arms( mod_sta );
+            const int mod_sta = 2 * get_standard_stamina_cost();
+            burn_energy_arms( mod_sta );
 
-            if( static_cast<int>( player_character.get_skill_level( skill_melee ) ) == 0 ) {
-                player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
+            if( static_cast<int>( get_skill_level( skill_melee ) ) == 0 ) {
+                practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             if( weapon ) {
                 const int glass_portion = weapon->made_of( material_glass );
@@ -1048,37 +1093,38 @@ static void smash()
                 const int vol = weapon->volume() * glass_fraction / units::legacy_volume_factor;
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
-                    weapon->spill_contents( player_character.pos() );
-                    sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
+                    weapon->spill_contents( pos() );
+                    sounds::sound( pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
-                                                  rng( 0,
-                                                       vol ) ) );
+                    deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
+                                 rng( 0,
+                                      vol ) ) );
                     if( vol > 20 ) {
                         // Hurt left arm too, if it was big
-                        player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut,
-                                                      rng( 0,
-                                                           static_cast<int>( vol * .5 ) ) ) );
+                        deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut,
+                                     rng( 0, static_cast<int>( vol * .5 ) ) ) );
                     }
-                    player_character.remove_weapon();
-                    player_character.check_dead_state();
+                    remove_weapon();
+                    check_dead_state();
                 }
             }
         }
-        player_character.mod_moves( -move_cost * weary_mult );
-        player_character.recoil = MAX_RECOIL;
+        mod_moves( -move_cost * weary_mult );
+        recoil = MAX_RECOIL;
 
         if( bash_result.success ) {
+            ret.success = true;
             // Bash results in destruction of target
             g->draw_async_anim( smashp, "bash_complete", "X", c_light_gray );
         } else if( smashskill >= here.bash_resistance( smashp ) ) {
             // Bash effective but target not yet destroyed
+            ret.resistance = here.bash_resistance( smashp );
             g->draw_async_anim( smashp, "bash_effective", "/", c_light_gray );
         } else {
             // Bash not effective
             g->draw_async_anim( smashp, "bash_ineffective" );
             if( one_in( 10 ) ) {
-                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash ) {
                     // %s is the smashed furniture
                     add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
                 } else {
@@ -1091,6 +1137,8 @@ static void smash()
     } else {
         add_msg( _( "There's nothing there to smash!" ) );
     }
+
+    return ret;
 }
 
 static int try_set_alarm()
@@ -1663,13 +1711,14 @@ static void read()
     item_location loc = game_menus::inv::read( player_character );
 
     if( loc ) {
-        if( loc->type->can_use( "learn_spell" ) ) {
-            item spell_book = *loc.get_item();
-            spell_book.get_use( "learn_spell" )->call( &player_character, spell_book,
-                    player_character.pos() );
-        } else {
-            loc = loc.obtain( player_character );
-            player_character.read( loc );
+        item the_book = *loc.get_item();
+        if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
+            if( loc->type->can_use( "learn_spell" ) ) {
+                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
+            } else {
+                loc = loc.obtain( player_character );
+                player_character.read( loc );
+            }
         }
     } else {
         add_msg( _( "Never mind." ) );
@@ -1720,7 +1769,7 @@ static void fire()
     }
     // try firing turrets
     if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
-        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
+        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos_bub() ) ) {
             if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
                 return;
             }
@@ -2566,10 +2615,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_FIRE_BURST: {
             if( weapon ) {
-                gun_mode_id original_mode = weapon->gun_get_mode_id();
-                if( weapon->gun_set_mode( gun_mode_AUTO ) ) {
+                if( weapon->gun_set_mode( gun_mode_BURST ) || weapon->gun_set_mode( gun_mode_AUTO ) ) {
                     avatar_action::fire_wielded_weapon( player_character );
-                    weapon->gun_set_mode( original_mode );
                 }
             }
             break;
@@ -3070,6 +3117,10 @@ bool game::handle_action()
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
+
+    if( are_we_quitting() ) {
+        return false;
+    }
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;

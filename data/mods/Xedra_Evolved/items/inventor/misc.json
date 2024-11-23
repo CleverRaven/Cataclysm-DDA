@@ -40,8 +40,8 @@
     "copy-from": "heavy_plus_battery_cell",
     "type": "MAGAZINE",
     "category": "tool_magazine",
-    "name": { "str": "heavy modified battery", "str_pl": "heavy modified batteries" },
-    "description": "A heavy battery cell that was modified and replaced with much more effective cells inside.",
+    "name": { "str": "modified tool battery", "str_pl": "modified tool batteries" },
+    "description": "A tool battery cell that was modified and replaced with much more effective cells inside.",
     "count": 3125,
     "capacity": 3125,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY", "INVENTOR_CRAFTED" ],
@@ -56,7 +56,7 @@
     "weight": "2000 g",
     "volume": "2500 ml",
     "material": [ "steel", "plastic" ],
-    "extend": { "flags": [ "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ] },
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -84,7 +84,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
@@ -151,6 +151,6 @@
       }
     ],
     "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
-    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ]
   }
 ]

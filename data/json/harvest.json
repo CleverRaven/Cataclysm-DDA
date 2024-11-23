@@ -1725,6 +1725,13 @@
     }
   },
   {
+    "id": "zombie_humanoid_mushroom_acid",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid_mushroom",
+    "delete": { "entries": [ { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 } ] },
+    "extend": { "entries": [ { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 } ] }
+  },
+  {
     "id": "zombie_animal_mushroom",
     "//": "moldy animal zombie - fungus chunks replace a part of the innards",
     "type": "harvest",
@@ -2350,6 +2357,18 @@
     "id": "beaver_with_skull",
     "type": "harvest",
     "copy-from": "mammal_small_fur",
+    "extend": { "entries": [ { "drop": "skull_beaver", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "beaver_with_skull_fur_mutant",
+    "type": "harvest",
+    "copy-from": "mutant_mammal_fur",
+    "extend": { "entries": [ { "drop": "skull_beaver_huge", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "beaver_with_skull_feather_mutant",
+    "type": "harvest",
+    "copy-from": "mutant_bird_flightless",
     "extend": { "entries": [ { "drop": "skull_beaver", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
   },
   {

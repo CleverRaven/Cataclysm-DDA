@@ -505,8 +505,8 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     int iMinScreenWidth = 0;
     size_t num_pages = 1;
 
-    std::map<int, bool> mapLines;
-    mapLines[3] = true;
+    std::set<int> mapLines;
+    mapLines.insert( 3 );
 
     std::map<int, std::vector<std::string> > world_pages;
     std::map<int, inclusive_rectangle<point>> button_map;
@@ -560,42 +560,32 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         button_map.clear();
         draw_border( w_worlds_border, BORDER_COLOR, _( "World selection" ) );
-        mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+        wattron( w_worlds_border, BORDER_COLOR );
+        mvwaddch( w_worlds_border, point( 0, 4 ), LINE_XXXO ); // |-
+        mvwaddch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), LINE_XOXX ); // -|
 
-        for( auto &mapLine : mapLines ) {
-            if( mapLine.second ) {
-                mvwputch( w_worlds_border, point( mapLine.first + 1, TERMY - 1 ), BORDER_COLOR,
-                          LINE_XXOX ); // _|_
-            }
+        for( const int &mapLine : mapLines ) {
+            mvwaddch( w_worlds_border, point( mapLine + 1, TERMY - 1 ), LINE_XXOX ); // _|_
         }
+        wattroff( w_worlds_border, BORDER_COLOR );
 
         wnoutrefresh( w_worlds_border );
 
-        for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
-            if( mapLines[i] ) {
-                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-            } else {
-                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // Draw header line
-            }
+        wattron( w_worlds_header, BORDER_COLOR );
+        mvwhline( w_worlds_header, point_zero, LINE_OXOX, getmaxx( w_worlds_border ) );
+        for( const int &mapLine : mapLines ) {
+            mvwaddch( w_worlds_header, point( mapLine, 0 ), LINE_OXXX ); // ^|^
         }
+        wattroff( w_worlds_header, BORDER_COLOR );
 
         wnoutrefresh( w_worlds_header );
 
         //Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < getmaxx( w_worlds ); j++ ) {
-                if( mapLines[j] ) {
-                    mvwputch( w_worlds, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                } else {
-                    mvwputch( w_worlds, point( j, i ), c_black, ' ' );
-                }
-
-                if( i < iTooltipHeight ) {
-                    mvwputch( w_worlds_tooltip, point( j, i ), c_black, ' ' );
-                }
-            }
+        mvwrectf( w_worlds, point_zero, c_black, ' ', getmaxx( w_worlds ), iContentHeight );
+        for( const int &mapLine : mapLines ) {
+            mvwvline( w_worlds, point( mapLine, 1 ), BORDER_COLOR, LINE_XOXO, iContentHeight - 2 );
         }
+        mvwrectf( w_worlds_tooltip, point_zero, c_black, ' ', getmaxx( w_worlds ), iTooltipHeight );
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
@@ -1195,16 +1185,11 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else {
             werase( win );
             draw_border_below_tabs( win );
-            wmove( win, point( 0, 2 ) );
-            for( int i = 0; i < getmaxx( win ); i++ ) {
-                if( i == 0 ) {
-                    wputch( win, c_light_gray, LINE_OXXO );
-                } else if( i == getmaxx( win ) - 1 ) {
-                    wputch( win, c_light_gray, LINE_OOXX );
-                } else {
-                    wputch( win, c_light_gray, LINE_OXOX );
-                }
-            }
+            wattron( win, c_light_gray );
+            mvwaddch( win, point( 0, 2 ), LINE_OXXO ); // .-
+            mvwhline( win, point( 1, 2 ), LINE_OXOX, getmaxx( win ) - 2 ); // -
+            mvwaddch( win, point( getmaxx( win ) - 1, 2 ), LINE_OOXX ); // -.
+            wattroff( win, c_light_gray );
         }
         draw_modselection_borders( win, ctxt );
 
@@ -1683,11 +1668,11 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         .apply( w_confirmation );
 
         // Bottom box
-        mvwputch( w_confirmation, point( 0, win_height - 10 ), BORDER_COLOR, LINE_XXXO );
-        for( int i = 0; i < win_width; i++ ) {
-            wputch( w_confirmation, BORDER_COLOR, LINE_OXOX );
-        }
-        wputch( w_confirmation, BORDER_COLOR, LINE_XOXX );
+        wattron( w_confirmation, BORDER_COLOR );
+        mvwaddch( w_confirmation, point( 0,             win_height - 10 ), LINE_XXXO );
+        mvwhline( w_confirmation, point( 1,             win_height - 10 ), LINE_OXOX, win_width - 2 );
+        mvwaddch( w_confirmation, point( win_width - 1, win_height - 10 ), LINE_XOXX );
+        wattroff( w_confirmation, BORDER_COLOR );
 
         // Hint text
         std::string hint_txt =
@@ -1871,36 +1856,33 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     std::array<int, 5> ls = {{iMinScreenWidth - 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 - 2, TERMY - 14, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
+    wattron( win, BORDER_COLOR );
+
     for( int i = 0; i < 5; ++i ) {
-        point p( xs[i], ys[i] );
-        int l = ls[i];
+        const point p( xs[i], ys[i] );
         if( hv[i] ) {
-            for( int j = 0; j < l; ++j ) {
-                mvwputch( win, p + point( j, 0 ), BORDER_COLOR, LINE_OXOX ); // -
-            }
+            mvwhline( win, p, LINE_OXOX, ls[i] ); // -
         } else {
-            for( int j = 0; j < l; ++j ) {
-                mvwputch( win, p + point( 0, j ), BORDER_COLOR, LINE_XOXO ); // |
-            }
+            mvwvline( win, p, LINE_XOXO, ls[i] ); // |
         }
     }
 
     // Add in connective characters
-    mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( 0, TERMY - 11 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwaddch( win, point( 0, 4 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( 0, TERMY - 11 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, 4 ), LINE_XXXO ); // |-
 
-    mvwputch( win, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 11 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth - 1, 4 ), LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth - 1, TERMY - 11 ), LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, 4 ), LINE_XOXX ); // -|
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, 2 ), LINE_OXXX ); // -.-
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, 2 ), LINE_OXXX ); // -.-
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), LINE_XXOX ); // _|_
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), LINE_XXOX ); // _|_
+
+    wattroff( win, BORDER_COLOR );
 
     // Add tips & hints
     fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,

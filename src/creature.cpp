@@ -103,6 +103,11 @@ static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
+static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
+static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_30" );
+static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
+static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
@@ -131,6 +136,7 @@ static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -245,7 +251,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.bub_from_abs( loc ).raw() ) ) {
+        if( !veh.enclosed_at( here.bub_from_abs( loc ) ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();
@@ -448,10 +454,18 @@ static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vo
 
 bool Creature::sees( const Creature &critter ) const
 {
+    const Character *ch = critter.as_character();
+
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
         return true;
     }
+
+    bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
+    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
+                                        critter.has_flag( mon_flag_TEEP_IMMUNE );
+    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
+                             !has_eff_flag_seer_protection;
 
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
@@ -474,6 +488,14 @@ bool Creature::sees( const Creature &critter ) const
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
+    if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
+        int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
+                                        effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
+                                    + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+        int mindsight_vision = 5 + mindsight_bonus_range;
+        return target_range <= mindsight_vision;
+    }
+
     if( critter.is_hallucination() && !is_avatar() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         return false;
@@ -489,8 +511,6 @@ bool Creature::sees( const Creature &critter ) const
     auto visible = []( const Character * ch ) {
         return ch == nullptr || !ch->is_invisible();
     };
-
-    const Character *ch = critter.as_character();
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
@@ -630,10 +650,10 @@ bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) c
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
+static bool overlaps_vehicle( const std::set<tripoint_bub_ms> &veh_area, const tripoint_bub_ms &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
+    for( const tripoint_bub_ms &tmp : tripoint_range<tripoint_bub_ms>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -775,7 +795,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue; // Handle this late so that boo_hoo++ can happen
         }
         // Expensive check for proximity to vehicle
-        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), m->pos(), area ) ) {
+        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), tripoint_bub_ms( m->pos() ), area ) ) {
             continue;
         }
 
@@ -1745,8 +1765,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
         // Force intensity if it is duration based
         if( e.get_int_dur_factor() != 0_turns ) {
-            // + 1 here so that the lowest is intensity 1, not 0
-            e.set_intensity( e.get_duration() / e.get_int_dur_factor() + 1 );
+            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
+            e.set_intensity( std::max( 1, intensity ) );
         }
         // Bound new effect intensity by [1, max intensity]
         if( e.get_intensity() < 1 ) {
@@ -3379,39 +3399,6 @@ void Creature::load_hit_range( const JsonObject &jo )
     }
 }
 
-void Creature::describe_infrared( std::vector<std::string> &buf ) const
-{
-    std::string size_str;
-    switch( get_size() ) {
-        case creature_size::tiny:
-            size_str = pgettext( "infrared size", "tiny" );
-            break;
-        case creature_size::small:
-            size_str = pgettext( "infrared size", "small" );
-            break;
-        case creature_size::medium:
-            size_str = pgettext( "infrared size", "medium" );
-            break;
-        case creature_size::large:
-            size_str = pgettext( "infrared size", "large" );
-            break;
-        case creature_size::huge:
-            size_str = pgettext( "infrared size", "huge" );
-            break;
-        case creature_size::num_sizes:
-            debugmsg( "Creature has invalid size class." );
-            size_str = "invalid";
-            break;
-    }
-    buf.emplace_back( _( "You see a figure radiating heat." ) );
-    buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
-}
-
-void Creature::describe_specials( std::vector<std::string> &buf ) const
-{
-    buf.emplace_back( _( "You sense a creature here." ) );
-}
-
 tripoint_abs_ms Creature::get_location() const
 {
     return location;
@@ -3435,22 +3422,23 @@ std::unique_ptr<talker> get_talker_for( Creature &me )
         return std::make_unique<talker_npc>( me.as_npc() );
     } else if( me.is_avatar() ) {
         return std::make_unique<talker_avatar>( me.as_avatar() );
-    } else {
-        debugmsg( "Invalid creature type %s.", me.get_name() );
-        return std::make_unique<talker>();
     }
+    debugmsg( "Invalid creature type %s.", me.get_name() );
+    return std::make_unique<talker>();
 }
 
-std::unique_ptr<talker> get_talker_for( const Creature &me )
+std::unique_ptr<const_talker> get_const_talker_for( const Creature &me )
 {
-    if( !me.is_monster() ) {
-        return std::make_unique<talker_character_const>( me.as_character() );
-    } else if( me.is_monster() ) {
+    if( me.is_monster() ) {
         return std::make_unique<talker_monster_const>( me.as_monster() );
-    } else {
-        debugmsg( "Invalid creature type %s.", me.get_name() );
-        return std::make_unique<talker>();
+    } else if( me.is_npc() ) {
+        return std::make_unique<talker_npc_const>( me.as_npc() );
+    } else if( me.is_avatar() ) {
+        return std::make_unique<talker_avatar_const>( me.as_avatar() );
     }
+
+    debugmsg( "Invalid creature type %s.", me.get_name() );
+    return std::make_unique<talker>();
 }
 
 std::unique_ptr<talker> get_talker_for( Creature *me )
@@ -3458,14 +3446,6 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
     if( !me ) {
         debugmsg( "Null creature type." );
         return std::make_unique<talker>();
-    } else if( me->is_monster() ) {
-        return std::make_unique<talker_monster>( me->as_monster() );
-    } else if( me->is_npc() ) {
-        return std::make_unique<talker_npc>( me->as_npc() );
-    } else if( me->is_avatar() ) {
-        return std::make_unique<talker_avatar>( me->as_avatar() );
-    } else {
-        debugmsg( "Invalid creature type %s.", me->get_name() );
-        return std::make_unique<talker>();
     }
+    return get_talker_for( *me );
 }

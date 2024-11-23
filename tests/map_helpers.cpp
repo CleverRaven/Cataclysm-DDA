@@ -207,7 +207,7 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
 void player_add_headlamp()
 {
     item headlamp( "wearable_light_on" );
-    item battery( "light_battery_cell" );
+    item battery( "medium_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();

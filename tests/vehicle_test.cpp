@@ -334,7 +334,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount_pos() + point_rel_ms_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -443,6 +443,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     clear_map();
     clear_avatar();
     map &m = get_map();
+    Character &player_character = get_player_character();
     const int max_displacement = 50;
     const std::optional<item> stand_lamp1( "test_standing_lamp" );
     const std::optional<item> stand_lamp2( "test_standing_lamp" );
@@ -450,8 +451,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
 
-    place_appliance( app1_pos, vpart_ap_test_standing_lamp, stand_lamp1 );
-    place_appliance( app2_pos, vpart_ap_test_standing_lamp, stand_lamp2 );
+    place_appliance( app1_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp1 );
+    place_appliance( app2_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp2 );
 
     optional_vpart_position app1_part = m.veh_at( app1_pos );
     optional_vpart_position app2_part = m.veh_at( app2_pos );
@@ -562,7 +563,7 @@ struct rack_activation {
 struct rack_preset {
     std::vector<vproto_id> vehicles;            // vehicles to spawn, index matching positions/facings
     std::vector<tripoint_bub_ms> positions;     // spawned vehicle position
-    std::vector<point_bub_ms> install_racks;    // install racks on first vehicle at these mounts
+    std::vector<point_rel_ms> install_racks;    // install racks on first vehicle at these mounts
     std::vector<units::angle> facings;          // spawned vehicle facing
     std::vector<rack_activation> rack_orders;   // racking orders
     std::vector<rack_activation> unrack_orders; // unracking orders
@@ -593,8 +594,8 @@ static void rack_check( const rack_preset &preset )
         veh_names.push_back( veh_ptr->name );
     }
 
-    for( const point_bub_ms &rack_pos : preset.install_racks ) {
-        vehs[0]->install_part( rack_pos.raw(), vpart_bike_rack );
+    for( const point_rel_ms &rack_pos : preset.install_racks ) {
+        vehs[0]->install_part( rack_pos, vpart_bike_rack );
     }
 
     for( const rack_activation &rack_act : preset.rack_orders ) {
@@ -603,7 +604,7 @@ static void rack_check( const rack_preset &preset )
         vehicle &racking_veh = *vehs[rack_act.racking_vehicle_index];
         vehicle &racked_veh = *vehs[rack_act.racked_vehicle_index];
 
-        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( rack_act.rack_pos.raw(),
+        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( rack_act.rack_pos,
                 "BIKE_RACK_VEH",
                 part_status_flag::available );
         REQUIRE( rack_parts.size() == 1 );
@@ -694,7 +695,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
         {
             { vehicle_prototype_car, vehicle_prototype_bicycle },
             { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ) },
-            { point_bub_ms( -3, -1 ), point_bub_ms( -3, 0 ), point_bub_ms( -3, 1 ), point_bub_ms( -3, 2 ) },
+            { { -3, -1 }, { -3, 0}, { -3, 1}, { -3, 2}},
             { 0_degrees,             90_degrees },
 
             { { 0, tripoint_bub_ms( -3, -1, 0 ), 1, false } }, // rack bicycle to car
@@ -705,7 +706,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
         {
             { vehicle_prototype_car, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
             { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ),         tripoint_bub_ms( -4, 1, 0 )         },
-            { point_bub_ms( -3, -1 ), point_bub_ms( -3, 0 ), point_bub_ms( -3, 1 ), point_bub_ms( -3, 2 ) },
+            { { -3, -1 }, { -3, 0}, { -3, 1}, { -3, 2}},
             { 0_degrees,             0_degrees,                    0_degrees                    },
 
             // rack both wheelchairs to car, second rack activation should fail with debugmsg

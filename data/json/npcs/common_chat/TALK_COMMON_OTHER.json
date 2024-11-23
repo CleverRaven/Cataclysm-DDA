@@ -381,6 +381,7 @@
     "dynamic_line": "I'm on watch.",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND" },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },

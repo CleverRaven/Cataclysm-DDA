@@ -130,7 +130,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "belt clip",
-    "mod_targets": [ "rugerlcp", "kp32", "kp3at", "kpf9" ],
+    "mod_targets": [ "rugerlcp", "kp32" ],
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
   }
 ]

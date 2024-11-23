@@ -134,6 +134,7 @@ static const std::string ANY_INPUT = "ANY_INPUT";
 static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 static const std::string COORDINATE = "COORDINATE";
 static const std::string TIMEOUT = "TIMEOUT";
+static const std::string QUIT = "QUIT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -445,6 +446,11 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
+        if( g->uquit == QUIT_EXIT ) {
+            g->uquit = QUIT_EXIT_PENDING;
+            result = &QUIT;
+            break;
+        }
         const std::string &action = input_to_action( next_action );
 
         //Special global key to toggle language to english and back
@@ -640,7 +646,7 @@ static const std::map<fallback_action, int> fallback_keys = {
 };
 
 keybindings_ui::keybindings_ui( bool permit_execute_action,
-                                input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
+                                input_context *parent ) : cataimgui::window( _( "KEYBINDINGS" ), ImGuiWindowFlags_NoNav )
 {
     this->ctxt = parent;
 

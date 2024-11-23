@@ -83,7 +83,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             }
         }
         WHEN( "condition met" ) {
-            get_avatar().set_value( "npctalk_var_bool_test_tools_access", "yes" );
+            get_avatar().set_value( "bool_test_tools_access", "yes" );
             std::pair<bool, bool> har_hammer = has_and_can_restock( guy, hammer );
             THEN( "item is available for selling and restocking" ) {
                 REQUIRE( har_hammer.first == true );
@@ -105,7 +105,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             }
         }
         WHEN( "condition met" ) {
-            get_avatar().set_value( "npctalk_var_bool_test_multitool_access", "yes" );
+            get_avatar().set_value( "bool_test_multitool_access", "yes" );
             std::pair<bool, bool> har_multitool = has_and_can_restock( guy, multitool );
             THEN( "item is available for selling and restocking" ) {
                 REQUIRE( har_multitool.first == true );
@@ -133,7 +133,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             }
         }
         WHEN( "condition for contents met" ) {
-            get_avatar().set_value( "npctalk_var_bool_test_multitool_access", "yes" );
+            get_avatar().set_value( "bool_test_multitool_access", "yes" );
             THEN( "container can be sold" ) {
                 REQUIRE( guy.wants_to_sell( loc ) );
             }

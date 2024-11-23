@@ -10,7 +10,7 @@
         "is_day",
         { "one_in_chance": 10 },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
-        { "math": [ "time_since(u_timer_jotunn_RandEnc)", ">=", "time('1 d')" ] },
+        { "math": [ "time_since(u_timer_jotunn_RandEnc) >= time('1 d')" ] },
         { "not": { "u_near_om_location": "s_gas_rural", "range": 2 } },
         { "not": { "is_season": "winter" } }
       ]
@@ -32,9 +32,9 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "time_since(u_timer_jotunn_RandEnc)", ">", "time('3 h')" ] },
+        { "math": [ "time_since(u_timer_jotunn_RandEnc) > time('3 h')" ] },
         { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "math": [ "RandEnc_Jotunn", "==", "1" ] }
+        { "math": [ "RandEnc_Jotunn == 1" ] }
       ]
     },
     "effect": [

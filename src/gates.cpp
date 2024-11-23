@@ -132,7 +132,7 @@ void gate_data::check() const
 
 bool gate_data::is_suitable_wall( const tripoint_bub_ms &pos ) const
 {
-    const ter_id wid = get_map().ter( pos );
+    const ter_id &wid = get_map().ter( pos );
     if( walls.empty() ) {
         return wid->has_flag( "WALL" );
     }
@@ -218,7 +218,7 @@ void gates::open_gate( const tripoint_bub_ms &pos )
             if( !close ) { // Opening the gate...
                 tripoint_bub_ms cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = here.ter( cur_pos );
+                    const ter_id &ter = here.ter( cur_pos );
 
                     if( ter == gate.door.id() ) {
                         here.ter_set( cur_pos, gate.floor.id() );
@@ -498,11 +498,12 @@ bool doors::lock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
 {
     bool didit = false;
 
-    if( optional_vpart_position vp = m.veh_at( lockp ) ) {
+    if( const optional_vpart_position &vp = m.veh_at( lockp ) ) {
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
-        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
-                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const optional_vpart_position &veh_here = m.veh_at( who.pos_bub() );
+        const bool inside_vehicle = veh_here &&
+                                    &vp->vehicle() == &veh_here->vehicle();
         const int lockable = veh->next_part_to_lock( vpart, !inside_vehicle );
         const int inside_lockable = veh->next_part_to_lock( vpart );
         const int already_locked_part = veh->next_part_to_unlock( vpart );
@@ -538,8 +539,9 @@ bool doors::can_lock_door( const map &m, const Creature &who, const tripoint_bub
     int lockable = -1;
     if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
         const vehicle *const veh = &vp->vehicle();
-        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
-                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const optional_vpart_position &vp_here = m.veh_at( who.pos_bub() );
+        const bool inside_vehicle = vp_here &&
+                                    &vp->vehicle() == &vp_here->vehicle();
         const int vpart = vp->part_index();
         lockable = veh->next_part_to_lock( vpart, !inside_vehicle );
     }
@@ -551,11 +553,12 @@ bool doors::unlock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
 {
     bool didit = false;
 
-    if( optional_vpart_position vp = m.veh_at( lockp ) ) {
+    if( const optional_vpart_position &vp = m.veh_at( lockp ) ) {
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
-        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
-                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const optional_vpart_position &vp_here = m.veh_at( who.pos_bub() );
+        const bool inside_vehicle = vp_here &&
+                                    &vp->vehicle() == &vp_here->vehicle();
         const int already_unlocked_part = veh->next_part_to_lock( vpart );
         const int inside_unlockable = veh->next_part_to_unlock( vpart );
         const int unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
@@ -592,8 +595,9 @@ bool doors::can_unlock_door( const map &m, const Creature &who, const tripoint_b
     int unlockable = -1;
     if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
         const vehicle *const veh = &vp->vehicle();
-        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
-                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const optional_vpart_position &vp_here = m.veh_at( who.pos_bub() );
+        const bool inside_vehicle = vp_here &&
+                                    &vp->vehicle() == &vp_here->vehicle();
         const int vpart = vp->part_index();
         unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
     }

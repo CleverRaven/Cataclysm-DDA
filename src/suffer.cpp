@@ -36,6 +36,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -282,11 +283,22 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_sleepiness( mut_id->cost );
             }
         }
+        if( mut_id->mana ) {
+            // no enough mana
+            if( you.magic->available_mana() < mut_id->cost ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You don't have enough mana to keep your %s going." ),
+                                       you.mutation_name( mut_id ) );
+                you.deactivate_mutation( mut_id );
+            } else {
+                you.magic->mod_mana( you, -mut_id->cost );
+            }
+        }
 
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
-            d.set_value( "npctalk_var_this", mut_id.str() );
+            d.set_value( "this", mut_id.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {

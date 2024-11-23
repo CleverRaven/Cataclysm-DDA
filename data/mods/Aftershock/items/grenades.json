@@ -3,7 +3,7 @@
     "abstract": "grenade_canister",
     "type": "GENERIC",
     "category": "weapons",
-    "name": { "str": "canister grenade" },
+    "name": { "str": "canister grenade", "//~": "NO_I18N" },
     "weight": "1058 g",
     "volume": "270 ml",
     "material": [ "steel" ],

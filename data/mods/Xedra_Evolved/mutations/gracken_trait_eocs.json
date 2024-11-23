@@ -7,11 +7,11 @@
     "deactivate_condition": { "not": { "u_has_trait": "RADIOTROPHIC" } },
     "effect": [
       {
-        "if": { "math": [ "u_val('rad')", ">=", "100" ] },
+        "if": { "math": [ "u_val('rad') >= 100" ] },
         "then": [ { "math": [ "u_calories()", "+=", "3" ] }, { "math": [ "u_val('rad')", "-=", "1" ] } ]
       },
       {
-        "if": { "and": [ { "math": [ "u_val('rad')", "<", "100" ] }, { "math": [ "u_val('rad')", ">", "0" ] } ] },
+        "if": { "and": [ { "math": [ "u_val('rad') < 100" ] }, { "math": [ "u_val('rad') > 0" ] } ] },
         "then": [ { "math": [ "u_calories()", "+=", "2" ] }, { "math": [ "u_val('rad')", "-=", "1" ] } ]
       }
     ]
@@ -21,7 +21,7 @@
     "id": "EOC_GRACKEN_ARM_PUSH1_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "gracken_arm_push_spell",

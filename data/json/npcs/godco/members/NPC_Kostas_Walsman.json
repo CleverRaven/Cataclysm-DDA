@@ -36,7 +36,7 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Kostas_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Kostas_Mood" },
       { "text": "What do you do around here?", "topic": "TALK_GODCO_Kostas_Task" },
@@ -50,7 +50,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "&Kostas looks up at you and scorns.  \"I'm rather busy right now with an important project, go away please.\"",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ],
@@ -78,7 +78,7 @@
         "text": "Hey, good to see you again.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -100,7 +100,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "npc_has_effect": "godco_kostas_trade" }
@@ -113,7 +113,7 @@
         "text": "Hey, I think we've got some time to chat, don't you?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -124,7 +124,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "npc_has_effect": "godco_kostas_trade" }
@@ -135,13 +135,13 @@
       {
         "text": "Hey Kostas, find something interesting lately?",
         "topic": "TALK_GODCO_Kostas_Interval",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
       {
-        "text": "Hey, Kostas.  I can't stay to talk.",
+        "text": "Hey, Kostas.  <end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -156,7 +156,7 @@
         "text": "Alright then.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -173,7 +173,7 @@
     ],
     "responses": [
       { "text": "Alright, I'll take a look.", "effect": "start_trade", "topic": "TALK_GODCO_Kostas_1" },
-      { "text": "Alright, thanks for informing me. Bye!", "topic": "TALK_DONE" }
+      { "text": "Alright, thanks for informing me.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -182,7 +182,7 @@
     "dynamic_line": "What can I do for you, <name_g>?",
     "responses": [
       { "text": "Are there any jobs I could do?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -190,8 +190,8 @@
     "id": "TALK_GODCO_Kostas_Story",
     "dynamic_line": "My story?  I'm afraid it's not as gripping as the other tales around here.  My father was an herbalist, my grandfather was an herbalist and - as ancestral pressure would have it - I also became an herbalist.  I studied from the best teachers and, through the years, a generation's knowledge passed on to me.  I've spent a good portion of my life warning others of the fakery that is plastic medicine and helping them rediscover the forgotten beauty that lies in our surroundings.  I joined the New England Church Community to express my gratitude towards the benevolence of nature.  This is where it brought me.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -199,8 +199,8 @@
     "id": "TALK_GODCO_Kostas_Mood",
     "dynamic_line": "It's been quiet and peaceful.  Nature is recovering, and so are we.  There's something bittersweet about <the_cataclysm>, isn't there?  Our species was on the path of destruction, but Mother Nature spared us.  A sign of mercy for a creature that did not deserve it.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -209,8 +209,8 @@
     "dynamic_line": "You must be new to herbalism, no?  In short, I scavenge the land for herbs to supply our humble community with medicine.  And that's just one part of my job.  Say, are you interested in buying campsite gear?  I came across an abandoned camp while foraging.  One can only wonder what happened to its poor inhabitants…",
     "responses": [
       { "text": "Care to share your knowledge about herbalism?", "topic": "TALK_GODCO_Kostas_Herbalism" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -234,8 +234,8 @@
         "condition": { "not": { "compare_string": [ "yes", { "npc_val": "knowledge_completed_godco_kostas_tea" } ] } },
         "effect": { "npc_add_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -243,7 +243,7 @@
     "id": "TALK_GODCO_Kostas_Tea",
     "dynamic_line": "Sure.  Bring me a dozen pine boughs and I'll boil you some.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'll be back soon.", "topic": "TALK_DONE" }
     ]
   },
@@ -252,7 +252,7 @@
     "id": "TALK_GODCO_Kostas_Tea_2",
     "dynamic_line": "This recipe is a gemstone of my family heritage.  Lucky for us that the most common evergreen tree in the U.S. is non-toxic.  Start by rinsing the needles, and separating any woody parts from them.  Then, cut the pine needles in half.  Add one bough's worth of chopped needles to a cup or mug and fill it with boiling water.  Let the needles steep for ten minutes, until they turn brownish and sink down to the bottom.  As a final step, you can strain the needles, but then you'd be wasting precious calories.  A drink like this is perfect for mid-winter colds.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Thank you.  See you around, Kostas.", "topic": "TALK_DONE" }
     ]
   },
@@ -279,7 +279,7 @@
         "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": -5, "value": -5, "anger": 5, "fear": 10 } },
         "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade_Violent", "opinion": { "trust": -10, "value": -10, "anger": 10 } }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Thank you.  See you around, Kostas.", "topic": "TALK_DONE" }
     ]
   },

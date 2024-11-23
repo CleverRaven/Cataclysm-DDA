@@ -131,7 +131,7 @@ static void cut_up_yields( const std::string &target )
     // Nominal dex to avoid yield penalty.
     guy.dex_cur = 12;
     //guy.set_skill_level( skill_id( "fabrication" ), 10 );
-    here.i_at( guy.pos() ).clear();
+    here.i_at( guy.pos_bub() ).clear();
 
     CAPTURE( target );
     salvage_actor test_actor;

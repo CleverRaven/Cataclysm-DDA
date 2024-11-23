@@ -222,7 +222,7 @@ construction_id blueprint_options::get_final_construction(
         }
         const construction &con_next = list_constructions[i];
         if( con.group == con_next.group &&
-            con.post_terrain == con_next.pre_terrain ) {
+            ( con_next.pre_terrain.find( con.post_terrain ) != con_next.pre_terrain.end() ) ) {
             skip_index.insert( idx );
             return get_final_construction( list_constructions, construction_id( i ), skip_index );
         }
@@ -308,7 +308,7 @@ plot_options::query_seed_result plot_options::query_seed()
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> zone_src_set =
-        mgr.get_near( zone_type_LOOT_SEEDS, here.getglobal( player_character.pos() ), 60 );
+        mgr.get_near( zone_type_LOOT_SEEDS, here.getglobal( player_character.pos_bub() ), 60 );
     for( const tripoint_abs_ms &elem : zone_src_set ) {
         tripoint_bub_ms elem_loc = here.bub_from_abs( elem );
         for( item &it : here.i_at( elem_loc ) ) {
@@ -1408,7 +1408,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
                     return;
                 }
 
-                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone, pmap );
+                create_vehicle_loot_zone( vp->vehicle(), vp->mount_pos().raw(), new_zone, pmap );
                 return;
             }
         }
@@ -1497,15 +1497,15 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
             z_start.x() + z_end.x() == a_end.x() ) {
             return;
         }
-        point z_l_start = z_start.xy().raw().rotate( turns, dim );
-        point z_l_end = z_end.xy().raw().rotate( turns, dim );
+        point_bub_ms z_l_start = z_start.xy().rotate( turns, dim );
+        point_bub_ms z_l_end = z_end.xy().rotate( turns, dim );
         tripoint_abs_ms first =
-            target_map.getglobal( tripoint_bub_ms( std::min( z_l_start.x, z_l_end.x ),
-                                  std::min( z_l_start.y, z_l_end.y ),
+            target_map.getglobal( tripoint_bub_ms( std::min( z_l_start.x(), z_l_end.x() ),
+                                  std::min( z_l_start.y(), z_l_end.y() ),
                                   z_start.z() ) );
         tripoint_abs_ms second =
-            target_map.getglobal( tripoint_bub_ms( std::max( z_l_start.x, z_l_end.x ),
-                                  std::max( z_l_start.y, z_l_end.y ),
+            target_map.getglobal( tripoint_bub_ms( std::max( z_l_start.x(), z_l_end.x() ),
+                                  std::max( z_l_start.y(), z_l_end.y() ),
                                   z_end.z() ) );
         zone.set_position( std::make_pair( first.raw(), second.raw() ), false, true, false, true );
     }
@@ -1791,7 +1791,7 @@ void zone_manager::revert_vzones()
         const tripoint_bub_ms pos = here.bub_from_abs( zone.get_start_point() );
         if( const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo() ) {
             zone.set_is_vehicle( true );
-            vp->vehicle().loot_zones.emplace( vp->mount(), zone );
+            vp->vehicle().loot_zones.emplace( vp->mount_pos(), zone );
             here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );
             cache_vzones();
         }

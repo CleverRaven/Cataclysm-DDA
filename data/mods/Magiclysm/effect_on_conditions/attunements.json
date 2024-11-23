@@ -17,7 +17,7 @@
         "true_eocs": [
           {
             "id": "EOC_ATTUNEMENT_ARTIFICER_BATTERY_RECHARGING_CHARGER",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [ { "math": [ "n_val('power')", "+=", "u_spell_level('spy_wasp') + u_spell_level('artificer_toolkit')" ] } ]
           }
         ]
@@ -61,7 +61,7 @@
       { "math": [ "u_hp('ALL')", "=", "999" ] },
       { "math": [ "u_calories()", "=", "70000" ] },
       { "u_spawn_item": "corpse_painful" },
-      { "queue_eocs": "EOC_DUST_REBORN_2", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_DUST_REBORN_2", "time_in_future": "1 seconds" },
       {
         "u_message": "You feel an insane pain, as your soul is pulled off, out of your body.  Second later, your mind were pulled somewhere else, in the place you visit before."
       }

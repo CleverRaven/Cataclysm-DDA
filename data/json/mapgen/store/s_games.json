@@ -25,16 +25,15 @@
         ".#hhhhh|   Y||c|oo||||#.",
         ".##o#o###|c||D     |;r#.",
         ".,,,,,,9#;;;|  ll  c;q#.",
-        ".,,,,,,,c;;;| lkkl |###.",
+        ".,,,,,,,c;;;| lkkl |||#.",
         ".nn,,,,,#;;m| lkkl c;q#.",
         ".nn,,,,,#mmm|F ll  |;r#.",
         ".nn,,,,,######oooo#####.",
         "........................"
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "terrain": {
-        "|": "t_wall_w",
-        "#": "t_brick_wall",
         "o": "t_window",
         "c": "t_door_c",
         "_": "t_pavement",

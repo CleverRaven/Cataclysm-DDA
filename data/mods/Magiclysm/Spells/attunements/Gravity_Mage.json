@@ -2,8 +2,8 @@
   {
     "id": "gravitymage_graviton_damage",
     "type": "SPELL",
-    "name": "Graviton Polarization Damage",
-    "description": "Handles the damage part of Graviton Polarization - if you see this, something went wrong.",
+    "name": { "str": "Graviton Polarization Damage", "//~": "NO_I18N" },
+    "description": { "str": "Handles the damage part of Graviton Polarization - if you see this, something went wrong.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "effect": "attack",
     "shape": "blast",
@@ -18,7 +18,7 @@
     "min_range": 5,
     "max_range": 17,
     "range_increment": 0.5,
-    "flags": [ "EVOCATION_SPELL", "LOUD" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SPLIT_DAMAGE" ]
   },
   {
     "id": "gravitymage_graviton",
@@ -57,15 +57,16 @@
       "NO_PROJECTILE",
       "IGNORE_WALLS",
       "LOUD",
-      "MUST_HAVE_CLASS_TO_LEARN"
+      "MUST_HAVE_CLASS_TO_LEARN",
+      "SPLIT_DAMAGE"
     ],
     "sound_description": "a crack"
   },
   {
     "id": "gravitymage_graviton_centerdamage",
     "type": "SPELL",
-    "name": "Graviton Polarization Center Damage",
-    "description": "Handles damage in the extreme center of the Graviton.",
+    "name": { "str": "Graviton Polarization Center Damage", "//~": "NO_I18N" },
+    "description": { "str": "Handles damage in the extreme center of the Graviton.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "effect": "attack",
     "shape": "blast",
@@ -80,7 +81,7 @@
     "min_range": 5,
     "max_range": 17,
     "range_increment": 0.5,
-    "flags": [ "EVOCATION_SPELL", "LOUD" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SPLIT_DAMAGE" ]
   },
   {
     "type": "SPELL",

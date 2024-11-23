@@ -255,6 +255,20 @@
     }
   },
   {
+    "id": "lokiceratops",
+    "//": "drops large stomach and skull",
+    "type": "harvest",
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_lokiceratops", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
+  },
+  {
     "id": "styracosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",

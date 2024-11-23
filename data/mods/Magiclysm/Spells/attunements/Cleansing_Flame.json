@@ -26,11 +26,11 @@
     "effect": [
       { "u_add_effect": "effect_burning_trail", "duration": "PERMANENT" },
       { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
-      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
     ],
     "false_effect": [
       { "u_lose_effect": "effect_burning_trail" },
-      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
     ]
   },
   {
@@ -42,17 +42,17 @@
         "run_eocs": [
           {
             "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_3",
-            "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+            "condition": { "math": [ "u_val('mana') >= 1" ] },
             "effect": [
               { "math": [ "u_val('mana')", "-=", "1" ] },
               { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
               { "u_set_field": "fd_fire", "radius": 0, "hit_player": false },
-              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
             ],
             "false_effect": [
               { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" },
               { "u_lose_effect": "effect_burning_trail" },
-              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
             ]
           }
         ]
@@ -83,8 +83,8 @@
   },
   {
     "id": "immolate_transform",
-    "name": "Immolate Transform",
-    "description": "The part of the Immolate spell that causes the transform.",
+    "name": { "str": "Immolate Transform", "//~": "NO_I18N" },
+    "description": { "str": "The part of the Immolate spell that causes the transform.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "type": "SPELL",
     "effect": "ter_transform",
@@ -109,7 +109,8 @@
       "CONCENTRATE",
       "IGNITE_FLAMMABLE",
       "MUST_HAVE_CLASS_TO_LEARN",
-      "NO_HANDS"
+      "NO_HANDS",
+      "SPLIT_DAMAGE"
     ],
     "effect": "attack",
     "shape": "blast",
@@ -135,8 +136,8 @@
   {
     "id": "immolate_push",
     "type": "SPELL",
-    "name": "Immolate Push Effect",
-    "description": "The immolate spell is powerful enough to push targets from its epicenter.",
+    "name": { "str": "Immolate Push Effect", "//~": "NO_I18N" },
+    "description": { "str": "The immolate spell is powerful enough to push targets from its epicenter.", "//~": "NO_I18N" },
     "effect": "directed_push",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -175,10 +176,14 @@
   {
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
-    "name": "Hermes Reborn Fire",
-    "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Hermes Reborn Fire", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "max_level": 35,
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "min_damage": 10,

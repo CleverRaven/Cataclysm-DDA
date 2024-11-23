@@ -159,6 +159,7 @@ class uistatedata
         bool distraction_mutation = true;
         bool distraction_oxygen = true;
         bool distraction_withdrawal = true;
+        bool distraction_all = true; // NOLINT(cata-serialize)
         bool numpad_navigation = false;
 
         // V Menu Stuff

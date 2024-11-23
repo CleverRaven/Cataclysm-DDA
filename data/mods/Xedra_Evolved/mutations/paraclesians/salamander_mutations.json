@@ -248,7 +248,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "changes_to": [ "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -259,7 +259,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "category": [ "SALAMANDER" ],
     "social_modifiers": { "persuade": 10, "lie": 10 },
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -369,7 +369,7 @@
     "id": "SALAMANDER_HEALTH_FOR_MANA",
     "name": { "str": "Burning New Wood" },
     "points": 6,
-    "description": "In times of extreme need, the Salamander can can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
+    "description": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH", "SALAMANDER_BIGGER_STOMACH2" ],
     "prereqs2": [ "SALAMANDER_SKIN_1", "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],

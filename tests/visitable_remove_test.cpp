@@ -307,7 +307,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     GIVEN( "A player surrounded by several bottles of water" ) {
-        std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
+        std::vector<tripoint_bub_ms> tiles = closest_points_first( p.pos_bub(), 1 );
         tiles.erase( tiles.begin() ); // player tile
 
         int our = 0; // bottles placed on player tile
@@ -444,7 +444,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             v->add_item( vp->part(), obj );
         }
 
-        vehicle_selector sel( p.pos_bub().raw(), 1 );
+        vehicle_selector sel( p.pos_bub(), 1 );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );

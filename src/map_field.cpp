@@ -98,9 +98,7 @@ static const material_id material_veggy( "veggy" );
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
@@ -1116,19 +1114,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                here.bash( p, 999, false, true, true );
                 here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
-                if( p.z > 0 ) {
-                    // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
-                    here.furn_set( p, furn_str_id::NULL_ID() );
-                    here.ter_set( p, ter_t_open_air );
-                } else if( p.z < -1 ) {
-                    // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
-                    here.ter_set( p, ter_t_rock_floor );
-                } else {
-                    // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
-                    here.furn_set( p, furn_str_id::NULL_ID() );
-                    here.ter_set( p, ter_t_dirt );
-                }
             }
 
         } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1310,8 +1297,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Consume adjacent fuel / terrain / webs to spread.
     // Allow raging fires (and only raging fires) to spread up
     // Spreading down is achieved by wrecking the walls/floor and then falling
-    if( cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
-        const tripoint_bub_ms dst_p = tripoint_bub_ms( p.x, p.y, p.z + 1 );
+    if( ( cur.get_field_intensity() == 3 ||
+          here.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) && p.z < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms dst_p = tripoint_bub_ms( p + tripoint_above );
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
         const ter_t &dst_ter = dst.get_ter_t();
@@ -1626,10 +1614,10 @@ void map::player_in_field( Character &you )
                                 parts_burned.emplace_back( "hand_r" );
                                 parts_burned.emplace_back( "arm_l" );
                                 parts_burned.emplace_back( "arm_r" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 2:
                                 parts_burned.emplace_back( "torso" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 1:
                                 parts_burned.emplace_back( "foot_l" );
                                 parts_burned.emplace_back( "foot_r" );

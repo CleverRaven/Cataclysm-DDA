@@ -9,17 +9,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('pyrokinetic_lance')", ">=", "5" ] },
+                { "math": [ "u_spell_level('pyrokinetic_lance') >= 5" ] },
                 {
                   "and": [
-                    { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_quell_flames')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_eruption') >= 6" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_quell_flames') >= 6" ] }
                   ]
                 }
               ]
@@ -27,13 +27,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_cauterize')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_cauterize') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_cauterize" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_cauterize')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_cauterize') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_cauterize" },
@@ -53,20 +51,20 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "or": [ { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "4" ] } ] }
+            { "or": [ { "math": [ "u_spell_level('pyrokinetic_eruption') >= 4" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_call_flames')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_call_flames') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_call_flames" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -87,20 +85,20 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "or": [ { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "5" ] } ] }
+            { "or": [ { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 5" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_quell_flames')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_quell_flames') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_quell_flames" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_quell_flames')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_quell_flames') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -121,26 +119,24 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "6" ] },
-                { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "6" ] }
+                { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 6" ] },
+                { "math": [ "u_spell_level('pyrokinetic_eruption') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_cloak')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_cloak') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_cloak" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_cloak')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_cloak') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
@@ -160,25 +156,25 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "7" ] },
-                { "math": [ "u_spell_level('pyrokinetic_flash')", ">=", "5" ] }
+                { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 7" ] },
+                { "math": [ "u_spell_level('pyrokinetic_flash') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_flamethrower')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_flamethrower') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_flamethrower" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_flamethrower') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -199,7 +195,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -207,23 +203,21 @@
               "or": [
                 {
                   "and": [
-                    { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "9" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_quell_flames')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_eruption') >= 9" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_quell_flames') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "6" ] }
+                { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_lance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_lance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_lance" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_lance')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_lance') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_lance" },
@@ -243,7 +237,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -251,22 +245,22 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_cloak')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 10" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_cloak') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('pyrokinetic_flash')", ">=", "7" ] }
+                { "math": [ "u_spell_level('pyrokinetic_flash') >= 7" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_thermogenesis') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_thermogenesis" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_thermogenesis') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -287,7 +281,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -295,24 +289,22 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_thermogenesis') >= 5" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_flamethrower') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('pyrokinetic_cloak')", ">=", "8" ] },
-                { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "7" ] }
+                { "math": [ "u_spell_level('pyrokinetic_cloak') >= 8" ] },
+                { "math": [ "u_spell_level('pyrokinetic_eruption') >= 7" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_aura')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_aura') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_aura" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_aura')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_aura') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_aura" },
@@ -332,33 +324,27 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_cloak')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_aura')", ">=", "6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('pyrokinetic_cloak') >= 10" ] }, { "math": [ "u_spell_level('pyrokinetic_aura') >= 6" ] } ]
                 },
-                { "math": [ "u_spell_level('pyrokinetic_quell_flames')", ">=", "9" ] }
+                { "math": [ "u_spell_level('pyrokinetic_quell_flames') >= 9" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_flame_immunity')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_flame_immunity') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_flame_immunity" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "PYROKINETIC" } },
-        { "math": [ "u_spell_level('pyrokinetic_flame_immunity')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_flame_immunity') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -379,7 +365,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -387,14 +373,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "13" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_flamethrower') >= 8" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_eruption') >= 13" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_aura')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_thermogenesis') >= 6" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_aura') >= 6" ] }
                   ]
                 }
               ]
@@ -402,13 +388,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_blast')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_blast') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_blast" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_blast')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_blast') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_blast" },
@@ -428,7 +412,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -436,14 +420,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_blast')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_flamethrower') >= 12" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_blast') >= 6" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_flame_immunity')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_thermogenesis') >= 10" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_flame_immunity') >= 6" ] }
                   ]
                 }
               ]
@@ -451,13 +435,11 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_aoe_blast')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_aoe_blast') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_aoe_blast" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_aoe_blast')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_aoe_blast') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_aoe_blast" },
@@ -477,7 +459,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -485,23 +467,23 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "14" ] },
-                    { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "10" ] }
+                    { "math": [ "u_spell_level('pyrokinetic_eruption') >= 14" ] },
+                    { "math": [ "u_spell_level('pyrokinetic_flamethrower') >= 10" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('pyrokinetic_blast')", ">=", "10" ] },
-                { "math": [ "u_spell_level('pyrokinetic_aoe_blast')", ">=", "6" ] }
+                { "math": [ "u_spell_level('pyrokinetic_blast') >= 10" ] },
+                { "math": [ "u_spell_level('pyrokinetic_aoe_blast') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('pyrokinetic_incineration')", "<=", "0" ] },
+        { "math": [ "u_spell_level('pyrokinetic_incineration') <= 0" ] },
         { "not": { "u_know_recipe": "practice_pyrokinetic_incineration" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_incineration')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_incineration') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },

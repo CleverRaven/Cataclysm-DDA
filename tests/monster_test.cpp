@@ -14,6 +14,7 @@
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "filesystem.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
@@ -35,7 +36,7 @@ using move_statistics = statistics<int>;
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 
 static int moves_to_destination( const std::string &monster_type,
-                                 const tripoint_bub_ms &start, const tripoint &end )
+                                 const tripoint_bub_ms &start, const tripoint_bub_ms &end )
 {
     clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
@@ -131,8 +132,8 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 REQUIRE( g->num_creatures() == 2 );
             }
             const int move_cost = get_map().combined_movecost(
-                                      test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
-            tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
+                                      test_player.pos_bub(), test_player.pos_bub() + direction_of_flight, nullptr, 0 );
+            tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
@@ -164,10 +165,11 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 
 // Verify that the named monster has the expected effective speed, not reduced
 // due to wasted motion from shambling.
-static void check_shamble_speed( const std::string &monster_type, const tripoint &destination )
+static void check_shamble_speed( const std::string &monster_type,
+                                 const tripoint_bub_ms &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = get_normalized_angle( point_zero, destination.xy() );
+    const float slope = get_normalized_angle( point_zero, destination.xy().raw() );
     const float diagonal_multiplier = 1.0 + ( get_option<bool>( "CIRCLEDIST" ) ?
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
@@ -413,4 +415,94 @@ TEST_CASE( "limit_mod_size_bonus", "[monster]" )
 
     test_monster2.mod_size_bonus( 3 );
     CHECK( test_monster2.get_size() == creature_size::huge );
+}
+
+TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
+{
+    clear_map();
+    map &here = get_map();
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
+    bool test_monster_spawns_eggs = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
+        test_monster.try_reproduce();
+        if( here.has_items( loc ) ) {
+            test_monster_spawns_eggs = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_eggs );
+}
+
+TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
+{
+    clear_map();
+    map &here = get_map();
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
+    bool test_monster_spawns_egg_group = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
+        test_monster.try_reproduce();
+        if( here.has_items( loc ) ) {
+            test_monster_spawns_egg_group = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_egg_group );
+}
+
+TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
+{
+    clear_map();
+    creature_tracker &creatures = get_creature_tracker();
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon", loc );
+    bool test_monster_spawns_babies = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
+        test_monster.try_reproduce();
+        get_map().spawn_monsters( true );
+        if( creatures.get_monsters_list().size() > 1 ) {
+            test_monster_spawns_babies = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_babies );
+}
+
+TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
+{
+    clear_map();
+    creature_tracker &creatures = get_creature_tracker();
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon_group", loc );
+    bool test_monster_spawns_baby_mongroup = false;
+    int amount_of_iteration = 0;
+    while( amount_of_iteration < 100 ) {
+        test_monster.set_baby_timer( calendar::turn - 2_days );
+        test_monster.try_reproduce();
+        get_map().spawn_monsters( true );
+        if( creatures.get_monsters_list().size() > 1 ) {
+            test_monster_spawns_baby_mongroup = true;
+            break;
+        } else {
+            amount_of_iteration++;
+        }
+    }
+    CAPTURE( amount_of_iteration );
+    CHECK( test_monster_spawns_baby_mongroup );
 }

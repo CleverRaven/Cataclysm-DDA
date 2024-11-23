@@ -197,7 +197,7 @@ bool monster::know_danger_at( const tripoint &p ) const
     // before hitting simple or complex but this is more explicit
     if( avoid_fire || avoid_fall || avoid_simple ||
         avoid_traps || avoid_dangerous_fields || avoid_sharp ) {
-        const ter_id target = here.ter( p );
+        const ter_id &target = here.ter( p );
         if( !here.has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
             if( avoid_fire && target == ter_t_lava ) {
@@ -1130,7 +1130,7 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
+                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                               !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;
@@ -1593,6 +1593,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
         int maxdepth )
 {
     std::vector<tripoint> direction;
+    direction.reserve( 2 );
     direction.push_back( bashee );
     direction.push_back( basher );
     // Draw a line from the target through the attacker.

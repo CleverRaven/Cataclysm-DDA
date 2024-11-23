@@ -137,7 +137,6 @@
   },
   {
     "id": "mon_fungaloid",
-    "alias": "mon_fungaloid_dormant",
     "type": "MONSTER",
     "name": { "str": "fungaloid" },
     "description": "A pale white fungus, one meaty gray stalk supporting a bloom at the top.  Spores are periodically expelled from its gills, and a few tendrils extend from the base, allowing mobility and some basic means of defense.",

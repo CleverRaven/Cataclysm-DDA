@@ -1247,7 +1247,21 @@
     "desc": [ "You're just another survivor.  There's definitely nothing odd about you at all." ],
     "rating": "good",
     "remove_message": "The illusions around you fall away.",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "UGLINESS",
+            "multiply": {
+              "math": [
+                "max(((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 )) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1258,6 +1272,13 @@
     "remove_message": "You stop paying attention to the radio waves around you.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_sterilization",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1342,7 +1363,7 @@
     "type": "effect_type",
     "id": "effect_pyrokinetic_fire_tool",
     "name": [ "Banked Flames" ],
-    "desc": [ "A firm is burning over one of your palms." ],
+    "desc": [ "A flame is burning over one of your palms." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -1362,9 +1383,8 @@
   {
     "type": "effect_type",
     "id": "effect_pyrokinetic_torch_weld",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Incandescent Lance" ],
+    "desc": [ "A thin beam of searing plasma extends from one finger." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -1950,6 +1970,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telepath_mesmerize_tracker",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You are in a daze." ],
+    "apply_message": "",
+    "remove_message": "You snap out of your trance.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telepathic_morale",
     "name": [ "Stabilized Mood" ],
     "desc": [
@@ -2397,24 +2426,11 @@
   {
     "type": "effect_type",
     "id": "effect_vita_super_heal",
+    "name": [ "Anabolic Rejuvenation" ],
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "30 seconds",
-              "spell_effects": [ { "id": "vita_super_heal_healing" }, { "id": "vita_super_heal_drain" } ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -2422,28 +2438,45 @@
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_super_heal_pain_allayed",
+    "name": [ "Overflowing Vitality" ],
+    "desc": [
+      "The energy of your accelerated resuscitation is preventing you from feeling the pain you obviously should be, for the moment."
+    ],
     "rating": "good",
-    "removes_effects": [ "bleed" ],
+    "max_duration": 300,
+    "max_intensity": 10,
+    "int_dur_factor": 30,
     "enchantments": [
       {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "2 seconds",
-              "spell_effects": [
-                { "id": "vita_super_heal_healing" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" }
-              ]
-            }
-          ]
-        }
+        "values": [
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_INT",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_PER",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          }
+        ]
       }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    ]
   },
   {
     "type": "effect_type",

@@ -223,6 +223,7 @@
       "effect": [ { "u_spawn_item": "FMCNote", "count": 25 }, { "u_add_var": "mission_flag_FMBroker_Mission1", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some work for you.",
       "offer": "You heard right.  When you brought in those canning jars, it got us thinking about expanding our food storage from dehydrated to include cans.  We could use some larger jars though for big stock items.  Can you bring me 50 large three liter jars?  I'll pay you a Certified Note per two.",

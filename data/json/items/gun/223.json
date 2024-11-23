@@ -578,50 +578,6 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "minidraco556",
-    "copy-from": "pistol_base",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "ZPAP AK-style pistol" },
-    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "zpap85",
-        "name": { "str": "ZPAP 85 rifle" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock."
-      }
-    ],
-    "weight": "2563 g",
-    "volume": "1286 ml",
-    "longest_side": "48 cm",
-    "barrel_length": "254 mm",
-    "price": "725 USD",
-    "price_postapoc": "25 USD",
-    "to_hit": -5,
-    "material": [ "steel", "wood" ],
-    "color": "brown",
-    "ammo": [ "223" ],
-    "dispersion": 240,
-    "durability": 7,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "mdrx",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
@@ -896,7 +852,7 @@
     "ammo": [ "223" ],
     "dispersion": 140,
     "durability": 8,
-    "min_cycle_recoil": 1700,
+    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],

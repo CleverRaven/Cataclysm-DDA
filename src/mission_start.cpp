@@ -34,8 +34,6 @@ static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
 
-static const itype_id itype_software_hacking( "software_hacking" );
-static const itype_id itype_software_math( "software_math" );
 static const itype_id itype_software_medical( "software_medical" );
 static const itype_id itype_software_useless( "software_useless" );
 
@@ -43,8 +41,6 @@ static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
 static const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-static const npc_class_id NC_HACKER( "NC_HACKER" );
-static const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
 
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
@@ -98,12 +94,14 @@ static tripoint_omt_ms find_potential_computer_point( const tinymap &compmap )
     std::vector<tripoint_omt_ms> potential;
     std::vector<tripoint_omt_ms> last_resort;
     for( const tripoint_omt_ms &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == furn_f_console_broken ) {
+        const furn_id &f = compmap.furn( p );
+        if( f == furn_f_console_broken ) {
             broken.emplace_back( p );
         } else if( broken.empty() && compmap.ter( p ) == ter_t_floor &&
-                   compmap.furn( p ) == furn_str_id::NULL_ID() ) {
+                   f == furn_str_id::NULL_ID() ) {
             for( const tripoint_omt_ms &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.furn( p2 ) == furn_f_bed || compmap.furn( p2 ) == furn_f_dresser ) {
+                const furn_id &f = compmap.furn( p2 );
+                if( f == furn_f_bed || f == furn_f_dresser ) {
                     potential.emplace_back( p );
                     break;
                 }
@@ -155,15 +153,11 @@ void mission_start::place_npc_software( mission *miss )
 
     std::string type = "house";
 
-    if( dev->myclass == NC_HACKER ) {
-        miss->item_id = itype_software_hacking;
-    } else if( dev->myclass == NC_DOCTOR ) {
+    if( dev->myclass == NC_DOCTOR ) {
         miss->item_id = itype_software_medical;
         static const std::set<std::string> pharmacies = { "s_pharm", "s_pharm_1" };
         type = random_entry( pharmacies );
         miss->follow_up = mission_MISSION_GET_ZOMBIE_BLOOD_ANAL;
-    } else if( dev->myclass == NC_SCIENTIST ) {
-        miss->item_id = itype_software_math;
     } else {
         miss->item_id = itype_software_useless;
     }

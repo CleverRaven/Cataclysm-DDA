@@ -14,13 +14,13 @@
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Sonia_Chloe",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Sonia_Feeling" },
       {
         "text": "Is everyone treating you fairly?",
         "topic": "TALK_GODCO_Sonia_Godco",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Now that your guitar is fixed, could you play something for me?",
@@ -39,7 +39,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "&Sonia glances at you harshly, then turns away.  \"Come back later, I'm busy right now.\"",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ],
@@ -61,7 +61,7 @@
         "text": "Hey Sonia.  What's up?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] }
           ]
         },
@@ -71,22 +71,18 @@
         "text": "Hey Sonia.  What's up?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] }
           ]
         },
         "topic": "TALK_GODCO_Sonia_Angry"
       },
       {
-        "text": "Hey Sonia.  I can't stay to talk right now.",
+        "text": "Hey Sonia.  <end_talking_leave>",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
-      {
-        "text": "Alright, see you later.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", ">=", "5" ] }
-      }
+      { "text": "Alright, see you later.", "topic": "TALK_DONE", "condition": { "math": [ "n_npc_anger() >= 5" ] } }
     ]
   },
   {
@@ -101,7 +97,7 @@
     ],
     "responses": [
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -109,8 +105,8 @@
     "id": "TALK_GODCO_Sonia_Instrument",
     "dynamic_line": "You're <swear> right.  I like its scars, makes it look like it has a history, you know?  We've been through a lot.  Those pesky <zombies> forced me to harm my sweet, sweet guitar, but I retaliated and bashed their heads in!  I lost a part of me that day, but the guitar's alright.  Just a bit rusted from all that blood and gore, that's all.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -119,8 +115,8 @@
     "dynamic_line": "Now that's a wild story.  I owe my life to this kid Chloe, really.  I'll let her tell the tale.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Sonia_Band" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -128,8 +124,8 @@
     "id": "TALK_GODCO_Sonia_Band",
     "dynamic_line": "I was in an underground band - Taurists was our name - before all this.  Performing gigs at local venues and jamming with my friends; that's all my life was about.  Now, I'm a badass soloist with a war-torn guitar, a singer of the old-world preserving the wonders of music and the Taurist legacy for generations to come.  That's also a synonym for not having all that much going on in my life.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -137,8 +133,8 @@
     "id": "TALK_GODCO_Sonia_Feeling",
     "dynamic_line": "Oh, just fine.  A bit malnourished and all, but I can't really complain if that's the worst of it, right?  My guitar makes our twisted little world a bit more tolerable, though.  Takes my mind off stuff and muffles the screams of the boogeyman, you know?",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -146,8 +142,8 @@
     "id": "TALK_GODCO_Sonia_Godco",
     "dynamic_line": "Fairly?  There's no such thing as fairness in the world.  The NECC wouldn't give a damn if I starved to death on this very bench.  At least I have friends here, ones that appreciate what I do.  I make music and that's all I have left, it means everything to me.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,14 +168,14 @@
         ],
         "topic": "TALK_DONE"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia_Angry",
     "dynamic_line": "&Sonia doesn't say anything back, ignoring you.",
-    "responses": [ { "text": "&Walk away", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Walk away.]", "topic": "TALK_DONE" } ]
   }
 ]

@@ -50,6 +50,7 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+class const_talker;
 class translation;
 namespace catacurses
 {
@@ -966,12 +967,6 @@ class Creature : public viewer
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
-        /** Describe this creature as seen by the avatar via infrared vision. */
-        void describe_infrared( std::vector<std::string> &buf ) const;
-
-        /** Describe this creature as detected by the avatar's special senses. */
-        void describe_specials( std::vector<std::string> &buf ) const;
-
         // Message related stuff
         // These functions print to the sidebar message log. Unlike add_msg which prints messages
         // unconditionally, these only print messages when invoked for certain creature types:
@@ -1346,6 +1341,6 @@ class Creature : public viewer
         void print_proj_avoid_msg( Creature *source, viewer &player_view ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
-std::unique_ptr<talker> get_talker_for( const Creature &me );
+std::unique_ptr<const_talker> get_const_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H
