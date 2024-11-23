@@ -274,7 +274,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "diving_watch",
@@ -426,7 +426,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "cufflinks",
@@ -1033,7 +1033,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "gold_watch",
@@ -1734,7 +1734,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_engagement",
@@ -1757,7 +1757,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_purity",
@@ -1780,7 +1780,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_signet",
@@ -1803,7 +1803,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_wedding",
@@ -1826,7 +1826,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "silver_necklace",
@@ -1914,7 +1914,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "leather_collar",
@@ -2590,7 +2590,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2720,7 +2720,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "ALLOWS_TALONS" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
     "armor": [
       {
         "coverage": 0,
@@ -2886,7 +2886,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
     "armor": [
       {
         "coverage": 0,
