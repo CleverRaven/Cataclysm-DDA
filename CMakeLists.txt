@@ -317,6 +317,20 @@ if (CURSES)
     if (WIN32 AND VCPKG_MANIFEST_MODE)
         find_package(unofficial-pdcurses CONFIG)
         if(TARGET unofficial::pdcurses::pdcurses)
+            get_target_property(_IMPORTED_CONFIGURATIONS unofficial::pdcurses::pdcurses
+                IMPORTED_CONFIGURATIONS
+            )
+            message(YYY${_IMPORTED_CONFIGURATIONS})
+            if (RELEASE AND "Release" IN_LIST _IMPORTED_CONFIGURATIONS)
+                get_target_property(_IMPORTED_LOCATION unofficial::pdcurses::pdcurses
+                IMPORTED_IMPLIB_RELEASE)
+            elseif("Debug" IN_LIST _IMPORTED_CONFIGURATIONS)
+                get_target_property(_IMPORTED_LOCATION unofficial::pdcurses::pdcurses
+                IMPORTED_IMPLIB_DEBUG)
+            endif()
+            message(XXX${_IMPORTED_LOCATION})
+            set_target_properties(unofficial::pdcurses::pdcurses PROPERTIES 
+                IMPORTED_LOCATION ${_IMPORTED_LOCATION})
             set(USE_PDCURSES TRUE)
         endif()
     elseif(MSYS2)
