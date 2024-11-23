@@ -2434,7 +2434,6 @@ void draw_quick_shortcuts()
 
 void draw_virtual_joystick()
 {
-
     // Bail out if we don't need to draw the joystick
     if( !get_option<bool>( "ANDROID_SHOW_VIRTUAL_JOYSTICK" ) ||
         finger_down_time <= 0 ||
@@ -2445,6 +2444,8 @@ void draw_virtual_joystick()
         is_three_finger_touch ) {
         return;
     }
+
+    dbg( D_INFO ) << "Drawing virtual joystick";
 
     SDL_SetTextureAlphaMod( touch_joystick.get(),
                             get_option<int>( "ANDROID_VIRTUAL_JOYSTICK_OPACITY" ) * 0.01f * 255.0f );
@@ -2992,6 +2993,12 @@ static void CheckMessages()
     }
 #endif
 
+#if defined(IOS_KEYBOARD)
+    if( !SDL_IsTextInputActive() ) {
+        StartTextInput();
+    }
+#endif
+    
     last_input = input_event();
 
     std::optional<point> resize_dims;
