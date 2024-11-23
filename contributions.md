@@ -49,3 +49,8 @@ Now that `master` has been cleaned up, you can easily pull from `upstream/master
     $ git pull --ff-only upstream master
     # gets changes from the "upstream" remote for the matching branch, in this case "master"
     $ git checkout new_branch
+
+#### How does the project work anyway?
+
+I-am-Erk has written a guide outlining project governance. 
+https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/development_process.md
