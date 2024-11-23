@@ -258,5 +258,16 @@
       "farm_lot_wire_turn_v_open_south": "farmland_straight_south",
       "farm_lot_wire_turn_v_open_west": "farmland_straight_west"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "rock": "empty_rock",
+      "slimepit_top": "slimepit_z0_north",
+      "slimepit_bottom": "slimepit_z-1_north",
+      "slimepit": "slimepit_z-2_north",
+      "slimepit_down": "slimepit_z0_north"
+    }
   }
 ]
