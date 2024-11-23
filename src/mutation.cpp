@@ -550,6 +550,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
+    reset();
 
     recalculate_size();
 
@@ -628,6 +629,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
+    reset();
 
     recalculate_size();
 
