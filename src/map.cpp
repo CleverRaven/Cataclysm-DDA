@@ -1848,9 +1848,7 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
     if( !new_f.emissions.empty() ) {
         field_furn_locs.push_back( p );
     }
-    if( old_f.transparent != new_f.transparent ||
-        old_f.has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) != new_f.has_flag(
-            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
+    if( old_f.transparent != new_f.transparent || old_f.translucent != new_f.translucent ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
@@ -2354,9 +2352,7 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
     if( !new_t.emissions.empty() ) {
         field_ter_locs.push_back( p );
     }
-    if( old_t.transparent != new_t.transparent ||
-        old_t.has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) != new_t.has_flag(
-            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
+    if( old_t.transparent != new_t.transparent || old_t.translucent != new_t.translucent ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
