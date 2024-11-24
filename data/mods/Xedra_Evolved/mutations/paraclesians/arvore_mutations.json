@@ -908,7 +908,7 @@
     "types": [ "SCENT" ],
     "prereqs": [ "ARVORE_FLORAL_SCENT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  At will, you can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
+    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  You can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
