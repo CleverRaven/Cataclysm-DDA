@@ -14,6 +14,7 @@
     "epower": "-42 W",
     "size": "311 L",
     "item": "apartment_fridge",
+    "location": "center",
     "requirements": {
       "removal": { "time": "2 m" },
       "repair": {
@@ -39,7 +40,6 @@
     "epower": "-45 W",
     "size": "96 L",
     "item": "minifridge",
-    "location": "center",
     "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -193,7 +193,6 @@
     "//": "31 kwh, but since you open and use it, and because it's upright, 1.5x as much",
     "size": "90 L",
     "item": "minifreezer",
-    "location": "center",
     "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
