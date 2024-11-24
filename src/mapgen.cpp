@@ -92,7 +92,6 @@ static const furn_str_id furn_f_fridge( "f_fridge" );
 static const furn_str_id furn_f_fungal_clump( "f_fungal_clump" );
 static const furn_str_id furn_f_rack( "f_rack" );
 static const furn_str_id furn_f_rubble( "f_rubble" );
-static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const furn_str_id furn_f_sign( "f_sign" );
 static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
@@ -115,7 +114,6 @@ static const item_group_id Item_spawn_data_goo( "goo" );
 static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
 static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
-static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
 
 static const itype_id itype_avgas( "avgas" );
@@ -131,7 +129,6 @@ static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
-static const mongroup_id GROUP_SLIME( "GROUP_SLIME" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
 static const oter_str_id oter_ants_es( "ants_es" );
@@ -159,9 +156,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
-static const oter_str_id oter_slimepit( "slimepit" );
-static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
-static const oter_str_id oter_slimepit_down( "slimepit_down" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
 static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
 static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
@@ -188,9 +182,6 @@ static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
-static const ter_str_id ter_t_slime( "t_slime" );
-static const ter_str_id ter_t_slope_down( "t_slope_down" );
-static const ter_str_id ter_t_slope_up( "t_slope_up" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
 static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
@@ -978,7 +969,6 @@ mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
         dbl_or_var w, const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( std::move( w ) )
     , mapgen_function_json_base( jsobj, context )
-    , fill_ter( t_null )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
@@ -4528,9 +4518,8 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
         jo.throw_error( "\"mapgensize\" only allowed for nested mapgen" );
     }
 
-    // something akin to mapgen fill_background.
-    if( jo.has_string( "fill_ter" ) ) {
-        fill_ter = ter_str_id( jo.get_string( "fill_ter" ) ).id();
+    if( jo.has_member( "fill_ter" ) ) {
+        fill_ter = cata::make_value<mapgen_value<ter_id>>( jo.get_member( "fill_ter" ) );
     }
 
     if( jo.has_member( "rotation" ) ) {
@@ -4545,7 +4534,7 @@ bool mapgen_function_json::setup_internal( const JsonObject &jo )
 
     jo.read( "fallback_predecessor_mapgen", fallback_predecessor_mapgen_ );
 
-    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID() ||
+    return fill_ter || predecessor_mapgen != oter_str_id::NULL_ID() ||
            fallback_predecessor_mapgen_ != oter_str_id::NULL_ID();
 }
 
@@ -4739,10 +4728,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     }
     fallback_terrain_exists = true;
 
-    // No fill_ter? No format? GTFO.
+    // TODO: Pointless check???
     if( !fallback_terrain_exists ) {
         jo.throw_error(
-            "Need one of 'fill_terrain', 'predecessor_mapgen', 'fallback_predecessor_mapgen', 'terrain' or a palette providing 'terrain'." );
+            "Need one of 'fill_ter', 'predecessor_mapgen', 'fallback_predecessor_mapgen', 'terrain' or a palette providing 'terrain'." );
         // TODO: write TFM.
     }
 
@@ -4887,6 +4876,16 @@ std::unordered_set<point> nested_mapgen::all_placement_coords() const
         o.obj->add_placement_coords_to( result );
     }
     return result;
+}
+
+void nested_mapgen::add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight )
+{
+    funcs_.add( p, weight );
+}
+
+void update_mapgen::add( std::unique_ptr<update_mapgen_function_json> &&p )
+{
+    funcs_.push_back( std::move( p ) );
 }
 
 void jmapgen_objects::finalize()
@@ -5347,9 +5346,6 @@ static ret_val<void> apply_mapgen_in_phases(
 void mapgen_function_json::generate( mapgendata &md )
 {
     map *const m = &md.m;
-    if( fill_ter != t_null ) {
-        m->draw_fill_background( fill_ter );
-    }
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
@@ -5394,6 +5390,15 @@ void mapgen_function_json::generate( mapgendata &md )
     }
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
+
+    if( fill_ter ) {
+        const ter_id chosen_fill_ter = fill_ter->get( md_with_params );
+        if( chosen_fill_ter != t_null ) {
+            m->draw_fill_background( chosen_fill_ter );
+        } else {
+            debugmsg( "fill_ter resolved to t_null" );
+        }
+    }
 
     apply_mapgen_in_phases( md_with_params, setmap_points, objects, tripoint_rel_ms( tripoint_zero ),
                             context_ );
@@ -5491,32 +5496,23 @@ ret_val<void> jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
     return ret_val<void>::make_success();
 }
 
-/////////////
 void map::draw_map( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     const std::string function_key = terrain_type->get_mapgen_id();
-    bool found = true;
 
-    const bool generated = run_mapgen_func( function_key, dat );
-
-    if( !generated ) {
-        if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
-            is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
-            draw_slimepit( dat );
-        } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
+    if( !run_mapgen_func( function_key, dat ) ) {
+        if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
             draw_lab( dat );
         } else {
-            found = false;
+            debugmsg( "Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
+                      terrain_type.id().c_str(), terrain_type->get_name( om_vision_level::full ), function_key.c_str() );
+            // Fallback to the default mapgen for this z-level or just a grass fill if something has gone horribly wrong
+            const oter_id &default_oter = dat.region.default_oter[OVERMAP_DEPTH + dat.zlevel()].id();
+            if( terrain_type == default_oter || !run_mapgen_func( default_oter->get_mapgen_id(), dat ) ) {
+                fill_background( this, ter_t_grass );
+            }
         }
-    }
-
-    if( !found ) {
-        // not one of the hardcoded ones!
-        // load from JSON???
-        debugmsg( "Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                  terrain_type.id().c_str(), terrain_type->get_name( om_vision_level::full ), function_key.c_str() );
-        fill_background( this, ter_t_floor );
     }
 
     resolve_regional_terrain_and_furniture( dat );
@@ -6005,27 +6001,6 @@ void map::draw_lab( mapgendata &dat )
                             if( floor_to_check_ter == ter_t_dirt || floor_to_check_ter == ter_t_floor ) {
                                 ter_set( point( i, j ), ter_t_rock_floor );
                             }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Slimes pretty much wreck up the place, too, but only underground
-        tw = ( dat.north() == oter_slimepit ? SEEY     : 0 );
-        rw = ( dat.east()  == oter_slimepit ? SEEX + 1 : 0 );
-        bw = ( dat.south() == oter_slimepit ? SEEY + 1 : 0 );
-        lw = ( dat.west()  == oter_slimepit ? SEEX     : 0 );
-        if( tw != 0 || rw != 0 || bw != 0 || lw != 0 ) {
-            for( int i = 0; i < SEEX * 2; i++ ) {
-                for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( ( ( j <= tw || i >= rw ) && i >= j && ( EAST_EDGE - i ) <= j ) ||
-                        ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
-                        if( one_in( 5 ) ) {
-                            make_rubble( tripoint_bub_ms( i,  j, abs_sub.z() ), furn_f_rubble_rock, true,
-                                         ter_t_slime );
-                        } else if( !one_in( 5 ) ) {
-                            ter_set( point( i, j ), ter_t_slime );
                         }
                     }
                 }
@@ -6542,56 +6517,6 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         }
-    }
-}
-
-void map::draw_slimepit( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( !one_in( 10 ) && ( j < dat.n_fac * SEEX ||
-                                       i < dat.w_fac * SEEX ||
-                                       j > SEEY * 2 - dat.s_fac * SEEY ||
-                                       i > SEEX * 2 - dat.e_fac * SEEX ) ) {
-                    ter_set( point( i, j ), ( !one_in( 10 ) ? ter_t_slime : ter_t_rock_floor ) );
-                } else if( rng( 0, SEEX ) > std::abs( i - SEEX ) && rng( 0, SEEY ) > std::abs( j - SEEY ) ) {
-                    ter_set( point( i, j ), ter_t_slime );
-                } else if( dat.zlevel() == 0 ) {
-                    ter_set( point( i, j ), ter_t_dirt );
-                } else {
-                    ter_set( point( i, j ), ter_t_rock_floor );
-                }
-            }
-        }
-        if( terrain_type == oter_slimepit_down ) {
-            ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), ter_t_slope_down );
-        }
-        if( dat.above() == oter_slimepit_down ) {
-            switch( rng( 1, 4 ) ) {
-                case 1:
-                    ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), ter_t_slope_up );
-                    break;
-                case 2:
-                    ter_set( point( rng( 0, 2 ), SEEY * 2 - rng( 1, 3 ) ), ter_t_slope_up );
-                    break;
-                case 3:
-                    ter_set( point( SEEX * 2 - rng( 1, 3 ), rng( 0, 2 ) ), ter_t_slope_up );
-                    break;
-                case 4:
-                    ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), ter_t_slope_up );
-            }
-        } else if( dat.above() == oter_slimepit_bottom ) {
-            // Align the stairs
-            ter_set( point( 7, 9 ), ter_t_slope_up );
-        }
-        place_spawns( GROUP_SLIME, 1, point_bub_ms( SEEX, SEEY ), point_bub_ms( SEEX, SEEY ), dat.zlevel(),
-                      0.15 );
-        place_items( Item_spawn_data_sewer, 40, tripoint_bub_ms_zero, tripoint_bub_ms( EAST_EDGE,
-                     SOUTH_EDGE,
-                     dat.zlevel() ), true,
-                     calendar::start_of_cataclysm );
     }
 }
 
@@ -7987,7 +7912,6 @@ bool update_mapgen_function_json::setup_update( const JsonObject &jo )
 
 bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 {
-    fill_ter = t_null;
     /* update_mapgen doesn't care about fill_ter or rows */
     return true;
 }

@@ -2667,10 +2667,6 @@ dialogue::dialogue( const dialogue &d ) : const_dialogue( d )
     }
 }
 
-dialogue::dialogue( const_dialogue const &d ) : const_dialogue( d )
-{
-}
-
 const_dialogue::const_dialogue( std::unique_ptr<const_talker> alpha_in,
                                 std::unique_ptr<const_talker> beta_in,
                                 const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond,
@@ -5486,7 +5482,7 @@ talk_effect_fun_t::func f_math( const JsonObject &jo, std::string_view member,
                                 const std::string_view )
 {
     eoc_math math;
-    math.from_json( jo, member, eoc_math::type_t::assign );
+    math.from_json( jo, member, math_type_t::assign );
     return [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
