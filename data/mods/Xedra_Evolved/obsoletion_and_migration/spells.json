@@ -624,5 +624,20 @@
     "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
     "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
     "targeted_monster_species": [ "FERAL", "HUMAN" ]
+  },
+  {
+    "id": "arvore_sun_foods_on_spell",
+    "type": "SPELL",
+    "name": { "str": "Solar Repast Spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "The spell that provides the effects when your Solar Repast is active.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SUN_FOODS_ON_KCAL",
+    "shape": "blast"
   }
 ]

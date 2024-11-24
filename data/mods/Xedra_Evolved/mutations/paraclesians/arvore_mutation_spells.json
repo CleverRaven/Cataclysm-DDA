@@ -152,7 +152,6 @@
         }
       ]
     },
-    "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] },
     "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
   },
   {
@@ -832,21 +831,6 @@
     "final_casting_time": 250,
     "casting_time_increment": -8,
     "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_turn_into_tree": 9, "arvore_damage_zombies_heal_living": 12 }
-  },
-  {
-    "id": "arvore_sun_foods_on_spell",
-    "type": "SPELL",
-    "name": { "str": "Solar Repast Spell", "//~": "NO_I18N" },
-    "description": {
-      "str": "The spell that provides the effects when your Solar Repast is active.  It's a bug if you have it directly.",
-      "//~": "NO_I18N"
-    },
-    "skill": "deduction",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "self" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_SUN_FOODS_ON_KCAL",
-    "shape": "blast"
   },
   {
     "id": "arvore_cause_decay",
