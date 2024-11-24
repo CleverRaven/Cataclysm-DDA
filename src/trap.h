@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "effect_on_condition.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "translations.h"
@@ -41,12 +42,12 @@ bool snare_species( const tripoint &p, Creature *critter, item *trap_item );
 bool board( const tripoint &p, Creature *c, item *i );
 bool caltrops( const tripoint &p, Creature *c, item *i );
 bool caltrops_glass( const tripoint &p, Creature *c, item *i );
+bool eocs( const tripoint &p, Creature *critter, item * );
 bool tripwire( const tripoint &p, Creature *c, item *i );
 bool crossbow( const tripoint &p, Creature *c, item *i );
 bool shotgun( const tripoint &p, Creature *c, item *i );
 bool blade( const tripoint &p, Creature *c, item *i );
 bool landmine( const tripoint &p, Creature *c, item *i );
-bool telepad( const tripoint &p, Creature *c, item *i );
 bool goo( const tripoint &p, Creature *c, item *i );
 bool dissector( const tripoint &p, Creature *c, item *i );
 bool sinkhole( const tripoint &p, Creature *c, item *i );
@@ -54,7 +55,6 @@ bool pit( const tripoint &p, Creature *c, item *i );
 bool pit_spikes( const tripoint &p, Creature *c, item *i );
 bool pit_glass( const tripoint &p, Creature *c, item *i );
 bool lava( const tripoint &p, Creature *c, item *i );
-bool portal( const tripoint &p, Creature *c, item *i );
 bool ledge( const tripoint &p, Creature *c, item *i );
 bool boobytrap( const tripoint &p, Creature *c, item *i );
 bool temple_flood( const tripoint &p, Creature *c, item *i );
@@ -164,6 +164,7 @@ struct trap {
         std::optional<itype_id> trap_item_type;
         // data required for trapfunc::spell()
         fake_spell spell_data;
+        std::vector<effect_on_condition_id> eocs;
         int comfort = 0;
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         vehicle_handle_trap_data vehicle_data;
