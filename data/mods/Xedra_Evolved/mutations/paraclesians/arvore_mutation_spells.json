@@ -165,12 +165,6 @@
     ]
   },
   {
-    "type": "enchantment",
-    "id": "ench_arvore_tree_reduce_thirst",
-    "condition": "ALWAYS",
-    "intermittent_activation": { "effects": [ { "frequency": "180 seconds", "spell_effects": [ { "id": "arvore_reduce_thirst_spell" } ] } ] }
-  },
-  {
     "id": "spell_arvore_thorns_mut_counter",
     "type": "SPELL",
     "name": { "str": "Arvore Thorns Damage", "//~": "NO_I18N" },
@@ -1008,18 +1002,6 @@
     "min_range": 0,
     "max_range": 0,
     "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
-  },
-  {
-    "id": "arvore_reduce_thirst_spell",
-    "type": "SPELL",
-    "name": { "str": "One with the Forest Reduce Thirst", "//~": "NO_I18N" },
-    "description": { "str": "This is the actual spell that reduces thirst for tree form.", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "skill": "deduction",
-    "flags": [ "SILENT" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ARVORE_TREE_REDUCE_THIRST",
-    "shape": "blast"
   },
   {
     "id": "arvore_damage_zombies_heal_living",
