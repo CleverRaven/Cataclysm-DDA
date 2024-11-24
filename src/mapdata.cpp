@@ -636,6 +636,12 @@ nc_color map_data_common_t::color() const
     return color_[season_of_year( calendar::turn )];
 }
 
+static bool has_any_harvest( const std::array<harvest_id, NUM_SEASONS> &harvest_by_season )
+{
+    static const std::array<harvest_id, NUM_SEASONS> null_harvest_by_season = {{harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()}};
+    return harvest_by_season != null_harvest_by_season;
+}
+
 const harvest_id &map_data_common_t::get_harvest() const
 {
     return harvest_by_season[season_of_year( calendar::turn )];
@@ -716,12 +722,8 @@ std::vector<std::string> map_data_common_t::extended_description() const
 
     tmp.emplace_back( string_format( _( "<header>That is a %s.</header>" ), name() ) );
     tmp.emplace_back( description.translated() );
-    bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
-    []( const harvest_id & hv ) {
-        return !hv.obj().empty();
-    } );
 
-    if( has_any_harvest ) {
+    if( has_any_harvest( harvest_by_season ) ) {
         tmp.emplace_back( "--" );
         int player_skill = get_player_character().get_greater_skill_or_knowledge_level( skill_survival );
         tmp.emplace_back( _( "You could harvest the following things from it:" ) );
@@ -1085,6 +1087,11 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
                 harvest_by_season[ s ] = hl;
             }
         }
+    } else if( was_loaded && has_any_harvest( harvest_by_season ) ) {
+        // Explicitly don't inherit harvest_by_season so _harvested versions don't need to override it
+        harvest_by_season.fill( harvest_id::NULL_ID() );
+        examine_actor = nullptr;
+        examine_func = iexamine_functions_from_string( "none" );
     }
 
     if( jo.has_object( "liquid_source" ) ) {
@@ -1135,9 +1142,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
-    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    // Doesn't make any sense to inherit
+    //TODO: It'd probably be better if open/close was one ter_str_id with a bool for the difference and was inherited unless we support things that both open and close?
+    optional( jo, true, "open", open, ter_str_id::NULL_ID() );
+    optional( jo, true, "close", close, ter_str_id::NULL_ID() );
+    optional( jo, true, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
