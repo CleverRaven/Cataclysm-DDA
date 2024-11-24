@@ -541,10 +541,18 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
+        ( comest.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
+        ( comest.has_flag( flag_RABBIT ) && has_trait( trait_THRESH_RABBIT ) ) ||
+        ( comest.has_flag( flag_MOUSE ) && has_trait( trait_THRESH_MOUSE ) ) ||
+        ( comest.has_flag( flag_RAT ) && has_trait( trait_THRESH_RAT ) ) ||
+        ( comest.has_flag( flag_BIRD ) && has_trait( trait_THRESH_BIRD ) ) ||
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
         if( fun < 0 ) {
             fun = -fun;
             fun /= 2;
+        }
+        if( fun == 0 ) {
+            fun = 2;
         }
     }
 
@@ -582,7 +590,7 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( has_bionic( bio_faulty_grossfood ) && comest.is_food() ) {
-        fun = fun - 13;
+        fun -= 13;
     }
 
     if( fun < 0 && has_active_bionic( bio_taste_blocker ) &&
