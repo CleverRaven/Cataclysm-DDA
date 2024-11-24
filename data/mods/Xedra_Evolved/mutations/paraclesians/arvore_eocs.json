@@ -364,6 +364,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MIND_CONTROL_POLLEN_ON",
+    "effect": { "u_add_trait": "ARVORE_MIND_CONTROL_POLLEN_ON" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIND_CONTROL_POLLEN_OFF",
+    "effect": { "u_lose_trait": "ARVORE_MIND_CONTROL_POLLEN_ON" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_VINE_DRAG_activated",
     "effect": [
       {
@@ -526,8 +536,10 @@
     "deactivate_condition": { "not": { "u_has_trait": "ARVORE_SUN_FOODS" } },
     "effect": [
       {
-        "if": { "and": [ { "math": [ "u_calories() <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ] },
-        "then": { "math": [ "u_calories(')", "+=", "7" ] },
+        "if": {
+          "and": [ { "math": [ "u_calories('dont_affect_weariness': true) <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ]
+        },
+        "then": { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "7" ] },
         "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "12" ] } }
       }
     ]

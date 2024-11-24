@@ -655,7 +655,7 @@
     "skill": "deduction",
     "flags": [ "SILENT" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_ARVORE_TREE_REDUCE_THIRST",
+    "effect_str": "EOC_ARVORE_TREE_REDUCE_THIRST_DEP",
     "shape": "blast"
   }
 ]
