@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "cuboid_rectangle.h"
+#include "input.h"
 
 class JsonArray;
 class JsonObject;
@@ -32,7 +33,7 @@ class help
         void deserialize( const JsonArray &ja );
         void load_object( const JsonObject &jo, const std::string &src );
         std::map<int, inclusive_rectangle<point>> draw_menu( const catacurses::window &win,
-                                               int selected ) const;
+                                               int selected, std::map<int, input_event> &hotkeys ) const;
         static std::string get_note_colors();
         static std::string get_dir_grid();
         // Modifier for each mods order
