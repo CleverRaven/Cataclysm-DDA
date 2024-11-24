@@ -86,7 +86,7 @@
   {
     "type": "material",
     "id": "tezcatlipocas_blood",
-    "name": "tezcatlipocas_blood",
+    "name": "Tezcatlipoca's blood",
     "//": "Common material used by Salamander artisans instead of iron.  Weapons made of this material will do additional heat effects/damage.  Armor made of it will have additional warmth and protection from cold.",
     "density": 13,
     "specific_heat_liquid": 0.82,
@@ -146,7 +146,7 @@
   {
     "type": "material",
     "id": "elemental_fae_cotton",
-    "name": "elemental gossamer",
+    "name": "Elemental gossamer",
     "//": "Material for use in fae clothing.  It's 4/3rds the weight and 4/3rds as encumbering as cotton.  Won't burn and twice the difficulty to repair.",
     "density": 2.13,
     "specific_heat_liquid": 0.02,

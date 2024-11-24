@@ -848,7 +848,7 @@
     "id": "mon_salamagman_warlord_butterfly",
     "type": "MONSTER",
     "name": { "str": "salamagman warlord, obsidian butterfly", "str_pl": "salamagman warlords, obsidian butterflies" },
-    "description": "A sluglike lower body made of barely cooled magma transforms into the embers of a slender torso, with wings of fire and smoke extending out from it's back.  A club studded with obsidian shards graces their belt.",
+    "description": "A sluglike lower body made of barely cooled magma transforms into the embers of a slender torso, with wings of fire and smoke extending out from its back.  A club studded with obsidian shards graces their belt.",
     "default_faction": "salamander",
     "bodytype": "angel",
     "species": [ "SALAMANDER" ],
