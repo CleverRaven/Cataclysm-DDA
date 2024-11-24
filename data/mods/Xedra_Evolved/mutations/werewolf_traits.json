@@ -26,13 +26,74 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "//2": "No one but the player has scents so done as a simple detect creatures trait with a very low range. This DOES allow you smell robots, but hopefully if we get JSONized detection we can limit the range of creatures",
     "enchantments": [
       {
-        "values": [
+        "condition": { "or": [ "npc_is_npc", { "and": [ { "npc_has_species": "FERAL" }, { "not": { "npc_has_species": "ZOMBIE" } } ] } ] },
+        "special_vision": [
           {
-            "value": "MOTION_VISION_RANGE",
-            "add": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] }
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell the scent of a human." } ]
+          }
+        ]
+      },
+      {
+        "condition": { "npc_has_species": "ZOMBIE" },
+        "special_vision": [
+          {
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell something long-dead." } ]
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "npc_has_species": "MAMMAL" },
+                { "npc_has_species": "BIRD" },
+                { "npc_has_species": "REPTILE" },
+                { "npc_has_species": "AMPHIBIAN" },
+                { "npc_has_species": "MAMMAL" }
+              ]
+            }
+          ]
+        },
+        "special_vision": [
+          {
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell a wild animal." } ]
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "npc_has_species": "INSECT" },
+                { "npc_has_species": "INSECT_FLYING" },
+                { "npc_has_species": "SPIDER" },
+                { "npc_has_species": "CENTIPEDE" }
+              ]
+            }
+          ]
+        },
+        "special_vision": [
+          {
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell the dull smell of a mutated bug." } ]
+          }
+        ]
+      },
+      {
+        "condition": { "npc_has_species": "MIGO" },
+        "special_vision": [
+          {
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell something strange." } ]
           }
         ]
       }
