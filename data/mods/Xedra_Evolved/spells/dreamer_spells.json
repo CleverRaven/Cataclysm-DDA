@@ -597,6 +597,27 @@
     "spell_class": "DREAMER"
   },
   {
+    "id": "xedra_dreamer_generate_accelerated_time",
+    "type": "SPELL",
+    "name": "Generate Accelerated Time",
+    "description": "Continuously generate shortlived bubbles of accelerated time around you, allowing you and anything else that enters to act far quicker than normal.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GENERATE_ACCELERATED_TIME_INITIATE",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "DREAMER",
+    "energy_source": "MANA",
+    "difficulty": 8,
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_xedra_dreamer_generate_accelerated_time') > -1 ? 0 : 1500" ] },
+    "base_energy_cost": { "math": [ "u_effect_intensity('effect_xedra_dreamer_generate_accelerated_time') > -1 ? 0 : 200" ] },
+    "max_level": { "math": [ "dreamer_level(1)" ] },
+    "min_duration": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)*100" ] },
+    "max_duration": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)*100" ] }
+  },
+  {
     "id": "spell_ethereal_wings",
     "type": "SPELL",
     "name": "Ethereal Wings",
