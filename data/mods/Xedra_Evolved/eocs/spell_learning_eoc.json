@@ -141,7 +141,8 @@
               "spell_karma_arms",
               "spell_stalker_eyes",
               "spell_devil_tail",
-              "xedra_dreamer_time_bubble"
+              "xedra_dreamer_time_bubble",
+              "xedra_dreamer_generate_accelerated_time"
             ],
             "target_var": { "var_val": "random_dreamer_spell" }
           }

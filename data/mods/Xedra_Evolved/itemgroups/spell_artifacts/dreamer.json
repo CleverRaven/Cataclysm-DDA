@@ -129,6 +129,7 @@
     "type": "item_group",
     "id": "xe_dreamer_spell_tier4",
     "subtype": "distribution",
-    "entries": [ { "item": "artifact_karma_arms", "prob": 50 } ]
+    "entries": [ { "item": "artifact_karma_arms", "prob": 50 },
+    { "item": "artifact_dreamer_accelerated_time", "prob": 50 } ]
   }
 ]

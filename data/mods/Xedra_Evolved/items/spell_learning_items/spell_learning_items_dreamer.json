@@ -247,6 +247,21 @@
     "use_action": { "type": "learn_spell", "spells": [ "spell_ethereal_wings" ] }
   },
   {
+    "id": "artifact_dreamer_accelerated_time",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": "monochrome arrow",
+    "description": "You see a blocky arrow, unerringly pointed in some far off direction.  It is completely colorless.",
+    "weight": "90 g",
+    "volume": "190 ml",
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "cyan",
+    "use_action": { "type": "learn_spell", "spells": [ "xedra_dreamer_generate_accelerated_time" ] }
+  },
+  {
     "id": "artifact_karma_arms",
     "type": "GENERIC",
     "category": "artifacts",
