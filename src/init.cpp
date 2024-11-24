@@ -255,8 +255,6 @@ void DynamicDataLoader::initialize()
 {
     // Initialize loading data that must be in place before any loading functions are called
     init_mapdata();
-    help &h = get_help();
-    h.set_current_order_start();
 
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
@@ -277,6 +275,7 @@ void DynamicDataLoader::initialize()
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
+    add( "help", &help::load );
     add( "activity_type", &activity_type::load );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -332,9 +331,6 @@ void DynamicDataLoader::initialize()
     } );
     add( "item_action", []( const JsonObject & jo ) {
         item_action_generator::generator().load_item_action( jo );
-    } );
-    add( "help", [&h]( const JsonObject & jo, const std::string & src ) {
-        h.load( jo, src );
     } );
 
     add( "vehicle_part",  &vehicles::parts::load );
@@ -522,6 +518,7 @@ void DynamicDataLoader::initialize()
 
 void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src )
 {
+    get_help().set_current_order_start();
     cata_assert( !finalized &&
                  "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,

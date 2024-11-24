@@ -22,7 +22,7 @@ class help
 {
     public:
         void load_from_file();
-        void load( const JsonObject &jo, const std::string &src );
+        static void load( const JsonObject &jo, const std::string &src );
         void clear_modded_help();
         void display_help() const;
         // Run at the start of every mod to set the starting point for order
@@ -30,6 +30,7 @@ class help
 
     private:
         void deserialize( const JsonArray &ja );
+        void load_object( const JsonObject &jo, const std::string &src );
         std::map<int, inclusive_rectangle<point>> draw_menu( const catacurses::window &win,
                                                int selected ) const;
         static std::string get_note_colors();

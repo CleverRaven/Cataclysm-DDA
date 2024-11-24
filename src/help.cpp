@@ -40,7 +40,7 @@ void help::load_from_file()
     read_from_file_optional_json( PATH_INFO::help(), [&]( const JsonValue & jsin ) {
         deserialize( jsin );
     } );
-    file_order_end = help_texts.crbegin()->first;
+    file_order_end = help_texts.rbegin()->first;
 }
 
 void help::deserialize( const JsonArray &ja )
@@ -50,16 +50,21 @@ void help::deserialize( const JsonArray &ja )
             jo.throw_error_at( "type", "Object unread: Only \"type\": \"help\" objects are read in this file" );
             continue;
         }
-        load( jo, "" );
+        load_object( jo, "" );
     }
 }
 
 void help::set_current_order_start()
 {
-    current_order_start = help_texts.crbegin()->first;
+    current_order_start = help_texts.rbegin()->first + 1;
 }
 
 void help::load( const JsonObject &jo, const std::string &src )
+{
+    get_help().load_object( jo, src );
+}
+
+void help::load_object( const JsonObject &jo, const std::string &src )
 {
     if( src == "dda" ) {
         jo.throw_error( string_format( "Vanilla help must be located in %s",
@@ -70,10 +75,9 @@ void help::load( const JsonObject &jo, const std::string &src )
 
     translation name;
     jo.read( "name", name );
-
-    if( !help_texts.try_emplace( jo.get_int( "order" ) + current_order_start,
-                                 std::make_pair( name, messages ) ).second ) {
-        jo.throw_error_at( "order", "\"order\" must be unique (per mod)" );
+    const int modified_order = jo.get_int( "order" ) + current_order_start;
+    if( !help_texts.try_emplace( modified_order, std::make_pair( name, messages ) ).second ) {
+        jo.throw_error_at( "order", "\"order\" must be unique (per src)" );
     }
 }
 
