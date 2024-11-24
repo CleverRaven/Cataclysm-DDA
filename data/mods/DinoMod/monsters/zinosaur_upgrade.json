@@ -2245,7 +2245,6 @@
     "fungalize_into": "mon_zallimimus_fungus",
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "GRABS",
       "PET_MOUNTABLE",
@@ -2474,19 +2473,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GRABS",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "BASHES",
-      "NIGHT_INVISIBILITY"
-    ],
+    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ],
     "armor": { "bash": 16, "cut": 21, "bullet": 7 }
