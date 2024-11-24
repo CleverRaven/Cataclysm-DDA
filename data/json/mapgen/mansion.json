@@ -1276,7 +1276,7 @@
     "om_terrain": [ "mansion_t6u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "|8S|T≠ dd |  |UU|8,,|BB|",
         "9,,|E     +  | w|S,,+,,,",
@@ -1303,11 +1303,11 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "&": "t_floor",
         "s": "t_floor",
         "d": "t_floor",
@@ -1464,7 +1464,7 @@
     "om_terrain": [ "mansion_t7u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "#--h----F|    |t,S|UUww|",
         "-hffh---J|    ||+|||++||",
@@ -1491,14 +1491,14 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
         "U": "t_floor",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "w": "t_floor",
-        "-": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "%": "t_railing"
       },
       "place_loot": [ { "item": "microwave", "x": 8, "y": 2, "chance": 100 }, { "item": "television", "x": 4, "y": 12, "chance": 100 } ],
