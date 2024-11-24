@@ -28,7 +28,6 @@
     "trap_radius": 0,
     "drops": [ "xedra_dreamsmith_time_trap" ],
     "flags": [ "UNDODGEABLE" ],
-    "trigger_message_u": "You are frozen in time!",
     "trigger_message_npc": "<npcname> is frozen in time!",
     "action": "spell",
     "spell_data": { "id": "xedra_dreamsmith_time_trap_freeze" }
