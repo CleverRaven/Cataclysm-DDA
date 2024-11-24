@@ -77,6 +77,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const flag_id json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -845,6 +847,7 @@ void monster::move()
     // this into another monster type). Therefore we can not iterate over it
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
+    if( !has_flag( json_flag_CANNOT_ATTACK ) ) {
     for( const auto &sp_type : type->special_attacks ) {
         const std::string &special_name = sp_type.first;
         const auto local_iter = special_attacks.find( special_name );
@@ -875,6 +878,7 @@ void monster::move()
             reset_special( special_name );
         }
     }
+    }
 
     // Check if they're dragging a foe and find their hapless victim
     Character *dragged_foe = find_dragged_foe();
@@ -883,7 +887,7 @@ void monster::move()
     nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
-    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) ) {
+    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) && !has_flag( json_flag_CANNOT_MOVE ) ) {
         here.creature_on_trap( *this, false );
         if( is_dead() ) {
             return;
@@ -905,7 +909,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) || has_flag( json_flag_CANNOT_MOVE) ) {
         moves = 0;
         return;
     }
@@ -1198,7 +1202,7 @@ void monster::move()
             shove_vehicle( destination.raw(), candidate );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
-                if( !can_bash ) {
+                if( !can_bash || has_flag( json_flag_CANNOT_ATTACK ) ) {
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
@@ -1721,7 +1725,7 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
-    if( has_flag( mon_flag_PACIFIST ) ) {
+    if( has_flag( mon_flag_PACIFIST ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -2042,7 +2046,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
-    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ) {
+    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -2313,7 +2317,7 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) &&
+    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) || has_flag( json_flag_CANNOT_MOVE ) ) &&
         ( pos().xy() != p ) ) {
         return false;
     }

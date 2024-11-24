@@ -9,7 +9,6 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ "BONUS_DREAMER" ],
-    "cancels": [ "EATER" ],
     "moncams": [
       [ "mon_shifter", 100 ],
       [ "mon_duplicator", 100 ],
@@ -31,7 +30,7 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ "BONUS_EATER" ],
-    "cancels": [ "DREAMER" ],
+    "//": "removed for testing.  remember to put cancels back",
     "spells_learned": [ [ "eat_dreamdross", 0 ] ]
   },
   {
@@ -43,8 +42,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "BONUS_DREAMSMITH" ],
-    "cancels": [ "INVENTOR" ]
+    "//": "removed for testing.  remember to put cancels back",
+    "enchantments": [ "BONUS_DREAMSMITH" ]
   },
   {
     "type": "mutation",
@@ -56,7 +55,7 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ "BONUS_INVENTOR" ],
-    "cancels": [ "DREAMSMITH" ],
+    "//": "removed for testing.  remember to put cancels back",
     "vitamin_rates": [ [ "creative_spark", -64800 ] ]
   },
   {

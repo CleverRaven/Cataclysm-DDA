@@ -178,6 +178,9 @@ class field
          * Returns the total move cost from all fields.
          */
         int total_move_cost() const;
+        
+        // Whether any individual field has a move cost below 0.
+        bool any_negative_move_cost() const;
 
     private:
         // A pointer lookup table of all field effects on the current tile.

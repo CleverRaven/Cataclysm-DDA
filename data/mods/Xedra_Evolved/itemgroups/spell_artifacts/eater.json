@@ -120,7 +120,8 @@
       { "item": "artifact_skull", "prob": 100 },
       { "item": "artifact_eye_left", "prob": 50 },
       { "item": "eater_book_artifact", "prob": 50 },
-      { "item": "artifact_muscle", "prob": 50 }
+      { "item": "artifact_muscle", "prob": 50 },
+      { "item": "artifact_anchor", "prob": 50 }
     ]
   },
   {

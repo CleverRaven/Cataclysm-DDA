@@ -6234,6 +6234,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
     "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place

@@ -280,6 +280,7 @@ static const efftype_id effect_winded( "winded" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
@@ -10630,7 +10631,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         u.grab( object_type::NONE );
     }
 
-    if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
+    const std::vector<field_type_id> impassable_field_ids = m.get_impassable_field_type_ids_at( dest_loc );
+
+    if( ( !m.passable_skip_fields(dest_loc) || (impassable_field_ids.size() > 0 && !u.is_immune_fields( impassable_field_ids ) ) ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( u ) ) {
             tripoint diff = dest_loc - u.pos();
@@ -10697,7 +10700,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     const int mcost = m.combined_movecost( u.pos_bub(), tripoint_bub_ms( dest_loc ), grabbed_vehicle,
                                            modifier,
-                                           via_ramp );
+                                           via_ramp, false, impassable_field_ids.size() > 0 && u.is_immune_fields( impassable_field_ids ) );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos(), via_ramp ) ) {
         return true;
@@ -12070,6 +12073,10 @@ static std::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
 
 void game::vertical_move( int movez, bool force, bool peeking )
 {
+    if( u.has_flag( json_flag_CANNOT_MOVE ) ) {
+        return;
+    }
+    
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {

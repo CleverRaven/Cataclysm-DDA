@@ -2692,5 +2692,26 @@
         "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_freeze",
+    "name": [ "Frozen in Time" ],
+    "desc": [ "You are completely frozen in time." ],
+    "remove_message": "Everything is suddenly different.",
+    "rating": "neutral",
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE"  ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_stabilize_reality",
+    "name": [ "Stabilized Reality" ],
+    "desc": [ "You are anchored in normal reality." ],
+    "remove_message": "You feel much more vulnerable.",
+    "rating": "good",
+    "flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "show_in_info": true
   }
 ]
