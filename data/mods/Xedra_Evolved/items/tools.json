@@ -186,7 +186,8 @@
     "symbol": ";",
     "color": "light_gray",
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "//": "Due to #48019, time to recharge is half of the listed numbers.  When that is fixed, set this to 24 hours.",
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "48 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "xedra_time_charge": 1 }, "airtight": true } ],
     "use_action": { "type": "cast_spell", "spell_id": "xedra_dreamsmith_time_stop", "no_fail": true, "level": 0 }
   },
