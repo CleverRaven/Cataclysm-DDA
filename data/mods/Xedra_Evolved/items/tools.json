@@ -173,6 +173,23 @@
     "flags": [ "SINGLE_USE" ]
   },
   {
+    "id": "xedra_dreamsmith_time_watch",
+    "type": "TOOL",
+    "copy-from": "pocketwatch",
+    "name": { "str": "time shattering pocketwatch" },
+    "description": "A pocketwatch made entirely of dreamdross.  It somehow still accurately tells the time.  Once per day, press the button on the right to briefly stop time for everything but you.",
+    "proportional": { "weight": 0.5 },
+    "price": "1000 cent",
+    "price_postapoc": "100 cent",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "charges_per_use": 1,
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
+    "use_action": { "type": "cast_spell", "spell_id": "xedra_dreamsmith_time_stop", "no_fail": true, "level": 0 }
+  },
+  {
     "id": "dreamforged_ax",
     "type": "TOOL",
     "copy-from": "ax",
