@@ -425,6 +425,7 @@
     "time": 60,
     "mana": true,
     "cost": 1,
+    "activation_msg": "Your skin itches",
     "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ]
   },
@@ -442,6 +443,7 @@
     "time": 30,
     "mana": true,
     "cost": 1,
+    "activation_msg": "The air fills with clouds of pollen.",
     "activated_eocs": [ "EOC_ARVORE_POISON_POLLEN_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ]
   },
@@ -561,6 +563,7 @@
     "active": true,
     "mana": true,
     "cost": 25,
+    "activation_msg": "Vines lash out toward your target.",
     "activated_eocs": [ "EOC_ARVORE_VINE_DRAG_activated" ]
   },
   {
@@ -574,6 +577,7 @@
     "category": [ "ARVORE" ],
     "activated_is_setup": true,
     "active": true,
+    "activation_msg": "Your fingers itch as jagged wood rapidly covers them.",
     "activated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ]
   },
@@ -811,6 +815,7 @@
     "time": 20,
     "mana": true,
     "cost": 1,
+    "activation_msg": "Lashing vines grow from your shoulders.",
     "activated_eocs": [ "EOC_ARVORE_VINES_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_VINES_OFF" ]
   },
@@ -877,6 +882,7 @@
     "category": [ "ARVORE" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Stiff wooden thorns push out from your skin.",
     "activated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ]
   },
@@ -917,6 +923,7 @@
     "mana": true,
     "cost": 1,
     "time": 90,
+    "activation_msg": "A sweet scent fills the air.",
     "activated_eocs": [ "EOC_MIND_CONTROL_POLLEN_ON" ],
     "deactivated_eocs": [ "EOC_MIND_CONTROL_POLLEN_OFF" ]
   },
@@ -963,6 +970,7 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Your legs fuse together and your arms stretch toward the sky as you put down roots and transform into a towering tree.",
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
     "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]

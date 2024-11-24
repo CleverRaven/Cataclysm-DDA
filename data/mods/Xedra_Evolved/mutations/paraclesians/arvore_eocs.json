@@ -223,10 +223,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_JAGGED_CLAWS_ON",
     "condition": { "not": { "u_has_trait": "ARVORE_WOOD_CLAWS_active" } },
-    "effect": [
-      { "u_add_trait": "ARVORE_WOOD_CLAWS_active" },
-      { "u_message": "Your fingers itch as jagged wood rapidly covers them.", "type": "good" }
-    ],
+    "effect": [ { "u_add_trait": "ARVORE_WOOD_CLAWS_active" } ],
     "false_effect": [
       { "u_lose_trait": "ARVORE_WOOD_CLAWS_active" },
       { "u_message": "The jagged wood covering your hands recedes, leaving no trace behind.", "type": "neutral" }
