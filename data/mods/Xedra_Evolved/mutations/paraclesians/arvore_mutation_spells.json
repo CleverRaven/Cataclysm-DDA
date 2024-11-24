@@ -24,7 +24,14 @@
         }
       ]
     },
-    "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+    "special_vision": [
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "descriptions": [
+          { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Forest whispers in your ears about menacings." }
+        ]
+      }
+    ]
   },
   {
     "type": "enchantment",
@@ -44,8 +51,15 @@
         }
       ]
     },
+    "special_vision": [
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "descriptions": [
+          { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Forest whispers in your ears about menacings." }
+        ]
+      }
+    ],
     "values": [
-      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
       {
         "value": "OVERMAP_SIGHT",
         "add": { "math": [ "(u_has_trait('ARVORE_FOREST_DETECT_AND_OVERMAP') * 2) + (u_has_trait('THRESH_ARVORE') * 2)" ] }
@@ -158,11 +172,13 @@
     "type": "enchantment",
     "id": "ench_arvore_tree_form",
     "condition": "ALWAYS",
-    "values": [
-      { "value": "SLEEPY", "add": 150 },
-      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
-      { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
-    ]
+    "special_vision": [
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+      }
+    ],
+    "values": [ { "value": "SLEEPY", "add": 150 }, { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
   },
   {
     "id": "spell_arvore_thorns_mut_counter",

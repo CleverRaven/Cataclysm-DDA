@@ -324,33 +324,6 @@
       {
         "weight": 100,
         "min_value": 1,
-        "max_value": 50,
-        "type": "SIGHT_RANGE_ELECTRIC",
-        "increment": 25,
-        "power_per_increment": 750,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 3,
-        "max_value": 25,
-        "type": "SIGHT_RANGE_MINDS",
-        "increment": 2,
-        "power_per_increment": 250,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 3,
-        "max_value": 25,
-        "type": "SIGHT_RANGE_NETHER",
-        "increment": 2,
-        "power_per_increment": 250,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
         "max_value": 25,
         "type": "NIGHT_VIS",
         "increment": 2,

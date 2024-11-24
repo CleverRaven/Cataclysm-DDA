@@ -5998,44 +5998,12 @@ float Character::active_light() const
 
 bool Character::sees_with_specials( const Creature &critter ) const
 {
-    if( enchantment_cache->get_vision_distance( *this, critter ) ) {
-        return true;
-    }
+    const const_dialogue d( get_const_talker_for( *this ), get_const_talker_for( critter ) );
+    const enchant_cache::special_vision foo = enchantment_cache->get_vision( d );
 
-    const double sight_range_electric = calculate_by_enchantment( 0.0,
-                                        enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
-    const double motion_vision_range = calculate_by_enchantment( 0.0,
-                                       enchant_vals::mod::MOTION_VISION_RANGE );
-    const double sight_range_fae = calculate_by_enchantment( 0.0,
-                                   enchant_vals::mod::SIGHT_RANGE_FAE );
-    const double sight_range_nether = calculate_by_enchantment( 0.0,
-                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
-    const double sight_range_minds = calculate_by_enchantment( 0.0,
-                                     enchant_vals::mod::SIGHT_RANGE_MINDS );
-    if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+    if( enchantment_cache->get_vision_can_see( foo ) ) {
         return true;
     }
-    if( critter.is_fae() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_fae ) {
-        return true;
-    }
-    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
-        return true;
-    }
-    if( critter.has_mind() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_minds ) {
-        return true;
-    }
-    if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
-        return true;
-    }
-
-    if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
-        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
-        // walls don't block sonar which is transmitted in the ground, not the air.
-        // TODO: this might need checks whether the player is in the air, or otherwise not connected
-        // to the ground. It also might need a range check.
-        return true;
-    }
-
     return false;
 }
 

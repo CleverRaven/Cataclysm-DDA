@@ -1209,12 +1209,12 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p )
+bool avatar::cant_see( const tripoint &p ) const
 {
     return cant_see( tripoint_bub_ms( p ) );
 }
 
-bool avatar::cant_see( const tripoint_bub_ms &p )
+bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
     // calc based on recoil
@@ -1229,7 +1229,7 @@ bool avatar::cant_see( const tripoint_bub_ms &p )
     return aim_cache[p.x()][p.y()];
 }
 
-void avatar::rebuild_aim_cache()
+void avatar::rebuild_aim_cache() const
 {
     aim_cache_dirty =
         false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
