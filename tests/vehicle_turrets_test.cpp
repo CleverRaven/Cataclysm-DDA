@@ -42,6 +42,7 @@ static std::vector<const vpart_info *> all_turret_types()
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
     clear_map();
+    clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( const vpart_info *turret_vpi : all_turret_types() ) {
@@ -51,7 +52,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( veh );
             veh->unlock();
 
-            const int turr_idx = veh->install_part( point_zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( point_rel_ms_zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );
@@ -96,7 +97,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( veh->global_part_pos3( vp ) );
+            player_character.setpos( veh->bub_part_pos( vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {

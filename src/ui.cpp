@@ -56,13 +56,7 @@ class uilist_impl : cataimgui::window
             return parent.desired_bounds.value_or( parent.calculated_bounds );
         }
         void draw_controls() override;
-        void on_resized() override;
 };
-
-void uilist_impl::on_resized()
-{
-    parent.setup();
-}
 
 void uilist_impl::draw_controls()
 {
@@ -897,7 +891,6 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
         } else {
             ui = current_ui = make_shared_fast<uilist_impl>( *this, title );
         }
-        current_ui->on_resized();
     }
     return current_ui;
 }
@@ -1044,7 +1037,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
                 ret = entries[selected].retval;
             }
         } else if( ( allow_cancel && ret_act == "UILIST.QUIT" ) ||
-                   ( g->uquit == QUIT_EXIT && ret_act == "QUIT" ) ) {
+                   ( are_we_quitting() && ret_act == "QUIT" ) ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_WAIT_INPUT;

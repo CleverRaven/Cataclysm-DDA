@@ -195,8 +195,8 @@
   {
     "id": "pyrokinetic_quell_flames_self",
     "type": "SPELL",
-    "name": "[Ψ]Quell Fire On Self",
-    "description": "As you can create fire, you can also extinguish it.",
+    "name": { "str": "[Ψ]Quell Fire On Self", "//~": "NO_I18N" },
+    "description": { "str": "As you can create fire, you can also extinguish it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
@@ -387,8 +387,8 @@
   {
     "id": "pyrokin_summon_thermogenesis_1",
     "type": "SPELL",
-    "name": "[Ψ]Thermogenesis #1",
-    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Thermogenesis #1", "//~": "NO_I18N" },
+    "description": { "str": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
@@ -412,8 +412,8 @@
   {
     "id": "pyrokin_summon_thermogenesis_2",
     "type": "SPELL",
-    "name": "[Ψ]Thermogenesis #2",
-    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Thermogenesis #2", "//~": "NO_I18N" },
+    "description": { "str": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
@@ -437,8 +437,8 @@
   {
     "id": "pyrokin_summon_thermogenesis_3",
     "type": "SPELL",
-    "name": "[Ψ]Thermogenesis #1",
-    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Thermogenesis #3", "//~": "NO_I18N" },
+    "description": { "str": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
@@ -462,8 +462,8 @@
   {
     "id": "pyrokin_summon_thermogenesis_4",
     "type": "SPELL",
-    "name": "[Ψ]Thermogenesis #1",
-    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Thermogenesis #4", "//~": "NO_I18N" },
+    "description": { "str": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
@@ -487,8 +487,8 @@
   {
     "id": "pyrokin_banish_thermogenesis",
     "type": "SPELL",
-    "name": "[Ψ]Banish Thermogenesis",
-    "description": "The spell to banish existing thermogenesis nodes.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Banish Thermogenesis", "//~": "NO_I18N" },
+    "description": { "str": "The spell to banish existing thermogenesis nodes.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "ally" ],
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "IGNORE_WALLS" ],
@@ -686,8 +686,11 @@
   {
     "id": "pyrokinetic_aoe_blast_immunity",
     "type": "SPELL",
-    "name": "[Ψ]Hellfire Immunity spell",
-    "description": "This prevents the pyrokinetic from dying in heat and flames after using Hellfire.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Hellfire Immunity spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "This prevents the pyrokinetic from dying in heat and flames after using Hellfire.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],

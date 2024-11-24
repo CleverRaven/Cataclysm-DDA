@@ -431,11 +431,11 @@
   {
     "type": "mutation",
     "id": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE",
-    "name": { "str": "Fulgurating Strikes Active" },
+    "name": { "str": "Fulgurating Strikes Active", "//~": "NO_I18N" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.",
+    "description": { "str": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.", "//~": "NO_I18N" },
     "category": [ "SYLPH" ],
     "valid": false,
     "player_display": false,

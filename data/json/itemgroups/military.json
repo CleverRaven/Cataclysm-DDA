@@ -468,6 +468,17 @@
   },
   {
     "type": "item_group",
+    "id": "infantry_common_gear_feral",
+    "subtype": "collection",
+    "entries": [
+      { "item": "e_tool", "prob": 60 },
+      { "group": "gasmask_bag_full", "prob": 20 },
+      { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "group": "infantry_knives", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "infantry_knives",
     "container-item": "sheath",
     "subtype": "distribution",

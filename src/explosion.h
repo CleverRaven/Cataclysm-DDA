@@ -104,9 +104,6 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
 // TODO: Get rid of untyped overload
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_explosion( const tripoint_bub_ms &p, int radius, const nc_color &col );
-// TODO: Get rid of untyped overload
-void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
-                            const std::optional<std::string> &tile_id = std::nullopt );
 void draw_custom_explosion( const std::map<tripoint_bub_ms, nc_color> &area,
                             const std::optional<std::string> &tile_id = std::nullopt );
 

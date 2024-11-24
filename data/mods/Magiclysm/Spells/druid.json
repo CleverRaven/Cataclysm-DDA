@@ -124,8 +124,11 @@
   {
     "id": "druid_naturequiver1",
     "type": "SPELL",
-    "name": "Nature's Quiver",
-    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Quiver", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": 1,
@@ -139,8 +142,11 @@
   {
     "id": "druid_naturearrows1",
     "type": "SPELL",
-    "name": "Nature's Arrows",
-    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Arrows", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1') * 3) + 15) * (summoning_proficiency_modifier())" ] },
@@ -185,8 +191,11 @@
   {
     "id": "druid_naturequiver1_plus",
     "type": "SPELL",
-    "name": "Nature's Quiver",
-    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Quiver", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": 1,
@@ -200,8 +209,11 @@
   {
     "id": "druid_naturearrows1_plus",
     "type": "SPELL",
-    "name": "Nature's Arrows",
-    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Arrows", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 4) + 30) * (summoning_proficiency_modifier())" ] },
@@ -651,8 +663,8 @@
   {
     "id": "druid_cause_rot_terrain",
     "type": "SPELL",
-    "name": "Cause Rot Terrain Rot",
-    "description": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.",
+    "name": { "str": "Cause Rot Terrain Rot", "//~": "NO_I18N" },
+    "description": { "str": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "effect": "ter_transform",
     "effect_str": "ter_druid_cause_rot_terrain",
     "shape": "blast",
@@ -792,7 +804,7 @@
     "effect": [
       { "u_add_trait": "TREE_COMMUNION" },
       { "u_activate_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ],
     "false_effect": [
       {
@@ -1062,7 +1074,7 @@
       "run_eocs": [
         {
           "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
-          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "condition": { "math": [ "u_val('pos_z') == 0" ] },
           "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
           "false_effect": {
             "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
@@ -1076,8 +1088,8 @@
   {
     "id": "druid_renew_forest_spell_real",
     "type": "SPELL",
-    "name": "Renewing the Forest Real",
-    "description": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.",
+    "name": { "str": "Renewing the Forest Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.", "//~": "NO_I18N" },
     "flags": [ "CHANNELING_SPELL", "SILENT", "VERBAL", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "shape": "blast",
@@ -1115,11 +1127,11 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "druid_treeshape_location" },
+          "target_var": { "global_val": "druid_treeshape_location" },
           "message": "Select nearby tree"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_treeshape_location" } },
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "druid_treeshape_location" } },
           "then": [
             {
               "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
@@ -1208,7 +1220,7 @@
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
       },
-      { "queue_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {

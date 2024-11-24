@@ -370,6 +370,29 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
+bool trapfunc::eocs( const tripoint &p, Creature *critter, item * )
+{
+    if( !critter ) {
+        //TODO: Pass the item as a talker somehow taking into account we don't have the item's tripoint in the case of ranged traps so something like get_talker_for( item_location( map_cursor( tripoint_bub_ms( p ) ), it ) ) isn't enough (and didn't work for non ranged traps on testing anyway)
+        return false;
+    }
+    map &here = get_map();
+    trap tr = here.tr_at( p );
+    const tripoint_abs_ms trap_location = get_map().getglobal( p );
+    for( const effect_on_condition_id &eoc : tr.eocs ) {
+        dialogue d( get_talker_for( critter ), nullptr );
+        write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+    here.remove_trap( p );
+    return true;
+}
+
+
 bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
 {
     if( c == nullptr ) {
@@ -812,22 +835,6 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
-{
-    //~ the sound of a telepad functioning
-    sounds::sound( p, 6, sounds::sound_t::movement, _( "vvrrrRRMM*POP!*" ), false, "trap", "teleport" );
-    if( c == nullptr ) {
-        return false;
-    }
-    if( c->is_avatar() ) {
-        c->add_msg_if_player( m_warning, _( "The air shimmers around you…" ) );
-    } else {
-        add_msg_if_player_sees( p, _( "The air shimmers around %s…" ), c->disp_name() );
-    }
-    teleport::teleport( *c );
-    return false;
-}
-
 bool trapfunc::goo( const tripoint &p, Creature *c, item * )
 {
     get_map().remove_trap( p );
@@ -1199,13 +1206,6 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
     }
     c->check_dead_state();
     return true;
-}
-
-// STUB
-bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
-{
-    // TODO: make this do something unique and interesting
-    return telepad( p, c, i );
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
@@ -1773,6 +1773,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "board", trapfunc::board },
             { "caltrops", trapfunc::caltrops },
             { "caltrops_glass", trapfunc::caltrops_glass },
+            { "eocs", trapfunc::eocs },
             { "tripwire", trapfunc::tripwire },
             { "crossbow", trapfunc::crossbow },
             { "shotgun", trapfunc::shotgun },
@@ -1781,7 +1782,6 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "snare_heavy", trapfunc::snare_heavy },
             { "snare_species", trapfunc::snare_species },
             { "landmine", trapfunc::landmine },
-            { "telepad", trapfunc::telepad },
             { "goo", trapfunc::goo },
             { "dissector", trapfunc::dissector },
             { "sinkhole", trapfunc::sinkhole },
@@ -1789,7 +1789,6 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "pit_spikes", trapfunc::pit_spikes },
             { "pit_glass", trapfunc::pit_glass },
             { "lava", trapfunc::lava },
-            { "portal", trapfunc::portal },
             { "ledge", trapfunc::ledge },
             { "boobytrap", trapfunc::boobytrap },
             { "temple_flood", trapfunc::temple_flood },

@@ -555,8 +555,9 @@ void vehicle_part::unset_crew()
 
 void vehicle_part::reset_target( const tripoint_bub_ms &pos )
 {
-    target.first = pos.raw();
-    target.second = pos.raw();
+    const tripoint_abs_ms tgt = get_map().getglobal( pos );
+    target.first = tgt;
+    target.second = tgt;
 }
 
 bool vehicle_part::is_engine() const
@@ -672,7 +673,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

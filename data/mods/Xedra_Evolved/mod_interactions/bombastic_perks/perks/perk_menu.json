@@ -18,7 +18,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_ALCHEMY1" }, { "math": [ "u_num_perks", "--" ] } ]
@@ -46,7 +46,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_ALCHEMY2" }, { "math": [ "u_num_perks", "--" ] } ]
@@ -74,7 +74,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_ALCHEMY3" }, { "math": [ "u_num_perks", "--" ] } ]
@@ -108,7 +108,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_ALCHEMY3_COLD_IRON" }, { "math": [ "u_num_perks", "--" ] } ]
@@ -136,7 +136,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_ALCHEMY4" }, { "math": [ "u_num_perks", "--" ] } ]
@@ -164,7 +164,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_ALCHEMY5" }, { "math": [ "u_num_perks", "--" ] } ]
@@ -192,7 +192,7 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": "perk_LOW_INT_MANA" }, { "math": [ "u_num_perks", "--" ] } ]

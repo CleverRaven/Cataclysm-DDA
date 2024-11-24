@@ -386,7 +386,7 @@ static void debug_error_prompt(
         inp_mngr.set_timeout( 50 );
         input_event ievent = inp_mngr.get_input_event();
         if( ievent.type == input_event_t::timeout ) {
-            if( g && g->uquit == QUIT_EXIT ) {
+            if( are_we_quitting() ) {
                 g->query_exit_to_OS();
             }
             continue;
@@ -401,7 +401,7 @@ static void debug_error_prompt(
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );
-            /* fallthrough */
+                [[fallthrough]];
             case ' ':
                 stop = true;
                 break;

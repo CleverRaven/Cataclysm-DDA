@@ -2,8 +2,8 @@
   {
     "id": "head_go_bye",
     "type": "SPELL",
-    "name": "Cranial Explosion",
-    "description": "This fake spell occurs on cranial bomb activation.  Likely fatal.",
+    "name": { "str": "Cranial Explosion", "//~": "NO_I18N" },
+    "description": { "str": "This fake spell occurs on cranial bomb activation.  Likely fatal.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self" ],
@@ -15,8 +15,11 @@
   {
     "id": "static_field",
     "type": "SPELL",
-    "name": "Bullet Shield Static Field",
-    "description": "This fake spell occurs on hit_me with medium bullet forcefield CBM activated.  Creates electrical field around PC.  May shock PC.",
+    "name": { "str": "Bullet Shield Static Field", "//~": "NO_I18N" },
+    "description": {
+      "str": "This fake spell occurs on hit_me with medium bullet forcefield CBM activated.  Creates electrical field around PC.  May shock PC.",
+      "//~": "NO_I18N"
+    },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self" ],
@@ -34,8 +37,8 @@
   {
     "id": "conversion_field_flash",
     "type": "SPELL",
-    "name": "Conversion Field Flash",
-    "description": "Flashbang effect on hit against shield.",
+    "name": { "str": "Conversion Field Flash", "//~": "NO_I18N" },
+    "description": { "str": "Flashbang effect on hit against shield.", "//~": "NO_I18N" },
     "effect": "flashbang",
     "shape": "blast",
     "valid_targets": [ "self" ],
@@ -47,8 +50,11 @@
   {
     "id": "radiation_field",
     "type": "SPELL",
-    "name": "Hacked Shield Radiation",
-    "description": "This fake spell occurs intermittently with the heavy bullet forcefield CBM activated.  Creates an electrical field around the PC.  May shock the PC.",
+    "name": { "str": "Hacked Shield Radiation", "//~": "NO_I18N" },
+    "description": {
+      "str": "This fake spell occurs intermittently with the heavy bullet forcefield CBM activated.  Creates an electrical field around the PC.  May shock the PC.",
+      "//~": "NO_I18N"
+    },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self" ],
@@ -66,8 +72,8 @@
   {
     "id": "gunship_drive_overload",
     "type": "SPELL",
-    "name": { "str": "Damage Robots EMP" },
-    "description": "Damages all robots",
+    "name": { "str": "Damage Robots EMP", "//~": "NO_I18N" },
+    "description": { "str": "Damages all robots", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally" ],
     "effect": "attack",
     "shape": "blast",
@@ -83,8 +89,8 @@
   {
     "id": "prison_cell_open",
     "type": "SPELL",
-    "name": { "str": "Open prison gratings" },
-    "description": "Open prison gratings",
+    "name": { "str": "Open prison gratings", "//~": "NO_I18N" },
+    "description": { "str": "Open prison gratings", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "effect": "ter_transform",
     "shape": "blast",
@@ -96,8 +102,8 @@
   {
     "id": "afs_generic_free_turn",
     "type": "SPELL",
-    "name": "Aftershock Extra Turn",
-    "description": "Grants you an extra turn.",
+    "name": { "str": "Aftershock Extra Turn", "//~": "NO_I18N" },
+    "description": { "str": "Grants you an extra turn.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "self" ],
     "effect": "mod_moves",
@@ -109,8 +115,8 @@
   {
     "id": "afs_clairvoyance_cone",
     "type": "SPELL",
-    "name": "Aftershock Clairvoyance Cone",
-    "description": "Reveals a cone shaped area centered on the caster.",
+    "name": { "str": "Aftershock Clairvoyance Cone", "//~": "NO_I18N" },
+    "description": { "str": "Reveals a cone shaped area centered on the caster.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "CONCENTRATE", "IGNORE_WALLS" ],
@@ -136,8 +142,8 @@
   {
     "id": "afs_generic_speed_bonus",
     "type": "SPELL",
-    "name": "Aftershock Stacking Speed Bonus",
-    "description": "Grants you a stackable speed bonus.",
+    "name": { "str": "Aftershock Stacking Speed Bonus", "//~": "NO_I18N" },
+    "description": { "str": "Grants you a stackable speed bonus.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "self" ],
     "effect": "attack",
@@ -151,9 +157,9 @@
   {
     "id": "cream_prot_cold",
     "type": "SPELL",
-    "name": "Heat Retention Cream",
+    "name": { "str": "Heat Retention Cream", "//~": "NO_I18N" },
     "//": "Used for heat retention cream not castable",
-    "description": "You rub the thick cream all over your body in preparation for the expected cold.",
+    "description": { "str": "You rub the thick cream all over your body in preparation for the expected cold.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "effect": "spawn_item",
@@ -174,8 +180,8 @@
   {
     "type": "SPELL",
     "id": "afs_motion_sensor_spell",
-    "name": { "str": "motion sensor spell" },
-    "description": "EOCs the victim.",
+    "name": { "str": "motion sensor spell", "//~": "NO_I18N" },
+    "description": { "str": "EOCs the victim.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
@@ -190,8 +196,8 @@
   {
     "id": "spell_fusion_fan",
     "type": "SPELL",
-    "name": "Plasma fan",
-    "description": "Your weapon releases a searing fan of plasma.",
+    "name": { "str": "Plasma fan", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon releases a searing fan of plasma.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "cone",
     "field_id": "fd_rad_glimmer",
@@ -214,8 +220,8 @@
   {
     "id": "spell_electric_chain",
     "type": "SPELL",
-    "name": "Superconductive Arc",
-    "description": "Your  weapon arcs electricity to a nearby target.",
+    "name": { "str": "Superconductive Arc", "//~": "NO_I18N" },
+    "description": { "str": "Your  weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground" ],
@@ -232,8 +238,8 @@
   {
     "id": "spell_electric_chain_2",
     "type": "SPELL",
-    "name": "Superconductive Arc II",
-    "description": "Your bionic weapon arcs electricity to a nearby target.",
+    "name": { "str": "Superconductive Arc II", "//~": "NO_I18N" },
+    "description": { "str": "Your bionic weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -255,8 +261,8 @@
   {
     "id": "spell_electric_chain_3",
     "type": "SPELL",
-    "name": "Superconductive Arc III",
-    "description": "Your bionic weapon arcs electricity to a nearby target.",
+    "name": { "str": "Superconductive Arc III", "//~": "NO_I18N" },
+    "description": { "str": "Your bionic weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -277,8 +283,8 @@
   {
     "id": "bio_blade_electric_arc",
     "type": "SPELL",
-    "name": "Superconductive Arc",
-    "description": "Your bionic weapon arcs electricity to a nearby target.",
+    "name": { "str": "Superconductive Arc", "//~": "NO_I18N" },
+    "description": { "str": "Your bionic weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally", "self" ],
@@ -296,8 +302,8 @@
   {
     "id": "bio_blade_electric_arc_2",
     "type": "SPELL",
-    "name": "Superconductive Arc",
-    "description": "Your bionic weapon arcs electricity to a nearby target.",
+    "name": { "str": "Superconductive Arc", "//~": "NO_I18N" },
+    "description": { "str": "Your bionic weapon arcs electricity to a nearby target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally", "self" ],
@@ -314,9 +320,9 @@
   {
     "id": "cream_greater_prot_cold",
     "type": "SPELL",
-    "name": "Heat Retention Cream Xtreme",
+    "name": { "str": "Heat Retention Cream Xtreme", "//~": "NO_I18N" },
     "//": "Used for heat retention cream not castable",
-    "description": "You rub the thick cream all over your body in preparation for unbearable cold.",
+    "description": { "str": "You rub the thick cream all over your body in preparation for unbearable cold.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "effect": "spawn_item",
@@ -337,9 +343,9 @@
   {
     "id": "protection_from_cold",
     "type": "SPELL",
-    "name": "Emergency Insulation",
+    "name": { "str": "Emergency Insulation", "//~": "NO_I18N" },
     "//": "Used for CBM not castable",
-    "description": "You feel a jolt through your body as energy pulses through the wires in your flesh.",
+    "description": { "str": "You feel a jolt through your body as energy pulses through the wires in your flesh.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
     "effect": "attack",
@@ -354,8 +360,8 @@
   {
     "id": "cryo_blast",
     "type": "SPELL",
-    "name": "Cryokinetic Blast",
-    "description": "You blast a cone of frigid air toward the target.",
+    "name": { "str": "Cryokinetic Blast", "//~": "NO_I18N" },
+    "description": { "str": "You blast a cone of frigid air toward the target.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -379,20 +385,5 @@
     "max_field_intensity": 4,
     "field_intensity_increment": 0.5,
     "damage_type": "cold"
-  },
-  {
-    "type": "SPELL",
-    "id": "escape_pod",
-    "name": "Escape Pod Launch",
-    "description": "You're slammed back against the seat as the pod launches at incredible speed from the ship!",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ESCAPE_POD_CHAIR",
-    "valid_targets": "ground",
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "min_range": 0,
-    "min_aoe": 1,
-    "max_aoe": 1
   }
 ]

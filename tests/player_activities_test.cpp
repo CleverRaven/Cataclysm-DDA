@@ -346,7 +346,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             monster &mon = test_monster( true );
 
             REQUIRE( dummy.max_quality( qual_SHEAR ) <= 0 );
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
 
             THEN( "shearing can't start" ) {
@@ -362,7 +362,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
@@ -390,7 +390,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
@@ -407,7 +407,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
 
             THEN( "shearing can't start" ) {
@@ -436,7 +436,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
@@ -476,7 +476,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
@@ -528,7 +528,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), false ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), false ) );
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
@@ -549,7 +549,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.i_add( item( itype_test_shears ) );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 1 );
 
-            dummy.activity = player_activity( shearing_activity_actor( mon.pos(), true ) );
+            dummy.activity = player_activity( shearing_activity_actor( mon.pos_bub(), true ) );
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
@@ -579,7 +579,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
-        boltcutting_activity_actor act{tripoint_zero, torch};
+        boltcutting_activity_actor act{tripoint_bub_ms_zero, torch};
         act.testing = true;
         dummy.assign_activity( act );
     };
@@ -1109,7 +1109,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
-        oxytorch_activity_actor act{tripoint_zero, torch};
+        oxytorch_activity_actor act{tripoint_bub_ms_zero, torch};
         act.testing = true;
         dummy.assign_activity( act );
     };
@@ -1373,7 +1373,7 @@ TEST_CASE( "prying", "[activity][prying]" )
 
     auto setup_activity = [&dummy]( const item_location & tool,
     const tripoint_bub_ms &target = tripoint_bub_ms_zero ) -> void {
-        prying_activity_actor act{target.raw(), tool};
+        prying_activity_actor act{target, tool};
         act.testing = true;
         dummy.assign_activity( act );
     };
@@ -1708,7 +1708,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
-    [] { return player_activity( milk_activity_actor( 1, {get_avatar().pos()}, {std::string()} ) ); },
+    [] { return player_activity( milk_activity_actor( 1, {get_avatar().get_location()}, {std::string()} ) ); },
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, tripoint_rel_ms_north ) ); },

@@ -472,14 +472,14 @@ static std::set<tripoint_bub_ms> spell_effect_area( const spell &sp, const tripo
     std::set<tripoint_bub_ms> targets = calculate_spell_effect_area( sp, target, caster );
     if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
         // Draw the explosion
-        std::map<tripoint, nc_color> explosion_colors;
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : targets ) {
-            explosion_colors[pt.raw()] = sp.damage_type_color();
+            explosion_colors[pt] = sp.damage_type_color();
         }
 
         std::string exp_name = "explosion_" + sp.id().str();
 
-        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+        explosion_handler::draw_custom_explosion( explosion_colors,
                 exp_name );
     }
     return targets;
@@ -622,38 +622,36 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
 
         // handling DOTs here
-        if( sp.damage_dot( caster ) > 0 ) {
-            if( cr->as_character() != nullptr ) {
-                std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
+        if( cr->as_character() != nullptr ) {
+            std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
 
-                if( sp.bps_affected() > 0 ) {
-                    for( auto it = target_bdpts.begin(); it != target_bdpts.end(); ) {
-                        if( !sp.bp_is_affected( it->id() ) ) {
-                            it = target_bdpts.erase( it );
-                        } else {
-                            ++it;
-                        }
+            if( sp.bps_affected() > 0 ) {
+                for( auto it = target_bdpts.begin(); it != target_bdpts.end(); ) {
+                    if( !sp.bp_is_affected( it->id() ) ) {
+                        it = target_bdpts.erase( it );
+                    } else {
+                        ++it;
                     }
                 }
-
-                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    for( bodypart_id bpid : target_bdpts ) {
-                        damage_over_time_data foo = sp.damage_over_time( { bpid }, caster );
-                        foo.amount = cr->get_hp( bpid ) * foo.amount / 100.0;
-                        cr->add_damage_over_time( foo );
-                    }
-                } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
-                    damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
-                    dot_data.amount /= target_bdpts.size();
-                    cr->add_damage_over_time( dot_data );
-                } else if( !target_bdpts.empty() ) {
-                    cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
-                } else {
-                    cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
-                }
-            } else {
-                cr->add_damage_over_time( sp.damage_over_time( { body_part_bp_null }, caster ) );
             }
+
+            if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                for( bodypart_id bpid : target_bdpts ) {
+                    damage_over_time_data foo = sp.damage_over_time( { bpid }, caster );
+                    foo.amount = cr->get_hp( bpid ) * foo.amount / 100.0;
+                    cr->add_damage_over_time( foo );
+                }
+            } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
+                damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
+                dot_data.amount /= target_bdpts.size();
+                cr->add_damage_over_time( dot_data );
+            } else if( sp.bps_affected() > 0 ) {
+                cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
+            } else {
+                cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
+            }
+        } else {
+            cr->add_damage_over_time( sp.damage_over_time( { body_part_bp_null }, caster ) );
         }
     }
 }
@@ -1894,6 +1892,9 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         }
         Creature *victim = creatures.creature_at<Creature>( potential_target );
         dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
+        const tripoint_abs_ms target_abs = get_map().getglobal( potential_target );
+        write_var_value( var_type::context, "spell_location", &d,
+                         target_abs.to_string() );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {

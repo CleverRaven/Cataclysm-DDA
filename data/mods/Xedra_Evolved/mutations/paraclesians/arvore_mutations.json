@@ -423,11 +423,11 @@
     "active": true,
     "activated_is_setup": true,
     "time": 120,
-    "thirst": true,
+    "mana": true,
     "cost": 1,
+    "activation_msg": "Your skin itches",
     "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
-    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ],
-    "//": "Ideally this would be powered by mana, but thirst will work for now"
+    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ]
   },
   {
     "type": "mutation",
@@ -440,12 +440,12 @@
     "category": [ "ARVORE" ],
     "active": true,
     "activated_is_setup": true,
-    "time": 60,
-    "thirst": true,
+    "time": 45,
+    "mana": true,
     "cost": 1,
+    "activation_msg": "The air fills with clouds of pollen.",
     "activated_eocs": [ "EOC_ARVORE_POISON_POLLEN_ON" ],
-    "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ],
-    "//": "Ideally this would be powered by mana, but thirst will work for now"
+    "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ]
   },
   {
     "type": "mutation",
@@ -502,6 +502,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "mixed_effect": true,
     "description": "Your energy changes with the seasons: in spring and summer, you're more awake and need less sleep, and the reverse is true in autumn and winter.",
     "prereqs": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "category": [ "ARVORE" ],
@@ -560,8 +561,9 @@
     "category": [ "ARVORE" ],
     "activated_is_setup": false,
     "active": true,
-    "thirst": true,
-    "cost": 1,
+    "mana": true,
+    "cost": 25,
+    "activation_msg": "Vines lash out toward your target.",
     "activated_eocs": [ "EOC_ARVORE_VINE_DRAG_activated" ]
   },
   {
@@ -575,6 +577,7 @@
     "category": [ "ARVORE" ],
     "activated_is_setup": true,
     "active": true,
+    "activation_msg": "Your fingers itch as jagged wood rapidly covers them.",
     "activated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ]
   },
@@ -789,7 +792,7 @@
     "points": 13,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
     "prereqs": [ "ARVORE_BLOOD_3" ],
     "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "category": [ "ARVORE" ],
@@ -809,9 +812,10 @@
     "category": [ "ARVORE" ],
     "activated_is_setup": true,
     "active": true,
-    "time": 60,
-    "thirst": true,
+    "time": 20,
+    "mana": true,
     "cost": 1,
+    "activation_msg": "Lashing vines grow from your shoulders.",
     "activated_eocs": [ "EOC_ARVORE_VINES_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_VINES_OFF" ]
   },
@@ -878,6 +882,7 @@
     "category": [ "ARVORE" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Stiff wooden thorns push out from your skin.",
     "activated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ]
   },
@@ -909,39 +914,34 @@
     "types": [ "SCENT" ],
     "prereqs": [ "ARVORE_FLORAL_SCENT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  At will, you can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
+    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  You can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
     "active": true,
-    "transform": {
-      "target": "ARVORE_MIND_CONTROL_POLLEN_ON",
-      "msg_transform": "A cloying scent fills the air.",
-      "active": true,
-      "moves": 0
-    }
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 180,
+    "activation_msg": "A sweet scent fills the air.",
+    "activated_eocs": [ "EOC_MIND_CONTROL_POLLEN_ON" ],
+    "deactivated_eocs": [ "EOC_MIND_CONTROL_POLLEN_OFF" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_MIND_CONTROL_POLLEN_ON",
-    "name": { "str": "Enchanting Aroma (active)" },
+    "name": { "str": "Enchanting Aroma (active)", "//~": "NO_I18N" },
     "points": 4,
     "visibility": 0,
-    "ugliness": -10,
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  You are enhancing this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
+    "ugliness": -8,
+    "description": { "str": "The active version of Enchanting Aroma.  Should not be player visible.", "//~": "NO_I18N" },
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
     "scent_intensity": 1200,
     "social_modifiers": { "persuade": 25, "lie": 10 },
     "valid": false,
-    "active": true,
-    "transform": {
-      "target": "ARVORE_MIND_CONTROL_POLLEN",
-      "msg_transform": "The scent filling the air fades away.",
-      "active": false,
-      "moves": 0
-    }
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -970,6 +970,7 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Your legs fuse together and your arms stretch toward the sky as you put down roots and transform into a towering tree.",
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
     "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
@@ -1031,7 +1032,6 @@
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
     "enchantments": [
       "ench_arvore_tree_form",
-      "ench_arvore_tree_reduce_thirst",
       {
         "values": [
           { "value": "ATTACK_SPEED", "multiply": 900 },

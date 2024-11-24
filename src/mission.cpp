@@ -259,6 +259,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         return false;
     }
     bool mission_transfered = false;
+    std::vector<int> mission_ids_to_remove;
     for( const int mission_id : mon_fused->mission_ids ) {
         const mission *const found_mission = mission::find( mission_id );
         if( !found_mission ) {
@@ -269,9 +270,12 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
-            mon_fused->mission_ids.erase( mission_id );
+            mission_ids_to_remove.push_back( mission_id );
             mission_transfered = true;
         }
+    }
+    for( const int mission_id : mission_ids_to_remove ) {
+        mon_fused->mission_ids.erase( mission_id );
     }
     return mission_transfered;
 }
@@ -406,6 +410,7 @@ void mission::wrap_up()
                 items, grp_type, matches,
                 container, itype_null, specific_container_required );
 
+            comps.reserve( matches.size() );
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.emplace_back( cnt.first, cnt.second );
 
@@ -463,6 +468,7 @@ void mission::wrap_up()
                 }
             }
         }
+        break;
         default:
             //Suppress warnings
             break;

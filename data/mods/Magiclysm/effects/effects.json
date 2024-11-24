@@ -512,7 +512,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
-    "max_duration": "1 d",
+    "max_duration": "2 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -694,10 +694,7 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
-      }
+      { "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ], "melee_damage_bonus": [ { "type": "cut", "add": 17 } ] }
     ]
   },
   {
@@ -1260,12 +1257,12 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+            { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') < u_hp_max('head')" ] }
           ]
         },
         "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
@@ -1488,8 +1485,8 @@
   {
     "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer",
-    "name": [ "Wielding Stormhammer" ],
-    "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
+    "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],
     "show_in_info": true
   },
   {

@@ -7,7 +7,7 @@
     "effect": [
       { "set_condition": "random_enc_condition", "condition": { "and": [ { "not": { "is_season": "winter" } }, "is_day" ] } },
       {
-        "run_eoc_with": "EOC_RandEnc",
+        "run_eocs": "EOC_RandEnc",
         "variables": {
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_roadstop_a_add",
@@ -59,7 +59,7 @@
         }
       },
       {
-        "run_eoc_with": "EOC_RandEnc",
+        "run_eocs": "EOC_RandEnc",
         "variables": {
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_roadstop_a_refugee_add",

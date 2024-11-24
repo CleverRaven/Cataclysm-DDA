@@ -442,13 +442,25 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
         const navigation_node &cur_node = known_nodes.at( cur_addr );
         if( cur_point == dest ) {
+            ret.dist = omt_cost_to_cross( 24, direction::CENTER, cur_node.get_prev_dir() );
             node_address addr = cur_addr;
+            const navigation_node *next_node = nullptr;
             while( !( addr == start ) ) {
                 const navigation_node &node = known_nodes.at( addr );
+                if( next_node != nullptr ) {
+                    ret.dist += omt_cost_to_cross( 24, node.get_prev_dir(),
+                                                   reverse_direction( next_node->get_prev_dir() ) );
+                }
+                next_node = &node;
                 ret.points.emplace_back( addr.to_tripoint( source ) );
                 addr = addr.displace( node.get_prev_dir() );
             }
             ret.points.emplace_back( addr.to_tripoint( source ) );
+            ret.dist += omt_cost_to_cross( 24, direction::CENTER,
+                                           next_node->get_prev_dir() ); // this direction is reversed but that doesn't change the result
+            // total path cost is the cost to reach an edge of the final node plus the cost to reach the center of that node
+            ret.cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost, direction::CENTER,
+                       cur_node.get_prev_dir() );
             return ret;
         }
         for( direction dir : enumerate_directions( cur_node.allow_z_change, allow_diagonal ) ) {

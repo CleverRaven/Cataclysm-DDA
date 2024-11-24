@@ -229,7 +229,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( struct dialogue & )> goal_condition;
+        std::function<bool( const_dialogue const & )> goal_condition;
 
         mission_type() = default;
 

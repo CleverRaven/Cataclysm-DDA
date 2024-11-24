@@ -41,12 +41,12 @@
         "                                                                   #**,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*#                                                                   ",
         "                                                                   #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                   "
       ],
-      "palettes": [ "mall_palette_basement" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
         ",": "t_linoleum_white",
-        "6": "t_carpet_concrete_red",
+        "6": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
         "{": "t_linoleum_gray",
         "Y": "t_linoleum_gray",
         "}": "t_linoleum_white",

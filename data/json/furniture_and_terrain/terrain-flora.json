@@ -2442,6 +2442,112 @@
   },
   {
     "type": "terrain",
+    "id": "t_shrub_spicebush",
+    "name": "spicebush",
+    "description": "A bush that features small, red berries.",
+    "symbol": "#",
+    "color": "light_green_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_spicebush_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_spicebush_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_spicebush_harvested",
+    "name": "spicebush",
+    "description": "A bush that usually features small, red berries but it was picked clean.",
+    "symbol": "#",
+    "color": "green_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_spicebush",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_chokeberry",
+    "name": "black chokeberry bush",
+    "description": "Drooping black berries adorn the shrub during autumn.  These have a distinctive star-shaped fold and look quite juicy.",
+    "symbol": "#",
+    "color": "light_green_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_chokeberry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_chokeberry_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_chokeberry_harvested",
+    "name": "black chokeberry bush",
+    "description": "Drooping black berries adorned this shrub, but the shrub was picked clean.",
+    "symbol": "#",
+    "color": "green_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_chokeberry",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_shrub_rose",
     "name": "rose bush",
     "description": "A fat bush of beautiful red roses, if only you could get a date!  Watch out for its thorns!",

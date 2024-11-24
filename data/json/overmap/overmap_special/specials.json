@@ -1475,7 +1475,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1542,11 +1542,13 @@
   {
     "type": "overmap_special",
     "id": "Slime Pit",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_top" }, { "point": [ 0, 0, -1 ], "overmap": "slimepit_bottom" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "slimepit_z0_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "slimepit_z-1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "slimepit_z-2_north" }
+    ],
     "locations": [ "wilderness", "agricultural" ],
-    "city_distance": [ 3, 30 ],
     "occurrences": [ 0, 3 ],
-    "rotate": false,
     "spawns": { "group": "GROUP_GOO", "population": [ 100, 200 ], "radius": [ 2, 10 ] },
     "flags": [ "SLIME", "WILDERNESS" ]
   },
@@ -6164,7 +6166,7 @@
     "city_distance": [ 0, 100 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",

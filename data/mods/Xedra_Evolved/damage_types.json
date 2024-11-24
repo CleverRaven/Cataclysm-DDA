@@ -79,7 +79,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 5 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_trait": "SHADOWED" } },
         { "not": { "npc_has_flag": "SHADOW_CHAR_IMMUNE" } },
         { "not": { "npc_has_flag": "SHADOW_MONSTER_IMMUNE" } }
@@ -93,7 +93,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 24 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_trait": "SHADOWED" } },
         { "not": { "npc_has_flag": "SHADOW_CHAR_IMMUNE" } },
         { "not": { "npc_has_flag": "SHADOW_MONSTER_IMMUNE" } }

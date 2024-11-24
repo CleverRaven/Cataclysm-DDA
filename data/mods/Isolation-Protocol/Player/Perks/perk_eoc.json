@@ -48,8 +48,8 @@
         "u_run_monster_eocs": [
           {
             "id": "_EOC_ISO_GEAS",
-            "condition": { "math": [ "u_val('difficulty')", ">=", "30" ] },
-            "effect": [ { "run_eoc_with": "geas_monster", "beta_talker": "avatar" } ]
+            "condition": { "math": [ "u_val('difficulty') >= 30" ] },
+            "effect": [ { "run_eocs": "geas_monster", "beta_talker": "avatar" } ]
           }
         ],
         "monster_range": 65,
@@ -68,7 +68,7 @@
         "if": {
           "and": [
             { "math": [ "has_var(u_old_distance)" ] },
-            { "math": [ "u_new_distance", ">", "u_old_distance" ] },
+            { "math": [ "u_new_distance > u_old_distance" ] },
             { "npc_can_see_location": { "u_val": "monster_pos" } }
           ]
         },
@@ -90,7 +90,7 @@
     "id": "EOC_ISO_BIO_VAMPIRE_RESTORE",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "and": [ { "math": [ "u_bionic_in_melee", "==", "1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
+    "condition": { "and": [ { "math": [ "u_bionic_in_melee == 1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
     "//": "* in math is so the number before the * is kJ of bionic power restored",
     "effect": [
       { "math": [ "u_val('power')", "+=", "1.75 * 1000000" ] },
