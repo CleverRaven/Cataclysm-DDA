@@ -1,4 +1,4 @@
-# Mod Compatability
+# Mod Compatibility
 
 ## Summary
 
