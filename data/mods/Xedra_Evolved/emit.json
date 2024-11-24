@@ -2,7 +2,7 @@
   {
     "id": "xedra_dreamer_emit_accelerated_time",
     "type": "emit",
-    "field": "fd_xedra_accelerated_time",
+    "field": "fd_xedra_dreamer_accelerated_time",
     "intensity": 1,
     "qty": 20,
     "chance": 100

@@ -275,13 +275,13 @@
     "immunity_data": { "flags": [ "STABILIZED_TIMELINE" ] }
   },
   {
-    "id": "fd_xedra_accelerated_time",
+    "id": "fd_xedra_dreamer_accelerated_time",
     "type": "field_type",
     "intensity_levels": [
       { "name": "accelerated time", "sym": "o", "color": "light_gray", "transparent": true, "effects": [{
-        "effect_id": "effect_xedra_accelerated_time",
-        "min_duration": "10 seconds",
-        "max_duration": "10 seconds",
+        "effect_id": "effect_xedra_dreamer_accelerated_time",
+        "min_duration": "2 seconds",
+        "max_duration": "2 seconds",
         "intensity": 1
       }] }
     ],
