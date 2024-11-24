@@ -48,8 +48,8 @@ math_eval_dbl_f myfunction_eval( char scope,
   ex: school_level() split from spell_level() instead of spell_level('school':blorg)
 - Use parameter-less functions diag_value::str(), dbl(), and var() only at parse-time
 - Use conversion functions diag_value::str( d ) and dbl( d ) only at run-time
-- Always throw on errors at parse-time
-- Never throw at run-time. Use a debugmsg() and recover gracefully
+- throw math::syntax_error for parse-time errors
+- throw math::runtime_error for run-time errors
 */
 
 static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
@@ -87,7 +87,8 @@ template<typename T>
 T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
 {
     auto const error = [s]( char const * suffix, size_t /* offset */ ) {
-        debugmsg( R"(Failed to convert "%s" to a %s value: %s)", s, _str_type_of<T>(), suffix );
+        throw math::runtime_error( R"(Failed to convert "%s" to a %s value: %s)", s, _str_type_of<T>(),
+                                   suffix );
     };
     return detail::read_from_json_string_common<T>( s, units, error );
 }
@@ -185,8 +186,7 @@ diag_eval_dbl_f damage_level_eval( char scope, std::vector<diag_value> const &pa
     return[params, beta = is_beta( scope )]( const_dialogue const & d ) {
         item_location const *it = d.const_actor( beta )->get_const_item();
         if( !it ) {
-            debugmsg( "subject of damage_level() must be an item" );
-            return 0;
+            throw math::runtime_error( "subject of damage_level() must be an item" );
         }
         return ( *it )->damage_level();
     };
@@ -348,8 +348,8 @@ diag_eval_dbl_f field_strength_eval( char scope, std::vector<diag_value> const &
     if( !loc_val.is_empty() ) {
         loc_var = loc_val.var();
     } else if( scope == 'g' ) {
-        throw std::invalid_argument( string_format(
-                                         R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+        throw math::syntax_error(
+            R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" );
     }
 
     return [beta = is_beta( scope ), field_value = params[0], loc_var]( const_dialogue const & d ) {
@@ -374,8 +374,7 @@ diag_eval_dbl_f gun_damage_eval( char scope, std::vector<diag_value> const &para
         item_location const *it = d.const_actor( beta )->get_const_item();
         if( it == nullptr )
         {
-            debugmsg( "subject of gun_damage() must be an item" );
-            return 0;
+            throw math::runtime_error( "subject of gun_damage() must be an item" );
         }
         std::string const dt_str = dt_val.str( d );
         if( dt_str == "ALL" )
@@ -413,8 +412,7 @@ diag_eval_dbl_f sum_traits_of_category_eval( char scope, std::vector<diag_value>
         } else if( thing == "ALL" ) {
             count_type = mut_count_type::ALL;
         } else {
-            debugmsg( "Incorrect type '%s' in sum_traits_of_category", type.str() );
-            return 0;
+            throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str() );
         }
 
         return d.const_actor( beta )->get_total_in_category( cat, count_type );
@@ -440,8 +438,7 @@ diag_eval_dbl_f sum_traits_of_category_char_has_eval( char scope,
         } else if( thing == "ALL" ) {
             count_type = mut_count_type::ALL;
         } else {
-            debugmsg( "Incorrect type '%s' in sum_traits_of_category", type.str() );
-            return 0;
+            throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str() );
         }
 
         return d.const_actor( beta )->get_total_in_category_char_has( cat, count_type );
@@ -654,8 +651,7 @@ diag_eval_dbl_f melee_damage_eval( char scope, std::vector<diag_value> const &pa
     return[dt_val = params[0], beta = is_beta( scope )]( const_dialogue const & d ) {
         item_location const *it = d.const_actor( beta )->get_const_item();
         if( it == nullptr ) {
-            debugmsg( "subject of melee_damage() must be an item" );
-            return 0;
+            throw math::runtime_error( "subject of melee_damage() must be an item" );
         }
         std::string const dt_str = dt_val.str( d );
         if( dt_str == "ALL" ) {
@@ -732,8 +728,8 @@ diag_eval_dbl_f _characters_nearby_eval( char scope, std::vector<diag_value> con
     if( !loc_val.is_empty() ) {
         loc_var = loc_val.var();
     } else if( scope == 'g' ) {
-        throw std::invalid_argument( string_format(
-                                         R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+        throw math::syntax_error(
+            R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
     }
 
     return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val,
@@ -755,8 +751,8 @@ diag_eval_dbl_f _characters_nearby_eval( char scope, std::vector<diag_value> con
         } else if( filter_str == "hostile" ) {
             filter = character_filter::hostile;
         } else if( filter_str != "any" ) {
-            debugmsg( R"(Unknown attitude filter "%s" for characters_nearby(), counting all characters)",
-                      filter_str );
+            throw math::runtime_error(
+                R"(Unknown attitude filter "%s" for characters_nearby())", filter_str );
         }
         bool allow_hallucinations = false;
         int const hallucinations_int = static_cast<int>( allow_hallucinations_val.dbl( d ) );
@@ -847,8 +843,8 @@ diag_eval_dbl_f _monsters_nearby_eval( char scope, std::vector<diag_value> const
     if( !loc_val.is_empty() ) {
         loc_var = loc_val.var();
     } else if( scope == 'g' ) {
-        throw std::invalid_argument( string_format(
-                                         R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+        throw math::syntax_error(
+            R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
     }
 
     return [beta = is_beta( scope ), params, loc_var, radius_val, filter_val,
@@ -873,7 +869,8 @@ diag_eval_dbl_f _monsters_nearby_eval( char scope, std::vector<diag_value> const
         } else if( filter_str == "friendly" ) {
             filter = mon_filter::friends;
         } else if( filter_str != "hostile" ) {
-            debugmsg( R"(Unknown attitude filter "%s" for monsters_nearby(), assuming "hostile")", filter_str );
+            throw math::runtime_error(
+                R"(Unknown attitude filter "%s" for monsters_nearby())", filter_str );
         }
 
         std::vector<Creature *> const targets = g->get_creatures_if( [&mids, &radius,
@@ -922,8 +919,7 @@ diag_eval_dbl_f pain_eval( char scope, std::vector<diag_value> const & /* params
         } else if( format == "raw" ) {
             return d.const_actor( beta )->pain_cur();
         } else {
-            debugmsg( R"(Unknown type "%s" for pain())", format );
-            return 0;
+            throw math::runtime_error( R"(Unknown type "%s" for pain())", format );
         }
     };
 }
@@ -941,7 +937,7 @@ diag_assign_dbl_f pain_ass( char scope, std::vector<diag_value> const & /* param
         } else if( format == "raw" ) {
             d.actor( beta )->set_pain( val );
         } else {
-            debugmsg( R"(Unknown assigning type "%s" for pain())", format );
+            throw math::runtime_error( R"(Unknown type "%s" for pain())", format );
         }
     };
 }
@@ -1009,8 +1005,7 @@ diag_eval_dbl_f get_daily_calories( char scope, std::vector<diag_value> const & 
         std::string type = type_val.str( d );
         int const day = day_val.dbl( d );
         if( day < 0 ) {
-            debugmsg( "get_daily_calories(): cannot access calorie diary from the future (day < 0)" );
-            return 0;
+            throw math::runtime_error( "get_daily_calories(): cannot access calorie diary from the future (day < 0)" );
         }
 
         return d.const_actor( beta )->get_daily_calories( day, type );
@@ -1042,7 +1037,7 @@ diag_eval_dbl_f skill_exp_eval( char scope, std::vector<diag_value> const &param
         skill_id skill( skill_value.str( d ) );
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percentage" ) {
-            debugmsg( R"(Unknown format type "%s" for skill_exp, assumning "percentage")", format );
+            throw math::runtime_error( R"(Unknown format type "%s" for skill_exp")", format );
         }
         bool raw = format == "raw";
         return d.const_actor( beta )->get_skill_exp( skill, raw );
@@ -1059,7 +1054,7 @@ diag_assign_dbl_f skill_exp_ass( char scope, std::vector<diag_value> const &para
         skill_id skill( skill_value.str( d ) );
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percentage" ) {
-            debugmsg( R"(Unknown format type "%s" for skill_exp, assumning "percentage")", format );
+            throw math::runtime_error( R"(Unknown format type "%s" for skill_exp)", format );
         }
         bool raw = format == "raw";
         return d.actor( beta )->set_skill_exp( skill, val, raw );
@@ -1133,9 +1128,10 @@ diag_assign_dbl_f spell_level_ass( char scope, std::vector<diag_value> const &pa
                                    diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d, double val ) {
-        const spell_id spell( spell_value.str( d ) );
+        std::string const spell_str = spell_value.str( d );
+        const spell_id spell( spell_str );
         if( spell == spell_id::NULL_ID() ) {
-            debugmsg( "Can't set spell level of %s", spell.str() );
+            throw math::runtime_error( R"("%s" is not a valid spell)", spell_str );
         } else {
             d.actor( beta )->set_spell_level( spell, val );
         }
@@ -1195,7 +1191,7 @@ double _time_in_unit( double time, std::string_view unit )
         } );
 
         if( iter == time_duration::units.end() ) {
-            debugmsg( R"(Unknown time unit "%s", assuming turns )", unit );
+            throw math::runtime_error( R"(Unknown time unit "%s")", unit );
         } else {
             return time / to_turns<double>( iter->second );
         }
@@ -1235,8 +1231,7 @@ diag_assign_dbl_f time_ass( char /* scope */, std::vector<diag_value> const &par
         };
     }
 
-    throw std::invalid_argument(
-        string_format( "Only time('now') is a valid time() assignment target" ) );
+    throw math::syntax_error( "Only time('now') is a valid time() assignment target" );
 }
 
 diag_eval_dbl_f time_since_eval( char /* scope */, std::vector<diag_value> const &params,
@@ -1347,7 +1342,7 @@ diag_eval_dbl_f proficiency_eval( char scope, std::vector<diag_value> const &par
             return to_turns<double>( prof->time_to_learn() - raw );
         } else {
             if( format != "time_spent" ) {
-                debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
+                throw math::runtime_error( R"(Unknown format type "%s" for proficiency)", format );
             }
             return to_turns<double>( raw );
         }
@@ -1374,7 +1369,7 @@ diag_assign_dbl_f proficiency_ass( char scope, std::vector<diag_value> const &pa
             to_write = to_turns<int>( prof->time_to_learn() ) - val;
         } else {
             if( format != "time_spent" ) {
-                debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
+                throw math::runtime_error( R"(Unknown format type "%s" for proficiency)", format );
             }
             to_write = val;
         }
@@ -1383,7 +1378,8 @@ diag_assign_dbl_f proficiency_ass( char scope, std::vector<diag_value> const &pa
         // Due to rounding errors, -1 can occur in normal situations. When that happens, ignore it
         if( !direct && learned < 1 ) {
             if( learned < -1 ) {
-                debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+                throw math::runtime_error( "For proficiency %s in dialogue, trying to learn negative without direct",
+                                           prof.str() );
             }
             return 0;
         }
@@ -1471,8 +1467,7 @@ diag_eval_dbl_f vision_range_eval( char scope, std::vector<diag_value> const & /
             tripoint_bub_ms tripoint = get_map().bub_from_abs( mon->get_location() );
             return mon->sight_range( here.ambient_light_at( tripoint ) );
         }
-        debugmsg( "Tried to access vision range of a non-Character talker" );
-        return 0;
+        throw math::runtime_error( "Tried to access vision range of a non-Character talker" );
     };
 }
 
@@ -1567,8 +1562,7 @@ diag_eval_dbl_f calories_eval( char scope, std::vector<diag_value> const & /* pa
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percent" )
         {
-            debugmsg( R"(Unknown format type "%s" for calories, assumning "raw")", format );
-            format = "raw";
+            throw math::runtime_error( R"(Unknown format type "%s" for calories)", format );
         }
 
         if( format == "percent" )
@@ -1582,8 +1576,7 @@ diag_eval_dbl_f calories_eval( char scope, std::vector<diag_value> const & /* pa
                 }
                 return d.const_actor( beta )->get_stored_kcal() / divisor;
             } else {
-                debugmsg( "Percent can be used only with character" );
-                return 0;
+                throw math::runtime_error( "Percent can be used only with character" );
             }
         } else if( format == "raw" )
         {
@@ -1595,8 +1588,7 @@ diag_eval_dbl_f calories_eval( char scope, std::vector<diag_value> const & /* pa
                 return default_character_compute_effective_nutrients( *it->get_item() ).kcal();
             }
         }
-        debugmsg( "For calories(), talker is not character nor item" );
-        return 0;
+        throw math::runtime_error( "For calories(), talker is not character nor item" );
     };
 }
 
@@ -1624,8 +1616,7 @@ diag_eval_dbl_f weight_eval( char scope, std::vector<diag_value> const & /* para
         if( it && *it ) {
             return static_cast<int>( to_milligram( it->get_item()->weight() ) );
         }
-        debugmsg( "For weight(), talker is not character nor item" );
-        return 0;
+        throw math::runtime_error( "For weight(), talker is not character nor item" );
     };
 }
 
@@ -1640,8 +1631,7 @@ diag_eval_dbl_f volume_eval( char scope, std::vector<diag_value> const & /* para
         if( it && *it ) {
             return to_milliliter( it->get_item()->volume() );
         }
-        debugmsg( "For volume(), talker is not character nor item" );
-        return 0;
+        throw math::runtime_error( "For volume(), talker is not character nor item" );
     };
 }
 
@@ -1657,8 +1647,7 @@ diag_eval_dbl_f vitamin_eval( char scope, std::vector<diag_value> const &params,
             const nutrients &nutrient_data = default_character_compute_effective_nutrients( *itm->get_item() );
             return static_cast<int>( nutrient_data.vitamins().count( vitamin_id( id.str( d ) ) ) );
         }
-        debugmsg( "Tried to access vitamins of a non-Character/non-item talker" );
-        return 0;
+        throw math::runtime_error( "Tried to access vitamins of a non-Character/non-item talker" );
     };
 }
 
@@ -1709,7 +1698,7 @@ diag_eval_dbl_f weather_eval( char /* scope */, std::vector<diag_value> const &p
             return precip_mm_per_hour( get_weather().weather_id->precip );
         };
     }
-    throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
+    throw math::syntax_error( "Unknown weather aspect %s", params[0].str() );
 }
 
 diag_assign_dbl_f weather_ass( char /* scope */, std::vector<diag_value> const &params,
@@ -1740,7 +1729,7 @@ diag_assign_dbl_f weather_ass( char /* scope */, std::vector<diag_value> const &
             get_weather().clear_temp_cache();
         };
     }
-    throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
+    throw math::syntax_error( "Unknown weather aspect %s", params[0].str() );
 }
 
 diag_eval_dbl_f climate_control_str_heat_eval( char scope,
