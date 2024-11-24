@@ -182,6 +182,7 @@
     "price": "1000 cent",
     "price_postapoc": "100 cent",
     "material": [ "forged_dreamstuff" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ],
     "symbol": ";",
     "color": "light_gray",
     "charges_per_use": 1,
