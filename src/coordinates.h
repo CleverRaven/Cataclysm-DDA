@@ -847,6 +847,7 @@ direction direction_from( const coords::coord_point_ob<Point, Origin, Scale> &lo
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Point, coords::origin Origin, coords::scale Scale, std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
 std::vector < coords::coord_point < Point, Origin, Scale >>
         line_to( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
@@ -862,6 +863,7 @@ std::vector < coords::coord_point < Point, Origin, Scale >>
     return result;
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Point, coords::origin Origin, coords::scale Scale, std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
 std::vector < coords::coord_point_ib < Point, Origin, Scale >>
         line_to( const coords::coord_point_ib<Point, Origin, Scale> &loc1,
@@ -877,6 +879,7 @@ std::vector < coords::coord_point_ib < Point, Origin, Scale >>
     return result;
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Tripoint, coords::origin Origin, coords::scale Scale,
          std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
 std::vector < coords::coord_point < Tripoint, Origin, Scale >>
@@ -893,6 +896,7 @@ std::vector < coords::coord_point < Tripoint, Origin, Scale >>
     return result;
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Tripoint, coords::origin Origin, coords::scale Scale,
          std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
 std::vector < coords::coord_point_ib < Tripoint, Origin, Scale>>

@@ -4895,7 +4895,8 @@ void npc::set_omt_destination()
         }
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
-            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal,
+                       overmap_path_params::for_npc() ).points;
         }
         if( !omt_path.empty() ) {
             dest_type = overmap_buffer.ter( goal )->get_type_id().str();
@@ -4906,11 +4907,13 @@ void npc::set_omt_destination()
     // couldn't find any places to go, so go somewhere.
     if( goal == overmap::invalid_tripoint || omt_path.empty() ) {
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal,
+                   overmap_path_params::for_npc() ).points;
         // try one more time
         if( omt_path.empty() ) {
             goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal,
+                       overmap_path_params::for_npc() ).points;
         }
         if( omt_path.empty() ) {
             goal = no_goal_point;

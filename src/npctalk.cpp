@@ -4494,7 +4494,7 @@ talk_effect_fun_t::func f_npc_goal( const JsonObject &jo, std::string_view membe
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params, d );
             guy->goal = destination;
             guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
-                            overmap_path_params::for_npc() );
+                            overmap_path_params::for_npc() ).points;
             if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
                 guy->omt_path.empty() ) {
                 guy->goal = npc::no_goal_point;
