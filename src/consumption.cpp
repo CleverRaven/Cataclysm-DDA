@@ -602,7 +602,6 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
 }
 
-
 time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 {
     time_duration res = vit.obj().rate();
