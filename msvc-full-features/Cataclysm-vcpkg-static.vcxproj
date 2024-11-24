@@ -229,6 +229,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\messages.cpp" />
+    <ClCompile Include="..\src\mutation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
