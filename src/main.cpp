@@ -851,7 +851,7 @@ int main( int argc, const char *argv[] )
 
     main_menu::queued_world_to_load = std::move( cli.world );
 
-    get_help().load();
+    get_help().load_from_file();
 
     while( true ) {
         main_menu menu;

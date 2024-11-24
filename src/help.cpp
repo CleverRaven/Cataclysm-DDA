@@ -17,6 +17,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "input_context.h"
+#include "json_error.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -25,34 +26,65 @@
 #include "translations.h"
 #include "ui_manager.h"
 
+class JsonArray;
+class JsonObject;
+
 help &get_help()
 {
     static help single_instance;
     return single_instance;
 }
 
-void help::load()
+void help::load_from_file()
 {
     read_from_file_optional_json( PATH_INFO::help(), [&]( const JsonValue & jsin ) {
         deserialize( jsin );
     } );
+    file_order_end = help_texts.crbegin()->first;
 }
 
 void help::deserialize( const JsonArray &ja )
 {
     for( JsonObject jo : ja ) {
         if( jo.get_string( "type" ) != "help" ) {
-            debugmsg( "object with type other than \"type\" found in help text file" );
+            jo.throw_error_at( "type", "Object unread: Only \"type\": \"help\" objects are read in this file" );
             continue;
         }
+        load( jo, "" );
+    }
+}
 
-        std::vector<translation> messages;
-        jo.read( "messages", messages );
+void help::set_current_order_start()
+{
+    current_order_start = help_texts.crbegin()->first;
+}
 
-        translation name;
-        jo.read( "name", name );
+void help::load( const JsonObject &jo, const std::string &src )
+{
+    if( src == "dda" ) {
+        jo.throw_error( string_format( "Vanilla help must be located in %s",
+                                       PATH_INFO::help().generic_u8string() ) );
+    }
+    std::vector<translation> messages;
+    jo.read( "messages", messages );
 
-        help_texts[ jo.get_int( "order" ) ] = std::make_pair( name, messages );
+    translation name;
+    jo.read( "name", name );
+
+    if( !help_texts.try_emplace( jo.get_int( "order" ) + current_order_start,
+                                 std::make_pair( name, messages ) ).second ) {
+        jo.throw_error_at( "order", "\"order\" must be unique (per mod)" );
+    }
+}
+
+void help::clear_modded_help()
+{
+    for( auto it = help_texts.begin(); it != help_texts.end(); ) {
+        if( it->first > file_order_end ) {
+            it = help_texts.erase( it );
+        } else {
+            ++it;
+        }
     }
 }
 

@@ -11,6 +11,7 @@
 #include "cuboid_rectangle.h"
 
 class JsonArray;
+class JsonObject;
 class translation;
 namespace catacurses
 {
@@ -20,8 +21,12 @@ class window;
 class help
 {
     public:
-        void load();
+        void load_from_file();
+        void load( const JsonObject &jo, const std::string &src );
+        void clear_modded_help();
         void display_help() const;
+        // Run at the start of every mod to set the starting point for order
+        void set_current_order_start();
 
     private:
         void deserialize( const JsonArray &ja );
@@ -29,7 +34,10 @@ class help
                                                int selected ) const;
         static std::string get_note_colors();
         static std::string get_dir_grid();
-
+        // Modifier for each mods order
+        int current_order_start = 0;
+        // The last order key defined by the help file
+        int file_order_end = 0;
         std::map<int, std::pair<translation, std::vector<translation>>> help_texts;
 };
 

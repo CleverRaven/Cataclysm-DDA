@@ -1125,7 +1125,7 @@ action_id input_context::display_menu( bool permit_execute_action )
     if( changed && query_yn( _( "Save changes?" ) ) ) {
         try {
             inp_mngr.save();
-            get_help().load();
+            //FIXME: Reload help?
         } catch( std::exception &err ) {
             popup( _( "saving keybindings failed: %s" ), err.what() );
         }
