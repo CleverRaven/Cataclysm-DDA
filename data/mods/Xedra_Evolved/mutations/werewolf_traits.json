@@ -114,25 +114,85 @@
     "activated_is_setup": true,
     "cost": 1,
     "time": 30,
+    "activated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON",
+    "deactivated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF"
+  },
+  {
+    "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE",
+    "name": { "str": "Sense the Outsider", "//~": "NO_I18N" },
+    "points": 2,
+    "description": { "str": "The active trait for Sense the Outsider. This should not be player-visible.", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
     "enchantments": [
       {
-        "condition": "ACTIVE",
-        "values": [
+        "condition": {
+          "or": [
+            { "npc_has_species": "ARVORE" },
+            { "npc_has_species": "CHANGELING" },
+            { "npc_has_species": "IERDE" },
+            { "npc_has_species": "HOMULLUS" },
+            { "npc_has_species": "SALAMANDER" },
+            { "npc_has_species": "SYLPH" },
+            { "npc_has_species": "UNDINE" }
+          ]
+        },
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_FAE",
-            "add": {
+            "distance": {
               "math": [
                 "min( (10 + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ), 35)"
               ]
-            }
-          },
+            },
+            "descriptions": [ { "id": "moving_creature", "text": "You sense a creature of Faerie." } ]
+          }
+        ]
+      },
+      {
+        "condition": { "or": [ { "npc_has_species": "PLANT" }, { "npc_has_species": "MIGO" }, { "npc_has_species": "FUNGUS" } ] },
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_NETHER",
-            "add": {
+            "distance": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ), 35)"
+              ]
+            },
+            "descriptions": [ { "id": "moving_creature", "text": "You sense an alien being." } ]
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "npc_has_species": "NETHER" },
+            { "npc_has_species": "nether_player_hate" },
+            { "npc_has_species": "HORROR" },
+            { "npc_has_species": "ABOMINATION" }
+          ]
+        },
+        "special_vision": [
+          {
+            "distance": {
               "math": [
                 "min( (10 + (werewolf_tier_three_traits() * 0.3) + (werewolf_tier_four_traits() * 0.45) + (werewolf_tier_five_traits() * 0.6) ), 50)"
               ]
-            }
+            },
+            "descriptions": [ { "id": "moving_creature", "text": "You sense an otherworldly horror." } ]
+          }
+        ]
+      },
+      {
+        "condition": { "or": [ { "npc_has_species": "VAMPIRE" }, { "npc_has_species": "RENFIELD" } ] },
+        "special_vision": [
+          {
+            "distance": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.3) + (werewolf_tier_four_traits() * 0.45) + (werewolf_tier_five_traits() * 0.6) ), 50)"
+              ]
+            },
+            "descriptions": [ { "id": "moving_creature", "text": "You sense one of the blood-drinkers or their minions." } ]
           }
         ]
       }
