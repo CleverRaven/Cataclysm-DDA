@@ -56,7 +56,15 @@
           "t_shrub_strawberry": 1,
           "t_shrub_grape": 1
         },
-        "t_region_shrub_swamp": { "t_fern": 2, "t_shrub_raspberry": 2, "t_shrub_blueberry": 2, "t_shrub_huckleberry": 1, "t_shrub_rose": 1 },
+        "t_region_shrub_swamp": {
+          "t_fern": 2,
+          "t_shrub_raspberry": 2,
+          "t_shrub_chokeberry": 2,
+          "t_shrub_blueberry": 2,
+          "t_shrub_huckleberry": 1,
+          "t_shrub_spicebush": 1,
+          "t_shrub_rose": 1
+        },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
           "t_shrub_strawberry": 6,
@@ -66,7 +74,15 @@
           "t_shrub_huckleberry": 2,
           "t_shrub_peanut": 1
         },
-        "t_region_shrub_decorative": { "t_shrub": 30, "t_fern": 5, "t_shrub_rose": 20, "t_shrub_hydrangea": 20, "t_shrub_lilac": 20, "t_bamboo_long": 5 },
+        "t_region_shrub_decorative": {
+          "t_shrub": 30,
+          "t_fern": 5,
+          "t_shrub_rose": 20,
+          "t_shrub_hydrangea": 20,
+          "t_shrub_lilac": 20,
+          "t_shrub_chokeberry": 15,
+          "t_bamboo_long": 5
+        },
         "t_region_shrub": { "t_region_shrub_decorative": 60, "t_underbrush": 10, "t_region_shrub_fruit": 30 },
         "t_region_tree_forest_dense": {
           "t_tree": 18,
