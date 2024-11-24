@@ -789,7 +789,7 @@ class game
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
         void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                         const tripoint &offset ) const;
+                         const tripoint_rel_ms &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
@@ -865,7 +865,7 @@ class game
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Handle shifting through terrain and walls, with distance defined by enchantment.
         bool phasing_move_enchant( const tripoint &dest, int phase_distance = 0 );
-        bool can_move_furniture( tripoint fdest, const tripoint &dp );
+        bool can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp );
         // Regular movement. Returns false if it failed for any reason
         // TODO: Get rid of untyped overload
         bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
@@ -915,7 +915,7 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp, bool via_ramp );
+        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -945,8 +945,8 @@ class game
         */
         bool warn_player_maybe_anger_local_faction( bool really_bad_offense = false,
                 bool asking_for_public_goods = false );
-        int grabbed_furn_move_time( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
+        int grabbed_furn_move_time( const tripoint_rel_ms &dp );
+        bool grabbed_furn_move( const tripoint_rel_ms &dp );
 
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
@@ -968,7 +968,10 @@ class game
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
+        // TODO: Get rid of untyped overload.
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint_bub_ms &dest_loc,
+                size_t max = 0 ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc,
                                     std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point

@@ -1195,7 +1195,7 @@ void monster::move()
             }
 
             // Try to shove vehicle out of the way
-            shove_vehicle( destination.raw(), candidate );
+            shove_vehicle( destination, tripoint_bub_ms( candidate ) );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
@@ -2366,8 +2366,8 @@ int monster::turns_to_reach( const point &p )
     return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
 }
 
-void monster::shove_vehicle( const tripoint &remote_destination,
-                             const tripoint &nearby_destination )
+void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
+                             const tripoint_bub_ms &nearby_destination )
 {
     map &here = get_map();
     if( this->has_flag( mon_flag_PUSH_VEH ) && !is_hallucination() ) {
@@ -2422,7 +2422,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
-                const tripoint_rel_ms destination_delta( -nearby_destination + remote_destination );
+                const tripoint_rel_ms destination_delta( remote_destination - nearby_destination );
                 const tripoint_rel_ms shove_destination( clamp( destination_delta.x(), -1, 1 ),
                         clamp( destination_delta.y(), -1, 1 ),
                         clamp( destination_delta.z(), -1, 1 ) );

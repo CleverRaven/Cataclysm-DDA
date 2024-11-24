@@ -280,7 +280,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
     // Draw the explosion, but only if the explosion center is within the reality bubble
     map &bubble_map = get_map();
     if( bubble_map.inbounds( m->getglobal( p ) ) ) {
-        std::map<tripoint, nc_color> explosion_colors;
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
             const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
 
@@ -299,10 +299,10 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                 col = c_yellow;
             }
 
-            explosion_colors[bubble_pos.raw()] = col;
+            explosion_colors[bubble_pos] = col;
         }
 
-        draw_custom_explosion( get_player_character().pos(), explosion_colors );
+        draw_custom_explosion( explosion_colors );
     }
 
     creature_tracker &creatures = get_creature_tracker();

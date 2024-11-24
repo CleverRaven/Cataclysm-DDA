@@ -4436,7 +4436,7 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
     if( prompt.ret >= 0 ) {
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
-        p->invoke_item( mods[prompt.ret], "transform", pnt );
+        p->invoke_item( mods[prompt.ret], "transform", tripoint_bub_ms( pnt ) );
         it.on_contents_changed();
         return 0;
     }
@@ -5228,19 +5228,19 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint> dir = choose_direction( string_format(
-                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( string_format(
+                _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return std::nullopt;
     }
-    const tripoint direction = *dir;
+    const tripoint_rel_ms direction = *dir;
 
     map &here = get_map();
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint_bub_ms center = p->pos_bub() + tripoint( ( radius + 1 ) * direction.x,
-                                   ( radius + 1 ) * direction.y, 0 );
+    const tripoint_bub_ms center = p->pos_bub() + point_rel_ms( ( radius + 1 ) * direction.x(),
+                                   ( radius + 1 ) * direction.y() );
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
