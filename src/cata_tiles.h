@@ -143,14 +143,21 @@ class texture
         }
 };
 
-class layer_variant
+/**
+* Holds weighted map of sprites for contextual tile layering
+* e.g. different sprites for item "pen" on "f_desk"
+*/
+class layer_context_sprites
 {
     public:
         std::string id;
         std::map<std::string, int> sprite;
+        //draw order is sorted by layer
         int layer;
         point offset;
         int total_weight;
+        //if set, appends to the "item+variant" name for item variant handling
+        std::string append_variant;
 };
 
 class tileset
@@ -201,8 +208,8 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<layer_variant>> item_layer_data;
-        std::unordered_map<std::string, std::vector<layer_variant>> field_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> item_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> field_layer_data;
 
         void clear();
 

@@ -893,60 +893,80 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
             else if( item.has_array( "context" ) ) {
                 context = item.get_array( "context" ).next_value().get_string();
             }
-            std::vector<layer_variant> item_variants;
-            std::vector<layer_variant> field_variants;
+            std::vector<layer_context_sprites> item_layers;
+            std::vector<layer_context_sprites> field_layers;
             if( item.has_array( "item_variants" ) ) {
                 for( const JsonObject vars : item.get_array( "item_variants" ) ) {
                     if( vars.has_member( "item" ) && vars.has_array( "sprite" ) && vars.has_member( "layer" ) ) {
-                        layer_variant v;
-                        v.id = vars.get_string( "item" );
+                        layer_context_sprites lcs;
+                        lcs.id = vars.get_string( "item" );
 
-                        v.layer = vars.get_int( "layer" );
-                        v.offset = point( vars.get_int( "offset_x", 0 ), vars.get_int( "offset_y", 0 ) );
+                        lcs.layer = vars.get_int( "layer" );
+                        point offset;
+                        if( vars.has_member( "offset_x" ) ) {
+                            offset.x = vars.get_int( "offset_x" );
+                        }
+                        if( vars.has_member( "offset_y" ) ) {
+                            offset.y = vars.get_int( "offset_y" );
+                        }
+                        lcs.offset = offset;
 
                         int total_weight = 0;
                         for( const JsonObject sprites : vars.get_array( "sprite" ) ) {
                             std::string id = sprites.get_string( "id" );
                             int weight = sprites.get_int( "weight", 1 );
-                            v.sprite.emplace( id, weight );
+                            lcs.sprite.emplace( id, weight );
+                            if( sprites.has_string( "append_variants" ) ) {
+                                lcs.append_variant = sprites.get_string( "append_variants" );
+                                if( lcs.append_variant.empty() ) {
+                                    config.throw_error( "append_variants cannot be empty string" );
+                                }
+                            }
 
                             total_weight += weight;
                         }
-                        v.total_weight = total_weight;
-                        item_variants.push_back( v );
+                        lcs.total_weight = total_weight;
+                        item_layers.push_back( lcs );
                     } else {
-                        config.throw_error( "item_variants configured incorrectly" );
+                        config.throw_error( "items configured incorrectly" );
                     }
                 }
                 // sort them based on layering so we can draw them correctly
-                std::sort( item_variants.begin(), item_variants.end(), []( const layer_variant & a,
-                const layer_variant & b ) {
+                std::sort( item_layers.begin(), item_layers.end(), []( const layer_context_sprites & a,
+                const layer_context_sprites & b ) {
                     return a.layer < b.layer;
                 } );
-                ts.item_layer_data.emplace( context, item_variants );
+                ts.item_layer_data.emplace( context, item_layers );
             }
             if( item.has_array( "field_variants" ) ) {
                 for( const JsonObject vars : item.get_array( "field_variants" ) ) {
                     if( vars.has_member( "field" ) && vars.has_array( "sprite" ) ) {
-                        layer_variant v;
-                        v.id = vars.get_string( "field" );
-                        v.offset = point( vars.get_int( "offset_x", 0 ), vars.get_int( "offset_y", 0 ) );
+                        layer_context_sprites lcs;
+                        lcs.id = vars.get_string( "field" );
+                        point offset;
+                        if( vars.has_member( "offset_x" ) ) {
+                            offset.x = vars.get_int( "offset_x" );
+                        }
+                        if( vars.has_member( "offset_y" ) ) {
+                            offset.y = vars.get_int( "offset_y" );
+                        }
+                        lcs.offset = offset;
 
                         int total_weight = 0;
                         for( const JsonObject sprites : vars.get_array( "sprite" ) ) {
                             std::string id = sprites.get_string( "id" );
                             int weight = sprites.get_int( "weight", 1 );
-                            v.sprite.emplace( id, weight );
+                            lcs.sprite.emplace( id, weight );
 
                             total_weight += weight;
                         }
-                        v.total_weight = total_weight;
-                        field_variants.push_back( v );
+                        lcs.total_weight = total_weight;
+                        field_layers.push_back( lcs );
                     } else {
-                        config.throw_error( "field_variants configured incorrectly" );
+                        config.throw_error( "fields configured incorrectly" );
                     }
                 }
-                ts.field_layer_data.emplace( context, field_variants );
+                ts.field_layer_data.emplace( context, field_layers );
             }
         } else {
             config.throw_error( "layering configured incorrectly" );
@@ -3627,7 +3647,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             get_tile_values( fld.to_i(), neighborhood, subtile, rotation, 0 );
 
             // go through all the layer variants
-            for( const layer_variant &layer_var : itt->second ) {
+            for( const layer_context_sprites &layer_var : itt->second ) {
                 if( fld.id().str() == layer_var.id ) {
 
                     // get the sprite to draw
@@ -3659,7 +3679,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         // go through all the layer variants
         auto itt = tileset_ptr->item_layer_data.find( terfurn_key );
         if( itt != tileset_ptr->item_layer_data.end() ) {
-            for( const layer_variant &layer_var : itt->second ) {
+            for( const layer_context_sprites &layer_var : itt->second ) {
                 for( const item &i : tile.get_items() ) {
                     if( i.typeId().str() == layer_var.id ) {
                         // if an item matches draw it and break
@@ -3681,6 +3701,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                         if( i.has_itype_variant() ) {
                             variant = i.itype_variant().id;
+                            if( !layer_var.append_variant.empty() ) {
+                                variant += layer_var.append_variant;
+                            }
                         }
                         // if we have found info on the item go through and draw its stuff
                         draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
