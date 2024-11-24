@@ -223,10 +223,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_JAGGED_CLAWS_ON",
     "condition": { "not": { "u_has_trait": "ARVORE_WOOD_CLAWS_active" } },
-    "effect": [
-      { "u_add_trait": "ARVORE_WOOD_CLAWS_active" },
-      { "u_message": "Your fingers itch as jagged wood rapidly covers them.", "type": "good" }
-    ],
+    "effect": [ { "u_add_trait": "ARVORE_WOOD_CLAWS_active" } ],
     "false_effect": [
       { "u_lose_trait": "ARVORE_WOOD_CLAWS_active" },
       { "u_message": "The jagged wood covering your hands recedes, leaving no trace behind.", "type": "neutral" }
@@ -297,7 +294,7 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_seed_bearer_real" } } ],
+    "effect": [ { "u_spawn_item": "farming_seeds", "count": 1, "use_item_group": true } ],
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth regional seeds.", "type": "bad" } ]
   },
   {
@@ -361,6 +358,16 @@
     "type": "effect_on_condition",
     "id": "EOC_NULL",
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIND_CONTROL_POLLEN_ON",
+    "effect": { "u_add_trait": "ARVORE_MIND_CONTROL_POLLEN_ON" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIND_CONTROL_POLLEN_OFF",
+    "effect": { "u_lose_trait": "ARVORE_MIND_CONTROL_POLLEN_ON" }
   },
   {
     "type": "effect_on_condition",
@@ -519,28 +526,20 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SUN_FOODS_ON_KCAL",
+    "id": "EOC_ARVORE_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
-    "condition": { "math": [ "u_calories() >= 118000" ] },
-    "effect": [  ],
-    "false_effect": {
-      "run_eocs": [
-        {
-          "id": "EOC_SUN_FOODS_ON_KCAL_2",
-          "condition": { "and": [ { "math": [ "u_calories() <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ] },
-          "effect": [ { "math": [ "u_calories()", "+=", "7" ] } ],
-          "false_effect": {
-            "run_eocs": [
-              {
-                "id": "EOC_SUN_FOODS_ON_KCAL_3",
-                "condition": { "math": [ "u_calories() <= 74999" ] },
-                "effect": [ { "math": [ "u_calories()", "+=", "12" ] } ]
-              }
-            ]
-          }
-        }
-      ]
-    }
+    "recurrence": [ "1 minutes", "1 minutes" ],
+    "condition": { "and": [ { "u_has_trait": "ARVORE_SUN_FOODS" }, "is_day", "u_is_outside" ] },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE_SUN_FOODS" } },
+    "effect": [
+      {
+        "if": {
+          "and": [ { "math": [ "u_calories('dont_affect_weariness': true) <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ]
+        },
+        "then": { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "7" ] },
+        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "12" ] } }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -551,7 +550,16 @@
         {
           "id": "EOC_ARVORE_OVERGROWTH_2",
           "condition": { "math": [ "u_val('pos_z') == 0" ] },
-          "effect": [ { "u_cast_spell": { "id": "arvore_overgrowth_spell_real" } } ],
+          "effect": [
+            {
+              "u_transform_radius": {
+                "math": [
+                  "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('intelligence') ) ) )"
+                ]
+              },
+              "ter_furn_transform": "ter_arvore_overgrowth"
+            }
+          ],
           "false_effect": { "u_message": "You must be on the surface and not on a building's upper stories to cast Overgrowth!", "type": "bad" }
         }
       ]
@@ -561,42 +569,95 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING",
-    "condition": "u_is_outside",
+    "condition": "npc_is_outside",
     "effect": [
+      { "npc_message": "Nature's power roars forth in an explosion of vital energy!", "type": "good" },
       {
-        "math": [
-          "u_latest_arvore_embrace_of_verdant_mother_aoe",
-          "=",
-          "( (u_spell_level('arvore_damage_zombies_heal_living') * rng(0.8,1.2)) + rng(1.5,4)) * scaling_factor(u_val('intelligence') )"
-        ]
-      },
-      {
-        "math": [
-          "u_latest_arvore_embrace_of_verdant_mother_damage",
-          "=",
-          " ( (u_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(u_val('intelligence') )"
-        ]
-      },
-      {
-        "run_eocs": [
+        "if": "u_is_npc",
+        "then": [
           {
-            "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING_2",
-            "condition": { "math": [ "u_val('pos_z') == 0" ] },
-            "effect": [
-              { "u_cast_spell": { "id": "arvore_verdant_mother_damage_zombies_and_aliens" } },
-              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_animals" } },
-              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_npcs" } },
-              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_ferals" } }
-            ],
-            "false_effect": {
-              "u_message": "You must be on the surface and not on a building's upper stories to cast Embrace of the Verdant Mother!",
-              "type": "bad"
+            "math": [
+              "u_hp('arm_l')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('arm_r')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('leg_l')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('leg_r')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('torso')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('head')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          }
+        ],
+        "else": [
+          {
+            "if": {
+              "or": [
+                { "u_has_species": "PLANT" },
+                { "u_has_species": "ARVORE" },
+                { "u_has_species": "FERAL" },
+                { "u_has_species": "SPIDER" },
+                { "u_has_species": "CENTIPEDE" },
+                { "u_has_species": "WORM" },
+                { "u_has_species": "INSECT_FLYING" },
+                { "u_has_species": "INSECT" },
+                { "u_has_species": "MOLLUSK" },
+                { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] }
+              ]
+            },
+            "then": {
+              "math": [
+                "u_hp('ALL')",
+                "=",
+                "( (n_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(n_val('intelligence') )"
+              ]
+            },
+            "else": {
+              "u_deal_damage": "biological",
+              "amount": {
+                "math": [
+                  "( (n_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(n_val('intelligence') )"
+                ]
+              }
             }
           }
         ]
       }
-    ],
-    "false_effect": [ { "u_message": "You must be outside to cast Embrace of the Verdant Mother!", "type": "bad" } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -731,8 +792,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_REDUCE_THIRST",
-    "condition": { "math": [ "u_val('thirst') >= -50" ] },
-    "effect": [ { "math": [ "u_val('thirst')", "-=", "1" ] } ]
+    "recurrence": [ "3 minutes", "3 minutes" ],
+    "condition": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" } },
+    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst')", "-=", "1" ] } } ]
   },
   {
     "type": "effect_on_condition",
