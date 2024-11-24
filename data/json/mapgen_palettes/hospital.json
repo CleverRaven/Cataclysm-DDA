@@ -2,6 +2,70 @@
   {
     "type": "palette",
     "id": "hospital",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
+    "parameters": {
+      "metal_doors_lock_type": {
+        "//": "Does hospital use traditional or electronic locks",
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_door_metal_pickable", 1 ], [ "t_door_metal_elocked", 3 ] ] }
+      }
+    },
+    "terrain": {
+      "|": "t_strconc_w",
+      ".": [
+        [ "t_region_groundcover_urban", 10 ],
+        [ "t_region_shrub_decorative", 3 ],
+        [ "t_region_shrub_fruit", 2 ],
+        [ "t_region_shrub", 1 ],
+        [ "t_region_tree_fruit", 2 ],
+        [ "t_region_tree_nut", 2 ],
+        [ "t_region_tree_shade", 1 ]
+      ],
+      ",": "t_region_groundcover_urban",
+      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+      "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+      ":": "t_door_glass",
+      "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
+      "*": [ [ "t_door_c", 1 ], [ "t_door_locked_interior", 2 ] ],
+      "$": { "param": "metal_doors_lock_type", "fallback": "t_door_metal_elocked" },
+      "_": "t_pavement",
+      "˽": "t_pavement_y",
+      ";": "t_sidewalk",
+      "o": "t_wall_glass",
+      "O": "t_curtains"
+    },
+    "furniture": {
+      "a": "f_electron_microscope",
+      "b": "f_CTscan",
+      "c": "f_MRI",
+      "d": "f_scan_bed",
+      "e": "f_anesthetic",
+      "f": "f_dialysis",
+      "g": "f_ventilator",
+      "J": "f_lab_bench",
+      "1": "f_fume_hood",
+      "2": "f_shaker",
+      "3": "f_eyewash",
+      "4": "f_IV_pole",
+      "5": "f_centrifuge",
+      "6": "f_console",
+      "7": "f_HPLC",
+      "8": "f_GC",
+      "9": "f_MS",
+      "0": "f_NMR"
+    },
+    "vehicles": {
+      "^": [
+        { "vehicle": "hospital_bed", "chance": 100, "rotation": 0 },
+        { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 },
+        { "vehicle": "hospital_bed", "chance": 100, "rotation": 180 },
+        { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "hospital",
     "terrain": {
       " ": "t_region_groundcover_urban",
       "#": "t_wall",
@@ -92,7 +156,7 @@
       "˽": "t_pavement_y",
       ";": "t_sidewalk",
       "#": "t_strconc_wall",
-      "+": "t_door_c",
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "|": "t_wall_w",
       "o": "t_laminated_glass",
       "°": "t_flat_roof",
