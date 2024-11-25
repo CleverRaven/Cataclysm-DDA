@@ -7,16 +7,13 @@
 #include <numeric>
 #include <optional>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 #include "action.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "game.h"
 #include "input_context.h"
 #include "json_error.h"
 #include "output.h"
@@ -27,7 +24,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-class JsonArray;
 class JsonObject;
 
 help &get_help()
