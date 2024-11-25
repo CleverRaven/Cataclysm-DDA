@@ -99,7 +99,7 @@ static void update_state( const std::string &context, const std::string &step )
         for( mod_id &some_mod : active_mod_list ) {
             // We haven't migrated mods yet
             // TODO: Move mod migration before this function?
-            if (!some_mod.is_valid()) {
+            if( !some_mod.is_valid() ) {
                 continue;
             }
             const MOD_INFORMATION &mod = *some_mod;
