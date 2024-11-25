@@ -4548,7 +4548,8 @@
     "category": [ "BIRD" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "allowed_items": [ "ALLOWS_TALONS" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",

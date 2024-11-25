@@ -1017,7 +1017,8 @@
     "description": "A chunk of fungal matter from some sort of alien mushroom creature.  Eating unfamiliar mushrooms is a bad idea.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "smoking_result": "dry_veggy_tainted"
+    "smoking_result": "dry_veggy_tainted",
+    "flags": [ "FUNGAL_VECTOR" ]
   },
   {
     "type": "COMESTIBLE",
