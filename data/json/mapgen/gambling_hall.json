@@ -205,7 +205,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_carpet_red",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
       "rows": [
         "     sss                ",
         "    #+-+#               ",
@@ -232,11 +232,11 @@
         "        PPPPPP######    ",
         "                        "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_carpet_red",
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "U": { "param": "linoleum_color", "fallback": "t_linoleum_white" },

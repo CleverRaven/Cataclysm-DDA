@@ -68,17 +68,13 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
+    MELEE_TO_HIT,
     RANGED_DAMAGE,
     RANGED_ARMOR_PENETRATION,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     VISION_RANGE,
-    SIGHT_RANGE_ELECTRIC,
-    MOTION_VISION_RANGE,
-    SIGHT_RANGE_FAE,
-    SIGHT_RANGE_NETHER,
-    SIGHT_RANGE_MINDS,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -270,6 +266,33 @@ class enchantment
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
 
+        struct special_vision_descriptions {
+            std::string id = "infrared_creature";
+            nc_color color = c_red;
+            std::string symbol = "?";
+            translation description;
+            std::function<bool( const_dialogue const & )> condition;
+        };
+
+        struct special_vision {
+            std::vector<special_vision_descriptions> special_vision_descriptions_vector;
+            std::function<bool( const_dialogue const & )> condition;
+            dbl_or_var range;
+            bool precise = false;
+            bool ignores_aiming_cone = false;
+            bool is_empty( const_dialogue &d ) const {
+                return range.evaluate( d ) <= 0;
+            }
+        };
+
+        std::vector<special_vision> special_vision_vector;
+
+        special_vision get_vision( const const_dialogue &d ) const;
+        bool get_vision_can_see( const enchantment::special_vision &vision_struct,
+                                 const_dialogue &d ) const;
+        special_vision_descriptions get_vision_description_struct(
+            const enchantment::special_vision &vision_struct, const_dialogue &d ) const;
+
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
@@ -338,6 +361,26 @@ class enchant_cache : public enchantment
 
         // details of each enchantment that includes them (name and description)
         std::vector<std::pair<std::string, std::string>> details; // NOLINT(cata-serialize)
+
+        using special_vision_descriptions = enchantment::special_vision_descriptions;
+
+        struct special_vision {
+            std::vector<special_vision_descriptions> special_vision_descriptions_vector;
+            std::function<bool( const_dialogue const & )> condition;
+            double range;
+            bool precise = false;
+            bool ignores_aiming_cone = false;
+            bool is_empty() const {
+                return range <= 0;
+            }
+        };
+
+        std::vector<special_vision> special_vision_vector;
+
+        special_vision get_vision( const const_dialogue &d ) const;
+        bool get_vision_can_see( const enchant_cache::special_vision &vision_struct ) const;
+        enchant_cache::special_vision_descriptions get_vision_description_struct(
+            const enchant_cache::special_vision &vision_struct, const_dialogue &d ) const;
 
     private:
         std::map<enchant_vals::mod, double> values_add; // NOLINT(cata-serialize)

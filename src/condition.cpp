@@ -52,6 +52,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
+#include "math_parser_type.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -93,14 +94,16 @@ namespace
 struct deferred_math {
     JsonObject jo;
     std::string str;
-    bool assignment;
+    math_type_t type;
     std::shared_ptr<math_exp> exp;
 
-    deferred_math( JsonObject const &jo_, std::string_view str_, bool ass_ )
-        : jo( jo_ ), str( str_ ), assignment( ass_ ), exp( std::make_shared<math_exp>() ) {
+    deferred_math( JsonObject const &jo_, std::string_view str_, math_type_t type_ )
+        : jo( jo_ ), str( str_ ), type( type_ ), exp( std::make_shared<math_exp>() ) {
 
         jo.allow_omitted_members();
     }
+
+    void _validate_type() const;
 };
 
 struct condition_parser {
@@ -156,9 +159,10 @@ void clear_deferred_math()
     get_deferred_math().swap( empty );
 }
 
-std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view str, bool ass )
+std::shared_ptr<math_exp> &defer_math( JsonObject const &jo, std::string_view str,
+                                       math_type_t type )
 {
-    get_deferred_math().emplace( jo, str, ass );
+    get_deferred_math().emplace( jo, str, type );
     return get_deferred_math().back().exp;
 }
 
@@ -197,7 +201,7 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view membe
         JsonObject jo = jv.get_object();
         if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
+            ret_val.math_val->from_json( jo, "math", math_type_t::ret );
         } else {
             jo.allow_omitted_members();
             ret_val.var_val = read_var_info( jo );
@@ -247,7 +251,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
         JsonObject jo = jv.get_object();
         if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
+            ret_val.math_val->from_json( jo, "math", math_type_t::ret );
         } else {
             jo.allow_omitted_members();
             ret_val.var_val = read_var_info( jo );
@@ -604,12 +608,13 @@ void finalize_conditions()
     while( !dfr.empty() ) {
         deferred_math &math = dfr.front();
         try {
-            math.exp->parse( math.str, math.assignment, false );
-        } catch( std::invalid_argument const &ex ) {
+            math.exp->parse( math.str, false );
+        } catch( math::exception const &ex ) {
             JsonObject jo{ std::move( math.jo ) };
             clear_deferred_math();
             jo.throw_error_at( "math", ex.what() );
         }
+        math._validate_type();
         dfr.pop();
     }
 }
@@ -1131,24 +1136,6 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
     };
 }
 
-conditional_t::func f_has_var( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
-    if( !jo.has_member( "value" ) ) {
-        jo.throw_error( R"(Missing field: "value")" );
-        return []( const_dialogue const & ) {
-            return false;
-        };
-    }
-
-    return [var_name, value, is_npc]( const_dialogue const & d ) {
-        const_talker const *actor = d.const_actor( is_npc );
-        return actor->get_value( var_name ) == value;
-    };
-}
-
 conditional_t::func f_expects_vars( const JsonObject &jo, std::string_view member )
 {
     std::vector<str_or_var> to_check;
@@ -1337,6 +1324,13 @@ conditional_t::func f_is_alive( bool is_npc )
     };
 }
 
+conditional_t::func f_is_warm( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_warm();
+    };
+}
+
 conditional_t::func f_exists( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
@@ -1398,6 +1392,37 @@ conditional_t::func f_player_see( bool is_npc )
             return get_player_view().sees( *c );
         } else {
             return get_player_view().sees( d.const_actor( is_npc )->pos() );
+        }
+    };
+}
+
+conditional_t::func f_see_opposite( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        if( d.const_actor( is_npc )->get_const_creature() &&
+            d.const_actor( !is_npc )->get_const_creature() ) {
+            return d.const_actor( is_npc )->get_const_creature()->sees(
+                       *d.const_actor( !is_npc )->get_const_creature() );
+        } else {
+            return false;
+        }
+    };
+}
+
+conditional_t::func f_see_opposite_coordinates( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        if( d.const_actor( is_npc )->get_const_creature() &&
+            d.const_actor( !is_npc )->get_const_creature() ) {
+            tripoint_bub_ms alpha_pos = d.const_actor( is_npc )->get_const_creature()->pos_bub();
+            tripoint_bub_ms beta_pos = d.const_actor( !is_npc )->get_const_creature()->pos_bub();
+
+            // function is made specifically to bypass light level, and the only way to pick the creature vision distance is affected by light level
+            // hence MAX_VIEW_DISTANCE
+            return get_map().sees( alpha_pos, beta_pos, MAX_VIEW_DISTANCE );
+
+        } else {
+            return false;
         }
     };
 }
@@ -1656,6 +1681,23 @@ conditional_t::func f_one_in_chance( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var range = get_dbl_or_var( jo, member );
+    var_info loc_var_1 = read_var_info( jo.get_object( "loc_1" ) );
+    var_info loc_var_2 = read_var_info( jo.get_object( "loc_2" ) );
+    bool with_fields = true;
+    if( jo.has_bool( "with_fields" ) ) {
+        with_fields = jo.get_bool( "with_fields" );
+    }
+    return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
+        tripoint_bub_ms loc_1 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_1, d, false ) );
+        tripoint_bub_ms loc_2 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_2, d, false ) );
+
+        return get_map().sees( loc_1, loc_2, range.evaluate( d ), with_fields );
+    };
+}
+
 conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
@@ -1832,26 +1874,42 @@ conditional_t::func f_has_faction_trust( const JsonObject &jo, std::string_view 
 
 conditional_t::func f_compare_string( const JsonObject &jo, std::string_view member )
 {
-    str_or_var first;
-    str_or_var second;
-    JsonArray objects = jo.get_array( member );
-    if( objects.size() != 2 ) {
-        jo.throw_error( "incorrect number of values.  Expected 2 in " + jo.str() );
+    // return true if at least two strings match, OR
+
+    std::vector<str_or_var> values;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        values.emplace_back( get_str_or_var( jv, member ) );
     }
 
-    if( objects.has_object( 0 ) ) {
-        first = get_str_or_var( objects.next_value(), member, true );
-    } else {
-        first.str_val = objects.next_string();
-    }
-    if( objects.has_object( 1 ) ) {
-        second = get_str_or_var( objects.next_value(), member, true );
-    } else {
-        second.str_val = objects.next_string();
+    return [values]( const_dialogue const & d ) {
+        std::unordered_set<std::string> seen_values;
+        for( const str_or_var &val : values ) {
+            std::string evaluated_value = val.evaluate( d );
+            if( seen_values.count( evaluated_value ) > 0 ) {
+                return true;
+            }
+            seen_values.insert( evaluated_value );
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_compare_string_match_all( const JsonObject &jo, std::string_view member )
+{
+    // return true if all strings match, AND
+    std::vector<str_or_var> values;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        values.emplace_back( get_str_or_var( jv, member ) );
     }
 
-    return [first, second]( const_dialogue const & d ) {
-        return first.evaluate( d ) == second.evaluate( d );
+    return [values]( const_dialogue const & d ) {
+        std::string first_value = values[0].evaluate( d );
+        for( size_t i = 1; i < values.size(); ++i ) {
+            if( values[i].evaluate( d ) != first_value ) {
+                return false;
+            }
+        }
+        return true;
     };
 }
 
@@ -1893,10 +1951,9 @@ conditional_t::func f_has_ammo()
 conditional_t::func f_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member, eoc_math::type_t::compare );
-    return [math = std::move( math )]( const_dialogue const & d ) {
-        dialogue loosey_goosey( d );
-        return math.act( loosey_goosey );
+    math.from_json( jo, member, math_type_t::compare );
+    return [math = std::move( math )]( const_dialogue const & d ) ->bool {
+        return math.act( d );
     };
 }
 
@@ -2289,7 +2346,7 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
 
     } else if( checked_value == "allies" ) {
         if( is_npc ) {
-            throw std::invalid_argument( "Can't get allies count for NPCs" );
+            throw math::syntax_error( "Can't get allies count for NPCs" );
         }
         return []( const_dialogue const & /* d */ ) {
             return static_cast<double>( g->allies().size() );
@@ -2335,7 +2392,7 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
         };
     }
 
-    throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 namespace
@@ -2419,135 +2476,44 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
             d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
         };
     }
-    throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
-void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
+void deferred_math::_validate_type() const
 {
-    if( type_ != type_t::compare && action >= oper::equal ) {
-        objects.throw_error( "Comparison operators can only be used in conditional statements" );
-    } else if( type_ == type_t::compare && action < oper::equal ) {
-        if( action == oper::assign ) {
-            objects.throw_error(
-                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else if( action != oper::ret ) {
-            objects.throw_error( "Only comparison operators can be used in conditional statements" );
-        }
-    } else if( type_ == type_t::ret && action > oper::ret ) {
-        objects.throw_error( "Only return expressions are allowed in this context" );
-    } else if( type_ != type_t::ret && action == oper::ret ) {
-        objects.throw_error( "Return expression in assignment context has no effect" );
+    math_type_t exp_type = exp->get_type();
+    if( exp_type == math_type_t::assign && type != math_type_t::assign ) {
+        jo.throw_error_at( "math",
+                           R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
+    } else if( exp_type != math_type_t::assign && type == math_type_t::assign ) {
+        jo.throw_error_at( "math", R"(Eval statement in assignment context has no effect)" );
     }
 }
 
-void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t type_ )
+void eoc_math::from_json( const JsonObject &jo, std::string_view member, math_type_t type_ )
 {
     JsonArray const objects = jo.get_array( member );
-    if( objects.size() > 3 ) {
-        jo.throw_error( "Invalid number of args in " + jo.str() );
-        return;
+    std::string combined;
+    for( size_t i = 0; i < objects.size(); i++ ) {
+        combined.append( objects.get_string( i ) );
     }
-
-    std::string const oper = objects.size() >= 2 ? objects.get_string( 1 ) : std::string{};
-
-    if( objects.size() == 1 ) {
-        action = oper::ret;
-    } else if( objects.size() == 2 ) {
-        if( oper == "++" ) {
-            action = oper::increase;
-        } else if( oper == "--" ) {
-            action = oper::decrease;
-        } else {
-            jo.throw_error( "Invalid unary operator in " + jo.str() );
-            return;
-        }
-    } else if( objects.size() == 3 ) {
-        rhs = defer_math( jo, objects.get_string( 2 ), false );
-        if( oper == "=" ) {
-            action = oper::assign;
-        } else if( oper == "+=" ) {
-            action = oper::plus_assign;
-        } else if( oper == "-=" ) {
-            action = oper::minus_assign;
-        } else if( oper == "*=" ) {
-            action = oper::mult_assign;
-        } else if( oper == "/=" ) {
-            action = oper::div_assign;
-        } else if( oper == "%=" ) {
-            action = oper::mod_assign;
-        } else if( oper == "==" ) {
-            action = oper::equal;
-        } else if( oper == "!=" ) {
-            action = oper::not_equal;
-        } else if( oper == "<" ) {
-            action = oper::less;
-        } else if( oper == "<=" ) {
-            action = oper::equal_or_less;
-        } else if( oper == ">" ) {
-            action = oper::greater;
-        } else if( oper == ">=" ) {
-            action = oper::equal_or_greater;
-        } else {
-            jo.throw_error( "Invalid binary operator in " + jo.str() );
-            return;
-        }
-    }
-    _validate_type( objects, type_ );
-    bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
-    lhs = defer_math( jo, objects.get_string( 0 ), lhs_assign );
-    if( action >= oper::plus_assign && action <= oper::decrease ) {
-        mhs = defer_math( jo, objects.get_string( 0 ), false );
-    }
+    exp = defer_math( jo, combined, type_ );
 }
 
-double eoc_math::act( dialogue &d ) const
+template<typename D>
+double eoc_math::act( D &d ) const
 {
-    switch( action ) {
-        case oper::ret:
-            return lhs->eval( d );
-        case oper::assign:
-            lhs->assign( d, rhs->eval( d ) );
-            break;
-        case oper::plus_assign:
-            lhs->assign( d, mhs->eval( d ) + rhs->eval( d ) );
-            break;
-        case oper::minus_assign:
-            lhs->assign( d, mhs->eval( d ) - rhs->eval( d ) );
-            break;
-        case oper::mult_assign:
-            lhs->assign( d, mhs->eval( d ) * rhs->eval( d ) );
-            break;
-        case oper::div_assign:
-            lhs->assign( d, mhs->eval( d ) / rhs->eval( d ) );
-            break;
-        case oper::mod_assign:
-            lhs->assign( d, std::fmod( mhs->eval( d ), rhs->eval( d ) ) );
-            break;
-        case oper::increase:
-            lhs->assign( d, mhs->eval( d ) + 1 );
-            break;
-        case oper::decrease:
-            lhs->assign( d, mhs->eval( d ) - 1 );
-            break;
-        case oper::equal:
-            return static_cast<double>( float_equals( lhs->eval( d ), rhs->eval( d ) ) );
-        case oper::not_equal:
-            return static_cast<double>( !float_equals( lhs->eval( d ), rhs->eval( d ) ) );
-        case oper::less:
-            return lhs->eval( d ) < rhs->eval( d );
-        case oper::equal_or_less:
-            return lhs->eval( d ) <= rhs->eval( d );
-        case oper::greater:
-            return lhs->eval( d ) > rhs->eval( d );
-        case oper::equal_or_greater:
-            return lhs->eval( d ) >= rhs->eval( d );
-        case oper::invalid:
-        default:
-            debugmsg( "unknown eoc math operator %d %s", action, d.get_callstack() );
+    try {
+        return exp->eval( d );
+    } catch( math::exception const &re ) {
+        debugmsg( "%s\n\n%s", re.what(), d.get_callstack() );
     }
 
     return 0;
 }
+
+template double eoc_math::act( dialogue &d ) const;
+template double eoc_math::act( const_dialogue const &d ) const;
 
 static const
 std::vector<condition_parser>
@@ -2588,7 +2554,6 @@ parsers = {
     {"u_query_tile", "npc_query_tile", jarg::member, &conditional_fun::f_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
-    {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
     { "follower_present", jarg::string, &conditional_fun::f_follower_present},
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
@@ -2610,6 +2575,7 @@ parsers = {
     {"u_know_recipe", jarg::member, &conditional_fun::f_u_know_recipe },
     {"one_in_chance", jarg::member | jarg::array, &conditional_fun::f_one_in_chance },
     {"x_in_y_chance", jarg::object, &conditional_fun::f_x_in_y_chance },
+    {"line_of_sight", jarg::member, &conditional_fun::f_line_of_sight },
     {"u_has_worn_with_flag", "npc_has_worn_with_flag", jarg::member, &conditional_fun::f_has_worn_with_flag },
     {"u_has_wielded_with_flag", "npc_has_wielded_with_flag", jarg::member, &conditional_fun::f_has_wielded_with_flag },
     {"u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category", jarg::member, &conditional_fun::f_has_wielded_with_weapon_category },
@@ -2631,6 +2597,7 @@ parsers = {
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
     {"math", jarg::member, &conditional_fun::f_math },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
+    {"compare_string_match_all", jarg::member, &conditional_fun::f_compare_string_match_all },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
     {"test_eoc", jarg::member, &conditional_fun::f_test_eoc },
 };
@@ -2689,6 +2656,7 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_fun::f_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_fun::f_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_fun::f_is_alive },
+    {"u_is_warm", "npc_is_warm", &conditional_fun::f_is_warm },
     {"u_exists", "npc_exists", &conditional_fun::f_exists },
     {"u_is_avatar", "npc_is_avatar", &conditional_fun::f_is_avatar },
     {"u_is_npc", "npc_is_npc", &conditional_fun::f_is_npc },
@@ -2698,6 +2666,8 @@ parsers_simple = {
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
     {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
+    {"u_see_npc", "npc_see_u", &conditional_fun::f_see_opposite },
+    {"u_see_npc_loc", "npc_see_u_loc", &conditional_fun::f_see_opposite_coordinates },
     {"has_alpha", &conditional_fun::f_has_alpha },
     {"has_beta", &conditional_fun::f_has_beta },
 };

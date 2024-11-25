@@ -1856,8 +1856,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             } else if( !available[line].can_craft ||
                        !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
-            } else if( !crafter->check_eligible_containers_for_crafting( *current[line],
-                       batch ? line + 1 : 1 ) ) {
+            } else if( available[line].inv_override == nullptr &&
+                       !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
                 popup( _( "Crafter can't see!" ) );

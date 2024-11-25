@@ -2600,7 +2600,7 @@ void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const i
 void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
 {
 
-    if( !warm_enough_to_plant( get_player_character().pos() ) ) {
+    if( !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
         add_msg( m_info, _( "It is too cold to plant anything now." ) );
         return;
     }

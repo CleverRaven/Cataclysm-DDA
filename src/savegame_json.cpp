@@ -2060,6 +2060,8 @@ void npc::load( const JsonObject &data )
     std::string companion_mission_role;
     time_point companion_mission_t = calendar::turn_zero;
     time_point companion_mission_t_r = calendar::turn_zero;
+    float companion_mission_e = 1.0f;
+    time_duration companion_mission_t_t;
     std::string act_id;
 
     data.read( "marked_for_death", marked_for_death );
@@ -2176,6 +2178,14 @@ void npc::load( const JsonObject &data )
         companion_mission_time_ret = companion_mission_t_r;
     }
 
+    if( data.read( "companion_mission_exertion", companion_mission_e ) ) {
+        companion_mission_exertion = companion_mission_e;
+    }
+
+    if( data.read( "comp_mission_travel_time", companion_mission_t_t ) ) {
+        companion_mission_travel_time = companion_mission_t_t;
+    }
+
     companion_mission_inv.clear();
     if( data.has_member( "companion_mission_inv" ) ) {
         companion_mission_inv.json_load_items( data.get_member( "companion_mission_inv" ) );
@@ -2267,6 +2277,8 @@ void npc::store( JsonOut &json ) const
     json.member( "companion_mission_points", companion_mission_points );
     json.member( "companion_mission_time", companion_mission_time );
     json.member( "companion_mission_time_ret", companion_mission_time_ret );
+    json.member( "companion_mission_exertion", companion_mission_exertion );
+    json.member( "companion_mission_travel_time", companion_mission_travel_time );
     json.member( "companion_mission_inv" );
     companion_mission_inv.json_save_items( json );
     json.member( "restock", restock );
@@ -3343,8 +3355,8 @@ void vehicle::deserialize( const JsonObject &data )
     int mdir = 0;
 
     data.read( "type", type );
-    data.read( "posx", pos.x );
-    data.read( "posy", pos.y );
+    data.read( "posx", pos.x() );
+    data.read( "posy", pos.y() );
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
@@ -3461,8 +3473,8 @@ void vehicle::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    json.member( "posx", pos.x );
-    json.member( "posy", pos.y );
+    json.member( "posx", pos.x() );
+    json.member( "posy", pos.y() );
     json.member( "om_id", om_id );
     json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
     json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );

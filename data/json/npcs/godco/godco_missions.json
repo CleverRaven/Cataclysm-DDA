@@ -339,7 +339,7 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "slimepit_down", "om_special": "Slime Pit", "reveal_radius": 3, "search_range": 280 }
+      "assign_mission_target": { "om_terrain": "slimepit_z0", "om_special": "Slime Pit", "reveal_radius": 3, "search_range": 280 }
     },
     "item": "slime_scrap",
     "count": 3,
@@ -1403,7 +1403,7 @@
     "description": "Find some proof that the representative near the New England Community Church is crooked.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
+    "goal_condition": { "math": [ "freemerch_godco_trader_investigated == 1" ] },
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

@@ -318,16 +318,6 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 }
 #endif
 
-void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area, const std::optional<std::string> &tile_id )
-{
-    std::map<tripoint_bub_ms, nc_color> temp;
-    for( const auto &it : all_area ) {
-        temp.insert( std::pair<tripoint_bub_ms, nc_color>( tripoint_bub_ms( it.first ), it.second ) );
-    }
-    explosion_handler::draw_custom_explosion( temp, tile_id );
-}
-
 void explosion_handler::draw_custom_explosion(
     const std::map<tripoint_bub_ms, nc_color> &all_area, const std::optional<std::string> &tile_id )
 {
@@ -722,34 +712,27 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint &p, const tripoint &center,
                       const std::vector<tripoint> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
-        return;
-    }
-
-    std::vector<tripoint_bub_ms> temp;
-    temp.resize( points.size() );
-    for( const tripoint &it : points ) {
-        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
-        temp.emplace_back( tmp );
-    }
-
-    if( !use_tiles ) {
-        draw_line_curses( *this, tripoint_bub_ms( center ), temp, noreveal );
-        return;
-    }
-
-    tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_target", true );
+    std::vector<tripoint_bub_ms> bub_points;
+    std::transform( points.begin(), points.end(), std::back_inserter( bub_points ),
+    []( const tripoint & t ) {
+        return tripoint_bub_ms( t );
+    } );
+    draw_line( tripoint_bub_ms( p ), tripoint_bub_ms( center ), bub_points, noreveal );
 }
 
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    std::vector<tripoint> raw_points;
-    std::transform( points.begin(), points.end(), std::back_inserter( raw_points ),
-    []( const tripoint_bub_ms & t ) {
-        return t.raw();
-    } );
-    draw_line( p.raw(), center.raw(), raw_points, noreveal );
+    if( !u.sees( p ) ) {
+        return;
+    }
+
+    if( !use_tiles ) {
+        draw_line_curses( *this, center, points, noreveal );
+        return;
+    }
+
+    tilecontext->init_draw_line( p, points, "line_target", true );
 }
 
 #else
@@ -923,7 +906,7 @@ namespace
 void draw_sct_curses( const game &g )
 {
     avatar &player_character = get_avatar();
-    const tripoint_rel_ms off = relative_view_pos( player_character, tripoint_bub_ms( tripoint_zero ) );
+    const tripoint_rel_ms off = relative_view_pos( player_character, tripoint_bub_ms_zero );
 
     for( const scrollingcombattext::cSCT &text : SCT.vSCT ) {
         const int dy = off.y() + text.getPosY();
@@ -964,7 +947,7 @@ namespace
 {
 void draw_zones_curses( const catacurses::window &w, const tripoint_bub_ms &start,
                         const tripoint_bub_ms &end,
-                        const tripoint &offset )
+                        const tripoint_rel_ms &offset )
 {
     if( end.x() < start.x() || end.y() < start.y() || end.z() < start.z() ) {
         return;
@@ -973,14 +956,14 @@ void draw_zones_curses( const catacurses::window &w, const tripoint_bub_ms &star
     nc_color    const col = invert_color( c_light_green );
 
     wattron( w, col );
-    mvwrectf( w, ( start.raw() - offset ).xy(), '~', end.x() - start.x() + 1, end.y() - start.y() + 1 );
+    mvwrectf( w, ( start - offset ).xy().raw(), '~', end.x() - start.x() + 1, end.y() - start.y() + 1 );
     wattroff( w, col );
 }
 } //namespace
 
 #if defined(TILES)
 void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                       const tripoint &offset ) const
+                       const tripoint_rel_ms &offset ) const
 {
     if( use_tiles ) {
         tilecontext->init_draw_zones( start, end, offset );
@@ -990,7 +973,7 @@ void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
 }
 #else
 void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                       const tripoint &offset ) const
+                       const tripoint_rel_ms &offset ) const
 {
     draw_zones_curses( w_terrain, start, end, offset );
 }

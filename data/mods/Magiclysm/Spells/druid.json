@@ -1074,7 +1074,7 @@
       "run_eocs": [
         {
           "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
-          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "condition": { "math": [ "u_val('pos_z') == 0" ] },
           "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
           "false_effect": {
             "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",

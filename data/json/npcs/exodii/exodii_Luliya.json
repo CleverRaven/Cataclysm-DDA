@@ -103,7 +103,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "general_name_u_luliya_name" } ] },
-            { "math": [ "time_since(u_timer_meeting_luliya_music_timer)", ">=", "time('3 d')" ] }
+            { "math": [ "time_since(u_timer_meeting_luliya_music_timer) >= time('3 d')" ] }
           ]
         },
         "topic": "TALK_LULIYA_MUSIC"

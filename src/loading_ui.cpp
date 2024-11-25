@@ -1,6 +1,7 @@
 #include "loading_ui.h"
 
 #include "cached_options.h"
+#include "options.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -125,8 +126,10 @@ static void update_state( const std::string &context, const std::string &step )
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
         gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
 #else
-        std::string splash = read_whole_file( PATH_INFO::title( get_holiday_from_time() ) ).value_or(
-                                 _( "Cataclysm: Dark Days Ahead" ) );
+        std::string splash = PATH_INFO::title( get_holiday_from_time() );
+        if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
+            splash = read_whole_file( splash ).value_or( _( "Cataclysm: Dark Days Ahead" ) );
+        }
         gLUI->splash = string_split( splash, '\n' );
         gLUI->blanks = std::string( TERMX, ' ' );
         for( const std::string &line : gLUI->splash ) {

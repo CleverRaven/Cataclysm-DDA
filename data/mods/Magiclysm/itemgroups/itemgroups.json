@@ -18,7 +18,8 @@
     "extend": {
       "items": [
         { "item": "book_nonf_magic_origin_of_species", "prob": 1 },
-        { "item": "book_nonf_empty_social_history_no_magic", "prob": 3 }
+        { "item": "book_nonf_empty_social_history_no_magic", "prob": 3 },
+        { "item": "book_nonf_history_antimagic_restraints", "prob": 1 }
       ]
     }
   },
@@ -1915,5 +1916,31 @@
     "copy-from": "SUS_hunting_archery",
     "subtype": "collection",
     "extend": { "items": [ { "item": "mbracer_archery", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "mon_zombie_prisoner_death_drops",
+    "copy-from": "mon_zombie_prisoner_death_drops",
+    "subtype": "collection",
+    "//": "All prisoner zombies receive a shackle, as giving one to every prisoner was safer than hoping that no prisoner is able to teleport",
+    "//2": "The default is that the player and NPCs prisoners managed to remove theirs before the game starts.  The player can decide to start with one if they want to add more challenge",
+    "//3": "Lorewise the shackles become inert without a living wearer, so zombies won't have non-inert shackles",
+    "extend": { "items": [ { "item": "mana_leech_shackle_unlocked", "prob": 100 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "prison_weapons",
+    "copy-from": "prison_weapons",
+    "//": "All mana-leech shackles are inert until activated, so they won't ever be found in their active state unless worn by someone alive",
+    "extend": { "items": [ { "group": "mana_leech_shackle_and_unlock_scroll", "prob": 20 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "mana_leech_shackle_and_unlock_scroll",
+    "subtype": "collection",
+    "items": [
+      { "item": "mana_leech_shackle_unlocked", "count": [ 3, 8 ], "prob": 100 },
+      { "item": "mana_leech_unlock_scroll", "count": [ 3, 8 ], "prob": 100 }
+    ]
   }
 ]

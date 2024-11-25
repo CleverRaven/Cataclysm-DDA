@@ -12,8 +12,13 @@
   {
     "type": "enchantment",
     "id": "melee_perk_ench_six_sense",
-    "condition": { "math": [ "u_effect_intensity('perk_insight')", ">", "9" ] },
-    "values": [ { "value": "MOTION_VISION_RANGE", "add": 10 } ]
+    "condition": { "math": [ "u_effect_intensity('perk_insight') > 9" ] },
+    "special_vision": [
+      {
+        "distance": 10,
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Your sixth sense point you here." } ]
+      }
+    ]
   },
   {
     "type": "enchantment",

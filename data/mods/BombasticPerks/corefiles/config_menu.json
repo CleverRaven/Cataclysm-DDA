@@ -18,7 +18,7 @@
       {
         "text": "Yes",
         "effect": { "math": [ "u_no_notifications", "=", "0" ] },
-        "condition": { "math": [ "u_no_notifications", "!=", "0" ] },
+        "condition": { "math": [ "u_no_notifications != 0" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -26,7 +26,7 @@
       {
         "text": "No",
         "effect": { "math": [ "u_no_notifications", "=", "1" ] },
-        "condition": { "math": [ "u_no_notifications", "!=", "1" ] },
+        "condition": { "math": [ "u_no_notifications != 1" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -42,7 +42,7 @@
       {
         "text": "None (0 exp)",
         "effect": { "math": [ "u_exp_per_level", "=", "0" ] },
-        "condition": { "math": [ "u_exp_per_level", "!=", "0" ] },
+        "condition": { "math": [ "u_exp_per_level != 0" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -50,7 +50,7 @@
       {
         "text": "Normal (300 XP)",
         "effect": { "math": [ "u_exp_per_level", "=", "300" ] },
-        "condition": { "math": [ "u_exp_per_level", "!=", "300" ] },
+        "condition": { "math": [ "u_exp_per_level != 300" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -58,7 +58,7 @@
       {
         "text": "Large (1000 XP)",
         "effect": { "math": [ "u_exp_per_level", "=", "1000" ] },
-        "condition": { "math": [ "u_exp_per_level", "!=", "1000" ] },
+        "condition": { "math": [ "u_exp_per_level != 1000" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -66,7 +66,7 @@
       {
         "text": "Very Large (10000 XP)",
         "effect": { "math": [ "u_exp_per_level", "=", "10000" ] },
-        "condition": { "math": [ "u_exp_per_level", "!=", "10000" ] },
+        "condition": { "math": [ "u_exp_per_level != 10000" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -82,7 +82,7 @@
       {
         "text": "Prerequisites",
         "effect": { "math": [ "u_no_prerecs", "=", "0" ] },
-        "condition": { "math": [ "u_no_prerecsl", "!=", "0" ] },
+        "condition": { "math": [ "u_no_prerecsl != 0" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -90,7 +90,7 @@
       {
         "text": "No Prerequisites",
         "effect": { "math": [ "u_no_prerecs", "=", "1" ] },
-        "condition": { "math": [ "u_no_prerecsl", "!=", "1" ] },
+        "condition": { "math": [ "u_no_prerecsl != 1" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"

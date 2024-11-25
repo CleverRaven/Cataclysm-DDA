@@ -7,6 +7,7 @@
 #include "item.h"
 #include "itype.h"
 #include "magic_enchantment.h"
+#include "map_helpers.h"
 #include "mutation.h"
 #include "player_helpers.h"
 
@@ -35,6 +36,7 @@ sub_body_part_sub_limb_test_bird_foot_l( "sub_limb_test_bird_foot_l" );
 static const sub_bodypart_str_id
 sub_body_part_sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
 
+static const ter_str_id ter_t_grass( "t_grass" );
 static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
 static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
 static const trait_id trait_DEBUG_TAIL( "DEBUG_TAIL" );
@@ -160,9 +162,18 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
 
 TEST_CASE( "drying_rate", "[character][limb]" )
 {
+    clear_map();
+    map &here = get_map();
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
     const weather_manager weather = get_weather();
+
+    REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
+    CAPTURE( weather.weather_id.c_str() );
+    CAPTURE( units::to_fahrenheit( weather.temperature ) );
+    CAPTURE( weather.weather_precise->humidity );
+
     REQUIRE( body_part_arm_l->drying_rate == 1.0f );
     dude.drench( 100, dude.get_drenching_body_parts(), false );
     REQUIRE( dude.get_part_wetness( body_part_arm_l ) == 200 );
@@ -178,6 +189,8 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     // Birdify, clear water
     clear_character( dude, true );
     create_bird_char( dude );
+    REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
     REQUIRE( body_part_test_bird_wing_l->drying_rate == 2.0f );
     REQUIRE( body_part_test_bird_wing_r->drying_rate == 0.5f );
     REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 0 );

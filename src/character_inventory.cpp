@@ -214,9 +214,11 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
     item_location ret = item_location::nowhere;
+    bool wielded = false;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
             ret = item_location( *this, &weapon );
+            wielded = true;
         } else {
             return ret;
         }
@@ -235,7 +237,9 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     if( keep_invlet ) {
         ret->invlet = it.invlet;
     }
-    ret->on_pickup( *this );
+    if( !wielded ) {
+        ret->on_pickup( *this );
+    }
     cached_info.erase( "reloadables" );
     return ret;
 }

@@ -23,7 +23,7 @@ player_activity veh_shape::start( const tripoint_bub_ms &pos )
 
     cursor_allowed.clear();
     for( const vpart_reference &part : veh.get_all_parts() ) {
-        cursor_allowed.insert( tripoint_bub_ms( part.pos() ) );
+        cursor_allowed.insert( part.pos_bub() );
     }
 
     if( !set_cursor_pos( pos ) ) {

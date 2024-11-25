@@ -122,7 +122,7 @@
             {
               "not": { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
             },
-            { "math": [ "u_portal_storm_recordings_sold", ">", "2" ] }
+            { "math": [ "u_portal_storm_recordings_sold > 2" ] }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"

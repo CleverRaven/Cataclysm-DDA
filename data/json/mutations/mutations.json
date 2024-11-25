@@ -420,7 +420,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
+          "condition": { "math": [ "u_val('morale') < -50" ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
@@ -526,29 +526,10 @@
     "points": 2,
     "vitamin_cost": 160,
     "prereqs": [ "SLIT_NOSTRILS", "BLOODFEEDER" ],
-    "flags": [ "INFRARED" ],
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "not": {
-              "or": [
-                { "u_has_effect": "smoke", "bodypart": "mouth" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "tpollen" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "hay_fever" },
-                "u_is_underwater"
-              ]
-            }
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ]
+    "enchantments": [ "THERMAL_VISION_LEAFNOSE" ]
   },
   {
     "type": "mutation",
@@ -644,7 +625,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "math": [ "u_val('pos_z')", "<", "0" ] },
+        "condition": { "math": [ "u_val('pos_z') < 0" ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -767,7 +748,7 @@
     "description": "You always sleep better surrounded by earth.",
     "category": [ "BATRACHIAN" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
-    "enchantments": [ { "condition": { "math": [ "u_val('pos_z')", "<", "0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
+    "enchantments": [ { "condition": { "math": [ "u_val('pos_z') < 0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
   },
   {
     "type": "mutation",
@@ -2488,7 +2469,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "prereqs": [ "NIGHTVISION3" ],
     "cancels": [ "LIZ_IR" ],
     "category": [ "INSECT", "TROGLOBITE", "SPIDER" ],
@@ -2515,7 +2496,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "types": [ "VISION" ],
     "prereqs": [ "LIZ_EYE" ],
     "category": [ "LIZARD", "RAPTOR" ]
@@ -4567,7 +4548,8 @@
     "category": [ "BIRD" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "allowed_items": [ "ALLOWS_TALONS" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -5237,7 +5219,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC1_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC1" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC1" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
     "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
@@ -5257,7 +5239,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC2_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC2" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC2" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
     "effect": [ { "math": [ "u_pain()", "-=", "4" ] } ]
   },
@@ -5276,7 +5258,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC3_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC3" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC3" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
     "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
   },
@@ -9137,10 +9119,7 @@
     "vitamin_cost": 160,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
-    "enchantments": [
-      { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] },
-      { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] }
-    ],
+    "enchantments": [ "ELECTRIC_VISION", { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] } ],
     "mixed_effect": true
   },
   {
@@ -10493,14 +10472,8 @@
     "category": [ "ALPHA" ],
     "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
     "triggers": [
-      [
-        {
-          "condition": { "or": [ { "math": [ "u_val('morale')", "<", "-75" ] }, { "math": [ "u_val('morale')", "<", "75" ] } ] }
-        }
-      ],
-      [
-        { "condition": { "or": [ { "math": [ "u_val('stim')", "<", "-50" ] }, { "math": [ "u_val('stim')", "<", "50" ] } ] } }
-      ]
+      [ { "condition": { "or": [ { "math": [ "u_val('morale') < -75" ] }, { "math": [ "u_val('morale') < 75" ] } ] } } ],
+      [ { "condition": { "or": [ { "math": [ "u_val('stim') < -50" ] }, { "math": [ "u_val('stim') < 50" ] } ] } } ]
     ],
     "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }
   },
@@ -10516,7 +10489,7 @@
     "points": -1,
     "flags": [ "ASOCIAL2" ],
     "category": [ "ALPHA" ],
-    "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time)", ">", "time('36 h')" ] } } ] ],
+    "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time) > time('36 h')" ] } } ] ],
     "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
     "social_modifiers": { "intimidate": -10, "persuade": -25, "lie": -15 }
   },

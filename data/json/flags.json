@@ -592,6 +592,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POST_UP",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall, like a poster."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
@@ -1544,10 +1549,6 @@
     "id": "MORPHIC",
     "type": "json_flag",
     "info": "This is <info>naturally sized to the body</info>."
-  },
-  {
-    "id": "IR_EFFECT",
-    "type": "json_flag"
   },
   {
     "id": "IS_ARMOR",

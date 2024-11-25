@@ -1269,18 +1269,18 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
     return data.path.back();
 }
 
-std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
+std::vector<std::tuple<point_rel_ms, int, std::string>> vehicle::get_debug_overlay_data() const
 {
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
-    std::vector<std::tuple<point, int, std::string>> ret;
+    std::vector<std::tuple<point_rel_ms, int, std::string>> ret;
     ret.reserve( collision_check_points.size() );
 
     const tripoint_abs_ms veh_pos = global_square_location();
     if( autodrive_local_target != tripoint_abs_ms_zero ) {
-        ret.emplace_back( ( autodrive_local_target - veh_pos ).xy().raw(), catacurses::red, "T" );
+        ret.emplace_back( ( autodrive_local_target - veh_pos ).xy(), catacurses::red, "T" );
     }
     for( const point_abs_ms &pt_elem : collision_check_points ) {
-        ret.emplace_back( pt_elem.raw() - veh_pos.raw().xy(), catacurses::yellow, "C" );
+        ret.emplace_back( pt_elem - veh_pos.xy(), catacurses::yellow, "C" );
     }
 
     if( !active_autodrive_controller ) {
@@ -1294,20 +1294,20 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
             const vehicle_profile &profile = data.profile( dir );
             for( const point &p : profile.occupied_zone ) {
                 if( p.x == 0 && p.y == 0 ) {
-                    ret.emplace_back( p, catacurses::cyan, to_string( dir ) );
+                    ret.emplace_back( point_rel_ms( p ), catacurses::cyan, to_string( dir ) );
                 } else {
-                    ret.emplace_back( p, catacurses::green, "x" );
+                    ret.emplace_back( point_rel_ms( p ), catacurses::green, "x" );
                 }
             }
             for( const point &p : profile.collision_points ) {
-                ret.emplace_back( p, catacurses::red, "o" );
+                ret.emplace_back( point_rel_ms( p ), catacurses::red, "o" );
             }
         } else if( debug_str == "is_obstacle" ) {
             for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
                 for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
                     const bool obstacle = data.is_obstacle[dx][dy];
                     const int color = obstacle ? catacurses::red : catacurses::green;
-                    const point pt = data.view_to_map.transform( point( dx, dy ) ) - veh_pos.raw().xy();
+                    const point_rel_ms pt{ data.view_to_map.transform( point( dx, dy ) ) - veh_pos.raw().xy() };
                     ret.emplace_back( pt, color, obstacle ? "o" : "x" );
                 }
             }
@@ -1318,7 +1318,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
                     const point nav_pt( dx, dy );
                     const bool valid = data.valid_position( tdir, nav_pt );
                     const int color = valid ? catacurses::green : catacurses::red;
-                    const point pt = data.nav_to_map.transform( nav_pt ) - veh_pos.raw().xy();
+                    const point_rel_ms pt{ data.nav_to_map.transform( nav_pt ) - veh_pos.raw().xy() };
                     ret.emplace_back( pt, color, to_string( dir ) );
                 }
             }
@@ -1328,22 +1328,22 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
                 goal_map[addr.get_point()] |= data.nav_to_map.transform( addr.facing_dir ) == dir;
             }
             for( const auto &entry : goal_map ) {
-                const point pt = data.nav_to_map.transform( entry.first ) - veh_pos.raw().xy();
+                const point_rel_ms pt{ data.nav_to_map.transform( entry.first ) - veh_pos.raw().xy() };
                 const int color = entry.second ? catacurses::green : catacurses::yellow + 8;
                 ret.emplace_back( pt, color, "g" );
             }
         } else if( debug_str == "goal_points" ) {
             for( point p : data.goal_points ) {
-                const point pt = data.nav_to_map.transform( p ) - veh_pos.raw().xy();
+                const point_rel_ms pt{ data.nav_to_map.transform( p ) - veh_pos.raw().xy() };
                 ret.emplace_back( pt, catacurses::white, "G" );
             }
         } else if( debug_str == "path" ) {
             for( const navigation_step &step : data.path ) {
-                ret.emplace_back( ( step.pos - veh_pos ).raw().xy(), 8 + catacurses::yellow,
+                ret.emplace_back( ( step.pos - veh_pos ).xy(), 8 + catacurses::yellow,
                                   to_string( step.steering_dir ) );
             }
         } else if( debug_str == "omt" ) {
-            const point offset = ( project_to<coords::ms>( data.current_omt ) - veh_pos ).raw().xy();
+            const point_rel_ms offset = ( project_to<coords::ms>( data.current_omt ) - veh_pos ).xy();
             static const std::vector<point> corners = {point_zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1}};
             for( point corner : corners ) {
                 ret.emplace_back( corner + offset, catacurses::cyan, "+" );

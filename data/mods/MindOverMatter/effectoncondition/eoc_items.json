@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ZENER_DECK",
-    "condition": { "math": [ "u_school_level('CLAIRSENTIENT')", ">=", "10" ] },
+    "condition": { "math": [ "u_school_level('CLAIRSENTIENT') >= 10" ] },
     "effect": [
       {
         "switch": { "math": [ "rand(4)" ] },
@@ -97,7 +97,7 @@
         "run_eocs": [
           {
             "id": "EOC_FORCE_FIELD_GENERATOR_ACTIVATION_2",
-            "condition": { "math": [ "rng(0,99)", ">=", "3" ] },
+            "condition": { "math": [ "rng(0,99) >= 3" ] },
             "effect": [
               { "u_consume_item": "matrix_crystal_drained", "count": 1 },
               { "u_message": "The matrix crystal cracks into pieces as the device activates!", "type": "mixed" },

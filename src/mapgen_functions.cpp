@@ -47,8 +47,6 @@ static const oter_str_id oter_river_se( "river_se" );
 static const oter_str_id oter_river_south( "river_south" );
 static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
-static const oter_str_id oter_slimepit( "slimepit" );
-static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
 static const ter_str_id ter_t_buffer_stop( "t_buffer_stop" );
 static const ter_str_id ter_t_clay( "t_clay" );
@@ -116,16 +114,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            // Old rock behavior, only used around slime pits
-            { "rock", &mapgen_rock_partial },
-
             { "subway_straight",    &mapgen_subway },
             { "subway_curved",      &mapgen_subway },
             // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "subway_end",         &mapgen_subway },
             { "subway_tee",         &mapgen_subway },
             { "subway_four_way",    &mapgen_subway },
-
             { "lake_shore", &mapgen_lake_shore },
             { "ocean_shore", &mapgen_ocean_shore },
             { "ravine_edge", &mapgen_ravine_edge },
@@ -677,28 +671,6 @@ void mapgen_river_curved( mapgendata &dat )
 
     // finally, unrotate the map back to its normal orientation, resulting in the new addition being rotated.
     m->rotate( rot );
-}
-
-void mapgen_rock_partial( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    fill_background( m, ter_t_rock );
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] == oter_slimepit || dat.t_nesw[i] == oter_slimepit_down ) {
-            dat.dir( i ) = 6;
-        } else {
-            dat.dir( i ) = 0;
-        }
-    }
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( rng( 0, dat.n_fac ) > j || rng( 0, dat.s_fac ) > SEEY * 2 - 1 - j ||
-                rng( 0, dat.w_fac ) > i || rng( 0, dat.e_fac ) > SEEX * 2 - 1 - i ) {
-                m->ter_set( point( i, j ), ter_t_rock_floor );
-            }
-        }
-    }
 }
 
 void mapgen_forest( mapgendata &dat )

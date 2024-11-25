@@ -7,7 +7,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_ma_level_up",
-    "condition": { "math": [ "u_ma_available_exp", ">", "u_ma_exp_to_perk" ] },
+    "condition": { "math": [ "u_ma_available_exp > u_ma_exp_to_perk" ] },
     "effect": [
       { "u_message": "Your experience with martial arts has increased!" },
       { "run_eocs": "EOC_give_ma_perk_point" },
@@ -20,7 +20,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_perk_ma_level_up_notification",
-    "condition": { "math": [ "u_no_notifications", "!=", "1" ] },
+    "condition": { "math": [ "u_no_notifications != 1" ] },
     "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
   },
   {

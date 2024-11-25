@@ -31,7 +31,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM",
     "//": "Bleed level here goes up to a little beyond what is possible to stop with your hands.",
-    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l')", "<=", "29" ] },
+    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') <= 29" ] },
     "effect": [
       {
         "run_eocs": [
@@ -90,7 +90,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM",
-    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r')", "<=", "29" ] },
+    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') <= 29" ] },
     "effect": [
       {
         "run_eocs": [
@@ -149,7 +149,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_HEAD",
-    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head')", "<=", "29" ] },
+    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') <= 29" ] },
     "effect": [
       {
         "run_eocs": [
@@ -208,7 +208,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG",
-    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r')", "<=", "29" ] },
+    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') <= 29" ] },
     "effect": [
       {
         "run_eocs": [
@@ -267,7 +267,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG",
-    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r')", "<=", "29" ] },
+    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') <= 29" ] },
     "effect": [
       {
         "run_eocs": [
@@ -326,7 +326,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CAUTERIZE_BODY",
-    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso')", "<=", "29" ] },
+    "condition": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') <= 29" ] },
     "effect": [
       {
         "run_eocs": [
@@ -391,7 +391,7 @@
         "run_eocs": [
           {
             "id": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK_2",
-            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'arm_l')", ">=", "1" ] },
+            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'arm_l') >= 1" ] },
             "effect": [
               {
                 "u_add_effect": "infected",
@@ -422,7 +422,7 @@
         "run_eocs": [
           {
             "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK_2",
-            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'arm_r')", ">=", "1" ] },
+            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'arm_r') >= 1" ] },
             "effect": [
               {
                 "u_add_effect": "infected",
@@ -453,7 +453,7 @@
         "run_eocs": [
           {
             "id": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK_CHECK_2",
-            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'head')", ">=", "1" ] },
+            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'head') >= 1" ] },
             "effect": [
               {
                 "u_add_effect": "infected",
@@ -484,7 +484,7 @@
         "run_eocs": [
           {
             "id": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK_2",
-            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'leg_l')", ">=", "1" ] },
+            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'leg_l') >= 1" ] },
             "effect": [
               {
                 "u_add_effect": "infected",
@@ -514,7 +514,7 @@
       {
         "run_eocs": {
           "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK_2",
-          "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'leg_r')", ">=", "1" ] },
+          "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'leg_r') >= 1" ] },
           "effect": [
             {
               "u_add_effect": "infected",
@@ -544,7 +544,7 @@
         "run_eocs": [
           {
             "id": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK_2",
-            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'torso')", ">=", "1" ] },
+            "condition": { "math": [ "u_effect_intensity('infected', 'bodypart': 'torso') >= 1" ] },
             "effect": [
               {
                 "u_add_effect": "infected",

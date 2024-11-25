@@ -337,8 +337,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.33 } ]
@@ -359,8 +359,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.75 } ]
@@ -381,8 +381,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 1.5 } ]
@@ -524,8 +524,21 @@
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders", "!=", "0" ] } ] },
-        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] } } ]
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders != 0" ] } ] },
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] },
+            "descriptions": [
+              {
+                "id": "moving_creature",
+                "//": "prooly need to separate unagressive creatures, TODO",
+                "symbol": "?",
+                "color": "c_white",
+                "text": "Intruder!"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1255,7 +1268,7 @@
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       }
     ]
@@ -1281,7 +1294,7 @@
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       },
       { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }

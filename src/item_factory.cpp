@@ -1854,6 +1854,7 @@ void Item_factory::init()
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
     add_iuse( "PORTAL", &iuse::portal );
+    add_iuse( "POST_UP", &iuse::post_up );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
@@ -4224,10 +4225,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         if( jrel.has_object( "melee_damage" ) ) {
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
+        if( jrel.has_int( "to_hit" ) ) {
+            def.m_to_hit += jrel.get_int( "to_hit" );
+        }
     }
     def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
     if( jo.has_int( "to_hit" ) ) {
-        assign( jo, "to_hit", def.m_to_hit, strict );
+        mandatory( jo, false, "to_hit", def.m_to_hit );
         def.using_legacy_to_hit = true;
     } else if( jo.has_object( "to_hit" ) ) {
         io::acc_data temp;

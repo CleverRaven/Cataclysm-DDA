@@ -9,7 +9,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_mesmerize')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_mesmerize')" ] }
             ]
           }
         },
@@ -257,7 +257,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_fear')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_fear')" ] }
             ]
           }
         },

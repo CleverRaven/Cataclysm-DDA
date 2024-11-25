@@ -413,7 +413,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     } else {
                         m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     }
-                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                    delete_items_at_mount( *wreckage, vp.mount_pos().raw() ); // delete corpse items
                 }
                 break;
             case 4:
@@ -427,7 +427,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     } else {
                         m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), pos.z(), 1, true );
                     }
-                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                    delete_items_at_mount( *wreckage, vp.mount_pos().raw() ); // delete corpse items
                 }
                 break;
             case 6:
@@ -435,7 +435,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint_bub_ms pos = vp.pos_bub();
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
-                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                    delete_items_at_mount( *wreckage, vp.mount_pos().raw() ); // delete corpse items
                 }
                 break;
             case 7:

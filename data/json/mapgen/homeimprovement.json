@@ -32,14 +32,14 @@
         " ###################### ",
         "         U<UU4          "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_walls_palette", "parametrized_concrete_carpets_palette" ],
       "terrain": {
         "+": "t_door_c",
         " ": "t_region_groundcover_urban",
         ",": "t_concrete",
         ".": "t_thconc_floor",
         "O": "t_window",
-        "r": "t_carpet_concrete_red",
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },

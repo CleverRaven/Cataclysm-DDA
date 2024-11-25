@@ -938,11 +938,11 @@ Each turn, the player's addictions are processed using either the given `effect_
   {
     "type": "effect_on_condition", 
     "id": "EOC_MARLOSS_R_ADDICTION",
-    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
+    "condition": { "math": [ "rand(800) <= addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
     ]
   },
 ```
@@ -3060,7 +3060,8 @@ See [MUTATIONS.md](MUTATIONS.md)
     "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
     "comfort": 0, // Same property affecting furniture and terrain
     "floor_bedding_warmth": -500, // Same property affecting furniture and terrain. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
-    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell()
+    "eocs": [ "EOC_COOL_EOC_TRAP" ], // array of eocs to trigger, only usable with "action": "eocs". The alpha talker is the creature that triggered the trap and the trap's location is passed as a context variable trap_location for use with ranged traps. Items can't currently trigger eoc traps.
+    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell(), only usable with "action": "spell"
     "trigger_weight": "200 g", // If an item with this weight or more is thrown onto the trap, it triggers. Defaults to 500 grams.
     "drops": [ "beartrap" ], // ID of item spawned when disassembled
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ], // UNDODGEABLE means that it can not be dodged, no roll required. AVATAR_ONLY means only the player can trigger this trap.

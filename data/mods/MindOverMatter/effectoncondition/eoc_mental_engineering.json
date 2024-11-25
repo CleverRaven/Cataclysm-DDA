@@ -1141,7 +1141,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_UNCARING_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] },
         { "not": { "u_has_trait": "PSYCHOPATH" } },
         { "not": { "u_has_trait": "PACIFIST" } },
         { "not": { "u_has_trait": "NUMB" } }
@@ -1161,7 +1161,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_UNCARING_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "40" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 40" ] },
         { "u_has_trait": "PSYCHOPATH" },
         { "not": { "u_has_trait": "KILLER" } }
       ]
@@ -1180,7 +1180,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_KILLER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] },
         { "not": { "u_has_trait": "KILLER" } },
         { "u_has_trait": "PSYCHOPATH" }
       ]
@@ -1197,7 +1197,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_KILLER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] }, { "u_has_trait": "KILLER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] }, { "u_has_trait": "KILLER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1210,7 +1210,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PACIFIST_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] }, { "u_has_trait": "PACIFIST" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] }, { "u_has_trait": "PACIFIST" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1225,7 +1225,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NUMB_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
         { "u_has_trait": "THRESH_MEDICAL" },
         { "not": { "u_has_trait": "NUMB" } },
         { "not": { "u_has_trait": "PACIFIST" } },
@@ -1244,7 +1244,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NUMB_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] }, { "u_has_trait": "NUMB" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] }, { "u_has_trait": "NUMB" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1257,7 +1257,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NYCTOPHOBIA_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "NYCTOPHOBIA" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 190" ] }, { "u_has_trait": "NYCTOPHOBIA" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1270,7 +1270,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_VANITY_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "u_has_trait": "VANITY" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "u_has_trait": "VANITY" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1283,7 +1283,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PICKYEATER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "PICKYEATER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "PICKYEATER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1298,7 +1298,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL1_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] },
         { "not": { "u_has_trait": "SOCIAL1" } },
         { "not": { "u_has_trait": "SOCIAL2" } },
         { "not": { "u_has_trait": "AMOG" } },
@@ -1319,7 +1319,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL1_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] }, { "u_has_trait": "SOCIAL1" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] }, { "u_has_trait": "SOCIAL1" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1334,7 +1334,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL2_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "20" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 20" ] },
         { "not": { "u_has_trait": "SOCIAL2" } },
         { "u_has_trait": "SOCIAL1" }
       ]
@@ -1351,7 +1351,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SOCIAL2_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "SOCIAL2" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "SOCIAL2" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1366,7 +1366,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL1_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] },
         { "not": { "u_has_trait": "ASOCIAL1" } },
         { "not": { "u_has_trait": "ASOCIAL2" } },
         { "not": { "u_has_trait": "AMOG" } },
@@ -1387,7 +1387,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL1_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "10" ] }, { "u_has_trait": "ASOCIAL1" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 10" ] }, { "u_has_trait": "ASOCIAL1" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1402,7 +1402,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL2_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "20" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 20" ] },
         { "not": { "u_has_trait": "ASOCIAL2" } },
         { "u_has_trait": "ASOCIAL1" }
       ]
@@ -1419,7 +1419,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ASOCIAL2_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "ASOCIAL2" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "ASOCIAL2" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1434,7 +1434,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_HATES_WATER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
         { "u_has_item": "water" },
         { "u_has_trait": "HATES_WATER" }
       ]
@@ -1453,7 +1453,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_OUTDOORSMAN_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] },
         { "u_has_item": "water" },
         { "not": { "u_has_trait": "OUTDOORSMAN" } },
         { "not": { "u_has_trait": "HATES_WATER" } }
@@ -1473,7 +1473,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_BRAWLER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
         { "u_has_item_category": "guns" },
         { "u_has_trait": "BRAWLER" }
       ]
@@ -1490,7 +1490,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_WAYFARER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "WAYFARER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 190" ] }, { "u_has_trait": "WAYFARER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1503,7 +1503,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NOMAD_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "u_has_trait": "NOMAD" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "u_has_trait": "NOMAD" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1516,7 +1516,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NOMAD2_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "140" ] }, { "u_has_trait": "NOMAD2" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 140" ] }, { "u_has_trait": "NOMAD2" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1529,7 +1529,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NOMAD3_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "NOMAD3" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 190" ] }, { "u_has_trait": "NOMAD3" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1542,7 +1542,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SQUEAMISH_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] }, { "u_has_trait": "SQUEAMISH" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "u_has_trait": "SQUEAMISH" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1557,7 +1557,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PROF_DICEMASTER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
         { "u_has_item": "dnd_handbook" },
         { "not": { "u_has_trait": "PROF_DICEMASTER" } }
       ]
@@ -1575,7 +1575,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PYROMANIA_01",
     "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "not": { "u_has_trait": "PYROMANIA" } } ]
+      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "not": { "u_has_trait": "PYROMANIA" } } ]
     },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
@@ -1589,7 +1589,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PYROMANIA_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "PYROMANIA" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "PYROMANIA" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1604,8 +1604,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_TRUTHTELLER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] },
-        { "math": [ "u_skill('social')", ">=", "3" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] },
+        { "math": [ "u_skill('social') >= 3" ] },
         { "u_has_trait": "TRUTHTELLER" }
       ]
     },
@@ -1623,8 +1623,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_LIAR_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
-        { "math": [ "u_skill('social')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
+        { "math": [ "u_skill('social') >= 6" ] },
         { "not": { "u_has_trait": "LIAR" } },
         { "not": { "u_has_trait": "TRUTHTELLER" } }
       ]
@@ -1641,7 +1641,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_VEGAN_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "u_has_trait": "VEGAN" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "u_has_trait": "VEGAN" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1656,7 +1656,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] },
         { "not": { "u_has_trait": "STRICT_HUMANITARIAN" } },
         { "not": { "u_has_trait": "HERBIVORE" } },
         { "not": { "u_has_trait": "SAPIOVORE" } },
@@ -1678,9 +1678,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_02",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "50" ] }, { "u_has_trait": "STRICT_HUMANITARIAN" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 50" ] }, { "u_has_trait": "STRICT_HUMANITARIAN" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1695,7 +1693,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_CANNIBAL_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "140" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 140" ] },
         { "not": { "u_has_trait": "CANNIBAL" } },
         { "u_has_trait": "STRICT_HUMANITARIAN" },
         { "not": { "u_has_trait": "HERBIVORE" } },
@@ -1717,7 +1715,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_CANNIBAL_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] }, { "u_has_trait": "CANNIBAL" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] }, { "u_has_trait": "CANNIBAL" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1732,8 +1730,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_MOODSWINGS_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
-        { "math": [ "u_spell_level('telepathic_morale')", ">=", "10" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
+        { "math": [ "u_spell_level('telepathic_morale') >= 10" ] },
         { "u_has_trait": "MOODSWINGS" }
       ]
     },
@@ -1749,9 +1747,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SAVANT_01",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "not": { "u_has_trait": "SAVANT" } } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "not": { "u_has_trait": "SAVANT" } } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1764,7 +1760,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SAVANT_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "u_has_trait": "SAVANT" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "u_has_trait": "SAVANT" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1777,7 +1773,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_HOARDER_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] }, { "u_has_trait": "HOARDER" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] }, { "u_has_trait": "HOARDER" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1792,8 +1788,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SCHIZOPHRENIC_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
-        { "math": [ "u_spell_level('telepathic_shield')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
+        { "math": [ "u_spell_level('telepathic_shield') >= 12" ] },
         { "u_has_trait": "SCHIZOPHRENIC" }
       ]
     },
@@ -1811,8 +1807,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SLOWREADER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
-        { "math": [ "u_spell_level('clair_speed_reading')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
+        { "math": [ "u_spell_level('clair_speed_reading') >= 6" ] },
         { "u_has_trait": "SLOWREADER" }
       ]
     },
@@ -1830,8 +1826,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_FASTREADER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
-        { "math": [ "u_spell_level('clair_speed_reading')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
+        { "math": [ "u_spell_level('clair_speed_reading') >= 12" ] },
         { "not": { "u_has_trait": "FASTREADER" } },
         { "not": { "u_has_trait": "SLOWREADER" } },
         { "not": { "u_has_trait": "ILLITERATE" } }
@@ -1849,7 +1845,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_ADDICTIVE_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] }, { "u_has_trait": "ADDICTIVE" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "ADDICTIVE" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1864,7 +1860,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NONADDICTIVE_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "140" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 140" ] },
         { "not": { "u_has_trait": "NONADDICTIVE" } },
         { "not": { "u_has_trait": "ADDICTIVE" } }
       ]
@@ -1882,7 +1878,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_FORGETFUL_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] }, { "u_has_trait": "FORGETFUL" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "FORGETFUL" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1897,7 +1893,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_GOODMEMORY_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 160" ] },
         { "not": { "u_has_trait": "GOODMEMORY" } },
         { "not": { "u_has_trait": "FORGETFUL" } }
       ]
@@ -1916,7 +1912,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PROJUNK_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
         { "not": { "u_has_trait": "PROJUNK" } },
         { "not": { "u_has_trait": "ANTIJUNK" } },
         { "not": { "u_has_trait": "PROJUNK2" } }
@@ -1934,7 +1930,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PROJUNK_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "30" ] }, { "u_has_trait": "PROJUNK" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 30" ] }, { "u_has_trait": "PROJUNK" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1947,7 +1943,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_HATES_BOOKS_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "u_has_trait": "HATES_BOOKS" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "u_has_trait": "HATES_BOOKS" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -1962,7 +1958,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_LOVES_BOOKS_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] },
         { "not": { "u_has_trait": "LOVES_BOOKS" } },
         { "not": { "u_has_trait": "HATES_BOOKS" } },
         { "not": { "u_has_trait": "ILLITERATE" } }
@@ -1982,8 +1978,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SLOWLEARNER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] },
-        { "math": [ "u_spell_level('telepathic_concentration')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] },
+        { "math": [ "u_spell_level('telepathic_concentration') >= 6" ] },
         { "u_has_trait": "SLOWLEARNER" }
       ]
     },
@@ -2001,8 +1997,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_FASTLEARNER_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "180" ] },
-        { "math": [ "u_spell_level('telepathic_concentration')", ">=", "16" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 180" ] },
+        { "math": [ "u_spell_level('telepathic_concentration') >= 16" ] },
         { "not": { "u_has_trait": "FASTLEARNER" } },
         { "not": { "u_has_trait": "SLOWLEARNER" } },
         { "not": { "u_has_trait": "CEPH_MIND" } }
@@ -2020,7 +2016,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_DISORGANIZED_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] }, { "u_has_trait": "DISORGANIZED" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "u_has_trait": "DISORGANIZED" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2035,7 +2031,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_PACKMULE_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "120" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 120" ] },
         { "not": { "u_has_trait": "PACKMULE" } },
         { "not": { "u_has_trait": "DISORGANIZED" } }
       ]
@@ -2054,8 +2050,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_BADTEMPER_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] },
-        { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] },
+        { "math": [ "u_spell_level('telepathic_morale') >= 6" ] },
         { "u_has_trait": "BADTEMPER" }
       ]
     },
@@ -2073,8 +2069,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_OPTIMISTIC_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] },
-        { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] },
+        { "math": [ "u_spell_level('telepathic_morale') >= 12" ] },
         { "not": { "u_has_trait": "OPTIMISTIC" } },
         { "not": { "u_has_trait": "BADTEMPER" } },
         { "not": { "u_has_trait": "SEASONAL_AFFECTIVE" } }
@@ -2092,9 +2088,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SEASONAL_AFFECTIVE_02",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] }, { "u_has_trait": "SEASONAL_AFFECTIVE" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] }, { "u_has_trait": "SEASONAL_AFFECTIVE" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2109,8 +2103,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_UNOBSERVANT_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] },
-        { "math": [ "u_spell_level('clair_see_map')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] },
+        { "math": [ "u_spell_level('clair_see_map') >= 6" ] },
         { "u_has_trait": "UNOBSERVANT" }
       ]
     },
@@ -2128,8 +2122,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_EAGLEEYED_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] },
-        { "math": [ "u_spell_level('clair_see_map')", ">=", "12" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] },
+        { "math": [ "u_spell_level('clair_see_map') >= 12" ] },
         { "not": { "u_has_trait": "EAGLEEYED" } },
         { "not": { "u_has_trait": "UNOBSERVANT" } }
       ]
@@ -2146,9 +2140,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_01",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "80" ] }, { "not": { "u_has_trait": "STYLISH" } } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 80" ] }, { "not": { "u_has_trait": "STYLISH" } } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2161,7 +2153,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_STYLISH_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "40" ] }, { "u_has_trait": "STYLISH" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 40" ] }, { "u_has_trait": "STYLISH" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2176,7 +2168,7 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_MASOCHIST_01",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "100" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 100" ] },
         { "not": { "u_has_trait": "MASOCHIST" } },
         { "not": { "u_has_trait": "MASOCHIST_MED" } },
         { "not": { "u_has_trait": "CENOBITE" } }
@@ -2194,7 +2186,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_MASOCHIST_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "60" ] }, { "u_has_trait": "MASOCHIST" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 60" ] }, { "u_has_trait": "MASOCHIST" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2208,7 +2200,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SPIRITUAL_01",
     "condition": {
-      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "90" ] }, { "not": { "u_has_trait": "SPIRITUAL" } } ]
+      "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 90" ] }, { "not": { "u_has_trait": "SPIRITUAL" } } ]
     },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
@@ -2222,7 +2214,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SPIRITUAL_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "50" ] }, { "u_has_trait": "SPIRITUAL" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 50" ] }, { "u_has_trait": "SPIRITUAL" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2235,7 +2227,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_TABLEMANNERS_02",
-    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "70" ] }, { "u_has_trait": "TABLEMANNERS" } ] },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 70" ] }, { "u_has_trait": "TABLEMANNERS" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
@@ -2250,8 +2242,8 @@
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_INATTENTIVE_02",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "110" ] },
-        { "math": [ "u_spell_level('clair_see_auras')", ">=", "6" ] },
+        { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 110" ] },
+        { "math": [ "u_spell_level('clair_see_auras') >= 6" ] },
         { "u_has_trait": "INATTENTIVE" }
       ]
     },

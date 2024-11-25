@@ -362,7 +362,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__trimmer",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "3" ] },
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 3" ] },
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {

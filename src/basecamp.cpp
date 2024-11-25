@@ -93,6 +93,7 @@ static const time_duration work_day_hours_time = work_day_hours * 1_hours;
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
+    // logic here is duplicated in reverse in basecamp::time_to_food
     if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }

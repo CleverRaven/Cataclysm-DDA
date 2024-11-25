@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_WEAKEN",
-    "condition": { "math": [ "ps_base_str", ">=", "1" ] },
+    "condition": { "math": [ "ps_base_str >= 1" ] },
     "effect": { "math": [ "ps_base_str", "=", "min(ps_base_str - 1, 8)" ] }
   },
   {

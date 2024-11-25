@@ -5,6 +5,8 @@
 #include <memory>
 #include <string_view>
 
+#include "math_parser_type.h"
+
 struct dialogue;
 struct const_dialogue;
 
@@ -21,9 +23,11 @@ class math_exp
         math_exp &operator=( math_exp &&/* other */ ) noexcept;
         explicit math_exp( math_exp_impl impl_ );
 
-        bool parse( std::string_view str, bool assignment = false, bool handle_errors = true );
+        bool parse( std::string_view str, bool handle_errors = true );
+        double eval( dialogue &d ) const;
         double eval( const_dialogue const &d ) const;
-        void assign( dialogue &d, double val ) const;
+
+        math_type_t get_type() const;
 
     private:
         std::unique_ptr<math_exp_impl> impl;
