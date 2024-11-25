@@ -42,7 +42,14 @@
 #endif
 
 // SDL
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#include <SDL2/SDL.h>
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL.h>
+#pragma GCC diagnostic pop
+#endif
 #if !SDL_VERSION_ATLEAST(2,0,17)
 #error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
 #endif
@@ -110,6 +117,13 @@ void ImGui_ImplSDLRenderer2_NewFrame()
 
     if (!bd->FontTexture)
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
+}
+
+std::function<void(const ImFontGlyphToDraw &)> drawFallbackGlyphCallback;
+
+void ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback(std::function<void(const ImFontGlyphToDraw &)> func)
+{
+    drawFallbackGlyphCallback = func;
 }
 
 void ImGui_ImplSDLRenderer2_RenderDrawData(ImDrawData* draw_data, SDL_Renderer* renderer)
@@ -205,6 +219,14 @@ void ImGui_ImplSDLRenderer2_RenderDrawData(ImDrawData* draw_data, SDL_Renderer* 
                     uv, (int)sizeof(ImDrawVert),
                     draw_list->VtxBuffer.Size - pcmd->VtxOffset,
                     idx_buffer + pcmd->IdxOffset, pcmd->ElemCount, sizeof(ImDrawIdx));
+            }
+
+            if(drawFallbackGlyphCallback)
+            {
+                for(const ImFontGlyphToDraw &glyphToDraw : draw_list->FallbackGlyphs)
+                {
+                    drawFallbackGlyphCallback(glyphToDraw);
+                }
             }
         }
     }

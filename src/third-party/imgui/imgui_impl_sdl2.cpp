@@ -91,6 +91,8 @@
 #include "imgui.h"
 #ifndef IMGUI_DISABLE
 #include "imgui_impl_sdl2.h"
+float x_scale = 1.f;
+float y_scale = 1.f;
 
 // Clang warnings with -Weverything
 #if defined(__clang__)
@@ -99,8 +101,16 @@
 #endif
 
 // SDL
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL.h>
+#pragma GCC diagnostic pop
 #include <SDL_syswm.h>
+#endif
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
@@ -113,7 +123,7 @@
 #else
 #define SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE    0
 #endif
-#define SDL_HAS_VULKAN                      SDL_VERSION_ATLEAST(2,0,6)
+//#define SDL_HAS_VULKAN                      SDL_VERSION_ATLEAST(2,0,6)
 #if SDL_HAS_VULKAN
 #include <SDL_vulkan.h>
 #endif
@@ -346,7 +356,7 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
                 return false;
             ImVec2 mouse_pos((float)event->motion.x, (float)event->motion.y);
             io.AddMouseSourceEvent(event->motion.which == SDL_TOUCH_MOUSEID ? ImGuiMouseSource_TouchScreen : ImGuiMouseSource_Mouse);
-            io.AddMousePosEvent(mouse_pos.x, mouse_pos.y);
+            io.AddMousePosEvent(mouse_pos.x * x_scale, mouse_pos.y * y_scale);
             return true;
         }
         case SDL_MOUSEWHEEL:
@@ -390,6 +400,7 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
         {
             if (ImGui_ImplSDL2_GetViewportForWindowID(event->text.windowID) == NULL)
                 return false;
+            io.ClearPreEditText();
             io.AddInputCharactersUTF8(event->text.text);
             return true;
         }
@@ -404,6 +415,9 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
             io.SetKeyEventNativeData(key, event->key.keysym.sym, event->key.keysym.scancode, event->key.keysym.scancode); // To support legacy indexing (<1.87 user code). Legacy backend uses SDLK_*** as indices to IsKeyXXX() functions.
             return true;
         }
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+            ImGui::GetIO().ClearPreEditText();
+            return true;
         case SDL_WINDOWEVENT:
         {
             if (ImGui_ImplSDL2_GetViewportForWindowID(event->window.windowID) == NULL)
@@ -420,13 +434,40 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
                 bd->MouseLastLeaveFrame = 0;
             }
             if (window_event == SDL_WINDOWEVENT_LEAVE)
+            {
                 bd->MouseLastLeaveFrame = ImGui::GetFrameCount() + 1;
+                ImGui::GetIO().ClearPreEditText();
+            }
             if (window_event == SDL_WINDOWEVENT_FOCUS_GAINED)
                 io.AddFocusEvent(true);
             else if (event->window.event == SDL_WINDOWEVENT_FOCUS_LOST)
                 io.AddFocusEvent(false);
+                ImGui::GetIO().ClearPreEditText();
             return true;
         }
+        case SDL_TEXTEDITING: {
+            if(strlen(event->edit.text) > 0)
+            {
+                ImGui::GetIO().SetPreEditText(event->edit.text);
+            }
+            else
+            {
+                io.ClearPreEditText();
+            }
+            break;
+        }
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+        case SDL_TEXTEDITING_EXT: {
+            if( event->editExt.text != nullptr && strlen(event->editExt.text) > 0)
+            {
+                ImGui::GetIO().SetPreEditText( event->editExt.text );
+            }
+            else {
+                ImGui::GetIO().ClearPreEditText();
+            }
+            break;
+        }
+#endif
         case SDL_CONTROLLERDEVICEADDED:
         case SDL_CONTROLLERDEVICEREMOVED:
         {
@@ -591,7 +632,7 @@ void ImGui_ImplSDL2_Shutdown()
     IM_DELETE(bd);
 }
 
-static void ImGui_ImplSDL2_UpdateMouseData()
+static void ImGui_ImplSDL2_UpdateMouseData(float x_scale, float y_scale)
 {
     ImGui_ImplSDL2_Data* bd = ImGui_ImplSDL2_GetBackendData();
     ImGuiIO& io = ImGui::GetIO();
@@ -617,7 +658,7 @@ static void ImGui_ImplSDL2_UpdateMouseData()
             int window_x, window_y, mouse_x_global, mouse_y_global;
             SDL_GetGlobalMouseState(&mouse_x_global, &mouse_y_global);
             SDL_GetWindowPosition(bd->Window, &window_x, &window_y);
-            io.AddMousePosEvent((float)(mouse_x_global - window_x), (float)(mouse_y_global - window_y));
+            io.AddMousePosEvent((float)(mouse_x_global - window_x) * x_scale, (float)(mouse_y_global - window_y) * y_scale);
         }
     }
 }
@@ -755,6 +796,8 @@ static void ImGui_ImplSDL2_UpdateGamepads()
 
 void ImGui_ImplSDL2_NewFrame()
 {
+    x_scale = 1.f;
+    y_scale = 1.f;
     ImGui_ImplSDL2_Data* bd = ImGui_ImplSDL2_GetBackendData();
     IM_ASSERT(bd != nullptr && "Context or backend not initialized! Did you call ImGui_ImplSDL2_Init()?");
     ImGuiIO& io = ImGui::GetIO();
@@ -773,9 +816,7 @@ void ImGui_ImplSDL2_NewFrame()
 #endif
     else
         SDL_GL_GetDrawableSize(bd->Window, &display_w, &display_h);
-    io.DisplaySize = ImVec2((float)w, (float)h);
-    if (w > 0 && h > 0)
-        io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
+    io.DisplaySize = ImVec2((float)display_w, (float)display_h);
 
     // Setup time step (we don't use SDL_GetTicks() because it is using millisecond resolution)
     // (Accept SDL_GetPerformanceCounter() not returning a monotonically increasing value. Happens in VMs and Emscripten, see #6189, #6114, #3644)
@@ -793,8 +834,8 @@ void ImGui_ImplSDL2_NewFrame()
         io.AddMousePosEvent(-FLT_MAX, -FLT_MAX);
     }
 
-    ImGui_ImplSDL2_UpdateMouseData();
-    ImGui_ImplSDL2_UpdateMouseCursor();
+    ImGui_ImplSDL2_UpdateMouseData(x_scale, y_scale);
+    //ImGui_ImplSDL2_UpdateMouseCursor();
 
     // Update game controllers (if enabled and available)
     ImGui_ImplSDL2_UpdateGamepads();
