@@ -611,7 +611,7 @@
             "condition": {
               "or": [
                 { "and": [ { "not": "npc_is_character" }, { "math": [ "n_val('anger') >= 10" ] } ] },
-                { "and": [ "npc_is_character", { "math": [ "n_npc_anger() >= 5" ] } ] }
+                { "and": [ "npc_is_character", "npc_hostile" ] }
               ]
             },
             "distance": {
