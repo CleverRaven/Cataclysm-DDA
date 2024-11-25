@@ -1242,7 +1242,7 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-double calculate_aim_cap_without_target( const Character &you, const tripoint_bub_ms &target )
+static double calculate_aim_cap_without_target( const Character &you, const tripoint_bub_ms &target )
 {
     const int range = rl_dist( you.pos_bub(), target );
     // Get angle of triangle that spans the target square.
