@@ -145,7 +145,7 @@
             "condition": { "math": [ "spider_lair_sealed != 1" ] },
             "effect": [
               { "mapgen_update": "void_spider_lair_entrance_shift", "om_terrain": "void_spider_lair_entrance" },
-              { "math": [ "spider_lair_sealed", "=", "1" ] },
+              { "math": [ "spider_lair_sealed = 1" ] },
               { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
               { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
             ]
@@ -242,7 +242,7 @@
             "effect": [
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },
-              { "math": [ "u_void_spider_nest_disturbed", "=", "1" ] }
+              { "math": [ "u_void_spider_nest_disturbed = 1" ] }
             ]
           },
           {
@@ -301,7 +301,7 @@
             "condition": { "and": [ { "one_in_chance": 3 }, { "math": [ "void_spider_nest_eggs_spawned != 1" ] } ] },
             "effect": [
               { "mapgen_update": "void_spider_lair_eggs", "om_terrain": "void_spider_lair_a2" },
-              { "math": [ "void_spider_nest_eggs_spawned", "=", "1" ] }
+              { "math": [ "void_spider_nest_eggs_spawned = 1" ] }
             ]
           },
           {
@@ -309,7 +309,7 @@
             "condition": { "and": [ { "one_in_chance": 6 }, { "math": [ "void_spider_nest_corpses_spawned != 1" ] } ] },
             "effect": [
               { "mapgen_update": "void_spider_lair_corpses", "om_terrain": "void_spider_lair_a1" },
-              { "math": [ "void_spider_nest_corpses_spawned", "=", "1" ] }
+              { "math": [ "void_spider_nest_corpses_spawned = 1" ] }
             ]
           }
         ]
@@ -372,7 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
+    "effect": [ { "math": [ "void_spider_killed = 1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -380,10 +380,10 @@
     "global": true,
     "//": "Reset in case someone finds a second lair under some extraneous circumstances.",
     "effect": [
-      { "math": [ "spider_lair_sealed", "=", "0" ] },
-      { "math": [ "void_spider_killed", "=", "0" ] },
-      { "math": [ "void_spider_nest_eggs_spawned", "=", "0" ] },
-      { "math": [ "void_spider_nest_corpses_spawned", "=", "0" ] }
+      { "math": [ "spider_lair_sealed = 0" ] },
+      { "math": [ "void_spider_killed = 0" ] },
+      { "math": [ "void_spider_nest_eggs_spawned = 0" ] },
+      { "math": [ "void_spider_nest_corpses_spawned = 0" ] }
     ]
   }
 ]

@@ -94,7 +94,7 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
@@ -105,7 +105,7 @@
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -125,7 +125,7 @@
         "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
@@ -136,7 +136,7 @@
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -157,7 +157,7 @@
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -169,7 +169,7 @@
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -180,7 +180,7 @@
         "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
@@ -190,7 +190,7 @@
         "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
@@ -215,7 +215,7 @@
         "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ]
       },
@@ -226,7 +226,7 @@
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ]
@@ -244,7 +244,7 @@
         "effect": [
           "follow_only",
           { "u_add_var": "general_meeting_barry_following", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ]
       }
@@ -580,7 +580,7 @@
     "end": {
       "effect": [
         "stop_following",
-        { "math": [ "isherwood_barry_rescued", "=", "1" ] },
+        { "math": [ "isherwood_barry_rescued = 1" ] },
         { "u_add_var": "u_saved_barry_isherwood", "value": "yes" }
       ]
     },

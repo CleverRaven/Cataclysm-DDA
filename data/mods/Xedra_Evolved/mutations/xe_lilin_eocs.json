@@ -14,7 +14,7 @@
       {
         "if": { "math": [ "u_lilin_ruach_drained_recently", "==", "1" ] },
         "then": [
-          { "math": [ "u_lilin_ruach_drained_recently", "=", "0" ] },
+          { "math": [ "u_lilin_ruach_drained_recently = 0" ] },
           {
             "u_deal_damage": "biological",
             "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
@@ -96,14 +96,14 @@
     },
     "effect": {
       "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
-      "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "6720" ] },
+      "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 6720" ] },
       "else": {
         "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
-        "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "5040" ] },
+        "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 5040" ] },
         "else": {
           "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
-          "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "3360" ] },
-          "else": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "1680" ] }
+          "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 3360" ] },
+          "else": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 1680" ] }
         }
       }
     }
@@ -163,8 +163,8 @@
             ]
           },
           { "u_add_effect": "effect_gained_lilin_power", "duration": { "math": [ "u_lilin_new_power_delay_timer" ] } },
-          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "=", "0" ] },
-          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "=", "1" ] }
+          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers = 0" ] },
+          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser = 1" ] }
         ]
       }
     ],
@@ -176,7 +176,7 @@
     "required_event": "gains_mutation",
     "eoc_type": "EVENT",
     "condition": { "compare_string": [ "LILIN_DRAIN_RUACH_LONG_DISTANCE", { "context_val": "trait" } ] },
-    "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell')", "=", "-1" ] } ]
+    "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell') = -1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -196,7 +196,7 @@
           {
             "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE_FALLBACK_2",
             "condition": { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell') >= 0" ] },
-            "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell')", "=", "-1" ] } ]
+            "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell') = -1" ] } ]
           }
         ]
       }
@@ -250,16 +250,16 @@
     "effect": [
       {
         "if": { "not": { "u_has_any_trait": [ "LILIN_HOLD_MORE_RUACH", "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ] } },
-        "then": { "math": [ "u_ruach_amount_for_graph", "=", "min(u_vitamin('lilin_ruach_vitamin'),1680)" ] },
+        "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),1680)" ] },
         "else": {
           "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
-          "then": { "math": [ "u_ruach_amount_for_graph", "=", "min(u_vitamin('lilin_ruach_vitamin'),3360)" ] },
+          "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),3360)" ] },
           "else": {
             "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
-            "then": { "math": [ "u_ruach_amount_for_graph", "=", "min(u_vitamin('lilin_ruach_vitamin'),5040)" ] },
+            "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),5040)" ] },
             "else": {
               "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
-              "then": { "math": [ "u_ruach_amount_for_graph", "=", "min(u_vitamin('lilin_ruach_vitamin'),6720)" ] }
+              "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),6720)" ] }
             }
           }
         }
@@ -271,7 +271,7 @@
           "1680 + (u_has_trait('LILIN_HOLD_MORE_RUACH') * 1680) + (u_has_trait('LILIN_HOLD_MORE_RUACH_2') * 3360) + (u_has_trait('LILIN_HOLD_MORE_RUACH_3') * 5040)"
         ]
       },
-      { "math": [ "u_ruach_days_left", "=", "trunc(u_vitamin('lilin_ruach_vitamin') / 240)" ] },
+      { "math": [ "u_ruach_days_left = trunc(u_vitamin('lilin_ruach_vitamin') / 240)" ] },
       { "run_eocs": "EOC_LILIN_UPDATE_MAX_RUACH_LEVELS" }
     ]
   },
@@ -284,8 +284,8 @@
     "effect": [
       {
         "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
-        "then": { "math": [ "u_lilit_is_in_civilization", "=", "1" ] },
-        "else": { "math": [ "u_lilit_is_in_civilization", "=", "0" ] }
+        "then": { "math": [ "u_lilit_is_in_civilization = 1" ] },
+        "else": { "math": [ "u_lilit_is_in_civilization = 0" ] }
       }
     ]
   },

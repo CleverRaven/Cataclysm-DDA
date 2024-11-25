@@ -8,8 +8,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "effect": [
       { "math": [ "timeawayfromhome", "++" ] },
-      { "math": [ "readablepulsesleft", "=", "9 - timeawayfromhome" ] },
-      { "math": [ "readablesicknessintervals", "=", "currentpulselength / 60" ] },
+      { "math": [ "readablepulsesleft = 9 - timeawayfromhome" ] },
+      { "math": [ "readablesicknessintervals = currentpulselength / 60" ] },
       { "run_eocs": [ "EOC_sicknesscheck" ] }
     ]
   },

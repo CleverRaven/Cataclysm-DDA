@@ -107,103 +107,82 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_1",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "1" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 1" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_2",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "2" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 2" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_3",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "3" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 3" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_4",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "4" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 4" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_5",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "5" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 5" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_6",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "6" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 6" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_7",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "7" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 7" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_8",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "8" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 8" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_9",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "9" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
+    "effect": [ { "math": [ "u_LIXA_entry = 9" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_10",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "10" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 10" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_11",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "11" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 11" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_12",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "12" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 12" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_13",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "13" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 13" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_14",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "14" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 14" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_15",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "15" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 15" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_16",
-    "effect": [
-      { "math": [ "u_LIXA_entry", "=", "16" ] },
-      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
-    ]
+    "effect": [ { "math": [ "u_LIXA_entry = 16" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -240,8 +219,8 @@
         "u_message": "You step into a space that unfolds around you, becoming endless and completely flat.  Every side of every surface is on display.  You look down at your hands; you can see the front, the back, the insides and outsides of every vein and bone, all in the same place on one surface.  You can't imagine what has happened to your eyes to let you understand what you are seeing.  Or your brain.",
         "popup": true
       },
-      { "math": [ "u_LIXA_unfold_level", "=", "0" ] },
-      { "math": [ "u_LIXA_hallway_direction", "=", "2" ] },
+      { "math": [ "u_LIXA_unfold_level = 0" ] },
+      { "math": [ "u_LIXA_hallway_direction = 2" ] },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_A" },
         "target_params": { "om_terrain": "LIXA_device_unfolded_A", "search_range": 400, "min_distance": 0, "z": 0 },
@@ -1317,162 +1296,162 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_1",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "1" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 1" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_1",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "1" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 1" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_2",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "2" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 2" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_2",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "2" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 2" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_3",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "3" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 3" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_3",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "3" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 3" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_4",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "4" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 4" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_4",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "4" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 4" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_5",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "5" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 5" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_5",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "5" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 5" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_6",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "6" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 6" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_6",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "6" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 6" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_7",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "7" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 7" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_7",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "7" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 7" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_8",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "8" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 8" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_8",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "8" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 8" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_9",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "9" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 9" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_9",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "9" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 9" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_10",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "10" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 10" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_10",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "10" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 10" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_11",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "11" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 11" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_11",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "11" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 11" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_12",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "12" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 12" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_12",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "12" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 12" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_13",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "13" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 13" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_13",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "13" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 13" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_14",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "14" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 14" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_14",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "14" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 14" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_15",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "15" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 15" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_15",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "15" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 15" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK_SETUP_16",
-    "effect": [ { "math": [ "u_LIXA_tp_back", "=", "16" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_back = 16" ] }, { "run_eocs": "EOC_LIXA_BACK" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD_SETUP_16",
-    "effect": [ { "math": [ "u_LIXA_tp_forward", "=", "16" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
+    "effect": [ { "math": [ "u_LIXA_tp_forward = 16" ] }, { "run_eocs": "EOC_LIXA_FORWARD" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1556,7 +1535,7 @@
           }
         ]
       },
-      { "math": [ "u_LIXA_hallway_direction", "=", "1" ] }
+      { "math": [ "u_LIXA_hallway_direction = 1" ] }
     ]
   },
   {
@@ -1641,7 +1620,7 @@
           }
         ]
       },
-      { "math": [ "u_LIXA_hallway_direction", "=", "2" ] }
+      { "math": [ "u_LIXA_hallway_direction = 2" ] }
     ]
   },
   {
@@ -1650,10 +1629,10 @@
     "condition": { "math": [ "u_LIXA_entry != 0" ] },
     "effect": [
       { "mapgen_update": "LIXA_goodbye_cards", "target_var": { "global_val": "LIXA_chamber_3" } },
-      { "math": [ "u_LIXA_unfold_level", "=", "0" ] },
-      { "math": [ "u_LIXA_tp_forward", "=", "0" ] },
-      { "math": [ "u_LIXA_tp_back", "=", "0" ] },
-      { "math": [ "u_LIXA_entry", "=", "0" ] }
+      { "math": [ "u_LIXA_unfold_level = 0" ] },
+      { "math": [ "u_LIXA_tp_forward = 0" ] },
+      { "math": [ "u_LIXA_tp_back = 0" ] },
+      { "math": [ "u_LIXA_entry = 0" ] }
     ]
   },
   {
@@ -1786,13 +1765,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_0",
-    "effect": [ { "math": [ "u_LIXA_unfold_level", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_LIXA_unfold_level = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_1",
     "effect": [
-      { "math": [ "u_LIXA_unfold_level", "=", "2" ] },
+      { "math": [ "u_LIXA_unfold_level = 2" ] },
       { "mapgen_update": "spawn_LIXA_1a", "target_var": { "global_val": "LIXA_unfold_A" } },
       { "mapgen_update": "spawn_LIXA_1b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
@@ -1801,7 +1780,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_2",
     "effect": [
-      { "math": [ "u_LIXA_unfold_level", "=", "3" ] },
+      { "math": [ "u_LIXA_unfold_level = 3" ] },
       { "mapgen_update": "spawn_LIXA_2a", "target_var": { "global_val": "LIXA_unfold_A" } },
       { "mapgen_update": "spawn_LIXA_2b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
@@ -1810,7 +1789,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_3",
     "effect": [
-      { "math": [ "u_LIXA_unfold_level", "=", "4" ] },
+      { "math": [ "u_LIXA_unfold_level = 4" ] },
       { "mapgen_update": "spawn_LIXA_3a", "target_var": { "global_val": "LIXA_unfold_A" } },
       { "mapgen_update": "spawn_LIXA_3b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
@@ -1819,7 +1798,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_4",
     "effect": [
-      { "math": [ "u_LIXA_unfold_level", "=", "5" ] },
+      { "math": [ "u_LIXA_unfold_level = 5" ] },
       { "mapgen_update": "spawn_LIXA_4a", "target_var": { "global_val": "LIXA_unfold_A" } },
       { "mapgen_update": "spawn_LIXA_4b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
@@ -1828,7 +1807,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_5",
     "effect": [
-      { "math": [ "u_LIXA_unfold_level", "=", "6" ] },
+      { "math": [ "u_LIXA_unfold_level = 6" ] },
       { "mapgen_update": "spawn_LIXA_5a", "target_var": { "global_val": "LIXA_unfold_A" } },
       { "mapgen_update": "spawn_LIXA_5b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
@@ -1837,7 +1816,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_6",
     "effect": [
-      { "math": [ "u_LIXA_unfold_level", "=", "6" ] },
+      { "math": [ "u_LIXA_unfold_level = 6" ] },
       { "mapgen_update": "spawn_LIXA_6a", "target_var": { "global_val": "LIXA_unfold_A" } },
       { "mapgen_update": "spawn_LIXA_6b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]

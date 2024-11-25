@@ -131,7 +131,7 @@
       {
         "sentinel": "first_meeting_effects",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
-        "effect": [ { "math": [ "u_timer_first_meeting_u_met_Rubik", "=", "time('now')" ] } ]
+        "effect": [ { "math": [ "u_timer_first_meeting_u_met_Rubik = time('now')" ] } ]
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
@@ -433,13 +433,13 @@
       {
         "text": "I paid a visit to the bunker.",
         "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } ] },
-        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
+        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01 = 1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {
         "text": "I found the warehouse.",
         "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } ] },
-        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
+        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found = 1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
       { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -578,7 +578,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 30000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           {
             "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
             "value": "yank_out_all_bionics_from_prototype"
@@ -593,7 +593,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 20000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -605,7 +605,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 9500 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           {
             "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
             "value": "reverse_cybernization_prototype"
@@ -637,7 +637,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 20000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -649,7 +649,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 2500 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"

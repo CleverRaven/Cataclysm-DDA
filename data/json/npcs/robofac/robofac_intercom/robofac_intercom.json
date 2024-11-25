@@ -178,7 +178,7 @@
               "condition": { "math": [ "free_merchants_hub_trade_route == 1" ] },
               "effect": [
                 { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
-                { "math": [ "free_merchants_hub_trade_route", "=", "2" ] },
+                { "math": [ "free_merchants_hub_trade_route = 2" ] },
                 { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
               ],
               "false_effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
@@ -520,7 +520,7 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
-        "effect": [ { "math": [ "u_talked_to_hub", "=", "1" ] } ]
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
       },
       { "text": "Wait, what?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
       { "text": "You do realize that the front door is just open?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
@@ -535,7 +535,7 @@
       {
         "text": "Look, there must be something we can work out.",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",
-        "effect": [ { "math": [ "u_talked_to_hub", "=", "1" ] } ]
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
       },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
@@ -587,7 +587,7 @@
       "effect": [
         { "u_consume_item": "template_armor", "count": 1, "popup": true },
         { "u_add_faction_trust": 2 },
-        { "math": [ "u_timer_hub_rnd_u_waiting_on_armor", "=", "time('now')" ] },
+        { "math": [ "u_timer_hub_rnd_u_waiting_on_armor = time('now')" ] },
         { "u_add_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" },
         { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
         { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" }
@@ -771,7 +771,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
     "type": "talk_topic",
     "dynamic_line": "We've solved that issue with our more recent prototypes.\"  There is a brief pause.  \"You seem like a good candidate.  We will transfer over the additional pieces to complete that prototype set, with the goal of collecting additional field data.  The core armor platform is solid, and we have been iterating on supplementary pieces we would be willing to trade to you.  Any feedback on their performance would be appreciated.",
-    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate", "=", "1" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate = 1" ] } },
     "responses": [
       {
         "text": "Thank you.",

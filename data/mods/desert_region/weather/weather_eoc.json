@@ -65,7 +65,7 @@
       }
     },
     "effect": [
-      { "math": [ "cause_early_dust_storm", "=", "1" ] },
+      { "math": [ "cause_early_dust_storm = 1" ] },
       "next_weather",
       { "run_eocs": "EOC_CAUSE_DUST_STORM", "time_in_future": [ "5 minutes", "30 minutes" ] },
       {
@@ -101,8 +101,8 @@
     "//": "This sets up all the variables for the start of a dust storm.",
     "condition": { "not": { "or": [ { "is_weather": "dust_storm" }, { "math": [ "cause_dust_storm == 1" ] } ] } },
     "effect": [
-      { "math": [ "cause_early_dust_storm", "=", "0" ] },
-      { "math": [ "cause_dust_storm", "=", "1" ] },
+      { "math": [ "cause_early_dust_storm = 0" ] },
+      { "math": [ "cause_dust_storm = 1" ] },
       "next_weather",
       {
         "run_eocs": "EOC_CANCEL_DUST_STORM",
@@ -133,8 +133,8 @@
       ]
     },
     "effect": [
-      { "math": [ "cause_dust_storm", "=", "0" ] },
-      { "math": [ "cause_early_dust_storm", "=", "0" ] },
+      { "math": [ "cause_dust_storm = 0" ] },
+      { "math": [ "cause_early_dust_storm = 0" ] },
       "next_weather",
       {
         "run_eocs": [

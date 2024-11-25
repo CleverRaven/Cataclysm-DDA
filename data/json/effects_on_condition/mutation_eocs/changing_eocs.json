@@ -30,7 +30,7 @@
     "effect": [
       { "u_message": "<CHANGING_ENDS>", "type": "bad" },
       { "u_lose_trait": "CHANGING" },
-      { "math": [ "u_vitamin('mutagen')", "=", "0" ] }
+      { "math": [ "u_vitamin('mutagen') = 0" ] }
     ]
   },
   {

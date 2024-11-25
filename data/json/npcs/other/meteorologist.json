@@ -247,7 +247,7 @@
     "difficulty": 0,
     "value": 100,
     "end": {
-      "effect": [ { "math": [ "n_time_mission_meteorologist_wait", "=", "time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
+      "effect": [ { "math": [ "n_time_mission_meteorologist_wait = time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_5",
