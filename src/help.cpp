@@ -16,6 +16,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "game.h"
 #include "input_context.h"
 #include "json_error.h"
 #include "output.h"
@@ -35,40 +36,32 @@ help &get_help()
     return single_instance;
 }
 
-void help::load_from_file()
-{
-    read_from_file_optional_json( PATH_INFO::help(), [&]( const JsonValue & jsin ) {
-        deserialize( jsin );
-    } );
-    file_order_end = help_texts.rbegin()->first;
-}
-
-void help::deserialize( const JsonArray &ja )
-{
-    for( JsonObject jo : ja ) {
-        if( jo.get_string( "type" ) != "help" ) {
-            jo.throw_error_at( "type", "Object unread: Only \"type\": \"help\" objects are read in this file" );
-            continue;
-        }
-        load_object( jo, "" );
-    }
-}
-
-void help::set_current_order_start()
-{
-    current_order_start = help_texts.rbegin()->first + 1;
-}
-
 void help::load( const JsonObject &jo, const std::string &src )
 {
     get_help().load_object( jo, src );
+}
+
+void help::reset()
+{
+    get_help().reset_instance();
+}
+
+void help::reset_instance()
+{
+    current_order_start = 0;
+    current_src = "";
+    help_texts.clear();
 }
 
 void help::load_object( const JsonObject &jo, const std::string &src )
 {
     if( src == "dda" ) {
         jo.throw_error( string_format( "Vanilla help must be located in %s",
-                                       PATH_INFO::help().generic_u8string() ) );
+                                       PATH_INFO::jsondir().generic_u8string() ) );
+    }
+    if( src != current_src ) {
+        current_order_start = help_texts.empty() ? 0 : help_texts.crbegin()->first + 1;
+        current_src = src;
     }
     std::vector<translation> messages;
     jo.read( "messages", messages );
@@ -78,17 +71,6 @@ void help::load_object( const JsonObject &jo, const std::string &src )
     const int modified_order = jo.get_int( "order" ) + current_order_start;
     if( !help_texts.try_emplace( modified_order, std::make_pair( name, messages ) ).second ) {
         jo.throw_error_at( "order", "\"order\" must be unique (per src)" );
-    }
-}
-
-void help::clear_modded_help()
-{
-    for( auto it = help_texts.begin(); it != help_texts.end(); ) {
-        if( it->first > file_order_end ) {
-            it = help_texts.erase( it );
-        } else {
-            ++it;
-        }
     }
 }
 

@@ -518,7 +518,6 @@ void DynamicDataLoader::initialize()
 
 void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src )
 {
-    get_help().set_current_order_start();
     cata_assert( !finalized &&
                  "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
@@ -668,6 +667,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
+    help::reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
