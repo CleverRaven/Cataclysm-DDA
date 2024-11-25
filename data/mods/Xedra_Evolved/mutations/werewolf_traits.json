@@ -141,7 +141,7 @@
                 "min( (10 + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ), 35)"
               ]
             },
-            "descriptions": [ { "id": "nether_creature_sense", "text": "You sense an alien being." } ]
+            "descriptions": [ { "id": "alien_being_sense", "text": "You sense an alien being." } ]
           },
           {
             "condition": {
@@ -166,7 +166,7 @@
                 "min( (10 + (werewolf_tier_three_traits() * 0.3) + (werewolf_tier_four_traits() * 0.45) + (werewolf_tier_five_traits() * 0.6) ), 50)"
               ]
             },
-            "descriptions": [ { "id": "moving_creature", "text": "You sense one of the blood-drinkers or their minions." } ]
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense one of the blood-drinkers or their minions." } ]
           }
         ]
       }
