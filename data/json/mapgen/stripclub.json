@@ -336,7 +336,7 @@
     "om_terrain": "stripclub_2",
     "weight": 100,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "s       sss             ",
         "s#SS#SS#sss#SS#SS#SS#   ",
@@ -363,12 +363,12 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         "o": "t_window_no_curtains_open",
         "+": "t_door_c",
         "-": "t_railing",
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "D": "t_door_metal_c",
         "S": "t_region_shrub_decorative",
         " ": "t_region_groundcover_urban",

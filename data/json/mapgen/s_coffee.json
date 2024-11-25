@@ -173,7 +173,7 @@
     "weight": 250,
     "object": {
       "//": "Default fill is floor but some tables are outside",
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "_______,,,,,,,ss--------",
         "______________ss-pppppp-",
@@ -200,7 +200,7 @@
         "#P==|==P|llSO==rrrrrSce#",
         "##############L#########"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "-": "t_region_shrub_decorative",
         "%": "t_wall_glass",
@@ -217,7 +217,7 @@
         "p": "t_concrete",
         "t": "t_concrete",
         "h": "t_concrete",
-        "=": "t_linoleum_white",
+        "=": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "s": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
@@ -333,7 +333,7 @@
         "           pppppppppS   ",
         "                        "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "fill_ter": "t_floor",
       "furniture": {
         "A": "f_chair",
@@ -359,9 +359,9 @@
         "b": "t_door_metal_pickable",
         "d": "t_concrete",
         "p": "t_concrete",
-        "'": "t_linoleum_gray",
-        "a": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "s": "t_sidewalk",
         "w": "t_window_boarded_noglass",
         "4": "t_gutter_downspout",

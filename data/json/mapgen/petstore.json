@@ -139,7 +139,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "place_item": [
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
@@ -201,10 +201,10 @@
         "___ccccccccccccc#######_",
         "________________________"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "C": "t_thconc_floor",
         "D": "t_door_c",
         "W": "t_wall_glass",

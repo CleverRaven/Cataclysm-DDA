@@ -75,7 +75,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "ssssssssssssssssssssssssssssssssssssssssssssssss",
         "ssFFFsssssssss$sssssssssssss$sssssssssssssssssss",
@@ -102,9 +102,9 @@
         "____________#####################_______________",
         "________________________________________________"
       ],
-      "palettes": [ "parametrized_concrete_carpets_palette", "city_block_foundation_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_concrete_carpets_palette", "city_block_foundation_palette" ],
       "terrain": {
-        "`": "t_linoleum_white",
+        "`": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "F": "t_concrete",
         "a": "t_window_bars_domestic",
         "b": "t_door_metal_pickable",

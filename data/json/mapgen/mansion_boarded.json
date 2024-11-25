@@ -605,7 +605,7 @@
     "om_terrain": [ "mansion_boarded_c1" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "........................",
         "........................",
@@ -632,7 +632,12 @@
         ".......#S,,,+,9|      T|",
         ".......########||++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "~": "t_water_pool",
