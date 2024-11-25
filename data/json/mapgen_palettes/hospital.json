@@ -2,7 +2,6 @@
   {
     "type": "palette",
     "id": "hospital",
-    "palettes": [ "parametrized_highrise_walls_palette" ],
     "parameters": {
       "metal_doors_lock_type": {
         "//": "Does hospital use traditional or electronic locks",
@@ -11,7 +10,8 @@
       }
     },
     "terrain": {
-      "|": "t_strconc_w",
+      "|": "t_strconc_wall_w",
+      "#": "t_strconc_wall",
       ".": [
         [ "t_region_groundcover_urban", 10 ],
         [ "t_region_shrub_decorative", 3 ],
@@ -24,15 +24,19 @@
       ",": "t_region_groundcover_urban",
       "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
       "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-      ":": "t_door_glass",
+      ":": [ "t_door_glass_c", "t_door_glass_o" ],
       "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
       "*": [ [ "t_door_c", 1 ], [ "t_door_locked_interior", 2 ] ],
+      "=": "t_door_metal_locked",
       "$": { "param": "metal_doors_lock_type", "fallback": "t_door_metal_elocked" },
       "_": "t_pavement",
       "˽": "t_pavement_y",
+      "`": "t_strconc_floor",
+      ">": "t_stairs_down",
       ";": "t_sidewalk",
-      "o": "t_wall_glass",
-      "O": "t_curtains"
+      "o": "t_laminated_glass",
+      "O": "t_curtains",
+      "0": "t_wall_glass"
     },
     "furniture": {
       "a": "f_electron_microscope",
@@ -42,7 +46,25 @@
       "e": "f_anesthetic",
       "f": "f_dialysis",
       "g": "f_ventilator",
+      "h": "f_xray",
+      "i": "f_bench",
+      "j": "f_curtain",
+      "k": "f_curtain_open",
+      "l": "f_counter",
+      "p": "f_freezer",
+      "t": "f_table",
+      "v": "f_desk",
+      "x": "f_chair",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "A": "f_stool",
+      "B": "f_locker",
+      "C": "f_filing_cabinet",
+      "D": "f_utility_shelf",
+      "F": "f_utility_shelf",
       "J": "f_lab_bench",
+      "S": "f_sink",
+      "U": "f_console_broken",
+      "W": "f_desk",
       "1": "f_fume_hood",
       "2": "f_shaker",
       "3": "f_eyewash",
@@ -51,21 +73,20 @@
       "6": "f_console",
       "7": "f_HPLC",
       "8": "f_GC",
-      "9": "f_MS",
-      "0": "f_NMR"
+      "9": "f_MS"
     },
+    "vendingmachines": { "E": { "item_group": "vending_drink", "lootable": true }, "G": { "item_group": "vending_food", "lootable": true } },
+    "nested": { "-": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
     "vehicles": {
-      "^": [
-        { "vehicle": "hospital_bed", "chance": 100, "rotation": 0 },
-        { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 },
-        { "vehicle": "hospital_bed", "chance": 100, "rotation": 180 },
-        { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 }
-      ]
+      "^": [ { "vehicle": "hospital_bed", "chance": 100, "rotation": [ 0, 90, 180, 270 ] } ],
+      "ɱ": { "vehicle": "laundry_cart", "chance": 100, "rotation": 0 },
+      "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 0 },
+      "Ƨ": { "vehicle": "swivel_chair", "chance": 100, "rotation": 0 }
     }
   },
   {
     "type": "palette",
-    "id": "hospital",
+    "id": "hospital_old",
     "terrain": {
       " ": "t_region_groundcover_urban",
       ":": "t_pavement_y",
