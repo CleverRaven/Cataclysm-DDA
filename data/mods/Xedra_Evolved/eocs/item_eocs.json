@@ -63,7 +63,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_INVENTOR_DAMAGE_REVERSAL",
-    "condition": [ { "math": [ "u_xedra_last_damage_taken>0" ] } ],
+    "condition": { "math": [ "u_xedra_last_damage_taken > 0" ] },
     "effect": [
       { "math": [ "u_hp('ALL')+=u_xedra_last_damage_taken" ] },
       { "math": [ "u_xedra_last_damage_taken=0" ] },
