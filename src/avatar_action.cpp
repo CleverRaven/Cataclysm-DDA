@@ -176,7 +176,7 @@ static bool check_water_affect_items( avatar &you )
     return true;
 }
 
-bool avatar_action::move( avatar &you, map &m, const tripoint &d )
+bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -197,14 +197,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     const bool is_riding = you.is_mounted();
     tripoint_bub_ms dest_loc;
-    if( d.z == 0 && ( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) ) {
+    if( d.z() == 0 && ( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) ) {
         dest_loc.x() = rng( you.posx() - 1, you.posx() + 1 );
         dest_loc.y() = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z() = you.posz();
     } else {
-        dest_loc.x() = you.posx() + d.x;
-        dest_loc.y() = you.posy() + d.y;
-        dest_loc.z() = you.posz() + d.z;
+        dest_loc.x() = you.posx() + d.x();
+        dest_loc.y() = you.posy() + d.y();
+        dest_loc.z() = you.posz() + d.z();
     }
 
     if( dest_loc == you.pos_bub() ) {
@@ -228,12 +228,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "JACKHAMMER" ) &&
                 weapon->ammo_sufficient( &you ) ) {
-                you.invoke_item( &*weapon, "JACKHAMMER", dest_loc.raw() );
+                you.invoke_item( &*weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc.raw() );
                 return true;
             } else if( weapon->type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &*weapon, "PICKAXE", dest_loc.raw() );
+                you.invoke_item( &*weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc.raw() );
                 return true;
@@ -483,7 +483,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), get_avatar(), dest_loc.raw() );
+            avatar_action::swim( get_map(), get_avatar(), dest_loc );
         }
 
         g->on_move_effects();
@@ -571,7 +571,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     return false;
 }
 
-void avatar_action::swim( map &m, avatar &you, const tripoint &p )
+void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
 {
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
@@ -618,7 +618,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }
-    bool diagonal = p.x != you.posx() && p.y != you.posy();
+    bool diagonal = p.x() != you.posx() && p.y() != you.posy();
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos_bub() );
     }
@@ -701,9 +701,9 @@ void avatar_action::autoattack( avatar &you, map &m )
         return rate_critter( *l ) > rate_critter( *r );
     } );
 
-    const tripoint diff = best.pos() - you.pos();
-    if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, tripoint( diff.xy(), 0 ) );
+    const tripoint_rel_ms diff = best.pos_bub() - you.pos_bub();
+    if( std::abs( diff.x() ) <= 1 && std::abs( diff.y() ) <= 1 && diff.z() == 0 ) {
+        move( you, m, tripoint_rel_ms( diff.xy(), 0 ) );
         return;
     }
 
@@ -755,7 +755,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon->ammo_data() &&
+    } else if( weapon->has_ammo_data() &&
                !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon->tname(), weapon->ammo_current()->nname( 1 ) );
@@ -1030,7 +1030,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // Shift our position to our "peeking" position, so that the UI
     // for picking a throw point lets us target the location we couldn't
     // otherwise see.
-    const tripoint original_player_position = you.pos();
+    const tripoint_bub_ms original_player_position = you.pos_bub();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
     }

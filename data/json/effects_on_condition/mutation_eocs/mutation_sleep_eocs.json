@@ -9,7 +9,7 @@
         { "u_has_trait": "WEB_WALKER" },
         { "not": { "u_has_trait": "WEB_SPINNER" } },
         { "not": { "u_has_trait": "WEB_WEAVER" } },
-        { "math": [ "u_field_strength('fd_web')", "<", "3" ] }
+        { "math": [ "u_field_strength('fd_web') < 3" ] }
       ]
     },
     "deactivate_condition": {

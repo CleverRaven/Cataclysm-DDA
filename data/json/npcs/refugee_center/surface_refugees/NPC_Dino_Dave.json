@@ -23,7 +23,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "in_progress", { "u_val": "dialogue_dave_u_cardboard_gift" } ] },
-            { "math": [ "time_since(u_timer_dave_creating_gift)", ">", "time('1 d')" ] }
+            { "math": [ "time_since(u_timer_dave_creating_gift) > time('1 d')" ] }
           ]
         }
       }

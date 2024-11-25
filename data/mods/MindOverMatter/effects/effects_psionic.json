@@ -606,14 +606,14 @@
     "max_intensity": 58,
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "value": "MOTION_VISION_RANGE",
-            "add": {
+            "distance": {
               "math": [
                 "( ( u_spell_level('clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
           }
         ]
       }
@@ -972,14 +972,23 @@
     "max_intensity": 83,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_ELECTRIC",
-            "add": {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
           }
         ]
       }
@@ -1272,6 +1281,13 @@
     "remove_message": "You stop paying attention to the radio waves around you.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_sterilization",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1948,14 +1964,16 @@
     "max_intensity": 50,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_MINDS",
-            "add": {
+            "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something sapient here." } ]
           }
         ]
       }
@@ -2419,24 +2437,11 @@
   {
     "type": "effect_type",
     "id": "effect_vita_super_heal",
+    "name": [ "Anabolic Rejuvenation" ],
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "30 seconds",
-              "spell_effects": [ { "id": "vita_super_heal_healing" }, { "id": "vita_super_heal_drain" } ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -2444,26 +2449,7 @@
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "1 seconds",
-              "spell_effects": [
-                { "id": "vita_super_heal_healing" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" }
-              ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",

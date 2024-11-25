@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "scenario_defense_mode",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "deactivate_condition": { "math": [ "wave_number", ">=", "1" ] },
+    "deactivate_condition": { "math": [ "wave_number >= 1" ] },
     "effect": [
       { "math": [ "diffulty_modifier", "=", "1" ] },
       { "math": [ "wave_money_modifier", "=", "-1000" ] },
@@ -30,7 +30,7 @@
     "id": "defense_mode_caravan_spawn",
     "recurrence": [ "2 days", "4 days" ],
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3) <= 0" ] },
     "effect": [
       { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }
@@ -76,7 +76,7 @@
     "id": "EOC_DEFENSE_MODE_PREVENT_DEATH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "math": [ "revivication_counter", ">=", "1" ] },
+    "condition": { "math": [ "revivication_counter >= 1" ] },
     "effect": [
       { "u_lose_effect": "hypovolemia" },
       { "u_lose_effect": "redcells_anemia" },

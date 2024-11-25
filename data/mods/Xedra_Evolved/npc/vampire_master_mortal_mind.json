@@ -47,33 +47,33 @@
       {
         "text": "[Spend a little blood to make them like you a bit more]",
         "topic": "TALK_NONE",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
         "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] } ],
         "opinion": { "trust": 1, "value": 1 }
       },
       {
         "text": "[Spend a moderate amount of blood to make them your friend]",
         "topic": "TALK_NONE",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
         "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] } ],
         "opinion": { "trust": 3, "value": 3, "anger": -2, "fear": -1 }
       },
       {
         "text": "[Spend a massive amount of blood to make them your renfield]",
         "topic": "TALK_YOUR_NEW_RENFIELD",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
         "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] }, { "npc_add_trait": "RENFIELD" }, "follow" ],
         "opinion": { "trust": 30, "value": 30, "anger": -30, "fear": -5 }
       },
       {
         "text": "[Don't spend any blood]",
         "topic": "TALK_NONE",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] }
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] }
       },
       {
         "text": "[You do not have enough blood in you to manipulate someone's mind]",
         "topic": "TALK_NONE",
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-501" ] }
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') <= -501" ] }
       }
     ]
   },

@@ -207,7 +207,7 @@ struct field_type {
         bool has_elec = false;
         bool has_fume = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
-        map_bash_info bash_info;
+        std::optional<map_fd_bash_info> bash_info;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, translation> npc_complain_data;

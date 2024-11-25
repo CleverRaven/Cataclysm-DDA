@@ -94,13 +94,13 @@
         "id": "label_invisible",
         "text": { "str": " ", "//~": "NO_I18N" },
         "color": "c_black",
-        "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') <= 0" ] }
       },
       {
         "id": "label_visible",
         "text": "M",
         "color": "c_light_gray",
-        "condition": { "math": [ "u_val('mana_max')", ">", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') > 0" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ],
@@ -116,13 +116,13 @@
         "id": "label_invisible",
         "text": { "str": "    ", "//~": "NO_I18N" },
         "color": "c_black",
-        "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') <= 0" ] }
       },
       {
         "id": "label_visible",
         "text": "Mana",
         "color": "c_light_gray",
-        "condition": { "math": [ "u_val('mana_max')", ">", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') > 0" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ],

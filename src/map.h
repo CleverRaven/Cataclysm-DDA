@@ -2210,7 +2210,6 @@ class map
         void draw_map( mapgendata &dat );
 
         void draw_lab( mapgendata &dat );
-        void draw_slimepit( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -2251,6 +2250,8 @@ class map
          * - shifting the map with @ref shift
          */
         tripoint_abs_sm abs_sub;
+        // Cached value of project_to<coords::ms>( abs_sub.xy() )
+        point_abs_ms abs_ms;
         /**
          * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
          */

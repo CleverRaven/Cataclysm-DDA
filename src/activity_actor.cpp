@@ -1643,32 +1643,32 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms( tripoint_south );
+        heading = tripoint_rel_ms_south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms_south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms( tripoint_west );
+        heading = tripoint_rel_ms_west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms( tripoint_north_west );
+        heading = tripoint_rel_ms_north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms( tripoint_north );
+        heading = tripoint_rel_ms_north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms( tripoint_north_east );
+        heading = tripoint_rel_ms_north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms( tripoint_east );
+        heading = tripoint_rel_ms_east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms( tripoint_south_east );
+        heading = tripoint_rel_ms_south_east;
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms( tripoint_zero ) ) {
+    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms_zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1737,28 +1737,28 @@ glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, 
     // What's the purpose of assigning a variable that isn't used? Is some code AWOL?
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms( tripoint_south );
+        heading = tripoint_rel_ms_south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms_south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms( tripoint_west );
+        heading = tripoint_rel_ms_west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms( tripoint_north_west );
+        heading = tripoint_rel_ms_north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms( tripoint_north );
+        heading = tripoint_rel_ms_north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms( tripoint_north_east );
+        heading = tripoint_rel_ms_north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms( tripoint_east );
+        heading = tripoint_rel_ms_east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms_south_west;
     }
 }
 
@@ -3221,7 +3221,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3768,7 +3768,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const double cur_total_moves = cached_cur_total_moves;
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = craft.item_counter;
 
     // Delta progress in moves adjusted for current crafting speed /
@@ -3777,21 +3777,21 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                           exertion_level() );
     const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
+    const double current_progress = craft.item_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft.item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
+    craft.item_counter = std::round( current_progress / base_total_moves * 10000000.0 );
     crafter.set_moves( 0 );
 
     // This is to ensure we don't over count skill steps
-    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+    craft.item_counter = std::min( craft.item_counter, 10000000 );
 
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
     const double total_practice_ticks = rec.time_to_craft_moves( crafter,
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
-    const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
+    const int ticks_per_practice = 10000000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
                              old_counter / ticks_per_practice;
     bool level_up = false;
@@ -3799,7 +3799,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
+    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
     if( five_percent_steps > 0 ) {
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
@@ -3811,14 +3811,14 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         --five_percent_steps;
     }
 
     if( five_percent_steps > 0 ) {
         if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
             // So we don't skip over any tool comsuption
-            craft.item_counter -= craft.item_counter % 500'000 + 1;
+            craft.item_counter -= craft.item_counter % 500000 + 1;
             craft.erase_var( "crafter" );
             crafter.cancel_activity();
             return;
@@ -3826,7 +3826,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     }
 
     // if item_counter has reached 100% or more
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
             if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
@@ -4630,7 +4630,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_rel_ms_zero, false );
 
     JsonObject data = jsin.get_object();
 
@@ -4976,9 +4976,11 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 2:
         default:
             // In player inventory and player is wielding something.
-            loc.carrier()->add_msg_if_player( m_neutral,
-                                              _( "The %s no longer fits in your inventory so you drop it instead." ),
-                                              reloadable_name );
+            if( loc.carrier() ) {
+                loc.carrier()->add_msg_if_player( m_neutral,
+                                                  _( "The %s no longer fits in your inventory so you drop it instead." ),
+                                                  reloadable_name );
+            }
             get_map().add_item_or_charges( loc.pos_bub(), reloadable );
             loc.remove_item();
             break;
@@ -5326,15 +5328,15 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( moves_total == 0 ) {
-        craft.item_counter = 10'000'000;
+        craft.item_counter = 10000000;
     } else {
         const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
-        craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
-        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+        craft.item_counter += std::round( spent_moves * crafting_speed * 10000000.0 / moves_total );
+        craft.item_counter = std::min( craft.item_counter, 10000000 );
         who.set_moves( 0 );
     }
 
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         who.complete_disassemble( target );
     }
 }
@@ -5549,9 +5551,8 @@ void tent_placement_activity_actor::start( player_activity &act, Character & )
 void tent_placement_activity_actor::finish( player_activity &act, Character &p )
 {
     map &here = get_map();
-    const tripoint_bub_ms center = p.pos_bub() + tripoint( ( radius + 1 ) * target.x,
-                                   ( radius + 1 ) * target.y,
-                                   0 );
+    const tripoint_bub_ms center = p.pos_bub() + point( ( radius + 1 ) * target.x(),
+                                   ( radius + 1 ) * target.y() );
 
     // Make a square of floor surrounded by wall.
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
@@ -6604,7 +6605,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
+    here.cut_down_tree( pos, direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -7370,14 +7371,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
             src_veh = &ovp->vehicle();
             src_part = ovp->part_index();
-            for( item &it : ovp->items() ) {
+            vehicle_stack vp_items = ovp->items();
+            items.reserve( vp_items.size() );
+            for( item &it : vp_items ) {
                 items.emplace_back( &it, true );
             }
         } else {
             src_veh = nullptr;
             src_part = -1;
         }
-        for( item &it : here.i_at( src_loc ) ) {
+        map_stack map_items = here.i_at( src_loc );
+        items.reserve( items.size() + map_items.size() );
+        for( item &it : map_items ) {
             items.emplace_back( &it, false );
         }
 
@@ -7952,11 +7957,13 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     }
 
     std::vector<item_comp> comps;
+    comps.reserve( 2 );
     comps.emplace_back( itype_water, requirements.water );
     comps.emplace_back( itype_water_clean, requirements.water );
     p.consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
+    comps1.reserve( 3 );
     comps1.emplace_back( itype_soap, requirements.cleanser );
     comps1.emplace_back( itype_detergent, requirements.cleanser );
     comps1.emplace_back( itype_liquid_soap, requirements.cleanser );

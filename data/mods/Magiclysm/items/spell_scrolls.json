@@ -1453,7 +1453,7 @@
     "id": "spell_scroll_kelvinist_anti_cold",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of Cloak of Warmth", "str_pl": "Scrolls of Cloak of Warmth" },
-    "description": "Winter-be-gone through the power of of modern magic.",
+    "description": "Winter-be-gone through the power of modern magic.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold" ] }
   },
   {
@@ -1462,7 +1462,7 @@
     "id": "spell_scroll_kelvinist_anti_heat",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of Cloak of Chill", "str_pl": "Scrolls of Cloak of Chill" },
-    "description": "Summer-be-gone through the power of of modern magic.",
+    "description": "Summer-be-gone through the power of modern magic.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_heat" ] }
   },
   {

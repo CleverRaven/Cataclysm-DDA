@@ -8,7 +8,7 @@
       "and": [
         { "or": [ { "is_weather": "magic_weather_thunder" }, { "is_weather": "magic_weather_lightning" } ] },
         { "one_in_chance": 50 },
-        { "math": [ "u_val('pos_z')", ">=", "0" ] }
+        { "math": [ "u_val('pos_z') >= 0" ] }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "magic_weather_thunder" }, { "is_weather": "magic_weather_lightning" } ] } },
@@ -23,7 +23,7 @@
     "recurrence": 1,
     "global": true,
     "condition": {
-      "and": [ { "is_weather": "magic_weather_lightning" }, { "one_in_chance": 600 }, { "math": [ "u_val('pos_z')", ">=", "0" ] } ]
+      "and": [ { "is_weather": "magic_weather_lightning" }, { "one_in_chance": 600 }, { "math": [ "u_val('pos_z') >= 0" ] } ]
     },
     "deactivate_condition": { "not": { "is_weather": "magic_weather_lightning" } },
     "effect": [

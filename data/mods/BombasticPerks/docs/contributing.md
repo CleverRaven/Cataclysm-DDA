@@ -22,7 +22,7 @@ Each perk needs to be selectable in the menu itself. To do this append a respons
 You need to fill in the:
 `PERK_ID`: The requirements text and the perk condition.
 `REQUIREMENTS TEXT`: A description of the requirements to select the perk. If you don't have requirements put: "No Requirements".
-`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0", "==", "0" ].
+`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0 == 0" ].
 `ANY ADDITIONAL INFO TEXT`: Any additional info you want to include. If you don't have any additional details put "".
 ``` json 
 {

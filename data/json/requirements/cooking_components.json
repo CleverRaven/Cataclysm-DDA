@@ -1010,6 +1010,7 @@
       [
         [ "hot_sauce", 1 ],
         [ "pepper", 1 ],
+        [ "spicebush_berries_smoked", 1 ],
         [ "seasoning_salt", 1 ],
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
@@ -1257,6 +1258,8 @@
         [ "seasoning_salt", 4 ],
         [ "soysauce", 1 ],
         [ "pepper", 4 ],
+        [ "spicebush_berries_smoked", 4 ],
+        [ "spicebush_berries", 4 ],
         [ "garlic_clove", 2 ],
         [ "salt", 4 ]
       ]
@@ -1274,6 +1277,8 @@
         [ "seasoning_salt", 4 ],
         [ "soysauce", 1 ],
         [ "pepper", 4 ],
+        [ "spicebush_berries", 4 ],
+        [ "spicebush_berries_smoked", 4 ],
         [ "garlic_clove", 2 ],
         [ "salt", 4 ]
       ]

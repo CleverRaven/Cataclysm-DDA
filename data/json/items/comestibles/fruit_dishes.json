@@ -58,6 +58,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
     "weight": "34 g",
@@ -304,6 +305,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID", "condition": "cholla_bud", "name": { "str_sp": "%s, cholla bud" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "coconut", "name": { "str_sp": "%s, coconut" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },

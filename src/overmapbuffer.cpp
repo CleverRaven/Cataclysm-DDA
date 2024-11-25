@@ -869,14 +869,15 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
 overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::road, 10 );
-    ret.set_cost( oter_travel_cost_type::dirt_road, 10 );
-    ret.set_cost( oter_travel_cost_type::field, 15 );
-    ret.set_cost( oter_travel_cost_type::trail, 18 );
-    ret.set_cost( oter_travel_cost_type::shore, 20 );
-    ret.set_cost( oter_travel_cost_type::forest, 30 );
-    ret.set_cost( oter_travel_cost_type::swamp, 100 );
-    ret.set_cost( oter_travel_cost_type::other, 30 );
+    // 24 tiles = 24 seconds walking
+    ret.set_cost( oter_travel_cost_type::road, 24 );
+    ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
+    ret.set_cost( oter_travel_cost_type::field, 36 );
+    ret.set_cost( oter_travel_cost_type::trail, 43 );
+    ret.set_cost( oter_travel_cost_type::shore, 48 );
+    ret.set_cost( oter_travel_cost_type::forest, 72 );
+    ret.set_cost( oter_travel_cost_type::swamp, 240 );
+    ret.set_cost( oter_travel_cost_type::other, 72 );
     ret.allow_diagonal = true;
     return ret;
 }
@@ -894,12 +895,12 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::road, 10 );
-    const int field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
+    ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
+    const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
     ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
     ret.set_cost( oter_travel_cost_type::trail,
-                  ( can_offroad && tiny ) ? field_cost + 10 : -1 );
+                  ( can_offroad && tiny ) ? field_cost + 8 : -1 );
     if( amphibious ) {
         const overmap_path_params boat_params = overmap_path_params::for_watercraft();
         ret.set_cost( oter_travel_cost_type::water, boat_params.get_cost( oter_travel_cost_type::water ) );
@@ -911,15 +912,15 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 overmap_path_params overmap_path_params::for_watercraft()
 {
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::water, 10 );
-    ret.set_cost( oter_travel_cost_type::shore, 20 );
+    ret.set_cost( oter_travel_cost_type::water, 8 ); // limited by vehicle autodrive speed
+    ret.set_cost( oter_travel_cost_type::shore, 16 );
     return ret;
 }
 
 overmap_path_params overmap_path_params::for_aircraft()
 {
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::air, 10 );
+    ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
     return ret;
 }
 
@@ -943,7 +944,7 @@ static bool is_ramp( const tripoint_abs_omt &omt_pos )
            ( oter->get_type_id() == oter_type_bridgehead_ramp );
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
+pf::simple_path<tripoint_abs_omt> overmapbuffer::get_travel_path(
     const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params )
 {
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
@@ -951,9 +952,13 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     }
 
     const pf::omt_scoring_fn estimate = [&]( tripoint_abs_omt pos ) {
-        const int cur_cost = pos == src ? 0 : get_terrain_cost( pos, params );
+        int cur_cost = get_terrain_cost( pos, params );
         if( cur_cost < 0 ) {
-            return pf::omt_score::rejected;
+            if( pos == src ) {
+                cur_cost = 0;
+            } else {
+                return pf::omt_score::rejected;
+            }
         }
         return pf::omt_score( cur_cost, is_ramp( pos ) );
     };
@@ -961,7 +966,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
     const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
             g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
-    return path.points;
+    return path;
 }
 
 bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,

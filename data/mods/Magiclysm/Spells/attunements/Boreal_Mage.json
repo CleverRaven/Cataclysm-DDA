@@ -30,8 +30,11 @@
   {
     "type": "SPELL",
     "id": "auroral_wave_cold",
-    "name": "Auroral Wave",
-    "description": "This is the cold damage portion of the Auroral Wave spell, it is a wider blast around the central high damage cone.",
+    "name": { "str": "Auroral Wave", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the cold damage portion of the Auroral Wave spell, it is a wider blast around the central high damage cone.",
+      "//~": "NO_I18N"
+    },
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],

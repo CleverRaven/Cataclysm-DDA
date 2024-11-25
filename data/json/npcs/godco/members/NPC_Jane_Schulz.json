@@ -9,16 +9,12 @@
       "TALK_GODCO_Jane_Kostas_Personal"
     ],
     "responses": [
-      {
-        "text": "How did you get here?",
-        "topic": "TALK_GODCO_Jane_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
       {
         "text": "Are the non-joinees treating you fairly?",
         "topic": "TALK_GODCO_Jane_Community",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Need any help?", "topic": "TALK_GODCO_Jane_Help" },
       { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" }
@@ -35,18 +31,18 @@
       {
         "text": "Are you taking care of Arturo?",
         "topic": "TALK_GODCO_Jane_Arturo",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Jane_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
       {
         "text": "Are the non-joinees treating you fairly?",
         "topic": "TALK_GODCO_Jane_Community",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Do you want to come with me?", "topic": "TALK_GODCO_Jane_Follow" },
       { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" },
@@ -58,7 +54,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "&Jane glaces at you, scowls, and ignores your presence.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ],
@@ -77,7 +73,7 @@
         "text": "Hi, Jane.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] }
           ]
         },
@@ -87,7 +83,7 @@
         "text": "Hi, Jane.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] }
           ]
         },

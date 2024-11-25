@@ -32,7 +32,6 @@
         "$..####o###o##o####....."
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_brick_wall" },
       "nested": {
         "1": {
           "chunks": [

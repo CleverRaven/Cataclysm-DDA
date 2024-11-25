@@ -73,7 +73,7 @@
       {
         "result": [ "t_triffid_wood_wall" ],
         "valid_terrain": [ "t_triffid_bark_wall" ],
-        "message": "The wooden wall shudders as as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
+        "message": "The wooden wall shudders as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
       },
       {
         "result": [ "t_triffid_bark_wall" ],
@@ -81,6 +81,11 @@
         "message": "The bare wooden wall shudders as bark sprouts and spreads over it, covering the entire surface in moments."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_wall_top",
+    "terrain": [ { "result": [ "t_barkfloor_no_roof" ], "valid_terrain": [ "t_open_air" ] } ]
   },
   {
     "type": "ter_furn_transform",
@@ -119,7 +124,7 @@
       {
         "result": [ "t_triffid_wood_wall" ],
         "valid_terrain": [ "t_triffid_bark_wall" ],
-        "message": "The wooden wall shudders as as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
+        "message": "The wooden wall shudders as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
       },
       {
         "result": [ "t_triffid_bark_wall" ],

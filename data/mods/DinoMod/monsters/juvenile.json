@@ -290,7 +290,7 @@
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ],
     "harvest": "bird_small"
   },
   {
@@ -444,7 +444,7 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
   },
   {
     "id": "mon_apatosaurus_juvenile",
@@ -519,7 +519,7 @@
     "weight": "1000 kg",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_hesperosaurus_juvenile",
@@ -628,7 +628,7 @@
     "color": "yellow",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_iguanodon" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED", "SWIMS" ]
   },
   {
     "id": "mon_eolambia_juvenile",
@@ -726,6 +726,16 @@
     "hp": 55,
     "upgrades": { "age_grow": 29, "into": "mon_pachyrhinosaurus" },
     "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
+  },
+  {
+    "id": "mon_lokiceratops_juvenile",
+    "type": "MONSTER",
+    "name": "lokiceratops juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a bony head crest with two horns pointing out and curving down, two brow horns, and a beak.",
+    "copy-from": "mon_lokiceratops",
+    "hp": 200,
+    "upgrades": { "age_grow": 365, "into": "mon_lokiceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_styracosaurus_juvenile",
@@ -842,7 +852,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "FLIES",
       "ANIMAL",
       "PATH_AVOID_DANGER",
@@ -873,7 +882,7 @@
     "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_plesiosaurus_juvenile",
@@ -888,6 +897,6 @@
     "hp": 80,
     "upgrades": { "age_grow": 365, "into": "mon_plesiosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
   }
 ]

@@ -22,6 +22,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "overmapbuffer.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
@@ -123,6 +124,18 @@ void clear_zones()
     zm.clear();
 }
 
+void clear_basecamps()
+{
+    std::optional<basecamp *> camp;
+    do {
+        const tripoint_abs_omt &avatar_pos = get_avatar().global_omt_location();
+        camp = overmap_buffer.find_camp( avatar_pos.xy() );
+        if( camp && *camp != nullptr ) {
+            ( **camp ).remove_camp( avatar_pos );
+        }
+    } while( camp );
+}
+
 void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
@@ -140,6 +153,7 @@ void clear_map( int zmin, int zmax )
         clear_items( z );
     }
     here.process_items();
+    clear_basecamps();
 }
 
 void clear_map_and_put_player_underground()
@@ -207,7 +221,7 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
 void player_add_headlamp()
 {
     item headlamp( "wearable_light_on" );
-    item battery( "light_battery_cell" );
+    item battery( "medium_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();

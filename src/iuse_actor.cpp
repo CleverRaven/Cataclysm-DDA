@@ -137,7 +137,6 @@ static const itype_id itype_syringe( "syringe" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 
-static const morale_type morale_music( "morale_music" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
@@ -172,6 +171,11 @@ std::unique_ptr<iuse_actor> iuse_transform::clone() const
 void iuse_transform::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "target", target, true );
+    obj.read( "target_group", target_group, true );
+
+    if( !target.is_empty() && !target_group.is_empty() ) {
+        obj.throw_error_at( "target_group", "Cannot use both target and target_group at once" );
+    }
 
     obj.read( "msg", msg_transform );
     obj.read( "variant_type", variant_type );
@@ -273,7 +277,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         }
     }
 
-    if( it.count_by_charges() != target->count_by_charges() && it.count() > 1 ) {
+    if( target_group.is_empty() && it.count_by_charges() != target->count_by_charges() &&
+        it.count() > 1 ) {
         item take_one = it.split( 1 );
         do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );
@@ -294,8 +299,12 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( container.is_empty() ) {
-        obj = &it.convert( target, p );
-        obj->set_itype_variant( variant_type );
+        if( !target_group.is_empty() ) {
+            obj = &it.convert( item_group::item_from( target_group ).typeId(), p );
+        } else {
+            obj = &it.convert( target, p );
+            obj->set_itype_variant( variant_type );
+        }
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -321,7 +330,9 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
         obj->set_itype_variant( variant_type );
         int count = std::max( ammo_qty, 1 );
         item cont;
-        if( target->count_by_charges() ) {
+        if( !target_group.is_empty() ) {
+            cont = item( item_group::item_from( target_group ).typeId(), calendar::turn );
+        } else if( target->count_by_charges() ) {
             cont = item( target, calendar::turn, count );
             count = 1;
         } else {
@@ -424,7 +435,7 @@ std::string iuse_transform::get_name() const
 
 void iuse_transform::finalize( const itype_id & )
 {
-    if( !item::type_is_defined( target ) ) {
+    if( !item::type_is_defined( target ) && target_group.is_empty() ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
     }
 
@@ -440,6 +451,11 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
+
+    if( !target_group.is_empty() ) {
+        dump.emplace_back( "TOOL", _( "Can transform into one of several items" ) );
+        return;
+    }
     int amount = std::max( ammo_qty, 1 );
     item dummy( target, calendar::turn, target->count_by_charges() ? amount : 1 );
     dummy.set_itype_variant( variant_type );
@@ -1660,7 +1676,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
-    for( std::pair<material_id, int> mat : cut.get_item()->made_of() ) {
+    for( const std::pair<const material_id, int> &mat : cut.get_item()->made_of() ) {
         mat_set.insert( mat.first );
     }
 
@@ -1790,7 +1806,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Force an encumbrance update in case they were wearing that item.
     p.calc_encumbrance();
 
-    map &here = get_map();
     for( const auto &salvaged_mat : salvage ) {
         item result( salvaged_mat.first, calendar::turn );
         int amount = salvaged_mat.second;
@@ -1810,7 +1825,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    here.add_item_or_charges( pos, result );
+                    put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { result }, pos );
                 }
             }
         } else {
@@ -2123,6 +2138,7 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it, const trip
 {
     if( it.active ) {
         it.active = false;
+        p->remove_effect( effect_playing_instrument );
         p->add_msg_player_or_npc( _( "You stop playing your %s." ),
                                   _( "<npcname> stops playing their %s." ),
                                   it.display_name() );
@@ -2132,13 +2148,32 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it, const trip
                                   _( "<npcname> starts playing their %s." ),
                                   it.display_name() );
         it.active = true;
+        p->add_effect( effect_playing_instrument, 1_turns, false, 1 );
     }
     return std::nullopt;
 }
 
-ret_val<void> play_instrument_iuse::can_use( const Character &, const item &,
+ret_val<void> play_instrument_iuse::can_use( const Character &p, const item &it,
         const tripoint & ) const
 {
+    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    if( p.is_underwater() ) {
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
+    }
+    if( p.is_mounted() ) {
+        return ret_val<void>::make_failure( _( "You can't do that while mounted." ) );
+    }
+    if( !p.is_worn( it ) && !p.is_wielding( it ) ) {
+        return ret_val<void>::make_failure( _( "You need to hold or wear %s to play it." ),
+                                            it.type_name() );
+    }
+    // No one-man band for now
+    // Remove/rework this check after we will be able to distinguish between wind, string, and percussion instruments
+    // TODO: allow playing several string/percussion instruments if you have additional arms
+    if( !it.active && p.has_effect( effect_playing_instrument ) ) {
+        return ret_val<void>::make_failure( _( "You can't play multiple musical instruments at once." ) );
+    }
+
     return ret_val<void>::make_success();
 }
 
@@ -2265,13 +2300,13 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
 
     if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
-        if( p->is_avatar() && desc != "music" ) {
-            add_msg( m_info, desc );
+        if( desc != "music" ) {
+            p->add_msg_if_player( m_info, desc );
         }
-        p->add_effect( effect_music, 1_turns );
-        const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( morale_music, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
+
+    // We already played the sounds, just handle applying effects now
+    iuse::play_music( p, p->pos(), volume, morale_effect, /*play_sounds=*/false );
 
     return 0;
 }
@@ -3035,7 +3070,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
         default:
             // 5 is obsoleted reinforcing, remove after 0.H
-            action_difficulty = 1'000'000; // ensure failure
+            action_difficulty = 1000000; // ensure failure
             break;
     }
 
@@ -3589,19 +3624,19 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
 
     // apply healing over time effects
     if( bandages_power > 0 ) {
-        int bandages_intensity = get_bandaged_level( healer );
+        int bandages_intensity = std::max( 1, get_bandaged_level( healer ) );
         patient.add_effect( effect_bandaged, 1_turns, healed );
         effect &e = patient.get_effect( effect_bandaged, healed );
-        e.set_duration( e.get_int_dur_factor() * ( bandages_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
-        int disinfectant_intensity = get_disinfected_level( healer );
+        int disinfectant_intensity = std::max( 1, get_disinfected_level( healer ) );
         patient.add_effect( effect_disinfected, 1_turns, healed );
         effect &e = patient.get_effect( effect_disinfected, healed );
-        e.set_duration( e.get_int_dur_factor() * ( disinfectant_intensity + 0.5f ) );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * disinfectant_intensity;
@@ -4421,7 +4456,7 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
     if( prompt.ret >= 0 ) {
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
-        p->invoke_item( mods[prompt.ret], "transform", pnt );
+        p->invoke_item( mods[prompt.ret], "transform", tripoint_bub_ms( pnt ) );
         it.on_contents_changed();
         return 0;
     }
@@ -4881,7 +4916,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
     const auto can_link = [&here, &to_ports]( const tripoint & point ) {
         const optional_vpart_position ovp = here.veh_at( point );
-        return ovp && ovp->vehicle().avail_linkable_part( ovp->mount(), to_ports ) != -1;
+        return ovp && ovp->vehicle().avail_linkable_part( ovp->mount_pos(), to_ports ) != -1;
     };
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
                                          "", can_link, false, false );
@@ -4924,7 +4959,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
 
         // Get the part name for the connection message, using the vehicle name as a fallback.
-        const int part_index = sel_vp->vehicle().avail_linkable_part( sel_vp->mount(), to_ports );
+        const int part_index = sel_vp->vehicle().avail_linkable_part( sel_vp->mount_pos(), to_ports );
         const std::string sel_vp_name = part_index == -1 ? sel_vp->vehicle().name :
                                         sel_vp->vehicle().part( part_index ).name( false );
 
@@ -5213,19 +5248,19 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint> dir = choose_direction( string_format(
-                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( string_format(
+                _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return std::nullopt;
     }
-    const tripoint direction = *dir;
+    const tripoint_rel_ms direction = *dir;
 
     map &here = get_map();
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint_bub_ms center = p->pos_bub() + tripoint( ( radius + 1 ) * direction.x,
-                                   ( radius + 1 ) * direction.y, 0 );
+    const tripoint_bub_ms center = p->pos_bub() + point_rel_ms( ( radius + 1 ) * direction.x(),
+                                   ( radius + 1 ) * direction.y() );
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
@@ -5637,7 +5672,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
     }
 
     dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
-    write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
+    write_var_value( var_type::context, "id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

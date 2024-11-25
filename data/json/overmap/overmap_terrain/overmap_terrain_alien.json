@@ -41,20 +41,26 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "slimepit_bottom" ],
-    "vision_levels": "underground_dirt",
+    "id": "slimepit_z0",
     "name": "slime pit",
     "sym": "~",
     "color": "light_green",
     "see_cost": "all_clear",
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "vision_levels": "natural_depression",
+    "flags": [ "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "slimepit_top" ],
-    "copy-from": "slimepit_bottom",
-    "vision_levels": "natural_depression",
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
+    "id": "slimepit_z-1",
+    "copy-from": "slimepit_z0",
+    "vision_levels": "underground_dirt",
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z-2",
+    "copy-from": "slimepit_z-1",
+    "flags": [ "KNOWN_UP" ]
   },
   {
     "type": "overmap_terrain",

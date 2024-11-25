@@ -145,7 +145,7 @@
         " -.....................-",
         " -.....................-",
         " -...&.................-",
-        " --------.#####W+###...-",
+        " --------.#####O+###...-",
         "        -.#r______d#...-",
         "        -.#r_____cd#...-",
         "        -.#_>[r___i#...-",
@@ -154,7 +154,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "[": "t_metal_railing", "+": "t_door_green_c", "W": "t_window_domestic", "#": "t_brick_wall", "&": "t_flat_roof" },
+      "terrain": { "[": "t_metal_railing", "+": "t_door_green_c", "O": "t_window_domestic", "#": "t_brick_wall", "&": "t_flat_roof" },
       "furniture": { "i": "f_filing_cabinet", "d": "f_desk", "c": "f_chair" },
       "place_loot": [
         { "item": "birdfood", "x": 14, "y": 20, "chance": 50, "repeat": [ 1, 3 ] },

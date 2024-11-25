@@ -615,10 +615,12 @@ void editmap::draw_main_ui_overlay()
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
         const point mp = tmax / 2 + point_south_east;
-        mvwputch( g->w_terrain, point( 1, mp.y ), c_yellow, '<' );
-        mvwputch( g->w_terrain, point( tmax.x - 1, mp.y ), c_yellow, '>' );
-        mvwputch( g->w_terrain, point( mp.x, 1 ), c_yellow, '^' );
-        mvwputch( g->w_terrain, point( mp.x, tmax.y - 1 ), c_yellow, 'v' );
+        wattron( g->w_terrain, c_yellow );
+        mvwaddch( g->w_terrain, point( 1, mp.y ), '<' );
+        mvwaddch( g->w_terrain, point( tmax.x - 1, mp.y ), '>' );
+        mvwaddch( g->w_terrain, point( mp.x, 1 ), '^' );
+        mvwaddch( g->w_terrain, point( mp.x, tmax.y - 1 ), 'v' );
+        wattroff( g->w_terrain, c_yellow );
     }
 
     if( tmpmap_ptr ) {
@@ -652,7 +654,7 @@ void editmap::draw_main_ui_overlay()
                                                false );
                     }
                     if( const optional_vpart_position ovp = tmpmap.veh_at( tmp_p ) ) {
-                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount() );
+                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount_pos() );
                         char part_mod = 0;
                         if( vd.is_open ) {
                             part_mod = 1;
@@ -660,7 +662,8 @@ void editmap::draw_main_ui_overlay()
                             part_mod = 2;
                         }
                         const units::angle veh_dir = ovp->vehicle().face.dir();
-                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo, ovp->mount() );
+                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
+                                                ovp->mount_pos().raw() );
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
                     }

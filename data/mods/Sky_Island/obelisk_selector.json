@@ -35,7 +35,7 @@
     "type": "effect_on_condition",
     "id": "EOC_raidbegin_medium",
     "//": "This EOC is triggered when the player chooses a medium expedition from the warp obelisk menu.  It grabs a random location of a certain type, saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.",
-    "condition": { "math": [ "longerraids", ">=", "1" ] },
+    "condition": { "math": [ "longerraids >= 1" ] },
     "effect": [
       { "math": [ "lengthofthisraid", "=", "1" ] },
       { "math": [ "currentpulselength", "=", "sicknessintervals * 2" ] },
@@ -50,7 +50,7 @@
     "type": "effect_on_condition",
     "id": "EOC_raidbegin_long",
     "//": "This EOC is triggered when the player chooses a long expedition from the warp obelisk menu.  It grabs a random location of a certain type, saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.",
-    "condition": { "math": [ "longerraids", ">=", "2" ] },
+    "condition": { "math": [ "longerraids >= 2" ] },
     "effect": [
       { "math": [ "lengthofthisraid", "=", "2" ] },
       { "math": [ "currentpulselength", "=", "sicknessintervals * 3" ] },
@@ -130,7 +130,7 @@
     "type": "effect_on_condition",
     "id": "EOC_Basement_Loc_Warp",
     "//": "Picks a random basement and activates the actual teleport EOC.",
-    "condition": { "math": [ "basementsunlocked", "==", "1" ] },
+    "condition": { "math": [ "basementsunlocked == 1" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
@@ -153,7 +153,7 @@
     "type": "effect_on_condition",
     "id": "EOC_Rooftop_Loc_Warp",
     "//": "Picks a random rooftop and activates the actual teleport EOC.",
-    "condition": { "math": [ "roofsunlocked", "==", "1" ] },
+    "condition": { "math": [ "roofsunlocked == 1" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "OM_missionspot" },
@@ -176,9 +176,7 @@
     "type": "effect_on_condition",
     "id": "EOC_Lab_Loc_Warp",
     "//": "Picks a random underground lab and activates the actual teleport EOC.",
-    "condition": {
-      "and": [ { "math": [ "labsunlocked", "==", "1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ]
-    },
+    "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "OM_missionspot" },

@@ -32,9 +32,7 @@
       {
         "group": "NC_ROBOFAC_INTERCOM_trade_armor",
         "rigid": true,
-        "condition": {
-          "or": [ { "math": [ "u_hub01_good_candidate", "==", "1" ] }, { "math": [ "u_hub01_completed_missions", ">=", "2" ] } ]
-        },
+        "condition": { "or": [ { "math": [ "u_hub01_good_candidate == 1" ] }, { "math": [ "u_hub01_completed_missions >= 2" ] } ] },
         "refusal": "You're not yet qualified to buy this"
       },
       {
@@ -43,7 +41,7 @@
         "strict": true,
         "condition": {
           "and": [
-            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
+            { "math": [ "hub01_uhmwpe_researched == 1" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_buy_armor" } ] } }
           ]
         }
@@ -73,7 +71,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] },
-            { "math": [ "hub01_hwp_exotic_researched", "==", "1" ] }
+            { "math": [ "hub01_hwp_exotic_researched == 1" ] }
           ]
         }
       },
@@ -177,7 +175,7 @@
           "run_eocs": [
             {
               "id": "EOC_INTERCOM_MAYBE_ADD_FREE_MERCHANT_CAMP",
-              "condition": { "math": [ "free_merchants_hub_trade_route", "==", "1" ] },
+              "condition": { "math": [ "free_merchants_hub_trade_route == 1" ] },
               "effect": [
                 { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
                 { "math": [ "free_merchants_hub_trade_route", "=", "2" ] },
@@ -414,7 +412,7 @@
           "and": [
             { "u_has_faction_trust": 5 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
-            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            { "math": [ "isherwood_gear_status < 1" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },
@@ -436,7 +434,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_specimens" } ] },
-            { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+            { "math": [ "isherwood_barry_rescued == 1" ] },
             { "u_has_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" }
           ]
         },

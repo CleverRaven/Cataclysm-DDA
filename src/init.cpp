@@ -558,7 +558,7 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
     // if give path is a directory
     if( dir_exist( path.get_unrelative_path() ) ) {
         const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
-                "mod_interactions", path, true, false );
+                "mod_interactions", path, true, true );
         files.insert( files.end(), dir_files.begin(), dir_files.end() );
         // if given path is an individual file
     } else if( file_exist( path.get_unrelative_path() ) ) {

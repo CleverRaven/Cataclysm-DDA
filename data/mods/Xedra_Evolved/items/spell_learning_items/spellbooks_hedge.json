@@ -18,7 +18,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_FARM",
           "//": "Max research time before failure is 36 hours. Average result of 216 after 36 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_farm", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_farm != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_farm", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -32,7 +32,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_FARM_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "270" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "300" ] } ]
                 },
@@ -50,14 +50,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -91,8 +91,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_make_plants_grow", "hedge_ward_off_rain", "hedge_cure_cold_or_flu" ] }
   },
   {
@@ -114,7 +114,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS",
           "//": "Max research time before failure is 70 hours. Average result of 420 after 70 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_ward_demons", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_ward_demons != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_ward_demons", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -128,7 +128,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "630" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "700" ] } ]
                 },
@@ -146,14 +146,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -187,8 +187,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] }
   },
   {
@@ -210,7 +210,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK",
           "//": "Max research time before failure is 32 hours. Average result of 192 after 32 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_doctor_book", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_doctor_book != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_doctor_book", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -224,7 +224,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "243" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "270" ] } ]
                 },
@@ -242,14 +242,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -283,8 +283,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
   },
   {
@@ -309,7 +309,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK",
           "//": "Max research time before failure is 45 hours. Average result of 270 after 45 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_blood_book", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_blood_book != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_blood_book", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -323,7 +323,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "365" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "405" ] } ]
                 },
@@ -341,14 +341,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -382,8 +382,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
@@ -408,7 +408,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS",
           "//": "Max research time before failure is 10 hours. Average result of 60 after 10 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_ward_dreams", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_ward_dreams != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_ward_dreams", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -422,7 +422,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "63" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "70" ] } ]
                 },
@@ -440,14 +440,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -481,8 +481,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
   },
   {
@@ -504,7 +504,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS",
           "//": "Max research time before failure is 30 hours. Average result of 180 after 30 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_snare_changelings", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_snare_changelings != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_snare_changelings", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -518,7 +518,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "248" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "275" ] } ]
                 },
@@ -536,14 +536,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -577,8 +577,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
   },
   {
@@ -619,7 +619,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT",
           "//": "Max research time before failure is 60 hours. Average result of 360 after 60 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_bathhouse_at_midnight", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_bathhouse_at_midnight != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_bathhouse_midnight", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -633,7 +633,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "495" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "550" ] } ]
                 },
@@ -651,14 +651,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -692,8 +692,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": {
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
@@ -720,7 +720,7 @@
         {
           "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE",
           "//": "Max research time before failure is 84 hours. Average result of 504 after 84 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
-          "condition": { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "!=", "1" ] },
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_abramelin_the_mage", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
@@ -734,7 +734,7 @@
               "true_eocs": [
                 {
                   "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_SET_DIFFICULTY",
-                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
                   "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "720" ] } ],
                   "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "800" ] } ]
                 },
@@ -752,14 +752,14 @@
             { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
               ]
             },
             {
-              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
@@ -793,8 +793,8 @@
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "magic_square_base",
-    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage" },
-    "description": "The temporary item that teaches you spells.",
+    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": {
       "type": "learn_spell",
       "spells": [

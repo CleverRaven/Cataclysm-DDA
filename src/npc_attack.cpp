@@ -6,6 +6,7 @@
 #include "dialogue.h"
 #include "flag.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
@@ -31,7 +32,7 @@ static const float kill_modifier = 1.5f;
 static const int base_time_penalty = 3;
 // we want this out of our hands, pronto.
 // give a large buff to the attack value so it prioritizes this
-static const int base_throw_now = 10'000;
+static const int base_throw_now = 10000;
 } // namespace npc_attack_constants
 
 // TODO: make a better, more generic "check if this projectile is blocked" function
@@ -184,7 +185,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
         if( !critter ) {
             // no critter? no damage! however, we assume fields are worth something
             if( attack_spell_id->field ) {
-                dialogue d( get_talker_for( source ), nullptr );
+                const_dialogue d( get_const_talker_for( source ), nullptr );
                 total_potential += static_cast<double>( attack_spell.field_intensity( source ) ) /
                                    static_cast<double>( attack_spell_id->field_chance.evaluate( d ) ) / 2.0;
             }
@@ -465,8 +466,9 @@ void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
 
 bool npc_attack_gun::can_use( const npc &source ) const
 {
-    // can't attack with something you can't wield
-    return source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success();
+    // can't attack with something you can't wield or which lacks ammo.
+    return ( source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success() )
+           && gun.has_ammo();
 }
 
 int npc_attack_gun::base_time_penalty( const npc &source ) const

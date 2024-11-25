@@ -17,7 +17,6 @@
     "expected_dps": {
       "banjo": 5.53,
       "saxophone": 5.55,
-      "pool_ball": 5.58,
       "knuckle_skewer": 5.58,
       "rock_sock": 5.63,
       "2x4": 5.66,
@@ -78,7 +77,6 @@
       "arisaka_monopod_deployed": 8.66,
       "arisaka_monopod": 8.66,
       "stick": 9.04,
-      "pot_makeshift_copper": 9.61,
       "bolt_ballista_steel": 7.64,
       "chain": 9.64,
       "pastaextruder": 5.89

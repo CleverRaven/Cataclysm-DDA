@@ -691,6 +691,11 @@
   },
   {
     "type": "item_action",
+    "id": "POST_UP",
+    "name": { "str": "Put up" }
+  },
+  {
+    "type": "item_action",
     "id": "PROZAC",
     "name": { "str": "Take" }
   },
