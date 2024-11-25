@@ -2993,7 +2993,7 @@ static void CheckMessages()
     }
 #endif
 
-#if defined(IOS_KEYBOARD)
+#if defined(__IPHONEOS__)
     if( !SDL_IsTextInputActive() ) {
         StartTextInput();
     }
