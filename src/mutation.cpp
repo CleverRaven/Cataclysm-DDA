@@ -392,7 +392,7 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
-    bool mana = mut->mana && magic->available_mana() >= mut->cost;
+    bool mana = mut->mana && magic->available_mana() <= mut->cost;
 
     return !hunger && !sleepiness && !thirst && !mana;
 }
