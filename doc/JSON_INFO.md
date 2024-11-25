@@ -4518,8 +4518,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_charges": 1,                        // Number of charges the item needs to transform
   "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges
   "need_empty": true,                       // Whether the item must be empty to be transformed; false by default
-  "need_worn": true,                        // Whether the item must be worn to be transformed; false by default
-  "need_wielding": true,                    // Whether the item must be wielded to be transformed; false by default
+  "need_worn": true,                        // Whether the item must be worn to be transformed, cast spells, or use EOCs; false by default
+  "need_wielding": true,                    // Whether the item must be wielded to be transformed, cast spells, or use EOCs; false by default
   "qualities_needed": { "WRENCH_FINE": 1 }, // Tool qualities needed, e.g. "fine bolt turning 1"
   "target_charges": 3,                      // Number of charges the transformed item has
   "rand_target_charges": [ 10, 15, 25 ],    // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)

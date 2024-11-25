@@ -165,7 +165,7 @@
     "material": [ "aluminum", "steel" ],
     "symbol": ";",
     "color": "white",
-    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],
     "ammo": [ "battery" ],
     "charges_per_use": 150,
     "use_action": {
