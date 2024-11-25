@@ -96,6 +96,7 @@
     "name": "GROUP_ZOMBIE",
     "monsters": [
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 500, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 250, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
@@ -226,13 +227,21 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_VANILLA_DORMANT",
+    "default": "mon_pseudo_dormant_zombie",
+    "//": "only dormant zombies",
+    "monsters": [ { "monster": "mon_pseudo_dormant_zombie", "weight": 50, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_VANILLA",
     "default": "mon_zombie",
     "//": "Normalized to 1000",
     "monsters": [
-      { "group": "GROUP_VANILLA_NO_FERAL", "weight": 801, "cost_multiplier": 0 },
-      { "group": "GROUP_CIVILIANS_STANDARD", "weight": 500, "cost_multiplier": 0 },
-      { "group": "GROUP_FERAL", "weight": 99, "cost_multiplier": 0 }
+      { "group": "GROUP_VANILLA_NO_FERAL", "weight": 777, "cost_multiplier": 0 },
+      { "group": "GROUP_CIVILIANS_STANDARD", "weight": 477, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 66, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
@@ -282,6 +291,7 @@
     "//": "+15% child",
     "monsters": [
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 200, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 130, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 483 },
       { "monster": "mon_zombie_fat", "weight": 130, "cost_multiplier": 2 },
       { "monster": "mon_zombie_tough", "weight": 50, "cost_multiplier": 3 },
