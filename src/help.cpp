@@ -116,12 +116,14 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
     int second_column = divide_round_up( getmaxx( win ), 2 );
     size_t i = 0;
     for( const auto &text : help_texts ) {
-        std::string cat_name = text.second.first.translated();
+        std::string cat_name;
         auto hotkey_it = hotkeys.find( text.first );
         if( hotkey_it != hotkeys.end() ) {
             cat_name = colorize( hotkey_it->second.short_description(),
-                                 selected == text.first ? hilite( c_light_blue ) : c_light_blue ) + ": " + cat_name;
+                                 selected == text.first ? hilite( c_light_blue ) : c_light_blue );
+            cat_name += ": ";
         }
+        cat_name += text.second.first.translated();
         const int cat_width = utf8_width( remove_color_tags( cat_name ) );
         if( i < half_size ) {
             second_column = std::max( second_column, cat_width + 4 );

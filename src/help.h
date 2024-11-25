@@ -34,7 +34,7 @@ class help
         static std::string get_dir_grid();
         // Modifier for each mods order
         int current_order_start = 0;
-        std::string current_src = "";
+        std::string current_src;
         std::map<int, std::pair<translation, std::vector<translation>>> help_texts;
 };
 
