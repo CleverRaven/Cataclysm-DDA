@@ -20,7 +20,6 @@
 #include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
-#include "coordinate_constants.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"

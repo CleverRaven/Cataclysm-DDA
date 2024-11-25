@@ -17,7 +17,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"

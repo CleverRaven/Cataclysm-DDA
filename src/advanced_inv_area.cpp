@@ -9,7 +9,6 @@
 #include "avatar.h"
 #include "character.h"
 #include "character_attire.h"
-#include "coordinate_constants.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"

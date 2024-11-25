@@ -4,7 +4,6 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"

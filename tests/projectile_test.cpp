@@ -7,7 +7,6 @@
 #include "ballistics.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"

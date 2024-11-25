@@ -24,7 +24,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"

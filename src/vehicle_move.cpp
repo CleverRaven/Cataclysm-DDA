@@ -15,7 +15,6 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"

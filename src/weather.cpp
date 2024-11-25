@@ -16,7 +16,6 @@
 #include "character.h"
 #include "city.h"
 #include "colony.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"

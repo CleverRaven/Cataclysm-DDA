@@ -319,7 +319,7 @@ monster::monster( const mtype_id &id ) : monster()
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, calendar::turn_zero );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_bub_ms_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
     if( monster::has_flag( mon_flag_PET_MOUNTABLE ) ) {
@@ -3081,7 +3081,7 @@ void monster::die( Creature *nkiller )
         }
     }
     if( corpse ) {
-        corpse->process( get_map(), nullptr, corpse.position() );
+        corpse->process( get_map(), nullptr, corpse.pos_bub() );
         corpse.make_active();
     }
 
@@ -3127,7 +3127,7 @@ units::energy monster::use_mech_power( units::energy amt )
     }
     const int max_drain = battery_item->ammo_remaining();
     const int consumption = std::min( static_cast<int>( units::to_kilojoule( amt ) ), max_drain );
-    battery_item->ammo_consume( consumption, pos(), nullptr );
+    battery_item->ammo_consume( consumption, pos_bub(), nullptr );
     return units::from_kilojoule( static_cast<std::int64_t>( consumption ) );
 }
 

@@ -5,7 +5,6 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "clzones.h"
-#include "coordinate_constants.h"
 #include "item.h"
 #include "item_category.h"
 #include "map_helpers.h"

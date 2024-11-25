@@ -18,7 +18,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coordinate_constants.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"

@@ -1418,7 +1418,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( jetpack.ammo_sufficient( you ) ) {
             you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
                                         _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
-            jetpack.activation_consume( 1, you->pos(), you );
+            jetpack.activation_consume( 1, you->pos_bub(), you );
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
