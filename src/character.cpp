@@ -8145,8 +8145,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         hurt = body_part_torso;
     }
 
+    int pain = 0;
     if( !hurt->has_flag( json_flag_BIONIC_LIMB ) ) {
-        mod_pain( dam / 2 );
+        pain = mod_pain( dam / 2 );
     }
 
     const bodypart_id &part_to_damage = hurt->main_part;
@@ -8155,10 +8156,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     if( source ) {
-        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart, part_to_damage.id() );
+        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart, part_to_damage.id(), pain );
         get_event_bus().send_with_talker( this, source, e );
     } else {
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, part_to_damage.id() );
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, part_to_damage.id(), pain );
     }
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
@@ -8370,22 +8371,24 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    int pain = mod_pain( dam );
+
+    std::vector<bodypart_id> body_parts = get_all_body_parts( get_body_part_flags::only_main );
+    for( const bodypart_id &bp : body_parts ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
 
         if( source ) {
-            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart, body_part_bp_null );
+            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart, bp.id(), pain / body_parts.size() );
             get_event_bus().send_with_talker( this, source == nullptr ? nullptr : source, e );
         } else {
-            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, body_part_bp_null );
+            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, bp.id(), pain / body_parts.size() );
         }
 
     }
 
-    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
-    mod_pain( dam );
     on_hurt( source, disturb );
 }
 
@@ -12415,12 +12418,12 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
-void Character::mod_pain( int npain )
+int Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
         double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
         if( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) ) {
-            return;
+            return 0;
         }
         // if there is a positive multiplier we always want to add at least 1 pain
         if( mult > 0 ) {
@@ -12435,6 +12438,7 @@ void Character::mod_pain( int npain )
         npain = std::max( 0, npain );
     }
     Creature::mod_pain( npain );
+    return npain;
 }
 
 void Character::set_pain( int npain )

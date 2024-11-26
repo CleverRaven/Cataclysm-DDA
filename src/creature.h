@@ -698,7 +698,7 @@ class Creature : public viewer
         virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
-        virtual void mod_pain( int npain );
+        virtual int mod_pain( int npain );
         virtual void mod_pain_noresist( int npain );
         virtual void set_pain( int npain );
         virtual int get_pain() const;

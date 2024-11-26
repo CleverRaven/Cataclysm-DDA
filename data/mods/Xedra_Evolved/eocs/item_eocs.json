@@ -70,6 +70,7 @@
         "then": [ { "math": [ "u_hp('ALL')+=u_xedra_last_damage_taken" ] }, { "math": [ "u_xedra_last_damage_taken=0" ] } ],
         "else": [
           { "math": [ "u_hp(u_xedra_last_damage_taken_bodypart)+=u_xedra_last_damage_taken" ] },
+          { "math": [ "u_pain()-=u_xedra_last_pain_taken" ] },
           { "math": [ "u_xedra_last_damage_taken=0" ] }
         ]
       },

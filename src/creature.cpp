@@ -2115,9 +2115,10 @@ void Creature::clear_values()
     values.clear();
 }
 
-void Creature::mod_pain( int npain )
+int Creature::mod_pain( int npain )
 {
     mod_pain_noresist( npain );
+    return npain;
 }
 
 void Creature::mod_pain_noresist( int npain )

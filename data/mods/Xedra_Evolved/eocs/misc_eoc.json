@@ -340,8 +340,8 @@
     "//": "This value is intended to be used for time magic related powers.  It will get reset by their use, and should not be used for general purpose information.",
     "effect": [
       { "math": [ "u_xedra_last_damage_taken=_damage" ] },
-      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } },
-      { "u_message": "damage taken = <u_val:xedra_last_damage_taken>, bodypart = <u_val:xedra_last_damage_taken_bodypart>" }
+      { "math": [ "u_xedra_last_pain_taken=_pain" ] },
+      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } }
    ]
   }
 ]
