@@ -4,7 +4,11 @@
     "type": "effect_on_condition",
     "recurrence": "1 seconds",
     "condition": {
-      "and": [ { "u_has_flag": "MELEE_PERK_INSIGHT" }, { "x_in_y_chance": { "x": { "math": [ "u_val('perception')" ] }, "y": 20 } } ]
+      "and": [
+        { "u_has_flag": "MELEE_PERK_INSIGHT" },
+        { "u_using_martial_art": "style_none" },
+        { "x_in_y_chance": { "x": { "math": [ "u_val('perception')" ] }, "y": 20 } }
+      ]
     },
     "effect": [
       {
@@ -17,7 +21,8 @@
         ],
         "else": [ { "u_cast_spell": { "id": "perk_insight_spell" }, "targeted": true } ]
       }
-    ]
+    ],
+    "false_effect": [ { "if": { "not": { "u_using_martial_art": "style_none" } }, "then": [ { "u_lose_effect": "perk_insight" } ] } ]
   },
   {
     "id": "EOC_PERK_SPEND_INSIGHT",
