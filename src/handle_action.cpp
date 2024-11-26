@@ -2382,7 +2382,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
 
                 if( vp->vehicle().is_rotorcraft() || vp->vehicle().is_abstracted_aircraft() ) {
-                    pldrive( tripoint_below );
+                    pldrive( tripoint::below );
                     break;
                 }
             }
@@ -2432,7 +2432,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() || vp->vehicle().is_abstracted_aircraft() ) {
-                    pldrive( tripoint_above );
+                    pldrive( tripoint::above );
 
                 }
             }
