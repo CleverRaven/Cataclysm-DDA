@@ -62,13 +62,13 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "3.3 naval 4-round magazine" },
-    "description": "Bulky 4-round magazine for Exodii naval rifle.  Grants some amount of portability, if a hundredweight piece of metal can be named portable.",
+    "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if a gun itself can be named portable.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_4_mag",
         "name": { "str": "3.3 naval 4-round magazine" },
-        "description": "Bulky 4-round magazine for Exodii Ree 3.3 rifle.  Grants some amount of portability, if a hundredweight piece of metal can be named portable."
+        "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if a gun itself can be named portable."
       }
     ],
     "weight": "340 g",
@@ -87,13 +87,13 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "3.3 naval 53-round box magazine" },
-    "description": "Giant metal box with a belt, which allows it to be used as high-capacity magazine for Exodii naval rifle.",
+    "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii naval rifle.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_53_mag",
         "name": { "str": "3.3 naval 53-round box magazine" },
-        "description": "Giant metal box with a belt, which allows it to be used as high-capacity magazine for Exodii Ree 3.3 rifle."
+        "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii Ree 3.3 rifle."
       }
     ],
     "weight": "4600 g",
