@@ -15066,7 +15066,7 @@ int item::get_min_str() const
     static const skill_id skill_archery( "archery" );
     if( type->gun ) {
         int min_str = type->min_str;
-        // we really need some better check for bows than it's skill
+        // we really need some better check for bows than its skill
         if( type->gun->skill_used == skill_archery ) {
             min_str -= p.get_proficiency_bonus( "archery", proficiency_bonus_type::strength );
         }

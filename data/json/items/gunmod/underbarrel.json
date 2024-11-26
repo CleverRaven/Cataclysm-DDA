@@ -597,7 +597,7 @@
     "id": "ree_33_tripod",
     "type": "GUNMOD",
     "name": { "str": "heavy-duty tripod" },
-    "description": "Massive tripod, used by exodii naval rifle so it can be used by lightweight units, providing firearm support.  Allow to use naval rifle while prone.",
+    "description": "Massive tripod, used by Exodii naval rifle so it can be used by lightweight units, providing firearm support.  Allows using naval rifle while prone.",
     "weight": "6000 g",
     "volume": "5800 ml",
     "longest_side": "66 cm",
