@@ -35,7 +35,6 @@ class help
         std::string current_src;
 };
 
-// Make pointer?
 help &get_help();
 
 class help_window : public cataimgui::window
@@ -47,18 +46,18 @@ class help_window : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
-        //void draw_tabless();
-        //void draw_tabbed();
-        //void draw_tab_contents( size_t tab );
         static std::string get_note_colors();
         static std::string get_dir_grid();
         input_context ctxt;
         help &data = get_help();
         std::map<int, input_event> hotkeys;
         cataimgui::bounds bounds{ 0.0f, 0.0f, static_cast<float>( str_width_to_pixels( TERMX ) ), static_cast<float>( str_height_to_pixels( TERMY ) ) };
-        short mouse_selected_option;
-        short keyboard_selected_option;
-        short last_keyboard_selected_option;
+        int mouse_selected_option;
+        int keyboard_selected_option;
+        int last_keyboard_selected_option;
+        bool selected_category = false;
+        std::pair<translation, std::vector<translation>> &category = data.help_texts.begin()->second;
+        void draw_category_selection();
         void draw_category( translation &category_name, std::vector<translation> &paragraphs );
 };
 

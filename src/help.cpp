@@ -35,12 +35,14 @@
 #include "ui_helpers.h"
 #include "ui_manager.h"
 
-// Imgui planning
+// Imgui migration planning
 ////////////////////////////////////////////////////////////////////////
-// Tabular full screen menu
-// 1 Tab per mod (overflow to an additional tab if more than 52 entries)
-// General read/unread functionality
-// Short desc for each category?
+// Full screen category selection menu
+// When you click a category/press a hotkey the categories paragraphs are presented with the categories name at the top, Esc to go back to selection
+// Category paragraphs must word wrap and be scrollable
+// If modded help is present, one tab per mod (overflow to an additional tab if more than 52 entries?), otherwise no tabs
+// General read/unread functionality that changes the colour on the selection menu (no permanence for now)
+// Split name into name and short desc for each category to make use of the extra space
 // Handling for tiny screens (mobile)
 
 class JsonObject;
@@ -139,11 +141,8 @@ help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoNavInputs )
 {
     input_context ctxt( "DISPLAY_HELP", keyboard_mode::keychar );
-    ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
-    //ctxt.register_action( "NEXT_TAB" );
-    //ctxt.register_action( "PREV_TAB" );
     // Mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
@@ -159,11 +158,16 @@ help_window::help_window() : cataimgui::window( "help",
 
 void help_window::draw_controls()
 {
-    //if( ImGui::BeginTabBar( "idk" ) ) {
-    //    ImGui::EndTabBar();
-    //}
+    if( !selected_category ) {
+        draw_category_selection();
+    } else {
+        draw_category( category.first, category.second );
+    }
+}
+
+void help_window::draw_category_selection()
+{
     mouse_selected_option = -1;
-    size_t ind = 0;
     for( const auto &text : data.help_texts ) {
         std::string cat_name;
         auto hotkey_it = hotkeys.find( text.first );
@@ -174,13 +178,8 @@ void help_window::draw_controls()
         cat_name += text.second.first.translated();
         ImGui::Button( remove_color_tags( cat_name ).c_str() );
         if( ImGui::IsItemHovered() ) {
-            mouse_selected_option = ind;
+            mouse_selected_option = hotkey_it->first;
         }
-        if( keyboard_selected_option != last_keyboard_selected_option &&
-            keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
-            ImGui::SetKeyboardFocusHere( -1 );
-        }
-        ind++;
     }
 }
 
@@ -193,10 +192,12 @@ void help_window::draw_category( translation &category_name, std::vector<transla
         cataimgui::draw_colored_text( paragraph.translated() );
     }
     mark_resized();
+    ui_manager::redraw_invalidated();
     while( true ) {
         ui_manager::redraw_invalidated();
         const std::string action = ctxt.handle_input( 50 );
         if( action == "CONFIRM" || action == "QUIT" ) {
+            selected_category = false;
             return;
         }
     }
@@ -209,25 +210,21 @@ cataimgui::bounds help_window::get_bounds()
 
 void help_window::show()
 {
-    size_t selected = 0;
+    int selected = 0;
     while( true ) {
         ui_manager::redraw_invalidated();
         std::string action = ctxt.handle_input( 50 );
-        //const input_event event = ctxt.get_raw_input();
-        //if( action == "NEXT_TAB" ) {
-        //    switch_target = cur_target;
-        //    ++switch_target;
-        //} else if( action == "PREV_TAB" ) {
-        //    switch_target = cur_target;
-        //    --switch_target;
-        //} else
+
         if( action == "SELECT" && mouse_selected_option != -1 ) {
             action = "CONFIRM";
-            selected = size_t( mouse_selected_option );
+            selected = mouse_selected_option;
         }
+
         if( action == "CONFIRM" ) {
-            if( auto it = data.help_texts.find( selected ); it != data.help_texts.end() ) {
-                draw_category( it->second.first, it->second.second );
+            auto it = data.help_texts.find( selected );
+            selected_category = it != data.help_texts.end();
+            if( selected_category ) {
+                category = it->second;
             }
         } else if( action == "QUIT" ) {
             return;
