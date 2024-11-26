@@ -389,7 +389,7 @@
     "description": "A human corpse swollen to the size of six men, with arms as wide as trash cans.",
     "copy-from": "mon_zombie_base",
     "diff": 5,
-    "volume": "875 L",
+    "volume": "375 L",
     "weight": "200 kg",
     "hp": 480,
     "speed": 130,
