@@ -343,5 +343,36 @@
       { "math": [ "u_xedra_last_pain_taken=_pain" ] },
       { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } }
    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_xedra_time_freeze_character_start_activity",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
+    "//": "Activity duration doesn't truly align with time stops potentially lasting indefinitely, but players should never be time stopped longer than a day or two anyways so 200 days should be good enough.  If truly important making the activity based on neither rather than time and adding a blank do_turn function should allow >200 day durations",
+    "effect": [
+      { "u_assign_activity": "act_xedra_time_freeze", "duration": "200 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_xedra_time_freeze_character_end_activity",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
+    "effect": [
+      "u_cancel_activity"
+    ]
+  },
+  {
+    "id": "act_xedra_time_freeze",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "frozen in time",
+    "based_on": "time",
+    "interruptable": false,
+    "interruptable_with_kb": false,
+    "can_resume": false
   }
 ]
