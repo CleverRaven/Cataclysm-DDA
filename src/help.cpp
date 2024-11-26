@@ -137,10 +137,9 @@ std::string help_window::get_note_colors()
 }
 
 help_window::help_window() : cataimgui::window( "help",
-            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoNavInputs )
+            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize )
 {
-    input_context ctxt( "DISPLAY_HELP", keyboard_mode::keychar );
+    ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     // Mouse selection
@@ -168,6 +167,7 @@ void help_window::draw_controls()
 void help_window::draw_category_selection()
 {
     mouse_selected_option = -1;
+    format_title( _( "Help" ) );
     for( const auto &text : data.help_texts ) {
         std::string cat_name;
         auto hotkey_it = hotkeys.find( text.first );
@@ -178,29 +178,70 @@ void help_window::draw_category_selection()
         cat_name += text.second.first.translated();
         ImGui::Button( remove_color_tags( cat_name ).c_str() );
         if( ImGui::IsItemHovered() ) {
-            mouse_selected_option = hotkey_it->first;
+            mouse_selected_option = text.first;
         }
     }
 }
 
+std::string help_window::seperator( int length, char c )
+{
+    std::string ret = "<color_light_blue>";
+    ret += std::string( length, c );
+    ret += "</color>";
+    return ret;
+}
+
+void help_window::format_title( const std::string translated_category_name )
+{
+    std::string row3 = "<color_light_blue>║</color> ";
+    row3 += translated_category_name;
+    row3 += " <color_light_blue>║</color>";
+    std::string div = seperator( remove_color_tags( row3 ).length() - 4, '=' );
+    cataimgui::draw_colored_text( div );
+    cataimgui::draw_colored_text( row3 );
+    cataimgui::draw_colored_text( div );
+    cataimgui::draw_colored_text( seperator( static_cast<int>( wrap_width ), '_' ) );
+    ImGui::NewLine();
+}
+
 void help_window::draw_category( translation &category_name, std::vector<translation> &paragraphs )
 {
-    cataimgui::draw_colored_text( category_name.translated() );
+    format_title( category_name.translated() );
     for( const translation &paragraph : paragraphs ) {
+        cataimgui::draw_colored_text( parse_tags_help_window( paragraph.translated() ), wrap_width );
         ImGui::NewLine();
-        ImGui::NewLine();
-        cataimgui::draw_colored_text( paragraph.translated() );
     }
-    mark_resized();
-    ui_manager::redraw_invalidated();
-    while( true ) {
-        ui_manager::redraw_invalidated();
-        const std::string action = ctxt.handle_input( 50 );
-        if( action == "CONFIRM" || action == "QUIT" ) {
-            selected_category = false;
-            return;
+    input_context cat_cxt( "DISPLAY_HELP_CATEGORY", keyboard_mode::keychar );
+    cat_cxt.register_action( "QUIT" );
+    cat_cxt.register_action( "CONFIRM" );
+}
+
+// Would ideally be merged with parse_tags()
+std::string help_window::parse_tags_help_window( std::string translated_line )
+{
+    if( translated_line == "<DRAW_NOTE_COLORS>" ) {
+        translated_line = get_note_colors();
+    } else if( translated_line == "<HELP_DRAW_DIRECTIONS>" ) {
+        translated_line = get_dir_grid();
+    }
+    size_t pos = translated_line.find( "<press_", 0, 7 );
+    while( pos != std::string::npos ) {
+        size_t pos2 = translated_line.find( ">", pos, 1 );
+
+        std::string action = translated_line.substr( pos + 7, pos2 - pos - 7 );
+        std::string replace = "<color_light_blue>" +
+                              press_x( look_up_action( action ), "", "" ) + "</color>";
+
+        if( replace.empty() ) {
+            debugmsg( "Help json: Unknown action: %s", action );
+        } else {
+            translated_line = string_replace(
+                                  translated_line, "<press_" + std::move( action ) + ">", replace );
         }
+
+        pos = translated_line.find( "<press_", pos2, 7 );
     }
+    return translated_line;
 }
 
 cataimgui::bounds help_window::get_bounds()
@@ -210,26 +251,39 @@ cataimgui::bounds help_window::get_bounds()
 
 void help_window::show()
 {
-    int selected = 0;
+    int selected = -1;
     while( true ) {
-        ui_manager::redraw_invalidated();
-        std::string action = ctxt.handle_input( 50 );
+        while( !selected_category ) {
+            ui_manager::redraw_invalidated();
+            std::string action = ctxt.handle_input( 50 );
 
-        if( action == "SELECT" && mouse_selected_option != -1 ) {
-            action = "CONFIRM";
-            selected = mouse_selected_option;
-        }
-
-        if( action == "CONFIRM" ) {
-            auto it = data.help_texts.find( selected );
-            selected_category = it != data.help_texts.end();
-            if( selected_category ) {
-                category = it->second;
+            if( action == "SELECT" && mouse_selected_option != -1 ) {
+                action = "CONFIRM";
+                selected = mouse_selected_option;
             }
-        } else if( action == "QUIT" ) {
-            return;
+
+            if( action == "CONFIRM" && selected != -1 ) {
+                auto it = data.help_texts.find( selected );
+                selected_category = it != data.help_texts.end();
+                if( selected_category ) {
+                    category = it->second;
+                } else {
+                    debugmsg( "Category not found" );
+                }
+            } else if( action == "QUIT" ) {
+                return;
+            }
+        }
+        while( selected_category ) {
+            ui_manager::redraw_invalidated();
+            std::string action = ctxt.handle_input( 50 );
+
+            if( action == "CONFIRM" || action == "QUIT" ) {
+                selected_category = false;
+            }
         }
     }
+
 }
 
 std::string get_hint()
