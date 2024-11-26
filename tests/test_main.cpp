@@ -35,7 +35,6 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "help.h"
 #include "json.h"
 #include "map.h"
 #include "messages.h"
@@ -127,8 +126,6 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g = std::make_unique<game>( );
     g->new_game = true;
     g->load_static_data();
-
-    get_help().load();
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
