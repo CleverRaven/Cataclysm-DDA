@@ -369,7 +369,7 @@ class basecamp
                                const std::vector<item *> &equipment,
                                const skill_id &skill_tested, int skill_level,
                                float exertion_level, const time_duration &travel_time = 0_hours );
-        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration total_time,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {},
