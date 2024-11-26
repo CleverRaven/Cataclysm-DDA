@@ -11,6 +11,11 @@
 #include <unordered_map>
 #include <vector>
 
+#include "cata_imgui.h"
+#include "input_context.h"
+#include "imgui/imgui.h"
+#include "output.h"
+
 #include "action.h"
 #include "cata_path.h"
 #include "cata_utility.h"
@@ -29,6 +34,16 @@
 #include "translations.h"
 #include "ui_helpers.h"
 #include "ui_manager.h"
+
+// Imgui planning
+////////////////////////////////////////////////////////////////////////
+// Tabular full screen menu
+// 1 Tab per mod (overflow to an additional tab if more than 52 entries)
+// General read/unread functionality
+// Short desc for each category?
+// Handling for tiny screens (mobile)
+
+class JsonObject;
 
 help &get_help()
 {
@@ -74,7 +89,7 @@ void help::load_object( const JsonObject &jo, const std::string &src )
     }
 }
 
-std::string help::get_dir_grid()
+std::string help_window::get_dir_grid()
 {
     static const std::array<action_id, 9> movearray = {{
             ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
@@ -105,49 +120,7 @@ std::string help::get_dir_grid()
     return movement;
 }
 
-std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::window &win,
-                                       int selected, std::map<int, input_event> &hotkeys ) const
-{
-    std::map<int, inclusive_rectangle<point>> opt_map;
-
-    werase( win );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
-                            _( "Please press one of the following for help on that topic:\n"
-                               "Press ESC to return to the game." ) ) + 1;
-
-    size_t half_size = help_texts.size() / 2 + 1;
-    int second_column = divide_round_up( getmaxx( win ), 2 );
-    size_t i = 0;
-    for( const auto &text : help_texts ) {
-        std::string cat_name;
-        auto hotkey_it = hotkeys.find( text.first );
-        if( hotkey_it != hotkeys.end() ) {
-            cat_name = colorize( hotkey_it->second.short_description(),
-                                 selected == text.first ? hilite( c_light_blue ) : c_light_blue );
-            cat_name += ": ";
-        }
-        cat_name += text.second.first.translated();
-        const int cat_width = utf8_width( remove_color_tags( cat_name ) );
-        if( i < half_size ) {
-            second_column = std::max( second_column, cat_width + 4 );
-        }
-
-        const point sc_start( i < half_size ? 1 : second_column, y + i % half_size );
-        fold_and_print( win, sc_start, getmaxx( win ) - 2,
-                        selected == text.first ? hilite( c_white ) : c_white, cat_name );
-        ++i;
-
-        opt_map.emplace( text.first,
-                         inclusive_rectangle<point>( sc_start, sc_start + point( cat_width - 1, 0 ) ) );
-    }
-
-    wnoutrefresh( win );
-
-    return opt_map;
-}
-
-std::string help::get_note_colors()
+std::string help_window::get_note_colors()
 {
     std::string text = _( "Note colors: " );
     for( const auto &color_pair : get_note_color_names() ) {
@@ -161,130 +134,105 @@ std::string help::get_note_colors()
     return text;
 }
 
-void help::display_help() const
+help_window::help_window() : cataimgui::window( "help",
+            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoNavInputs )
 {
-    catacurses::window w_help_border;
-    catacurses::window w_help;
-
-    ui_adaptor ui;
-    const auto init_windows = [&]( ui_adaptor & ui ) {
-        ui_helpers::full_screen_window( ui, &w_help, &w_help_border, nullptr, nullptr, nullptr, 1 );
-    };
-    init_windows( ui );
-    ui.on_screen_resize( init_windows );
-
     input_context ctxt( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
-    // for mouse selection
+    //ctxt.register_action( "NEXT_TAB" );
+    //ctxt.register_action( "PREV_TAB" );
+    // Mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
-    // for the menu shortcuts
+    // Generated shortcuts
     ctxt.register_action( "ANY_INPUT" );
-
-    std::string action;
-    std::map<int, inclusive_rectangle<point>> opt_map;
-    int sel = -1;
-
     const hotkey_queue &hkq = hotkey_queue::alphabets();
     input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
-    std::map<int, input_event> hotkeys;
-    for( const auto &text : help_texts ) {
+    for( const auto &text : data.help_texts ) {
         hotkeys.emplace( text.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
+}
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_help_border, BORDER_COLOR, _( "Help" ) );
-        wnoutrefresh( w_help_border );
-        opt_map = draw_menu( w_help, sel, hotkeys );
-    } );
-
-    do {
-        ui_manager::redraw();
-
-        sel = -1;
-        action = ctxt.handle_input();
-        input_event input = ctxt.get_raw_input();
-
-        // Mouse selection
-        if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            std::optional<point> coord = ctxt.get_coordinates_text( w_help );
-            if( !!coord ) {
-                int cnt = run_for_point_in<int, point>( opt_map, *coord,
-                [&sel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                    sel = p.first;
-                } );
-                if( cnt > 0 && action == "SELECT" ) {
-                    auto iter = hotkeys.find( sel );
-                    if( iter != hotkeys.end() ) {
-                        input = iter->second;
-                        action = "CONFIRM";
-                    }
-                }
-            }
+void help_window::draw_controls()
+{
+    //if( ImGui::BeginTabBar( "idk" ) ) {
+    //    ImGui::EndTabBar();
+    //}
+    mouse_selected_option = -1;
+    size_t ind = 0;
+    for( const auto &text : data.help_texts ) {
+        std::string cat_name;
+        auto hotkey_it = hotkeys.find( text.first );
+        if( hotkey_it != hotkeys.end() ) {
+            cat_name = hotkey_it->second.short_description();
+            cat_name += ": ";
         }
-
-        for( const auto &hotkey_entry : hotkeys ) {
-            auto help_text_it = help_texts.find( hotkey_entry.first );
-            if( help_text_it == help_texts.end() ) {
-                continue;
-            }
-            if( input == hotkey_entry.second ) {
-                std::vector<std::string> i18n_help_texts;
-                i18n_help_texts.reserve( help_text_it->second.second.size() );
-                std::transform( help_text_it->second.second.begin(), help_text_it->second.second.end(),
-                std::back_inserter( i18n_help_texts ), [&]( const translation & line ) {
-                    std::string line_proc = line.translated();
-                    if( line_proc == "<DRAW_NOTE_COLORS>" ) {
-                        line_proc = get_note_colors();
-                    } else if( line_proc == "<HELP_DRAW_DIRECTIONS>" ) {
-                        line_proc = get_dir_grid();
-                    }
-                    size_t pos = line_proc.find( "<press_", 0, 7 );
-                    while( pos != std::string::npos ) {
-                        size_t pos2 = line_proc.find( ">", pos, 1 );
-
-                        std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
-                        std::string replace = "<color_light_blue>" +
-                                              press_x( look_up_action( action ), "", "" ) + "</color>";
-
-                        if( replace.empty() ) {
-                            debugmsg( "Help json: Unknown action: %s", action );
-                        } else {
-                            line_proc = string_replace(
-                                            line_proc, "<press_" + std::move( action ) + ">", replace );
-                        }
-
-                        pos = line_proc.find( "<press_", pos2, 7 );
-                    }
-                    return line_proc;
-                } );
-
-                if( !i18n_help_texts.empty() ) {
-                    ui.on_screen_resize( nullptr );
-
-                    const auto get_w_help_border = [&]() {
-                        init_windows( ui );
-                        return w_help_border;
-                    };
-
-                    scrollable_text( get_w_help_border, _( "Help" ),
-                                     std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
-                                                      i18n_help_texts.front(),
-                    []( std::string lhs, const std::string & rhs ) {
-                        return std::move( lhs ) + "\n\n" + rhs;
-                    } ) );
-
-                    ui.on_screen_resize( init_windows );
-                }
-                action = "CONFIRM";
-                break;
-
-            }
+        cat_name += text.second.first.translated();
+        ImGui::Button( remove_color_tags( cat_name ).c_str() );
+        if( ImGui::IsItemHovered() ) {
+            mouse_selected_option = ind;
         }
-    } while( action != "QUIT" );
+        if( keyboard_selected_option != last_keyboard_selected_option &&
+            keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
+            ImGui::SetKeyboardFocusHere( -1 );
+        }
+        ind++;
+    }
+}
+
+void help_window::draw_category( translation &category_name, std::vector<translation> &paragraphs )
+{
+    cataimgui::draw_colored_text( category_name.translated() );
+    for( const translation &paragraph : paragraphs ) {
+        ImGui::NewLine();
+        ImGui::NewLine();
+        cataimgui::draw_colored_text( paragraph.translated() );
+    }
+    mark_resized();
+    while( true ) {
+        ui_manager::redraw_invalidated();
+        const std::string action = ctxt.handle_input( 50 );
+        if( action == "CONFIRM" || action == "QUIT" ) {
+            return;
+        }
+    }
+}
+
+cataimgui::bounds help_window::get_bounds()
+{
+    return bounds;
+}
+
+void help_window::show()
+{
+    size_t selected = 0;
+    while( true ) {
+        ui_manager::redraw_invalidated();
+        std::string action = ctxt.handle_input( 50 );
+        //const input_event event = ctxt.get_raw_input();
+        //if( action == "NEXT_TAB" ) {
+        //    switch_target = cur_target;
+        //    ++switch_target;
+        //} else if( action == "PREV_TAB" ) {
+        //    switch_target = cur_target;
+        //    --switch_target;
+        //} else
+        if( action == "SELECT" && mouse_selected_option != -1 ) {
+            action = "CONFIRM";
+            selected = size_t( mouse_selected_option );
+        }
+        if( action == "CONFIRM" ) {
+            if( auto it = data.help_texts.find( selected ); it != data.help_texts.end() ) {
+                draw_category( it->second.first, it->second.second );
+            }
+        } else if( action == "QUIT" ) {
+            return;
+        }
+    }
 }
 
 std::string get_hint()

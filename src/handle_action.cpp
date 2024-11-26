@@ -2972,9 +2972,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             Messages::display_messages();
             break;
 
-        case ACTION_HELP:
-            get_help().display_help();
+        case ACTION_HELP: {
+            help_window hw;
+            hw.show();
             break;
+        }
 
         case ACTION_OPTIONS:
             get_options().show( true );
