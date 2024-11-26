@@ -126,7 +126,7 @@
     },
     "effect": [ { "u_add_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
   },
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_PARACLESIAN_LOSE_UNCANNY_DODGE_EFFECT",
     "eoc_type": "EVENT",
