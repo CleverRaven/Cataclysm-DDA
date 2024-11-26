@@ -1,0 +1,189 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "DINOMOD_DM",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "DINOMOD_dm",
+    "base_faction": "animal"
+  },
+  {
+    "id": "mon_dilophosaurus_dm",
+    "copy-from": "mon_dilophosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_ceratosaurus_dm",
+    "copy-from": "mon_ceratosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_spinosaurus_dm",
+    "copy-from": "mon_spinosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_torvosaurus_dm",
+    "copy-from": "mon_torvosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_allosaurus_dm",
+    "copy-from": "mon_allosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_acrocanthosaurus_dm",
+    "copy-from": "mon_acrocanthosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_giganotosaurus_dm",
+    "copy-from": "mon_giganotosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_siats_dm",
+    "copy-from": "mon_siats",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_dryptosaurus_dm",
+    "copy-from": "mon_dryptosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_appalachiosaurus_dm",
+    "copy-from": "mon_appalachiosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_gorgosaurus_dm",
+    "copy-from": "mon_gorgosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_albertosaurus_dm",
+    "copy-from": "mon_albertosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_qianzhousaurus_dm",
+    "copy-from": "mon_qianzhousaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_nanuqsaurus_dm",
+    "copy-from": "mon_nanuqsaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_daspletosaurus_dm",
+    "copy-from": "mon_daspletosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_tyrannosaurus_dm",
+    "copy-from": "mon_tyrannosaurus",
+    "type": "MONSTER",
+    "default_faction": "DINOMOD_dm",
+    "species": [ "DINOMOD_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]
