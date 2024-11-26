@@ -319,7 +319,7 @@
     "description": "Some dark blue nannyberries, tasting like prunes mixed with banana.",
     "copy-from": "elderberries",
     "//": "Nannyberries are described as rather dry, perfectly fine to eat as is but it will not hydrate you.",
-    "use_action": [ ],
+    "use_action": [  ],
     "quench": 0,
     "fun": 2,
     "color": "black"
