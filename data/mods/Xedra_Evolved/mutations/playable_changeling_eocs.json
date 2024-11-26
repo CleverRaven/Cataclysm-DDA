@@ -558,6 +558,7 @@
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
+    "deactivate_condition": { "not": { "u_has_trait": "BROWNIE_HOMEBODY" } },
     "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "++" ] }, { "math": [ "u_brownie_sense_intruders", "++" ] } ]
   },
   {

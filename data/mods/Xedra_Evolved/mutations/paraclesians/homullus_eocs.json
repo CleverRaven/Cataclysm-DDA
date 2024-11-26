@@ -150,6 +150,7 @@
     "id": "EOC_HOMULLUS_GAIN_BIONIC_POWER_IN_CITIES",
     "recurrence": "30 seconds",
     "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } },
     "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
   },
   {
@@ -219,6 +220,7 @@
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER",
     "recurrence": "1 s",
     "condition": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } },
     "effect": [
       {
         "run_eocs": {
