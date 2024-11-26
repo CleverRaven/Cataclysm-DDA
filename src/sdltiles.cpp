@@ -2992,12 +2992,6 @@ static void CheckMessages()
         }
     }
 #endif
-
-#if defined(__IPHONEOS__)
-    if( !SDL_IsTextInputActive() ) {
-        StartTextInput();
-    }
-#endif
     
     last_input = input_event();
 
@@ -3040,7 +3034,7 @@ static void CheckMessages()
                         if( SDL_IsTextInputActive() ) {
                             text_input_active_when_regaining_focus = true;
                             // Stop text input to not intefere with other programs
-                            SDL_StopTextInput();
+                            StopTextInput();
                             // Clear uncommited IME text. TODO: commit IME text instead.
                             last_input = input_event();
                             last_input.type = input_event_t::keyboard_char;
@@ -3093,7 +3087,7 @@ static void CheckMessages()
                     // TODO: Abstract common method with above usage
                     text_input_active_when_regaining_focus = true;
                     // Stop text input to not intefere with other programs
-                    SDL_StopTextInput();
+                    StopTextInput();
                     // Clear uncommited IME text. TODO: commit IME text instead.
                     last_input = input_event();
                     last_input.type = input_event_t::keyboard_char;
@@ -3119,7 +3113,7 @@ static void CheckMessages()
                 render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                 // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
                 if( ev.key.keysym.sym == SDLK_AC_BACK && ac_back_down_time == 0 ) {
                     ac_back_down_time = ticks;
