@@ -4907,7 +4907,7 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
 bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool inside,
                      const bool check_only )
 {
-    if( u.has_effect( effect_incorporeal ) ) {
+    if( u.has_effect( effect_incorporeal ) || impassable_field_at(p) ) {
         return false;
     }
     const ter_t &ter = this->ter( p ).obj();
