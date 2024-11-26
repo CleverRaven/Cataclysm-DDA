@@ -331,5 +331,27 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_effect": "effect_sleep_shield" },
     "effect": [ { "u_lose_effect": "effect_sleep_shield" }, { "u_teleport": { "u_val": "SLEEP_SHIELD_location" }, "force": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TRACK_LAST_HIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "//": "This value is intended to be used for time magic related powers.  It will get reset by their use, and should not be used for general purpose information.",
+    "effect": [
+      { "math": [ "u_xedra_last_damage_taken=_damage" ] },
+      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } },
+      { "u_message": "damage taken = <u_val:xedra_last_damage_taken>, bodypart = <u_val:xedra_last_damage_taken_bodypart>" }
+   ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TRACK_LAST_HIT_EOC_AFS_MEDIGEL_ADD",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "effect": [
+      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "test_part" } },
+      { "u_message": "bodypart = <u_val:test_part>" }
+    ]
   }
 ]

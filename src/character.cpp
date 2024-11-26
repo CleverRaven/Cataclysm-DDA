@@ -8155,10 +8155,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     if( source ) {
-        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart, part_to_damage.id() );
         get_event_bus().send_with_talker( this, source, e );
     } else {
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, part_to_damage.id() );
     }
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
@@ -8376,10 +8376,10 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         mod_part_hp_cur( bp, - dam_to_bodypart );
 
         if( source ) {
-            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart, body_part_bp_null );
             get_event_bus().send_with_talker( this, source == nullptr ? nullptr : source, e );
         } else {
-            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, body_part_bp_null );
         }
 
     }
