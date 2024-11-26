@@ -97,6 +97,11 @@ static void update_state( const std::string &context, const std::string &step )
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
         for( mod_id &some_mod : active_mod_list ) {
+            // We haven't migrated mods yet
+            // TODO: Move mod migration before this function?
+            if( !some_mod.is_valid() ) {
+                continue;
+            }
             const MOD_INFORMATION &mod = *some_mod;
             for( const std::string &img_name : mod.loading_images ) {
                 // There may be more than one file matching the name, so we need to get all of them

@@ -653,14 +653,14 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
 {
-    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+    return crafting_inventory( tripoint::zero, PICKUP_RANGE, clear_path );
 }
 
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
         bool clear_path ) const
 {
     tripoint inv_pos = src_pos;
-    if( src_pos == tripoint_zero ) {
+    if( src_pos == tripoint::zero ) {
         inv_pos = pos();
     }
     if( crafting_cache.valid
@@ -2659,23 +2659,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             return false;
         } else {
             if( obj.get_owner() ) {
-                std::vector<npc *> witnesses;
-                for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos_bub(), player_character.pos_bub() ) < MAX_VIEW_DISTANCE &&
-                        elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( player_character.pos_bub() ) ) {
-                        elem.say( "<witnessed_thievery>", 7 );
-                        npc *npc_to_add = &elem;
-                        witnesses.push_back( npc_to_add );
-                    }
-                }
-                if( !witnesses.empty() ) {
-                    if( player_character.add_faction_warning( obj.get_owner() ) ) {
-                        for( npc *elem : witnesses ) {
-                            elem->make_angry();
-                        }
-                    }
-                }
+                g->on_witness_theft( obj );
             }
         }
     }

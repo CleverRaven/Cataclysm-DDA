@@ -26,7 +26,6 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "coordinate_constants.h" // Cannot be placed earlier or the compilation fails.
 #include "item_tname.h"
 #include "material.h"
 #include "requirements.h"
@@ -1479,11 +1478,11 @@ class item : public visitable
             /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
             safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
             /// Absolute position of the linked target vehicle/appliance.
-            tripoint_abs_ms t_abs_pos = tripoint_abs_ms_min;
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms::invalid;
             /// The linked part's mount offset on the target vehicle.
-            point_rel_ms t_mount = point_rel_ms_zero;
+            point_rel_ms t_mount = point_rel_ms::zero;
             /// Reality bubble position of the link's source cable item.
-            tripoint_bub_ms s_bub_pos = tripoint_bub_ms_min; // NOLINT(cata-serialize)
+            tripoint_bub_ms s_bub_pos = tripoint_bub_ms::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.
@@ -1587,7 +1586,7 @@ class item : public visitable
          * @return True if the cable should be deleted.
          */
         bool reset_link( bool unspool_if_too_long = true, Character *p = nullptr, int vpart_index = -1,
-                         bool loose_message = false, tripoint_bub_ms cable_position = tripoint_bub_ms_zero );
+                         bool loose_message = false, tripoint_bub_ms cable_position = tripoint_bub_ms::zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.

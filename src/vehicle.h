@@ -25,7 +25,6 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -293,7 +292,7 @@ struct vehicle_part {
         std::string name( bool with_prefix = true ) const;
 
         struct carried_part_data {
-            tripoint_rel_ms mount; // if value is tripoint_rel_ms_zero this is the pivot
+            tripoint_rel_ms mount; // if value is tripoint_rel_ms::zero this is the pivot
             units::angle face_dir; // direction relative to the carrier vehicle
             std::string veh_name;  // carried vehicle name this part belongs to
 
@@ -527,7 +526,7 @@ struct vehicle_part {
          * Coordinates for some kind of target; jumper cables and turrets use this
          * Two coordinate pairs are stored: actual target point, and target vehicle center.
          */
-        std::pair<tripoint_abs_ms, tripoint_abs_ms> target = { tripoint_abs_ms_min, tripoint_abs_ms_min };
+        std::pair<tripoint_abs_ms, tripoint_abs_ms> target = { tripoint_abs_ms::invalid, tripoint_abs_ms::invalid };
 
         /** If it's a part with variants, which variant it is */
         std::string variant;
@@ -944,7 +943,7 @@ class vehicle
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point_rel_ms damage_origin = point_rel_ms_zero,
+                    float percent_of_parts_to_affect = 1.0f, point_rel_ms damage_origin = point_rel_ms::zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
@@ -2318,7 +2317,7 @@ class vehicle
         mutable point_rel_ms mass_center_precalc; // NOLINT(cata-serialize)
         mutable point_rel_ms mass_center_no_precalc; // NOLINT(cata-serialize)
         tripoint_abs_ms autodrive_local_target =
-            tripoint_abs_ms_zero; // current node the autopilot is aiming for
+            tripoint_abs_ms::zero; // current node the autopilot is aiming for
         class autodrive_controller;
         std::shared_ptr<autodrive_controller> active_autodrive_controller; // NOLINT(cata-serialize)
 
@@ -2335,7 +2334,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos = tripoint_zero; // NOLINT(cata-serialize)
+        tripoint sm_pos = tripoint::zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)
@@ -2348,7 +2347,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        point_sm_ms pos = point_sm_ms_zero;
+        point_sm_ms pos = point_sm_ms::zero;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         /**
@@ -2492,7 +2491,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );

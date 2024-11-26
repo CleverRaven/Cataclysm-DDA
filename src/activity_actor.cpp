@@ -721,7 +721,7 @@ void bash_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsin )
 {
-    bash_activity_actor actor( tripoint_bub_ms_zero );
+    bash_activity_actor actor( tripoint_bub_ms::zero );
 
     JsonObject data = jsin.get_object();
     data.read( "target", actor.target );
@@ -1329,7 +1329,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
-    hotwire_car_activity_actor actor( 0, tripoint_abs_ms_zero );
+    hotwire_car_activity_actor actor( 0, tripoint_abs_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -1542,7 +1542,7 @@ bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &oth
     const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
                                           ( other );
     return actor.target == target && ( ( veh_pos.has_value() &&
-                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_bub_ms( tripoint_max ) ) ) ||
+                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_bub_ms::max ) ) ||
                                        actor.tool.operator == ( tool ) );
 }
 
@@ -1642,32 +1642,32 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms_south;
+        heading = tripoint_rel_ms::south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms_south_west;
+        heading = tripoint_rel_ms::south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms_west;
+        heading = tripoint_rel_ms::west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms_north_west;
+        heading = tripoint_rel_ms::north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms_north;
+        heading = tripoint_rel_ms::north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms_north_east;
+        heading = tripoint_rel_ms::north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms_east;
+        heading = tripoint_rel_ms::east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms_south_east;
+        heading = tripoint_rel_ms::south_east;
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms_zero ) {
+    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1736,28 +1736,28 @@ glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, 
     // What's the purpose of assigning a variable that isn't used? Is some code AWOL?
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms_south;
+        heading = tripoint_rel_ms::south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms_south_west;
+        heading = tripoint_rel_ms::south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms_west;
+        heading = tripoint_rel_ms::west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms_north_west;
+        heading = tripoint_rel_ms::north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms_north;
+        heading = tripoint_rel_ms::north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms_north_east;
+        heading = tripoint_rel_ms::north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms_east;
+        heading = tripoint_rel_ms::east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms_south_west;
+        heading = tripoint_rel_ms::south_west;
     }
 }
 
@@ -2509,7 +2509,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms_zero );
+    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3004,7 +3004,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms_zero );
+    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3220,7 +3220,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_bub_ms_zero );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -4050,7 +4050,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
             //~ heavy breathing when exercising
             std::string huff = _( "yourself huffing and puffing!" );
-            sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
+            sounds::sound( location + tripoint::east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
                            true );
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
@@ -4143,7 +4143,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
-    workout_activity_actor actor{ tripoint_bub_ms_min };
+    workout_activity_actor actor{ tripoint_bub_ms::invalid };
 
     JsonObject data = jsin.get_object();
 
@@ -4411,7 +4411,7 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
-    harvest_activity_actor actor{ tripoint_bub_ms_min };
+    harvest_activity_actor actor{ tripoint_bub_ms::invalid };
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "target", actor.target );
@@ -4629,7 +4629,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_rel_ms_zero, false );
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_rel_ms::zero, false );
 
     JsonObject data = jsin.get_object();
 
@@ -6566,10 +6566,10 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     } else {
         creature_tracker &creatures = get_creature_tracker();
         const point_rel_ms main_dir = pos.xy() - who.pos_bub().xy();
-        const int circle_size = 8;
-        static constexpr std::array<point, circle_size> circle = {
-            point_east, point_south_east, point_south, point_south_west, point_west,
-            point_north_west, point_north, point_north_east
+        static const int circle_size = 8;
+        static constexpr const std::array<point, circle_size> circle = {
+            point::east, point::south_east, point::south, point::south_west, point::west,
+            point::north_west, point::north, point::north_east
         };
         int circle_center = 0;  //  Initialized as the compiler complained
         for( int i = 0; i < circle_size; i++ ) {

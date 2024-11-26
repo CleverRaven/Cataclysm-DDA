@@ -1780,7 +1780,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
             int req = game_item.ammo_required();
-            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_bub_ms_zero, you ) == 0;
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_bub_ms::zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 if( you->is_avatar() ) {
@@ -3485,7 +3485,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
     act->set_to_null();
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
-        it.ammo_consume( it.ammo_required(), tripoint_bub_ms_zero, you );
+        it.ammo_consume( it.ammo_required(), tripoint_bub_ms::zero, you );
     } else {
         debugmsg( "jackhammer activity targets empty" );
     }

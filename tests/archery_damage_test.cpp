@@ -57,7 +57,7 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
                                     dealt_projectile_attack &attack, const std::string &weapon_type )
 {
     for( int i = 0; i < 10; ++i ) {
-        monster target{ mtype_id( target_type ), tripoint_zero };
+        monster target{ mtype_id( target_type ), tripoint::zero };
         //the missed_by field is modified by deal_projectile_attack() and must be reset
         attack.missed_by = accuracy_critical * 0.75;
         target.deal_projectile_attack( nullptr, attack, false );
@@ -83,7 +83,7 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
     test_projectile.critical_multiplier = weapon.ammo_data()->ammo->critical_multiplier;
 
     dealt_projectile_attack attack {
-        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms_zero, accuracy_critical * 0.75
+        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms::zero, accuracy_critical * 0.75
     };
     if( !killable.empty() ) {
         test_projectile_attack( killable, true, attack, weapon_type );

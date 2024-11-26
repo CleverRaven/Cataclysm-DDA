@@ -267,7 +267,7 @@ tripoint editmap::pos2screen( const tripoint_bub_ms &p )
  */
 bool editmap::eget_direction( tripoint_rel_ms &p, const std::string &action ) const
 {
-    p = tripoint_rel_ms( tripoint_zero );
+    p = tripoint_rel_ms::zero;
     if( action == "CENTER" ) {
         p = get_player_character().pos_bub() - target;
     } else if( action == "LEFT_WIDE" ) {
@@ -539,8 +539,8 @@ void editmap::draw_main_ui_overlay()
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
-                p[0] += point_north_west;
-                p[1] += point_south_east;
+                p[0] += point::north_west;
+                p[1] += point::south_east;
             }
             for( const point_bub_ms &pi : p ) {
                 for( const point_bub_ms &pj : p ) {
@@ -614,7 +614,7 @@ void editmap::draw_main_ui_overlay()
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        const point mp = tmax / 2 + point_south_east;
+        const point mp = tmax / 2 + point::south_east;
         wattron( g->w_terrain, c_yellow );
         mvwaddch( g->w_terrain, point( 1, mp.y ), '<' );
         mvwaddch( g->w_terrain, point( tmax.x - 1, mp.y ), '>' );
@@ -665,7 +665,7 @@ void editmap::draw_main_ui_overlay()
                         g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
                                                 ovp->mount_pos().raw() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point::zero );
                     }
                     g->draw_below_override( tripoint_bub_ms( map_p ),
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );

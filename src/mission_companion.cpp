@@ -1979,7 +1979,7 @@ bool talk_function::hospital_raid_return( npc &p )
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         tripoint_abs_omt site = overmap_buffer.find_closest(
                                     loot_location, "hospital", 0, false, ot_match_type::prefix );
-        if( site == overmap::invalid_tripoint ) {
+        if( site.is_invalid() ) {
             debugmsg( "No hospitals found." );
         } else {
             // Search the entire height of the hospital, including the roof

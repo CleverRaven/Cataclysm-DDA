@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "salon",
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "ssssssssssssssssssssssss",
         "sssssssssssdssssssssssss",
@@ -31,7 +31,7 @@
         "  %sss%%%%%%%%%%%%%%%%  ",
         " ! sss !              ! "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "!": "t_region_tree_shade",
         "%": "t_region_shrub_decorative",

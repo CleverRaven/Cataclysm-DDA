@@ -5,7 +5,7 @@
     "om_terrain": [ "museum" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         ".R*f*R*ff*RssR*ff*R*f*R.",
         ".##########LL##########.",
@@ -32,11 +32,11 @@
         ".#y  a    |y aaaa  L l#4",
         ".######################."
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "f": "t_region_groundcover_urban",
         "*": "t_region_shrub_decorative",
-        " ": "t_linoleum_gray",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "+": "t_door_c",
         "R": "t_column",
         "s": "t_concrete",

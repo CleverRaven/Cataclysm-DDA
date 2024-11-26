@@ -927,7 +927,7 @@ bool game::start_game()
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
-    tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    tripoint_abs_omt omtstart = tripoint_abs_omt::invalid;
     std::unordered_map<std::string, std::string> associated_parameters;
     const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
@@ -944,7 +944,7 @@ bool game::start_game()
             omtstart = ret.first;
             associated_parameters = ret.second;
         }
-        if( omtstart == overmap::invalid_tripoint ) {
+        if( omtstart.is_invalid() ) {
 
             MAPBUFFER.clear();
             overmap_buffer.clear();
@@ -954,7 +954,7 @@ bool game::start_game()
                 return false;
             }
         }
-    } while( omtstart == overmap::invalid_tripoint );
+    } while( omtstart.is_invalid() );
 
     // Set parameter(s) if specified in chosen start_loc
     start_loc.set_parameters( omtstart, associated_parameters );
@@ -1295,6 +1295,29 @@ void game::load_npcs()
     npcs_dirty = false;
 }
 
+void game::on_witness_theft( const item &target )
+{
+    Character &p = get_player_character();
+    std::vector<npc *> witnesses;
+    for( npc &elem : g->all_npcs() ) {
+        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) &&
+            target.is_owned_by( elem ) ) {
+            witnesses.push_back( &elem );
+        }
+    }
+    for( npc *elem : witnesses ) {
+        elem->say( "<witnessed_thievery>", 7 );
+    }
+    if( !witnesses.empty() ) {
+        if( p.add_faction_warning( target.get_owner() ) ||
+            target.get_owner() == faction_id( "no_faction" ) ) {
+            for( npc *elem : witnesses ) {
+                elem->make_angry();
+            }
+        }
+    }
+}
+
 void game::unload_npcs()
 {
     for( const auto &npc : critter_tracker->active_npc ) {
@@ -1342,7 +1365,7 @@ void game::create_starting_npcs()
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : npc_class_id::NULL_ID() );
     // hardcoded, consistent NPC position
     // start_loc::place_player relies on this and must be updated if this is changed
-    tmp->spawn_at_precise( u.get_location() + point_north_west );
+    tmp->spawn_at_precise( u.get_location() + point::north_west );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
@@ -1377,7 +1400,7 @@ static int veh_lumi( vehicle &veh )
 void game::calc_driving_offset( vehicle *veh )
 {
     if( veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
-        set_driving_view_offset( point_zero );
+        set_driving_view_offset( point::zero );
         return;
     }
     const int g_light_level = static_cast<int>( light_level( u.posz() ) );
@@ -1801,12 +1824,12 @@ void game::validate_linked_vehicles()
 {
     for( wrapped_vehicle &veh : m.get_vehicles() ) {
         vehicle *v = veh.v;
-        if( v->tow_data.other_towing_point != tripoint_bub_ms_zero ) {
+        if( v->tow_data.other_towing_point != tripoint_bub_ms::zero ) {
             vehicle *other_v = veh_pointer_or_null( m.veh_at( v->tow_data.other_towing_point ) );
             if( other_v ) {
                 // the other vehicle is towing us.
                 v->tow_data.set_towing( other_v, v );
-                v->tow_data.other_towing_point = tripoint_bub_ms_zero;
+                v->tow_data.other_towing_point = tripoint_bub_ms::zero;
             }
         }
     }
@@ -2480,7 +2503,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
         const tripoint &last, bool iso )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
-    auto ret = std::make_pair( tripoint_zero, last );
+    auto ret = std::make_pair( tripoint::zero, last );
     if( rate == -1 ) {
         // Fast return when the option is disabled.
         return ret;
@@ -2534,7 +2557,7 @@ tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
     auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
                                      last_mouse_edge_scroll_vector_terrain, g->is_tileset_isometric() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
-    last_mouse_edge_scroll_vector_overmap = tripoint_zero;
+    last_mouse_edge_scroll_vector_overmap = tripoint::zero;
     return ret.first;
 }
 
@@ -2543,7 +2566,7 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
     // overmap has no iso mode
     auto ret = mouse_edge_scrolling( ctxt, 2, last_mouse_edge_scroll_vector_overmap, false );
     last_mouse_edge_scroll_vector_overmap = ret.second;
-    last_mouse_edge_scroll_vector_terrain = tripoint_zero;
+    last_mouse_edge_scroll_vector_terrain = tripoint::zero;
     return ret.first;
 }
 
@@ -3750,7 +3773,7 @@ void game::disp_NPCs()
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        mvwprintz( w, point_zero, c_white, _( "Your overmap position: %s" ), ppos.to_string() );
+        mvwprintz( w, point::zero, c_white, _( "Your overmap position: %s" ), ppos.to_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %s" ), lpos.to_string() );
         size_t i;
@@ -3858,10 +3881,10 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
                                         point( sidebar_left, 0 ) );
 
             // minimap is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
-            w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, point_zero );
+            w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, point::zero );
 
             // need to init in order to avoid crash. gets updated by the panel code.
-            w_pixel_minimap = catacurses::newwin( 1, 1, point_zero );
+            w_pixel_minimap = catacurses::newwin( 1, 1, point::zero );
 
             ui.position_from_window( catacurses::stdscr );
         } );
@@ -3951,7 +3974,7 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             tripoint_rel_ms offset;
 #if defined(TILES)
             if( use_tiles ) {
-                offset = tripoint_rel_ms_zero; //TILES
+                offset = tripoint_rel_ms::zero; //TILES
             } else {
 #endif
                 offset = tripoint_rel_ms( offset2.x, offset2.y, 0 ); //CURSES
@@ -4131,16 +4154,16 @@ void game::draw_panels( bool force_draw )
                     catacurses::window label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
                                                TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
                     werase( label );
-                    mvwprintz( label, point_zero, c_light_red, panel_name );
+                    mvwprintz( label, point::zero, c_light_red, panel_name );
                     wnoutrefresh( label );
                     label = catacurses::newwin( h, 1,
                                                 point( sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width(), y ) );
                     werase( label );
                     wattron( label, c_light_red );
                     if( h == 1 ) {
-                        mvwaddch( label, point_zero, LINE_OXOX );
+                        mvwaddch( label, point::zero, LINE_OXOX );
                     } else {
-                        mvwaddch( label, point_zero, LINE_OXXX );
+                        mvwaddch( label, point::zero, LINE_OXXX );
                         // NOLINTNEXTLINE(cata-use-named-point-constants)
                         mvwvline( label, point( 0, 1 ), LINE_XOXO, h - 2 ) ;
                         mvwaddch( label, point( 0, h - 1 ), sidebar_right ? LINE_XXOO : LINE_XOOX );
@@ -4168,7 +4191,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z ) {
-        static constexpr tripoint up_tripoint( tripoint_above );
+        static constexpr tripoint up_tripoint( tripoint::above );
         if( critter.posz() == center.z - 1 &&
             ( debug_mode || u.sees( critter ) ) &&
             m.valid_move( critter.pos_bub(), critter.pos_bub() + up_tripoint, false, true ) ) {
@@ -4179,7 +4202,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         }
         if( critter.posz() == center.z + 1 &&
             ( debug_mode || u.sees( critter ) ) &&
-            m.valid_move( critter.pos_bub(), critter.pos_bub() + tripoint_below, false, true ) ) {
+            m.valid_move( critter.pos_bub(), critter.pos_bub() + tripoint::below, false, true ) ) {
             // Monster is above
             init_draw_blink_curses( tripoint( critter.pos().xy(), center.z ), "^", c_green_cyan );
         }
@@ -4440,10 +4463,10 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
             if( m.has_flag( ter_furn_flag::TFLAG_FISHABLE, current_point ) ) {
                 fishable_terrain.emplace( current_point );
-                to_check.push( current_point + point_south );
-                to_check.push( current_point + point_north );
-                to_check.push( current_point + point_east );
-                to_check.push( current_point + point_west );
+                to_check.push( current_point + point::south );
+                to_check.push( current_point + point::north );
+                to_check.push( current_point + point::east );
+                to_check.push( current_point + point::west );
             }
         }
     };
@@ -6532,7 +6555,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print the terrain and any furntiure on the tile below and whether it is walkable.
     if( lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
-        tripoint_bub_ms below( lp + tripoint_below );
+        tripoint_bub_ms below( lp + tripoint::below );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
             tile_below += ", " + m.furnname( below );
@@ -6815,7 +6838,7 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
     mvwvline( w_border, point( 0,         1 ), LINE_XOXO, TERMY - iInfoHeight - 1 ); // |
     mvwvline( w_border, point( width - 1, 1 ), LINE_XOXO, TERMY - iInfoHeight - 1 ); // |
 
-    mvwaddch( w_border, point_zero,            LINE_OXXO ); // |^
+    mvwaddch( w_border, point::zero,           LINE_OXXO ); // |^
     mvwaddch( w_border, point( width - 1, 0 ), LINE_OOXX ); // ^|
 
     mvwaddch( w_border, point( 0,         TERMY - iInfoHeight - 1 ), LINE_XXXO ); // |-
@@ -6843,7 +6866,7 @@ void game::zones_manager()
 {
     const tripoint_rel_ms stored_view_offset = u.view_offset;
 
-    u.view_offset = tripoint_rel_ms_zero;
+    u.view_offset = tripoint_rel_ms::zero;
 
     const int zone_ui_height = 14;
     const int zone_options_height = debug_mode ? 6 : 7;
@@ -6864,7 +6887,7 @@ void game::zones_manager()
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         if( !show ) {
-            ui.position( point_zero, point_zero );
+            ui.position( point::zero, point::zero );
             return;
         }
         offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) != "left" ?
@@ -7068,7 +7091,7 @@ void game::zones_manager()
 
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
 
-            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, point_south );
+            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, point::south );
             wnoutrefresh( w_zones_border );
 
             int iNum = 0;
@@ -7756,7 +7779,7 @@ look_around_result game::look_around(
         // otherwise use the previously set timeout
         const tripoint edge_scroll = mouse_edge_scrolling_terrain( ctxt );
         const int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
-        const bool edge_scrolling = edge_scroll != tripoint_zero && scroll_timeout >= 0;
+        const bool edge_scrolling = edge_scroll != tripoint::zero && scroll_timeout >= 0;
         if( edge_scrolling ) {
             action = ctxt.handle_input( scroll_timeout );
         } else {
@@ -7920,7 +7943,7 @@ look_around_result game::look_around(
 look_around_result game::look_around( look_around_params looka_params )
 {
     return look_around( looka_params.show_window, looka_params.center, looka_params.start_point,
-                        looka_params.has_first_point, looka_params.select_zone, looka_params.peeking, false, tripoint_zero,
+                        looka_params.has_first_point, looka_params.select_zone, looka_params.peeking, false, tripoint::zero,
                         looka_params.change_lv );
 }
 
@@ -8197,7 +8220,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     mvwvline( window, point( 0,         1 ), LINE_XOXO, TERMY - height - 1 ); // |
     mvwvline( window, point( width - 1, 1 ), LINE_XOXO, TERMY - height - 1 ); // |
 
-    mvwaddch( window, point_zero, LINE_OXXO ); // |^
+    mvwaddch( window, point::zero,           LINE_OXXO ); // |^
     mvwaddch( window, point( width - 1, 0 ), LINE_OOXX ); // ^|
 
     mvwaddch( window, point( 0, TERMY - height - 1 ), LINE_XXXO ); // |-
@@ -8416,7 +8439,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
     const tripoint_rel_ms stored_view_offset = u.view_offset;
 
-    u.view_offset = tripoint_rel_ms_zero;
+    u.view_offset = tripoint_rel_ms::zero;
 
     int iActive = 0; // Item index that we're looking at
     bool refilter = true;
@@ -8536,8 +8559,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
                 mvwprintz( w_items, point( width_nob - right_padding, iNum - iStartPos ),
                            iNum == iActive ? c_light_green : c_light_gray,
-                           "%2d %s", rl_dist( point_zero, p ),
-                           direction_name_short( direction_from( point_zero, p ) ) );
+                           "%2d %s", rl_dist( point::zero, p ),
+                           direction_name_short( direction_from( point::zero, p ) ) );
                 ++iter;
             }
             // ITEM DESCRIPTION
@@ -8567,7 +8590,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
                 draw_item_info( w_item_info, dummy );
             }
-            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, point_south );
+            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, point::south );
             wnoutrefresh( w_items_border );
         }
 
@@ -8632,7 +8655,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {
-                return catacurses::newwin( TERMY, width - 5, point_zero );
+                return catacurses::newwin( TERMY, width - 5, point::zero );
             }, info_data );
             recalc_unread = highlight_unread_items;
         } else if( action == "PRIORITY_INCREASE" ) {
@@ -8811,7 +8834,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             return game::vmenu_ret::CHANGE_TAB;
         }
 
-        active_pos = tripoint_zero;
+        active_pos = tripoint::zero;
         activeItem = nullptr;
 
         if( mSortCategory[iActive].empty() ) {
@@ -8873,7 +8896,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         if( hide_ui ) {
-            ui.position( point_zero, point_zero );
+            ui.position( point::zero, point::zero );
         } else {
             offsetX = TERMX - width;
             iMaxRows = TERMY - iInfoHeight - 1;
@@ -8902,7 +8925,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
 
     const tripoint_rel_ms stored_view_offset = u.view_offset;
-    u.view_offset = tripoint_rel_ms_zero;
+    u.view_offset = tripoint_rel_ms::zero;
 
     int iActive = 0; // monster index that we're looking at
 
@@ -9085,7 +9108,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 draw_custom_border( w_monster_info_border, 1, 1, 1, 1, LINE_XXXO, LINE_XOXX, 1, 1 );
 
                 if( bVMonsterLookFire ) {
-                    mvwprintw( w_monster_info_border, point_east, "< " );
+                    mvwprintw( w_monster_info_border, point::east, "< " );
                     wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "look" ) );
                     wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
 
@@ -9110,7 +9133,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
 
                 draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
-                                point_south );
+                                point::south );
             }
 
             wnoutrefresh( w_monsters_border );
@@ -9182,7 +9205,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             trail_end_x = false;
         } else {
             cCurMon = nullptr;
-            iActivePos = tripoint_zero;
+            iActivePos = tripoint::zero;
             u.view_offset = stored_view_offset;
             trail_start = trail_end = std::nullopt;
         }
@@ -10646,7 +10669,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
-    if( u.grab_point != tripoint_rel_ms_zero && !grabbed && !furniture_move ) {
+    if( u.grab_point != tripoint_rel_ms::zero && !grabbed && !furniture_move ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( object_type::NONE );
     }
@@ -12224,7 +12247,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( force ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
-    } else if( u.grab_point != tripoint_rel_ms_zero ) {
+    } else if( u.grab_point != tripoint_rel_ms::zero ) {
         add_msg( m_info, _( "You can't drag things up and down stairs." ) );
         return;
     }
@@ -12544,11 +12567,11 @@ std::optional<tripoint> game::find_stairs( const map &mp, int z_after, const tri
     const bool going_up_1 = movez == 1;
 
     // If there are stairs on the same x and y as we currently are, use those
-    if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint_below ) ) {
-        return pos + tripoint_below;
+    if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint::below ) ) {
+        return pos + tripoint::below;
     }
-    if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint_above ) ) {
-        return pos + tripoint_above;
+    if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint::above ) ) {
+        return pos + tripoint::above;
     }
     // We did not find stairs directly above or below, so search the map for them
     // If there's empty space right below us, we can just go down that way.
@@ -12807,7 +12830,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
         shift.y++;
     }
 
-    if( shift == point_zero ) {
+    if( shift == point::zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
         if( z_level_changed ) {
@@ -12816,14 +12839,14 @@ point game::update_map( int &x, int &y, bool z_level_changed )
             update_overmap_seen();
         }
         // Not actually shifting the submaps, all the stuff below would do nothing
-        return point_zero;
+        return point::zero;
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     inclusive_rectangle<point> size_1( point( -1, -1 ), point( 1, 1 ) );
     point remaining_shift = shift;
-    while( remaining_shift != point_zero ) {
+    while( remaining_shift != point::zero ) {
         point this_shift = clamp( remaining_shift, size_1 );
         m.shift( point_rel_sm( this_shift ) );
         remaining_shift -= this_shift;
@@ -12956,11 +12979,11 @@ void game::despawn_nonlocal_monsters()
 
 void game::shift_monsters( const tripoint &shift )
 {
-    if( shift == tripoint_zero ) {
+    if( shift == tripoint::zero ) {
         return;
     }
     for( monster &critter : all_monsters() ) {
-        if( shift.xy() != point_zero ) {
+        if( shift.xy() != point::zero ) {
             critter.shift( shift.xy() );
         }
 

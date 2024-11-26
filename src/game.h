@@ -544,6 +544,10 @@ class game
         npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+
+        /** NPCs who saw player interacting with their stuff (disassembling, cutting etc)
+        * will notify the player that thievery was witnessed and make angry at the player. */
+        void on_witness_theft( const item &target );
     private:
         /** Unloads all NPCs.
          *
@@ -647,13 +651,13 @@ class game
         * @param select_zone true if the zone is being edited
         * @param peeking determines if the player is peeking
         * @param is_moving_zone true if the zone is being moved, false by default
-        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint::zero
         * @param change_lv determines allow if change z-level
         * @return look_around_result
         */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero,
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint::zero,
                                         bool change_lv = true );
         look_around_result look_around( look_around_params );
 
@@ -850,10 +854,10 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open appliance interaction screen */
-        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+        void exam_appliance( vehicle &veh, const point &cp = point::zero );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
+        void exam_vehicle( vehicle &veh, const point &cp = point::zero );
 
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );

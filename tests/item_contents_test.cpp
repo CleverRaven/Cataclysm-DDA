@@ -73,9 +73,9 @@ TEST_CASE( "item_contents" )
     tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
     tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
-    tool_belt.overflow( tripoint_bub_ms_zero );
+    tool_belt.overflow( tripoint_bub_ms::zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
-    tool_belt.overflow( tripoint_bub_ms_zero );
+    tool_belt.overflow( tripoint_bub_ms::zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
@@ -84,7 +84,7 @@ TEST_CASE( "item_contents" )
     } );
     // check to see that removing an item works
     CHECK( tool_belt.num_item_stacks() == 3 );
-    tool_belt.spill_contents( tripoint_bub_ms_zero );
+    tool_belt.spill_contents( tripoint_bub_ms::zero );
     CHECK( tool_belt.empty() );
 }
 

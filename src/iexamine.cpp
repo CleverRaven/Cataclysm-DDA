@@ -5493,7 +5493,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
         jump_direction = 7; //southeast
     }
 
-    tripoint_bub_ms just_below = examp + tripoint_below;
+    tripoint_bub_ms just_below = examp + tripoint::below;
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
@@ -5550,10 +5550,10 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
         case ledge_peek_down: {
             // Peek
             tripoint_bub_ms where = examp;
-            tripoint_bub_ms below = examp + tripoint_below;
+            tripoint_bub_ms below = examp + tripoint::below;
             while( here.valid_move( where, below, false, true ) ) {
-                where += tripoint_below;
-                below += tripoint_below;
+                where += tripoint::below;
+                below += tripoint::below;
             }
 
             const int height = examp.z() - where.z();
