@@ -1483,11 +1483,11 @@ class item : public visitable
             /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
             safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
             /// Absolute position of the linked target vehicle/appliance.
-            tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms::invalid;
             /// The linked part's mount offset on the target vehicle.
-            point t_mount = point_zero;
+            point t_mount = point::zero;
             /// Reality bubble position of the link's source cable item.
-            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
+            tripoint s_bub_pos = tripoint::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.
@@ -1594,7 +1594,7 @@ class item : public visitable
          * @return True if the cable should be deleted.
          */
         bool reset_link( bool unspool_if_too_long = true, Character *p = nullptr, int vpart_index = -1,
-                         bool loose_message = false, tripoint cable_position = tripoint_zero );
+                         bool loose_message = false, tripoint cable_position = tripoint::zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.

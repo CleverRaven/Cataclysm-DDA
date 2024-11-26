@@ -653,14 +653,14 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
 {
-    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+    return crafting_inventory( tripoint::zero, PICKUP_RANGE, clear_path );
 }
 
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
         bool clear_path ) const
 {
     tripoint inv_pos = src_pos;
-    if( src_pos == tripoint_zero ) {
+    if( src_pos == tripoint::zero ) {
         inv_pos = pos();
     }
     if( crafting_cache.valid

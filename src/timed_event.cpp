@@ -145,8 +145,8 @@ void timed_event::actualize()
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_fault ) {
                     fault_point = p;
-                    horizontal = here.ter( p + tripoint_east ) == ter_t_fault ||
-                                 here.ter( p + tripoint_west ) == ter_t_fault;
+                    horizontal = here.ter( p + tripoint::east ) == ter_t_fault ||
+                                 here.ter( p + tripoint::west ) == ter_t_fault;
                     break;
                 }
             }

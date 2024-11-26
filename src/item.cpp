@@ -1496,11 +1496,11 @@ bool _stacks_weapon_mods( item const &lhs, item const &rhs )
 bool _stacks_location_hint( item const &lhs, item const &rhs )
 {
     static const std::string omt_loc_var = "spawn_location_omt";
-    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint_max ) );
-    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint_max ) );
+    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint::max ) );
+    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint::max ) );
     if( this_loc == that_loc ) {
         return true;
-    } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
+    } else if( this_loc.raw() != tripoint::max && that_loc.raw() != tripoint::max ) {
         const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
                                                get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
@@ -13727,7 +13727,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().t_veh = veh.get_safe_reference();
         link().t_abs_pos = get_map().getglobal( link().t_veh->pos_bub() );
         link().t_mount = mount.raw();
-        link().s_bub_pos = tripoint_min; // Forces the item to check the length during process_link.
+        link().s_bub_pos = tripoint::min; // Forces the item to check the length during process_link.
 
         update_link_traits();
         return ret_val<void>::make_success();
@@ -13842,7 +13842,7 @@ void item::update_link_traits()
     link().max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
     link().efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
     // Reset s_bub_pos to force the item to check the length during process_link.
-    link().s_bub_pos = tripoint_min;
+    link().s_bub_pos = tripoint::min;
     link().last_processed = calendar::turn;
 
     for( const item *cable : cables() ) {

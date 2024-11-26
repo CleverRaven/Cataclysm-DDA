@@ -608,7 +608,7 @@ Character::Character() :
     oxygen = 0;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = tripoint_rel_ms_zero;
+    grab_point = tripoint_rel_ms::zero;
     hauling = false;
     set_focus( 100 );
     last_item = itype_null;
@@ -1109,14 +1109,14 @@ static bool is_obstacle( tripoint pos )
 double Character::aim_factor_from_length( const item &gun ) const
 {
     tripoint cur_pos = pos();
-    bool nw_to_se = is_obstacle( cur_pos + tripoint_south_east ) &&
-                    is_obstacle( cur_pos + tripoint_north_west );
-    bool w_to_e = is_obstacle( cur_pos + tripoint_west ) &&
-                  is_obstacle( cur_pos + tripoint_east );
-    bool sw_to_ne = is_obstacle( cur_pos + tripoint_south_west ) &&
-                    is_obstacle( cur_pos + tripoint_north_east );
-    bool n_to_s = is_obstacle( cur_pos + tripoint_north ) &&
-                  is_obstacle( cur_pos + tripoint_south );
+    bool nw_to_se = is_obstacle( cur_pos + tripoint::south_east ) &&
+                    is_obstacle( cur_pos + tripoint::north_west );
+    bool w_to_e = is_obstacle( cur_pos + tripoint::west ) &&
+                  is_obstacle( cur_pos + tripoint::east );
+    bool sw_to_ne = is_obstacle( cur_pos + tripoint::south_west ) &&
+                    is_obstacle( cur_pos + tripoint::north_east );
+    bool n_to_s = is_obstacle( cur_pos + tripoint::north ) &&
+                  is_obstacle( cur_pos + tripoint::south );
     double wielded_length = gun.length() / 1_mm;
     double factor = 1.0;
 
@@ -2873,8 +2873,7 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
-    tripoint_bub_ms const check_p = tripoint_bub_ms( p ) == tripoint_bub_ms(
-                                        tripoint_min ) ? pos_bub() : tripoint_bub_ms( p );
+    tripoint_bub_ms const check_p = p.is_invalid() ? pos_bub() : tripoint_bub_ms( p );
     tripoint const avatar_p = get_avatar().pos();
     if( is_avatar() || check_p.z() == avatar_p.z ) {
         ambient_light = std::max( 1.0f,
@@ -8171,7 +8170,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         if( is_avatar() && source ) {
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
-                     direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                     direction_from( point::zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                      get_hp_bar( dam, get_hp_max( bp ) ).first, m_bad, body_part_name( bp ), m_neutral );
         }
     }
@@ -9590,10 +9589,10 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
             if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint_zero, nullptr,
+                qty -= it.energy_consume( qty, tripoint::zero, nullptr,
                                           it.type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint_zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint::zero, nullptr );
             }
         } );
     }
@@ -9676,7 +9675,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, tripoint_zero ).success() ) {
+                if( actor->can_use( *this->as_character(), it, tripoint::zero ).success() ) {
                     ret = it;
                     return true;
                 }
@@ -11047,9 +11046,9 @@ void Character::stagger()
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_below );
+                valid_stumbles.emplace_back( dest + tripoint::below );
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_above );
+                valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );
             }

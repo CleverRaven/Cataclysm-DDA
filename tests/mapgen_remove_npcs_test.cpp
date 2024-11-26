@@ -69,10 +69,10 @@ TEST_CASE( "mapgen_remove_npcs" )
         set_time( calendar::turn_zero + 12_hours );
 
         tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().get_location() );
-        tripoint_abs_omt const omt2 = omt + tripoint_east;
+        tripoint_abs_omt const omt2 = omt + tripoint::east;
         tripoint_bub_ms const loc = here.bub_from_abs( project_to<coords::ms>( omt ) );
         tripoint_bub_ms const loc2 = here.bub_from_abs( project_to<coords::ms>( omt2 ) );
-        tripoint_bub_ms const loc3 = loc2 + tripoint_east;
+        tripoint_bub_ms const loc3 = loc2 + tripoint::east;
         REQUIRE( get_map().inbounds( loc ) );
         place_npc_and_check( here, loc.raw(), update_mapgen_test_update_place_npc,
                              npc_template_test_npc_trader );

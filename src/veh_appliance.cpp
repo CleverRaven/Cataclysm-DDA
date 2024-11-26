@@ -76,9 +76,9 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
             // transform the deploying item into what it *should* be before storing it
             copied.convert( vpinfo.base_item );
         }
-        partnum = veh->install_part( point_rel_ms_zero, vpart, std::move( copied ) );
+        partnum = veh->install_part( point_rel_ms::zero, vpart, std::move( copied ) );
     } else {
-        partnum = veh->install_part( point_rel_ms_zero, vpart );
+        partnum = veh->install_part( point_rel_ms::zero, vpart );
     }
     if( partnum == -1 ) {
         // unrecoverable, failed to be installed somehow

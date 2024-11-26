@@ -267,7 +267,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos_bub().z() && z_is_valid( pos_bub().z() ) ) {
-        const tripoint_bub_ms above = tripoint_bub_ms( p + tripoint_above );
+        const tripoint_bub_ms above = tripoint_bub_ms( p + tripoint::above );
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
             return true;
         }
@@ -2190,15 +2190,15 @@ void monster::stumble()
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_below );
+                valid_stumbles.emplace_back( dest + tripoint::below );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_above );
+                valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint_below );
+    const tripoint_bub_ms below( pos_bub() + tripoint::below );
     if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
@@ -2428,7 +2428,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
                         clamp( destination_delta.z(), -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
-                if( shove_destination != tripoint_rel_ms_zero ) {
+                if( shove_destination != tripoint_rel_ms::zero ) {
                     if( shove_destination.z() != 0 ) {
                         veh.vertical_velocity = shove_destination.z() < 0 ? -shove_velocity : +shove_velocity;
                     }

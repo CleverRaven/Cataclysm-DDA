@@ -69,29 +69,29 @@ void UseNamedPointConstantsCheck::registerMatchers( MatchFinder *Finder )
 }
 
 static const std::map<std::pair<int, int>, std::string> PointConstants = {
-    { { 0, 0 }, "point_zero" },
-    { { 0, -1 }, "point_north" },
-    { { 1, -1 }, "point_north_east" },
-    { { 1, 0 }, "point_east" },
-    { { 1, 1 }, "point_south_east" },
-    { { 0, 1 }, "point_south" },
-    { { -1, 1 }, "point_south_west" },
-    { { -1, 0 }, "point_west" },
-    { { -1, -1 }, "point_north_west" },
+    { { 0, 0 }, "point::zero" },
+    { { 0, -1 }, "point::north" },
+    { { 1, -1 }, "point::north_east" },
+    { { 1, 0 }, "point::east" },
+    { { 1, 1 }, "point::south_east" },
+    { { 0, 1 }, "point::south" },
+    { { -1, 1 }, "point::south_west" },
+    { { -1, 0 }, "point::west" },
+    { { -1, -1 }, "point::north_west" },
 };
 
 static const std::map<std::tuple<int, int, int>, std::string> TripointConstants = {
-    { std::make_tuple( 0, 0, 0 ), "tripoint_zero" },
-    { std::make_tuple( 0, 0, 1 ), "tripoint_above" },
-    { std::make_tuple( 0, 0, -1 ), "tripoint_below" },
-    { std::make_tuple( 0, -1, 0 ), "tripoint_north" },
-    { std::make_tuple( 1, -1, 0 ), "tripoint_north_east" },
-    { std::make_tuple( 1, 0, 0 ), "tripoint_east" },
-    { std::make_tuple( 1, 1, 0 ), "tripoint_south_east" },
-    { std::make_tuple( 0, 1, 0 ), "tripoint_south" },
-    { std::make_tuple( -1, 1, 0 ), "tripoint_south_west" },
-    { std::make_tuple( -1, 0, 0 ), "tripoint_west" },
-    { std::make_tuple( -1, -1, 0 ), "tripoint_north_west" },
+    { std::make_tuple( 0, 0, 0 ), "tripoint::zero" },
+    { std::make_tuple( 0, 0, 1 ), "tripoint::above" },
+    { std::make_tuple( 0, 0, -1 ), "tripoint::below" },
+    { std::make_tuple( 0, -1, 0 ), "tripoint::north" },
+    { std::make_tuple( 1, -1, 0 ), "tripoint::north_east" },
+    { std::make_tuple( 1, 0, 0 ), "tripoint::east" },
+    { std::make_tuple( 1, 1, 0 ), "tripoint::south_east" },
+    { std::make_tuple( 0, 1, 0 ), "tripoint::south" },
+    { std::make_tuple( -1, 1, 0 ), "tripoint::south_west" },
+    { std::make_tuple( -1, 0, 0 ), "tripoint::west" },
+    { std::make_tuple( -1, -1, 0 ), "tripoint::north_west" },
 };
 
 static void CheckConstructor( UseNamedPointConstantsCheck &Check,
@@ -159,7 +159,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
     }
 
     // Avoid replacing the definitions of the constants themselves
-    if( VarDeclParent && VarDeclParent->getName() == Replacement ) {
+    if( VarDeclParent && VarDeclParent->getQualifiedNameAsString() == Replacement ) {
         return;
     }
 

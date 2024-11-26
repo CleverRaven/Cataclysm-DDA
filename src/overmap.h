@@ -230,7 +230,7 @@ class overmap
         /**
          * @return The (local) overmap terrain coordinates of a randomly
          * chosen place on the overmap with the specific overmap terrain.
-         * Returns @ref invalid_tripoint if no suitable place has been found.
+         * Returns @ref tripoint_om_omt::invalid if no suitable place has been found.
          */
         tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target,
                                          std::optional<city> target_city = std::nullopt ) const;
@@ -293,18 +293,6 @@ class overmap
         static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
-        /**
-         * Dummy value, used to indicate that a tripoint returned by a function is invalid.
-         */
-        static constexpr tripoint_abs_omt invalid_tripoint{ tripoint_min };
-        /**
-         * Dummy value, used to indicate that a tripoint returned by a function is invalid.
-         */
-        static constexpr tripoint_bub_ms invalid_tripoint_bub_ms{ tripoint_min };
-        /**
-         * Dummy value, used to indicate that a point returned by a function is invalid.
-         */
-        static constexpr point invalid_point{ point_min };
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.

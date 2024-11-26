@@ -1325,7 +1325,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
 
     int height = 0;
     tripoint_bub_ms where( p );
-    tripoint_bub_ms below( where + tripoint_below );
+    tripoint_bub_ms below( where + tripoint::below );
     creature_tracker &creatures = get_creature_tracker();
     while( here.valid_move( where, below, false, true ) ) {
         where.z()--;

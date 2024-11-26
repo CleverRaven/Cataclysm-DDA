@@ -324,7 +324,7 @@ void avatar::reset_all_missions()
 tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
-        return overmap::invalid_tripoint;
+        return tripoint_abs_omt::invalid;
     }
     return active_mission->get_target();
 }
