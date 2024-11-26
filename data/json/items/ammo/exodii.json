@@ -213,7 +213,7 @@
     "id": "33naval_ball",
     "type": "AMMO",
     "name": { "str_sp": "3.3 naval, FMJ" },
-    "description": "Initially made for some marine battles, this hefty projectile is a go-to round for late-stage Exodii fights.",
+    "description": "Initially made for marine combat, this hefty projectile is a go-to round for late-stage Exodii fights.",
     "//": "secretly just 23x152mm; 236 x 33 mm of size",
     "weight": "450 g",
     "volume": "201 ml",
