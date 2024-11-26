@@ -343,15 +343,5 @@
       { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } },
       { "u_message": "damage taken = <u_val:xedra_last_damage_taken>, bodypart = <u_val:xedra_last_damage_taken_bodypart>" }
    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_XEDRA_TRACK_LAST_HIT_EOC_AFS_MEDIGEL_ADD",
-    "eoc_type": "EVENT",
-    "required_event": "character_gains_effect",
-    "effect": [
-      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "test_part" } },
-      { "u_message": "bodypart = <u_val:test_part>" }
-    ]
   }
 ]
