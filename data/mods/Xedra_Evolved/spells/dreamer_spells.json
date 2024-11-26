@@ -600,7 +600,7 @@
     "id": "xedra_dreamer_generate_accelerated_time",
     "type": "SPELL",
     "name": "Generate Accelerated Time",
-    "description": "Continuously generate shortlived bubbles of accelerated time around you, allowing you and anything else that enters to act far quicker than normal.",
+    "description": "Continuously generate short-lived bubbles of accelerated time around you, allowing you and anything else that enters to act far quicker than normal.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",

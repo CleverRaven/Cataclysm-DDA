@@ -89,7 +89,7 @@
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
       {
-        "u_message": "The greyscale starts to receed from you vision before it quickly reverts.",
+        "u_message": "The grayscale starts to recede from you vision before it quickly reverts.",
         "type": "good"
       },
       {

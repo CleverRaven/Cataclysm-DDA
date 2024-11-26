@@ -2718,7 +2718,7 @@
     "type": "effect_type",
     "id": "effect_xedra_dreamer_generate_accelerated_time",
     "name": [ "Accelerated Time Emission" ],
-    "desc": [ "You continuously generate fields of shortlived accelerated time." ],
+    "desc": [ "You continuously generate fields of short-lived accelerated time." ],
     "enchantments": [ { "emitter": "xedra_dreamer_emit_accelerated_time" } ],
     "rating": "good",
     "show_in_info": true

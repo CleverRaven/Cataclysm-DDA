@@ -537,7 +537,7 @@
     "id": "xedra_inventor_time_pierce_creature",
     "type": "SPELL",
     "name": "Inventor Time Pierce - Creature",
-    "description": "Used by a time piercer to fix time frozen creaures.  Having this spell is a bug.",
+    "description": "Used by a time piercer to fix time frozen creatures.  Having this spell is a bug.",
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NON_MAGICAL", "NO_FAIL" ],

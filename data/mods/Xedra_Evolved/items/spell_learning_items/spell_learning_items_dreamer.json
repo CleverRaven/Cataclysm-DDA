@@ -171,7 +171,7 @@
     "id": "artifact_amber",
     "type": "GENERIC",
     "category": "artifacts",
-    "name": { "str": "shard of amber" },
+    "name": { "str": "shard of amber", "str_pl": "shards of amber" },
     "description": "A small shard of amber.  Looking carefully, you think you see some manner of creature trapped within.",
     "weight": "1 g",
     "volume": "150 ml",
