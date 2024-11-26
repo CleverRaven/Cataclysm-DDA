@@ -76,8 +76,8 @@ static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
 
 disp_overmap_cache::disp_overmap_cache()
 {
-    _center = overmap::invalid_tripoint;
-    _mission = overmap::invalid_tripoint;
+    _center = tripoint_abs_omt::invalid;
+    _mission = tripoint_abs_omt::invalid;
     _width = 0;
 }
 
@@ -1180,7 +1180,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     oter_display_options opts( center_xyz,
                                u.overmap_modified_sight_range( g->light_level( u.posz() ) ) );
     opts.showhordes = true;
-    if( mission_xyz != overmap::invalid_tripoint ) {
+    if( !mission_xyz.is_invalid() ) {
         opts.mission_target = mission_xyz;
     }
     opts.mission_inbounds = ( mission_xyz.x() >= center_xyz.x() + left &&
@@ -1264,7 +1264,7 @@ point display::mission_arrow_offset( const avatar &you, int width, int height )
         }
     } else {
         // For non-vertical slope, calculate where it intersects the edge of the map
-        point arrow( point_north_west );
+        point arrow( point::north_west );
         if( std::fabs( slope ) >= 1. ) {
             // If target to the north or south, arrow on top or bottom edge of minimap
             if( targ.y() > curs.y() ) {

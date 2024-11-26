@@ -107,9 +107,9 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
             continue;
         }
         if( omt_allowed_radius ) {
-            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint_min );
+            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint::invalid );
             // Cards without a location are treated as valid
-            if( cardloc == tripoint_min ) {
+            if( cardloc == tripoint::min ) {
                 ret.push_back( it );
                 continue;
             }

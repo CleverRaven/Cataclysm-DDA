@@ -2770,15 +2770,15 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
         project_to<coords::omt>( get_avatar().get_location() );
     tripoint_bub_ms const this_bub = get_map().bub_from_abs( project_to<coords::ms>( this_omt ) );
     manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
-    REQUIRE( !get_map().i_at( this_bub + tripoint_zero ).empty() );
-    REQUIRE( !get_map().i_at( this_bub + tripoint_east ).empty() );
-    REQUIRE( !get_map().i_at( this_bub + tripoint_south ).empty() );
-    item_location spawned_in_def_container( map_cursor{ this_bub + tripoint_zero },
-                                            &get_map().i_at( this_bub + tripoint_zero ).only_item() );
-    item_location spawned_w_modifier( map_cursor{ this_bub + tripoint_east },
-                                      &get_map().i_at( this_bub + tripoint_east ).only_item() );
-    item_location spawned_w_custom_container( map_cursor{ this_bub + tripoint_south },
-            &get_map().i_at( this_bub + tripoint_south ).only_item() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint::zero ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint::east ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint::south ).empty() );
+    item_location spawned_in_def_container( map_cursor{ this_bub + tripoint::zero },
+                                            &get_map().i_at( this_bub + tripoint::zero ).only_item() );
+    item_location spawned_w_modifier( map_cursor{ this_bub + tripoint::east },
+                                      &get_map().i_at( this_bub + tripoint::east ).only_item() );
+    item_location spawned_w_custom_container( map_cursor{ this_bub + tripoint::south },
+            &get_map().i_at( this_bub + tripoint::south ).only_item() );
     check_whitelist( *spawned_in_def_container, true,
                      spawned_in_def_container->get_contents().first_item().typeId() );
     check_whitelist( *spawned_w_modifier, true,

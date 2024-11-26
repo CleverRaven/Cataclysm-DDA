@@ -2327,7 +2327,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
     } else {
         text_view_scrollbar = scrollbar();
         // No scrollbar; we need to draw the window edge instead
-        mvwvline( w_, point_zero, BORDER_COLOR, LINE_XOXO, height );
+        mvwvline( w_, point::zero, BORDER_COLOR, LINE_XOXO, height );
     }
 
     nc_color color = base_color;
@@ -3035,7 +3035,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     dir = pairDirXY;
 
-    if( dir == point_zero ) {
+    if( dir == point::zero ) {
         // This would cause infinite loop otherwise
         oDir = direction::WEST;
         dir.x = -1;

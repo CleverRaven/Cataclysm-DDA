@@ -312,7 +312,7 @@ void user_interface::show()
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                        iOffset );
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
+                                       iOffset + point::south_east );
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                 iOffset + point( 1, iHeaderHeight + 1 ) );
 
@@ -393,7 +393,7 @@ void user_interface::show()
         wnoutrefresh( w_header );
 
         // Clear the lines
-        mvwrectf( w, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
         for( int x : {
                  4, 50, 60
              } ) {
@@ -674,7 +674,7 @@ void rule::test_pattern() const
                              iOffset );
         w_test_rule_content = catacurses::newwin( iContentHeight,
                               iContentWidth - 2,
-                              iOffset + point_south_east );
+                              iOffset + point::south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -700,7 +700,7 @@ void rule::test_pattern() const
         wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
-        mvwrectf( w_test_rule_content, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w_test_rule_content, point::zero, c_black, ' ', 79, iContentHeight );
 
         calcStartPos( iStartPos, iLine, iContentHeight, vMatchingItems.size() );
 

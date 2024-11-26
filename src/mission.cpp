@@ -356,7 +356,7 @@ void mission::set_target_to_mission_giver()
     if( giver != nullptr ) {
         target = giver->global_omt_location();
     } else {
-        target = overmap::invalid_tripoint;
+        target = tripoint_abs_omt::invalid;
     }
 }
 
@@ -719,7 +719,7 @@ std::string mission::get_description() const
 
 bool mission::has_target() const
 {
-    return target != overmap::invalid_tripoint;
+    return !target.is_invalid();
 }
 
 const tripoint_abs_omt &mission::get_target() const
@@ -895,7 +895,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint_abs_omt( tripoint_min );
+    target = tripoint_abs_omt::invalid;
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

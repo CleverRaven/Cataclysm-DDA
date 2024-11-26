@@ -4369,7 +4369,7 @@ talk_effect_fun_t::func f_place_override( const JsonObject &jo, std::string_view
         get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                -1, tripoint_abs_ms( tripoint_zero ), -1, new_place.evaluate( d ), key.evaluate( d ) );
+                                -1, tripoint_abs_ms::zero, -1, new_place.evaluate( d ), key.evaluate( d ) );
     };
 }
 
@@ -4495,7 +4495,7 @@ talk_effect_fun_t::func f_npc_goal( const JsonObject &jo, std::string_view membe
             guy->goal = destination;
             guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
                             overmap_path_params::for_npc() ).points;
-            if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+            if( destination == tripoint_abs_omt() || destination.is_invalid() ||
                 guy->omt_path.empty() ) {
                 guy->goal = npc::no_goal_point;
                 guy->omt_path.clear();

@@ -557,18 +557,18 @@ void ensure_term_size()
     while( TERMY < minHeight || TERMX < minWidth ) {
         catacurses::erase();
         if( TERMY < minHeight && TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
                                "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
                             minWidth, minHeight, TERMX, TERMY );
         } else if( TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
                                "requires a minimum terminal size of %dx%d to function.  It just won't work "
                                "with only %dx%d.  Can you stretch it out sideways a bit?" ),
                             minWidth, minHeight, TERMX, TERMY );
         } else {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Woah, woah, we're just a little short on space here.  The game requires a "
                                "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
                                "make the terminal just a smidgen taller?" ),
@@ -600,7 +600,7 @@ void check_encoding()
                    "characters (e.g. empty boxes or question marks). You have been warned." );
             catacurses::erase();
             const int maxx = getmaxx( catacurses::stdscr );
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white, unicode_error_msg );
+            fold_and_print( catacurses::stdscr, point::zero, maxx, c_white, unicode_error_msg );
             catacurses::refresh();
             // do not use input_manager or input_context here to avoid re-entry
             key = getch();
