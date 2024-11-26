@@ -103,7 +103,7 @@ struct MonsterGroup {
     /* Time until replacement if replace_monster_group == true. */
     time_duration monster_group_time = 0_turns;
 
-    /** Encapsulated by mongroup::is_safe() , but currently not used anywhere.*/
+    /** Encapsulated by mongroup::is_safe(), but currently not used anywhere.*/
     bool is_safe = false;
     int freq_total = 0; // max number to roll for spawns (non-event)
     std::map<holiday, int> event_freq; // total freq for each event
@@ -115,10 +115,10 @@ struct MonsterGroup {
 /**
  * A mongroup is a group of monsters that are spawned together. There are two uses for mongroups:
  * 1. spawning new monsters.
- * 2. unload monsters out of sight of the player into hoards and spawn them back in when the player is close enough.
+ * 2. unload monsters out of sight of the player into hordes and spawn them back in when the player is close enough.
  */
 struct mongroup {
-    /** The type of the mongroup, which is only used to spawn new monsters and not for hoards. */
+    /** The type of the mongroup, which is only used to spawn new monsters and not for hordes. */
     mongroup_id type;
     /** The monsters vector will be ignored if the vector is empty.
      *  Otherwise it will keep track of the individual monsters that
@@ -146,7 +146,7 @@ struct mongroup {
 
     /** If true, overmap::process_mongroups decreases the population by a fixed ratio every time the function is called. */
     bool dying = false;
-    /** If false, this group is not a hoard, and instead is likely an attempt to spawn new monsters through map::spawn_monsters_submap from overmap_buffer. */
+    /** If false, this group is not a horde, and instead is likely an attempt to spawn new monsters through map::spawn_monsters_submap from overmap_buffer. */
     bool horde = false;
 
     enum class horde_behaviour : short {
