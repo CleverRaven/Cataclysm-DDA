@@ -205,6 +205,9 @@ class basecamp
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
+        // remove the camp without safety checks; use abandon_camp() for in-game
+        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
+        // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
@@ -366,7 +369,7 @@ class basecamp
                                const std::vector<item *> &equipment,
                                const skill_id &skill_tested, int skill_level,
                                float exertion_level, const time_duration &travel_time = 0_hours );
-        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration total_time,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {},

@@ -1295,6 +1295,29 @@ void game::load_npcs()
     npcs_dirty = false;
 }
 
+void game::on_witness_theft( const item &target )
+{
+    Character &p = get_player_character();
+    std::vector<npc *> witnesses;
+    for( npc &elem : g->all_npcs() ) {
+        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) &&
+            target.is_owned_by( elem ) ) {
+            witnesses.push_back( &elem );
+        }
+    }
+    for( npc *elem : witnesses ) {
+        elem->say( "<witnessed_thievery>", 7 );
+    }
+    if( !witnesses.empty() ) {
+        if( p.add_faction_warning( target.get_owner() ) ||
+            target.get_owner() == faction_id( "no_faction" ) ) {
+            for( npc *elem : witnesses ) {
+                elem->make_angry();
+            }
+        }
+    }
+}
+
 void game::unload_npcs()
 {
     for( const auto &npc : critter_tracker->active_npc ) {
@@ -4189,9 +4212,12 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         critter.draw( w_terrain, point_bub_ms( center.xy() ), false );
         return;
     }
-
-    if( u.sees_with_specials( critter ) ) {
-        mvwputch( w_terrain, point( mx, my ), c_red, '?' );
+    const_dialogue d( get_const_talker_for( u ), get_const_talker_for( critter ) );
+    const enchant_cache::special_vision sees_with_special = u.enchantment_cache->get_vision( d );
+    if( !sees_with_special.is_empty() ) {
+        const enchant_cache::special_vision_descriptions special_vis_desc =
+            u.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+        mvwputch( w_terrain, point( mx, my ), special_vis_desc.color, special_vis_desc.symbol );
     }
 }
 
@@ -6380,10 +6406,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             static std::string raw_description;
             static std::string parsed_description;
             if( creature != nullptr ) {
-                if( u.sees_with_specials( *creature ) ) {
+                const_dialogue d( get_const_talker_for( u ), get_const_talker_for( *creature ) );
+                const enchant_cache::special_vision sees_with_special = u.enchantment_cache->get_vision( d );
+                if( !sees_with_special.is_empty() ) {
                     // handling against re-evaluation and snippet replacement on redraw
                     if( raw_description.empty() ) {
-                        raw_description = u.enchantment_cache->get_vision_description( *u.as_character(), *creature );
+                        const enchant_cache::special_vision_descriptions special_vis_desc =
+                            u.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                        raw_description = special_vis_desc.description.translated();
                         parse_tags( raw_description, *u.as_character(), *creature );
                         parsed_description = raw_description;
                     }

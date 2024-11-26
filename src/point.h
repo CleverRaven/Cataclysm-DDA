@@ -65,6 +65,12 @@ struct point {
         return point( std::abs( x ), std::abs( y ) );
     }
 
+    // Dummy implementation of raw() to allow reasoning about
+    // generic points.
+    constexpr point raw() const {
+        return *this;
+    }
+
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
@@ -201,6 +207,12 @@ struct tripoint {
 
     constexpr point xy() const {
         return point( x, y );
+    }
+
+    // Dummy implementation of raw() to allow reasoning about
+    // abstract generic points.
+    constexpr tripoint raw() const {
+        return *this;
     }
 
     /**
