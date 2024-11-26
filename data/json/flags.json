@@ -2615,8 +2615,8 @@
     "info": "You can craft at 100% speed in any level of light."
   },
   {
-    "id": "GRANT_FLYWORTHY",
+    "id": "ABSTRACTED_AIRCRAFT",
     "type": "json_flag",
-    "info": "This can be installed on a vehicle to make it flyworthy and allow it to move while airborne.  You still need to know how to pilot such vehicles and breaking this part will cause the vehicle to no longer be able to fly."
+    "info": "Adding a part with this flag makes the vehicle an abstracted aircraft (any flying vehicle without real-world equivalent), intended for modded content.  Breaking this part will cause the vehicle to no longer be able to fly."
   }
 ]

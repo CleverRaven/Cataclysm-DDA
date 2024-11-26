@@ -176,17 +176,17 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
 
     bool rotorcraft = is_flying && is_rotorcraft();
 
-    bool aircraft = is_flying && is_aircraft();
+    bool abstracted_aircraft = is_flying && is_abstracted_aircraft();
 
     // bail and shut down
-    if( rotorcraft || aircraft || c_engines.empty() || ( has_electric_engine && c_engines.size() == 1 ) ||
+    if( rotorcraft || abstracted_aircraft || c_engines.empty() || ( has_electric_engine && c_engines.size() == 1 ) ||
         c_engines.size() > 5 ) {
         for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
             vp.part().enabled = false;
         }
 
         if( player_is_driving_this_veh() ) {
-            if( rotorcraft || aircraft ) {
+            if( rotorcraft || abstracted_aircraft) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
             } else if( c_engines.empty() ) {
                 //TODO: make translation
@@ -456,7 +456,7 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_is_driving_this_veh();
 
     // No need to change velocity if there are no wheels
-    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) || (is_aircraft() && (z != 0 || is_flying))) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) || (is_abstracted_aircraft() && (z != 0 || is_flying))) {
         // we're good
     } else if( in_deep_water && !can_float() ) {
         stop();
@@ -536,7 +536,7 @@ void vehicle::thrust( int thd, int z )
         load = ( thrusting ? 1000 : 0 );
     }
     // flying vehicles need to spend 15% of load to hover, 30% to change z
-    if( (is_rotorcraft() || is_aircraft()) && ( z > 0 || is_flying_in_air() ) ) {
+    if( (is_rotorcraft() || is_abstracted_aircraft()) && ( z > 0 || is_flying_in_air() ) ) {
         load = std::max( load, z > 0 ? 300 : 150 );
         thrusting = true;
     }
@@ -566,7 +566,7 @@ void vehicle::thrust( int thd, int z )
         // see https://i.stack.imgur.com/0zIO7.jpg
         // aircraft are intended to be mechanically similar to helicopters
         // so they get the same efficiency factor
-        if( ( is_rotorcraft() || is_aircraft()) && is_flying_in_air() ) {
+        if( ( is_rotorcraft() || is_abstracted_aircraft()) && is_flying_in_air() ) {
             const int velocity_kt = velocity * 0.01;
             int value;
             if( velocity_kt < 70 ) {
@@ -581,7 +581,7 @@ void vehicle::thrust( int thd, int z )
         //make noise and consume fuel
         noise_and_smoke( load + alternator_load );
         consume_fuel( load + alternator_load, false );
-        if( z != 0 && ( is_rotorcraft() || is_aircraft()) ) {
+        if( z != 0 && ( is_rotorcraft() || is_abstracted_aircraft()) ) {
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
@@ -732,7 +732,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const bool vertical = bash_floor || dp.z() != 0;
     const int &coll_velocity = vertical ? vertical_velocity : velocity;
     // Skip collisions when there is no apparent movement, except verticially moving flying vehicles.
-    if( coll_velocity == 0 && !is_rotorcraft() && !is_aircraft() ) {
+    if( coll_velocity == 0 && !is_rotorcraft() && !is_abstracted_aircraft() ) {
         just_detect = true;
     }
 
@@ -1353,7 +1353,7 @@ bool vehicle::check_is_heli_landed()
 
 bool vehicle::check_heli_descend( Character &p ) const
 {
-    if( !is_rotorcraft() && !is_aircraft() ) {
+    if( !is_rotorcraft() && !is_abstracted_aircraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
@@ -1388,7 +1388,7 @@ bool vehicle::check_heli_descend( Character &p ) const
 
 bool vehicle::check_heli_ascend( Character &p ) const
 {
-    if( !is_rotorcraft() && !is_aircraft() ) {
+    if( !is_rotorcraft() && !is_abstracted_aircraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
@@ -1448,7 +1448,7 @@ void vehicle::pldrive( Character &driver, const int trn, const int acceleration,
         // - 50% Skill at Per/Dex 8: 1-in-16 chance
         // - 50% Skill at Per/Dex 12: 1-in-18 chance
     }
-    if( z != 0 && ( is_rotorcraft() || is_aircraft()) ) {
+    if( z != 0 && ( is_rotorcraft() || is_abstracted_aircraft()) ) {
         driver.set_moves( std::min( driver.get_moves(), 0 ) );
         thrust( 0, z );
     }
@@ -1897,7 +1897,7 @@ vehicle *vehicle::act_on_map()
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
     bool falling_only = false;
-    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) || ( !is_rotorcraft() && !is_aircraft() ) ) ) {
+    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) || ( !is_rotorcraft() && !is_abstracted_aircraft() ) ) ) {
         if( !should_fall ) {
             of_turn_carry = of_turn;
             of_turn = 0;
@@ -1982,7 +1982,7 @@ vehicle *vehicle::act_on_map()
     } else {
         dp.z() = requested_z_change;
         requested_z_change = 0;
-        if( dp.z() > 0 && (is_rotorcraft() || is_aircraft())) {
+        if( dp.z() > 0 && (is_rotorcraft() || is_abstracted_aircraft())) {
             is_flying = true;
         }
     }
@@ -1993,7 +1993,7 @@ vehicle *vehicle::act_on_map()
 bool vehicle::level_vehicle()
 {
     map &here = get_map();
-    if( is_flying && ( is_rotorcraft() || is_aircraft()) ) {
+    if( is_flying && ( is_rotorcraft() || is_abstracted_aircraft()) ) {
         return true;
     }
     is_on_ramp = false;
@@ -2049,7 +2049,7 @@ bool vehicle::level_vehicle()
 void vehicle::check_falling_or_floating()
 {
     // If we're flying none of the rest of this matters.
-    if( is_flying && ( is_rotorcraft() || is_aircraft()) ) {
+    if( is_flying && ( is_rotorcraft() || is_abstracted_aircraft()) ) {
         is_falling = false;
         in_deep_water = false;
         in_water = false;

@@ -1605,6 +1605,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 
 Note: Vehicle parts requiring other parts is defined by setting a `requires_flag` field with the flag requirement (i.e. the `ON_ROOF` flag contains the field `"requires_flag": "ROOF"`).
 
+- ```ABSTRACTED_AIRCRAFT``` This vehicle part makes the vehicle an abstracted aircraft (any flying vehicle without real-world equivalent).  It will be able to fly in a manner similar to most of these flying vehicles.
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
 - ```AIRCRAFT_REPAIRABLE_NOPROF``` Allows the player to safely remove part from an aircraft without any proficiency.
 - ```AISLE_LIGHT``` This part lightens up surroundings.
@@ -1658,7 +1659,6 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.
-- ```GRANT_FLYWORTHY``` Installing a part with this flag on a vehicle allows to make it fly if the player can fly aircraft.  This is disticnt from rotor-based aircraft and thus does not restrict modifications nor reparations.  The removal or destruction of this part will cause the vehicle to stop being able to fly.
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HANDHELD_BATTERY_MOUNT``` Same as `BATTERY_MOUNT`, but for handheld battery mount.
 - ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.
