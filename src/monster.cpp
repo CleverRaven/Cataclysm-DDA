@@ -2624,7 +2624,7 @@ float monster::stability_roll() const
 
 float monster::get_dodge() const
 {
-    if( has_effect( effect_downed ) ) {
+    if( has_effect( effect_downed ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
         return 0.0f;
     }
 
