@@ -236,46 +236,46 @@ struct enum_traits<mongroup::horde_behaviour> {
 
 class MonsterGroupManager
 {
-public:
-    static void LoadMonsterGroup( const JsonObject &jo );
-    static void LoadMonsterBlacklist( const JsonObject &jo );
-    static void LoadMonsterWhitelist( const JsonObject &jo );
-    static void FinalizeMonsterGroups();
-    static std::vector<MonsterGroupResult> GetResultFromGroup( const mongroup_id &group,
-            int *quantity = nullptr, bool *mon_found = nullptr, bool is_recursive = false,
-            bool *returned_default = nullptr, bool use_pack_size = false );
-    static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
-    static bool isValidMonsterGroup( const mongroup_id &group );
-    static const mongroup_id &Monster2Group( const mtype_id &monster );
-    static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group, bool from_subgroups );
-    static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
-    static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
-    /**
-     * Gets a random monster, weighted by frequency.
-     * Ignores cost multiplier.
-     */
-    static const mtype_id &GetRandomMonsterFromGroup( const mongroup_id &group );
+    public:
+        static void LoadMonsterGroup( const JsonObject &jo );
+        static void LoadMonsterBlacklist( const JsonObject &jo );
+        static void LoadMonsterWhitelist( const JsonObject &jo );
+        static void FinalizeMonsterGroups();
+        static std::vector<MonsterGroupResult> GetResultFromGroup( const mongroup_id &group,
+                int *quantity = nullptr, bool *mon_found = nullptr, bool is_recursive = false,
+                bool *returned_default = nullptr, bool use_pack_size = false );
+        static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
+        static bool isValidMonsterGroup( const mongroup_id &group );
+        static const mongroup_id &Monster2Group( const mtype_id &monster );
+        static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group, bool from_subgroups );
+        static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
+        static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
+        /**
+         * Gets a random monster, weighted by frequency.
+         * Ignores cost multiplier.
+         */
+        static const mtype_id &GetRandomMonsterFromGroup( const mongroup_id &group );
 
-    static void check_group_definitions();
+        static void check_group_definitions();
 
-    static void ClearMonsterGroups();
+        static void ClearMonsterGroups();
 
-    static bool monster_is_blacklisted( const mtype_id &m );
+        static bool monster_is_blacklisted( const mtype_id &m );
 
-    static bool is_animal( const mongroup_id &group );
+        static bool is_animal( const mongroup_id &group );
 
-    // Public getter for private monsterGroupMap, do not use if you don't know what you're doing.
-    static std::map<mongroup_id, MonsterGroup> &Get_all_Groups();
+        // Public getter for private monsterGroupMap, do not use if you don't know what you're doing.
+        static std::map<mongroup_id, MonsterGroup> &Get_all_Groups();
 
-private:
-    static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
-    using t_string_set = std::set<std::string>;
-    static t_string_set monster_blacklist;
-    static t_string_set monster_whitelist;
-    static t_string_set monster_categories_blacklist;
-    static t_string_set monster_categories_whitelist;
-    static t_string_set monster_species_blacklist;
-    static t_string_set monster_species_whitelist;
+    private:
+        static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
+        using t_string_set = std::set<std::string>;
+        static t_string_set monster_blacklist;
+        static t_string_set monster_whitelist;
+        static t_string_set monster_categories_blacklist;
+        static t_string_set monster_categories_whitelist;
+        static t_string_set monster_species_blacklist;
+        static t_string_set monster_species_whitelist;
 
 };
 
