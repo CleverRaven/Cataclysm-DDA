@@ -44,8 +44,8 @@ struct tile_type {
     bool rotates = false;
     bool animated = false;
     int height_3d = 0;
-    point offset = point_zero;
-    point offset_retracted = point_zero;
+    point offset = point::zero;
+    point offset_retracted = point::zero;
     float pixelscale = 1.0;
 
     std::vector<std::string> available_subtiles;

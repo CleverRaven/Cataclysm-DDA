@@ -1245,7 +1245,7 @@ void pointmenu_cb::impl_t::select( uilist *const menu )
     last = menu->selected;
     avatar &player_character = get_avatar();
     if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-        player_character.view_offset = tripoint_rel_ms_zero;
+        player_character.view_offset = tripoint_rel_ms::zero;
     } else {
         const tripoint &center = points[menu->selected];
         player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );

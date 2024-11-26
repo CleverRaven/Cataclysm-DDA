@@ -5,7 +5,6 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "clzones.h"
-#include "coordinate_constants.h"
 #include "item.h"
 #include "item_category.h"
 #include "map_helpers.h"
@@ -74,12 +73,12 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     clear_avatar();
     clear_map();
 
-    tripoint_abs_ms const start = here.getglobal( tripoint_bub_ms_zero + tripoint_east );
+    tripoint_abs_ms const start = here.getglobal( tripoint_bub_ms::zero + tripoint::east );
     bool const move_act = GENERATE( true, false );
     dummy.set_location( start );
 
     if( in_vehicle ) {
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms_zero + tripoint_east,
+        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms::zero + tripoint::east,
                                    0_degrees, 0, 0 ) );
         vp = here.veh_at( start ).cargo();
         REQUIRE( vp );
@@ -99,7 +98,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         if( in_vehicle ) {
             vp->vehicle().add_item( vp->part(), ammo_belt );
         } else {
-            here.add_item_or_charges( tripoint_bub_ms( tripoint_east ), ammo_belt );
+            here.add_item_or_charges( tripoint_bub_ms( tripoint::east ), ammo_belt );
         }
         if( move_act ) {
             dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
@@ -110,10 +109,10 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         process_activity( dummy );
 
         THEN( "check that the ammo and linkages are both unloaded and the ammo belt is removed" ) {
-            CHECK( count_items_or_charges( tripoint_east, itype_belt223, vp ) == 0 );
-            CHECK( count_items_or_charges( tripoint_east,
+            CHECK( count_items_or_charges( tripoint::east, itype_belt223, vp ) == 0 );
+            CHECK( count_items_or_charges( tripoint::east,
                                            itype_ammolink223, vp ) == belt_ammo_count_before_unload );
-            CHECK( count_items_or_charges( tripoint_east, itype_556, vp ) == belt_ammo_count_before_unload );
+            CHECK( count_items_or_charges( tripoint::east, itype_556, vp ) == belt_ammo_count_before_unload );
         }
     }
 }
@@ -127,8 +126,8 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
     zone_manager &zm = zone_manager::get_manager();
 
     const tripoint_abs_ms origin_pos;
-    create_tile_zone( "Food", zone_type_LOOT_FOOD, tripoint_east );
-    create_tile_zone( "Drink", zone_type_LOOT_DRINK, tripoint_west );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, tripoint::east );
+    create_tile_zone( "Drink", zone_type_LOOT_DRINK, tripoint::west );
 
     SECTION( "without perishable zones" ) {
         GIVEN( "a non-perishable food" ) {
@@ -177,8 +176,8 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
     }
 
     SECTION( "with perishable zones" ) {
-        create_tile_zone( "PFood", zone_type_LOOT_PFOOD, tripoint_north );
-        create_tile_zone( "PDrink", zone_type_LOOT_PDRINK, tripoint_south );
+        create_tile_zone( "PFood", zone_type_LOOT_PFOOD, tripoint::north );
+        create_tile_zone( "PDrink", zone_type_LOOT_PDRINK, tripoint::south );
 
         GIVEN( "a non-perishable food" ) {
             item nonperishable_food( "test_bitter_almond" );

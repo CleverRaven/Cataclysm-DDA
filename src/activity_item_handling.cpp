@@ -594,13 +594,13 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // values[1]
     you.activity.values.push_back( here.getglobal( src_loc ).y() );
     // values[2]
-    you.activity.values.push_back( point_zero.x );
+    you.activity.values.push_back( point::zero.x );
     // values[3]
-    you.activity.values.push_back( point_zero.y );
+    you.activity.values.push_back( point::zero.y );
     // values[4]
-    you.activity.values.push_back( -point_zero.x );
+    you.activity.values.push_back( -point::zero.x );
     // values[5]
-    you.activity.values.push_back( -point_zero.y );
+    you.activity.values.push_back( -point::zero.y );
     // values[6]
     you.activity.values.push_back( veh->index_of_part( &vp ) );
     you.activity.str_values.push_back( vpi.id.str() );
@@ -1041,7 +1041,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 ( you.is_npc() && player_character.pos_bub() == src_loc ) ) {
                 return activity_reason_info::fail( do_activity_reason::ALREADY_WORKING );
             }
-            if( guy_work_spot != tripoint_bub_ms_zero ) {
+            if( guy_work_spot != tripoint_bub_ms::zero ) {
                 vehicle *other_veh = veh_pointer_or_null( here.veh_at( guy_work_spot ) );
                 // working on same vehicle - store the index to check later.
                 if( other_veh && other_veh == veh && guy.activity_vehicle_part_index != -1 ) {
@@ -2588,7 +2588,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
-        if( src_set.empty() && unsorted_spot != tripoint_bub_ms_zero ) {
+        if( src_set.empty() && unsorted_spot != tripoint_bub_ms::zero ) {
             for( const item *inv_elem : you.inv_dump() ) {
                 if( inv_elem->has_var( "activity_var" ) ) {
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
@@ -2607,7 +2607,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         // TODO: add zone type like zone_type_CRAFT?
         src_set.insert( here.getglobal( localpos ) );
     } else if( act_id != ACT_FETCH_REQUIRED ) {
-        zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms_zero, mgr, act_id, _fac_id( you ) );
+        zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms::zero, mgr, act_id, _fac_id( you ) );
         src_set = mgr.get_near( zone_type, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {

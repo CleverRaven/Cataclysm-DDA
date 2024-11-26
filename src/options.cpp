@@ -3353,7 +3353,7 @@ static void draw_borders_external(
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
     wattron( w, BORDER_COLOR );
-    mvwhline( w, point_zero, LINE_OXOX, getmaxx( w ) ); // -
+    mvwhline( w, point::zero, LINE_OXOX, getmaxx( w ) ); // -
     for( const int &x : vert_lines ) {
         mvwaddch( w, point( x, 0 ), LINE_OXXX ); // -.-
     }
@@ -3698,7 +3698,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const PageItem &curr_item = page_items[iCurrentLine];
         std::string tooltip = curr_item.fmt_tooltip( curr_item.group, cOPTIONS );
-        fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
+        fold_and_print( w_options_tooltip, point::zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
             mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );

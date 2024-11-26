@@ -334,7 +334,7 @@ void mapgen_subway( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, point_zero,
+            mapf::formatted_set_simple( m, point::zero,
                                         "..^/D^^/D^....^D/^^D/^..\n"
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "^/D^X/D^X......X^D/X^D/^\n"
@@ -376,7 +376,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, point_zero,
+            mapf::formatted_set_simple( m, point::zero,
                                         "..^/D^^/D^...^/D^^/D^...\n"
                                         ".^/D^^/D^...^/D^^/D^....\n"
                                         "^/D^^/D^...^/D^^/D^.....\n"
@@ -423,7 +423,7 @@ void mapgen_subway( mapgendata &dat )
         case 2:
             // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, point_zero,
+                mapf::formatted_set_simple( m, point::zero,
                                             "...^DD^^DD^...^DD^^DD^..\n"
                                             "....^DD^^DD^...^DD^^DD^.\n"
                                             ".....^DD^^DD^...^DD^^DD^\n"
@@ -459,7 +459,7 @@ void mapgen_subway( mapgendata &dat )
                                                     furn_str_id::NULL_ID(),
                                                     furn_str_id::NULL_ID() ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, point_zero,
+                mapf::formatted_set_simple( m, point::zero,
                                             "...^X^^^X^....^X^^^X^...\n"
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -502,7 +502,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, point_zero,
+            mapf::formatted_set_simple( m, point::zero,
                                         "...^X^^^X^..../D^^/D^...\n"
                                         "...-x---x-.../DX^/DX^...\n"
                                         "...^X^^^X^../D^X/D^X^...\n"
@@ -1129,7 +1129,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_bub_ms_zero, point_bub_ms( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
+                        point_bub_ms::zero, point_bub_ms( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 

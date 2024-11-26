@@ -292,11 +292,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         // Not sure if we actually have to check all submaps.
-        const bool any_missing = !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_zero, p_sm.z() } ) )
+        const bool any_missing = !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm::zero, p_sm.z() } ) )
                                  ||
-                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_south_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_south, p_sm.z() } ) );
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm::east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm::south_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm::south, p_sm.z() } ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
@@ -863,7 +863,7 @@ void load_mapgen( const JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero, point_one );
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, point::zero, point_one );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
                         oter_mapgen.add( i, mgfunc );
@@ -872,7 +872,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
+        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point::zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, nested_mapgen_id( jo.get_string( "nested_mapgen_id" ) ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
@@ -908,7 +908,7 @@ size_t mapgen_function_json_base::calc_index( const point &p ) const
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                                  const point &mapgensize, const JsonObject &jso )
 {
-    half_open_rectangle<point> bounds( point_zero, mapgensize );
+    half_open_rectangle<point> bounds( point::zero, mapgensize );
     if( !bounds.contains( point( x.val, y.val ) ) ) {
         return false;
     }
@@ -5400,7 +5400,7 @@ void mapgen_function_json::generate( mapgendata &md )
         }
     }
 
-    apply_mapgen_in_phases( md_with_params, setmap_points, objects, tripoint_rel_ms( tripoint_zero ),
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, tripoint_rel_ms::zero,
                             context_ );
 
     m->rotate( rot );
@@ -5441,7 +5441,7 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const tripoint_rel
 void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase,
                              const std::string &context ) const
 {
-    apply( dat, phase, tripoint_rel_ms( tripoint_zero ), context );
+    apply( dat, phase, tripoint_rel_ms::zero, context );
 }
 
 void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase,
@@ -6030,7 +6030,7 @@ void map::draw_lab( mapgendata &dat )
         }
 
         if( tower_lab ) {
-            place_spawns( GROUP_LAB, 1, point_bub_ms( point_zero ), point_bub_ms( EAST_EDGE, SOUTH_EDGE ),
+            place_spawns( GROUP_LAB, 1, point_bub_ms::zero, point_bub_ms( EAST_EDGE, SOUTH_EDGE ),
                           abs_sub.z(), 0.02f );
         }
 
@@ -6839,7 +6839,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     veh->turn_dir = dir;
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
     // that the mount at (0,0) is located at the spawn position.
-    veh->precalc_mounts( 0, dir, point_rel_ms_zero );
+    veh->precalc_mounts( 0, dir, point_rel_ms::zero );
 
     std::unique_ptr<vehicle> placed_vehicle_up =
         add_vehicle_to_map( std::move( veh ), merge_wrecks );
@@ -7098,13 +7098,13 @@ void map::rotate( int turns )
     for( int z_level = bottom_level; z_level <= top_level; z_level++ ) {
         clear_vehicle_list( z_level );
 
-        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_east, z_level } );
-        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south, z_level } );
+        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::east, z_level } );
+        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
-            debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point_zero.x,
-                      point_zero.y );
+            debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point::zero.x,
+                      point::zero.y );
             return;
         }
 
@@ -7120,7 +7120,7 @@ void map::rotate( int turns )
 
             for( int k = 0; k < 4; ++k ) {
                 p = p.rotate( turns, { 2, 2 } );
-                point tmpp = point_south_east - p;
+                point tmpp = point::south_east - p;
                 submap *psep = get_submap_at_grid( tripoint_rel_sm( tmpp.x, tmpp.y, z_level ) );
                 if( psep == nullptr ) {
                     debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", tmpp.x, tmpp.y );
@@ -7192,14 +7192,14 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
 
     for( int z_level = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
          z_level <= ( zlevels ? OVERMAP_HEIGHT : abs_sub.z() ); z_level++ ) {
-        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( tripoint_rel_sm{point_rel_sm_east, z_level
+        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::east, z_level
                                                         } );
-        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south, z_level } );
+        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm::south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
-            debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", point_zero.x,
-                      point_zero.y, z_level );
+            debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", point::zero.x,
+                      point::zero.y, z_level );
             return;
         }
 
@@ -7465,25 +7465,25 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                     m->furn_set( tripoint_bub_ms( x, p2.y - 1, z ), furn_f_counter );
                 }
                 m->place_items( Item_spawn_data_dissection, 80, point_bub_ms( p1.x, p2.y - 1 ),
-                                point_bub_ms( p2 + point_north ), z, false, calendar::start_of_cataclysm );
+                                point_bub_ms( p2 + point::north ), z, false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     m->furn_set( tripoint_bub_ms( p1.x + 1, y, z ), furn_f_counter );
                 }
-                m->place_items( Item_spawn_data_dissection, 80, point_bub_ms( p1 + point_east ),
+                m->place_items( Item_spawn_data_dissection, 80, point_bub_ms( p1 + point::east ),
                                 point_bub_ms( p1.x + 1, p2.y ), z, false, calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 for( int x = p1.x; x <= p2.x; x++ ) {
                     m->furn_set( tripoint_bub_ms( x, p1.y + 1, z ), furn_f_counter );
                 }
-                m->place_items( Item_spawn_data_dissection, 80, point_bub_ms( p1 + point_south ),
+                m->place_items( Item_spawn_data_dissection, 80, point_bub_ms( p1 + point::south ),
                                 point_bub_ms( p2.x, p1.y + 1 ), z, false, calendar::start_of_cataclysm );
             } else if( rotate == 3 ) {
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     m->furn_set( tripoint_bub_ms( p2.x - 1, y, z ), furn_f_counter );
                 }
                 m->place_items( Item_spawn_data_dissection, 80, point_bub_ms( p2.x - 1, p1.y ),
-                                point_bub_ms( p2 + point_west ), z, false, calendar::start_of_cataclysm );
+                                point_bub_ms( p2 + point::west ), z, false, calendar::start_of_cataclysm );
             }
             mtrap_set( m, tripoint_bub_ms( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ), z ),
                        tr_dissector );
@@ -7497,7 +7497,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
         case room_bionics:
             if( rotate % 2 == 0 ) {
                 point bio( p1.x + 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) );
-                mapf::formatted_set_simple( m, bio + point_north_west,
+                mapf::formatted_set_simple( m, bio + point::north_west,
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
@@ -7516,7 +7516,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 bio.x = p2.x - 2;
-                mapf::formatted_set_simple( m, bio + point_north_west,
+                mapf::formatted_set_simple( m, bio + point::north_west,
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
@@ -7920,8 +7920,8 @@ ret_val<void> update_mapgen_function_json::update_map(
     const tripoint_abs_omt &omt_pos, const mapgen_arguments &args, const tripoint_rel_ms &offset,
     mission *miss, bool verify, bool mirror_horizontal, bool mirror_vertical, int rotation ) const
 {
-    if( omt_pos == overmap::invalid_tripoint ) {
-        debugmsg( "Mapgen update function called with overmap::invalid_tripoint" );
+    if( omt_pos.is_invalid() ) {
+        debugmsg( "Mapgen update function called with invalid tripoint" );
         return ret_val<void>::make_failure( _( "invalid position (not vehicle/appliance)" ) );
     }
 
@@ -8014,7 +8014,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return null_function;
     }
     const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
-        json_data.update_map( omt_pos, {}, tripoint_rel_ms_zero, miss );
+        json_data.update_map( omt_pos, {}, tripoint_rel_ms::zero, miss );
     };
     defer = mapgen_defer::defer;
     mapgen_defer::jsi = JsonObject();
@@ -8035,7 +8035,7 @@ ret_val<void> run_mapgen_update_func(
         return ret_val<void>::make_failure( _( missing_update_operation ) );
     }
     return update_function->second.funcs()[0]->update_map(
-               omt_pos, args, tripoint_rel_ms_zero, miss, cancel_on_collision, mirror_horizontal,
+               omt_pos, args, tripoint_rel_ms::zero, miss, cancel_on_collision, mirror_horizontal,
                mirror_vertical, rotation );
 }
 
@@ -8046,7 +8046,7 @@ ret_val<void> run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, 
     if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
         return ret_val<void>::make_failure( _( missing_update_operation ) );
     }
-    return update_function->second.funcs()[0]->update_map( dat, tripoint_rel_ms_zero,
+    return update_function->second.funcs()[0]->update_map( dat, tripoint_rel_ms::zero,
             cancel_on_collision );
 }
 

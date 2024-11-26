@@ -865,7 +865,7 @@ void color_manager::show_gui()
         w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                               iOffset );
         w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                              iOffset + point_south_east );
+                                              iOffset + point::south_east );
         w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                        iOffset + point( 1, iHeaderHeight + 1 ) );
 
@@ -913,7 +913,7 @@ void color_manager::show_gui()
         draw_header( w_colors_header );
 
         // Clear all lines
-        mvwrectf( w_colors, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w_colors, point::zero, c_black, ' ', 79, iContentHeight );
         for( int &iCol : vLines ) {
             mvwvline( w_colors, point( iCol, 0 ), BORDER_COLOR, LINE_XOXO, iContentHeight );
         }

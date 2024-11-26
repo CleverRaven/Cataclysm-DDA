@@ -287,7 +287,7 @@ static tripoint_abs_omt om_target_tile(
     const tripoint_abs_omt &omt_pos, int min_range = 1, int range = 1,
     const std::vector<std::string> &possible_om_types = {}, ot_match_type match_type =
         ot_match_type::exact, bool must_see = true,
-    const tripoint_abs_omt &source = overmap::invalid_tripoint,
+    const tripoint_abs_omt &source = tripoint_abs_omt::invalid,
     bool bounce = false, const std::optional<std::string> &message = std::nullopt );
 static void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
                            const std::string &message = "Y;X: MAX RANGE" );
@@ -577,23 +577,23 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
         return false;
     }
 
-    if( dir == point_north_west ) {
+    if( dir == point::north_west ) {
         dir_string = "NW";
-    } else if( dir == point_north ) {
+    } else if( dir == point::north ) {
         dir_string = "N";
-    } else if( dir == point_north_east ) {
+    } else if( dir == point::north_east ) {
         dir_string = "NE";
-    } else if( dir == point_west ) {
+    } else if( dir == point::west ) {
         dir_string = "W";
-    } else if( dir == point_zero ) {
+    } else if( dir == point::zero ) {
         dir_string.clear();  //  Will result in "hidden" flags that can actually affect the core.
-    } else if( dir == point_east ) {
+    } else if( dir == point::east ) {
         dir_string = "E";
-    } else if( dir == point_south_west ) {
+    } else if( dir == point::south_west ) {
         dir_string = "SW";
-    } else if( dir == point_south ) {
+    } else if( dir == point::south ) {
         dir_string = "S";
-    } else if( dir == point_south_east ) {
+    } else if( dir == point::south_east ) {
         dir_string = "SE";
     }
 
@@ -2598,7 +2598,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 {
     tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest, ot_match_type::type,
                               _( "Select a forest (or road/trail) from %d to %d tiles away." ) );
-    if( forest != overmap::invalid_tripoint ) {
+    if( !forest.is_invalid() ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
         const int tree_est = om_cutdown_trees_est( forest, 50 );
@@ -2643,7 +2643,7 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
 {
     popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest, ot_match_type::type );
-    if( forest != overmap::invalid_tripoint ) {
+    if( !forest.is_invalid() ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
         const int tree_est = om_cutdown_trees_est( forest, 95 );
@@ -2678,7 +2678,7 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id, float exertion_
     tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, terrains_field_swamp_forest,
                               ot_match_type::type,
                               true, omt_pos, true, _( "Select a forest, swamp, or field from %d to %d tiles away." ) );
-    if( forest != overmap::invalid_tripoint ) {
+    if( !forest.is_invalid() ) {
         pf::simple_path<tripoint_abs_omt> path = overmap_buffer.get_travel_path( omt_pos, forest,
                 overmap_path_params::for_npc() );
         Character *pc = &get_player_character();
@@ -2724,7 +2724,7 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
     tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::exact,
                               true, omt_pos, true, string_format(
                                   _( "Select an existing hide site from %d to %d tiles away." ), 10, 90 ) );
-    if( forest != overmap::invalid_tripoint ) {
+    if( !forest.is_invalid() ) {
         pf::simple_path<tripoint_abs_omt> path = overmap_buffer.get_travel_path( omt_pos, forest,
                 overmap_path_params::for_npc() );
         Character *pc = &get_player_character();
@@ -2851,13 +2851,13 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
               "constructions." ) );
     tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest,
                              ot_match_type::type, true, omt_pos, _( "Select a start point from %d to %d tiles away." ) );
-    if( start == overmap::invalid_tripoint ) {
+    if( start.is_invalid() ) {
         return;
     }
     tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest,
                                             ot_match_type::type,
                                             true, start, _( "Select an end point from %d to %d tiles away." ) );
-    if( stop == overmap::invalid_tripoint ) {
+    if( stop.is_invalid() ) {
         return;
     }
     const recipe &making = recipe_id( miss_id.parameters ).obj();
@@ -2990,7 +2990,7 @@ using PathMap = cata::mdarray<double, point, path_map_size, path_map_size>;
 //  recipe approach taken.
 static point check_salt_pipe_neighbors( PathMap &path_map, point pt )
 {
-    point found = overmap::invalid_point;
+    point found = point::invalid;
     double lowest_found = -10000.0;
     double cost;
 
@@ -3091,26 +3091,26 @@ static point connection_direction_of( const point &dir, const recipe &making );
 
 point connection_direction_of( const point &dir, const recipe &making )
 {
-    point connection_dir = point_north;
+    point connection_dir = point::north;
     const std::string suffix = base_camps::all_directions.at( dir ).id.substr( 1,
                                base_camps::all_directions.at( dir ).id.length() - 2 );
     int count = 0;
 
     if( making.has_flag( "MAP_ROTATE_90_IF_" + suffix ) ) {
-        connection_dir = point_east;
+        connection_dir = point::east;
         count++;
     }
     if( making.has_flag( "MAP_ROTATE_180_IF_" + suffix ) ) {
-        connection_dir = point_south;
+        connection_dir = point::south;
         count++;
     }
     if( making.has_flag( "MAP_ROTATE_270_IF_" + suffix ) ) {
-        connection_dir = point_west;
+        connection_dir = point::west;
         count++;
     }
     if( count > 1 ) {
         popup( _( "Bug, Incorrect recipe: More than one rotation per orientation isn't valid" ) );
-        return overmap::invalid_point;
+        return point::invalid;
     }
 
     if( making.has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + suffix ) ) {
@@ -3301,7 +3301,7 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
     const recipe &making = recipe_id( miss_id.parameters ).obj();
     point connection_dir = connection_direction_of( dir, making );
 
-    if( connection_dir == overmap::invalid_point ) {
+    if( connection_dir.is_invalid() ) {
         return;
     }
 
@@ -3377,7 +3377,7 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
 
         if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
             salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
-            destination = point_zero;
+            destination = point::zero;
             path_found = true;
         } else {
             path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
@@ -3390,7 +3390,7 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
                         if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
                             0.0 ) { // Tile has been assigned a distance and isn't a swamp
                             point temp = check_salt_pipe_neighbors( path_map, { i, k } );
-                            if( temp != overmap::invalid_point ) {
+                            if( !temp.is_invalid() ) {
                                 if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
                                     destination_cost ) {
                                     destination_cost = path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance +
@@ -3422,7 +3422,7 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
             = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
                     destination.y];
 
-        while( destination != point_zero ) {
+        while( destination != point::zero ) {
             pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
             path_found = false;  //  Reuse of existing variable after its original usability has been passed.
             for( int i = -1; i <= 1; i++ ) {
@@ -4603,7 +4603,7 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     while( true ) {
         where = ui::omap::choose_point( string_format(
                                             _( "Select a tile up to %d tiles away." ), 1 ) );
-        if( where == overmap::invalid_tripoint ) {
+        if( where.is_invalid() ) {
             return false;
         }
 
@@ -4685,7 +4685,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
     while( true ) {
         where = ui::omap::choose_point( string_format(
                                             _( "Select a tile up to %d tiles away." ), 1 ) );
-        if( where == overmap::invalid_tripoint ) {
+        if( where.is_invalid() ) {
             return false;
         }
 
@@ -5108,7 +5108,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
     const std::string &real_message = string_format(
                                           message ? *message : _( "Select a location from %d to %d tiles away." ), min_range, range );
-    if( source == overmap::invalid_tripoint ) {
+    if( source.is_invalid() ) {
         where = ui::omap::choose_point( real_message );
     } else {
         where = ui::omap::choose_point( real_message, source );
@@ -5116,8 +5116,8 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     om_range_mark( omt_pos, range, false );
     om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
 
-    if( where == overmap::invalid_tripoint ) {
-        return overmap::invalid_tripoint;
+    if( where.is_invalid() ) {
+        return where;
     }
     int dist = rl_dist( where.xy(), omt_pos.xy() );
     if( dist > range || dist < min_range ) {
@@ -5335,7 +5335,7 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
         }
         tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, ot_match_type::exact, false, last,
                                                false, message );
-        if( spt == overmap::invalid_tripoint ) {
+        if( spt.is_invalid() ) {
             if( scout_segments.empty() ) {
                 return {};
             }

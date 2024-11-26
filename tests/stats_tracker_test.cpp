@@ -350,21 +350,21 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         send_game_start( b, u_id );
         CHECK( event_statistic_first_omt->value( s ) == cata_variant() );
         CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant() );
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::avatar_enters_omt>( tripoint::zero, field );
         b.send<event_type::character_wields_item>( u_id, itype_crowbar );
-        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint::zero ) );
         CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_crowbar ) );
 
         calendar::turn += 1_minutes;
-        b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+        b.send<event_type::avatar_enters_omt>( tripoint::below, field );
         b.send<event_type::character_wields_item>( u_id, itype_pipe );
-        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint::zero ) );
         CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_pipe ) );
 
         calendar::turn += 1_minutes;
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::avatar_enters_omt>( tripoint::zero, field );
         b.send<event_type::character_wields_item>( u_id, itype_crowbar );
-        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint::zero ) );
         CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_crowbar ) );
     }
 
@@ -373,11 +373,11 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         const oter_id central_lab_finale( "central_lab_finale" );
         send_game_start( b, u_id );
         CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 0 ) );
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, lab_finale );
+        b.send<event_type::avatar_enters_omt>( tripoint::zero, lab_finale );
         CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 1 ) );
 
         calendar::turn += 1_minutes;
-        b.send<event_type::avatar_enters_omt>( tripoint_below, central_lab_finale );
+        b.send<event_type::avatar_enters_omt>( tripoint::below, central_lab_finale );
         CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 2 ) );
     }
 
@@ -389,14 +389,14 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         send_game_start( b, u_id );
         CHECK( event_statistic_last_oter_type_avatar_entered->value( s ) == cata_variant() );
 
-        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::avatar_enters_omt>( tripoint::zero, field );
         CHECK( event_statistic_last_oter_type_avatar_entered->value( s ) == cata_variant(
                    oter_type_field ) );
 
         const cata::event invalid_event(
             event_type::avatar_enters_omt, calendar::turn,
         cata::event::data_type{
-            { "pos", cata_variant( tripoint_below ) },
+            { "pos", cata_variant( tripoint::below ) },
             { "oter_id", invalid_oter_id }
         } );
         b.send( invalid_event );
@@ -615,11 +615,11 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         oter_id field( "field" );
 
         auto send_enter_omt_zero = [&]() {
-            b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+            b.send<event_type::avatar_enters_omt>( tripoint::zero, field );
         };
 
         auto send_enter_omt_other = [&]() {
-            b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+            b.send<event_type::avatar_enters_omt>( tripoint::below, field );
         };
 
         achievement_id a_return_to_first_omt( "achievement_return_to_first_omt" );

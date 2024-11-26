@@ -17,7 +17,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -171,7 +170,7 @@ class avatar : public Character
          */
         mission *get_active_mission() const;
         /**
-         * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
+         * Returns the target of the active mission or @ref tripoint_abs_omt::invalid if there is
          * no active mission.
          */
         tripoint_abs_omt get_active_mission_target() const;
@@ -249,7 +248,7 @@ class avatar : public Character
 
         void wake_up() override;
         // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint_rel_ms &grab_point = tripoint_rel_ms_zero );
+        void grab( object_type grab_type, const tripoint_rel_ms &grab_point = tripoint_rel_ms::zero );
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();

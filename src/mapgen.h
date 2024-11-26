@@ -539,7 +539,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
             bool mirror_vertical = false, int rotation = 0 ) const;
         // Returns an empty string on success and the name of a colliding "vehicle" on failure.
         ret_val<void> update_map( const mapgendata &md,
-                                  const tripoint_rel_ms &offset = tripoint_rel_ms( tripoint_zero ),
+                                  const tripoint_rel_ms &offset = tripoint_rel_ms::zero,
                                   bool verify = false ) const;
 
     protected:

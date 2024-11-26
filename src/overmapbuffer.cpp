@@ -642,7 +642,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
     // but monster groups are defined with submap coordinates.
     tripoint_abs_sm p_sm = project_to<coords::sm>( p );
     std::vector<mongroup *> result;
-    for( const point &offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( const point &offset : std::array<point, 4> { { { point::zero }, { point::south }, { point::east }, { point::south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -947,7 +947,7 @@ static bool is_ramp( const tripoint_abs_omt &omt_pos )
 pf::simple_path<tripoint_abs_omt> overmapbuffer::get_travel_path(
     const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params )
 {
-    if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+    if( src.is_invalid() || dest.is_invalid() ) {
         return {};
     }
 
@@ -976,7 +976,7 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     static const point_rel_omt O( RADIUS * OMAPX,
                                   RADIUS * OMAPY );   // half-height of the area to search in
 
-    if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+    if( source.is_invalid() || dest.is_invalid() ) {
         return false;
     }
 
@@ -1205,7 +1205,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         }
     }
 
-    return random_entry( result, overmap::invalid_tripoint );
+    return random_entry( result, tripoint_abs_omt::invalid );
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
@@ -1238,7 +1238,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all(
 tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
-    return random_entry( find_all( origin, params ), overmap::invalid_tripoint );
+    return random_entry( find_all( origin, params ), tripoint_abs_omt::invalid );
 }
 
 tripoint_abs_omt overmapbuffer::find_random(

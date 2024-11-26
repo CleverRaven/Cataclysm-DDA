@@ -158,12 +158,12 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub
     return *test_monster_ptr;
 }
 
-// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
+// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint::zero with a given
 // terrain, and no furniture, traps, or items.
 void build_test_map( const ter_id &terrain )
 {
     map &here = get_map();
-    for( const tripoint_bub_ms &p : here.points_in_rectangle( tripoint_bub_ms_zero,
+    for( const tripoint_bub_ms &p : here.points_in_rectangle( tripoint_bub_ms::zero,
             tripoint_bub_ms( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         here.furn_set( p, furn_id( "f_null" ) );
         here.ter_set( p, terrain );

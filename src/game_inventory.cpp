@@ -2343,14 +2343,14 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
                 const int height = TERMY;
                 const int offset_y = confirm_message.empty() ? 0 : 3;
                 page_size = TERMY - offset_y - 2;
-                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point::zero );
                 wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
 
                 if( !confirm_message.empty() ) {
                     wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
                 }
 
-                ui.position( point_zero, point( half_width * 2, height ) );
+                ui.position( point::zero, point( half_width * 2, height ) );
             } );
             ui.mark_resize();
             ui.on_redraw( [&]( const ui_adaptor & ) {

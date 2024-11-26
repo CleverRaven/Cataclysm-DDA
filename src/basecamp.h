@@ -185,7 +185,7 @@ class basecamp
             return bb_pos;
         }
         void validate_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
-            if( bb_pos.raw() == tripoint_zero ) {
+            if( bb_pos.raw() == tripoint::zero ) {
                 bb_pos = new_abs_pos;
             }
         }

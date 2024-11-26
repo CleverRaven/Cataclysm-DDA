@@ -10,6 +10,7 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "cata_inline.h"
@@ -176,6 +177,61 @@ class coord_point_ob : public
         using base::base;
 
         static constexpr int dimension = Point::dimension;
+        inline static const coord_point_ob min{ Point::min };
+        inline static const coord_point_ob max{ Point::max };
+        inline static const coord_point_ob invalid{ Point::invalid };
+        constexpr bool is_invalid() const {
+            return *this == invalid;
+        }
+
+        inline static const coord_point_ob zero{ Point::zero };
+
+    private:
+        // Because we use templating to delete these members from types that
+        // should not have them, refering to them requires a <> for the empty
+        // template parameter list. That is ugly, so these are private and
+        // there are public references to them below.
+
+        // The directional constants are only available for *point_rel_*
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _north{ Point::north };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_east{ Point::north_east };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _east{ Point::east };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_east{ Point::south_east };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _south{ Point::south };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _south_west{ Point::south_west };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _west{ Point::west };
+        template <origin O = Origin>
+        inline static const std::enable_if_t<O == origin::relative, coord_point_ob> _north_west{ Point::north_west };
+
+        // The vertical constants are only available for tripoint_rel_*
+        template <origin O = Origin, typename P = Point>
+        inline static const std::enable_if_t < O == origin::relative &&
+        P::dimension == 3, coord_point_ob > _above{ Point::above };
+        template <origin O = Origin, typename P = Point>
+        inline static const std::enable_if_t < O == origin::relative &&
+        P::dimension == 3, coord_point_ob > _below{ Point::below };
+
+    public:
+        // These public references exist unconditionally, but refer to members
+        // that are conditional. Attempting to access them when the referred
+        // member does not exist will produce a compiler error.
+        inline static const coord_point_ob &north = _north<>;
+        inline static const coord_point_ob &north_east = _north_east<>;
+        inline static const coord_point_ob &east = _east<>;
+        inline static const coord_point_ob &south_east = _south_east<>;
+        inline static const coord_point_ob &south = _south<>;
+        inline static const coord_point_ob &south_west = _south_west<>;
+        inline static const coord_point_ob &west = _west<>;
+        inline static const coord_point_ob &north_west = _north_west<>;
+        inline static const coord_point_ob &above = _above<>;
+        inline static const coord_point_ob &below = _below<>;
 
         static constexpr bool is_inbounds = false;
         using this_as_tripoint = coord_point_ob<tripoint, Origin, Scale>;
@@ -214,7 +270,7 @@ class coord_point_ob : public
             return coord_point_ob( this->raw().abs() );
         }
 
-        constexpr auto rotate( int turns, const point &dim = point_south_east ) const {
+        constexpr auto rotate( int turns, const point &dim = point::south_east ) const {
             return coord_point_ob( this->raw().rotate( turns, dim ) );
         }
 
