@@ -176,7 +176,7 @@
     "id": "xedra_dreamsmith_time_watch",
     "type": "TOOL",
     "copy-from": "pocketwatch",
-    "name": { "str": "time shattering pocket watch" },
+    "name": { "str": "time shattering pocket watch", "str_pl": "time shattering pocket watches" },
     "description": "A pocket watch made entirely of dreamdross.  It somehow still accurately tells the time.  Once per day, press the button on the right to briefly stop time for everything but you.",
     "proportional": { "weight": 0.5 },
     "price": "1000 cent",
