@@ -1,0 +1,25 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOMOD_DM",
+    "default": "mon_dilophosaurus_dm",
+    "monsters": [
+      { "monster": "mon_dilophosaurus_dm", "weight": 10 },
+      { "monster": "mon_ceratosaurus_dm", "weight": 10 },
+      { "monster": "mon_spinosaurus_dm", "weight": 10 },
+      { "monster": "mon_torvosaurus_dm", "weight": 10 },
+      { "monster": "mon_allosaurus_dm", "weight": 10 },
+      { "monster": "mon_acrocanthosaurus_dm", "weight": 10 },
+      { "monster": "mon_giganotosaurus_dm", "weight": 10 },
+      { "monster": "mon_siats_dm", "weight": 10 },
+      { "monster": "mon_dryptosaurus_dm", "weight": 10 },
+      { "monster": "mon_appalachiosaurus_dm", "weight": 10 },
+      { "monster": "mon_gorgosaurus_dm", "weight": 10 },
+      { "monster": "mon_albertosaurus_dm", "weight": 10 },
+      { "monster": "mon_qianzhousaurus_dm", "weight": 10 },
+      { "monster": "mon_nanuqsaurus_dm", "weight": 10 },
+      { "monster": "mon_daspletosaurus_dm", "weight": 10 },
+      { "monster": "mon_tyrannosaurus_dm", "weight": 10 }
+    ]
+  }
+]
