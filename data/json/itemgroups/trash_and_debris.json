@@ -195,6 +195,7 @@
       { "item": "glass_shard", "prob": 20, "count": [ 5, 60 ] },
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
+      [ "stick_long", 20 ],
       [ "seed_flower", 5 ],
       [ "joint_roach", 5 ],
       [ "pipe", 20 ],
