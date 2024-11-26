@@ -4345,7 +4345,9 @@ void overmap::place_special_forced( const overmap_special_id &special_id,
     static city invalid_city;
     place_special( *special_id, p, dir, invalid_city, false, true );
 }
-
+/**
+ * Let the group wander aimlessly, unless behaviour is set to city, in which case it will move to the city center.
+ */
 void mongroup::wander( const overmap &om )
 {
     const city *target_city = nullptr;
@@ -4376,11 +4378,17 @@ void mongroup::wander( const overmap &om )
         target = target_abs + delta;
         interest = 100;
     } else {
+
+        // No city to target, wander aimlessly.
         target = abs_pos.xy() + point( rng( -10, 10 ), rng( -10, 10 ) );
         interest = 30;
     }
 }
 
+/**
+ * Moves hordes around the map according to their behaviour and target.
+ * Also, emerge hordes from monsters that are outside the player's view. Currently only works for zombies.
+ */
 void overmap::move_hordes()
 {
     // Prevent hordes to be moved twice by putting them in here after moving.
@@ -4532,6 +4540,11 @@ void overmap::move_hordes()
     }
 }
 
+/**
+ * Move the nemesis horde towards the player.
+ * Currently only works for the first nemesis horde. If there are multiple, only the first one will be moved.
+ *
+ */
 void overmap::move_nemesis()
 {
     // Prevent hordes to be moved twice by putting them in here after moving.
@@ -4620,6 +4633,8 @@ bool overmap::remove_nemesis()
 }
 
 /**
+ * Alert hordes to the signal source such as a loud explosion.
+ *
 * @param p location of signal relative to this overmap origin
 * @param sig_power - power of signal or max distance for reaction of zombies
 */

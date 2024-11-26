@@ -9287,6 +9287,8 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
                 // Give monster a random point near horde's expected destination
                 const tripoint_sm_ms pos_in_sm( rng( 0, SEEX ), rng( 0, SEEY ), local_pos.z() );
                 const tripoint_abs_ms rand_dest = project_combine( group.target, pos_in_sm );
+
+                // The monster will wander to the rand_dest for several turns which is determined by the distance and interest
                 const int turns = rl_dist( abs_pos, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
                 add_msg_debug( debugmode::DF_MAP, "%s targeting %s", tmp.disp_name(),
