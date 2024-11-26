@@ -1295,6 +1295,29 @@ void game::load_npcs()
     npcs_dirty = false;
 }
 
+void game::on_witness_theft( const item &target )
+{
+    Character &p = get_player_character();
+    std::vector<npc *> witnesses;
+    for( npc &elem : g->all_npcs() ) {
+        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) &&
+            target.is_owned_by( elem ) ) {
+            witnesses.push_back( &elem );
+        }
+    }
+    for( npc *elem : witnesses ) {
+        elem->say( "<witnessed_thievery>", 7 );
+    }
+    if( !witnesses.empty() ) {
+        if( p.add_faction_warning( target.get_owner() ) ||
+            target.get_owner() == faction_id( "no_faction" ) ) {
+            for( npc *elem : witnesses ) {
+                elem->make_angry();
+            }
+        }
+    }
+}
+
 void game::unload_npcs()
 {
     for( const auto &npc : critter_tracker->active_npc ) {
