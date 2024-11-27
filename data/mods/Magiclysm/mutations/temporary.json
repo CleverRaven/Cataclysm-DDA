@@ -45,8 +45,8 @@
   {
     "type": "mutation",
     "id": "EARTHSHAPER_STONE_SLEEP",
-    "name": { "str": "Stony Sleep" },
-    "description": "You are resting in the depths of the earth.  You should never actually see this.",
+    "name": { "str": "Stony Sleep", "//~": "NO_I18N" },
+    "description": { "str": "You are resting in the depths of the earth.  You should never actually see this.", "//~": "NO_I18N" },
     "player_display": false,
     "points": 0,
     "enchantments": [

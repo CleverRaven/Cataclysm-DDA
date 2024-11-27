@@ -102,7 +102,7 @@ ui_adaptor::~ui_adaptor()
 void ui_adaptor::position_from_window( const catacurses::window &win )
 {
     if( !win ) {
-        position( point_zero, point_zero );
+        position( point::zero, point::zero );
     } else {
         const rectangle<point> old_dimensions = dimensions;
         // ensure position is updated before calling invalidate
@@ -306,7 +306,7 @@ void ui_adaptor::reset()
 {
     on_screen_resize( nullptr );
     on_redraw( nullptr );
-    position( point_zero, point_zero );
+    position( point::zero, point::zero );
 }
 
 void ui_adaptor::shutdown()

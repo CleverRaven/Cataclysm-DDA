@@ -138,7 +138,7 @@ static void build_line( spell_detail::line_iterable line, const tripoint_bub_ms 
                         const point &delta, const point &delta_perp, bool ( *test )( const tripoint_bub_ms & ),
                         std::set<tripoint_bub_ms> &result )
 {
-    while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
+    while( between_or_on( point::zero, delta, delta_perp, line.get() ) ) {
         if( !test( source + line.get() ) ) {
             break;
         }
@@ -299,7 +299,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         const tripoint_bub_ms &source, const tripoint_bub_ms &target )
 {
     const point delta = ( target - source ).xy().raw();
-    const int dist = square_dist( point_zero, delta );
+    const int dist = square_dist( point::zero, delta );
     // Early out to prevent unnecessary calculations
     if( dist == 0 ) {
         return std::set<tripoint_bub_ms>();
@@ -323,18 +323,18 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
     }
 
     // is delta aligned with, cw, or ccw of primary axis
-    int delta_side = spell_detail::side_of( point_zero, axis_delta, delta );
+    int delta_side = spell_detail::side_of( point::zero, axis_delta, delta );
 
     bool ( *test )( const tripoint_bub_ms & ) = params.ignore_walls ? test_always_true : test_passable;
 
     // Canonical path from source to target, offset to local space
-    std::vector<point> path_to_target = line_to( point_zero, delta );
+    std::vector<point> path_to_target = line_to( point::zero, delta );
     // Remove endpoint,
     path_to_target.pop_back();
     // and insert startpoint. Path is now prepared for wrapped iteration
-    path_to_target.insert( path_to_target.begin(), point_zero );
+    path_to_target.insert( path_to_target.begin(), point::zero );
 
-    spell_detail::line_iterable base_line( point_zero, delta, path_to_target );
+    spell_detail::line_iterable base_line( point::zero, delta, path_to_target );
 
     std::set<tripoint_bub_ms> result;
 
@@ -344,7 +344,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
     // Add cw and ccw legs
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
             if( !test( source + p ) ) {
                 break;
@@ -353,7 +353,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // ccw leg
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
             if( !test( source + p ) ) {
                 break;
@@ -363,11 +363,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         }
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // forward until in
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -376,11 +376,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // cw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // move back
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -391,11 +391,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         }
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // move back
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -405,11 +405,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // cw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // forward until in
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -472,14 +472,14 @@ static std::set<tripoint_bub_ms> spell_effect_area( const spell &sp, const tripo
     std::set<tripoint_bub_ms> targets = calculate_spell_effect_area( sp, target, caster );
     if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
         // Draw the explosion
-        std::map<tripoint, nc_color> explosion_colors;
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : targets ) {
-            explosion_colors[pt.raw()] = sp.damage_type_color();
+            explosion_colors[pt] = sp.damage_type_color();
         }
 
         std::string exp_name = "explosion_" + sp.id().str();
 
-        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+        explosion_handler::draw_custom_explosion( explosion_colors,
                 exp_name );
     }
     return targets;
@@ -622,38 +622,36 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
 
         // handling DOTs here
-        if( sp.damage_dot( caster ) > 0 ) {
-            if( cr->as_character() != nullptr ) {
-                std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
+        if( cr->as_character() != nullptr ) {
+            std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
 
-                if( sp.bps_affected() > 0 ) {
-                    for( auto it = target_bdpts.begin(); it != target_bdpts.end(); ) {
-                        if( !sp.bp_is_affected( it->id() ) ) {
-                            it = target_bdpts.erase( it );
-                        } else {
-                            ++it;
-                        }
+            if( sp.bps_affected() > 0 ) {
+                for( auto it = target_bdpts.begin(); it != target_bdpts.end(); ) {
+                    if( !sp.bp_is_affected( it->id() ) ) {
+                        it = target_bdpts.erase( it );
+                    } else {
+                        ++it;
                     }
                 }
-
-                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    for( bodypart_id bpid : target_bdpts ) {
-                        damage_over_time_data foo = sp.damage_over_time( { bpid }, caster );
-                        foo.amount = cr->get_hp( bpid ) * foo.amount / 100.0;
-                        cr->add_damage_over_time( foo );
-                    }
-                } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
-                    damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
-                    dot_data.amount /= target_bdpts.size();
-                    cr->add_damage_over_time( dot_data );
-                } else if( !target_bdpts.empty() ) {
-                    cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
-                } else {
-                    cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
-                }
-            } else {
-                cr->add_damage_over_time( sp.damage_over_time( { body_part_bp_null }, caster ) );
             }
+
+            if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                for( bodypart_id bpid : target_bdpts ) {
+                    damage_over_time_data foo = sp.damage_over_time( { bpid }, caster );
+                    foo.amount = cr->get_hp( bpid ) * foo.amount / 100.0;
+                    cr->add_damage_over_time( foo );
+                }
+            } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
+                damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
+                dot_data.amount /= target_bdpts.size();
+                cr->add_damage_over_time( dot_data );
+            } else if( sp.bps_affected() > 0 ) {
+                cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
+            } else {
+                cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
+            }
+        } else {
+            cr->add_damage_over_time( sp.damage_over_time( { body_part_bp_null }, caster ) );
         }
     }
 }
@@ -1894,6 +1892,9 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         }
         Creature *victim = creatures.creature_at<Creature>( potential_target );
         dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
+        const tripoint_abs_ms target_abs = get_map().getglobal( potential_target );
+        write_var_value( var_type::context, "spell_location", &d,
+                         target_abs.to_string() );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {

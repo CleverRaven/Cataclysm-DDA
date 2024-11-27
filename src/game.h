@@ -544,6 +544,10 @@ class game
         npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+
+        /** NPCs who saw player interacting with their stuff (disassembling, cutting etc)
+        * will notify the player that thievery was witnessed and make angry at the player. */
+        void on_witness_theft( const item &target );
     private:
         /** Unloads all NPCs.
          *
@@ -647,13 +651,13 @@ class game
         * @param select_zone true if the zone is being edited
         * @param peeking determines if the player is peeking
         * @param is_moving_zone true if the zone is being moved, false by default
-        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint::zero
         * @param change_lv determines allow if change z-level
         * @return look_around_result
         */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero,
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint::zero,
                                         bool change_lv = true );
         look_around_result look_around( look_around_params );
 
@@ -735,6 +739,9 @@ class game
          * disabled).
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
+        // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
+        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
+                &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -786,7 +793,7 @@ class game
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
         void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                         const tripoint &offset ) const;
+                         const tripoint_rel_ms &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
@@ -847,10 +854,10 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open appliance interaction screen */
-        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+        void exam_appliance( vehicle &veh, const point &cp = point::zero );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
+        void exam_vehicle( vehicle &veh, const point &cp = point::zero );
 
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
@@ -862,7 +869,7 @@ class game
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Handle shifting through terrain and walls, with distance defined by enchantment.
         bool phasing_move_enchant( const tripoint &dest, int phase_distance = 0 );
-        bool can_move_furniture( tripoint fdest, const tripoint &dp );
+        bool can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp );
         // Regular movement. Returns false if it failed for any reason
         // TODO: Get rid of untyped overload
         bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
@@ -912,7 +919,7 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp, bool via_ramp );
+        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -942,8 +949,8 @@ class game
         */
         bool warn_player_maybe_anger_local_faction( bool really_bad_offense = false,
                 bool asking_for_public_goods = false );
-        int grabbed_furn_move_time( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
+        int grabbed_furn_move_time( const tripoint_rel_ms &dp );
+        bool grabbed_furn_move( const tripoint_rel_ms &dp );
 
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
@@ -965,7 +972,10 @@ class game
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
+        // TODO: Get rid of untyped overload.
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint_bub_ms &dest_loc,
+                size_t max = 0 ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc,
                                     std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
@@ -1346,5 +1356,7 @@ namespace cata_event_dispatch
 // @param m The map the avatar is moving on
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
+
+bool are_we_quitting();
 
 #endif // CATA_SRC_GAME_H

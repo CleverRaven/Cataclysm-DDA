@@ -32,6 +32,7 @@
         " ||||||||||||||||||||!||||||||||||||||||||||||| ",
         "                                                "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         "!": "t_gutter_downspout",
         "#": "t_dirtmound",
@@ -42,10 +43,10 @@
         "7": "t_region_tree_shade",
         "P": "t_pit_shallow",
         "_": "t_concrete",
-        "T": "t_linoleum_white",
-        "a": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "'": "t_linoleum_white",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "D": "t_floor",
         "c": "t_floor",
         ".": "t_floor",

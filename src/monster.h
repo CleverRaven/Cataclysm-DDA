@@ -114,6 +114,7 @@ class monster : public Creature
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
+        void set_baby_timer( const time_point &time );
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
@@ -255,8 +256,8 @@ class monster : public Creature
         void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
-        void shove_vehicle( const tripoint &remote_destination,
-                            const tripoint &nearby_destination ); // shove vehicles out of the way
+        void shove_vehicle( const tripoint_bub_ms &remote_destination,
+                            const tripoint_bub_ms &nearby_destination ); // shove vehicles out of the way
 
         // check if the given square could drown a drownable monster
         bool is_aquatic_danger( const tripoint &at_pos ) const;

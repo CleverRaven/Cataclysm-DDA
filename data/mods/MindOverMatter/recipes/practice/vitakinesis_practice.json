@@ -50,7 +50,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALTH",
-        "condition": { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_health_power') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_health_power", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -83,7 +83,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLOW_BLEEDING",
-        "condition": { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_slow_bleeding') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_slow_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -116,7 +116,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_CONCENTRATED_HEALING",
-        "condition": { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_concentrated_healing') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_concentrated_healing", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -133,7 +133,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_CONCENTRATED_HEALING_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_CONCENTRATED_HEALING_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -204,7 +204,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
-        "condition": { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_stop_bleeding') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_stop_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -221,7 +221,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_STAUNCHING_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_STAUNCHING_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -292,7 +292,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HURT",
-        "condition": { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_hurt_touch') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_hurt_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -309,7 +309,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_HURT_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_HURT_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -380,7 +380,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
-        "condition": { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_health_power_ally') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_health_power_ally", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -397,7 +397,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -468,7 +468,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON",
-        "condition": { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_remove_poison') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_remove_poison", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -485,7 +485,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -557,7 +557,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLEEP",
-        "condition": { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_sleeping_trance') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_sleeping_trance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -574,7 +574,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_SLEEP_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_SLEEP_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -646,7 +646,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE",
-        "condition": { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_cure_disease') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_cure_disease", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -663,7 +663,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -735,7 +735,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION",
-        "condition": { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_stop_infection') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_stop_infection", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -752,7 +752,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -824,7 +824,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
-        "condition": { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_healing_trance') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_healing_trance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -841,7 +841,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -913,7 +913,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS",
-        "condition": { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_purge_rads') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_purge_rads", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -946,7 +946,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH",
-        "condition": { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_attack_touch') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_attack_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -963,7 +963,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -1035,7 +1035,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE",
-        "condition": { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_blood_purge') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_blood_purge", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1052,7 +1052,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_PURGE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_PURGE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -1124,7 +1124,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS",
-        "condition": { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_banish_illness') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_banish_illness", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1141,7 +1141,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -1213,7 +1213,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL",
-        "condition": { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_super_heal') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_super_heal", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1230,7 +1230,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
           }
         ]
@@ -1302,7 +1302,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE",
-        "condition": { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_limb_restore') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_limb_restore", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1336,7 +1336,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH",
-        "condition": { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('vita_return_from_death') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_return_from_death", "target_var": { "u_val": "latest_studied_power_name" } },
           {
@@ -1353,7 +1353,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_LEARNING",
+            "run_eocs": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
           }
         ]

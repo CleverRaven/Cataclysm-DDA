@@ -196,7 +196,7 @@ bool submap::contains_vehicle( vehicle *veh )
 
 bool submap::is_open_air( const point_sm_ms &p ) const
 {
-    ter_id t = get_ter( p );
+    const ter_id &t = get_ter( p );
     return t->trap == tr_ledge;
 }
 
@@ -259,9 +259,9 @@ void submap::rotate( int turns )
     }
 
     for( auto &elem : vehicles ) {
-        const point_sm_ms new_pos = point_sm_ms( rotate_point( elem->pos ) );
+        const point_sm_ms new_pos = point_sm_ms( rotate_point( elem->pos.raw() ) );
 
-        elem->pos = new_pos.raw();
+        elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
         elem->turn( turns * 90_degrees );
@@ -326,7 +326,7 @@ void submap::revert_submap( submap &sr )
     reverted = true;
     if( sr.is_uniform() ) {
         m.reset();
-        set_all_ter( sr.get_ter( point_sm_ms_zero ), true );
+        set_all_ter( sr.get_ter( point_sm_ms::zero ), true );
         return;
     }
 

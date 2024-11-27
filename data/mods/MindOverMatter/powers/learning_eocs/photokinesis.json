@@ -9,18 +9,15 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "or": [ { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" } ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_up_enemy')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_up_enemy') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_up_enemy" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "PHOTOKINETIC" } },
-        { "math": [ "u_spell_level('photokinetic_light_up_enemy')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_up_enemy') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -41,25 +38,25 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "5" ] },
-                { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "4" ] }
+                { "math": [ "u_spell_level('photokinetic_light_local') >= 5" ] },
+                { "math": [ "u_spell_level('photokinetic_create_light') >= 4" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_snuff_light')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_snuff_light') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_snuff_light" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_snuff_light') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -80,25 +77,25 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "5" ] },
-                { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "5" ] }
+                { "math": [ "u_spell_level('photokinetic_snuff_light') >= 5" ] },
+                { "math": [ "u_spell_level('photokinetic_create_light') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_dodge')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_dodge') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_dodge" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_dodge') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -119,25 +116,25 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "8" ] },
-                { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "6" ] }
+                { "math": [ "u_spell_level('photokinetic_light_local') >= 8" ] },
+                { "math": [ "u_spell_level('photokinetic_create_light') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_beam')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_beam') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_beam" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_beam') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -158,20 +155,20 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "or": [ { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "6" ] } ] }
+            { "or": [ { "math": [ "u_spell_level('photokinetic_light_dodge') >= 6" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_camouflage')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_camouflage') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_camouflage" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -192,17 +189,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "9" ] },
+                { "math": [ "u_spell_level('photokinetic_light_dodge') >= 9" ] },
                 {
                   "and": [
-                    { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('photokinetic_snuff_light') >= 6" ] },
+                    { "math": [ "u_spell_level('photokinetic_camouflage') >= 5" ] }
                   ]
                 }
               ]
@@ -210,15 +207,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_rad_immunity')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_rad_immunity') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_rad_immunity" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "PHOTOKINETIC" } },
-        { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -239,26 +233,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "8" ] },
-                { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "6" ] },
-                { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "6" ] }
+                { "math": [ "u_spell_level('photokinetic_light_dodge') >= 8" ] },
+                { "math": [ "u_spell_level('photokinetic_camouflage') >= 6" ] },
+                { "math": [ "u_spell_level('photokinetic_light_local') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_arms')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_arms') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_arms" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_arms') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -279,25 +273,25 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "8" ] },
-                { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "5" ] }
+                { "math": [ "u_spell_level('photokinetic_camouflage') >= 8" ] },
+                { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_hide_ugly')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_hide_ugly') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_hide_ugly" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_hide_ugly')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -318,17 +312,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "6" ] },
+                { "math": [ "u_spell_level('photokinetic_light_beam') >= 6" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('photokinetic_camouflage') >= 6" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_arms') >= 6" ] }
                   ]
                 }
               ]
@@ -336,12 +330,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_image')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_image') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_image" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_image')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_image') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -362,17 +356,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "6" ] },
+                { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 6" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "7" ] }
+                    { "math": [ "u_spell_level('photokinetic_create_light') >= 8" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_beam') >= 7" ] }
                   ]
                 }
               ]
@@ -380,18 +374,65 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_radio')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_radio') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_radio" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_radio')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_radio') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_photokinetic_radio" },
       {
-        "u_message": "Use of your powers has led to an insight.  You read and broadcast radio waves, communicating with anyone else who is left out there, if you can figure out the technique.",
+        "u_message": "Use of your powers has led to an insight.  You could read and broadcast radio waves, communicating with anyone else who is left out there, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_STERILIZE_FOOD",
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "7" ] },
+                { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "4" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "3" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_up_enemy')", ">=", "9" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "5" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('photokinetic_sterilize_food')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_photokinetic_sterilize_food" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "PHOTOKINETIC" } },
+        { "math": [ "u_spell_level('photokinetic_sterilize_food')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_photokinetic_sterilize_food" },
+      {
+        "u_message": "Use of your powers has led to an insight.  With a focused burst of radiation, you could sterilize food, making it last much longer without going rotten, if you can figure out the technique.",
         "popup": true
       }
     ]
@@ -406,17 +447,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "5" ] },
+                { "math": [ "u_spell_level('photokinetic_light_flash') >= 5" ] },
                 {
                   "and": [
-                    { "math": [ "u_spell_level('photokinetic_radio')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "4" ] }
+                    { "math": [ "u_spell_level('photokinetic_radio') >= 6" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_beam') >= 4" ] }
                   ]
                 }
               ]
@@ -424,12 +465,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_stun_robots')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_stun_robots') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_stun_robots" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_stun_robots')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_stun_robots') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -450,7 +491,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -458,14 +499,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('photokinetic_light_image')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 6" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_image') >= 6" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('photokinetic_hide_ugly')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('photokinetic_camouflage') >= 10" ] },
+                    { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 6" ] }
                   ]
                 }
               ]
@@ -473,15 +514,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_invisibility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_invisibility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_invisibility" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "PHOTOKINETIC" } },
-        { "math": [ "u_spell_level('photokinetic_invisibility')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_invisibility') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -502,17 +540,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "8" ] },
+                { "math": [ "u_spell_level('photokinetic_light_beam') >= 8" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 6" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_arms') >= 6" ] }
                   ]
                 }
               ]
@@ -520,12 +558,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_flash')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_flash') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_flash" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_flash') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -546,17 +584,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "12" ] },
+                { "math": [ "u_spell_level('photokinetic_create_light') >= 12" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "10" ] }
+                    { "math": [ "u_spell_level('photokinetic_light_flash') >= 6" ] },
+                    { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 10" ] }
                   ]
                 }
               ]
@@ -564,15 +602,12 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_blinding_glare')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_blinding_glare') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_blinding_glare" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "PHOTOKINETIC" } },
-        { "math": [ "u_spell_level('photokinetic_blinding_glare')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_blinding_glare') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
@@ -593,17 +628,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('photokinetic_blinding_glare')", ">=", "5" ] },
+                { "math": [ "u_spell_level('photokinetic_blinding_glare') >= 5" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "14" ] }
+                    { "math": [ "u_spell_level('photokinetic_light_flash') >= 8" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_beam') >= 14" ] }
                   ]
                 }
               ]
@@ -611,14 +646,14 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('photokinetic_light_disintegrate')", "<=", "0" ] },
+        { "math": [ "u_spell_level('photokinetic_light_disintegrate') <= 0" ] },
         { "not": { "u_know_recipe": "practice_photokinetic_light_disintegrate" } }
       ]
     },
     "deactivate_condition": {
       "or": [
         { "not": { "u_has_trait": "PHOTOKINETIC" } },
-        { "math": [ "u_spell_level('photokinetic_light_disintegrate')", ">=", "1" ] }
+        { "math": [ "u_spell_level('photokinetic_light_disintegrate') >= 1" ] }
       ]
     },
     "effect": [

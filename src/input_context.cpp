@@ -447,6 +447,7 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         if( g->uquit == QUIT_EXIT ) {
+            g->uquit = QUIT_EXIT_PENDING;
             result = &QUIT;
             break;
         }
@@ -565,21 +566,21 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_north );
+        return transform( tripoint::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_south );
+        return transform( tripoint::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_west );
+        return transform( tripoint::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_east );
+        return transform( tripoint::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_north_west );
+        return transform( tripoint::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_north_east );
+        return transform( tripoint::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_south_west );
+        return transform( tripoint::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_south_east );
+        return transform( tripoint::south_east );
     } else {
         return std::nullopt;
     }
@@ -600,21 +601,21 @@ const
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_rel_ms( tripoint_north ) );
+        return transform( tripoint_rel_ms::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south ) );
+        return transform( tripoint_rel_ms::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_ms( tripoint_west ) );
+        return transform( tripoint_rel_ms::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_ms( tripoint_east ) );
+        return transform( tripoint_rel_ms::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_west ) );
+        return transform( tripoint_rel_ms::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_east ) );
+        return transform( tripoint_rel_ms::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_west ) );
+        return transform( tripoint_rel_ms::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_east ) );
+        return transform( tripoint_rel_ms::south_east );
     } else {
         return std::nullopt;
     }
@@ -1124,7 +1125,6 @@ action_id input_context::display_menu( bool permit_execute_action )
     if( changed && query_yn( _( "Save changes?" ) ) ) {
         try {
             inp_mngr.save();
-            get_help().load();
         } catch( std::exception &err ) {
             popup( _( "saving keybindings failed: %s" ), err.what() );
         }
@@ -1163,7 +1163,7 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
 
     point p = coordinate + offset;
     // If no offset is specified, account for the window location
-    if( offset == point_zero ) {
+    if( offset == point::zero ) {
         p -= win_min;
     }
     // Some windows (notably the overmap) want 0,0 to be the center of the screen

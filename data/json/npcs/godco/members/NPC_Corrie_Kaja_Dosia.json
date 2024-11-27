@@ -14,7 +14,7 @@
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Corrie_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Corrie_Mood" },
       { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Corrie_Community" },
@@ -39,7 +39,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "&Corrie briefly glances at you and shoots a glare.  \"What do you want?\"",
       "no": "Hey there, <name_g>.  Welcome to the losers club."
     },
@@ -83,7 +83,7 @@
         "text": "Hey Corrie, you free?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
           ]
         },
@@ -93,7 +93,7 @@
         "text": "Hey Corrie, you free?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
           ]
         },

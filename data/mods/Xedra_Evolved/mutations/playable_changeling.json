@@ -48,7 +48,8 @@
     "description": "This provides the school trait for Changeling magic.  It should not be visible.",
     "valid": false,
     "purifiable": false,
-    "player_display": false
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -314,8 +315,8 @@
   {
     "type": "mutation",
     "id": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS",
-    "name": { "str": "Right of Passage Mechanics" },
-    "description": "The mechanical effects of Right of Passage.  You should never see this.",
+    "name": { "str": "Right of Passage Mechanics", "//~": "NO_I18N" },
+    "description": { "str": "The mechanical effects of Right of Passage.  You should never see this.", "//~": "NO_I18N" },
     "points": 10,
     "valid": false,
     "player_display": false,
@@ -336,8 +337,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.33 } ]
@@ -358,8 +359,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.75 } ]
@@ -380,8 +381,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
           ]
         },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 1.5 } ]
@@ -523,8 +524,21 @@
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders", "!=", "0" ] } ] },
-        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] } } ]
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders != 0" ] } ] },
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] },
+            "descriptions": [
+              {
+                "id": "moving_creature",
+                "//": "prooly need to separate unagressive creatures, TODO",
+                "symbol": "?",
+                "color": "c_white",
+                "text": "Intruder!"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -853,9 +867,9 @@
   {
     "type": "mutation",
     "id": "POOKA_SHAPESHIFT_FULL_SELECTOR",
-    "name": { "str": "Pinnacle of Forms" },
+    "name": { "str": "Pinnacle of Forms", "//~": "NO_I18N" },
     "points": 6,
-    "description": "This gives you access to the full shapeshift traits.  You should never seen it.",
+    "description": { "str": "This gives you access to the full shapeshift traits.  You should never seen it.", "//~": "NO_I18N" },
     "prereqs": [ "POOKA_SHAPESHIFT_GOOD2", "POOKA_SHAPESHIFT_GOOD3" ],
     "player_display": false,
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
@@ -1254,7 +1268,7 @@
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       }
     ]
@@ -1280,7 +1294,7 @@
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       },
       { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }
@@ -1369,6 +1383,7 @@
   {
     "type": "mutation",
     "id": "FAE_IMMORTALITY",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
     "name": { "str": "Faerie Eternity" },
     "points": 8,
     "description": "You seem to have stopped aging.  That would have been an amazing gift before the Cataclysm, but now at least you might live long enough to find some way back to your birthplace Under the Hill.",
@@ -1387,6 +1402,7 @@
       "THRESH_FAIR_FOLK_COMMONER_POOKA",
       "THRESH_FAIR_FOLK_COMMONER_SELKIE",
       "THRESH_FAIR_FOLK_COMMONER_TROW"
-    ]
+    ],
+    "flags": [ "MEND_ALL" ]
   }
 ]

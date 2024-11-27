@@ -60,8 +60,7 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
-                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) {
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
         }
 
     private:
@@ -139,6 +138,12 @@ void mission_ui_impl::draw_controls()
         selected_mission = 0;
         switch_tab = selected_tab;
         --switch_tab;
+    } else if( last_action == "PAGE_UP" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
+    } else if( last_action == "PAGE_DOWN" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        ImGui::SetScrollY( ImGui::GetScrollY() + ( window_height / 5.0f ) );
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;

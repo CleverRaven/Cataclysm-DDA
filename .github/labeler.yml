@@ -180,10 +180,12 @@
   - "**/**mapgen**"
   - "**/mapgen**"
   - "**/mapgen/**"
+  - "**/**palette**"
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
   - "data/json/regional_map_settings.json"
+  - "**/mapgen_palettes/**"
 
 "Martial Arts":
   - "**/martialart**"
@@ -279,8 +281,7 @@
   - data/mods/Isolation-Protocol/**/*
 
 "Mods":
-  - any: [ 'data/mods/**' ]
-    all: [ '!data/mods/TEST_DATA/**' ]
+  - all: [ 'data/mods/**', '!data/mods/TEST_DATA/**', '!data/mods/dda/**', '!data/mods/dda_tutorial/**' ]
 
 "Mechanics: Enchantments / Spells":
   - "**/**enchantment**"
@@ -300,6 +301,9 @@
  
 "Mods: Defense Mode":
   - "data/mods/Defense_Mode/**"
+
+"Tutorial":
+  - "data/mods/dda_tutorial/**"
 
 "ImGui":
   - "src/third-party/imgui/**"

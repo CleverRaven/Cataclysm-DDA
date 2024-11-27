@@ -38,7 +38,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 | `false_effect`        | effect     | The effect(s) caused if `condition` returns false upon activation.  See the "Dialogue Effects" section of [NPCs](NPCs.md) for the full syntax.
 | `global`              | bool       | If this is true, this recurring eoc will be run on the player and every npc from a global queue.  Deactivate conditions will work based on the avatar. If it is false the avatar and every character will have their own copy and their own deactivated list. Defaults to false.
 | `run_for_npcs`        | bool       | Can only be true if global is true. If false the EOC will only be run against the avatar. If true the eoc will be run against the avatar and all npcs.  Defaults to false.
-| `EOC_TYPE`            | string     | Can be one of `ACTIVATION`, `RECURRING`, `SCENARIO_SPECIFIC`, `AVATAR_DEATH`, `NPC_DEATH`, `OM_MOVE`, `PREVENT_DEATH`, `EVENT` (see details below). It defaults to `ACTIVATION` unless `recurrence` is provided in which case it defaults to `RECURRING`.
+| `EOC_TYPE`            | string     | Can be one of `ACTIVATION`, `RECURRING`, `SCENARIO_SPECIFIC`, `AVATAR_DEATH`, `NPC_DEATH`, `PREVENT_DEATH`, `EVENT` (see details below). It defaults to `ACTIVATION` unless `recurrence` is provided in which case it defaults to `RECURRING`.
 
  ### EOC types
 
@@ -49,7 +49,6 @@ An effect_on_condition is an object allowing the combination of dialog condition
 * `SCENARIO_SPECIFIC` - automatically invoked once on scenario start.
 * `AVATAR_DEATH` - automatically invoked whenever the current avatar dies (it will be run with the avatar as `u`), if after it the player is no longer dead they will not die, if there are multiple EOCs they all be run until the player is not dead.
 * `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. If after it npc is no longer dead they will not die, if there are multiple they all be run until npc is not dead.
-* `OM_MOVE` - EOCs trigger when the player moves overmap tiles
 * `PREVENT_DEATH` - whenever the current avatar dies it will be run with the avatar as `u`, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead.
 * `EVENT` - EOCs trigger when a specific event given by "required_event" takes place. 
 
@@ -67,8 +66,9 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | Talk with monster                                | player (Avatar)             | monster (monster)           |
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
 | furniture: "examine_action"                      | player (Avatar)             | NONE                        |
-| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
-| monster_attack: "eoc"                          | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
+| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) | `spell_location`, location variable, location of target for use primarily when the target isn't a creature
+| trap: "action": "eocs"                           | triggerer (Creature, item not supported yet) | NONE | `trap_location`, location variable, location of the trap to use primarily with ranged traps
+| monster_attack: "eoc"                            | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
 | use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
 | tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
 | countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
@@ -94,7 +94,7 @@ Some actions sent additional context variables, that can be used in EoC, in form
 ```
 
 ```json
-{ "math": [ "_act_cost", "==", "2000" ] }
+{ "math": [ "_act_cost == 2000" ] }
 ```
 
 ## Value types
@@ -516,28 +516,6 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 { "u_bodytype": "migo" }, { "npc_bodytype": "human" }
 ```
 
-### `u_has_var`, `npc_has_var`
-
-**DEPRECATED**, use `compare_string` in format `{ "compare_string": [ "yes", { "npc_val": "name_of_the_variable" } ] }`
-
-- type: string
-- checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
-- `type`, `context` and `value` of the variable is also required
-
-Note: Not to be confused with the global `has_var` **(no prefix)**, used as [dialogue function](NPCs.md#dialogue-functions) to check if the variable is defined.  In other words, if it exists.
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-#### Examples
-Checks do alpha talker has `u_met_sadie` variable
-```json
-{ "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] }
-```
-
 ### `expects_vars`
 - type: array of strings and/or [variable object](#variable-object)
 - return true if each provided variable exist
@@ -556,8 +534,8 @@ checks this var exists
 ```
 
 ### `compare_string`
-- type: pair of strings or [variable objects](#variable-object)
-- Compare two strings, and return true if strings are equal
+- type: array of strings or [variable objects](#variable-object)
+- Compare all strings, and return true if at least two of them match
 
 #### Examples
 checks if `victim_type` is `mon_zombie_phase_shrike`
@@ -568,6 +546,42 @@ checks if `victim_type` is `mon_zombie_phase_shrike`
 checks is `victim_type` has `zombie` faction
 ```json
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+```
+
+Check if victim_type is any in the list
+```json
+"compare_string": [
+  { "context_val": "victim_type" },
+  "mon_hound_tindalos",
+  "mon_darkman",
+  "mon_zombie_phase_shrike",
+  "mon_swarm_structure",
+  "mon_better_half",
+  "mon_hallucinator",
+  "mon_archunk_strong",
+  "mon_void_spider",
+  "mon_XEDRA_officer",
+  "mon_eigenspectre_3",
+  "mon_eigenspectre_4",
+  "mon_living_vector"
+]
+```
+
+Check if `map_cache` contain value `has`, `lack` or `read`
+```json
+{ "compare_string": [ { "npc_val": "map_cache" }, "has", "lack", "read" ] }
+```
+
+### `compare_string_match_all`
+- type: array of strings or [variable objects](#variable-object)
+- Compare all strings, and return true if all of them match
+- For two strings the check is same as compare_string
+
+#### Examples
+
+Check if two variables are `yes`
+```json
+"compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
 ```
 
 ### `u_profession`
@@ -1079,6 +1093,23 @@ NPC is dead
 ```json
 { "not": "npc_is_alive" }
 ```
+
+### `u_is_warm`, `npc_is_warm`
+- type: simple string
+- return true if alpha or beta talker is warm-blooded (does it have WARM flag)
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"npc_is_warm"
+```
+
 ### `u_exists`, `npc_exists`
 - type: simple string
 - return true if alpha or beta talker is not null
@@ -1318,6 +1349,78 @@ You can see selected location.
 }
 ```
 
+### `u_see_npc`, `npc_see_you`
+- type: simple string
+- return true if alpha talker can see beta talker, or vice versa
+- require both talkers to be presented
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_see_npc"
+```
+
+```json
+{ "not": "npc_see_you" }
+```
+
+### `u_see_npc_loc`, `npc_see_you_loc`
+- type: simple string
+- return true if beta talker' position is visible from the alpha talker position, and vice versa
+- doesn't check vision condition, can return true even if one or other is blind or it is a night
+- require both talkers to be presented
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_see_npc_loc"
+```
+
+```json
+{ "not": "npc_see_you_loc" }
+```
+
+### `line_of_sight`
+- Checks if two points are visible to each other
+- Works at night
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "line_of_sight" | **mandatory** | int,  or [variable object](#variable-object) | Distance that would be checked |
+| "loc_1" | **mandatory** | [variable object](#variable-object) | One of two points of the line |
+| "loc_2" | **mandatory** | [variable object](#variable-object) | Second of two points of the line |
+| "with_fields" | optional | bool | If false, ignores opaque fields. Default true |
+
+#### Examples
+
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_line_check",
+  "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_1" } },
+      { "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_2" } },
+      {
+        "if": { "line_of_sight": 60, "loc_1": { "context_val": "loc_1" }, "loc_2": { "context_val": "loc_2" } },
+        "then": { "u_message": "Can see each other" },
+        "else": { "u_message": "Cannot see each other" }
+      }
+  ]
+}
+```
+
 ### `has_ammo`
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
@@ -1359,7 +1462,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | activates_mininuke | Triggers when any character arms a mininuke | { "character", `character_id` } | character / NONE |
 | administers_mutagen |  | { "character", `character_id` },<br/> { "technique", `mutagen_technique` }, | character / NONE |
 | angers_amigara_horrors | Triggers when amigara horrors are spawned as part of a mine finale | NONE | avatar / NONE |
-| avatar_enters_omt |  | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
+| avatar_enters_omt | Triggers when player crosses the overmap boundary, including when player spawns | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
 | avatar_moves |  | { "mount", `mtype_id` },<br/> { "terrain", `ter_id` },<br/> { "movement_mode", `move_mode_id` },<br/> { "underwater", `bool` },<br/> { "z", `int` }, | avatar / NONE |
 | avatar_dies |  | NONE | avatar / NONE |
 | awakes_dark_wyrms | Triggers when `pedestal_wyrm` examine action is used | NONE | avatar / NONE |
@@ -1398,6 +1501,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_falls_asleep | triggers in the moment character actually falls asleep; trigger includes cases where character sleep for a short time because of sleepiness or drugs; duration of the sleep can be changed mid sleep because of hurt/noise/light/pain thresholds and another factors | { "character", `character_id` }, { "duration", `int_` (in seconds) } | character / NONE |
 | character_wields_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wield |
 | character_wears_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
+| character_armor_destroyed | triggers when a worn armor is set to be destroyed from damage. The armor still exists but will be destroyed immediately after the EOCs finish running. | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
 | consumes_marloss_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | crosses_marloss_threshold | | { "character", `character_id` } | character / NONE |
 | crosses_mutation_threshold | | { "character", `character_id` },<br/> { "category", `mutation_category_id` }, | character / NONE |
@@ -1706,8 +1810,8 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCs that would be run |
 | "iterations" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Eocs are repeated in order; having `"run_eocs": [ "A", "B" ], "repeat": 3` would look like `A, B, A, B, A, B`. Default 1 |
 | "condition" | optional | int or [variable object](#variable-object)) | if used, eoc would be run as long as this condition will return true. if "condition" is used, "iterations" can be used to limit amount of runs to specific amount (default is 100 runs until terminated) |
-| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Works with "iterations", doesn't work with "condition" | 
-| "randomize_time_in_future" | optional | bool | used with time_in_future, and if "iterations" is bigger than 1; if false, entire eoc array would run at the exact same moment; if true, each eoc in array would pick it's own time again and again | 
+| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Doesn't work with "condition" and "iterations" | 
+| "randomize_time_in_future" | optional | bool | used with time_in_future; if false, entire eoc array would run at the exact same moment; if true, each eoc in array would pick it's own time again and again | 
 | "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored, same for beta.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or result of [u_set_talker](#u_set_talkernpc_set_talker) ), or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
 | "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
@@ -1731,7 +1835,7 @@ Run inline `are_you_strong` EoC
 ```json
 "run_eocs": {
   "id": "are_you_strong",
-  "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+  "condition": { "math": [ "u_val('strength') > 8" ] },
   "effect": [ { "u_message": "You are strong" } ],
   "false_effect": [ { "u_message": "You are normal" } ]
 }
@@ -1747,17 +1851,17 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
   "id": "are_you_weak",
   "//": "there is a variety of ways you can do the exact same effect that would work better",
   "//2": "but for the sake of example, let's ignore it",
-  "condition": { "math": [ "u_val('strength')", ">", "4" ] },
+  "condition": { "math": [ "u_val('strength') > 4" ] },
   "false_effect": [ { "u_message": "You are weak" } ],
   "effect": {
     "run_eocs": {
       "id": "are_you_strong",
-      "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+      "condition": { "math": [ "u_val('strength') > 8" ] },
       "false_effect": [ { "u_message": "You are normal" } ],
       "effect": {
         "run_eocs": {
           "id": "are_you_super_strong",
-          "condition": { "math": [ "u_val('strength')", ">", "12" ] },
+          "condition": { "math": [ "u_val('strength') > 12" ] },
           "effect": [ { "u_message": "You are super strong" } ],
           "false_effect": [ { "u_message": "You are strong" } ]
         }
@@ -1940,7 +2044,7 @@ In three hours, you will be given five AR-15
     "type": "effect_on_condition",
     "id": "EOC_run_until",
     "effect": [
-      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable", "<", "10" ] } }
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable < 10" ] } }
     ]
   },
   {
@@ -2213,7 +2317,7 @@ Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
     "eoc_type": "ACTIVATION",
     "effect": [
       {
-        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1) == 0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
         "monster_range": 36
       }
     ]
@@ -3117,7 +3221,7 @@ Setting and checking monster vars via `math`.  The first spell targets a monster
   {
     "id": "spell_check_eoc",
     "type": "effect_on_condition",
-    "condition": { "math": [ "u_var_tagged", ">", "0" ] },
+    "condition": { "math": [ "u_var_tagged > 0" ] },
     "effect": [ { "u_cast_spell": { "id": "spell_heal" } } ],
     "false_effect": [ { "u_cast_spell": { "id": "spell_hurt" } } ]
   }
@@ -3454,7 +3558,9 @@ Your character or the npc will forget the recipe
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_forget_recipe" / "npc_forget_recipe" | **mandatory** | string or [variable object](#variable-object) | recipe, that would be forgotten |
+| "u_forget_recipe" / "npc_forget_recipe" | **mandatory** | string or [variable object](#variable-object) | recipe/recipe category to be forgotten |
+| "category" | optional, defaults to false unless subcategory is specified | bool | whether the above field should be interpreted as a category instead of a singular recipe |
+| "subcategory" | optional | string or [variable object](#variable-object) | recipe subcategory of the specified category to be forgotten |
 
 ##### Valid talkers:
 
@@ -3466,6 +3572,16 @@ Your character or the npc will forget the recipe
 You forget the recipe `inventor_research_base_1`
 ```json
 { "u_forget_recipe": "inventor_research_base_1" }
+```
+
+You forget all recipes in the `CC_XEDRA` category
+```json
+{ "u_forget_recipe": "CC_XEDRA", "category": true }
+```
+
+You forget all recipes in the `CC_XEDRA_MISC` subcategory of `CC_XEDRA`
+```json
+{ "u_forget_recipe": "CC_XEDRA", "subcategory": "CC_XEDRA_MISC" }
 ```
 
 You forget a recipe, that was passes by `recipe_id` context value
@@ -3719,6 +3835,31 @@ Variables are also supported
   },
 ```
 
+#### `u_set_fac_relation`, `npc_set_fac_relation`
+Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction.
+ 
+ | Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_set_fac_relation" / "npc_set_fac_relation" | **mandatory** | string or [variable object](#variable-object) | Rule to set. See [the factions doc](FACTIONS.md#faction-relations) for a list of rules and what they cover.  |
+| "set_value_to" | optional | boolean | default true; Whether to set, or unset, this rule. | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Adds the "share public goods" rule 
+```json
+{ "u_set_fac_relation": "share public goods" }
+```
+
+Removes the "kill on sight" rule
+```json
+{ "u_set_fac_relation": "kill on sight", "set_value_to": false }
+```
+
 #### `u_add_faction_trust`
  Your character gains trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction. Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction
 
@@ -3759,6 +3900,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | "snippet" | optional | boolean | default false; if true, the effect instead display a random snippet from `u_message` | 
 | "same_snippet" | optional | boolean | default false; if true, and `snippet` is true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 | "popup" | optional | boolean | default false; if true, the message would generate a popup with `u_message` | 
+| "popup_flag" | optional | string | default PF_NONE; if specified, the popup is modified by the specified flag, for allowed values see below | 
 | "popup_w_interrupt_query" | optional | boolean | default false; if true, and `popup` is true, the popup will interrupt any activity to send a message | 
 | "interrupt_type" | optional | boolean | default is "neutral"; `distraction_type`, that would be used to interrupt, one that used in distraction manager; full list exist inactivity_type.cpp | 
 
@@ -3767,6 +3909,11 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### popup_flag
+`PF_GET_KEY` - Cancels the popup on any user input as opposed to being limited to Return, Space and Escape.
+`PF_ON_TOP` - Makes the window appear on the top of the screen (at the upper most row). Without this flag, the popup is centered on the screen.
+`PF_FULLSCREEN` makes the window have a size of `FULL_SCREEN_WIDTH` by `FULL_SCREEN_HEIGHT`. The `FULL_SCREEN` part is a misnomer from legacy code as the popup is not actually full-screen.
 
 ##### Examples
 Send a red-colored `Bad json! Bad!` message in the log 
@@ -3777,6 +3924,11 @@ Send a red-colored `Bad json! Bad!` message in the log
 Print a snippet from `local_files_simple`, and popup it. The snippet is always the same
 ```json
  { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
+```
+
+Print `uninvasive text` as a centre aligned popup at the top of the screen.
+```json
+ { "u_message": "uninvasive text", "popup": true, "popup_flag": "PF_ON_TOP" }
 ```
 
 Print a text with a context variable

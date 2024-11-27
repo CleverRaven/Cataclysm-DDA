@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "<music_description>",
-    "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
+    "text": [ "some <musicgenre>.", "some <musicgenre>.  The <musicdesc_part> is <musicdesc_evaluation>." ]
   },
   {
     "type": "snippet",

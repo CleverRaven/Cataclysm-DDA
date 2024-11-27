@@ -34,6 +34,53 @@
     "subcategory": "CSC_XEDRA_WEAPONS"
   },
   {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "cosmic_dagwood",
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "COOK", "level": 2 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "CONTAIN", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
+    "tools": [ [ [ "surface_heat", 23, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
+    "components": [
+      [ [ "brown_bread", 4 ] ],
+      [ [ "poultry", 2 ] ],
+      [ [ "batter", 1, "LIST" ] ],
+      [ [ "hb_beer", 1 ], [ "beer", 1 ] ],
+      [ [ "sauce_red", 2 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ], [ "garlic_powder", 6 ] ],
+      [ [ "sugar_fried", 2 ] ],
+      [ [ "cinnamon", 2 ] ],
+      [ [ "chem_acetic_acid", 1 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
+      [ [ "honey_mustard", 4 ] ],
+      [ [ "barbecue_sauce", 6 ] ],
+      [ [ "cheese_hard", 3 ] ],
+      [ [ "gold_small", 3 ] ],
+      [ [ "silver_small", 3 ] ],
+      [ [ "splinter", 1 ] ],
+      [ [ "strawberries", 1 ], [ "cherries", 1 ] ]
+    ],
+    "time": "7 h",
+    "skill_used": "deduction",
+    "difficulty": 6,
+    "skills_required": [ "cooking", 5 ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_CONSUMABLES"
+  },
+  {
     "result": "inventor_warp_grenade",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

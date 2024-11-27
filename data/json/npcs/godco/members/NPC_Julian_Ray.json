@@ -9,24 +9,20 @@
       "TALK_GODCO_Julian_Mood"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Julian_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Julian_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things here?", "topic": "TALK_GODCO_Julian_Mood" },
       { "text": "What are the advantages of being a dorm leader?", "topic": "TALK_GODCO_Julian_Leader" },
       {
         "text": "Why did you join the Church?",
         "topic": "TALK_GODCO_Julian_Church",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "I want to join the community.",
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
@@ -53,7 +49,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Hey…  I'm Julian, the guy in charge of this room.  Are you… planning on sticking around or somethin'?",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Why are you still around, don't you have someone else to bother?",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ],
@@ -116,7 +112,7 @@
         "topic": "TALK_GODCO_Julian_2",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
           ]
         }
@@ -126,7 +122,7 @@
         "topic": "TALK_GODCO_Julian_Angry",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
           ]
         }

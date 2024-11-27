@@ -75,96 +75,6 @@
         "increment": 1,
         "power_per_increment": 1,
         "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_ACID",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_BASH",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_BIO",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_BULLET",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_COLD",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_CUT",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_ELEC",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_HEAT",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_PURE",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "ITEM_DAMAGE_STAB",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WIELD"
       }
     ],
     "passive_mult_procgen_values": [
@@ -409,33 +319,6 @@
         "type": "STRENGTH",
         "increment": 1,
         "power_per_increment": 1500,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 50,
-        "type": "SIGHT_RANGE_ELECTRIC",
-        "increment": 25,
-        "power_per_increment": 750,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 3,
-        "max_value": 25,
-        "type": "SIGHT_RANGE_MINDS",
-        "increment": 2,
-        "power_per_increment": 250,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 3,
-        "max_value": 25,
-        "type": "SIGHT_RANGE_NETHER",
-        "increment": 2,
-        "power_per_increment": 250,
         "ench_has": "WORN"
       },
       {

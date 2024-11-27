@@ -919,7 +919,7 @@ bool melee_actor::call( monster &z ) const
     //run EoCs
     for( const effect_on_condition_id &eoc : eoc ) {
         dialogue d( get_talker_for( z ), get_talker_for( target ) );
-        write_var_value( var_type::context, "npctalk_var_damage", &d, damage_total );
+        write_var_value( var_type::context, "damage", &d, damage_total );
         eoc->activate( d );
     }
 
@@ -1141,7 +1141,7 @@ bool gun_actor::call( monster &z ) const
         aim_at = target->pos_bub();
     } else {
         target = z.attack_target();
-        aim_at = target ? target->pos_bub() : tripoint_bub_ms_zero;
+        aim_at = target ? target->pos_bub() : tripoint_bub_ms::zero;
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
                 return false;
