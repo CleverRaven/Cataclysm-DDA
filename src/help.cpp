@@ -6,7 +6,6 @@
 #include <functional>
 #include <iterator>
 #include <numeric>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -145,7 +144,7 @@ help_window::help_window() : cataimgui::window( "help",
 
 void help_window::draw_controls()
 {
-    if( !selected_category ) {
+    if( !has_selected_category ) {
         draw_category_selection();
     } else {
         draw_category();
@@ -154,8 +153,8 @@ void help_window::draw_controls()
 
 void help_window::draw_category_selection()
 {
-    // Add one column display for tiny screens and screen reader users
-    mouse_selected_option = -1;
+    // TODO: Add one column display for tiny screens and screen reader users
+    selected_option = -1;
     //~ Help menu header
     format_title( _( "Help" ) );
     // Split the categories in half
@@ -198,9 +197,8 @@ void help_window::draw_category_option( const int &option, const help_category &
     } else {
         ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
     }
-    if( ImGui::IsItemHovered() || ImGui::IsItemActive() ) {
-        mouse_selected_option = option;
-        keyboard_selected_option = option;
+    if( ImGui::IsItemHovered() ) {
+        selected_option = option;
     }
 }
 
@@ -214,7 +212,8 @@ std::string help_window::seperator( int length, char c )
 
 void help_window::format_title( const std::string translated_category_name )
 {
-    if( make_accessible ) {
+    cataimgui::PushMonoFont();
+    if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
         cataimgui::draw_colored_text( translated_category_name );
         ImGui::NewLine();
         return;
@@ -228,11 +227,12 @@ void help_window::format_title( const std::string translated_category_name )
     cataimgui::draw_colored_text( div );
     cataimgui::draw_colored_text( seperator( TERMX, '_' ) );
     ImGui::NewLine();
+    ImGui::PopFont();
 }
 
 void help_window::draw_category()
 {
-    const help_category &cat = data.help_categories[cid];
+    const help_category &cat = data.help_categories[loaded_option];
     format_title( cat.name.translated() );
     if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
                            ImGuiTableFlags_ScrollY ) ) {
@@ -283,64 +283,47 @@ cataimgui::bounds help_window::get_bounds()
 void help_window::show()
 {
     while( true ) {
-        int selected = -1;
-        while( !selected_category ) {
+        while( !has_selected_category ) {
             ui_manager::redraw_invalidated();
             std::string action = ctxt.handle_input( 50 );
             input_event input = ctxt.get_raw_input();
 
-            if( action == "SELECT" && mouse_selected_option != -1 ) {
-                action = "CONFIRM";
-                selected = mouse_selected_option;
-            }
             for( const auto &hotkey_entry : hotkeys ) {
                 if( input == hotkey_entry.second ) {
                     action = "CONFIRM";
-                    selected = hotkey_entry.first;
+                    selected_option = hotkey_entry.first;
                     break;
                 }
             }
 
-            if( action == "CONFIRM" ) {
-                if( selected == -1 ) {
-                    selected = keyboard_selected_option;
-                }
-                selected_category = data.help_categories.find( selected ) != data.help_categories.end();
-                if( selected_category ) {
-                    cid = selected;
-                    data.read_categories.insert( cid );
+            if( selected_option != -1 && ( action == "SELECT" || action == "CONFIRM" ) ) {
+                has_selected_category = data.help_categories.find( selected_option ) != data.help_categories.end();
+                if( has_selected_category ) {
+                    loaded_option = selected_option;
+                    data.read_categories.insert( loaded_option );
                 } else {
-                    debugmsg( "Category not found: option %s", selected );
+                    debugmsg( "Category not found: option %s", selected_option );
                 }
             } else if( action == "QUIT" ) {
                 return;
             }
         }
-        while( selected_category ) {
+        while( has_selected_category ) {
             ui_manager::redraw_invalidated();
             std::string action = ctxt.handle_input( 50 );
 
             if( action == "CONFIRM" || action == "QUIT" ) {
-                selected_category = false;
-            }
-            if( action == "LEFT" || action == "PREV_TAB" ) {
-                auto it = data.help_categories.find( cid );
-                if( it != data.help_categories.begin() ) {
-                    cid = ( --it )->first;
-                } else {
-                    cid = data.help_categories.rbegin()->first;
-                }
-                data.read_categories.insert( cid );
-            }
-            if( action == "RIGHT" || action == "NEXT_TAB" ) {
-                auto it = data.help_categories.find( cid );
+                has_selected_category = false;
+            } else if( action == "LEFT" || action == "PREV_TAB" ) {
+                auto it = data.help_categories.find( loaded_option );
+                loaded_option = it != data.help_categories.begin() ? ( --it )->first :
+                                data.help_categories.rbegin()->first;
+                data.read_categories.insert( loaded_option );
+            } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
+                auto it = data.help_categories.find( loaded_option );
                 it++;
-                if( it != data.help_categories.end() ) {
-                    cid = it->first;
-                } else {
-                    cid = data.help_categories.begin()->first;
-                }
-                data.read_categories.insert( cid );
+                loaded_option = it != data.help_categories.end() ? it->first : data.help_categories.begin()->first;
+                data.read_categories.insert( loaded_option );
             }
         }
     }
