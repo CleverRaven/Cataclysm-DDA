@@ -6606,7 +6606,8 @@ int item::on_wield_cost( const Character &you ) const
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
-        mv += penalty;
+        // arbitrary no more than 7 second of penalty
+        mv += std::min( penalty, 700 );
     }
 
     // firearms with a folding stock or tool/melee without collapse/retract iuse
