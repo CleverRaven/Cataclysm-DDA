@@ -311,7 +311,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sundae_cup",
-    "//": "based on hoodsie cups, a popular brand in new england",
+    "//": "based on Hoodsie cups, a popular brand in New England",
     "name": { "str": "sundae cup" },
     "copy-from": "icecream_artificial",
     "description": "A small cup of frozen dairy dessert that is half chocolate, half vanilla, and all delicious.",

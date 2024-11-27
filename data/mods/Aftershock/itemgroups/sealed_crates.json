@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "afs_crate_civ_rand",
-    "//": "Genral civilian goods weighted for rarity",
+    "//": "General civilian goods weighted for rarity",
     "subtype": "distribution",
     "entries": [
       { "group": "afs_crate_food", "prob": 4 },
@@ -15,7 +15,7 @@
     "type": "item_group",
     "id": "afs_crate_food",
     "subtype": "collection",
-    "//": "Perserved food shipped in from off world.",
+    "//": "Preserved food shipped in from off world.",
     "entries": [
       { "group": "afs_stored_meals", "prob": 50, "count": [ 3, 8 ] },
       { "group": "afs_dry_goods", "prob": 100, "count": [ 3, 5 ] }
@@ -25,7 +25,7 @@
     "type": "item_group",
     "id": "afs_crate_clothing",
     "subtype": "collection",
-    "//": "Multiple sets of clothing goods. Increased likelyhood of a bag due the difficulty of getting into a crate in the first place.",
+    "//": "Multiple sets of clothing goods. Increased likelihood of a bag due the difficulty of getting into a crate in the first place.",
     "entries": [
       { "group": "afs_colonist_outfit", "prob": 100, "count": [ 3, 6 ] },
       { "group": "afs_colonist_bags", "prob": 80, "count": [ 1, 2 ] }

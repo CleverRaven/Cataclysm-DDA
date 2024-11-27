@@ -67,7 +67,7 @@
   {
     "type": "item_action",
     "id": "GEIGER",
-    "name": { "str": "Use geiger counter" }
+    "name": { "str": "Use Geiger counter" }
   },
   {
     "type": "item_action",
