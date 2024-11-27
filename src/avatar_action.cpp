@@ -195,7 +195,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                              you.is_running();
     const bool is_prone = you.is_prone();
     if( is_crouching || is_prone || low_profile ) {
-        m.set_transparency_cache_dirty( d.z );
+        m.set_transparency_cache_dirty( d.z() );
     }
 
     // If any leg broken without crutches and not already on the ground topple over
