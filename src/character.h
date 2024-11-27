@@ -3401,8 +3401,8 @@ class Character : public Creature, public visitable
         void modify_health( const islot_comestible &comest );
         /** Used to compute how filling a food is.*/
         double compute_effective_food_volume_ratio( const item &food ) const;
-        /** Used to calculate dry volume of a chewed food **/
-        units::volume masticated_volume( const item &food ) const;
+        /** Used to calculate water and dry volume of a chewed food **/
+        std::pair<units::volume, units::volume> masticated_volume( const item &food ) const;
         /** Used to to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
