@@ -169,34 +169,42 @@ void help_window::draw_category_selection()
     mouse_selected_option = -1;
     //~ Help menu header
     format_title( _( "Help" ) );
-    if( true /*&& ImGui::BeginTable( "abc", 3, ImGuiTableFlags_None,
-                           ImVec2( window_width, window_height ) )*/ ) {
-        //ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch,
-        //                         static_cast<float>( window_width / 2.0f ) );
-        //ImGui::TableSetupColumn( "b", ImGuiTableColumnFlags_WidthStretch,
-        //                         static_cast<float>( window_width / 2.0f ) );
-        //ImGui::TableNextColumn();
-        //size_t half_size = data.help_texts.size() / 2 + 1;
-        //size_t i = 0;
-        for( const auto &text : data.help_texts ) {
-            std::string cat_name;
-            auto hotkey_it = hotkeys.find( text.first );
-            if( hotkey_it != hotkeys.end() ) {
-                cat_name = hotkey_it->second.short_description();
-                cat_name += ": ";
+    if( ImGui::BeginTable( "Category Options", 3, ImGuiTableFlags_None ) ) {
+        ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch,
+                                 static_cast<float>( window_width / 2.0f ) );
+        ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch,
+                                 static_cast<float>( window_width / 2.0f ) );
+        int half_size = static_cast<float>( data.help_texts.size() / 2.0f ) + 1;
+        auto half_it = data.help_texts.begin();
+        std::advance( half_it, half_size );
+        auto jt = data.help_texts.begin();
+        std::advance( jt, half_size );
+        for( auto it = data.help_texts.begin(); it != half_it; it++, jt++ ) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            display_category_option( *it );
+            ImGui::TableNextColumn();
+            if( jt != data.help_texts.end() ) {
+                display_category_option( *jt );
             }
-            cat_name += text.second.first.translated();
-            ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
-            if( ImGui::IsItemHovered() ) {
-                mouse_selected_option = text.first;
-            }
-            //i++;
-            //ImGui::TableNextRow();
-            //if( i == half_size ) {
-            //    ImGui::TableNextColumn();
-            //}
         }
-        //ImGui::EndTable();
+        ImGui::EndTable();
+    }
+}
+
+void help_window::display_category_option(
+    const std::pair<const int, std::pair<translation, std::vector<translation>>> &help_text )
+{
+    std::string cat_name;
+    auto hotkey_it = hotkeys.find( help_text.first );
+    if( hotkey_it != hotkeys.end() ) {
+        cat_name = hotkey_it->second.short_description();
+        cat_name += ": ";
+    }
+    cat_name += help_text.second.first.translated();
+    ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
+    if( ImGui::IsItemHovered() ) {
+        mouse_selected_option = help_text.first;
     }
 }
 
