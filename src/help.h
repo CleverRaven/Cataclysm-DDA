@@ -33,7 +33,7 @@ class help
         static void reset();
         // TODO: Shouldn't be public
         std::map<const int, const help_category> help_categories;
-        // Only persists per session
+        // Only persists per load (eg resets on menu -> game, game -> menu)
         std::unordered_set<int> read_categories;
     private:
         void load_object( const JsonObject &jo, const std::string &src );
@@ -67,7 +67,6 @@ class help_window : public cataimgui::window
         //cataimgui::bounds bounds{ 0.f, 0.f, window_width, window_height };
 
         help &data = get_help();
-        bool make_accessible = get_option<bool>( "SCREEN_READER_MODE" );
         input_context ctxt;
         std::map<int, input_event> hotkeys;
 
@@ -76,10 +75,9 @@ class help_window : public cataimgui::window
         std::string seperator( int length, char c );
 
         void draw_category_option( const int &option, const help_category &category );
-        int mouse_selected_option;
-        int keyboard_selected_option;
-        bool selected_category = false;
-        int cid;
+        int selected_option;
+        bool has_selected_category = false;
+        int loaded_option;
 
         void draw_category();
         void parse_tags_help_window( std::string &translated_line );
