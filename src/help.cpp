@@ -11,19 +11,11 @@
 #include <unordered_map>
 #include <vector>
 
-#include "cata_imgui.h"
-#include "input_context.h"
-#include "imgui/imgui.h"
-#include "output.h"
-
 #include "action.h"
-#include "cata_path.h"
-#include "cata_utility.h"
-#include "catacharset.h"
+#include "cata_imgui.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "debug.h"
-#include "flexbuffer_json.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "output.h"
@@ -37,7 +29,6 @@
 
 // Imgui migration planning
 ////////////////////////////////////////////////////////////////////////
-// Full screen category selection menu
 // When you click a category/press a hotkey the categories paragraphs are presented with the categories name at the top, Esc to go back to selection
 // Category paragraphs must word wrap and be scrollable
 // If modded help is present, one tab per mod (overflow to an additional tab if more than 52 entries?), otherwise no tabs
@@ -67,7 +58,7 @@ void help::reset_instance()
 {
     current_order_start = 0;
     current_src = "";
-    help_texts.clear();
+    help_categories.clear();
 }
 
 void help::load_object( const JsonObject &jo, const std::string &src )
@@ -77,16 +68,16 @@ void help::load_object( const JsonObject &jo, const std::string &src )
                                        PATH_INFO::jsondir().generic_u8string() ) );
     }
     if( src != current_src ) {
-        current_order_start = help_texts.empty() ? 0 : help_texts.crbegin()->first + 1;
+        current_order_start = help_categories.empty() ? 0 : help_categories.crbegin()->first + 1;
         current_src = src;
     }
-    std::vector<translation> messages;
-    jo.read( "messages", messages );
+    help_category category;
+    jo.read( "messages", category.paragraphs );
 
     translation name;
-    jo.read( "name", name );
+    jo.read( "name", category.name );
     const int modified_order = jo.get_int( "order" ) + current_order_start;
-    if( !help_texts.try_emplace( modified_order, std::make_pair( name, messages ) ).second ) {
+    if( !help_categories.try_emplace( modified_order, category ).second ) {
         jo.throw_error_at( "order", "\"order\" must be unique (per src)" );
     }
 }
@@ -149,7 +140,7 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_action( "ANY_INPUT" );
     const hotkey_queue &hkq = hotkey_queue::alphabets();
     input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
-    for( const auto &text : data.help_texts ) {
+    for( const auto &text : data.help_categories ) {
         hotkeys.emplace( text.first, next_hotkey );
         next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
     }
@@ -160,12 +151,13 @@ void help_window::draw_controls()
     if( !selected_category ) {
         draw_category_selection();
     } else {
-        draw_category( category.first, category.second );
+        draw_category();
     }
 }
 
 void help_window::draw_category_selection()
 {
+    // Add one column display for tiny screens and screen reader users
     mouse_selected_option = -1;
     //~ Help menu header
     format_title( _( "Help" ) );
@@ -174,37 +166,36 @@ void help_window::draw_category_selection()
                                  static_cast<float>( window_width / 2.0f ) );
         ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch,
                                  static_cast<float>( window_width / 2.0f ) );
-        int half_size = static_cast<float>( data.help_texts.size() / 2.0f ) + 1;
-        auto half_it = data.help_texts.begin();
+        int half_size = static_cast<float>( data.help_categories.size() / 2.0f ) + 1;
+        auto half_it = data.help_categories.begin();
         std::advance( half_it, half_size );
-        auto jt = data.help_texts.begin();
+        auto jt = data.help_categories.begin();
         std::advance( jt, half_size );
-        for( auto it = data.help_texts.begin(); it != half_it; it++, jt++ ) {
+        for( auto it = data.help_categories.begin(); it != half_it; it++, jt++ ) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
-            display_category_option( *it );
+            draw_category_option( it->first, it->second );
             ImGui::TableNextColumn();
-            if( jt != data.help_texts.end() ) {
-                display_category_option( *jt );
+            if( jt != data.help_categories.end() ) {
+                draw_category_option( jt->first, jt->second );
             }
         }
         ImGui::EndTable();
     }
 }
 
-void help_window::display_category_option(
-    const std::pair<const int, std::pair<translation, std::vector<translation>>> &help_text )
+void help_window::draw_category_option( const int &option, const help_category &category )
 {
     std::string cat_name;
-    auto hotkey_it = hotkeys.find( help_text.first );
+    auto hotkey_it = hotkeys.find( option );
     if( hotkey_it != hotkeys.end() ) {
         cat_name = hotkey_it->second.short_description();
         cat_name += ": ";
     }
-    cat_name += help_text.second.first.translated();
+    cat_name += category.name.translated();
     ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
     if( ImGui::IsItemHovered() ) {
-        mouse_selected_option = help_text.first;
+        mouse_selected_option = option;
     }
 }
 
@@ -218,6 +209,11 @@ std::string help_window::seperator( int length, char c )
 
 void help_window::format_title( const std::string translated_category_name )
 {
+    if( make_accessible ) {
+        cataimgui::draw_colored_text( translated_category_name );
+        ImGui::NewLine();
+        return;
+    }
     std::string row3 = "<color_light_blue>║</color> ";
     row3 += translated_category_name;
     row3 += " <color_light_blue>║</color>";
@@ -225,15 +221,17 @@ void help_window::format_title( const std::string translated_category_name )
     cataimgui::draw_colored_text( div );
     cataimgui::draw_colored_text( row3 );
     cataimgui::draw_colored_text( div );
-    cataimgui::draw_colored_text( seperator( static_cast<int>( wrap_width ), '_' ) );
+    cataimgui::draw_colored_text( seperator( TERMX, '_' ) );
     ImGui::NewLine();
 }
 
-void help_window::draw_category( translation &category_name, std::vector<translation> &paragraphs )
+void help_window::draw_category()
 {
-    format_title( category_name.translated() );
-    for( const translation &paragraph : paragraphs ) {
-        cataimgui::draw_colored_text( parse_tags_help_window( paragraph.translated() ), wrap_width );
+    format_title( category.name.translated() );
+    for( const translation &paragraph : category.paragraphs ) {
+        std::string translated_paragraph = paragraph.translated();
+        parse_tags_help_window( translated_paragraph );
+        cataimgui::draw_colored_text( translated_paragraph, wrap_width );
         ImGui::NewLine();
     }
     input_context cat_cxt( "DISPLAY_HELP_CATEGORY", keyboard_mode::keychar );
@@ -241,8 +239,8 @@ void help_window::draw_category( translation &category_name, std::vector<transla
     cat_cxt.register_action( "CONFIRM" );
 }
 
-// Would ideally be merged with parse_tags()
-std::string help_window::parse_tags_help_window( std::string translated_line )
+// Would ideally be merged with parse_tags()?
+void help_window::parse_tags_help_window( std::string &translated_line )
 {
     if( translated_line == "<DRAW_NOTE_COLORS>" ) {
         translated_line = get_note_colors();
@@ -266,7 +264,6 @@ std::string help_window::parse_tags_help_window( std::string translated_line )
 
         pos = translated_line.find( "<press_", pos2, 7 );
     }
-    return translated_line;
 }
 
 cataimgui::bounds help_window::get_bounds()
@@ -288,8 +285,8 @@ void help_window::show()
             }
 
             if( action == "CONFIRM" && selected != -1 ) {
-                auto it = data.help_texts.find( selected );
-                selected_category = it != data.help_texts.end();
+                auto it = data.help_categories.find( selected );
+                selected_category = it != data.help_categories.end();
                 if( selected_category ) {
                     category = it->second;
                 } else {
