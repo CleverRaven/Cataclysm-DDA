@@ -1310,7 +1310,7 @@ void game::on_witness_theft( const item &target )
     }
     if( !witnesses.empty() ) {
         if( p.add_faction_warning( target.get_owner() ) ||
-            target.get_owner() == faction_id( "no_faction" ) ) {
+            target.get_owner() == faction_no_faction ) {
             for( npc *elem : witnesses ) {
                 elem->make_angry();
             }
