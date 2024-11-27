@@ -186,7 +186,7 @@ void Character::update_body_wetness( const w_point &weather )
             // if under 50 in the menu or 7500 temp_conv you should be able to regulate temperature by sweating
             // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
             // down to not having a slowdown
-            if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
+            if( !bp->has_flag( json_flag_IGNORE_TEMP ) && !has_flag( json_flag_CANNOT_CHANGE_TEMPERATURE ) ) {
                 mod_part_temp_cur( bp, -0.008_C_delta * clothing_mult );
             }
         }
