@@ -76,7 +76,6 @@ class help_window : public cataimgui::window
         void draw_category_option( const int &option, const help_category &category );
         int mouse_selected_option;
         int keyboard_selected_option;
-        int last_keyboard_selected_option;
         bool selected_category = false;
         help_category category;
 

@@ -197,6 +197,9 @@ void help_window::draw_category_option( const int &option, const help_category &
     if( ImGui::IsItemHovered() ) {
         mouse_selected_option = option;
     }
+    if( ImGui::IsItemActive() ) {
+        keyboard_selected_option = option;
+    }
 }
 
 std::string help_window::seperator( int length, char c )
@@ -273,18 +276,29 @@ cataimgui::bounds help_window::get_bounds()
 
 void help_window::show()
 {
-    int selected = -1;
     while( true ) {
+        int selected = -1;
         while( !selected_category ) {
             ui_manager::redraw_invalidated();
             std::string action = ctxt.handle_input( 50 );
+            input_event input = ctxt.get_raw_input();
 
             if( action == "SELECT" && mouse_selected_option != -1 ) {
                 action = "CONFIRM";
                 selected = mouse_selected_option;
             }
+            for( const auto &hotkey_entry : hotkeys ) {
+                if( input == hotkey_entry.second ) {
+                    action = "CONFIRM";
+                    selected = hotkey_entry.first;
+                    break;
+                }
+            }
 
-            if( action == "CONFIRM" && selected != -1 ) {
+            if( action == "CONFIRM" ) {
+                if( selected == -1 ) {
+                    selected = keyboard_selected_option;
+                }
                 auto it = data.help_categories.find( selected );
                 selected_category = it != data.help_categories.end();
                 if( selected_category ) {
