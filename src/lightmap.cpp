@@ -262,6 +262,12 @@ bool map::build_vision_transparency_cache( int zlev )
         }
     }
 
+    // The tile player is standing on should always be visible
+    // Shouldn't this be handled in the player's seen cache instead??
+    if( is_player_z && inbounds( p ) ) {
+        vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    }
+
     map_cache.transparency_cache_dirty.reset();
     return dirty;
 }
