@@ -79,7 +79,7 @@ class help_window : public cataimgui::window
         int mouse_selected_option;
         int keyboard_selected_option;
         bool selected_category = false;
-        help_category category;
+        int cid;
 
         void draw_category();
         void parse_tags_help_window( std::string &translated_line );
