@@ -33,6 +33,8 @@ class help
         static void reset();
         // TODO: Shouldn't be public
         std::map<const int, const help_category> help_categories;
+        // Only persists per session
+        std::unordered_set<int> read_categories;
     private:
         void load_object( const JsonObject &jo, const std::string &src );
         void reset_instance();
