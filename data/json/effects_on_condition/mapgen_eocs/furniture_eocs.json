@@ -123,7 +123,7 @@
   {
     "type": "effect_on_condition",
     "id": "slot_machine_win_payout",
-    "condition": { "math": [ "u_bet_amount", "==", "20" ] },
+    "condition": { "math": [ "u_bet_amount == 20" ] },
     "effect": [
       { "u_spawn_item": "money_twenty", "count": { "global_val": "gamble_multiplier", "default": 1 } },
       { "math": [ "gamble_multiplier", "=", "0" ] },
@@ -132,7 +132,7 @@
     "false_effect": {
       "run_eocs": {
         "id": "win_10",
-        "condition": { "math": [ "u_bet_amount", "==", "10" ] },
+        "condition": { "math": [ "u_bet_amount == 10" ] },
         "effect": [
           { "u_spawn_item": "money_ten", "count": { "global_val": "gamble_multiplier", "default": 1 } },
           { "math": [ "gamble_multiplier", "=", "0" ] },
@@ -141,7 +141,7 @@
         "false_effect": {
           "run_eocs": {
             "id": "win_5",
-            "condition": { "math": [ "u_bet_amount", "==", "5" ] },
+            "condition": { "math": [ "u_bet_amount == 5" ] },
             "effect": [
               { "u_spawn_item": "money_five", "count": { "global_val": "gamble_multiplier", "default": 1 } },
               { "math": [ "gamble_multiplier", "=", "0" ] },
@@ -150,7 +150,7 @@
             "false_effect": {
               "run_eocs": {
                 "id": "win_1",
-                "condition": { "math": [ "u_bet_amount", "==", "1" ] },
+                "condition": { "math": [ "u_bet_amount == 1" ] },
                 "effect": [
                   { "u_spawn_item": "money_one", "count": { "global_val": "gamble_multiplier", "default": 1 } },
                   { "math": [ "gamble_multiplier", "=", "0" ] },

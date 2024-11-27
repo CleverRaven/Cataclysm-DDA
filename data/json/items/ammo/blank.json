@@ -4,7 +4,7 @@
     "copy-from": "22_lr",
     "type": "AMMO",
     "name": { "str_sp": ".22 blank" },
-    "description": "A powder load .22 blank used for powder actuated tools.",
+    "description": "A powder load .22 blank used for powder-actuated tools.",
     "ascii_picture": "22_blank",
     "price": "1 USD",
     "price_postapoc": "10 USD",

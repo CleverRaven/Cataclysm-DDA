@@ -118,7 +118,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] }
           ]
         }
@@ -178,7 +178,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach1",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach) > time('1 d')" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] } }
           ]
         }
@@ -298,9 +298,9 @@
         "text": "[Skill 2] I'm not a total noob.",
         "condition": {
           "or": [
-            { "math": [ "u_skill('computer')", ">=", "2" ] },
-            { "math": [ "u_skill('electronics')", ">=", "2" ] },
-            { "math": [ "u_skill('mechanics')", ">=", "2" ] }
+            { "math": [ "u_skill('computer') >= 2" ] },
+            { "math": [ "u_skill('electronics') >= 2" ] },
+            { "math": [ "u_skill('mechanics') >= 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2"
@@ -309,9 +309,9 @@
         "text": "[Skill <2] No, that's why I want you to teach me.",
         "condition": {
           "and": [
-            { "math": [ "u_skill('computer')", "<", "2" ] },
-            { "math": [ "u_skill('electronics')", "<", "2" ] },
-            { "math": [ "u_skill('mechanics')", "<", "2" ] }
+            { "math": [ "u_skill('computer') < 2" ] },
+            { "math": [ "u_skill('electronics') < 2" ] },
+            { "math": [ "u_skill('mechanics') < 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
@@ -320,9 +320,9 @@
         "text": "[INT 10] No, but I'm a fast learner.",
         "condition": {
           "and": [
-            { "math": [ "u_skill('computer')", "<", "2" ] },
-            { "math": [ "u_skill('electronics')", "<", "2" ] },
-            { "math": [ "u_skill('mechanics')", "<", "2" ] },
+            { "math": [ "u_skill('computer') < 2" ] },
+            { "math": [ "u_skill('electronics') < 2" ] },
+            { "math": [ "u_skill('mechanics') < 2" ] },
             { "u_has_intelligence": 10 }
           ]
         },
@@ -425,13 +425,13 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project3",
     "dynamic_line": {
-      "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('7 d')" ],
+      "math": [ "time_since(n_timer_flag_Jenny_project_timer) >= time('7 d')" ],
       "no": {
         "gendered_line": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
         "relevant_genders": [ "u" ]
       },
       "yes": {
-        "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('14 d')" ],
+        "math": [ "time_since(n_timer_flag_Jenny_project_timer) >= time('14 d')" ],
         "no": "I'm really making headway.  We've done some live demonstrations with a working device, and now it's just a matter of manufacturing a few of them.  We should be ready for release in a week or two.",
         "yes": "It's finally ready!  The pipes are laid to the first patch of ground we'll set turrets up in and I'd like for you to join me to go inspect how they are working.  I'll let you know when I'm ready to go.",
         "//": "After content freeze remove last sentence on var yes, create mission to nearby field, create air powered turrets, use update mapgen to have some corpses that will rise near the turrets as you approach, create followup followup missions that add additional turrets to nearby fields as time goes on."
@@ -577,6 +577,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "book_pneumatics",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
       "offer": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
@@ -602,6 +603,7 @@
     "item": "motor",
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
@@ -630,6 +632,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "metal_tank",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_REFUGEE_Jenny_GET_TEXT",
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
@@ -660,6 +663,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "text_gunsmith",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I hate to admit it, but my first few tests haven't gone well.  I think I know what's wrong, but I need more information.",
       "offer": "I need a good quality reference book on gunsmithing.  This isn't my area of expertise, and I don't want to blow anybody up.",

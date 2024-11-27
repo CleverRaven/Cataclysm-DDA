@@ -271,18 +271,17 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
             debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
             return 0.0f;
         }
-    } else if( here.furn( *loc ).obj().workbench ) {
+    } else if( const auto &fw = here.furn( *loc ).obj().workbench ) {
         // Furniture workbench
-        const furn_t &f = here.furn( *loc ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        multiplier = fw->multiplier;
+        allowed_mass = fw->allowed_mass;
+        allowed_volume = fw->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = furn_f_ground_crafting_spot.obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        const auto &fg = furn_f_ground_crafting_spot.obj().workbench;
+        multiplier = fg->multiplier;
+        allowed_mass = fg->allowed_mass;
+        allowed_volume = fg->allowed_volume;
     }
 
     const units::mass &craft_mass = craft.weight();
@@ -654,14 +653,14 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
 {
-    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+    return crafting_inventory( tripoint::zero, PICKUP_RANGE, clear_path );
 }
 
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
         bool clear_path ) const
 {
     tripoint inv_pos = src_pos;
-    if( src_pos == tripoint_zero ) {
+    if( src_pos == tripoint::zero ) {
         inv_pos = pos();
     }
     if( crafting_cache.valid
@@ -2660,23 +2659,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             return false;
         } else {
             if( obj.get_owner() ) {
-                std::vector<npc *> witnesses;
-                for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos_bub(), player_character.pos_bub() ) < MAX_VIEW_DISTANCE &&
-                        elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( player_character.pos_bub() ) ) {
-                        elem.say( "<witnessed_thievery>", 7 );
-                        npc *npc_to_add = &elem;
-                        witnesses.push_back( npc_to_add );
-                    }
-                }
-                if( !witnesses.empty() ) {
-                    if( player_character.add_faction_warning( obj.get_owner() ) ) {
-                        for( npc *elem : witnesses ) {
-                            elem->make_angry();
-                        }
-                    }
-                }
+                g->on_witness_theft( obj );
             }
         }
     }

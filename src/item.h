@@ -372,6 +372,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
+
+        /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
          * Used for nicer messages only.
          */
@@ -1402,7 +1408,8 @@ class item : public visitable
          * This version is for items with durability
          * @return the state of the armor
          */
-        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+        armor_status damage_armor_durability( damage_unit &du, damage_unit &premitigated,
+                                              const bodypart_id &bp,
                                               double enchant_multiplier = 1 );
 
         /**
@@ -1476,11 +1483,11 @@ class item : public visitable
             /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
             safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
             /// Absolute position of the linked target vehicle/appliance.
-            tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms::invalid;
             /// The linked part's mount offset on the target vehicle.
-            point t_mount = point_zero;
+            point t_mount = point::zero;
             /// Reality bubble position of the link's source cable item.
-            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
+            tripoint s_bub_pos = tripoint::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.
@@ -1545,7 +1552,10 @@ class item : public visitable
          * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
          * @return true if the item was successfully connected.
          */
+        // TODO: Get rid of untyped overload.
         ret_val<void> link_to( vehicle &veh, const point &mount,
+                               link_state link_type = link_state::no_link );
+        ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
 
         /**
@@ -1584,7 +1594,7 @@ class item : public visitable
          * @return True if the cable should be deleted.
          */
         bool reset_link( bool unspool_if_too_long = true, Character *p = nullptr, int vpart_index = -1,
-                         bool loose_message = false, tripoint cable_position = tripoint_zero );
+                         bool loose_message = false, tripoint cable_position = tripoint::zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
@@ -1812,6 +1822,11 @@ class item : public visitable
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
 
+        /** Checks is item affect fall */
+        bool affects_fall() const;
+
+        //flat damage reduction (increase if negative) on fall (some logic may apply)
+        int fall_damage_reduction() const;
         /**
           * if the item will spill if placed into a container
           */
@@ -2550,6 +2565,12 @@ class item : public visitable
          */
         int activation_consume( int qty, const tripoint &pos, Character *carrier );
 
+        // Returns whether the item has ammo in it, either directly or via a selected magazine, which
+        // contrasts with ammo_data(), which just returns the magazine data if a magazine is selected,
+        // regardless of whether that magazine is empty or not.
+        bool has_ammo() const;
+        // Cheaper way to just check if ammo_data exists if the data is to be just discarded afterwards.
+        bool has_ammo_data() const;
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */

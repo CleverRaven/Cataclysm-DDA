@@ -599,7 +599,7 @@ ID                     | Description
 OVERSIZE               | Can be worn by larger Characters
 UNDERSIZE              | Can be worn by smaller Characters
 ALLOWS_TAIL            | People with tails can still wear it
-ALLOWS_TALONS          | People with talons can still wear it
+ALLOWS_TALONS          | People with talons for feet can still wear it
 ALLOWS_NATURAL_ATTACKS | Won't hinder special attacks
 
 #### Sci-fi

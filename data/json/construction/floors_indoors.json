@@ -465,9 +465,9 @@
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "180 m",
+    "time": "580 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "field_stone", 500 ] ] ],
     "pre_terrain": "t_drystone_wall_half",
     "post_terrain": "t_drystone_wall"
   },
@@ -478,9 +478,9 @@
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "field_stone", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_drystone_wall_half"
   },

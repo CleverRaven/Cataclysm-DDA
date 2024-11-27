@@ -9,37 +9,37 @@
         "id": "none",
         "text": { "str": "None", "ctxt": "activity description" },
         "color": "light_gray",
-        "condition": { "math": [ "u_val('activity_level')", "==", "0" ] }
+        "condition": { "math": [ "u_val('activity_level') == 0" ] }
       },
       {
         "id": "light",
         "text": { "str": "Light", "ctxt": "activity description" },
         "color": "yellow",
-        "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
+        "condition": { "math": [ "u_val('activity_level') == 1" ] }
       },
       {
         "id": "moderate",
         "text": { "str": "Moderate", "ctxt": "activity description" },
         "color": "yellow",
-        "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
+        "condition": { "math": [ "u_val('activity_level') == 2" ] }
       },
       {
         "id": "brisk",
         "text": { "str": "Brisk", "ctxt": "activity description" },
         "color": "light_red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
+        "condition": { "math": [ "u_val('activity_level') == 3" ] }
       },
       {
         "id": "active",
         "text": { "str": "Active", "ctxt": "activity description" },
         "color": "light_red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
+        "condition": { "math": [ "u_val('activity_level') == 4" ] }
       },
       {
         "id": "extreme",
         "text": { "str": "Extreme", "ctxt": "activity description" },
         "color": "red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "5" ] }
+        "condition": { "math": [ "u_val('activity_level') == 5" ] }
       }
     ]
   },

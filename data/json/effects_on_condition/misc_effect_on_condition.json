@@ -62,7 +62,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror')", "<", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror') < 1" ] },
     "effect": [
       { "u_location_variable": { "context_val": "my_loc" }, "max_radius": 2, "passable_only": true },
       { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "my_loc" } },
@@ -92,7 +92,7 @@
       {
         "run_eocs": {
           "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
+          "condition": { "math": [ "u_monsters_nearby() > 1" ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_YOUR_FEARS",
@@ -112,7 +112,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_discover_zomborg",
-    "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_zomborg') >= 1" ] },
     "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
   },
   {
@@ -200,7 +200,7 @@
       {
         "if": { "compare_string": [ "your_followers", { "context_val": "new_owner" } ] },
         "then": {
-          "queue_eocs": {
+          "run_eocs": {
             "id": "EOC_camp_rumor_spread",
             "effect": { "u_message": "Rumors of your takeover of <context_val:camp_name> have begun to spread…", "type": "mixed" }
           },
@@ -232,7 +232,7 @@
         { "not": { "u_has_trait": "COMPOUND_EYES" } },
         { "not": { "u_has_trait": "SEESLEEP" } },
         { "not": { "u_has_bionics": "armor_bio_eyes" } },
-        { "math": [ "u_coverage('eyes')", "<", "rand(100)" ] },
+        { "math": [ "u_coverage('eyes') < rand(100)" ] },
         { "x_in_y_chance": { "x": 2, "y": 3 } }
       ]
     },

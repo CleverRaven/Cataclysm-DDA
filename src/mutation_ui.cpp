@@ -37,9 +37,11 @@ mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:
 static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
-    mvwputch( win, point( 0, border_y ), BORDER_COLOR, LINE_XXXO );
+    wattron( win, BORDER_COLOR );
+    mvwaddch( win, point( 0, border_y ), LINE_XXXO );
     mvwhline( win, point( 1, border_y ), LINE_OXOX, width - 2 );
-    mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
+    mvwaddch( win, point( width - 1, border_y ), LINE_XOXX );
+    wattroff( win, BORDER_COLOR );
 }
 
 static const auto shortcut_desc = []( const std::string_view comment, const std::string &keys )
@@ -236,11 +238,13 @@ void avatar::power_mutations()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
         draw_border( wBio, BORDER_COLOR, _( "Mutations" ) );
+        wattron( wBio, BORDER_COLOR );
         // Draw line under title
         mvwhline( wBio, point( 1, HEADER_LINE_Y ), LINE_OXOX, WIDTH - 2 );
         // Draw symbols to connect additional lines to border
-        mvwputch( wBio, point( 0, HEADER_LINE_Y ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( wBio, point( WIDTH - 1, HEADER_LINE_Y ), BORDER_COLOR, LINE_XOXX ); // -|
+        mvwaddch( wBio, point( 0, HEADER_LINE_Y ), LINE_XXXO ); // |-
+        mvwaddch( wBio, point( WIDTH - 1, HEADER_LINE_Y ), LINE_XOXX ); // -|
+        wattroff( wBio, BORDER_COLOR );
 
         // Captions
         mvwprintz( wBio, point( 2, HEADER_LINE_Y + 1 ), c_light_blue, _( "Passive:" ) );
@@ -441,7 +445,8 @@ void avatar::power_mutations()
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
                                        ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
-                                add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
+                                add_msg_if_player( m_neutral,
+                                                   string_format( mut_data.activation_msg, mutation_name( mut_data.id ) ) );
                                 // Reset menu in advance
                                 ui.reset();
                                 activate_mutation( mut_id );
@@ -615,7 +620,8 @@ void avatar::power_mutations()
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                            ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
                                            ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
-                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
+                                    add_msg_if_player( m_neutral,
+                                                       string_format( mut_data.activation_msg, mutation_name( mut_data.id ) ) );
                                     // Reset menu in advance
                                     ui.reset();
                                     activate_mutation( mut_id );

@@ -230,8 +230,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( here.furn( p ).to_i() > 0 ) {
-                    const furn_t &furniture_type = here.furn( p ).obj();
+                const furn_id &f = here.furn( p );
+                if( f.to_i() > 0 ) {
+                    const furn_t &furniture_type = f.obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -266,7 +267,7 @@ tripoint editmap::pos2screen( const tripoint_bub_ms &p )
  */
 bool editmap::eget_direction( tripoint_rel_ms &p, const std::string &action ) const
 {
-    p = tripoint_rel_ms( tripoint_zero );
+    p = tripoint_rel_ms::zero;
     if( action == "CENTER" ) {
         p = get_player_character().pos_bub() - target;
     } else if( action == "LEFT_WIDE" ) {
@@ -538,8 +539,8 @@ void editmap::draw_main_ui_overlay()
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
-                p[0] += point_north_west;
-                p[1] += point_south_east;
+                p[0] += point::north_west;
+                p[1] += point::south_east;
             }
             for( const point_bub_ms &pi : p ) {
                 for( const point_bub_ms &pj : p ) {
@@ -613,11 +614,13 @@ void editmap::draw_main_ui_overlay()
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        const point mp = tmax / 2 + point_south_east;
-        mvwputch( g->w_terrain, point( 1, mp.y ), c_yellow, '<' );
-        mvwputch( g->w_terrain, point( tmax.x - 1, mp.y ), c_yellow, '>' );
-        mvwputch( g->w_terrain, point( mp.x, 1 ), c_yellow, '^' );
-        mvwputch( g->w_terrain, point( mp.x, tmax.y - 1 ), c_yellow, 'v' );
+        const point mp = tmax / 2 + point::south_east;
+        wattron( g->w_terrain, c_yellow );
+        mvwaddch( g->w_terrain, point( 1, mp.y ), '<' );
+        mvwaddch( g->w_terrain, point( tmax.x - 1, mp.y ), '>' );
+        mvwaddch( g->w_terrain, point( mp.x, 1 ), '^' );
+        mvwaddch( g->w_terrain, point( mp.x, tmax.y - 1 ), 'v' );
+        wattroff( g->w_terrain, c_yellow );
     }
 
     if( tmpmap_ptr ) {
@@ -651,7 +654,7 @@ void editmap::draw_main_ui_overlay()
                                                false );
                     }
                     if( const optional_vpart_position ovp = tmpmap.veh_at( tmp_p ) ) {
-                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount() );
+                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount_pos() );
                         char part_mod = 0;
                         if( vd.is_open ) {
                             part_mod = 1;
@@ -659,9 +662,10 @@ void editmap::draw_main_ui_overlay()
                             part_mod = 2;
                         }
                         const units::angle veh_dir = ovp->vehicle().face.dir();
-                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo, ovp->mount() );
+                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
+                                                ovp->mount_pos().raw() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point::zero );
                     }
                     g->draw_below_override( tripoint_bub_ms( map_p ),
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
@@ -722,7 +726,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         veh_msg = pgettext( "vehicle", "out" );
     }
 
-    const ter_t &terrain_type = here.ter( target ).obj();
+    const ter_id &t = here.ter( target );
+    const ter_t &terrain_type = t.obj();
     const furn_t &furniture_type = here.furn( target ).obj();
 
     int off = 1;
@@ -732,15 +737,16 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                target.z() );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), t.to_i(),
                static_cast<std::string>( terrain_type.id ),
                terrain_type.movecost
              );
     off++; // 2
-    if( here.furn( target ).to_i() > 0 ) {
+    const furn_id &f = here.furn( target );
+    if( f.to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
-                   here.furn( target ).to_i(),
+                   f.to_i(),
                    static_cast<std::string>( furniture_type.id ),
                    furniture_type.movecost,
                    furniture_type.move_str_req
@@ -1019,7 +1025,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint_bub
     ter_id teralt = undefined_ter_id;
     int alta = -1;
     int altb = -1;
-    const ter_id sel_ter = t.id.id();
+    const ter_id &sel_ter = t.id.id();
     if( editshape == editmap_rect ) {
         if( t.symbol() == LINE_XOXO || t.symbol() == '|' ) {
             isvert = true;
@@ -1056,7 +1062,7 @@ template<>
 void apply<furn_t>( const furn_t &t, const shapetype, const tripoint_bub_ms &,
                     const tripoint_bub_ms &, const std::vector<tripoint_bub_ms> &target_list )
 {
-    const furn_id sel_frn = t.id.id();
+    const furn_id &sel_frn = t.id.id();
     map &here = get_map();
     for( const tripoint_bub_ms &elem : target_list ) {
         here.furn_set( elem, sel_frn );

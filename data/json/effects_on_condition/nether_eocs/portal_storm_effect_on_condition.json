@@ -133,8 +133,8 @@
         "or": [
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "math": [ "cause_portal_storm", "==", "1" ] },
-          { "math": [ "cause_early_portal_storm", "==", "1" ] }
+          { "math": [ "cause_portal_storm == 1" ] },
+          { "math": [ "cause_early_portal_storm == 1" ] }
         ]
       }
     },
@@ -148,7 +148,7 @@
       },
       { "math": [ "cause_early_portal_storm", "=", "1" ] },
       "next_weather",
-      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
+      { "run_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       {
         "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby, a tiny cataclysm has begun (check mission log for details).",
@@ -163,8 +163,8 @@
     "//": "Normally weather is only checked every 5 minutes or so, since your distance to the storm center can change quickly we want to test much more often.",
     "recurrence": [ "1 seconds", "5 seconds" ],
     "global": true,
-    "condition": { "or": [ { "math": [ "cause_early_portal_storm", "==", "1" ] }, { "math": [ "cause_portal_storm", "==", "1" ] } ] },
-    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
+    "condition": { "or": [ { "math": [ "cause_early_portal_storm == 1" ] }, { "math": [ "cause_portal_storm == 1" ] } ] },
+    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm != 1" ] }, { "math": [ "cause_portal_storm != 1" ] } ] },
     "effect": "next_weather"
   },
   {
@@ -172,8 +172,8 @@
     "id": "EOC_MOVE_PORTAL_STORM",
     "recurrence": [ "45 seconds", "90 seconds" ],
     "global": true,
-    "condition": { "or": [ { "math": [ "cause_early_portal_storm", "==", "1" ] }, { "math": [ "cause_portal_storm", "==", "1" ] } ] },
-    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
+    "condition": { "or": [ { "math": [ "cause_early_portal_storm == 1" ] }, { "math": [ "cause_portal_storm == 1" ] } ] },
+    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm != 1" ] }, { "math": [ "cause_portal_storm != 1" ] } ] },
     "effect": [
       {
         "location_variable_adjust": { "global_val": "portal_storm_center" },
@@ -190,7 +190,7 @@
     "id": "EOC_CAUSE_PORTAL_STORM",
     "global": true,
     "//": "This sets up all the variables for the start of a portal storm.",
-    "condition": { "not": { "or": [ { "is_weather": "portal_storm" }, { "math": [ "cause_portal_storm", "==", "1" ] } ] } },
+    "condition": { "not": { "or": [ { "is_weather": "portal_storm" }, { "math": [ "cause_portal_storm == 1" ] } ] } },
     "effect": [
       { "math": [ "cause_early_portal_storm", "=", "0" ] },
       { "math": [ "cause_portal_storm", "=", "1" ] },
@@ -208,7 +208,7 @@
         "target_var": { "global_val": "portal_storm_voice_mood" }
       },
       {
-        "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
+        "run_eocs": "EOC_CANCEL_PORTAL_STORM",
         "time_in_future": [
           { "global_val": "ps_min_length", "default": "15 minutes" },
           { "global_val": "ps_max_length", "default": "30 minutes" }
@@ -226,8 +226,8 @@
       "or": [
         { "is_weather": "portal_storm" },
         { "is_weather": "early_portal_storm" },
-        { "math": [ "cause_portal_storm", "==", "1" ] },
-        { "math": [ "cause_early_portal_storm", "==", "1" ] }
+        { "math": [ "cause_portal_storm == 1" ] },
+        { "math": [ "cause_early_portal_storm == 1" ] }
       ]
     },
     "effect": [
@@ -277,7 +277,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EXPAND",
-    "condition": { "math": [ "portal_storm_distance", "!=", "0" ] },
+    "condition": { "math": [ "portal_storm_distance != 0" ] },
     "effect": [
       { "math": [ "portal_storm_distant_distance", "++" ] },
       { "math": [ "portal_storm_close_distance", "++" ] },
@@ -304,7 +304,7 @@
             { "is_weather": "portal_storm" }
           ]
         },
-        { "math": [ "portal_dungeon_level", "==", "0" ] }
+        { "math": [ "portal_dungeon_level == 0" ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -336,8 +336,8 @@
             { "is_weather": "portal_storm" }
           ]
         },
-        { "math": [ "portal_dungeon_level", "==", "0" ] },
-        { "math": [ "u_ire", ">", "0" ] }
+        { "math": [ "portal_dungeon_level == 0" ] },
+        { "math": [ "u_ire > 0" ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -373,7 +373,7 @@
             { "is_weather": "portal_storm" }
           ]
         },
-        { "math": [ "portal_dungeon_level", "==", "0" ] },
+        { "math": [ "portal_dungeon_level == 0" ] },
         "u_is_outside",
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }
       ]
@@ -393,10 +393,10 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "math": [ "portal_dungeon_level", "==", "0" ] },
+        { "math": [ "portal_dungeon_level == 0" ] },
         "u_is_outside",
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "math": [ "talked_to_storm", "!=", "1" ] },
+        { "math": [ "talked_to_storm != 1" ] },
         { "x_in_y_chance": { "x": 7, "y": 10 } }
       ]
     },
@@ -468,7 +468,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_WEAK",
     "condition": {
-      "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "math": [ "ps_str", "<", "2" ] } ]
+      "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "math": [ "ps_str < 2" ] } ]
     },
     "effect": [
       {
@@ -490,7 +490,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_MEDIUM",
     "condition": {
-      "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "math": [ "ps_str", "<", "5" ] } ]
+      "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "math": [ "ps_str < 5" ] } ]
     },
     "effect": [
       {
@@ -698,12 +698,12 @@
       "and": [
         { "not": "u_driving" },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "math": [ "portal_dungeon_level", "==", "0" ] }
+        { "math": [ "portal_dungeon_level == 0" ] }
       ]
     },
     "effect": [
       { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel an intense sense of deja vu." },
-      { "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
+      { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
     ]
   },
   {
@@ -870,7 +870,7 @@
     "id": "EOC_PORTAL_STORM_CELL",
     "condition": {
       "and": [
-        { "math": [ "u_in_portal_cell", "==", "0" ] },
+        { "math": [ "u_in_portal_cell == 0" ] },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": "u_driving" }
       ]
@@ -907,7 +907,7 @@
       { "mapgen_update": "portal_cell", "target_var": { "global_val": "cell_loc" } },
       { "u_teleport": { "global_val": "cell_start" }, "fail_message": "that sucks" },
       {
-        "queue_eocs": {
+        "run_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
           "effect": [
             { "math": [ "u_in_portal_cell", "=", "0" ] },
@@ -968,7 +968,7 @@
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "math": [ "portal_dungeon_level", "=", "1" ] },
       { "math": [ "visited_a_portal_dungeon", "=", "1" ] },
-      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
@@ -990,10 +990,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_SHIFT",
-    "condition": { "math": [ "portal_dungeon_level", ">", "0" ] },
+    "condition": { "math": [ "portal_dungeon_level > 0" ] },
     "effect": [
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
-      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
     ]
   },
   {
@@ -1002,7 +1002,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "portal_dungeon_level", ">", "0" ] },
+        { "math": [ "portal_dungeon_level > 0" ] },
         {
           "math": [
             "monsters_nearby('mon_pale_reflection', 'mon_twisted_reflection', 'mon_dark_reflection', 'mon_better_half', 'location': dungeon_loc)",
@@ -1061,7 +1061,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_EXIT",
-    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
+    "condition": { "math": [ "portal_dungeon_level != 0" ] },
     "effect": [
       { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       {
@@ -1079,7 +1079,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_SHADOW_SPAWN",
     "global": true,
-    "condition": { "and": [ { "u_has_trait": "TAINTED_SHADOW" }, { "math": [ "u_monsters_nearby('mon_tainted_shadow')", "<", "1" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "TAINTED_SHADOW" }, { "math": [ "u_monsters_nearby('mon_tainted_shadow') < 1" ] } ] },
     "effect": [
       {
         "u_spawn_monster": "mon_tainted_shadow",
@@ -1138,7 +1138,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
+    "condition": { "math": [ "portal_dungeon_level != 0" ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
@@ -1285,21 +1285,21 @@
         "run_eocs": [
           {
             "id": "large_printout_portal_storm_data_ping",
-            "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+            "condition": { "math": [ "u_portal_storm_record >= 25" ] },
             "effect": [ { "u_message": "The NRE recorder emits a three beep sequence!", "type": "info" } ],
             "false_effect": [
               {
                 "run_eocs": [
                   {
                     "id": "medium_printout_portal_storm_data_ping",
-                    "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+                    "condition": { "math": [ "u_portal_storm_record >= 3" ] },
                     "effect": [ { "u_message": "The NRE recorder emits a two beep sequence!", "type": "info" } ],
                     "false_effect": [
                       {
                         "run_eocs": [
                           {
                             "id": "small_printout_portal_storm_data_ping",
-                            "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+                            "condition": { "math": [ "u_portal_storm_record >= 1" ] },
                             "effect": [ { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
                           }
                         ]
@@ -1335,18 +1335,23 @@
         { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
         {
           "or": [
-            { "compare_string": [ "mon_hound_tindalos", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_darkman", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_zombie_phase_shrike", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_swarm_structure", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_better_half", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_hallucinator", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_archunk_strong", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_void_spider", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_eigenspectre_3", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_eigenspectre_4", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_living_vector", { "context_val": "victim_type" } ] }
+            {
+              "compare_string": [
+                { "context_val": "victim_type" },
+                "mon_hound_tindalos",
+                "mon_darkman",
+                "mon_zombie_phase_shrike",
+                "mon_swarm_structure",
+                "mon_better_half",
+                "mon_hallucinator",
+                "mon_archunk_strong",
+                "mon_void_spider",
+                "mon_XEDRA_officer",
+                "mon_eigenspectre_3",
+                "mon_eigenspectre_4",
+                "mon_living_vector"
+              ]
+            }
           ]
         }
       ]
@@ -1359,12 +1364,12 @@
   {
     "type": "effect_on_condition",
     "id": "print_nre_data",
-    "condition": { "or": [ { "math": [ "u_portal_storm_record", ">", "0" ] }, { "math": [ "u_generic_nre_anomaly", ">", "0" ] } ] },
+    "condition": { "or": [ { "math": [ "u_portal_storm_record > 0" ] }, { "math": [ "u_generic_nre_anomaly > 0" ] } ] },
     "effect": {
       "run_eocs": [
         {
           "id": "large_printout_portal_storm_data",
-          "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+          "condition": { "math": [ "u_portal_storm_record >= 25" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "large_printout_portal_storm_data", "count": 1 },
@@ -1373,7 +1378,7 @@
         },
         {
           "id": "medium_printout_portal_storm_data",
-          "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+          "condition": { "math": [ "u_portal_storm_record >= 3" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "medium_printout_portal_storm_data", "count": 1 },
@@ -1382,7 +1387,7 @@
         },
         {
           "id": "small_printout_portal_storm_data",
-          "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+          "condition": { "math": [ "u_portal_storm_record >= 1" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "small_printout_portal_storm_data", "count": 1 },
@@ -1391,7 +1396,7 @@
         },
         {
           "id": "printout_nre_anomaly_data",
-          "condition": { "math": [ "u_generic_nre_anomaly", ">=", "1" ] },
+          "condition": { "math": [ "u_generic_nre_anomaly >= 1" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "nre_anomaly_printout_data", "count": { "u_val": "generic_nre_anomaly", "default": 1 } },

@@ -1,6 +1,48 @@
 # Строки длиннее 78 символов будут автоматически перенесены
 # Следующая строка для сравнения
 ##############################################################################
+(<color_cyan>0.H</color>):</color>
+<color_white>Автор оригинала:</color>                <color_white>Руководитель проекта:</color>
+<color_yellow>Whales</color> (<color_dark_gray>отошёл от разработки</color>)   <color_yellow>KevinGranade</color>
+
+<color_white>Текущие главные разработчики:</color>
+<color_yellow>anoobindisguise</color> — неустанное исправление ошибок и полировка большинства областей игры.
+<color_yellow>GuardianDll</color> — случайные изменения в игре, случайные изменения в модах.
+<color_yellow>irwiss</color> — масштабное исправление ошибок и укрепление кода.
+<color_yellow>Maleclypse</color> — главный мёрждер в этом релизе, и множество улучшений в Xedra Evolved.
+
+<color_white>Особая благодарность:</color>
+<color_yellow>anothersimulacrum</color> — за решение сложных проблем.
+<color_yellow>akrieger</color> — Уничтожитель Замедлений.
+<color_yellow>Fris0uman</color> — за управление тайлсетами и прочее.
+<color_yellow>John-Candlebury</color> — за битвы с боссами и за Isolation Protocols.
+<color_yellow>Night-Pryanik</color> — за то, что простуда и грипп наконец-то обрели смысл.
+<color_yellow>PatrikLundell</color> — масштабные и остро необходимые изменения в содержании и инфраструктуре лагерей фракций.
+<color_yellow>Procyonae</color> — за большое количество улучшений мапгена и за все бэкпорты.
+<color_yellow>Qrox</color> — за багфиксы, ревью и инфраструктуру.
+<color_yellow>Ramza13</color> — за то, что воплотил в жизнь мечты многих моддеров.
+<color_yellow>RenechCDDA</color> — за Тень, улучшения лагерей и личность NPC.
+<color_yellow>Rivet-the-Zombie</color> — за достижение 10'000 мёрджей.
+<color_yellow>Standing-Storm</color> — за быстрейшее от 0 до 100 за несколько лет.
+<color_yellow>Venera3</color> — за прогресс с конечностями.
+<color_yellow>ZhilkinSerg</color> — за слияния запросов.
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color> и <color_yellow>lispcoc</color>.
+
+<color_white>Особая благодарность за художественный вклад:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto</color> и многие другие.
+
+<color_white>Полный список участников разработки доступен здесь:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> выпускается по лицензии <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+(<color_cyan>0.G</color>):</color>
 <color_white>Автор оригинала:</color>                <color_white>Руководитель проекта:</color>
 <color_yellow>Whales</color> (<color_dark_gray>отошёл от разработки</color>)   <color_yellow>KevinGranade</color>
 

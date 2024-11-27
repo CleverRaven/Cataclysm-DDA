@@ -246,6 +246,7 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
+        shortcuts.reserve( 5 );
         shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
         shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
         shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset

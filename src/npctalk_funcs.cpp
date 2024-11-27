@@ -24,7 +24,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -403,8 +402,8 @@ void talk_function::goto_location( npc &p )
     }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
-                 overmap_path_params::for_npc() );
-    if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+                 overmap_path_params::for_npc() ).points;
+    if( destination == tripoint_abs_omt() || destination.is_invalid() ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -872,7 +871,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
-        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms_zero, false ) );
+        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms::zero, false ) );
         p.say( "<acknowledged>" );
     } else {
         p.say( _( "I don't have anything to drop off." ) );
@@ -1290,8 +1289,8 @@ void talk_function::distribute_food_auto( npc &p )
     const tripoint_abs_ms &npc_abs_loc = p.get_location();
     // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
     // TODO: fix point types; Awful hack, zones want the raw value
-    const tripoint top_left = npc_abs_loc.raw() + point_north_west;
-    const tripoint bottom_right = npc_abs_loc.raw() + point_south_east;
+    const tripoint top_left = npc_abs_loc.raw() + point::north_west;
+    const tripoint bottom_right = npc_abs_loc.raw() + point::south_east;
     std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
     const faction_id &fac_id = p.get_fac_id();
     mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );

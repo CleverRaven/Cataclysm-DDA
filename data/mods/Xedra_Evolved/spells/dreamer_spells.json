@@ -381,8 +381,8 @@
   {
     "id": "constructed_hammer_attack",
     "type": "SPELL",
-    "name": "Smash A Target",
-    "description": "Deal some damage.  You can't see it except in debug mode.",
+    "name": { "str": "Smash A Target", "//~": "NO_I18N" },
+    "description": { "str": "Deal some damage.  You can't see it except in debug mode.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
@@ -402,8 +402,8 @@
     "id": "constructed_hammer_self_destruct",
     "type": "SPELL",
     "shape": "blast",
-    "name": "Constructed Hammer Self destruct",
-    "description": "Removes constructed hammer.  You can't see it except in debug mode.",
+    "name": { "str": "Constructed Hammer Self destruct", "//~": "NO_I18N" },
+    "description": { "str": "Removes constructed hammer.  You can't see it except in debug mode.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_REMOVE_CONSTRUCTED_HAMMER"
@@ -523,8 +523,8 @@
   {
     "id": "summon_winch_item",
     "type": "SPELL",
-    "name": "Spawn a Winch",
-    "description": "Spawns a winch item.  You can see it only in debug mode.",
+    "name": { "str": "Spawn a Winch", "//~": "NO_I18N" },
+    "description": { "str": "Spawns a winch item.  You can see it only in debug mode.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,

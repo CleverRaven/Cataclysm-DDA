@@ -60,7 +60,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__chainsaw",
-          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
+          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level() > 5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
           "effect": [
             { "turn_cost": 0.8 },
             { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
@@ -96,7 +96,7 @@
         {
           "id": "EOC_toolweapon_deactivate__chainsaw",
           "effect": [
-            { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
+            { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
             { "sound_effect": "chainsaw_on", "id": "chainsaw_stop" }
           ]
         }
@@ -108,7 +108,7 @@
         {
           "id": "EOC_toolweapon_running__chainsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
@@ -148,7 +148,7 @@
         {
           "id": "EOC_toolweapon_activate__polesaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "polesaw_on",
@@ -182,7 +182,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__polesaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
         }
       ]
     },
@@ -192,7 +192,7 @@
         {
           "id": "EOC_toolweapon_running__polesaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
@@ -229,7 +229,7 @@
         {
           "id": "EOC_toolweapon_activate__circsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "circsaw_on",
@@ -265,7 +265,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__circsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
         }
       ]
     },
@@ -275,7 +275,7 @@
         {
           "id": "EOC_toolweapon_running__circsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
@@ -391,9 +391,9 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__elec_chainsaw",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "elec_chainsaw_on",
@@ -430,7 +430,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__elec_chainsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
         }
       ]
     },
@@ -440,7 +440,7 @@
         {
           "id": "EOC_toolweapon_running__elec_chainsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
               "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
@@ -469,9 +469,9 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
-            "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+            "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
             "effect": {
-              "run_eoc_with": "EOC_toolweapon_activate",
+              "run_eocs": "EOC_toolweapon_activate",
               "variables": {
                 "turn_cost": "0.6",
                 "transform_target": "elec_chainsaw_cord_on",
@@ -502,7 +502,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
-            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
+            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
           }
         ]
       },
@@ -514,7 +514,7 @@
         {
           "id": "EOC_toolweapon_running__elec_chainsaw_cord",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
               "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },

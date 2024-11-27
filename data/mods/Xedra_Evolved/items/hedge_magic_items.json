@@ -1,8 +1,8 @@
 [
   {
     "abstract": "magic_square_base",
-    "name": "Magic Square abstract",
-    "description": "SATOR AREPO TENET OPERA ROTAS.",
+    "name": { "str": "Magic Square abstract", "//~": "NO_I18N" },
+    "description": { "str": "SATOR AREPO TENET OPERA ROTAS.", "//~": "NO_I18N" },
     "type": "TOOL",
     "weight": "3 g",
     "color": "white",
@@ -78,7 +78,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS",
-          "effect": [ { "queue_eocs": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL", "time_in_future": 1 } ]
+          "effect": [ { "run_eocs": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL", "time_in_future": 1 } ]
         }
       ]
     }
@@ -137,7 +137,19 @@
       "need_worn": true
     },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+              "distance": 20,
+              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -157,7 +169,19 @@
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+              "distance": 20,
+              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+            }
+          ]
+        }
+      ]
     }
   },
   {

@@ -46,10 +46,7 @@
         "sym": "b",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       {
@@ -60,7 +57,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 21" ] }
           ]
         }
       },
@@ -78,7 +75,7 @@
     "//": "Base widget for showing body part status; needs bodypart field defined in derived widget.",
     "type": "widget",
     "style": "text",
-    "default_clause": { "text": "--" },
+    "default_clause": { "text": { "str": "--", "//~": "NO_I18N" } },
     "copy-from": "bodypart_status_indicator_template"
   },
   {

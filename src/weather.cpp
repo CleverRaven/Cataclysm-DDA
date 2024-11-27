@@ -16,7 +16,6 @@
 #include "character.h"
 #include "city.h"
 #include "colony.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -868,10 +867,10 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return rl_vec2d( 0, 0 );
 }
 
-bool warm_enough_to_plant( const tripoint &pos )
+bool warm_enough_to_plant( const tripoint_bub_ms &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    return get_weather().get_temperature( pos.raw() ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
@@ -936,7 +935,7 @@ void weather_manager::update_weather()
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 here.set_transparency_cache_dirty( i );
             }
-            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         if( weather_id != old_weather ) {
             effect_on_conditions::process_reactivate();

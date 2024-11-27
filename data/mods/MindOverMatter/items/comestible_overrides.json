@@ -1,0 +1,16 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chicken",
+    "copy-from": "egg_chicken",
+    "name": { "str": "chicken egg" },
+    "rot_spawn": { "group": "GROUP_EGG_CHICKEN", "chance": 70 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pigeon",
+    "name": { "str": "feral pigeon egg" },
+    "copy-from": "egg_pigeon",
+    "rot_spawn": { "group": "GROUP_EGG_PIGEON" }
+  }
+]

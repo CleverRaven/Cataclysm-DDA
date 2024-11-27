@@ -7,6 +7,6 @@
     "valid": false,
     "player_display": false,
     "description": "You are a creature of Faerie.",
-    "//": "So fae NPCs show up on SIGHT_RANGE_FAE effects."
+    "//": "So fae NPCs show up on special_vision effects."
   }
 ]

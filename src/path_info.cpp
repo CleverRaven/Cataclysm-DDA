@@ -303,10 +303,6 @@ std::string PATH_INFO::graveyarddir()
 {
     return user_dir_value + "graveyard/";
 }
-cata_path PATH_INFO::help()
-{
-    return datadir_path_value / "help" / "texts.json";
-}
 cata_path PATH_INFO::keybindings()
 {
     return datadir_path_value / "raw" / "keybindings.json";

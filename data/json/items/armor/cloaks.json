@@ -16,11 +16,42 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "use_action": [ "POST_UP" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "debug_energy_shield",
+    "type": "ARMOR",
+    "name": { "str": "weak energy shield" },
+    "description": "A weak energy shield that protects against ballistic damage.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "ballistic_shield" ],
+    "material_thickness": 0.3,
+    "max_energy_shield_hp": 4,
+    "flags": [
+      "AURA",
+      "ENERGY_SHIELD",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
   },
