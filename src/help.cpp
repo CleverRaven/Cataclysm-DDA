@@ -29,11 +29,7 @@
 
 // Imgui migration planning
 ////////////////////////////////////////////////////////////////////////
-// When you click a category/press a hotkey the categories paragraphs are presented with the categories name at the top, Esc to go back to selection
-// Category paragraphs must word wrap and be scrollable
 // If modded help is present, one tab per mod (overflow to an additional tab if more than 52 entries?), otherwise no tabs
-// General read/unread functionality that changes the colour on the selection menu (no permanence for now)
-// Split name into name and short desc for each category to make use of the extra space
 // Handling for tiny screens (mobile)
 
 class JsonObject;
@@ -59,6 +55,7 @@ void help::reset_instance()
     current_order_start = 0;
     current_src = "";
     help_categories.clear();
+    read_categories.clear();
 }
 
 void help::load_object( const JsonObject &jo, const std::string &src )
@@ -161,6 +158,7 @@ void help_window::draw_category_selection()
     mouse_selected_option = -1;
     //~ Help menu header
     format_title( _( "Help" ) );
+    // Split the categories in half
     if( ImGui::BeginTable( "Category Options", 3, ImGuiTableFlags_None ) ) {
         ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch,
                                  static_cast<float>( window_width / 2.0f ) );
@@ -193,7 +191,13 @@ void help_window::draw_category_option( const int &option, const help_category &
         cat_name += ": ";
     }
     cat_name += category.name.translated();
-    ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
+    if( data.read_categories.find( option ) != data.read_categories.end() ) {
+        ImGui::PushStyleColor( ImGuiCol_Text, c_light_gray );
+        ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
+        ImGui::PopStyleColor();
+    } else {
+        ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
+    }
     if( ImGui::IsItemHovered() ) {
         mouse_selected_option = option;
     }
@@ -299,6 +303,7 @@ void help_window::show()
                 if( selected == -1 ) {
                     selected = keyboard_selected_option;
                 }
+                data.read_categories.insert( selected );
                 auto it = data.help_categories.find( selected );
                 selected_category = it != data.help_categories.end();
                 if( selected_category ) {
