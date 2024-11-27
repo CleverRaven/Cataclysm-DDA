@@ -2526,6 +2526,7 @@ bool vehicle::split_vehicles( map &here,
         // if one part is an appliance it means we're dealing with a power grid
         bool is_appliance = parts[split_part0].info().has_flag( flag_APPLIANCE );
         bool is_wiring = parts[split_part0].info().base_item == itype_wall_wiring;
+        bool is_abstracted_aircraft = parts[split_part0].info().has_flag( flag_ABSTRACTED_AIRCRAFT );
 
         decltype( labels ) new_labels;
         decltype( loot_zones ) new_zones;
@@ -2570,6 +2571,10 @@ bool vehicle::split_vehicles( map &here,
             }
             if( is_wiring ) {
                 new_vehicle->add_tag( flag_WIRING );
+            }
+            // If a part allows to fly, losing it removes the ability to fly
+            if( is_abstracted_aircraft ) {
+                set_flyable( false );
             }
         }
 
