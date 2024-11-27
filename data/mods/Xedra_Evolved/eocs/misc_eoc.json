@@ -352,7 +352,14 @@
     "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
     "//": "Activity duration doesn't truly align with time stops potentially lasting indefinitely, but players should never be time stopped longer than a day or two anyways so 200 days should be good enough.  If truly important making the activity based on neither rather than time and adding a blank do_turn function should allow >200 day durations",
     "effect": [
-      { "u_assign_activity": "act_xedra_time_freeze", "duration": "200 days" }
+      { "u_assign_activity": "act_xedra_time_freeze", "duration": "200 days" },
+      { "math": [ "u_hp_before_time_freeze", "=", "u_hp('ALL') / 6" ] },
+      { "math": [ "u_pain_before_time_freeze", "=", "u_pain()" ] },
+      { "math": [ "u_kcal_before_time_freeze", "=", "u_calories()" ] },
+      { "math": [ "u_thirst_before_time_freeze", "=", "u_val('thirst')" ] },
+      { "math": [ "u_blood_before_time_freeze", "=", "u_vitamin('blood')" ] },
+      { "math": [ "u_redcells_before_time_freeze", "=", "u_vitamin('redcells')" ] },
+      { "math": [ "u_rad_before_time_freeze", "=", "u_val('rad')" ] }
     ]
   },
   {
@@ -362,7 +369,14 @@
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
     "effect": [
-      "u_cancel_activity"
+      "u_cancel_activity",
+      { "math": [ "u_hp('ALL')", "=", "u_hp_before_time_freeze" ] },
+      { "math": [ "u_pain()", "=", "u_pain_before_time_freeze" ] },
+      { "math": [ "u_calories()", "=", "u_kcal_before_time_freeze" ] },
+      { "math": [ "u_val('thirst')", "=", "u_thirst_before_time_freeze" ] },
+      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_time_freeze" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "u_redcells_before_time_freeze" ] },
+      { "math": [ "u_val('rad')", "=", "u_rad_before_time_freeze" ] }
     ]
   },
   {

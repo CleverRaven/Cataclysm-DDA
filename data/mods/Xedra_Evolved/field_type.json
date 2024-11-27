@@ -258,7 +258,7 @@
     "id": "fd_frozen_time",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "frozen time", "sym": "#", "color": "light_gray", "transparent": true, "move_cost": -1000 }
+      { "name": "frozen time", "sym": "O", "color": "light_gray", "transparent": true, "move_cost": -1000 }
     ],
     "priority": 100,
     "display_items": true,
