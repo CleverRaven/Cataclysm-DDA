@@ -3104,7 +3104,7 @@ static void CheckMessages()
             case SDL_APP_DIDENTERFOREGROUND:
                 window_focus = true;
                 // Restore text input status
-                if( text_input_active_when_regaining_focus ) {
+                if( !SDL_IsTextInputActive() || text_input_active_when_regaining_focus ) {
                     SDL_StartTextInput();
                 }
                 break;
