@@ -47,8 +47,11 @@ class help_window : public cataimgui::window
         cataimgui::bounds get_bounds() override;
     private:
         cataimgui::bounds bounds{ 0.0f, 0.0f, static_cast<float>( str_width_to_pixels( TERMX ) ), static_cast<float>( str_height_to_pixels( TERMY ) ) };
-        // TODO: Use padding values rather than arbitary reduction
-        float wrap_width = static_cast<float>( str_width_to_pixels( TERMX ) ) * 0.95f;
+        // 66 is optimal characters per line for reading?
+        float window_width = static_cast<float>( str_width_to_pixels( TERMX ) );
+        float window_height = static_cast<float>( str_width_to_pixels( TERMY ) );
+        float wrap_width = std::min( window_width * 0.95f,
+                                     static_cast<float>( str_width_to_pixels( 66 ) ) );
         static std::string get_note_colors();
         static std::string get_dir_grid();
         std::string seperator( int length, char c );
