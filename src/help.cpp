@@ -27,11 +27,6 @@
 #include "ui_helpers.h"
 #include "ui_manager.h"
 
-// Imgui migration planning
-////////////////////////////////////////////////////////////////////////
-// If modded help is present, one tab per mod (overflow to an additional tab if more than 52 entries?), otherwise no tabs
-// Handling for tiny screens (mobile)
-
 class JsonObject;
 
 help &get_help()
@@ -125,7 +120,8 @@ std::string help_window::get_note_colors()
 }
 
 help_window::help_window() : cataimgui::window( "help",
-            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize )
+            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse )
 {
     ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
@@ -235,15 +231,18 @@ void help_window::format_title( const std::string translated_category_name )
 void help_window::draw_category()
 {
     format_title( category.name.translated() );
-    for( const translation &paragraph : category.paragraphs ) {
-        std::string translated_paragraph = paragraph.translated();
-        parse_tags_help_window( translated_paragraph );
-        cataimgui::draw_colored_text( translated_paragraph, wrap_width );
-        ImGui::NewLine();
+    if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
+                           ImGuiTableFlags_ScrollY ) ) {
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        for( const translation &paragraph : category.paragraphs ) {
+            std::string translated_paragraph = paragraph.translated();
+            parse_tags_help_window( translated_paragraph );
+            cataimgui::draw_colored_text( translated_paragraph, wrap_width );
+            ImGui::NewLine();
+        }
+        ImGui::EndTable();
     }
-    input_context cat_cxt( "DISPLAY_HELP_CATEGORY", keyboard_mode::keychar );
-    cat_cxt.register_action( "QUIT" );
-    cat_cxt.register_action( "CONFIRM" );
 }
 
 // Would ideally be merged with parse_tags()?
