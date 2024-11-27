@@ -885,10 +885,7 @@
     "batch_time_factors": [ 70, 4 ],
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
     "tools": [ [ "fake_digester_tank" ] ],
-    "components": [
-      [ [ "ruined_chunks", 20 ], [ "veggy_tainted", 20 ] ],
-      [ [ "water", 5 ], [ "water_clean", 5 ] ]
-    ]
+    "components": [ [ [ "ruined_chunks", 20 ], [ "veggy_tainted", 20 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
   },
   {
     "type": "recipe",
