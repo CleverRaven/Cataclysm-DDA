@@ -131,6 +131,10 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_action( "MOUSE_MOVE" );
     // Generated shortcuts
     ctxt.register_action( "ANY_INPUT" );
+    // Switching between categories while open
+    ctxt.register_leftright();
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
     const hotkey_queue &hkq = hotkey_queue::alphabets();
     input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
     for( const auto &text : data.help_categories ) {
@@ -194,10 +198,8 @@ void help_window::draw_category_option( const int &option, const help_category &
     } else {
         ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
     }
-    if( ImGui::IsItemHovered() ) {
+    if( ImGui::IsItemHovered() || ImGui::IsItemActive() ) {
         mouse_selected_option = option;
-    }
-    if( ImGui::IsItemActive() ) {
         keyboard_selected_option = option;
     }
 }
@@ -230,12 +232,13 @@ void help_window::format_title( const std::string translated_category_name )
 
 void help_window::draw_category()
 {
-    format_title( category.name.translated() );
+    const help_category &cat = data.help_categories[cid];
+    format_title( cat.name.translated() );
     if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
                            ImGuiTableFlags_ScrollY ) ) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        for( const translation &paragraph : category.paragraphs ) {
+        for( const translation &paragraph : cat.paragraphs ) {
             std::string translated_paragraph = paragraph.translated();
             parse_tags_help_window( translated_paragraph );
             cataimgui::draw_colored_text( translated_paragraph, wrap_width );
@@ -302,13 +305,12 @@ void help_window::show()
                 if( selected == -1 ) {
                     selected = keyboard_selected_option;
                 }
-                data.read_categories.insert( selected );
-                auto it = data.help_categories.find( selected );
-                selected_category = it != data.help_categories.end();
+                selected_category = data.help_categories.find( selected ) != data.help_categories.end();
                 if( selected_category ) {
-                    category = it->second;
+                    cid = selected;
+                    data.read_categories.insert( cid );
                 } else {
-                    debugmsg( "Category not found" );
+                    debugmsg( "Category not found: option %s", selected );
                 }
             } else if( action == "QUIT" ) {
                 return;
@@ -320,6 +322,25 @@ void help_window::show()
 
             if( action == "CONFIRM" || action == "QUIT" ) {
                 selected_category = false;
+            }
+            if( action == "LEFT" || action == "PREV_TAB" ) {
+                auto it = data.help_categories.find( cid );
+                if( it != data.help_categories.begin() ) {
+                    cid = ( --it )->first;
+                } else {
+                    cid = data.help_categories.rbegin()->first;
+                }
+                data.read_categories.insert( cid );
+            }
+            if( action == "RIGHT" || action == "NEXT_TAB" ) {
+                auto it = data.help_categories.find( cid );
+                it++;
+                if( it != data.help_categories.end() ) {
+                    cid = it->first;
+                } else {
+                    cid = data.help_categories.begin()->first;
+                }
+                data.read_categories.insert( cid );
             }
         }
     }
