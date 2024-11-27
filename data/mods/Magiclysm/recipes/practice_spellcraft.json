@@ -16,7 +16,6 @@
     "skill_used": "spellcraft",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "autolearn": [ [ "spellcraft", 0 ] ],
     "flags": [ "BLIND_EASY" ],
 	"tools": [ [ "magic_circle_rank_1", "magic_circle_rank_2", "copper_circlet", "silver_circlet", "copper_infuser", "silver_infuser" ] ],
 	"book_learn": [ [ "spellcraft_theory_basic", 0 ] ]
@@ -32,7 +31,6 @@
     "skill_used": "spellcraft",
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
-    "autolearn": [ [ "spellcraft", 2 ] ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ "magic_circle_rank_2", "silver_circlet", "silver_infuser" ] ],
 	"book_learn": [ [ "spellcraft_theory", 0 ] ]
