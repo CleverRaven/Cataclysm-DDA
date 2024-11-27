@@ -2631,5 +2631,10 @@
   {
     "id": "CANNOT_CHANGE_TEMPERATURE",
     "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
   }
 ]
