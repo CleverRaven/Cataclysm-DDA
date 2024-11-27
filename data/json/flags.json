@@ -2627,5 +2627,9 @@
   {
     "id": "CANNOT_TAKE_DAMAGE",
     "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
   }
 ]

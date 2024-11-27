@@ -2701,7 +2701,7 @@
     "remove_message": "Everything is suddenly different.",
     "rating": "neutral",
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE"  ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE", "CANNOT_CHANGE_TEMPERATURE"  ],
     "show_in_info": true
   },
   {
