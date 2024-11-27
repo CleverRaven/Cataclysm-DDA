@@ -28,8 +28,8 @@
         "target_var": { "context_val": "item" },
         "parse_tags": true
       },
-      { "math": [ "v_item", "=", "clamp(num_input('', v_item), 0, _max)" ] },
-      { "math": [ "n_number_fabricate_price", "=", "0" ] },
+      { "math": [ "v_item = clamp(num_input('', v_item), 0, _max)" ] },
+      { "math": [ "n_number_fabricate_price = 0" ] },
       { "math": [ "n_number_fabricate_price", "+=", "1   * n_number_fabricate_2x4" ] },
       { "math": [ "n_number_fabricate_price", "+=", "0.7 * n_number_fabricate_plank_short" ] },
       { "math": [ "n_number_fabricate_price", "+=", "1.5 * n_number_fabricate_plank_long" ] },
@@ -40,7 +40,7 @@
       { "math": [ "n_number_fabricate_price", "+=", "16  * n_number_fabricate_wood_sheet" ] },
       { "math": [ "n_number_fabricate_price", "+=", "25  * n_number_fabricate_wood_beam" ] },
       { "math": [ "n_number_fabricate_price", "+=", "5   * n_number_fabricate_log" ] },
-      { "math": [ "n_number_fabricate_wait", "=", "max(1, ceil(n_number_fabricate_price/150))" ] }
+      { "math": [ "n_number_fabricate_wait = max(1, ceil(n_number_fabricate_price/150))" ] }
     ]
   },
   {
@@ -158,7 +158,7 @@
             {
               "id": "EOC_LUMBERMILL_FABRICATE_ordered",
               "effect": [
-                { "math": [ "n_timer_fabricate_waiting", "=", "time('now')" ] },
+                { "math": [ "n_timer_fabricate_waiting = time('now')" ] },
                 {
                   "u_message": "Your order will be ready in <npc_val:number_fabricate_wait> days.\nCome back in that time to pick up your lumber.",
                   "popup": true

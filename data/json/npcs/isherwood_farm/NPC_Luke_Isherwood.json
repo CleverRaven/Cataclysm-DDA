@@ -487,10 +487,7 @@
     "count": 1,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [
-        { "u_add_var": "u_did_luke_missions", "value": "yes" },
-        { "math": [ "u_timer_luke_isherwood_books", "=", "time('now')" ] }
-      ]
+      "effect": [ { "u_add_var": "u_did_luke_missions", "value": "yes" }, { "math": [ "u_timer_luke_isherwood_books = time('now')" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -494,27 +494,27 @@
     "effect": [
       {
         "if": { "math": [ "u_hp('torso')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_torso", "=", "u_hp('torso')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_torso = u_hp('torso')" ] }
       },
       {
         "if": { "math": [ "u_hp('head')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_head", "=", "u_hp('head')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_head = u_hp('head')" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_l')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_arm_l", "=", "u_hp('arm_l')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_arm_l = u_hp('arm_l')" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_r')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_arm_r", "=", "u_hp('arm_r')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_arm_r = u_hp('arm_r')" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_l')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_leg_l", "=", "u_hp('leg_l')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_leg_l = u_hp('leg_l')" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_r')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_leg_r", "=", "u_hp('leg_r')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_leg_r = u_hp('leg_r')" ] }
       }
     ]
   },
@@ -526,18 +526,18 @@
       {
         "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "3000 * lilin_has_ruach_efficiency()" ] },
         "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "3000 * lilin_has_ruach_efficiency()" ] },
-        "else": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "0" ] }
+        "else": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 0" ] }
       },
-      { "math": [ "u_hp('ALL_MINOR')", "=", "999" ] },
-      { "math": [ "u_hp('torso')", "=", "max( u_lilin_return_from_death_hp_torso, 10)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_lilin_return_from_death_hp_head, 10)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_lilin_return_from_death_hp_arm_l, 10)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_lilin_return_from_death_hp_arm_r, 10)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_lilin_return_from_death_hp_leg_l, 10)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_lilin_return_from_death_hp_leg_r, 10)" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
-      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
-      { "math": [ "u_vitamin('blood')", "=", "0" ] },
+      { "math": [ "u_hp('ALL_MINOR') = 999" ] },
+      { "math": [ "u_hp('torso') = max( u_lilin_return_from_death_hp_torso, 10)" ] },
+      { "math": [ "u_hp('head') = max( u_lilin_return_from_death_hp_head, 10)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_lilin_return_from_death_hp_arm_l, 10)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_lilin_return_from_death_hp_arm_r, 10)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_lilin_return_from_death_hp_leg_l, 10)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_lilin_return_from_death_hp_leg_r, 10)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "dazed" },
       { "u_lose_effect": "downed" },

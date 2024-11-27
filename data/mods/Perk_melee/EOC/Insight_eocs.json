@@ -28,10 +28,7 @@
     "id": "EOC_PERK_SPEND_INSIGHT",
     "type": "effect_on_condition",
     "condition": { "u_has_flag": "MELEE_PERK_INSIGHT" },
-    "effect": [
-      { "math": [ "u_perk_last_insight", "=", "u_effect_intensity('perk_insight')" ] },
-      { "u_lose_effect": "perk_insight" }
-    ]
+    "effect": [ { "math": [ "u_perk_last_insight = u_effect_intensity('perk_insight')" ] }, { "u_lose_effect": "perk_insight" } ]
   },
   {
     "type": "effect_on_condition",

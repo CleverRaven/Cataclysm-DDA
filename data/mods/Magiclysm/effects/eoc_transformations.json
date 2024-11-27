@@ -21,8 +21,8 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -71,7 +71,7 @@
                       },
                       { "u_lose_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
                       { "u_lose_trait": "DRUID_SHIFTER_MANA_REDUCER" },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -133,8 +133,8 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -179,7 +179,7 @@
                         "if": { "not": { "u_has_trait": "THRESH_FELINE" } },
                         "then": { "u_lose_trait": "FELINE_LEAP" }
                       },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -232,8 +232,8 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -282,7 +282,7 @@
                       },
                       { "u_lose_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
                       { "u_lose_trait": "DRUID_SHIFTER_MANA_REDUCER" },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -345,8 +345,8 @@
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_val('mana')", "-=", "50" ] },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -398,8 +398,8 @@
                       },
                       { "u_lose_trait": "DRUID_SHIFTER_RAVEN_FORM_TRAITS" },
                       { "u_lose_trait": "DRUID_SHIFTER_MANA_REDUCER" },
-                      { "math": [ "u_spell_level('druid_raven_form_fly_upward')", "=", "-1" ] },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_spell_level('druid_raven_form_fly_upward') = -1" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [

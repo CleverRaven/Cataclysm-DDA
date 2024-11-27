@@ -714,7 +714,7 @@
           "effect": [
             { "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>" },
             { "u_consume_item": "warehouse_rebooter" },
-            { "math": [ "u_rebooted_locator", "=", "1" ] }
+            { "math": [ "u_rebooted_locator = 1" ] }
           ]
         }
       ]
