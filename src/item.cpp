@@ -205,6 +205,7 @@ static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 
+static const skill_id skill_archery( "archery" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
@@ -15064,7 +15065,6 @@ bool item::is_upgrade() const
 int item::get_min_str() const
 {
     const Character &p = get_player_character();
-    static const skill_id skill_archery( "archery" );
     if( type->gun ) {
         int min_str = type->min_str;
         // we really need some better check for bows than its skill
