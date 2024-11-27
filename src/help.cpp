@@ -167,19 +167,36 @@ void help_window::draw_controls()
 void help_window::draw_category_selection()
 {
     mouse_selected_option = -1;
+    //~ Help menu header
     format_title( _( "Help" ) );
-    for( const auto &text : data.help_texts ) {
-        std::string cat_name;
-        auto hotkey_it = hotkeys.find( text.first );
-        if( hotkey_it != hotkeys.end() ) {
-            cat_name = hotkey_it->second.short_description();
-            cat_name += ": ";
+    if( true /*&& ImGui::BeginTable( "abc", 3, ImGuiTableFlags_None,
+                           ImVec2( window_width, window_height ) )*/ ) {
+        //ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch,
+        //                         static_cast<float>( window_width / 2.0f ) );
+        //ImGui::TableSetupColumn( "b", ImGuiTableColumnFlags_WidthStretch,
+        //                         static_cast<float>( window_width / 2.0f ) );
+        //ImGui::TableNextColumn();
+        //size_t half_size = data.help_texts.size() / 2 + 1;
+        //size_t i = 0;
+        for( const auto &text : data.help_texts ) {
+            std::string cat_name;
+            auto hotkey_it = hotkeys.find( text.first );
+            if( hotkey_it != hotkeys.end() ) {
+                cat_name = hotkey_it->second.short_description();
+                cat_name += ": ";
+            }
+            cat_name += text.second.first.translated();
+            ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
+            if( ImGui::IsItemHovered() ) {
+                mouse_selected_option = text.first;
+            }
+            //i++;
+            //ImGui::TableNextRow();
+            //if( i == half_size ) {
+            //    ImGui::TableNextColumn();
+            //}
         }
-        cat_name += text.second.first.translated();
-        ImGui::Button( remove_color_tags( cat_name ).c_str() );
-        if( ImGui::IsItemHovered() ) {
-            mouse_selected_option = text.first;
-        }
+        //ImGui::EndTable();
     }
 }
 
