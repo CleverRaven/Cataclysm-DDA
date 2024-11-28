@@ -486,11 +486,13 @@
       },
       {
         "result": [
-          [ "t_grass", 75 ],
-          [ "t_grass_long", 30 ],
-          [ "t_grass_tall", 5 ],
-          [ "t_shrub", 15 ],
-          [ "t_underbrush", 35 ],
+          [ "t_grass", 150 ],
+          [ "t_grass_long", 50 ],
+          [ "t_grass_tall", 20 ],
+          [ "t_shrub", 30 ],
+          [ "t_underbrush", 65 ],
+          [ "t_shrub_spicebush_harvested", 10 ],
+          [ "t_shrub_chokeberry_harvested", 10 ],
           [ "t_shrub_rose", 5 ],
           [ "t_shrub_blackberry_harvested", 5 ],
           [ "t_shrub_grape_harvested", 5 ],
