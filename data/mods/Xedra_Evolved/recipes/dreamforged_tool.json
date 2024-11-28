@@ -86,7 +86,7 @@
     "type": "recipe",
     "result": "xedra_dreamsmith_time_watch",
     "copy-from": "dreamforged_hacksaw",
-    "components": [ [ [ "forged_dreamstuff_ingot", 10 ] ] ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 24 ] ] ],
     "time": "24 h"
   }
 ]

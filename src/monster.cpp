@@ -3928,7 +3928,8 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
-    if( this->has_flag( mon_flag_IMMOBILE ) || this->has_flag( mon_flag_NEVER_WANDER ) || this->has_flag( json_flag_CANNOT_MOVE ) ) {
+    if( this->has_flag( mon_flag_IMMOBILE ) || this->has_flag( mon_flag_NEVER_WANDER ) ||
+        this->has_flag( json_flag_CANNOT_MOVE ) ) {
         return false; //immobile monsters should never join a horde. Same with Never Wander monsters.
     }
     if( mha == MHA_NEVER ) {

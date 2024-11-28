@@ -848,36 +848,36 @@ void monster::move()
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
     if( !has_flag( json_flag_CANNOT_ATTACK ) ) {
-    for( const auto &sp_type : type->special_attacks ) {
-        const std::string &special_name = sp_type.first;
-        const auto local_iter = special_attacks.find( special_name );
-        if( local_iter == special_attacks.end() ) {
-            continue;
-        }
-        mon_special_attack &local_attack_data = local_iter->second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
-
-        add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
-                       sp_type.first, local_attack_data.cooldown );
-
-        // Cooldowns are decremented in monster::process_turn
-
-        if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second->call( *this ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
+        for( const auto &sp_type : type->special_attacks ) {
+            const std::string &special_name = sp_type.first;
+            const auto local_iter = special_attacks.find( special_name );
+            if( local_iter == special_attacks.end() ) {
+                continue;
+            }
+            mon_special_attack &local_attack_data = local_iter->second;
+            if( !local_attack_data.enabled ) {
                 continue;
             }
 
-            // `special_attacks` might have changed at this point. Sadly `reset_special`
-            // doesn't check the attack name, so we need to do it here.
-            if( special_attacks.count( special_name ) == 0 ) {
-                continue;
+            add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
+                           sp_type.first, local_attack_data.cooldown );
+
+            // Cooldowns are decremented in monster::process_turn
+
+            if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
+                if( !sp_type.second->call( *this ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
+                    continue;
+                }
+
+                // `special_attacks` might have changed at this point. Sadly `reset_special`
+                // doesn't check the attack name, so we need to do it here.
+                if( special_attacks.count( special_name ) == 0 ) {
+                    continue;
+                }
+                reset_special( special_name );
             }
-            reset_special( special_name );
         }
-    }
     }
 
     // Check if they're dragging a foe and find their hapless victim
@@ -887,7 +887,8 @@ void monster::move()
     nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
-    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) && !has_flag( json_flag_CANNOT_MOVE ) ) {
+    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) &&
+        !has_flag( json_flag_CANNOT_MOVE ) ) {
         here.creature_on_trap( *this, false );
         if( is_dead() ) {
             return;
@@ -909,7 +910,8 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) || has_flag( json_flag_CANNOT_MOVE) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ||
+        has_flag( json_flag_CANNOT_MOVE ) ) {
         moves = 0;
         return;
     }
@@ -2046,7 +2048,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
-    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
+    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ||
+        has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -2317,7 +2320,8 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) || has_flag( json_flag_CANNOT_MOVE ) ) &&
+    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ||
+          has_flag( json_flag_CANNOT_MOVE ) ) &&
         ( pos().xy() != p ) ) {
         return false;
     }

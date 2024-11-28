@@ -1165,7 +1165,8 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
     }
 }
 
-void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint_bub_ms &center )
+void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
+                                        const tripoint_bub_ms &center )
 {
     Character *const character_at_target = get_creature_tracker().creature_at<npc>( center );
 
@@ -1183,7 +1184,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
 
     avatar &player_character = get_avatar();
-    if (character_at_target == nullptr) {
+    if( character_at_target == nullptr ) {
         for( item &it : granted ) {
             // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
             if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
@@ -1211,7 +1212,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
                 it.set_flag( json_flag_FIT );
                 player_character.wear_item( it, false );
             } else if( !player_character.has_wield_conflicts( it ) &&
-                    !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
+                       !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
                        player_character.wield( it, 0 ) ) {
                 // nothing to do
             } else {

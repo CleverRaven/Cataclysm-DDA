@@ -730,7 +730,7 @@ static bool can_pickup_at( const tripoint_bub_ms &p )
 bool can_interact_at( action_id action, const tripoint_bub_ms &p )
 {
     map &here = get_map();
-    if( here.impassable_field_at(p) ) {
+    if( here.impassable_field_at( p ) ) {
         return false;
     }
     tripoint_bub_ms player_pos = get_player_character().pos_bub();

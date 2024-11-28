@@ -84,7 +84,7 @@ void field_entry::initialize_decay()
         decay_time = calendar::turn - age + type.obj().half_life;
     } else {
         std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
-                                       ( type.obj().half_life ) ) );
+                                           ( type.obj().half_life ) ) );
         decay_time = calendar::turn - age + time_duration::from_turns( d( rng_get_engine() ) );
     }
 }
@@ -269,7 +269,7 @@ int field::total_move_cost() const
 bool field::any_negative_move_cost() const
 {
     for( const auto &fld : *_field_type_list ) {
-        if(fld.second.get_intensity_level().move_cost < 0) {
+        if( fld.second.get_intensity_level().move_cost < 0 ) {
             return true;
         }
     }

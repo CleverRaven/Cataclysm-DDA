@@ -2517,12 +2517,14 @@ bool map::is_open_air( const tripoint_bub_ms &p ) const
 
 // Move cost: 3D
 
-int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle, const bool ignore_fields ) const
+int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle,
+                    const bool ignore_fields ) const
 {
     return move_cost( tripoint_bub_ms( p ), ignored_vehicle, ignore_fields );
 }
 
-int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle, const bool ignore_fields ) const
+int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
+                    const bool ignore_fields ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
@@ -2544,7 +2546,7 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle, co
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, (!ignore_fields ? field : nofield), veh, part );
+    return move_cost_internal( furniture, terrain, ( !ignore_fields ? field : nofield ), veh, part );
 }
 
 bool map::impassable( const tripoint &p ) const
@@ -2574,7 +2576,7 @@ bool map::passable_skip_fields( const tripoint &p ) const
 
 bool map::passable_skip_fields( const tripoint_bub_ms &p ) const
 {
-    return move_cost( p, (const vehicle*)nullptr, true ) != 0;
+    return move_cost( p, ( const vehicle * )nullptr, true ) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const
@@ -4907,7 +4909,7 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
 bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool inside,
                      const bool check_only )
 {
-    if( u.has_effect( effect_incorporeal ) || impassable_field_at(p) ) {
+    if( u.has_effect( effect_incorporeal ) || impassable_field_at( p ) ) {
         return false;
     }
     const ter_t &ter = this->ter( p ).obj();
@@ -6865,7 +6867,7 @@ std::optional<field_entry> map::get_impassable_field_at( const tripoint_bub_ms &
 
 bool map::impassable_field_at( const tripoint &p )
 {
-    return impassable_field_at( tripoint_bub_ms(p) );
+    return impassable_field_at( tripoint_bub_ms( p ) );
 }
 
 bool map::impassable_field_at( const tripoint_bub_ms &p )
@@ -6881,7 +6883,7 @@ bool map::impassable_field_at( const tripoint_bub_ms &p )
 
 std::vector<field_type_id> map::get_impassable_field_type_ids_at( const tripoint &p )
 {
-    return get_impassable_field_type_ids_at( tripoint_bub_ms(p) );
+    return get_impassable_field_type_ids_at( tripoint_bub_ms( p ) );
 }
 
 std::vector<field_type_id> map::get_impassable_field_type_ids_at( const tripoint_bub_ms &p )
@@ -6889,7 +6891,7 @@ std::vector<field_type_id> map::get_impassable_field_type_ids_at( const tripoint
     std::vector<field_type_id> fields;
     for( auto &fa : field_at( p ) ) {
         if( fa.second.get_intensity_level().move_cost < 0 ) {
-            fields.emplace_back(fa.first);
+            fields.emplace_back( fa.first );
         }
     }
     return fields;

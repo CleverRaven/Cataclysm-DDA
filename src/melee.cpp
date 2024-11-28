@@ -543,7 +543,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                               bool allow_unarmed, int forced_movecost )
 {
     if( has_flag( json_flag_CANNOT_ATTACK ) ) {
-        add_msg_if_player( m_info, _("You are incapable of attacking!" ) );
+        add_msg_if_player( m_info, _( "You are incapable of attacking!" ) );
         return false;
     }
     if( has_effect( effect_incorporeal ) ) {
@@ -698,7 +698,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() && !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) && t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
+            !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) &&
+               t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
         }
 
@@ -878,7 +880,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() && !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) && t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
+                !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) &&
+                   t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
@@ -1783,7 +1787,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
 
-    if( technique.side_switch && !(t.has_flag( mon_flag_IMMOBILE ) || t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
+    if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
+                                    t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1809,7 +1814,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) || t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
+    if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
+                                       t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );

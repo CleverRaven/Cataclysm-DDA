@@ -3871,7 +3871,8 @@ bool mattack::leech_spawner( monster *z )
     const bool u_see = get_player_view().sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && !(candidate.has_flag( mon_flag_IMMOBILE ) || candidate.has_flag( json_flag_CANNOT_MOVE ) ) ) {
+        if( candidate.in_species( species_LEECH_PLANT ) && !( candidate.has_flag( mon_flag_IMMOBILE ) ||
+                candidate.has_flag( json_flag_CANNOT_MOVE ) ) ) {
             allies.push_back( &candidate );
         }
     }

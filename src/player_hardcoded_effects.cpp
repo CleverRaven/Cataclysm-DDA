@@ -314,7 +314,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     if( u.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return;
     }
-    
+
     // Presuming that during the first-aid process you're putting pressure
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)

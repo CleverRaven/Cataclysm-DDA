@@ -7436,7 +7436,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         set_effect( talk_effect_fun_t( talk_effect_fun::f_die( true ) ) );
         return;
     }
- 
+
     if( effect_id == "u_cancel_activity" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_cancel_activity( false ) ) );
         return;

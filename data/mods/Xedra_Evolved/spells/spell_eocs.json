@@ -85,13 +85,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
-    "condition": { "and": [ { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" }, { "math": [ "u_val('mana') >= 200" ] } ] },
+    "condition": {
+      "and": [ { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" }, { "math": [ "u_val('mana') >= 200" ] } ]
+    },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "200" ] },
-      {
-        "u_message": "The grayscale starts to recede from your vision before it quickly reverts.",
-        "type": "good"
-      },
+      { "u_message": "The grayscale starts to recede from your vision before it quickly reverts.", "type": "good" },
       {
         "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)" ] }

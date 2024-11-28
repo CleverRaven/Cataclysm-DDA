@@ -171,7 +171,7 @@
     "use_action": {
       "type": "cast_spell",
       "spell_id": "xedra_inventor_time_pierce",
-      "no_fail": true,  
+      "no_fail": true,
       "level": 1,
       "need_wielding": true,
       "mundane": true
