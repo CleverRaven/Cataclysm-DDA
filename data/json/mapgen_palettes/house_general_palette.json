@@ -63,7 +63,13 @@
     "terrain": {
       "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
       ":": "t_wall_glass_alarm",
-      "o": "t_window_alarm"
+      "o": [
+        [ "t_window_domestic_alarm", 10 ],
+        "t_window_no_curtains_alarm",
+        "t_window_open_alarm",
+        "t_window_no_curtains_open_alarm",
+        [ "t_curtains_alarm", 5 ]
+      ]
     }
   },
   {
