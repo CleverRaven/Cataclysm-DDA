@@ -70,7 +70,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_POTION_JITTERS_CHECKER",
     "condition": { "and": [ { "u_has_trait": "JITTERY" }, { "not": { "u_has_effect": "effect_electrokin_potion_comedown" } } ] },
-    "effect": [ { "math": [ "u_preexisting_jittery_trait", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_preexisting_jittery_trait = 1" ] } ]
   },
   {
     "type": "effect_on_condition",

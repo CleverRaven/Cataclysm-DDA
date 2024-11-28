@@ -31,7 +31,7 @@
         "s;                    4s",
         "ss                    ss"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ";": "t_region_groundcover_urban",
         "H": "t_region_groundcover_urban",
@@ -50,9 +50,9 @@
         "=": "t_door_c",
         "-": "t_wall_glass",
         ".": "t_floor",
-        "S": "t_linoleum_gray",
-        "w": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "w": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "*": "t_thconc_floor",
         "Q": "t_thconc_floor",
         "Y": "t_thconc_floor",

@@ -326,7 +326,7 @@ void submap::revert_submap( submap &sr )
     reverted = true;
     if( sr.is_uniform() ) {
         m.reset();
-        set_all_ter( sr.get_ter( point_sm_ms_zero ), true );
+        set_all_ter( sr.get_ter( point_sm_ms::zero ), true );
         return;
     }
 

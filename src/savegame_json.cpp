@@ -1234,7 +1234,7 @@ void Character::load( const JsonObject &data )
     data.read( "last_target_pos", last_target_pos );
     data.read( "ammo_location", ammo_location );
     // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint_min ) {
+    if( last_target_pos && *last_target_pos == tripoint::min ) {
         last_target_pos = std::nullopt;
     }
     if( tmptartyp == +1 ) {
@@ -2035,13 +2035,13 @@ void npc::load( const JsonObject &data )
         }
         tripoint tmp;
         if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
-            tmp != tripoint_min ) {
+            tmp != tripoint::min ) {
             guard_pos = tripoint_abs_ms( tmp );
         }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint_min ) {
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint::min ) {
             chair_pos = tripoint_abs_ms( tmp );
         }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint_min ) {
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint::min ) {
             wander_pos = tripoint_abs_ms( tmp );
         }
     } else {
@@ -2405,7 +2405,7 @@ void monster::load( const JsonObject &data )
         wander_pos = get_map().getglobal( wand );
         tripoint destination;
         data.read( "destination", destination );
-        if( destination != tripoint_zero ) {
+        if( destination != tripoint::zero ) {
             goal = get_location() + destination;
         }
     }
@@ -3275,12 +3275,12 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "items", items );
     json.member( "tools", tools );
     json.member( "salvageable", salvageable );
-    if( target.first != tripoint_abs_ms_min ) {
+    if( target.first != tripoint_abs_ms::invalid ) {
         json.member( "target_first_x", target.first.x() );
         json.member( "target_first_y", target.first.y() );
         json.member( "target_first_z", target.first.z() );
     }
-    if( target.second != tripoint_abs_ms_min ) {
+    if( target.second != tripoint_abs_ms::invalid ) {
         json.member( "target_second_x", target.second.x() );
         json.member( "target_second_y", target.second.y() );
         json.member( "target_second_z", target.second.z() );
@@ -5204,7 +5204,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_zero ) ).first;
+                                                      tripoint::zero ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

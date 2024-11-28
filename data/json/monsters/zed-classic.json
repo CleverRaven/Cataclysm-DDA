@@ -111,7 +111,7 @@
     ],
     "fungalize_into": "mon_zombie_crawler_fungal",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
-    "extend": { "flags": [ "ATTACK_LOWER" ] },
+    "extend": { "flags": [ "ATTACK_LOWER", "GEN_DORMANT" ] },
     "delete": { "flags": [ "PUSH_MON" ] }
   },
   {
@@ -129,7 +129,7 @@
     "fungalize_into": "mon_zombie_fat_fungus",
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_FAT" },
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ], "flags": [ "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_fireman",
@@ -187,7 +187,8 @@
     "melee_dice_sides": 2,
     "grab_strength": 15,
     "fungalize_into": "mon_zombie_rot_fungal",
-    "upgrades": { "half_life": 43, "into": "mon_devourer" }
+    "upgrades": { "half_life": 43, "into": "mon_devourer" },
+    "extend": { "flags": [ "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_swat",

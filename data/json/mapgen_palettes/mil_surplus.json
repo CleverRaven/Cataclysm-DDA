@@ -40,7 +40,7 @@
       "<": "t_ladder_up"
     },
     "furniture": {
-      "#": "f_counter",
+      "G": "f_counter",
       "U": [ "f_dumpster", "f_recycle_bin" ],
       "h": "f_chair",
       "%": "f_sink",

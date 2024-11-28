@@ -53,7 +53,7 @@
     "copy-from": "mon_zombie_child_base",
     "categories": [ "CLASSIC" ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
-    "extend": { "flags": [ "GUILT_CHILD" ] }
+    "extend": { "flags": [ "GUILT_CHILD", "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_creepy",

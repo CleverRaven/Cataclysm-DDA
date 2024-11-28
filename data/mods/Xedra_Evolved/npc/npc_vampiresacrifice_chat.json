@@ -21,7 +21,7 @@
             { "not": { "compare_string": [ "yes", { "u_val": "best_friend" } ] } }
           ]
         },
-        "effect": [ { "math": [ "npc_randomize_book_find_mission", "=", "rand(3)" ] } ]
+        "effect": [ { "math": [ "npc_randomize_book_find_mission = rand(3)" ] } ]
       }
     ]
   },
@@ -337,15 +337,15 @@
       "cases": [
         {
           "case": 1,
-          "effect": [ { "assign_mission": "mission_best_friend_gamehunt1" }, { "math": [ "npc_randomize_game_find_mission", "=", "1" ] } ]
+          "effect": [ { "assign_mission": "mission_best_friend_gamehunt1" }, { "math": [ "npc_randomize_game_find_mission = 1" ] } ]
         },
         {
           "case": 2,
-          "effect": [ { "assign_mission": "mission_best_friend_gamehunt2" }, { "math": [ "npc_randomize_game_find_mission", "=", "2" ] } ]
+          "effect": [ { "assign_mission": "mission_best_friend_gamehunt2" }, { "math": [ "npc_randomize_game_find_mission = 2" ] } ]
         },
         {
           "case": 3,
-          "effect": [ { "assign_mission": "mission_best_friend_gamehunt3" }, { "math": [ "npc_randomize_game_find_mission", "=", "3" ] } ]
+          "effect": [ { "assign_mission": "mission_best_friend_gamehunt3" }, { "math": [ "npc_randomize_game_find_mission = 3" ] } ]
         }
       ]
     }

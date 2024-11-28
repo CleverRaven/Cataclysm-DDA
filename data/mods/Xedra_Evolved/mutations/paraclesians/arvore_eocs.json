@@ -11,8 +11,8 @@
           {
             "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER_2",
             "condition": { "not": { "u_near_om_location": "road", "range": 2 } },
-            "effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_arvore_is_in_wilderness = 1" ] } ],
+            "false_effect": [ { "math": [ "u_arvore_is_in_wilderness = 0" ] } ]
           }
         ]
       }
@@ -64,8 +64,8 @@
                 { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
               ]
             },
-            "effect": [ { "math": [ "u_arvore_is_in_forest", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_arvore_is_in_forest", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_arvore_is_in_forest = 1" ] } ],
+            "false_effect": [ { "math": [ "u_arvore_is_in_forest = 0" ] } ]
           }
         ]
       }
@@ -466,16 +466,16 @@
     "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH_HEAL",
     "effect": [
-      { "math": [ "u_hp('ALL')", "=", "999" ] },
-      { "math": [ "u_hp('ALL_MAJOR')", "=", "45" ] },
-      { "math": [ "u_calories()", "=", "70000" ] },
-      { "math": [ "u_val('thirst')", "=", "0" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
-      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
-      { "math": [ "u_vitamin('blood')", "=", "0" ] },
-      { "math": [ "u_vitamin('instability')", "=", "0" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('rad')", "=", "0" ] },
+      { "math": [ "u_hp('ALL') = 999" ] },
+      { "math": [ "u_hp('ALL_MAJOR') = 45" ] },
+      { "math": [ "u_calories() = 70000" ] },
+      { "math": [ "u_val('thirst') = 0" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_vitamin('instability') = 0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('rad') = 0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "onfire" },
       { "u_lose_effect": "dazed" },
@@ -503,14 +503,14 @@
       { "u_teleport": { "u_val": "arvore_perennial_rebirth_teleport" } },
       { "u_lose_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
       { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_calories()", "=", "65000" ] },
-      { "math": [ "u_val('thirst')", "=", "0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_calories() = 65000" ] },
+      { "math": [ "u_val('thirst') = 0" ] },
       {
         "foreach": "ids",
         "var": { "context_val": "id" },
         "target": "vitamin",
-        "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
+        "effect": [ { "math": [ "u_vitamin(_id) = 0" ] } ]
       }
     ]
   },
@@ -810,8 +810,8 @@
     "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_2",
     "condition": { "not": "u_is_npc" },
     "effect": [
-      { "math": [ "u_arvore_turn_into_tree_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_arvore_turn_into_tree_spell_level", "=", "n_spell_level('arvore_turn_into_tree')" ] },
+      { "math": [ "u_arvore_turn_into_tree_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_arvore_turn_into_tree_spell_level = n_spell_level('arvore_turn_into_tree')" ] },
       {
         "u_location_variable": { "global_val": "arvore_tree_transform_target" },
         "x_adjust": 0,

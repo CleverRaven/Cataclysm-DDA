@@ -203,7 +203,7 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     // start there.
     const tripoint_rel_ms old_view_offset = player_character.view_offset;
     tripoint_bub_ms offset = veh->pos_bub();
-    // Appliances are one tile so the part placement there is always point_zero
+    // Appliances are one tile so the part placement there is always point::zero
     if( part_placement ) {
         point_rel_ms copied_placement = *part_placement;
         offset = offset + copied_placement;
@@ -222,7 +222,7 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
         }
         delta = ( *chosen - offset.raw() ).xy();
         // atan2 only gives reasonable values when delta is not all zero
-    } while( delta == point_zero );
+    } while( delta == point::zero );
 
     // Restore previous view offsets.
     player_character.view_offset = old_view_offset;
@@ -302,7 +302,7 @@ veh_interact::veh_interact( vehicle &veh, const point_rel_ms &p )
     count_durability();
     cache_tool_availability();
     // Initialize info of selected parts
-    move_cursor( point_rel_ms_zero );
+    move_cursor( point_rel_ms::zero );
 }
 
 veh_interact::~veh_interact() = default;
@@ -310,7 +310,7 @@ veh_interact::~veh_interact() = default;
 void veh_interact::allocate_windows()
 {
     // grid window
-    const point grid( point_south_east );
+    const point grid( point::south_east );
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
 
@@ -341,7 +341,7 @@ void veh_interact::allocate_windows()
     const int details_w = grid.x + grid_w - details_x;
 
     // make the windows
-    w_border = catacurses::newwin( TERMY, TERMX, point_zero );
+    w_border = catacurses::newwin( TERMY, TERMX, point::zero );
     w_mode  = catacurses::newwin( mode_h,    grid_w, grid );
     w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
     w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid.x, pane_y ) );
@@ -413,7 +413,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & current_ui ) {
             if( ui_hidden ) {
-                current_ui.position( point_zero, point_zero );
+                current_ui.position( point::zero, point::zero );
                 return;
             }
             allocate_windows();
@@ -587,13 +587,13 @@ void veh_interact::do_main_loop()
         } else if( action == "OVERVIEW_UP" ) {
             move_overview_line( -1 );
         } else if( action == "DESC_LIST_DOWN" ) {
-            move_cursor( point_rel_ms_zero, 1 );
+            move_cursor( point_rel_ms::zero, 1 );
         } else if( action == "DESC_LIST_UP" ) {
-            move_cursor( point_rel_ms_zero, -1 );
+            move_cursor( point_rel_ms::zero, -1 );
         } else if( action == "PAGE_DOWN" ) {
-            move_cursor( point_rel_ms_zero, description_scroll_lines );
+            move_cursor( point_rel_ms::zero, description_scroll_lines );
         } else if( action == "PAGE_UP" ) {
-            move_cursor( point_rel_ms_zero, -description_scroll_lines );
+            move_cursor( point_rel_ms::zero, -description_scroll_lines );
         }
         if( sel_cmd != ' ' ) {
             finish = true;
@@ -2193,14 +2193,14 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
 void veh_interact::move_cursor( const point_rel_ms &d, int dstart_at )
 {
     dd += d.rotate( 3 );
-    if( d != point_rel_ms_zero ) {
+    if( d != point_rel_ms::zero ) {
         start_limit = 0;
     } else {
         start_at += dstart_at;
     }
 
     // Update the current active component index to the new position.
-    cpart = part_at( point_rel_ms_zero );
+    cpart = part_at( point_rel_ms::zero );
     const point_rel_ms vd = -dd;
     const point_rel_ms q = veh->coord_translate( vd );
     const tripoint_bub_ms vehp = veh->pos_bub() + q;
@@ -2314,7 +2314,7 @@ void veh_interact::display_veh()
         const point_rel_ms &pivot = veh->pivot_point();
         const point_rel_ms &com = veh->local_center_of_mass();
 
-        mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x(), com.y() );
+        mvwprintz( w_disp, point::zero, c_green, "CoM   %d,%d", com.x(), com.y() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x(), pivot.y() );
 
@@ -2345,7 +2345,7 @@ void veh_interact::display_veh()
         const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
         const point_rel_ms q = ( vp.mount + dd ).rotate( 3 );
 
-        if( q != point_rel_ms_zero ) { // cursor is not on this part
+        if( q != point_rel_ms::zero ) { // cursor is not on this part
             mvwputch( w_disp, h_size + q.raw(), vd.color, vd.symbol_curses );
             continue;
         }
@@ -3320,7 +3320,7 @@ void veh_interact::complete_vehicle( Character &you )
                 veh.part_removal_cleanup();
                 // Ensure the position, pivot, and precalc points are up-to-date
                 veh.pos -= veh.pivot_anchor[0];
-                veh.precalc_mounts( 0, veh.turn_dir, point_rel_ms_zero );
+                veh.precalc_mounts( 0, veh.turn_dir, point_rel_ms::zero );
                 here.rebuild_vehicle_level_caches();
 
                 if( auto newpart = here.veh_at( act_pos ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {

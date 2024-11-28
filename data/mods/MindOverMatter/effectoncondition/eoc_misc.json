@@ -5,7 +5,7 @@
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "math": [ "telepathically_stole_recently >= 1" ] },
     "deactivate_condition": { "not": { "u_has_trait": "TELEPATH" } },
-    "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
+    "effect": [ { "math": [ "telepathically_stole_recently = 0" ] } ]
   },
   {
     "type": "effect_on_condition",

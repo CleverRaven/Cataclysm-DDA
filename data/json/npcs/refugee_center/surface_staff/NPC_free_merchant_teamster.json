@@ -58,8 +58,8 @@
           ]
         },
         "effect": [
-          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
-          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
+          { "math": [ "npc_randomize_dialogue_direction = rand(4)" ] },
+          { "math": [ "n_timer_teamster_directions_recycler = time('now')" ] }
         ],
         "switch": true
       },
@@ -256,7 +256,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
@@ -413,7 +413,7 @@
       {
         "text": "Glad to help.",
         "effect": [
-          { "math": [ "freemerch_godco_trader_investigated", "=", "1" ] },
+          { "math": [ "freemerch_godco_trader_investigated = 1" ] },
           { "u_lose_var": "general_trade_u_think_suspicious_price" },
           { "u_spawn_item": "FMCNote", "count": 20 },
           { "u_sell_item": "godcotrader_accounting_records_dirty" }

@@ -49,7 +49,7 @@ static void redraw()
     if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
-        ImGui::Image( static_cast<void *>( gLUI->splash.get() ), gLUI->splash_size );
+        ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
         float w = ImGui::CalcTextSize( gLUI->context.c_str() ).x + ImGui::CalcTextSize( " " ).x +
                   ImGui::CalcTextSize( gLUI->step.c_str() ).x;
         ImGui::SetCursorPosX( ( ( ImGui::GetWindowWidth() - w ) * 0.5f ) );
@@ -97,6 +97,11 @@ static void update_state( const std::string &context, const std::string &step )
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
         for( mod_id &some_mod : active_mod_list ) {
+            // We haven't migrated mods yet
+            // TODO: Move mod migration before this function?
+            if( !some_mod.is_valid() ) {
+                continue;
+            }
             const MOD_INFORMATION &mod = *some_mod;
             for( const std::string &img_name : mod.loading_images ) {
                 // There may be more than one file matching the name, so we need to get all of them

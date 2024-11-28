@@ -52,7 +52,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( veh );
             veh->unlock();
 
-            const int turr_idx = veh->install_part( point_rel_ms_zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );

@@ -429,7 +429,7 @@
     "id": "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH",
     "effect": [
       { "u_message": "Your attempts to save anything are hopeless…", "type": "mixed" },
-      { "math": [ "magic_potential", "=", "0" ] }
+      { "math": [ "magic_potential = 0" ] }
     ]
   }
 ]

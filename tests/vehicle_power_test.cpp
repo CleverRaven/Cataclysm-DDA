@@ -32,7 +32,7 @@ static void reset_player()
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE( !player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( tripoint::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 }
@@ -90,9 +90,9 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         REQUIRE( !here.veh_at( p ).has_value() );
         vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
-        const int frame_part_idx = veh->install_part( point_rel_ms_zero, vpart_frame );
+        const int frame_part_idx = veh->install_part( point_rel_ms::zero, vpart_frame );
         REQUIRE( frame_part_idx != -1 );
-        const int bat_part_idx = veh->install_part( point_rel_ms_zero, vpart_small_storage_battery );
+        const int bat_part_idx = veh->install_part( point_rel_ms::zero, vpart_small_storage_battery );
         REQUIRE( bat_part_idx != -1 );
         veh->refresh();
         here.add_vehicle_to_cache( veh );

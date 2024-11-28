@@ -20,7 +20,7 @@
       { "mapgen_update": "abyssal_hunger_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
       { "mapgen_update": "abyssal_hunger_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
-      { "math": [ "abyssal_hunger_level", "=", "1" ] },
+      { "math": [ "abyssal_hunger_level = 1" ] },
       {
         "u_spawn_monster": "mon_bashing_globule",
         "real_count": { "math": [ "rng( 1, 3 ) + abyssal_hunger_level" ] },
@@ -110,7 +110,7 @@
         "force": true
       },
       { "alter_timed_events": "abyssal_hunger" },
-      { "math": [ "abyssal_hunger_level", "=", "0" ] }
+      { "math": [ "abyssal_hunger_level = 0" ] }
     ]
   },
   {

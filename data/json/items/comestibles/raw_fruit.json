@@ -37,7 +37,7 @@
     "material": [ "fruit" ],
     "volume": "64 ml",
     "fun": -1,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ]
   },
@@ -162,7 +162,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "SMOKABLE", "EDIBLE_FROZEN", "BIRD", "RABBIT", "CATTLE", "RAT", "MOUSE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "13300 μg" ], [ "iron", "300 μg" ], [ "calcium", "8 mg" ], [ "fruit_allergen", 1 ] ]
   },
@@ -314,6 +314,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "nannyberries",
+    "name": { "str": "handful of nannyberries", "str_pl": "handfuls of nannyberries" },
+    "description": "Some dark blue nannyberries, tasting like prunes mixed with banana.",
+    "copy-from": "elderberries",
+    "//": "Nannyberries are described as rather dry, perfectly fine to eat as is but it will not hydrate you.",
+    "use_action": [  ],
+    "quench": 0,
+    "fun": 2,
+    "color": "black"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tupelo_fruit",
+    "name": { "str": "handful of tupelo fruits", "str_pl": "handfuls of tupelo fruits" },
+    "description": "Some dark blue tupelo fruits.  They are tart and feature a hard seed but are still enjoyable.",
+    "fun": 1,
+    "copy-from": "nannyberries"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "chokeberries",
     "name": { "str": "handful of chokeberries", "str_pl": "handfuls of chokeberries" },
     "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
@@ -341,7 +361,7 @@
     "price_postapoc": "50 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
-    "fun": 2,
+    "fun": -5,
     "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT", "BIRD" ],
     "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ]
   },
@@ -382,7 +402,7 @@
     "price_postapoc": "20 cent",
     "material": [ "fruit" ],
     "volume": "100 ml",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_fruit",
     "//": "juice pulp is an arbitrary item, but needed some baseline nutrients for byproducts",
     "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ]

@@ -383,7 +383,7 @@ class overmapbuffer
          * within the overmap (for use with overmap APIs).
          * get_existing_om_global will not create a new overmap and
          * if the requested overmap does not yet exist it returns
-         * { nullptr, tripoint_zero }.
+         * { nullptr tripoint::zero }.
          * get_om_global creates a new overmap if needed.
          */
         overmap_with_local_coords get_existing_om_global( const point_abs_omt &p );

@@ -24,8 +24,8 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('aoe', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "0.5" ] }
+      { "math": [ "u_spellcasting_adjustment('aoe', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES' ) = 0.5" ] }
     ]
   }
 ]

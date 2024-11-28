@@ -40,6 +40,8 @@ files:
     - Venera3
   'tools/json_tools/gun_variant_validator.py':
     - anothersimulacrum
+  'data/changelog.txt':
+    - Procyonae
 
   '**/.clang-tidy':
     - jbytheway

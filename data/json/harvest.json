@@ -265,6 +265,16 @@
     "entries": [ { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "nannyberry_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "nannyberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "tupelo_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "tupelo_fruit", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "mulberry_harv",
     "type": "harvest",
     "entries": [ { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]

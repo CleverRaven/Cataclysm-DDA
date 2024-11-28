@@ -1242,7 +1242,8 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-double calculate_aim_cap_without_target( const Character &you, const tripoint_bub_ms &target )
+static double calculate_aim_cap_without_target( const Character &you,
+        const tripoint_bub_ms &target )
 {
     const int range = rl_dist( you.pos_bub(), target );
     // Get angle of triangle that spans the target square.
@@ -2971,7 +2972,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
         // Shift pos and/or view via edge scrolling
         tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
-        if( edge_scroll == tripoint_zero ) {
+        if( edge_scroll == tripoint::zero ) {
             skip_redraw = true;
         } else {
             if( action == "MOUSE_MOVE" ) {
@@ -3005,7 +3006,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
         cycle_targets( -1 );
     } else if( action == "CENTER" ) {
         if( shifting_view ) {
-            set_view_offset( tripoint_rel_ms_zero );
+            set_view_offset( tripoint_rel_ms::zero );
         } else {
             set_cursor_pos( src );
         }
@@ -3758,7 +3759,7 @@ void target_ui::draw_ui_window()
     // Clear target window and make it non-transparent.
     int width = getmaxx( w_target );
     int height = getmaxy( w_target );
-    mvwrectf( w_target, point_zero, c_white, ' ', width, height );
+    mvwrectf( w_target, point::zero, c_white, ' ', width, height );
 
     draw_border( w_target );
     draw_window_title();

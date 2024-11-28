@@ -1072,7 +1072,7 @@ class npc : public Character
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint::zero );
         // return snippet strings by given range
         std::string distance_string( int range ) const;
 
@@ -1402,7 +1402,7 @@ class npc : public Character
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
-        static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
+        static constexpr const tripoint_abs_omt &no_goal_point = tripoint_abs_omt::invalid;
         job_data job;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
