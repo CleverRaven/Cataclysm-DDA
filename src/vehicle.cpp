@@ -715,7 +715,7 @@ std::set<point_abs_ms> vehicle::immediate_path( const units::angle &rotate )
     map &here = get_map();
     point_bub_ms top_left_actual = pos_bub().xy() + coord_translate( front_left );
     point_bub_ms top_right_actual = pos_bub().xy() + coord_translate( front_right );
-    std::vector<point_abs_ms> front_row = line_to( here.getglobal( tripoint_bub_ms{ top_left_actual.x(), top_left_actual.y(), here.get_abs_sub().z()} ).xy(),
+    std::vector<point_abs_ms> front_row = line_to( here.getglobal( tripoint_bub_ms{top_left_actual.x(), top_left_actual.y(), here.get_abs_sub().z()} ).xy(),
                                           here.getglobal( tripoint_bub_ms{top_right_actual.x(), top_right_actual.y(), here.get_abs_sub().z()} ).xy() );
     for( const point_abs_ms &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
@@ -1023,7 +1023,7 @@ std::optional<std::string> vehicle::has_engine_conflict( const vpart_info &possi
     return std::nullopt;
 }
 
-bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id &ft ) const
+bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id  &ft ) const
 {
     return vp.ammo_current().is_null() ? vp.fuel_current() == ft : vp.ammo_current() == ft;
 }
