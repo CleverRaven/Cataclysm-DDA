@@ -1193,7 +1193,7 @@
     "relic_data": { "passive_effects": [ { "id": "ench_verdant_body" } ] }
   },
   {
-  "id": "legguard_verdant",
+  "id": "legguards_verdant",
     
     "//": "Derived from chitin leg guards",
   "type": "ARMOR",
