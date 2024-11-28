@@ -98,7 +98,8 @@
               "spell_weak",
               "spell_unbreakable",
               "point_blank",
-              "xedra_eater_stabilize_reality"
+              "xedra_eater_stabilize_reality",
+              "xedra_eater_erosion"
             ],
             "target_var": { "var_val": "random_eater_spell" }
           }

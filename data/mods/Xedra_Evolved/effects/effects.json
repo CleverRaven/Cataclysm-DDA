@@ -2734,5 +2734,16 @@
     "max_duration": "2 seconds",
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_erosion",
+    "name": [ "Erosion" ],
+    "desc": [ "You maintain a field of unstable time around you.  When you attack targets in melee they will degrade over time." ],
+    "remove_message": "Your field of unstable time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
   }
 ]
