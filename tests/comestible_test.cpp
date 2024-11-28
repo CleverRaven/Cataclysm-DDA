@@ -320,7 +320,6 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
     CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
     CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
-    
     REQUIRE( u.mutate_towards( trait_GOURMAND ) );
     CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
     CHECK( u.compute_calories_per_effective_volume( egg ) == 1568 );
