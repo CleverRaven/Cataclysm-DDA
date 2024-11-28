@@ -49,6 +49,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_RAD_SENSE_OUTSIDE_RECURRING",
     "condition": { "u_has_effect": "effect_clair_sense_rads_self" },
+    "deactivate_condition": { "not": { "u_has_trait": "CLAIRSENTIENT" } },
     "recurrence": 10,
     "effect": [
       { "u_remove_item_with": "clair_sense_rad_item" },
