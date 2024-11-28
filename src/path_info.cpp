@@ -223,10 +223,6 @@ cata_path PATH_INFO::base_colors()
 {
     return config_dir_path_value / "base_colors.json";
 }
-std::string PATH_INFO::base_path()
-{
-    return base_path_value;
-}
 cata_path PATH_INFO::base_path_path()
 {
     return base_path_path_value;

@@ -22,7 +22,6 @@ void init_base_path( const std::string &path );
 void init_user_dir( std::string dir );
 void set_standard_filenames();
 
-std::string base_path();
 std::string cache_dir();
 std::string config_dir();
 std::string datadir();
