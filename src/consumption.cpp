@@ -1557,13 +1557,23 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal();
     }
-    double food_vol = round_up( units::to_liter( masticated_volume( food ).second ), 2 );
-    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = food_vol * energy_density_ratio;
-    if( kcalories == 0 && effective_volume == 0.0 ) {
+    if( kcalories == 0 ) {
+        // Quick bail out if it does not cotain any energy.
         return 0;
     }
-    return std::round( kcalories / effective_volume );
+    units::volume water_volume = masticated_volume( food ).first;
+    units::volume dry_volume = masticated_volume( food ).second;    
+    // Water is digested more quickly than solid mass, see get_digest_rates().
+    // stomach_ratio is 0.278 for a default character, will be higher for mutants.
+    const double stomach_ratio = stomach.capacity( *this ) / ( 36.000 * 250_ml );
+    water_volume *= stomach_ratio;
+    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+    dry_volume *= energy_density_ratio;
+    const int effective_volume = dry_volume.value() + water_volume.value();
+    if( effective_volume == 0 ) {
+        return 2000;
+    }
+    return std::round( kcalories * 1000 / effective_volume );
 }
 
 static void activate_consume_eocs( Character &you, item &target )
