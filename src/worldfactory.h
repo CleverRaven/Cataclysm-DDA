@@ -56,7 +56,6 @@ struct WORLD {
          * all the world specific files. It depends on @ref world_name,
          * changing that will also change the result of this function.
          */
-        std::string folder_path() const;
         cata_path folder_path_path() const;
 
         std::string world_name;

@@ -8,6 +8,7 @@
 
 #include <ghc/fs_std_fwd.hpp>
 
+#include "cata_path.h"
 #include "catacharset.h"
 #include "compatibility.h"
 #include "path_info.h"

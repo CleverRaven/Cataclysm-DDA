@@ -95,11 +95,6 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     active_mod_order = world_to_copy->active_mod_order;
 }
 
-std::string WORLD::folder_path() const
-{
-    return PATH_INFO::savedir() + world_name;
-}
-
 cata_path WORLD::folder_path_path() const
 {
     return PATH_INFO::savedir_path() / world_name;
@@ -300,7 +295,7 @@ void worldfactory::set_active_world( WORLD *world )
 
 bool WORLD::save( const bool is_conversion ) const
 {
-    if( !assure_dir_exist( folder_path() ) ) {
+    if( !assure_dir_exist( folder_path_path() ) ) {
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
                                     "] directory for saving";
@@ -312,7 +307,7 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path() + "/" + PATH_INFO::worldoptions();
+        const auto savefile = folder_path_path() / PATH_INFO::worldoptions();
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -426,12 +421,12 @@ void worldfactory::init()
 
         // save world as conversion world
         if( newworld->save( true ) ) {
-            const std::string origin_path = old_world.folder_path();
+            const cata_path origin_path = old_world.folder_path_path();
             // move files from origin_path into new world path
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
+                std::string filename = origin_file.get_relative_path().filename().generic_u8string();
 
-                if( rename_file( origin_file, ( newworld->folder_path() + filename ) ) ) {
+                if( rename_file( origin_file, ( newworld->folder_path_path() / filename ) ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
@@ -2138,51 +2133,48 @@ size_t worldfactory::get_world_index( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string_view candidate )
+static bool isForbidden( const cata_path &candidate )
 {
-    return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
-           candidate.find( "mods.json" ) != std::string::npos;
+    std::string filename = candidate.get_relative_path().filename().generic_u8string();
+    return filename == PATH_INFO::worldoptions() || filename == "mods.json";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->folder_path();
-    std::set<std::string> directory_paths;
+    cata_path worldpath = get_world( worldname )->folder_path_path();
+    std::set<fs::path> directory_paths;
 
-    auto file_paths = get_files_from_path( "", worldpath, true, true );
-    if( !delete_folder ) {
-        std::vector<std::string>::iterator forbidden = find_if( file_paths.begin(), file_paths.end(),
-                isForbidden );
-        while( forbidden != file_paths.end() ) {
-            file_paths.erase( forbidden );
-            forbidden = find_if( file_paths.begin(), file_paths.end(), isForbidden );
-        }
+    if( delete_folder ) {
+        fs::remove_all( worldpath.get_unrelative_path() );
+        remove_world( worldname );
+        return;
     }
+
+    // Clear out everything except options and mods.
+    // It would be easier to delete and recreate the world, but some people,
+    // like the author of this code, use symlinks to have world contents located
+    // 'elsewhere', and doing so would break such use cases.
+    auto file_paths = get_files_from_path( "", worldpath, true, true );
+    auto end = std::remove_if( file_paths.begin(), file_paths.end(), isForbidden );
+    file_paths.erase( end, file_paths.end() );
+
     for( auto &file_path : file_paths ) {
-        // strip to path and remove worldpath from it
-        std::string part = file_path.substr( worldpath.size(),
-                                             file_path.find_last_of( "/\\" ) - worldpath.size() );
-        size_t last_separator = part.find_last_of( "/\\" );
-        while( last_separator != std::string::npos && part.size() > 1 ) {
-            directory_paths.insert( part );
-            part = part.substr( 0, last_separator );
-            last_separator = part.find_last_of( "/\\" );
+        fs::path folder_path = file_path.get_unrelative_path().parent_path();
+        while( folder_path.filename() != worldname ) {
+            directory_paths.insert( folder_path );
+            folder_path = folder_path.parent_path();
         }
     }
 
     for( auto &file : file_paths ) {
         remove_file( file );
     }
+
     // Trying to remove a non-empty parent directory before a child
     // directory will fail.  Removing directories in reverse order
     // will prevent this situation from arising.
     for( auto it = directory_paths.rbegin(); it != directory_paths.rend(); ++it ) {
-        remove_directory( worldpath + *it );
+        remove_directory( *it );
     }
-    if( delete_folder ) {
-        remove_directory( worldpath );
-        remove_world( worldname );
-    } else {
-        get_world( worldname )->world_saves.clear();
-    }
+    get_world( worldname )->world_saves.clear();
 }
