@@ -299,9 +299,9 @@ std::string PATH_INFO::user_font()
 {
     return user_dir_value + "font/";
 }
-std::string PATH_INFO::graveyarddir()
+cata_path PATH_INFO::graveyarddir_path()
 {
-    return user_dir_value + "graveyard/";
+    return user_dir_path_value / "graveyard";
 }
 cata_path PATH_INFO::keybindings()
 {

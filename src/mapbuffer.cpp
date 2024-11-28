@@ -136,7 +136,7 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
+    assure_dir_exist( PATH_INFO::world_base_save_path_path() / "maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();

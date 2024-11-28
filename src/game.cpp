@@ -3069,9 +3069,9 @@ static std::string timestamp_now()
 
 void game::move_save_to_graveyard()
 {
-    const std::string &save_dir      = PATH_INFO::world_base_save_path();
-    const std::string graveyard_dir = PATH_INFO::graveyarddir() + "/" + timestamp_now() + "/";
-    const std::string &prefix        = base64_encode( u.get_save_id() ) + ".";
+    const cata_path save_dir      = PATH_INFO::world_base_save_path_path();
+    const cata_path graveyard_dir = PATH_INFO::graveyarddir_path() / timestamp_now();
+    const std::string prefix      = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
         debugmsg( "could not create graveyard path '%s'", graveyard_dir );
@@ -3083,8 +3083,7 @@ void game::move_save_to_graveyard()
     }
 
     for( const auto &src_path : save_files ) {
-        const std::string dst_path = graveyard_dir +
-                                     src_path.substr( src_path.rfind( '/' ), std::string::npos );
+        const cata_path dst_path = graveyard_dir / src_path.get_relative_path().filename();
 
         if( rename_file( src_path, dst_path ) ) {
             continue;
@@ -3408,7 +3407,7 @@ void game::reset_npc_dispositions()
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
+    cata_path masterfile = PATH_INFO::world_base_save_path_path() / SAVE_MASTER;
     return write_to_file( masterfile, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
@@ -3575,7 +3574,8 @@ bool game::save()
             !get_auto_notes_settings().save( true ) ||
             !get_safemode().save_character() ||
             !zone_manager::get_manager().save_zones() ||
-        !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+            !write_to_file( PATH_INFO::world_base_save_path_path() / "uistate.json", [&](
+        std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
@@ -8173,9 +8173,8 @@ bool game::take_screenshot( const std::string &path ) const
 bool game::take_screenshot() const
 {
     // check that the current '<world>/screenshots' directory exists
-    std::stringstream map_directory;
-    map_directory << PATH_INFO::world_base_save_path() << "/screenshots/";
-    assure_dir_exist( map_directory.str() );
+    cata_path map_directory = PATH_INFO::world_base_save_path_path() / "screenshots";
+    assure_dir_exist( map_directory );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -8183,11 +8182,11 @@ bool game::take_screenshot() const
                                       timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
-    auto current_file_path = map_directory.str() + file_name;
+    auto current_file_path = map_directory / file_name;
 
     // Take a screenshot of the viewport.
-    if( take_screenshot( current_file_path ) ) {
-        popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
+    if( take_screenshot( current_file_path.generic_u8string() ) ) {
+        popup( _( "Successfully saved your screenshot to: %s" ), map_directory );
         return true;
     } else {
         popup( _( "An error occurred while trying to save the screenshot." ) );
@@ -13453,22 +13452,25 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
     return nullptr;
 }
 
-std::string PATH_INFO::player_base_save_path()
+namespace
 {
-    return PATH_INFO::world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
-}
-
-cata_path PATH_INFO::player_base_save_path_path()
-{
-    return PATH_INFO::world_base_save_path_path() / base64_encode( get_avatar().get_save_id() );
-}
-
-std::string PATH_INFO::world_base_save_path()
+std::string world_base_save_path()
 {
     if( world_generator->active_world == nullptr ) {
         return PATH_INFO::savedir();
     }
     return world_generator->active_world->folder_path();
+}
+}
+
+std::string PATH_INFO::player_base_save_path()
+{
+    return world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
+}
+
+cata_path PATH_INFO::player_base_save_path_path()
+{
+    return PATH_INFO::world_base_save_path_path() / base64_encode( get_avatar().get_save_id() );
 }
 
 cata_path PATH_INFO::world_base_save_path_path()
