@@ -33,8 +33,10 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "game.h"
 #include "get_version.h"
 #include "input.h"
+#include "loading_ui.h"
 #include "mod_manager.h"
 #include "options.h"
 #include "output.h"
@@ -311,6 +313,8 @@ static void debug_error_prompt(
     if( !force && ignored_messages.count( msg_key ) > 0 ) {
         return;
     }
+    // gui loading screen might be drawing an image, we need to clean it up
+    loading_ui::done();
 
     std::string formatted_report =
         string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
@@ -366,7 +370,7 @@ static void debug_error_prompt(
                                 );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         catacurses::erase();
-        fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
+        fold_and_print( catacurses::stdscr, point::zero, getmaxx( catacurses::stdscr ), c_light_red,
                         "%s", message );
         wnoutrefresh( catacurses::stdscr );
     } );
@@ -379,7 +383,15 @@ static void debug_error_prompt(
 #endif
     for( bool stop = false; !stop; ) {
         ui_manager::redraw();
-        switch( inp_mngr.get_input_event().get_first_input() ) {
+        inp_mngr.set_timeout( 50 );
+        input_event ievent = inp_mngr.get_input_event();
+        if( ievent.type == input_event_t::timeout ) {
+            if( are_we_quitting() ) {
+                g->query_exit_to_OS();
+            }
+            continue;
+        }
+        switch( ievent.get_first_input() ) {
 #if defined(TILES)
             case 'c':
             case 'C':
@@ -389,7 +401,7 @@ static void debug_error_prompt(
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );
-            /* fallthrough */
+                [[fallthrough]];
             case ' ':
                 stop = true;
                 break;
@@ -1473,6 +1485,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         }
 #endif
 
+        out << std::unitbuf; // flush writes immediately
         return out;
     }
 

@@ -129,6 +129,22 @@
   },
   {
     "type": "technique",
+    "id": "PENETRATE",
+    "name": "Penetrating Strike",
+    "melee_allowed": true,
+    "crit_tec": true,
+    "reach_ok": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "melee", "scale": 2.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "melee", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "melee", "scale": 2.0 }
+    ],
+    "messages": [ "You find a weak spot in %s's armor", "<npcname> finds a weak spot in %s's armor!" ],
+    "description": "Increase armor penetration by 2 times melee skill",
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
     "id": "BRUTAL",
     "name": "Brutal Strike",
     "melee_allowed": true,
@@ -139,7 +155,7 @@
     "//condition": "Basic size filtering, if the target is grabbing you contested roll of strength vs grab strength",
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -221,8 +237,8 @@
     "//condition": "Similar size, no wrapping tiny or very nonstandard targets",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_bodytype": "blob" } },
         { "not": { "npc_bodytype": "fish" } },
         { "not": { "npc_bodytype": "snake" } }
@@ -243,8 +259,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -287,7 +303,7 @@
     "//condition": "Humanoids of similar size",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] }
       ]
@@ -347,7 +363,7 @@
     "//condition": "Humanoids of similar size",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] }
       ]
@@ -370,8 +386,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
@@ -411,8 +427,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
@@ -463,8 +479,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
@@ -515,8 +531,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
@@ -583,8 +599,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -610,8 +626,8 @@
     "//condition": "Similar size",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "stunned" } },
         { "not": { "npc_bodytype": "blob" } }
       ]
@@ -724,7 +740,7 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -761,8 +777,8 @@
     "//condition": "Things of similar size in both directions that keep their heads high",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') - 1 <= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "or": [
@@ -878,7 +894,7 @@
     "//condition": "Similar size and no flying or blobs",
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "not": { "npc_has_effect": "stunned" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -896,8 +912,8 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "u_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "u_val('size') - 1 <= n_val('size')" ] },
         { "or": [ { "npc_bodytype": "angel" }, { "npc_bodytype": "human" } ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -956,8 +972,8 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "u_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "u_val('size') - 1 <= n_val('size')" ] },
         { "or": [ { "npc_bodytype": "angel" }, { "npc_bodytype": "human" } ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -983,7 +999,7 @@
     "required_buffs_all": [ "buff_capoeira_onmove" ],
     "weighting": 2,
     "crit_tec": true,
-    "condition": { "and": [ { "math": [ "u_val('size')", ">=", "n_val('size')" ] }, { "not": { "npc_has_effect": "stunned" } } ] },
+    "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] }, { "not": { "npc_has_effect": "stunned" } } ] },
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "mult_bonuses": [
@@ -1014,7 +1030,7 @@
     "crit_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1054,7 +1070,7 @@
     "//condition": "TODO: differentiate the stun from the damage, though 1.5x flat is excessive",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -1104,8 +1120,8 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "u_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "u_val('size') - 1 <= n_val('size')" ] },
         { "or": [ { "npc_bodytype": "angel" }, { "npc_bodytype": "human" } ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1194,7 +1210,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -1231,8 +1247,8 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1309,7 +1325,7 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -1353,8 +1369,8 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1420,8 +1436,8 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1465,8 +1481,8 @@
     "crit_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') <= n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "npc_bodytype": "human" },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1497,8 +1513,8 @@
     ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') <= n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "npc_bodytype": "human" },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1521,8 +1537,8 @@
     "side_switch": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') <= n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "npc_bodytype": "human" },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1558,7 +1574,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -1611,6 +1627,7 @@
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s!" ],
     "unarmed_allowed": true,
     "melee_allowed": true,
+    "crit_ok": true,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
@@ -1640,8 +1657,8 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1693,7 +1710,7 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -1727,8 +1744,8 @@
     "//condition": "Things of similar size in both directions that keep their heads high",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size') - 1", "<=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') - 1 <= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "or": [
@@ -1830,7 +1847,7 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -1868,7 +1885,7 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -1892,7 +1909,7 @@
         { "npc_has_effect": "downed" },
         { "npc_has_effect": "stunned" },
         { "or": [ { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] },
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "npc_bodytype": "human" }
       ]
     },
@@ -1941,7 +1958,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2002,7 +2019,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2029,7 +2046,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2133,7 +2150,7 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -2167,7 +2184,7 @@
     "stun_dur": 1,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2259,7 +2276,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2283,7 +2300,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2308,8 +2325,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2332,7 +2349,7 @@
     "condition": {
       "and": [
         { "npc_has_effect": "downed" },
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2384,7 +2401,7 @@
     "melee_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2404,7 +2421,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2444,32 +2461,6 @@
     "melee_allowed": true,
     "required_buffs_all": [ "buff_niten_ondodge" ],
     "crit_ok": true,
-    "condition": {
-      "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "not": { "npc_has_effect": "stunned" } },
-        {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMANATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
-          ]
-        }
-      ]
-    },
-    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
-    "stun_dur": 1,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 1.5 },
@@ -2512,8 +2503,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2578,8 +2569,8 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
@@ -2615,7 +2606,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2653,7 +2644,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2743,7 +2734,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2785,7 +2776,7 @@
     "knockback_dist": 1,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -2822,7 +2813,7 @@
     "reach_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -2891,7 +2882,7 @@
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
@@ -2932,7 +2923,7 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -2966,7 +2957,7 @@
     "crit_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -3030,7 +3021,7 @@
     "required_buffs_all": [ "buff_tai_chi_onpause" ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -3069,7 +3060,7 @@
     "crit_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -3096,7 +3087,7 @@
     "required_buffs_all": [ "buff_tai_chi_onpause" ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -3165,7 +3156,7 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -3206,7 +3197,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -3278,7 +3269,7 @@
     "weighting": 2,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -3317,7 +3308,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -3344,7 +3335,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') >= n_val('size')" ] },
         {
           "or": [
             {
@@ -3504,7 +3495,7 @@
         "effect": [
           { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
           "follow",
-          { "math": [ "n_val('friendly')", "=", "100" ] }
+          { "math": [ "n_val('friendly') = 100" ] }
         ]
       }
     ],

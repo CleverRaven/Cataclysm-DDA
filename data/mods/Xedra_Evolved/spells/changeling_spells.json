@@ -1,0 +1,462 @@
+[
+  {
+    "id": "changeling_disguise_as_nature_spell",
+    "type": "SPELL",
+    "name": "None Here But the Stones",
+    "description": "Disguise yourself within nature, as a rock or tree or part of a babbling brook.  You must be outdoors and on natural terrain for the glamour to take hold, and the glamour <color_red>ends instantly</color> if you move or attack.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 2,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_DISGUISE_AS_NATURE",
+    "shape": "blast",
+    "min_duration": { "math": [ "(changeling_common_traits() * 2250) + (u_skill('deduction') * 23400) + 35100" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 5750) + (u_skill('deduction') * 56300) + 78900" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "max(( 150 - (changeling_common_traits() * 2) - (u_skill('deduction') * 3)), 50)" ] },
+    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 30)" ] }
+  },
+  {
+    "id": "changeling_invisibility_spell",
+    "type": "SPELL",
+    "name": "Hidden from Mortal Eyes",
+    "description": "Lord, what fools these mortals be, especially when they cannot see what's right in front of them.  You will be invisible for a time, as long as you do not take hostile action.",
+    "message": "With a laugh and a wink, you disappear.",
+    "flags": [ "NO_FAIL", "VERBAL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_changeling_invisibility",
+    "shape": "blast",
+    "min_duration": { "math": [ "(changeling_common_traits() * 50) + (u_skill('deduction') * 500) + 2600" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 163) + (u_skill('deduction') * 1200) + 13900" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "max(( 750 - (changeling_common_traits() * 5) - (u_skill('deduction') * 20)), 350)" ] },
+    "base_casting_time": { "math": [ "max(( 250 - (changeling_common_traits() * 3) - (u_skill('deduction') * 8)), 50)" ] }
+  },
+  {
+    "id": "changeling_summon_will_o_the_wisps_spell",
+    "type": "SPELL",
+    "name": "Call Wills-o'-the-Wisp",
+    "description": "Summon the ignes fatui to lead your enemies astray.",
+    "message": "At your command, distant lights appear.",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
+    "valid_targets": [ "ground", "self", "ally", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 3,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "summon",
+    "effect_str": "mon_changeling_wisp",
+    "shape": "blast",
+    "min_damage": 2,
+    "max_damage": 4,
+    "min_duration": { "math": [ "(changeling_common_traits() * 190) + (u_skill('deduction') * 3980) + 16500" ] },
+    "max_duration": { "math": [ "(changeling_common_traits() * 608) + (u_skill('deduction') * 9750) + 39800" ] },
+    "min_range": 25,
+    "max_range": 25,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('deduction') * 10)), 100)" ] },
+    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 50)" ] }
+  },
+  {
+    "id": "changeling_noble_cure_bad_conditions_spell",
+    "type": "SPELL",
+    "name": "Lights of Imbolc",
+    "description": "Purify yourself or an ally, removing a wide variety of debilitating conditions such as disease or poison.  However, doing so will fatigue the target; too many problems will lead to a long period of recovery afterwards.",
+    "message": "You wave your hand at your target.",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 5,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_NOBLE_CURE_BAD_CONDITIONS",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [ "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('deduction') * 35)), 200)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 250 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 5)), 150)" ]
+    }
+  },
+  {
+    "id": "changeling_noble_burning_weapon_spell",
+    "type": "SPELL",
+    "name": "Fires of Bealtaine",
+    "description": "Set a weapon to burn with the purifying light of Bealtaine's bonfires, illuminating your surroundings and causing the weapon to burn anything it strikes.  It does additional damage to creatures of the Nether.  The glamour will not work without a weapon to affect.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "NO_HANDS", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 4,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_NOBLE_BURNING_WEAPON",
+    "shape": "blast",
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 240) + (u_skill('deduction') * 2600) + 27800" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 880) + (u_skill('deduction') * 17500) + 91500" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 20)), 200)" ]
+    },
+    "base_casting_time": { "math": [ "max(( 250 - u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') - (u_skill('deduction') * 5)), 150)" ] }
+  },
+  {
+    "id": "changeling_noble_burning_weapon_fire_damage",
+    "type": "SPELL",
+    "name": { "str": "Fires of Bealtaine Damage", "//~": "NO_I18N" },
+    "description": { "str": "Flames, generated by Fires of Bealtaine.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 4,
+    "max_damage": 8,
+    "min_range": 1,
+    "damage_type": "heat",
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "ignored_monster_species": [ "NETHER", "NETHER_EMANATION", "NETHER_BURROWING" ]
+  },
+  {
+    "id": "changeling_noble_burning_weapon_anti_nether",
+    "type": "SPELL",
+    "name": { "str": "Fires of Bealtaine Damage Extra Nether", "//~": "NO_I18N" },
+    "description": { "str": "Flames, generated by Fires of Bealtaine.  This does extra damage to Nether beings.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 12,
+    "max_damage": 24,
+    "min_range": 1,
+    "damage_type": "heat",
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "targeted_monster_species": [ "NETHER", "NETHER_EMANATION", "NETHER_BURROWING" ]
+  },
+  {
+    "id": "changeling_noble_movement_buffs_spell",
+    "type": "SPELL",
+    "name": "Deeds of Lughnasadh",
+    "description": "Enhance yourself or an ally with the athleticism and prowess of the dancers, runners, and hurlers of Lughnasadh.  This increases movement and attack speed, dodging ability, and allows the target to leap to a rooftop from a standing start.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 5,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_NOBLE_MOVEMENT_BUFFS",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 550) + (u_skill('deduction') * 3900) + 22500" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1230) + (u_skill('deduction') * 8900) + 69100" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [ "max(( 300 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 25)), 100)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 10)), 50)" ]
+    }
+  },
+  {
+    "id": "changeling_noble_summon_ghosts_spell",
+    "type": "SPELL",
+    "name": "Hosts of Samhain",
+    "description": "Summon the hosts of Samhain, the spirits of the victorious dead, to defeat your enemies.  The hosts of Samhain are mighty in battle but cannot abide the light of the sun.",
+    "message": "As you gesture, shadowy figures appear around your target.",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "SPAWN_GROUP", "NO_PROJECTILE" ],
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 8,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "summon",
+    "effect_str": "GROUP_HOSTS_OF_SAMHAIN",
+    "shape": "blast",
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.04) + (u_skill('deduction') * 0.1) + 1" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.12) + (u_skill('deduction') * 0.25) + 2" ] },
+    "min_range": 20,
+    "max_range": 20,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 340) + (u_skill('deduction') * 2700) + 14200" ] },
+    "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 620) + (u_skill('deduction') * 11300) + 52300" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [ "max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 15) - (u_skill('deduction') * 40)), 550)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8) - (u_skill('deduction') * 15)), 150)" ]
+    }
+  },
+  {
+    "id": "changeling_brownie_blink_indoors_spell",
+    "type": "SPELL",
+    "name": "Slip Through the Cracks",
+    "description": "When in danger of being discovered, brownies can slip away in moments.  This glamour allows you to vanish and reappear elsewhere in the house.  It cannot be used outdoors.",
+    "message": "",
+    "flags": [ "NO_FAIL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BROWNIE_INDOOR_BLINK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "max(( 500 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 15)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 1) - (u_skill('deduction') * 4)), 50)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_teleport_home_spell",
+    "type": "SPELL",
+    "name": "Hurry Home",
+    "description": "You always know your home and can return to it at need.  When standing in a doorway, you can use this glamour to return to the last place you slept, as long as you spent at least a day at that place previously and as long as you are unobserved.",
+    "flags": [ "NO_FAIL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "max(( 800 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 10) - (u_skill('deduction') * 25)), 400)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 100 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 5)), 25)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_pooka_charm_animals_spell",
+    "type": "SPELL",
+    "name": "Friend to Birds and Beasts",
+    "description": "You have learned to speak the secret tongues of birds and beasts and may use it to ask them for aid.  Casting this spell on a mammal or a bird will ally them with you, causing them to defend you against your enemies.",
+    "message": "You whisper a few words in the language of beasts.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "max_level": 1,
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 3) + (u_skill('deduction') * 10) + 15" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 7) + (u_skill('deduction') * 25) + 60" ] },
+    "min_duration": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 286) + (u_skill('deduction') * 3455) + 9450" ]
+    },
+    "max_duration": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 850) + (u_skill('deduction') * 8641) + 33145" ]
+    },
+    "min_range": 10,
+    "max_range": 10,
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 8) - (u_skill('deduction') * 25)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 4) - (u_skill('deduction') * 8)), 50)" ]
+    },
+    "targeted_monster_species": [ "MAMMAL", "BIRD" ]
+  },
+  {
+    "id": "selkie_fog_cloak_spell",
+    "type": "SPELL",
+    "name": "Cloak of Fog",
+    "description": "Call a thick fog from the surrounding air, breaking line of sight with your enemies and obscuring your presence.  Weave the glamour again to dispel it.",
+    "message": "Thick fog billows up around you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_FOG_CLOAK",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 3,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 560) + (u_skill('deduction') * 5120) + 13540) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1380) + (u_skill('deduction') * 12305) + 49850) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5) - (u_skill('deduction') * 15)), 100)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 100 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 3)), 40)" ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_dense_fog_spell",
+    "type": "SPELL",
+    "name": "Chant of Obscuring Mists",
+    "description": "Manipulate the weather, pulling the water from the air and cause a thick fog to form and blanket the countryside.  Weave the glamour again to dispel it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 5,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 980) + (u_skill('deduction') * 3453) + 20310) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2415) + (u_skill('deduction') * 10275) + 74775) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 400)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 30000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 25) - (u_skill('deduction') * 500)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_rains_spell",
+    "type": "SPELL",
+    "name": "Aria of the Droplets",
+    "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.  Weave the glamour again to dispel it.  You cannot control the weather if the temperature is too cold.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 60000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_rainstorm_spell",
+    "type": "SPELL",
+    "name": "Canticle of Rainstorms",
+    "description": "Manipulate the weather, causing the sky to cloud over and heavy rains to fall.  Weave the glamour again to dispel it.  You cannot control the weather if the temperature is too cold.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rainstorm') > -1 ? 0 : max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 25)), 600)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 90000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 9000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_lightningstorm_spell",
+    "type": "SPELL",
+    "name": "Symphony of Levin",
+    "description": "Manipulate the weather, transforming a rainstorm into a violent lightning storm.  It must already be raining heavily to transform the weather into a lightning storm, and a lightning storm cannot be controlled after the glamour is woven.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "max_level": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_lightningstorm') > -1 ? 50 : max(( 500 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 15)), 200)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('deduction') * 250)), 1000)"
+      ]
+    }
+  }
+]

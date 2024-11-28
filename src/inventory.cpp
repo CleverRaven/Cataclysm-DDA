@@ -133,6 +133,7 @@ inventory::inventory() = default;
 invslice inventory::slice()
 {
     invslice stacks;
+    stacks.reserve( items.size() );
     for( auto &elem : items ) {
         stacks.push_back( &elem );
     }
@@ -142,6 +143,7 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
+    stacks.reserve( items.size() );
     for( const auto &item : items ) {
         stacks.push_back( &item );
     }
@@ -493,7 +495,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zon
     std::vector<tripoint> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.getlocal( elem ) );
+        pts.push_back( m.bub_from_abs( elem ).raw() );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }
@@ -524,21 +526,23 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     provisioned_pseudo_tools.clear();
 
     for( const tripoint &p : pts ) {
+        const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
-        if( m.ter( p ) == brick_oven ) {
+        if( t == brick_oven ) {
             provide_pseudo_item( itype_brick_oven_pseudo );
         }
-        const furn_t &f = m.furn( p ).obj();
-        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
-            for( const itype *ammo : f.crafting_ammo_item_types() ) {
+        const furn_id &f = m.furn( p );
+        const furn_t &fo = f.obj();
+        if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
+            for( const itype *ammo : fo.crafting_ammo_item_types() ) {
                 if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
                     // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                    const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                    const bool using_ammotype = fo.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
                     int amount = 0;
                     itype_id ammo_id = ammo->get_id();
                     // Some furniture can consume more than one item type.
@@ -578,13 +582,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
         // Handle any water from map sources.
-        item water = m.water_from( p );
+        item water = m.liquid_from( p );
         if( !water.is_null() ) {
             add_item( water );
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+        if( f->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -866,7 +870,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                here.water_from( player_character.pos_bub() ).typeId() == itype_salt_water ) {
+                here.liquid_from( player_character.pos_bub() ).typeId() == itype_salt_water ) {
                 // rusting never completely destroys an item, so no need to handle return value
                 elem_stack_iter.inc_damage();
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );

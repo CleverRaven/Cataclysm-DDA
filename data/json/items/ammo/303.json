@@ -92,7 +92,7 @@
     "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British OTM" },
-    "description": "Jacketed .303 British ammunition loaded with a 174gr open tip match bullet, for precision shooting.  .303 British was the standard caliber for military rifles in the British Empire from 1888 until the 1950s.  The projectile's open tip construction offers greater manufacturing precision, and a marginal amount of increased expansion over regular full metal jacket bullets.",
+    "description": "Jacketed .303 British ammunition loaded with a 174gr open tip match bullet, for precision shooting.  .303 British was the standard caliber for military rifles in the British Empire from 1888 until the 1950s.  The projectile's open tip construction offers greater manufacturing precision and a marginal amount of increased expansion over regular full metal jacket bullets.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 }, "dispersion": -10 }
   },
   {
@@ -100,7 +100,6 @@
     "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British OTM, black powder" },
-    "description": "Jacketed .303 British ammunition loaded with a 174gr open tip match bullet, for precision shooting.  The projectile's open tip construction offers greater manufacturing precision, and a marginal amount of increased expansion over regular full metal jacket bullets.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
     "proportional": {
       "price": 0.3,
       "price_postapoc": 0.3,
@@ -113,10 +112,9 @@
   },
   {
     "id": "bp_303sp",
-    "copy-from": "303_fmjbt",
+    "copy-from": "303_sp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British JSP, black powder" },
-    "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet, for hunting medium game.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
     "proportional": {
       "price": 0.3,
       "price_postapoc": 0.3,
@@ -132,7 +130,6 @@
     "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJ, black powder" },
-    "description": "Jacketed .303 British ammunition loaded with a 174gr spitzer bullet, similar to the MK VII pattern.  Similar to its early 19th century iteration, this cartridge has been loaded with black powder.  Expect lower velocities, muzzle smoke, and a dirtier barrel if you fire it.",
     "proportional": {
       "price": 0.3,
       "price_postapoc": 0.3,
@@ -148,7 +145,6 @@
     "copy-from": "303_bthp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British OTM, reloaded" },
-    "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet, for hunting medium game.  The projectile's open tip construction offers greater manufacturing precision, and a marginal amount of increased expansion over regular full metal jacket bullets.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -158,7 +154,6 @@
     "copy-from": "303_sp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British JSP, reloaded" },
-    "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -168,7 +163,6 @@
     "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British FMJ, reloaded" },
-    "description": "Jacketed .303 British ammunition loaded with a 174gr spitzer bullet, similar to the MK VII pattern.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

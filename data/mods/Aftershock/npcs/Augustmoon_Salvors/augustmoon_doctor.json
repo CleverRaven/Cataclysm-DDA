@@ -54,8 +54,7 @@
     "type": "talk_topic",
     "id": "TALK_MERCURIAL_DOCTOR",
     "dynamic_line": {
-      "u_has_var": "dialogue_augustmoon_doctor_first_meet",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_augustmoon_doctor_first_meet" } ],
       "yes": [
         "Try not to touch anything.  Keeping this place clean is a full time job.",
         { "gendered_line": "I'm free at the moment if you need something.", "relevant_genders": [ "npc" ] }

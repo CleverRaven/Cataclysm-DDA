@@ -19,7 +19,7 @@ Sheltered nooks within ravine cliff faces, these are the main forest analogues f
 
 - More plants animals and natural features.
 - Small ruined settlements.
-- Small alien ruins (shouldnt be too obvious)
+- Small alien ruins (shouldn't be too obvious)
 
 ## Human Ruins
 
@@ -39,5 +39,5 @@ Jagged fragments of crashed star ships, each a fragment of an Hyperspace Age rel
 ### MI-GO vaults
 Shelters of elegantly folded coral found deep underground. Dated from before Salus IV became a snowball earth these could be functional or in various states of disarray. If broken they are a source of moxphores, if intact there's probably a whole biome inside intent on keeping you away and the vault undisturbed.  Endgame location, and likely a foci for the mod campaign if that ever happens.
 
-Talking to a mi-go computer wouldnt be out of the possibility
+Talking to a mi-go computer wouldn't be out of the possibility
 Accessible through deep glacial tunnels.

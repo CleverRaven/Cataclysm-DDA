@@ -60,7 +60,7 @@
     "name": { "str": "human bone" },
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
     "//": "No extend support for vitamins, we need to overwrite",
-    "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
+    "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -117,8 +117,8 @@
   {
     "type": "GENERIC",
     "abstract": "skull_abstract",
-    "name": { "str": "abstract skull" },
-    "description": "This is a dummy item.  If you see it something went wrong.",
+    "name": { "str": "abstract skull", "//~": "NO_I18N" },
+    "description": { "str": "This is a dummy item.  If you see it something went wrong.", "//~": "NO_I18N" },
     "flags": [ "TRADER_AVOID" ],
     "category": "other",
     "weight": "1 kg",
@@ -182,7 +182,7 @@
     "id": "skull_canis_triclopean",
     "name": { "str": "triclopean canine skull" },
     "description": "The skull of a what looks like a dog, although it has an extra eye socket.",
-    "copy-from": "skull_canis_medium"
+    "copy-from": "skull_canis"
   },
   {
     "type": "GENERIC",
@@ -293,6 +293,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_beaver_huge",
+    "name": { "str": "dambreaker skull" },
+    "description": "A skull of an abnormally large mutant beaver.",
+    "copy-from": "skull_beaver",
+    "proportional": { "volume": 2.5, "weight": 2.5, "longest_side": 1.75 }
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_pig",
     "name": { "str": "pig skull" },
     "description": "The skull of a pig, either a domestic or a wild one.",
@@ -387,8 +395,8 @@
     "name": { "str": "llama skull" },
     "description": "The skull of a llama.",
     "copy-from": "skull_abstract",
-    "weight": "8 kg",
-    "volume": "35 L",
+    "weight": "800 g",
+    "volume": "8850 ml",
     "longest_side": "30 cm"
   }
 ]

@@ -55,12 +55,10 @@
     "type": "talk_topic",
     "id": [ "TALK_meteorologist_1" ],
     "dynamic_line": {
-      "npc_has_var": "flag_mission_u_helped_meteorologist",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "flag_mission_u_helped_meteorologist" } ],
       "yes": "Run, I need to run, where to run…",
       "no": {
-        "npc_has_var": "general_meeting_u_met_meteorologist",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_meteorologist" } ],
         "yes": {
           "gendered_line": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
           "relevant_genders": [ "npc" ]
@@ -81,20 +79,17 @@
       {
         "text": "Maybe I can help you with your problem?",
         "topic": "TALK_meteorologist_safety",
-        "condition": { "npc_has_var": "flag_mission_u_helped_meteorologist", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "flag_mission_u_helped_meteorologist" } ] },
         "switch": true
       },
       {
         "text": "Do you need any help?",
         "switch": true,
-        "trial": {
-          "type": "CONDITION",
-          "condition": { "math": [ "time_since(n_time_mission_meteorologist_wait)", ">=", "time('2 d')" ] }
-        },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_mission_meteorologist_wait) >= time('2 d')" ] } },
         "success": { "effect": [ { "npc_lose_var": "time_mission_meteorologist_wait" } ], "topic": "TALK_MISSION_LIST" },
         "failure": { "topic": "TALK_meteorologist_wait" }
       },
-      { "text": "Goodbye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -112,12 +107,12 @@
     },
     "responses": [
       {
-        "text": "Let's go.",
+        "text": "<lets_go>",
         "topic": "TALK_DONE",
         "effect": [ "follow_only", { "npc_first_topic": "TALK_meteorologist_safety_lead" } ]
       },
       { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW" },
-      { "text": "Maybe later.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_later>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -145,7 +140,7 @@
     "dynamic_line": "Thank you.  I will never forget your kindness, <name_g>.  Take this book as token of my gratitude.",
     "responses": [
       {
-        "text": "Bye.",
+        "text": "<end_talking_bye>",
         "topic": "TALK_DONE",
         "effect": [ { "u_spawn_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
       }
@@ -252,7 +247,7 @@
     "difficulty": 0,
     "value": 100,
     "end": {
-      "effect": [ { "math": [ "n_time_mission_meteorologist_wait", "=", "time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
+      "effect": [ { "math": [ "n_time_mission_meteorologist_wait = time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_5",

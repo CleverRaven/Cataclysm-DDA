@@ -442,14 +442,14 @@ TEST_CASE( "synthetic_range_test", "[.]" )
 static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
                            const std::string &ammo_type, int range,
                            int expected_damage, const std::string &monster_type,
-                           const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr,
-                           const Approx &expected_other_checks = Approx( 0 ) )
+                           const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
     clear_map();
     statistics<int> damage;
-    constexpr tripoint shooter_pos{ 60, 60, 0 };
-    const tripoint monster_pos = shooter_pos + ( point_east * range );
-    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
+    constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
+    const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
+    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter",
+                                            shooter_pos.raw(),
                                             std::vector<std::string>(), 5, 10, 10, 10, 10 );
     int other_check_success = 0;
     do {
@@ -460,15 +460,16 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         const int prev_HP = mon.get_hp();
         shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
-        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
-            break;
-        }
         if( other_checks ) {
             other_check_success += other_checks( *shooter, mon );
+        }
+        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
+            break;
         }
         mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
+    CAPTURE( damage.n() );
     CAPTURE( gun_type );
     CAPTURE( mods );
     CAPTURE( ammo_type );
@@ -477,7 +478,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     CAPTURE( avg );
     CHECK( avg == Approx( expected_damage ).margin( 20 ) );
     if( other_checks ) {
-        CHECK( other_check_success == expected_other_checks );
+        CHECK( other_check_success == Approx( damage.n() ).margin( 10 ) );
     }
 }
 
@@ -583,18 +584,19 @@ TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 {
     clear_map();
     auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
-        return src.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" &&
-               tgt.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target";
+        return src.get_value( "general_dmg_type_test_test_fire" ) == "source" &&
+               tgt.get_value( "general_dmg_type_test_test_fire" ) == "target";
     };
     // Check that ballistics damage processes weird damage types and on-hit EOCs
+    // note: shotguns can miss one-shot critical hit rarely
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
-                   "mon_test_zombie", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_zombie", check_eocs );
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
-                   "mon_test_fire_resist", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_fire_resist", check_eocs );
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 18,
-                   "mon_test_fire_vresist", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_fire_vresist", check_eocs );
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 0,
-                   "mon_test_fire_immune", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_fire_immune", check_eocs );
 }
 
 // Targeting graph tests

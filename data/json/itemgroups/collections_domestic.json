@@ -153,7 +153,7 @@
       { "item": "binoculars", "prob": 20 },
       { "item": "roller_blades", "prob": 20 },
       { "item": "duct_tape", "prob": 100, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 60 },
+      { "group": "superglue", "prob": 60 },
       { "item": "lawnmower", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
       { "item": "dehydrator", "prob": 15 },
@@ -205,7 +205,7 @@
       { "prob": 2, "group": "yeast_bag_plastic" },
       { "prob": 1, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "item": "royal_jelly", "prob": 8 },
-      { "item": "superglue", "prob": 20 },
+      { "group": "superglue", "prob": 20 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 4 },
       { "item": "adrenaline_injector", "prob": 2 },
@@ -220,12 +220,13 @@
       { "item": "apron_plastic", "prob": 15 },
       { "item": "apron_cotton", "prob": 3 },
       { "item": "apron_leather", "prob": 3 },
-      { "prob": 15, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 15, "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "item": "lye_powder", "prob": 20, "charges": [ 100, -1 ] },
       { "item": "oxy_powder", "prob": 24, "charges": [ 100, -1 ] },
       { "item": "chemistry_set", "prob": 10 },
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       { "item": "eyedrops", "prob": 25, "count": 10 },
+      { "item": "steroid_eyedrops", "prob": 10, "count": 3 },
       { "item": "charcoal", "prob": 15 },
       { "item": "tin", "prob": 15 },
       { "item": "lamp_oil", "prob": 12 },
@@ -276,13 +277,14 @@
       { "item": "cell_phone", "prob": 2, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 12, "charges": [ 0, -1 ] },
       [ "eyedrops", 10 ],
+      [ "steroid_eyedrops", 5 ],
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
       { "prob": 3, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
       { "group": "mansion_guns", "prob": 3 },
-      { "group": "harddrugs", "prob": 1 },
+      { "group": "harddrugs_residential", "prob": 1 },
       { "group": "wallets", "prob": 10 },
       [ "ankle_wallet_pouch", 1 ],
       [ "joint", 1 ],
@@ -590,11 +592,11 @@
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "deck_of_cards", "prob": 2 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "group": "alcohol", "prob": 163 },
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 36, "charges": [ 0, -1 ] },
@@ -608,7 +610,7 @@
       { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "file", "prob": 5 },
       { "item": "eink_tablet_pc", "prob": 2, "charges": [ 0, 100 ] },
-      { "item": "memory_card_unread", "prob": 8 },
+      { "item": "memory_card_unread", "prob": 4 },
       { "item": "camera", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
       { "item": "camera_bag", "prob": 3 },
@@ -1028,6 +1030,7 @@
       { "item": "shed_stick", "prob": 1 },
       { "item": "inhaler", "prob": 14, "charges": [ 10, 100 ] },
       { "item": "eyedrops", "prob": 25, "count": 10 },
+      { "item": "steroid_eyedrops", "prob": 10, "count": 3 },
       { "item": "television", "prob": 10 },
       { "item": "travelpack", "prob": 4 },
       { "item": "backpack_tactical_large", "prob": 1 },
@@ -1134,7 +1137,7 @@
       { "item": "smart_phone", "prob": 40, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
-      { "item": "memory_card_unread", "prob": 8 },
+      { "item": "memory_card_unread", "prob": 4 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
@@ -1149,11 +1152,11 @@
       { "item": "solder_wire", "prob": 70 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "syringe", "prob": 8 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "deck_of_cards", "prob": 2 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "firecracker_pack", "prob": 5 },
       { "item": "firecracker", "prob": 5 },
       { "prob": 30, "group": "fried_seeds_bag_plastic_4" },
@@ -1414,7 +1417,7 @@
   },
   {
     "id": "untidy_floor_clutter",
-    "//": "Items you might find on the floor in a disorganised house.",
+    "//": "Items you might find on the floor in a disorganized house.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -1438,7 +1441,7 @@
           { "item": "xacto", "prob": 10 },
           { "item": "screwdriver", "prob": 10 },
           { "item": "duct_tape", "prob": 5, "charges": [ 25, 100 ] },
-          { "item": "superglue", "prob": 10 },
+          { "group": "superglue", "prob": 10 },
           { "item": "splinter", "prob": 10, "count": [ 2, 3 ] },
           { "item": "toolbox_empty", "prob": 100 }
         ],
@@ -1449,7 +1452,7 @@
   },
   {
     "id": "messy_floor_clutter",
-    "//": "Items you might find on the floor in a disorganised and dirty house.",
+    "//": "Items you might find on the floor in a disorganized and dirty house.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -1468,7 +1471,7 @@
   },
   {
     "id": "untidy_workbench_clutter",
-    "//": "Items you might find on the floor in a disorganised house.",
+    "//": "Items you might find on the floor in a disorganized house.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "item": "splinter", "prob": 10 }, { "item": "nail", "prob": 10, "charges": [ 1, 3 ] } ]
@@ -1492,7 +1495,6 @@
   {
     "type": "item_group",
     "id": "yeast_various",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 18, "group": "yeast_bottle_plastic_small" },
@@ -1506,13 +1508,13 @@
   {
     "type": "item_group",
     "id": "yeast_various_full",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 10, "group": "yeast_bottle_plastic_small_full" },
       { "prob": 10, "group": "yeast_bottle_glass_small_full" },
       { "prob": 4, "group": "yeast_bottle_plastic_full" },
       { "prob": 4, "group": "yeast_bottle_glass_full" },
+      { "prob": 1, "group": "yeast_bag_plastic_full" },
       { "prob": 1, "group": "yeast_bag_paper_full" }
     ]
   },
@@ -1520,7 +1522,6 @@
     "type": "item_group",
     "id": "yeast_bottle_plastic_small_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
     "entries": [ { "item": "yeast", "container-item": "null", "count": 25 } ]
   },
@@ -1528,7 +1529,6 @@
     "type": "item_group",
     "id": "yeast_bottle_glass_small_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning_small",
     "entries": [ { "item": "yeast", "container-item": "null", "count": 25 } ]
   },
@@ -1536,7 +1536,6 @@
     "type": "item_group",
     "id": "yeast_bottle_plastic_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
   },
@@ -1544,7 +1543,6 @@
     "type": "item_group",
     "id": "yeast_bottle_glass_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
   },
@@ -1567,7 +1565,6 @@
   {
     "type": "item_group",
     "id": "yeast_bulk",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 20, "group": "yeast_bottle_plastic" },
@@ -1581,7 +1578,6 @@
     "type": "item_group",
     "id": "yeast_bottle_plastic_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
     "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 25 ] } ]
   },
@@ -1589,7 +1585,6 @@
     "type": "item_group",
     "id": "yeast_bottle_glass_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning_small",
     "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 25 ] } ]
   },
@@ -1597,7 +1592,6 @@
     "type": "item_group",
     "id": "yeast_bottle_plastic",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 50 ] } ]
   },
@@ -1605,7 +1599,6 @@
     "type": "item_group",
     "id": "yeast_bottle_glass",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 50 ] } ]
   },
@@ -1747,7 +1740,6 @@
   {
     "type": "item_group",
     "id": "milk_powder_various",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 2, "group": "milk_powder_bottle_plastic" },
@@ -1759,7 +1751,6 @@
   {
     "type": "item_group",
     "id": "milk_powder_various_full",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [ { "prob": 1, "group": "milk_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
   },
@@ -1773,21 +1764,8 @@
   },
   {
     "type": "item_group",
-    "id": "milk_powder_bulk",
-    "//": "This group was created by a fool and may contain errors.",
-    "subtype": "distribution",
-    "entries": [
-      { "prob": 15, "group": "milk_powder_bottle_plastic" },
-      { "prob": 15, "group": "milk_powder_bottle_glass" },
-      { "prob": 4, "group": "milk_powder_bag_plastic" },
-      { "prob": 5, "group": "milk_powder_bag_paper" }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "milk_powder_bottle_plastic",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
   },
@@ -1795,7 +1773,6 @@
     "type": "item_group",
     "id": "milk_powder_bottle_glass",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 2, 8 ] } ]
   },
@@ -1814,14 +1791,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_bag_plastic_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": 4 } ]
   },
   {
     "type": "item_group",
@@ -2002,7 +1971,6 @@
   {
     "type": "item_group",
     "id": "curry_powder_various",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 18, "group": "curry_powder_bottle_plastic_small" },
@@ -2016,7 +1984,6 @@
   {
     "type": "item_group",
     "id": "curry_powder_various_full",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 10, "group": "curry_powder_bottle_plastic_small_full" },
@@ -2030,7 +1997,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_plastic_small_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": 50 } ]
   },
@@ -2038,7 +2004,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_glass_small_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning_small",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": 50 } ]
   },
@@ -2046,7 +2011,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_plastic_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": 100 } ]
   },
@@ -2054,7 +2018,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_glass_full",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": 100 } ]
   },
@@ -2070,7 +2033,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_plastic_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 50 ] } ]
   },
@@ -2078,7 +2040,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_glass_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning_small",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 50 ] } ]
   },
@@ -2086,7 +2047,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_plastic",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -2094,7 +2054,6 @@
     "type": "item_group",
     "id": "curry_powder_bottle_glass",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -2117,7 +2076,6 @@
   {
     "type": "item_group",
     "id": "chilly-p_various",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 18, "group": "chilly-p_bottle_plastic_small" },
@@ -2132,7 +2090,6 @@
     "type": "item_group",
     "id": "chilly-p_bottle_plastic_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
     "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 50 ] } ]
   },
@@ -2140,7 +2097,6 @@
     "type": "item_group",
     "id": "chilly-p_bottle_glass_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning_small",
     "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 50 ] } ]
   },
@@ -2148,7 +2104,6 @@
     "type": "item_group",
     "id": "chilly-p_bottle_plastic",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -2156,7 +2111,6 @@
     "type": "item_group",
     "id": "chilly-p_bottle_glass",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 100 ] } ]
   },

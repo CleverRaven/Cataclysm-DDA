@@ -423,6 +423,40 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_MOTH_FLY",
+    "monsters": [ { "monster": "mon_moth_fly_small", "ends": "45 days" }, { "monster": "mon_moth_fly", "starts": "30 days" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SILVERFISH",
+    "monsters": [ { "monster": "mon_silverfish_small", "ends": "45 days" }, { "monster": "mon_silverfish", "starts": "30 days" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE_HOUSE",
+    "monsters": [
+      { "monster": "mon_centipede_house_small", "ends": "45 days" },
+      { "monster": "mon_centipede_house", "starts": "30 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUGS_SUBTERRANEAN",
+    "//": "Invertebrate friends that like dark and moist places.  Put them in basements, subways, sewers, etc.",
+    "monsters": [
+      { "group": "GROUP_FLY", "weight": 25 },
+      { "group": "GROUP_ROACH", "weight": 20 },
+      { "group": "GROUP_MOTH_FLY", "weight": 20 },
+      { "group": "GROUP_SILVERFISH", "weight": 20 },
+      { "group": "GROUP_SPIDER_BASEMENT", "weight": 15 },
+      { "group": "GROUP_CENTIPEDE_HOUSE", "weight": 15 },
+      { "group": "GROUP_MOTH", "weight": 10 },
+      { "group": "GROUP_SLUG", "weight": 10 },
+      { "group": "GROUP_CENTIPEDE", "weight": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_CENTIPEDE_MOM_SUMMON",
     "monsters": [ { "monster": "mon_centipede_small", "weight": 67 }, { "monster": "mon_centipede_larva", "weight": 33 } ]
   },

@@ -185,7 +185,7 @@ class basecamp
             return bb_pos;
         }
         void validate_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
-            if( bb_pos.raw() == tripoint_zero ) {
+            if( bb_pos.raw() == tripoint::zero ) {
                 bb_pos = new_abs_pos;
             }
         }
@@ -205,6 +205,9 @@ class basecamp
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
+        // remove the camp without safety checks; use abandon_camp() for in-game
+        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
+        // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
@@ -249,8 +252,9 @@ class basecamp
         nutrients camp_food_supply( nutrients &change );
         /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
         nutrients camp_food_supply( int change );
-        /// Calculates raw kcal cost from duration of work and exercise, then forwards it to above
-        nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
+        /// Calculates raw kcal cost from duration (including non-work hours) and work exercise, then forwards it to above
+        nutrients camp_food_supply( const time_duration &total_time, float exertion_level = NO_EXERCISE,
+                                    const time_duration &travel_time = 0_hours );
         /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
         void feed_workers( const std::vector<std::reference_wrapper <Character>> &workers, nutrients food,
                            bool is_player_meal = false );
@@ -260,7 +264,7 @@ class basecamp
         item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
-        bool distribute_food();
+        bool distribute_food( bool player_command = true );
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
@@ -268,7 +272,8 @@ class basecamp
         /// The number of days the current camp supplies lasts at the given exertion level.
         int camp_food_supply_days( float exertion_level ) const;
         /// Returns the total charges of food time_duration @ref work costs
-        int time_to_food( time_duration work, float exertion_level = NO_EXERCISE ) const;
+        int time_to_food( time_duration total_time, float work_exertion_level = NO_EXERCISE,
+                          time_duration travel_time = 0_hours ) const;
         /// Changes the faction respect for you by @ref change, returns respect
         int camp_discipline( int change = 0 ) const;
         /// Changes the faction opinion for you by @ref change, returns opinion
@@ -284,6 +289,8 @@ class basecamp
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
         // from a building
         std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
+        // All recipes known by NPCs stationed here + all recipes provided by all expansions
+        std::unordered_set<recipe_id> recipe_deck_all() const;
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
@@ -331,8 +338,7 @@ class basecamp
         void place_results( const item &result );
 
         // mission description functions
-        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
-                                    const std::map<recipe_id, translation> &craft_recipes );
+        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir );
 
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
@@ -358,14 +364,17 @@ class basecamp
 
         // mission start functions
         /// generic mission start function that wraps individual mission
-        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration total_time,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
-                               const skill_id &skill_tested, int skill_level, float exertion_level );
-        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
+                               const skill_id &skill_tested, int skill_level,
+                               float exertion_level, const time_duration &travel_time = 0_hours );
+        npc_ptr start_mission( const mission_id &miss_id, time_duration total_time,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<item *> &equipment, float exertion_level,
-                               const std::map<skill_id, int> &required_skills = {} );
+                               const std::vector<item *> &equipment,
+                               const std::map<skill_id, int> &required_skills = {},
+                               float exertion_level = 1.0f, const time_duration &travel_time = 0_hours,
+                               const npc_ptr &preselected_choice = nullptr );
         comp_list start_multi_mission( const mission_id &miss_id,
                                        bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
@@ -380,7 +389,9 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id );
+        // Assembles a dummy NPC with all available recipes and uses player input on the regular crafting GUI to
+        // determine what to make, batch size, who to assign to making it, etc.
+        void start_crafting( const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
@@ -467,17 +478,9 @@ class basecamp
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
-        inline const std::vector<const zone_data * > &get_storage_zone() const {
-            return storage_zones;
-        }
-        // dumping spot in absolute co-ords
-        inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
-            storage_zones = zones;
-        }
         inline const std::unordered_set<tripoint_abs_ms> &get_storage_tiles() const {
             return src_set;
         }
-        // dumping spot in absolute co-ords
         inline void set_storage_tiles( const std::unordered_set<tripoint_abs_ms> &tiles ) {
             src_set = tiles;
         }
@@ -504,10 +507,10 @@ class basecamp
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)
+        // dumping spot in absolute co-ords
         tripoint_abs_ms dumping_spot;
         // Tiles inside STORAGE-type zones that have LIQUIDCONT terrain
         std::vector<tripoint_abs_ms> liquid_dumping_spots;
-        std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)

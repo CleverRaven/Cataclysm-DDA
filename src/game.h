@@ -29,6 +29,7 @@
 #include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "overmap_ui.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -56,6 +57,8 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
+    QUIT_EXIT,      // Skip main menu and quit directly to OS
+    QUIT_EXIT_PENDING, // same as above, used temporarily so input_context doesn't get confused
 };
 
 enum safe_mode_type {
@@ -78,7 +81,6 @@ class field_entry;
 class item;
 class kill_tracker;
 class live_view;
-class loading_ui;
 class map;
 class map_item_stack;
 class memorial_logger;
@@ -169,7 +171,7 @@ class game
         void load_static_data();
 
         /** Loads core dynamic data. May throw. */
-        void load_core_data( loading_ui &ui );
+        void load_core_data();
 
         /** Returns whether the core data is currently loaded. */
         bool is_core_data_loaded() const;
@@ -179,17 +181,17 @@ class game
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
-        bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
+        bool check_mod_data( const std::vector<mod_id> &opts );
 
         /** Loads core data and mods from the active world. May throw. */
-        void load_world_modfiles( loading_ui &ui );
+        void load_world_modfiles();
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
          *  @param ui structure for load progress display
          */
-        void load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
+        void load_packs( const std::string &msg, const std::vector<mod_id> &packs );
 
         /**
          * @brief Should be invoked whenever options change.
@@ -198,7 +200,11 @@ class game
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui );
+        void load_data_from_dir( const cata_path &path, const std::string &src );
+        /** Loads dynamic data from the given directory. Excludes files from 'mod_interactions' sub-directory.  May throw. */
+        void load_mod_data_from_dir( const cata_path &path, const std::string &src );
+        /** Loads dynamic data from the folder if it is part of a subdirectory that is named after a currently loaded mod_id.  May throw. */
+        void load_mod_interaction_data_from_dir( const cata_path &path, const std::string &src );
     public:
         void setup();
         /** Saving and loading functions. */
@@ -289,6 +295,7 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
+        std::optional<tripoint> find_stairs( const map &mp, int z_after, const tripoint &pos );
         std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking, const tripoint &pos );
         /*
@@ -537,6 +544,10 @@ class game
         npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+
+        /** NPCs who saw player interacting with their stuff (disassembling, cutting etc)
+        * will notify the player that thievery was witnessed and make angry at the player. */
+        void on_witness_theft( const item &target );
     private:
         /** Unloads all NPCs.
          *
@@ -609,7 +620,7 @@ class game
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void peek();
-        void peek( const tripoint &p );
+        void peek( const tripoint_bub_ms &p );
         std::optional<tripoint_bub_ms> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
@@ -640,13 +651,13 @@ class game
         * @param select_zone true if the zone is being edited
         * @param peeking determines if the player is peeking
         * @param is_moving_zone true if the zone is being moved, false by default
-        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint::zero
         * @param change_lv determines allow if change z-level
         * @return look_around_result
         */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero,
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint::zero,
                                         bool change_lv = true );
         look_around_result look_around( look_around_params );
 
@@ -728,6 +739,9 @@ class game
          * disabled).
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
+        // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
+        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
+                &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -775,10 +789,11 @@ class game
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         // TODO: Change to typed when single user is updated.
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
+        void draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
         void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                         const tripoint &offset ) const;
+                         const tripoint_rel_ms &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
@@ -839,10 +854,10 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open appliance interaction screen */
-        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+        void exam_appliance( vehicle &veh, const point &cp = point::zero );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
+        void exam_vehicle( vehicle &veh, const point &cp = point::zero );
 
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
@@ -852,7 +867,9 @@ class game
 
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
-        bool can_move_furniture( tripoint fdest, const tripoint &dp );
+        // Handle shifting through terrain and walls, with distance defined by enchantment.
+        bool phasing_move_enchant( const tripoint &dest, int phase_distance = 0 );
+        bool can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp );
         // Regular movement. Returns false if it failed for any reason
         // TODO: Get rid of untyped overload
         bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
@@ -902,7 +919,7 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp, bool via_ramp );
+        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -924,8 +941,16 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
-        int grabbed_furn_move_time( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
+        /* Returns true if there's nobody to anger, player is already allowed to do this, or player answered yes to warning query
+        * This function also handles changing the faction opinion if player proceeds despite warning
+        * Returns false only if player declined query
+        * Second boolean asking_for_public_goods should be used for cases where the action isn't necessarily detrimental
+        * to the faction, like merely using the examine_action of furniture.
+        */
+        bool warn_player_maybe_anger_local_faction( bool really_bad_offense = false,
+                bool asking_for_public_goods = false );
+        int grabbed_furn_move_time( const tripoint_rel_ms &dp );
+        bool grabbed_furn_move( const tripoint_rel_ms &dp );
 
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
@@ -947,8 +972,12 @@ class game
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
-        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        // TODO: Get rid of untyped overload.
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint_bub_ms &dest_loc,
+                size_t max = 0 ) const;
+        bool prompt_dangerous_tile( const tripoint &dest_loc,
+                                    std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         // TODO: Get rid of untyped overloads.
         void pickup( const tripoint &p );
@@ -1016,6 +1045,8 @@ class game
         void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
     public:
+        bool query_exit_to_OS();
+        class exit_exception: public std::exception {};
         /**
          * If there is a robot (that can be disabled), query the player
          * and try to disable it.
@@ -1134,6 +1165,9 @@ class game
         catacurses::window w_minimap; // NOLINT(cata-serialize)
         catacurses::window w_pixel_minimap; // NOLINT(cata-serialize)
         //only a pointer, can refer to w_messages_short or w_messages_long
+
+        //overmap UI singleton
+        overmap_ui::overmap_draw_data_t overmap_data; // NOLINT(cata-serialize)
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -1284,7 +1318,7 @@ class game
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
-        int slip_down_chance(
+        float slip_down_chance(
             climb_maneuver maneuver,
             climbing_aid_id aid = climbing_aid_id::NULL_ID(),
             bool show_chance_messages = true );
@@ -1322,5 +1356,7 @@ namespace cata_event_dispatch
 // @param m The map the avatar is moving on
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
+
+bool are_we_quitting();
 
 #endif // CATA_SRC_GAME_H

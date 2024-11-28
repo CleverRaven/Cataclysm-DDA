@@ -26,5 +26,17 @@
   {
     "type": "effect_on_condition",
     "id": "bile_unstink"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_conjunctivitis_itch"
+  },
+  {
+    "id": "EOC_Nunez_Travel",
+    "type": "effect_on_condition"
+  },
+  {
+    "id": "EOC_vitrified_farm_entry",
+    "type": "effect_on_condition"
   }
 ]

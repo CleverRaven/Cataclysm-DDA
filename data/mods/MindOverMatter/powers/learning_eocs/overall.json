@@ -9,7 +9,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSI_STUDYING_POWER_INTEGER_TICK_OVER",
-            "condition": { "math": [ "u_psi_studying_tick_experience_counter", ">=", "1" ] },
+            "condition": { "math": [ "u_psi_studying_tick_experience_counter >= 1" ] },
             "effect": [
               { "math": [ "u_spell_exp(u_latest_studied_power_name)", "+=", "1" ] },
               { "math": [ "u_psi_studying_tick_experience_counter", "-=", "1" ] }
@@ -25,10 +25,10 @@
     "condition": { "not": { "u_has_any_effect": [ "weary_7", "weary_8" ] } },
     "effect": [
       { "u_message": "You spend some time meditating and contemplating your powers.", "type": "good" },
-      { "math": [ "u_psi_studying_tick_experience_counter", "=", "0" ] },
+      { "math": [ "u_psi_studying_tick_experience_counter = 0" ] },
       { "u_add_effect": "effect_psi_studying_power", "duration": "24 hours" },
       { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "24 hours" },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
     ],
     "false_effect": [ { "u_message": "You are too exhausted to contemplate anything.", "type": "bad" } ]
   },
@@ -38,21 +38,21 @@
     "condition": {
       "and": [
         { "u_has_effect": "effect_psi_studying_power" },
-        { "math": [ "u_latest_studied_power_difficulty", ">", "u_skill('metaphysics')" ] }
+        { "math": [ "u_latest_studied_power_difficulty > u_skill('metaphysics')" ] }
       ]
     },
     "effect": [
       { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(35 * u_latest_studied_power_difficulty)" ] },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS",
     "effect": [
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] },
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] },
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
     ]
   },
   {
@@ -64,12 +64,12 @@
         "run_eocs": [
           {
             "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION_2",
-            "condition": { "math": [ "u_val('focus')", ">=", "25" ] },
+            "condition": { "math": [ "u_val('focus') >= 25" ] },
             "effect": [ { "math": [ "u_val('focus')", "-=", "rand(1)" ] } ]
           }
         ]
       },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] }
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] }
     ]
   },
   {
@@ -78,7 +78,7 @@
     "condition": { "u_has_effect": "effect_psi_studying_power" },
     "effect": [
       { "math": [ "u_proficiency(u_latest_studied_power_proficiency, 'format': 'percent')", "+=", "(rand(4) / 66)" ] },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] }
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] }
     ]
   },
   {
@@ -88,7 +88,7 @@
     "effect": [
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2)" ] },
       { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(u_latest_studied_power_difficulty)" ] },
-      { "queue_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
+      { "run_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
     ]
   },
   {

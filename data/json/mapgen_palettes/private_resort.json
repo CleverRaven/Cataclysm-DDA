@@ -2,8 +2,9 @@
   {
     "type": "palette",
     "id": "p_resort_palette_main",
+    "palettes": [ "parametrized_walls_palette" ],
     "furniture": {
-      "#": "f_counter",
+      "w": "f_counter",
       ";": "f_counter_gate_c",
       "T": "f_table",
       "H": "f_armchair",
@@ -29,7 +30,6 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "-": "t_door_metal_c",
-      "|": "t_wall_w",
       "o": "t_window_domestic",
       ".": "t_floor",
       ",": "t_carpet_red",
@@ -44,7 +44,7 @@
     },
     "toilets": { "$": {  } },
     "items": {
-      "$": { "item": "stash_drugs", "chance": 75 },
+      "$": { "item": "stash_drugs_illegals", "chance": 75 },
       "Y": { "item": "mansion_safe_nogun", "chance": 100, "repeat": [ 3, 8 ] },
       "l": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
       "e": { "item": "SUS_office_desk", "chance": 50 },
@@ -66,6 +66,7 @@
     "id": "p_resort_palette_main_floor",
     "palettes": [ "p_resort_palette_main" ],
     "furniture": {
+      "A": "f_atm_off",
       "d": "f_dishwasher",
       "{": "f_cupboard",
       "g": "f_dumpster",
@@ -109,7 +110,6 @@
       "n": "t_carpet_green",
       "q": "t_window_bars",
       "Q": "t_window_stained_red",
-      "A": "t_atm",
       "@": "t_slot_machine",
       "9": "t_carpet_red",
       "C": "t_carpet_red",

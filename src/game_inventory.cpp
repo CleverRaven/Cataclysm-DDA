@@ -131,7 +131,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string(),
-                                   item_location container = item_location() )
+                                   item_location container = item_location(),
+                                   bool add_ebooks = false )
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -156,6 +157,9 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Default behavior.
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
+        if( add_ebooks ) {
+            inv_s.add_character_ebooks( u );
+        }
     }
 
     if( u.has_activity( consuming ) ) {
@@ -240,8 +244,9 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     return inv_s.execute();
 }
 
-void game_menus::inv::common( avatar &you )
+void game_menus::inv::common()
 {
+    avatar &you = get_avatar();
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
@@ -279,8 +284,9 @@ void game_menus::inv::common( avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-void game_menus::inv::common( item_location &loc, avatar &you )
+void game_menus::inv::common( item_location &loc )
 {
+    avatar &you = get_avatar();
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
@@ -429,8 +435,8 @@ item_location game_menus::inv::wear( Character &you, const bodypart_id &bp )
 class take_off_inventory_preset: public armor_inventory_preset
 {
     public:
-        take_off_inventory_preset( Character &you, const std::string &color ) :
-            armor_inventory_preset( you, color )
+        explicit take_off_inventory_preset( const std::string &color ) :
+            armor_inventory_preset( get_avatar(), color )
         {}
 
         bool is_shown( const item_location &loc ) const override {
@@ -448,10 +454,10 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 };
 
-item_location game_menus::inv::take_off( avatar &you )
+item_location game_menus::inv::take_off()
 {
-    return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
-                         _( "You're not wearing anything." ) );
+    return inv_internal( get_avatar(), take_off_inventory_preset( "color_red" ), _( "Take off item" ),
+                         1, _( "You're not wearing anything." ) );
 }
 
 item_location game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
@@ -779,7 +785,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
+                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
                 return _( "Can't drink spilt liquids." );
             }
             if(
@@ -995,8 +1001,9 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you, const item_location &loc )
+item_location game_menus::inv::consume( const item_location &loc )
 {
+    avatar &you = get_avatar();
     static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
@@ -1026,8 +1033,9 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         bool( *predicate )( const item &it );
 };
 
-item_location game_menus::inv::consume_food( avatar &you )
+item_location game_menus::inv::consume_food()
 {
+    avatar &you = get_avatar();
     if( !you.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
         you.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
@@ -1042,8 +1050,9 @@ item_location game_menus::inv::consume_food( avatar &you )
     get_consume_needs_hint( you ) );
 }
 
-item_location game_menus::inv::consume_drink( avatar &you )
+item_location game_menus::inv::consume_drink()
 {
+    avatar &you = get_avatar();
     if( !you.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
         you.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
@@ -1058,8 +1067,9 @@ item_location game_menus::inv::consume_drink( avatar &you )
     get_consume_needs_hint( you ) );
 }
 
-item_location game_menus::inv::consume_meds( avatar &you )
+item_location game_menus::inv::consume_meds()
 {
+    avatar &you = get_avatar();
     if( !you.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
         you.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
@@ -1076,8 +1086,8 @@ item_location game_menus::inv::consume_meds( avatar &you )
 class activatable_inventory_preset : public pickup_inventory_preset
 {
     public:
-        explicit activatable_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
-            you( you ) {
+        explicit activatable_inventory_preset() : pickup_inventory_preset( get_avatar() ),
+            you( get_avatar() ) {
             _collate_entries = true;
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
@@ -1179,9 +1189,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         const Character &you;
 };
 
-item_location game_menus::inv::use( avatar &you )
+item_location game_menus::inv::use()
 {
-    return inv_internal( you, activatable_inventory_preset( you ),
+    return inv_internal( get_avatar(), activatable_inventory_preset(),
                          _( "Use item" ), 1,
                          _( "You don't have any items you can use." ) );
 }
@@ -1560,7 +1570,8 @@ item_location game_menus::inv::read( Character &you )
 {
     const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), you.disp_name() );
-    return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg );
+    return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg, "", item_location(),
+                         true );
 }
 
 item_location game_menus::inv::ebookread( Character &you, item_location &ereader )
@@ -1648,8 +1659,8 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 class steal_inventory_preset : public pickup_inventory_preset
 {
     public:
-        steal_inventory_preset( const avatar &you, const Character &victim ) :
-            pickup_inventory_preset( you ), victim( victim ) {}
+        explicit steal_inventory_preset( const Character &victim ) :
+            pickup_inventory_preset( get_avatar() ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
             return !victim.is_worn( *loc ) && victim.get_wielded_item() != loc;
@@ -1659,9 +1670,9 @@ class steal_inventory_preset : public pickup_inventory_preset
         const Character &victim;
 };
 
-item_location game_menus::inv::steal( avatar &you, Character &victim )
+item_location game_menus::inv::steal( Character &victim )
 {
-    return inv_internal( victim, steal_inventory_preset( you, victim ),
+    return inv_internal( victim, steal_inventory_preset( victim ),
                          string_format( _( "Steal from %s" ), victim.get_name() ), -1,
                          string_format( _( "%s's inventory is empty." ), victim.get_name() ) );
 }
@@ -1677,7 +1688,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 const int total_damage = loc->gun_damage( true ).total_damage();
 
-                if( loc->ammo_data() && loc->ammo_remaining() ) {
+                if( loc->has_ammo() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
                     const damage_instance &damage = loc->ammo_data()->ammo->damage;
                     if( !damage.empty() ) {
@@ -1765,30 +1776,15 @@ class weapon_inventory_preset: public inventory_selector_preset
         const Character &you;
 };
 
-item_location game_menus::inv::wield( avatar &you )
+item_location game_menus::inv::wield()
 {
-    return inv_internal( you, weapon_inventory_preset( you ), _( "Wield item" ), 1,
+    return inv_internal( get_avatar(), weapon_inventory_preset( get_avatar() ), _( "Wield item" ), 1,
                          _( "You have nothing to wield." ) );
 }
 
-class holster_inventory_preset: public weapon_inventory_preset
+drop_locations game_menus::inv::holster( const item_location &holster )
 {
-    public:
-        holster_inventory_preset( const Character &you, const holster_actor &actor, const item &holster ) :
-            weapon_inventory_preset( you ), actor( actor ), holster( holster ) {
-        }
-
-        bool is_shown( const item_location &loc ) const override {
-            return actor.can_holster( holster, *loc );
-        }
-
-    private:
-        const holster_actor &actor;
-        const item &holster;
-};
-
-drop_locations game_menus::inv::holster( avatar &you, const item_location &holster )
-{
+    avatar &you = get_avatar();
     const std::string holster_name = holster->tname( 1, false );
     const use_function *use = holster->type->get_use( "holster" );
     const holster_actor *actor = use == nullptr ? nullptr : dynamic_cast<const holster_actor *>
@@ -1814,8 +1810,9 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
     return insert_menu.execute();
 }
 
-void game_menus::inv::insert_items( avatar &you, item_location &holster )
+void game_menus::inv::insert_items( item_location &holster )
 {
+    avatar &you = get_avatar();
     if( holster->will_spill_if_unsealed()
         && holster.where() != item_location::type::map
         && !you.is_wielding( *holster ) ) {
@@ -1824,7 +1821,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                                holster->type_name() );
         return;
     }
-    drop_locations holstered_list = game_menus::inv::holster( you, holster );
+    drop_locations holstered_list = game_menus::inv::holster( holster );
 
     if( !holstered_list.empty() ) {
         you.assign_activity( insert_item_activity_actor( holster, holstered_list ) );
@@ -1844,8 +1841,9 @@ static bool valid_unload_container( const item_location &container )
         && !container->contains_no_solids();
 }
 
-drop_locations game_menus::inv::unload_container( avatar &you )
+drop_locations game_menus::inv::unload_container()
 {
+    avatar &you = get_avatar();
     inventory_filter_preset unload_preset( valid_unload_container );
 
     inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
@@ -2013,7 +2011,7 @@ class repair_inventory_preset: public inventory_selector_preset
 
             append_cell( [actor, &you]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
-                                                       std::ceil( loc->base_volume() / 250_ml * actor->cost_scaling ) );
+                                                       std::ceil( loc->base_volume() * actor->cost_scaling / 250_ml ) );
                 const inventory &crafting_inv = you.crafting_inventory();
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
@@ -2201,9 +2199,10 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you,
-                                        const std::optional<tripoint> &target, const std::vector<drop_location> &selection )
+drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
+                                        const std::vector<drop_location> &selection )
 {
+    avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
@@ -2234,14 +2233,14 @@ drop_locations game_menus::inv::pickup( avatar &you,
     return pick_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you,
-                                        const std::optional<tripoint_bub_ms> &target, const std::vector<drop_location> &selection )
+drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
+                                        const std::vector<drop_location> &selection )
 {
     std::optional<tripoint> tmp;
     if( target.has_value() ) {
         tmp = target.value().raw();
     }
-    return game_menus::inv::pickup( you, tmp, selection );
+    return game_menus::inv::pickup( tmp, selection );
 }
 
 class smokable_selector_preset : public inventory_selector_preset
@@ -2344,14 +2343,14 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
                 const int height = TERMY;
                 const int offset_y = confirm_message.empty() ? 0 : 3;
                 page_size = TERMY - offset_y - 2;
-                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point::zero );
                 wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
 
                 if( !confirm_message.empty() ) {
                     wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
                 }
 
-                ui.position( point_zero, point( half_width * 2, height ) );
+                ui.position( point::zero, point( half_width * 2, height ) );
             } );
             ui.mark_resize();
             ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -2395,8 +2394,9 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     return action == "CONFIRM";
 }
 
-void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
+void game_menus::inv::compare( const std::optional<tripoint> &offset )
 {
+    avatar &you = get_avatar();
     you.inv->restack( you );
 
     inventory_compare_selector inv_s( you );
@@ -2428,8 +2428,9 @@ void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offse
     } while( true );
 }
 
-void game_menus::inv::reassign_letter( avatar &you, item &it )
+void game_menus::inv::reassign_letter( item &it )
 {
+    avatar &you = get_avatar();
     while( true ) {
         const int invlet = popup_getkey(
                                _( "Enter new letter.  Press SPACE to clear a manually-assigned letter, ESCAPE to cancel." ) );
@@ -2452,8 +2453,9 @@ void game_menus::inv::reassign_letter( avatar &you, item &it )
     }
 }
 
-void game_menus::inv::swap_letters( avatar &you )
+void game_menus::inv::swap_letters()
 {
+    avatar &you = get_avatar();
     you.inv->restack( you );
 
     inventory_pick_selector inv_s( you );
@@ -2487,7 +2489,7 @@ void game_menus::inv::swap_letters( avatar &you )
             break;
         }
 
-        reassign_letter( you, *loc );
+        reassign_letter( *loc );
     }
 }
 

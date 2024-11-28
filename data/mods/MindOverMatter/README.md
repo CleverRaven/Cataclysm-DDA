@@ -10,7 +10,7 @@ This mod adds (currently) nine separate psionic power paths to Cataclysm, includ
 5) Pyrokinesis - Manipulating fire and heat. Pyrokinetics can start fires and protect themselves from heat, and even cover their whole body in raging flames to discourage attack (starting profession: Firestarter)
 6) Telekinesis - Moving objects at a distance. Telekinetics can pull objects to them and hurl their enemies away, and even collapse buildings or shield themselves with a barrier of telekinetic force. (starting profession: Test Subject, Project ONYX LIGHTNING)
 7) Telepathy - Control of the mind. Telepaths can become more persuasive and shield their presence from their enemies, and a powerful one can seize control of their enemies' minds. (starting profession: Government Interrogater (DECEASED))
-8) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division)
+8) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Ehēcatl Division)
 9) Vitakinesis - Control of health and injury. Vitakinetics can bind their own wounds and speed healing, eventually recovering from even near-crippling injuries. (starting profession: Faith Healer)
 
 If you would like a random power path, pick the profession "Awakening Psion."
@@ -26,7 +26,7 @@ ADVANTAGES
 DISADVANTAGES
 
 1) Powers use Stamina as their power source. This is also a disadvantage because every power use reduces your ability to run away.
-2) Powers have a caloric cost as well as a Stamina cost.  While eldritch magic draws on mystical components and mana, psions must rely on the reserves of their own body.
+2) Powers have a caloric cost as well as a Stamina cost.  While eldritch magic draws on mystical components and mana, psions must rely on the reserves of their own body. This also means that long-term use during a day will deplete your weariness meter.
 3) All powers require concentration and thus are affected by Focus. It's very difficult to concentrate enough to lift a pursuing boomer if you've just fought off a grappler in close range and there's blood all around you.
 
 NETHER ATTUNEMENT
@@ -56,6 +56,10 @@ Listen to the voices.
 Bathe in the energies of the Nether.
 
 We have such sights to show you. 
+
+Starting characters without psionics have random odds to gain them using these methods, from 50% to less than 1%. There are three traits that can affect this. The first, Latent Psion, raises the odds of gaining initial psionics to 100%. The second, Headblind, prevents a character from ever gaining psionics. The last, Limited Awakening, is designed to be taken by a character who starts with psionics and makes unlocking future paths much harder. Most NPCs are Headblind, and most NPCs who have psionics have Limited Awakening.
+
+Finally, the odds of unlocking future paths are reduced based on the number of paths you already have. This is true for both methods of awakening psionics. There may be other means of awakening that are not subject to these restrictions. 
 
 LEARNING NEW POWERS
 

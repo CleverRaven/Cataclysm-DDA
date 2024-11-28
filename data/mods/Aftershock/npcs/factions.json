@@ -96,6 +96,7 @@
     "fac_food_supply": { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } },
     "wealth": 75000,
     "relations": {
+      "your_followers": { "share public goods": true, "lets you in": true, "knows your voice": true },
       "free_merchants": {
         "kill on sight": false,
         "watch your back": false,
@@ -243,7 +244,7 @@
       "Prepnet_Phyle": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
-    "description": "A massive, multi-system corporation with major investments across artificial intelligence, shipbuilding, military cybernetics and applied robotics.  Among the oldest of the Solar Corporations, it is a major player in the Orion Arm, and a key military supplier of UICA's military hardware.  It is best known for its normally secretive and highly advanced research and archeology division."
+    "description": "A massive, multi-system corporation with major investments across artificial intelligence, shipbuilding, military cybernetics and applied robotics.  Among the oldest of the Solar Corporations, it is a major player in the Orion Arm, and a key military supplier of UICA's military hardware.  It is best known for its normally secretive and highly advanced research and archaeology division."
   },
   {
     "type": "faction",

@@ -49,7 +49,6 @@
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -59,6 +58,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
 
@@ -67,6 +67,7 @@ static const limb_score_id limb_score_manip( "manip" );
 static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
+static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
 static const std::string flag_NO_MANIP( "NO_MANIP" );
 
 enum TAB_MODE {
@@ -87,7 +88,7 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
     {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
     {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
     {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slowed to %d%%: %s" )},
-    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%% due to amount of manipulators" )},
+    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%%: %s" )},
     {NORMAL_CRAFTING, to_translation( "craftable" )}
 };
 
@@ -212,10 +213,12 @@ static bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &r
 namespace
 {
 struct availability {
-        explicit availability( Character &_crafter, const recipe *r, int batch_size = 1 ) :
+        explicit availability( Character &_crafter, const recipe *r, int batch_size = 1,
+                               bool camp_crafting = false, inventory *inventory_override = nullptr ) :
             crafter( _crafter ) {
             rec = r;
-            const inventory &inv = crafter.crafting_inventory();
+            inv_override = inventory_override;
+            const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
@@ -227,7 +230,7 @@ struct availability {
                                         >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
             has_proficiencies = r->character_has_required_proficiencies( crafter );
             std::string reason;
-            if( crafter.is_npc() && !r->npc_can_craft( reason ) ) {
+            if( crafter.is_npc() && !r->npc_can_craft( reason ) && !camp_crafting ) {
                 can_craft = false;
             } else if( r->is_nested() ) {
                 can_craft = check_can_craft_nested( _crafter, *r );
@@ -262,6 +265,7 @@ struct availability {
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
+        inventory *inv_override;
     private:
         const recipe *rec;
         mutable float proficiency_time_maluses = -1.0f;
@@ -455,7 +459,7 @@ static std::vector<std::string> recipe_info(
                           recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    const inventory &crafting_inv = guy.crafting_inventory();
+    const inventory &crafting_inv = avail.inv_override ? *avail.inv_override : guy.crafting_inventory();
     if( recp.result() ) {
         const int nearby_amount = crafting_inv.count_item( recp.result() );
         std::string nearby_string;
@@ -880,9 +884,8 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-static std::pair<std::vector<const recipe *>, bool>
-recipes_from_cat( const recipe_subset &available_recipes, const crafting_category_id &cat,
-                  const std::string &subcat )
+std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
+        &available_recipes, const crafting_category_id &cat, const std::string &subcat )
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return std::make_pair( available_recipes.favorite(), false );
@@ -1062,7 +1065,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
     { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
+    { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
@@ -1205,7 +1208,8 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
 }
 
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
-        const recipe_id &goto_recipe, Character *crafter, std::string filterstring )
+        const recipe_id &goto_recipe, Character *crafter, std::string filterstring, bool camp_crafting,
+        inventory *inventory_override )
 {
     if( crafter == nullptr ) {
         return {nullptr, nullptr};
@@ -1342,7 +1346,10 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                           crafter ) - crafting_group.begin();
 
     // Get everyone's recipes
-    const recipe_subset &available_recipes = crafter->get_group_available_recipes();
+    // WTF? If called with dummy npc, we have to do this. Why? Why doesn't Character::get_group_available_recipes()
+    // already include get_learned_recipes()?
+    const recipe_subset &available_recipes = camp_crafting ? crafter->get_learned_recipes() :
+            crafter->get_group_available_recipes();
     std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
     // next line also inserts empty cache for crafter->getID()
     std::map<const recipe *, availability> *availability_cache =
@@ -1438,15 +1445,13 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         }
 
         // Draw borders
-        for( int i = 1; i < width - 1; ++i ) { // -
-            mvwputch( w_data, point( i, dataHeight - 1 ), BORDER_COLOR, LINE_OXOX );
-        }
-        for( int i = 0; i < dataHeight - 1; ++i ) { // |
-            mvwputch( w_data, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w_data, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
-        }
-        mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
-        mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
+        wattron( w_data, BORDER_COLOR );
+        mvwhline( w_data, point( 1, dataHeight - 1 ), LINE_OXOX, width - 2 );
+        mvwvline( w_data, point::zero, LINE_XOXO, dataHeight - 1 );
+        mvwvline( w_data, point( width - 1, 0 ), LINE_XOXO, dataHeight - 1 );
+        mvwaddch( w_data, point( 0, dataHeight - 1 ), LINE_XXOO ); // |_
+        mvwaddch( w_data, point( width - 1, dataHeight - 1 ), LINE_XOOX ); // _|
+        wattroff( w_data, BORDER_COLOR );
 
         const int max_recipe_name_width = 27;
         const int recmax = current.size();
@@ -1540,14 +1545,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             werase( w_iteminfo );
             if( cur_recipe->is_practice() ) {
                 const std::string desc = practice_recipe_description( *cur_recipe, *crafter );
-                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
-                std::string desc = cur_recipe->description.translated() + "\n\n";;
+                std::string desc = cur_recipe->description.translated() + "\n\n";
                 desc += list_nested( *crafter, cur_recipe, available_recipes );
-                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
@@ -1580,14 +1585,19 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.emplace_back( *crafter, chosen, i );
+                    available.emplace_back( *crafter, chosen, i, camp_crafting, inventory_override );
                 }
                 indent.assign( current.size(), 0 );
             } else {
                 static_popup popup;
                 std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
                 static constexpr std::chrono::milliseconds update_interval( 500 );
-
+                // Get a key description for the cancel button.
+                // Rather than propagating the context, create a new one here as a one-off.
+                // See register_action( "QUIT" ) in recipe_dictionary.cpp (line 289 when this was commited).
+                input_context dummy;
+                dummy.register_action( "QUIT" );
+                std::string cancel_btn = dummy.get_button_text( "QUIT", _( "Cancel" ) );
                 std::function<void( size_t, size_t )> progress_callback =
                 [&]( size_t at, size_t out_of ) {
                     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -1596,7 +1606,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     }
                     last_update = now;
                     double percent = 100.0 * at / out_of;
-                    popup.message( _( "Searching… %3.0f%%\n" ), percent );
+                    popup.message( _( "Searching… %3.0f%%\n%s\n" ), percent, cancel_btn );
                     ui_manager::redraw();
                     refresh_display();
                     inp_mngr.pump_events();
@@ -1634,7 +1644,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 // cache recipe availability on first display
                 for( const recipe *e : current ) {
                     if( !availability_cache->count( e ) ) {
-                        availability_cache->emplace( e, availability( *crafter, e ) );
+                        availability_cache->emplace( e, availability( *crafter, e, 1, camp_crafting, inventory_override ) );
                     }
                 }
 
@@ -1846,8 +1856,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             } else if( !available[line].can_craft ||
                        !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
-            } else if( !crafter->check_eligible_containers_for_crafting( *current[line],
-                       batch ? line + 1 : 1 ) ) {
+            } else if( available[line].inv_override == nullptr &&
+                       !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
                 popup( _( "Crafter can't see!" ) );
@@ -1865,11 +1875,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             item_info_data data = result_info.get_result_data( current[line], 1, line_item_info_popup,
                                   w_iteminfo );
             data.handle_scrolling = true;
-            draw_item_info( []() -> catacurses::window {
-                const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
-                const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
-                return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
-            }, data );
+            data.arrow_scrolling = true;
+            const int info_width = std::min( TERMX, FULL_SCREEN_WIDTH );
+            const int info_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+            iteminfo_window info_window( data, point( ( TERMX - info_width ) / 2, ( TERMY - info_height ) / 2 ),
+                                         info_width, info_height );
+            info_window.execute();
         } else if( action == "FILTER" ) {
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -2293,8 +2304,10 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
                      num_recipe ) );
     }
     //Finish border connection with the recipe tabs
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
-    mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
+    mvwaddch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), LINE_OOXX ); // ^|
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
@@ -2302,6 +2315,27 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec,
                                       Character &crafter )
 {
+    int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
+                            limb_score_manip ) * 100;
+    int mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 100 : ( 1.0 +
+                    crafter.enchantment_cache->get_value_multiply( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER ) ) *
+                    100;
+
+    std::stringstream modifiers_list;
+    if( limb_modifier != 100 ) {
+        if( limb_modifier < 100 ) {
+            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        } else {
+            modifiers_list << _( "extra manipulators" ) << " " << limb_modifier << "%";
+        }
+    }
+    if( mut_multi != 100 ) {
+        if( !modifiers_list.str().empty() ) {
+            modifiers_list << ", ";
+        }
+        modifiers_list << _( "traits" ) << " " << mut_multi << "%";
+    }
+
     if( crafter.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_DARK_TO_CRAFT ).translated() );
     } else if( crafter.crafting_speed_multiplier( rec ) <= 0.0f ) {
@@ -2309,13 +2343,13 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
-                                limb_score_manip ) * 100;
         int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
                          1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
 
-        std::stringstream modifiers_list;
         if( morale_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
             modifiers_list << _( "morale" ) << " " << morale_modifier << "%";
         }
         if( lighting_modifier < 100 ) {
@@ -2323,12 +2357,6 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
                 modifiers_list << ", ";
             }
             modifiers_list << _( "lighting" ) << " " << lighting_modifier << "%";
-        }
-        if( limb_modifier < 100 ) {
-            if( !modifiers_list.str().empty() ) {
-                modifiers_list << ", ";
-            }
-            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
         }
         if( pain_multi < 100 ) {
             if( !modifiers_list.str().empty() ) {
@@ -2344,7 +2372,8 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) > 1.0f ) {
         right_print( w, 0, 1, i_green,
                      string_format( craft_speed_reason_strings.at( FAST_CRAFTING ).translated(),
-                                    static_cast<int>( crafter.crafting_speed_multiplier( rec ) * 100 ) ) );
+                                    static_cast<int>( crafter.crafting_speed_multiplier( rec ) * 100 ),
+                                    modifiers_list.str() ) );
     } else {
         right_print( w, 0, 1, i_green, craft_speed_reason_strings.at( NORMAL_CRAFTING ).translated() );
     }
@@ -2380,8 +2409,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
             break;
         }
         case FILTERED: {
-            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );  // ─
-            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO );  // ┌
+            wattron( w, BORDER_COLOR );
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+            mvwaddch( w, point( 0, getmaxy( w ) - 1 ), LINE_OXXO ); // ┌
+            wattroff( w, BORDER_COLOR );
             std::string tab_name = _( "Searched" );
             if( filtered_unread ) {
                 tab_name += " ";  // space for green "+"
@@ -2393,8 +2424,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
             break;
         }
         case BATCH:
-            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );  // ─
-            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO );  // ┌
+            wattron( w, BORDER_COLOR );
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+            mvwaddch( w, point( 0, getmaxy( w ) - 1 ), LINE_OXXO ); // ┌
+            wattroff( w, BORDER_COLOR );
             draw_tab( w, 2, _( "Batch" ), true );
             break;
     }
@@ -2414,8 +2447,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
     std::map<size_t, inclusive_rectangle<point>> subtab_map;
     int width = getmaxx( w );
 
-    mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
+    wattron( w, BORDER_COLOR );
+    mvwvline( w, point::zero, LINE_XOXO, getmaxy( w ) );  // |
     mvwvline( w, point( width - 1, 0 ), LINE_XOXO, getmaxy( w ) );  // |
+    wattroff( w, BORDER_COLOR );
 
     switch( mode ) {
         case NORMAL: {
@@ -2462,10 +2497,10 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
         case FILTERED:
         case BATCH:
             werase( w );
-            for( int i = 0; i < 3; i++ ) {
-                mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-                mvwputch( w, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
-            }
+            wattron( w, BORDER_COLOR );
+            mvwvline( w, point::zero, LINE_XOXO, 3 ); // |
+            mvwvline( w, point( width - 1, 0 ), LINE_XOXO, 3 ); // |
+            wattroff( w, BORDER_COLOR );
             break;
     }
 

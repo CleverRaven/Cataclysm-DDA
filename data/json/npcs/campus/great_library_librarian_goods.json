@@ -22,7 +22,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "duct_tape", "charges": [ 35, 50 ] },
-      { "item": "superglue", "count": [ 0, 1 ] },
+      { "group": "superglue", "count": [ 0, 1 ] },
       { "item": "paper", "count": [ 150, 200 ] },
       { "item": "cardboard", "count": [ 10, 20 ] }
     ]

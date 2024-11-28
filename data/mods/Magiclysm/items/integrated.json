@@ -43,5 +43,175 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "integrated_scaled_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be serviceable as cutting and piercing weapons in unarmed combat.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 6 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "black_dragon_scales" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "black_dragon_scales", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "melee_damage": { "cut": 5, "stab": 5 }
+  },
+  {
+    "id": "integrated_demon_claws",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your index fingers have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including gloves.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "demon_chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "demon_chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 10,
+        "encumbrance": 3
+      }
+    ],
+    "melee_damage": { "cut": 10 }
+  },
+  {
+    "id": "integrated_dragon_talons_black",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "black_dragon_scales" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "black_dragon_scales", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ],
+    "melee_damage": { "cut": 10, "stab": 10 }
+  },
+  {
+    "id": "integrated_black_dragonscale",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "Black dragon scales" },
+    "description": "Thin but as tough as titanium, your draconic black scale can even withstand bullets from small firearms",
+    "weight": "3 kg",
+    "volume": "2400 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "black_dragon_hide", "black_dragon_scales" ],
+    "symbol": "x",
+    "color": "dark_gray",
+    "warmth": 5,
+    "environmental_protection": 4,
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "IRRITANT_IMMUNE",
+      "PADDED",
+      "TOUGH_FEET",
+      "ALLOWS_TALONS",
+      "NO_SALVAGE"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "black_dragon_scales", "covered_by_mat": 95, "thickness": 2.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [
+          { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "black_dragon_scales", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "black_dragon_scales", "covered_by_mat": 95, "thickness": 2.0 }
+        ],
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [
+          { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "black_dragon_scales", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      {
+        "material": [
+          { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "black_dragon_scales", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      {
+        "material": [ { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 1
+      },
+      {
+        "material": [
+          { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "black_dragon_scales", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 3
+      }
+    ]
   }
 ]

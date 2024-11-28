@@ -24,7 +24,7 @@ static bool operator==( const vehicle_prototype::part_def &l, const vehicle_prot
 
 static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r )
 {
-    return l.pos == r.pos && l.chance == r.chance && l.with_ammo == r.with_ammo &&
+    return l.pos == r.pos && l.chance == r.chance &&
            l.with_ammo == r.with_ammo && l.with_magazine == r.with_magazine && l.item_ids == r.item_ids &&
            // NOLINTNEXTLINE(misc-redundant-expression)
            l.variant_ids == r.variant_ids && l.item_groups == r.item_groups;
@@ -34,7 +34,7 @@ TEST_CASE( "export_vehicle_test" )
 {
     clear_map();
     // Spawn the vehicle with fuel.
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_zero,
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_bub_ms::zero,
                        0_degrees, -1, 0 );
     REQUIRE( veh_ptr != nullptr );
 

@@ -1,32 +1,74 @@
-# Lines longer than 78 characters will be wrapped automatically
+# A 78 karakternél hosszabb sorok automatikusan tördelve lesznek.
 # The following line is for reference
 ##############################################################################
+(<color_cyan>0.H</color>):</color>
 <color_white>Eredeti szerző:</color>    <color_white>Projektmenedzser:</color>
 <color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Jelenlegi fő fejlesztők:</color>
-<color_yellow>I-am-Erk</color> - Ultica, lore writing, ideas guy.
-<color_yellow>KorGgenT</color> - Professional yak shaver.
+<color_yellow>anoobindisguise</color> - Relentless bugfixing and polish across most areas of the game.
+<color_yellow>GuardianDll</color> - Random changes in game, random changes in mods.
+<color_yellow>irwiss</color> - Massive bugfixing and code hardening.
+<color_yellow>Maleclypse</color> - Lead Merger for this release cycle and many enhancements to Xedra Evolved.
 
 <color_white>Külön köszönet:</color>
-<color_yellow>anothersimulacrum</color> - For stepping in and doing the hard work.
-<color_yellow>BombasticSlacks</color> - For fleshing out the armor system and making us sweat.
-<color_yellow>Fris0uman</color> - For getting our fridges working.
-<color_yellow>John-Candlebury</color> - For Hub01 and all the beautiful maps.
-<color_yellow>jbytheway</color> - For parametric mapgen and mutable locations.
-<color_yellow>BrettDong</color> - For translations and analyzing weird bugs.
-<color_yellow>wapcaplet</color> - For all things sidebar-related.
-<color_yellow>ZhilkinSerg</color> - For merging all the things.
-<color_yellow>Rivet-the-Zombie</color> - For keeping up the one-merge-per-day record.
-<color_yellow>Night-Pryanik</color> - For countless bugfixes and enhancements.
-<color_yellow>Qrox</color> - For making the UI infrastructure even better.
-<color_yellow>Ramza13</color> - For turning JSON into a turing-complete language.
-<color_yellow>Drew4484</color> - For all the steel.
-<color_yellow>LyleSY</color> - For even more dinosaurrrs.
-<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, and <color_yellow>Eltank</color>.
+<color_yellow>anothersimulacrum</color> - For solving difficult problems.
+<color_yellow>akrieger</color> - The Slowdown Smasher.
+<color_yellow>Fris0uman</color> - For managing the tilesets and more.
+<color_yellow>John-Candlebury</color> - For boss fights and Isolation Protocols.
+<color_yellow>Night-Pryanik</color> - For making colds and the flu finally make sense.
+<color_yellow>PatrikLundell</color> - Massive and sorely needed overhauls to faction camp content and infrastructure.
+<color_yellow>Procyonae</color> - For so much mapgen improvements and all the backporting.
+<color_yellow>Qrox</color> - For bugfixes, reviews and infrastructure.
+<color_yellow>Ramza13</color> - For making so many modders dreams come true.
+<color_yellow>RenechCDDA</color> - For the Shadow, camp improvements and NPC Personality.
+<color_yellow>Rivet-the-Zombie</color> - For hitting 10,000 merges.
+<color_yellow>Standing-Storm</color> - For the fastest 0 to 100 in several years.
+<color_yellow>Venera3</color> - For limbification progress.
+<color_yellow>ZhilkinSerg</color> - Az összes dolog összevonásáért.
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>, and <color_yellow>lispcoc</color>.
 
 <color_white>Külön köszönet a művészi hozzájárulásokért::</color>
-<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, and many more.
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto</color>, and many more.
+
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> a <color_white>CC-BY-SA 3.0</color> licensz alatt jelenik meg:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+(<color_cyan>0.G</color>):</color>
+<color_white>Eredeti szerző:</color>    <color_white>Projektmenedzser:</color>
+<color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Jelenlegi fő fejlesztők:</color>
+<color_yellow>I-am-Erk</color> - Ultica, lore írás, ötletgazda.
+<color_yellow>KorGgenT2</color> - Professzionális „yak borotváló”
+
+<color_white>Külön köszönet:</color>
+<color_yellow>anothersimulacrum</color> - A belépésért és a kemény munka elvégzéséért.
+<color_yellow>BombasticSlacks</color> - Azért, hogy kidolgozta a páncélrendszert és megizzasztott minket.
+<color_yellow>Fris0uman</color> - Azért, hogy működésre bírta a hűtőinket.
+<color_yellow>John-Candlebury</color> - A Hub01-ért és az összes gyönyörű térképért.
+<color_yellow>jbytheway</color> - A paraméteres térképgenerálásért és a változtatható helyszínekért.
+<color_yellow>BrettDong</color> - A fordításokért és a furcsa hibák elemzéséért.
+<color_yellow>wapcaplet</color> - Minden oldalsávval kapcsolatos dologért.
+<color_yellow>ZhilkinSerg</color> - Az összes dolog összevonásáért.
+<color_yellow>Rivet-the-Zombie</color> - A napi egy összeolvasztás rekordjának fenntartásáért.
+<color_yellow>Night-Pryanik</color> - Számtalan hibajavításért és fejlesztésért.
+<color_yellow>Qrox</color> - Az UI infrastruktúra további javításáért.
+<color_yellow>Ramza13</color> - A JSON-ból egy Turing-komplett nyelvet formálásáért.
+<color_yellow>Drew4484</color> - Minden acélért.
+<color_yellow>LyleSY</color> - Méééég több dinóóóóóóért.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, <color_yellow>and Eltank</color>.
+
+<color_white>Külön köszönet a művészi hozzájárulásokért::</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, és még sokan mások.
 
 <color_white>Az összes közreműködő listáját lásd itt:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -36,12 +78,12 @@ A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.F</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
 <color_yellow>I-am-Erk</color> - UltiCa hagyatékának megőrzése.
 <color_yellow>KorGgenT</color> - Nem árulja el, hogy hova dugjam a...kisujjam.
 
-<color_white>Special thanks to (<color_cyan>0.F</color>):</color>
+<color_white>Külön köszönet (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean</color> - A kiemelkedő teljesítményért.
 <color_yellow>anothersimulacrum </color> - Amiért mindig lefáraszt.
 <color_yellow>jbytheway</color> - A CI munkájáért
@@ -49,7 +91,7 @@ A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>
 <color_yellow>Qrox</color> - A hibaüzenetek helyének megmutatásáért.
 <color_yellow>LyleSY</color> - A dínókért.
 
-<color_white>Special thanks for art contributions (<color_cyan>0.F</color>):</color>
+<color_white>Külön köszönet a művészeti hozzájárulásokért (<color_cyan>0.F</color>):</color>
 <color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, és sokan mások.
 
 <color_white>Az összes közreműködő listáját lásd itt:</color>
@@ -60,12 +102,12 @@ A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.E</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.E</color>):</color>
 <color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
 <color_yellow>I-am-Erk</color> - Ultica, párbeszédek, NPC-k, és konyhai hulladék.
 <color_yellow>KorGgenT</color> - Magiclysm és hasfájás.
 
-<color_white>Special thanks to (<color_cyan>0.E</color>):</color>
+<color_white>Külön köszönet (<color_cyan>0.E</color>):</color>
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
 <color_yellow>Rivet-the-Zombie</color> - Nap egy PR merge-eléséért.
 <color_yellow>BevapDin</color> - Kód review és refaktorálás.
@@ -82,67 +124,67 @@ A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.D</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.D</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-<color_white>Special thanks to (<color_cyan>0.D</color>):</color>
+<color_white>Külön köszönet (<color_cyan>0.D</color>):</color>
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
 Acidia - A csodás NPC-kért, helyszínekért és küldetésekért.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - Herculeus fordítási erőfeszítésekért.
+<color_yellow>HuXTUS</color> - A hatalmas mennyiségű, csodálatos tartalomért.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.C</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.C</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
 
-<color_white>Special thanks to (<color_cyan>0.C</color>):</color>
+<color_white>Külön köszönet (<color_cyan>0.C</color>):</color>
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
 Acidia - A csodás NPC-kért, helyszínekért és küldetésekért.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - Herculeus fordítási erőfeszítésekért.
+<color_yellow>HuXTUS</color> - A hatalmas mennyiségű, csodálatos tartalomért.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.B</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.B</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.B</color>):</color>
+<color_white>Külön köszönet (<color_cyan>0.B</color>):</color>
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
 Acidia - A csodás NPC-kért, helyszínekért és küldetésekért.
-<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
-<color_yellow>i2amroy</color> - For several large infrastructural overhauls.
-<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - Herculeus fordítási erőfeszítésekért.
+<color_yellow>i2amroy2</color> - Több nagy infrastruktúra-fejlesztésért.
+<color_yellow>HuXTUS</color> - A hatalmas mennyiségű, csodálatos tartalomért.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.A</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.A</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.A</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_white>Külön köszönet (<color_cyan>0.A</color>):</color>
+<color_yellow>TheDarklingWolf2</color> - A Cataclysm olyan formában való létrehozásáért, ahogyan ismerjük.
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
-<color_yellow>BevapDin</color> - For tireless bugfixing efforts.
-<color_yellow>dwarfkoala</color> - For a plethora of bug triage.
-<color_yellow>Ill-kun</color> - For countless UI cleanups.
+<color_yellow>BevapDin2</color> - Fáradhatatlan hibajavítási erőfeszítésekért.
+<color_yellow>dwarfkoala2</color> - A hibák széleskörű triázsáért.
+<color_yellow>Ill-kun</color> - Számtalan UI-tisztításért.
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.9</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.9</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
-<color_white>Special thanks to (<color_cyan>0.9</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_white>Külön köszönet (<color_cyan>0.9</color>):</color>
+<color_yellow>TheDarklingWolf2</color> - A Cataclysm olyan formában való létrehozásáért, ahogyan ismerjük.
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
-<color_yellow>Angela 'Rivet' Graves</color>, Constant Creator of Cataclysmic Content.
+<color_yellow>yobbobanana2</color> - Fordítók és GitHub közötti kapcsolattartásért.
+<color_yellow>Angela 'Rivet' Graves</color>, A Cataclysmikus Tartalom Folyamatos Készítője. 
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.8</color>):</color>
+<color_white>Fő Fejlesztők (<color_cyan>0.8</color>):</color>
 <color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
 
-<color_white>Special thanks to (<color_cyan>0.8</color>):</color>
-<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_white>Külön köszönet (<color_cyan>0.8</color>):</color>
+<color_yellow>TheDarklingWolf2</color> - A Cataclysm olyan formában való létrehozásáért, ahogyan ismerjük.
 <color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
-<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
+<color_yellow>yobbobanana2</color> - Fordítók és GitHub közötti kapcsolattartásért.

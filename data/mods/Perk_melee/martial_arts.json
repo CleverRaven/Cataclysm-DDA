@@ -1,0 +1,106 @@
+[
+  {
+    "type": "martial_art",
+    "id": "style_none",
+    "//": "It all depends on this override, fighting with other styles will make perks useless.",
+    "name": { "str": "Fighting Style" },
+    "description": "Fight in accordance with your training or lack thereof.",
+    "initiate": [ "You focus on your training.", "%s remembers their training." ],
+    "arm_block": 1,
+    "leg_block": 99,
+    "allow_all_weapons": true,
+    "onmove_buffs": [
+      {
+        "id": "buff_perk_momentum",
+        "name": "Momentum",
+        "description": "Strike with the momentum of your previous movement.",
+        "max_stacks": 6,
+        "buff_duration": 2,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "required_char_flags": [ "MELEE_PERK_MOMENTUM" ],
+        "flat_bonuses": [
+          { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.2 },
+          { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 }
+        ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_perk_tempo",
+        "name": "Tempo",
+        "description": "The rhythm of combat is in your favor.",
+        "max_stacks": 3,
+        "buff_duration": 2,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "required_char_flags": [ "MELEE_PERK_TEMPO" ],
+        "flat_bonuses": [
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.2 },
+          { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 }
+        ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "MELEE_PERK_RIPOSTE",
+        "name": "Parry",
+        "description": "Successful blocking has left you in a favorable position.",
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      }
+    ],
+    "static_eocs": [
+      {
+        "id": "EOC_PERK_CHECK_BLIND",
+        "condition": { "and": [ { "u_has_flag": "MELEE_PERK_BLIND_CALCULUS" }, { "not": "u_can_see" } ] },
+        "effect": { "u_add_effect": "perk_blind_check", "duration": "4 days" },
+        "false_effect": { "u_lose_effect": "perk_blind_check" }
+      }
+    ],
+    "onhit_eocs": [ "EOC_PERK_SPEND_INSIGHT" ],
+    "onkill_eocs": [ "EOC_PERK_TWILIGHT_FORM" ],
+    "onmove_eocs": [ "EOC_PERK_MOMENTUM_2" ],
+    "ondodge_eocs": [
+      {
+        "id": "EOC_PERK_DODGE_RETREAT",
+        "condition": {
+          "and": [ { "u_has_flag": "MELEE_PERK_MOVING_DODGE" }, { "not": { "u_has_flag": "MELEE_PERK_KNIFE_COUNTER_DODGE" } } ]
+        },
+        "effect": [
+          {
+            "run_eocs": "EOC_PERK_TRY_RETREAT",
+            "condition": { "math": [ "u_monsters_nearby('radius': 1) > 0" ] },
+            "iterations": 10
+          }
+        ]
+      }
+    ],
+    "onblock_eocs": [  ],
+    "onpause_eocs": [
+      {
+        "id": "EOC_PERK_CAREFREE_STANCE",
+        "condition": { "u_has_flag": "MELEE_PERK_CAREFREE_STANCE" },
+        "effect": { "run_eocs": "EOC_CLEAR_BUFFS" }
+      }
+    ],
+    "techniques": [
+      "tec_perk_stagger_strike",
+      "tec_perk_feint",
+      "tec_perk_fore",
+      "tec_perk_fore_stunned",
+      "tec_perk_execution_sword",
+      "tec_perk_execution_axe",
+      "tec_perk_execution_hammer",
+      "tec_perk_shoulder_tackle",
+      "tec_perk_vulgar_opening",
+      "tec_perk_coiling_strike",
+      "tec_perk_knife_counter_dodge",
+      "tec_perk_knife_finisher",
+      "tec_perk_make_way",
+      "tec_perk_estocada",
+      "tec_perk_staff_kick"
+    ]
+  }
+]

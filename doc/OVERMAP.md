@@ -223,7 +223,7 @@ more detail about the shown tile. They are as follows:
 - full, all information provided in the **overmap_terrain** is provided
 
 The information on how to display the middle three vision levels is provided in a **oter_vision**
-defintion.
+definition.
 
 ## Overmap Terrain
 
@@ -303,7 +303,7 @@ an exhaustive example...
     "travel_cost_type": "field",
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
-      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
+      "condition": { "math": [ "refugee_centers < 1" ] }, 
       "effect": [ { "math": [ "refugee_centers", "++" ] } ]
     }
 }
@@ -410,16 +410,16 @@ each normal special has a very high chance of being placed at least once per ove
 quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
 overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
 until all sectors are occupied). For specials that are not common enough to warrant appearing more
-than once per overmap please use the "UNIQUE" flag. For specials that should only have one instance
+than once per overmap please use the "OVERMAP_UNIQUE" flag. For specials that should only have one instance
 per world use "GLOBALLY_UNIQUE".
 
-### Occurrences ( UNIQUE, GLOBALLY_UNIQUE )
+### Occurrences ( OVERMAP_UNIQUE, GLOBALLY_UNIQUE )
 
-When the special has the "UNIQUE" or "GLOBALLY_UNIQUE" flag, instead of defining the minimum and maximum number placed.
-the occurrences field defines the chance of the special to be included in any one given overmap.
+When the special has the "OVERMAP_UNIQUE" or "GLOBALLY_UNIQUE" flag, instead of defining the minimum and maximum
+number placed.  the occurrences field defines the chance of the special to be included in any one given overmap.
 Before any placement rolls, all specials with this flag have to succeed in an x_in_y (first value, second
 value) roll to be included in the `overmap_special_batch` for the currently generated overmap;
-any special that failed this roll will never be considered for placement.  Currently all UNIQUE specials
+any special that failed this roll will never be considered for placement.  Currently all OVERMAP_UNIQUE specials
 use [x, 100] occurrences - percentages - for ease of understanding, but this is not required.
 
 
@@ -453,8 +453,8 @@ original intersection.
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
 | `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.               |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
-| `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
-| `priority`      | **Warning: Do not use this unnecessarily.** The generation process is executed in the order of specials with the highest value. Can be used when maps are difficult to generate. (large maps, maps that are or require dependencies etc) It is **strongly recommended** to set it to 1 (HIGH priority) or -1 (LOW priority) if used. (default = 0) |
+| `occurrences`   | Min/max number of occurrences when placing the special. If either of OVERMAP_UNIQUE or GLOBALLY_UNIQUE flags is set, becomes X of Y chance. |
+| `priority`      | **Warning: Do not use this unnecessarily.** The generation process is executed in the order of specials with the highest value. Can be used when maps are difficult to generate. (large maps, maps that are or require dependencies etc) It is **strongly recommended** to set it to 1 (HIGH priority) or -1 (LOW priority) if used. (default = 0).  It is adviced that map specials marked with the SAFE_AT_WORLDGEN are given a priority of 1 unless there are reasons not to, in order to exist when specials spawning monsters in an area are spawned, as that will cause the latter not to spawn that close. |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
 | `rotate`        | Whether the special can rotate. True if not specified.                                                |
 
@@ -506,7 +506,7 @@ Depending on the subtype, there are further relevant fields:
 | Identifier  |                                                                                      Description                                                                                           |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `point`     | `[ x, y, z]` of the overmap terrain within the special.                                                                                                                                    |
-| `overmap`   | Id of the `overmap_terrain` to place at the location. If ommited no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
+| `overmap`   | Id of the `overmap_terrain` to place at the location. If omitted no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
 | `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. Overrides the specials overall `locations` field.                                                               |
 | `camp`      | Will make a NPC-owned camp spawn here when given a value. The entered value is the ID of the faction that owns this camp.                                                                  |
 | `camp_name` | Name that will be displayed on the overmap for the camp.                                                                                                                                   |

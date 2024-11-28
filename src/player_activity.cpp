@@ -4,6 +4,7 @@
 #include <memory>
 #include <new>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -28,7 +29,6 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -48,13 +48,10 @@ static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
@@ -69,7 +66,7 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min )
+    placement( tripoint::min )
 {
     if( type != ACT_NULL ) {
         for( const distraction_type dt : type->default_ignored_distractions() ) {
@@ -142,17 +139,15 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         return std::optional<std::string>();
     }
 
-    if( type == ACT_ADV_INVENTORY ||
-        type == ACT_AIM ||
+    if( type == ACT_AIM ||
         type == ACT_ARMOR_LAYERS ||
         type == ACT_ATM ||
         type == ACT_CONSUME_DRINK_MENU ||
         type == ACT_CONSUME_FOOD_MENU ||
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
-        type == ACT_INVOKE_ITEM ||
-        type == ACT_PICKUP_MENU ||
-        type == ACT_VIEW_RECIPE ) {
+        type == ACT_INVOKE_ITEM
+      ) {
         return std::nullopt;
     }
 
@@ -340,8 +335,6 @@ void player_activity::do_turn( Character &you )
         }
 
         auto_resume = true;
-        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 5_minutes ) );
-        new_act.values.push_back( you.get_stamina_max() );
         if( you.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue.  Keep trying?" );
@@ -364,7 +357,7 @@ void player_activity::do_turn( Character &you )
             }
         }
         if( !ignoreQuery && auto_resume ) {
-            you.assign_activity( new_act );
+            you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
         return;
     }

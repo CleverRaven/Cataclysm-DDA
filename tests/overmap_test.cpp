@@ -227,7 +227,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
         // stack.  Use unique_ptr and put it on the heap
-        std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om( point_zero ) );
+        std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om::zero );
         om_direction::type dir = om_direction::type::north;
 
         int successes = 0;
@@ -257,7 +257,7 @@ static bool tally_items( std::unordered_map<itype_id, float> &global_item_count,
                          std::unordered_map<itype_id, int> &item_count, tinymap &tm )
 {
     bool found = false;
-    for( const tripoint &p : tm.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &p : tm.points_on_zlevel() ) {
         for( item &i : tm.i_at( p ) ) {
             std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
             if( iter != global_item_count.end() ) {
@@ -274,7 +274,7 @@ static bool tally_items( std::unordered_map<itype_id, float> &global_item_count,
         }
         if( const optional_vpart_position ovp = tm.veh_at( p ) ) {
             vehicle *const veh = &ovp->vehicle();
-            for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+            for( const int elem : veh->parts_at_relative( ovp->mount_pos(), true ) ) {
                 const vehicle_part &vp = veh->part( elem );
                 for( item &i : veh->get_items( vp ) ) {
                     std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
@@ -362,7 +362,7 @@ static void finalize_item_counts( std::unordered_map<itype_id, float> &item_coun
                 }
             }
         }
-        for( std::pair<const itype_id, int> demographics : category.second.item_weights ) {
+        for( const std::pair<const itype_id, int> &demographics : category.second.item_weights ) {
             item_counts[demographics.first] = 0.0;
         }
     }
@@ -390,7 +390,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     finalize_item_counts( item_counts );
     map &main_map = get_map();
     point_abs_om overmap_origin = project_to<coords::om>( main_map.get_abs_sub().xy() );
-    g->place_player_overmap( { project_to<coords::omt>( overmap_origin + ( 6 * point_north_west ) ), 0 } );
+    g->place_player_overmap( { project_to<coords::omt>( overmap_origin + ( 6 * point::north_west ) ), 0 } );
     // Don't inherit overmap state from initialization or previous tests.
     overmap_buffer.clear();
     for( int i = 0; i < 7; ++i ) {
@@ -409,7 +409,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             if( overmap_buffer.ter_existing( { omt_start, 0 } ) == oter_id() ) {
                 continue;
             }
-            point_abs_omt omt_end = omt_start + ( point_south_east * OMAPX );
+            point_abs_omt omt_end = omt_start + ( point::south_east * OMAPX );
             for( point_abs_omt p = omt_start; p.y() < omt_end.y(); p.y()++ ) {
                 for( p.x() = omt_start.x(); p.x() < omt_end.x(); p.x()++ ) {
                     REQUIRE( !main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) );

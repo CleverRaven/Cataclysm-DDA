@@ -75,6 +75,9 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
 
 ui_adaptor::~ui_adaptor()
 {
+    if( is_shutting_down ) {
+        return;
+    }
     if( is_debug_message_ui ) {
         cata_assert( showing_debug_message );
         showing_debug_message = false;
@@ -99,7 +102,7 @@ ui_adaptor::~ui_adaptor()
 void ui_adaptor::position_from_window( const catacurses::window &win )
 {
     if( !win ) {
-        position( point_zero, point_zero );
+        position( point::zero, point::zero );
     } else {
         const rectangle<point> old_dimensions = dimensions;
         // ensure position is updated before calling invalidate
@@ -303,7 +306,12 @@ void ui_adaptor::reset()
 {
     on_screen_resize( nullptr );
     on_redraw( nullptr );
-    position( point_zero, point_zero );
+    position( point::zero, point::zero );
+}
+
+void ui_adaptor::shutdown()
+{
+    is_shutting_down = true;
 }
 
 void ui_adaptor::invalidate( const rectangle<point> &rect, const bool reenable_uis_below )
@@ -465,9 +473,9 @@ void ui_adaptor::redraw_invalidated( )
 
     // if any ImGui window needed to calculate the size of its contents,
     //  it needs an extra frame to draw. We do that here.
-    if( imclient->auto_size_frame_active() ) {
-        redraw_invalidated();
-    }
+    // if( imclient->auto_size_frame_active() ) {
+    //     redraw_invalidated();
+    // }
 }
 
 void ui_adaptor::screen_resized()
@@ -483,14 +491,16 @@ void ui_adaptor::screen_resized()
 
 background_pane::background_pane()
 {
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    if( !test_mode ) {
+        ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         ui.position_from_window( catacurses::stdscr );
-    } );
-    ui.position_from_window( catacurses::stdscr );
-    ui.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        wnoutrefresh( catacurses::stdscr );
-    } );
+        ui.on_redraw( []( const ui_adaptor & ) {
+            catacurses::erase();
+            wnoutrefresh( catacurses::stdscr );
+        } );
+    }
 }
 
 namespace ui_manager
@@ -519,6 +529,13 @@ void invalidate_all_ui_adaptors()
 {
     for( ui_adaptor &adaptor : ui_stack ) {
         adaptor.invalidate_ui();
+    }
+}
+
+void reset()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.shutdown();
     }
 }
 } // namespace ui_manager

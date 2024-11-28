@@ -143,9 +143,9 @@
     "container-item": "corpse_child_calm",
     "entries": [
       { "item": "childnote" },
-      { "group": "child_items", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "child_items", "damage-min": 1, "damage-max": 3, "prob": 50 },
-      { "group": "child_bugout", "damage-min": 1, "damage-max": 3, "prob": 100 },
+      { "group": "child_items", "damage": [ 1, 3 ], "prob": 100 },
+      { "group": "child_items", "damage": [ 1, 3 ], "prob": 50 },
+      { "group": "child_bugout", "damage": [ 1, 3 ], "prob": 100 },
       { "group": "clothes_unisex_survival", "damage": [ 1, 3 ], "prob": 100 }
     ]
   },

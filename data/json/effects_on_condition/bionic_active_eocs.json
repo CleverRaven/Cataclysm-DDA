@@ -22,7 +22,7 @@
     "false_effect": [
       { "u_message": "You activate your Time Dilation.", "type": "info" },
       { "turn_cost": { "math": [ "u_val('power') / -energy('100 kJ')" ] } },
-      { "math": [ "u_val('power')", "=", "0" ] },
+      { "math": [ "u_val('power') = 0" ] },
       { "u_message": "Your speed suddenly increases!", "type": "good" },
       {
         "if": { "one_in_chance": 3 },
@@ -48,7 +48,7 @@
     "effect": [
       { "u_message": "Your muscles hiss as hydraulic strength fills them!", "type": "good" },
       { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
-      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+      { "run_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
     ]
   },
   {
@@ -58,7 +58,7 @@
     "//": "Sound of hissing hydraulic muscle! (not quite as loud as a car horn)",
     "effect": [
       { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
-      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+      { "run_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
     ]
   },
   {
@@ -110,8 +110,8 @@
         ],
         "effect": { "u_lose_effect": { "context_val": "effect_id" } }
       },
-      { "math": [ "u_val('pkill')", "=", "0" ] },
-      { "math": [ "u_val('stim')", "=", "0" ] },
+      { "math": [ "u_val('pkill') = 0" ] },
+      { "math": [ "u_val('stim') = 0" ] },
       { "turn_cost": 1 }
     ]
   }

@@ -8,12 +8,11 @@
     "description": "Polymer plastic material, that shrinks tightly over whatever it is covering.  Disposable.",
     "weight": "50 g",
     "volume": "50 ml",
-    "//": "this one should allow unloading, but not reloading, but nothing, including NO_RELOAD flag or forbidden boolean doesn't work here.",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "50 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
   },
   {
     "id": "trashcan",
@@ -173,7 +172,6 @@
     "longest_side": "150 cm",
     "price": 0,
     "price_postapoc": 0,
-    "to_hit": -3,
     "use_action": [ "CHANGE_OUTFIT" ],
     "material": [ "plastic" ],
     "pocket_data": [
@@ -222,7 +220,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "open_container": true,
         "watertight": true,
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",

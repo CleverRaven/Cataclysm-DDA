@@ -200,7 +200,8 @@ Errorlessly obsolete an id
 
 # Overmap terrain migration
 
-Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
+Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
+If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
 ```json
   {
@@ -244,6 +245,11 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 }
 ```
 
+# Activity Migration
+See if it is mentioned in `src/savegame_legacy.cpp`.
+
+In `src/savegame_json.cpp` in `player_activity::deserialize( const JsonObject &data )` add to `std::set<std::string> obs_activities` the activity ID with comment to remove it after the next version (after 0.B when in 0.A experimental). There should always be at least one example left.
+
 # Ammo types
 
 Ammo types don't need an infrastructure to be obsoleted, but it is required to remove all items that use this ammo type
@@ -282,4 +288,19 @@ For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which pr
     "dependencies": [ "dda" ],
     "obsolete": true
   }
+```
+
+When declaring a mod obsolete, also consider adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py`:
+
+```diff
+echo "> Extracting strings from JSON"
+if ! lang/extract_json_strings.py \
+        -i data \
+        ...
+        -D data/mods/BlazeIndustries \
+        -D data/mods/desert_region \
++       -D data/mods/YOUR_DEPRECATED_MOD \
+        -n "$package $version" \
+        -r lang/po/gui.pot \
+        -o lang/po/json.pot
 ```

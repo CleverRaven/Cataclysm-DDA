@@ -28,7 +28,7 @@
     "volume": "250 ml",
     "price": "10 USD",
     "stack_size": 4,
-    "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 250g/unit ~ stack 8 but mishapen so only 50% of this",
+    "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 250g/unit ~ stack 8 but misshapen so only 50% of this",
     "material": [ "orichalcum_metal" ],
     "symbol": ",",
     "color": "light_green",
@@ -58,7 +58,7 @@
     "category": "spare_parts",
     "name": { "str": "lump of mithril", "str_pl": "lumps of mithril" },
     "description": "A lump of raw mithril.  Needs to be reformed into an ingot to be useful.",
-    "weight": "675 g",
+    "weight": "332 g",
     "volume": "250 ml",
     "price": "25 USD",
     "to_hit": -4,
@@ -84,6 +84,21 @@
     "material": [ "mithril_metal" ],
     "symbol": "=",
     "color": "light_blue",
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "crimsonite_ingot",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "crimsonite ingot",
+    "description": "An ingot of crimsonite.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
+    "//": "slightly denser than copper",
+    "weight": "2250 g",
+    "volume": "253 ml",
+    "price": "63 USD 99 cent",
+    "material": [ "crimsonite_metal" ],
+    "symbol": "=",
+    "color": "red",
     "melee_damage": { "bash": 6 }
   }
 ]

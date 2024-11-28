@@ -101,7 +101,7 @@
     "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 16,
@@ -243,7 +243,6 @@
     "volume": "750 ml",
     "price": "180 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "gloves_rubber",
@@ -291,7 +290,6 @@
     "volume": "750 ml",
     "price": "180 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "gloves_h20survivor",
@@ -338,7 +336,6 @@
     "volume": "750 ml",
     "price": "180 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "gloves_h20survivor",

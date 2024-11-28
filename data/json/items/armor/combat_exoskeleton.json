@@ -3,7 +3,7 @@
     "abstract": "combat_exoskeleton_abstract",
     "category": "armor",
     "type": "ARMOR",
-    "name": { "str": "abstract combat exoskeleton" },
+    "name": { "str": "abstract combat exoskeleton", "//~": "NO_I18N" },
     "price": "60000 USD",
     "price_postapoc": "5000 USD",
     "symbol": "[",
@@ -11,14 +11,25 @@
     "weight": "13000 g",
     "environmental_protection": 20,
     "warmth": 40,
-    "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
+    "flags": [
+      "STURDY",
+      "PADDED",
+      "WATERPROOF",
+      "RAINPROOF",
+      "IRRITANT_IMMUNE",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "SUN_GLASSES",
+      "COMBAT_TOGGLEABLE",
+      "MODULE_HOLDER"
+    ],
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "volume_encumber_modifier": 0,
-        "description": "Compartment for a heavy battery.",
+        "description": "Compartment for a tool battery.",
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2000 g",
@@ -170,6 +181,7 @@
     "revert_to": "combat_exoskeleton_heavy",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_heavy"
@@ -275,6 +287,7 @@
     "revert_to": "combat_exoskeleton_medium",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_medium"
@@ -380,6 +393,7 @@
     "revert_to": "combat_exoskeleton_light",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_light"
@@ -468,7 +482,17 @@
     "warmth": 0,
     "environmental_protection": 0,
     "delete": {
-      "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ]
+      "flags": [
+        "STURDY",
+        "PADDED",
+        "WATERPROOF",
+        "RAINPROOF",
+        "IRRITANT_IMMUNE",
+        "RAD_PROOF",
+        "ELECTRIC_IMMUNE",
+        "SUN_GLASSES",
+        "COMBAT_TOGGLEABLE"
+      ]
     },
     "armor": [
       {

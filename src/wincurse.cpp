@@ -182,7 +182,7 @@ bool handle_resize( int, int )
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
-        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
         catacurses::resizeterm();
         create_backbuffer();
         SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
@@ -650,7 +650,7 @@ void catacurses::init_interface()
     }
     init_colors();
 
-    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point_zero );
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point::zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;
@@ -751,8 +751,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
-        bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window &,
+        const point &, bool center_cursor ) const
 {
     // TODO: implement this properly
     return std::nullopt;
@@ -761,6 +761,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {
+    ui_manager::reset();
     DeleteObject( font );
     WinDestroy();
     // Unload it

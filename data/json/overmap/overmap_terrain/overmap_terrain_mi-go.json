@@ -2,7 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
-    "vision_levels": "isolated_tower",
+    "vision_levels": "alien_tower",
     "see_cost": "high",
     "name": "mi-go encampment",
     "sym": "<",

@@ -165,7 +165,12 @@
     "symbol": ",",
     "color": "white",
     "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
+      {
+        "type": "heal",
+        "move_cost": 200,
+        "bleed": 1,
+        "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
+      },
       "WASH_HARD_ITEMS"
     ],
     "flags": [ "NO_SALVAGE" ]
@@ -722,7 +727,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -1740,9 +1745,7 @@
     "fun": -8,
     "//": "Omitting the RAW flag so calories will be taken at face value.",
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "egg_allergen", 1 ] ],
-    "rot_spawn_chance": 98
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1781,7 +1784,6 @@
     "weight": "190 g",
     "volume": "3938 ml",
     "price": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1823,7 +1825,6 @@
     "weight": "453 g",
     "volume": "500 ml",
     "price": "20 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -1861,7 +1862,6 @@
     "volume": "15 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "rubber" ],
     "symbol": ")",
     "color": "white",
@@ -1889,7 +1889,6 @@
     "volume": "15 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -1967,7 +1966,6 @@
     "longest_side": "40 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
     "symbol": ")",
     "pocket_data": [
       {
@@ -2610,7 +2608,6 @@
     "price": "4 USD 80 cent",
     "price_postapoc": "2 USD 50 cent",
     "install_time": "30 s",
-    "to_hit": 1,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -2870,7 +2867,6 @@
     "volume": "100 L",
     "price": "70 kUSD",
     "price_postapoc": "300 USD",
-    "to_hit": 1,
     "material": [ "qt_steel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -2998,7 +2994,6 @@
     "volume": "13 L",
     "price": "2 kUSD 850 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -3193,7 +3188,6 @@
     "volume": "4 L",
     "price": "200 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "cotton", "fur" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -3804,7 +3798,6 @@
     "volume": "17500 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -3906,7 +3899,6 @@
     "volume": "250 ml",
     "price": "14 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "glasses_safety",
@@ -4016,7 +4008,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -4036,7 +4027,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "lycra" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -4059,7 +4049,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -4082,7 +4071,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -4106,7 +4094,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "red",
@@ -4132,7 +4119,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "red",
@@ -4160,7 +4146,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -4188,7 +4173,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -4656,7 +4640,6 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -4821,7 +4804,6 @@
     "volume": "2500 ml",
     "price": "2 kUSD 800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4923,6 +4905,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_MELEE_TO_HIT_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_MELEE_TO_HIT_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_TO_HIT_ench_item_2",
+    "copy-from": "test_item_ench",
+    "name": "test_MELEE_TO_HIT_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
     "id": "test_BONUS_DODGE_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_BONUS_DODGE_ench_item_1",
@@ -4973,7 +4969,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "melee_damage": { "bash": 1 },
     "revert_to": "cheese_hard"
   },
@@ -4992,7 +4987,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -5011,7 +5005,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -5029,7 +5022,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
     "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
     "melee_damage": { "bash": 1 }

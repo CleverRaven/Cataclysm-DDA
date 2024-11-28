@@ -14,7 +14,7 @@
     "id": "ambient_subway",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
+    "condition": { "u_at_om_location": "subway" },
     "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
@@ -22,7 +22,7 @@
     "id": "ambient_lab_subway",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
+    "condition": { "u_at_om_location": "lab_subway" },
     "effect": [ { "u_message": "<AMBIENT_LAB_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
@@ -30,7 +30,7 @@
     "id": "ambient_sewer",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+    "condition": { "u_at_om_location": "sewer" },
     "effect": [ { "u_message": "<AMBIENT_SEWER>", "snippet": true, "sound": true } ]
   },
   {
@@ -62,7 +62,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror')", "<", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror') < 1" ] },
     "effect": [
       { "u_location_variable": { "context_val": "my_loc" }, "max_radius": 2, "passable_only": true },
       { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "my_loc" } },
@@ -92,7 +92,7 @@
       {
         "run_eocs": {
           "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
+          "condition": { "math": [ "u_monsters_nearby() > 1" ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_YOUR_FEARS",
@@ -112,7 +112,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_discover_zomborg",
-    "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_zomborg') >= 1" ] },
     "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
   },
   {
@@ -125,6 +125,33 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "yrax_triakis_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_triakis", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile triakis violently unfolds just clear of your hand!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_golden_monolith_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_golden_monolith", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      {
+        "u_message": "You notice a brief lull in the ambient noise around you, but its otherwise impossible to know if you allowed something to happen.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_delta_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_delta", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile delta starts flying just as you release it!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "add_effect",
     "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
   },
@@ -133,7 +160,7 @@
     "id": "sewer_morale_debuff",
     "global": false,
     "recurrence": [ "20 minutes", "1 hour" ],
-    "condition": { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+    "condition": { "u_at_om_location": "sewer" },
     "effect": [
       { "u_message": "<SEWER_MORALE_DEBUFF>", "snippet": true },
       {
@@ -173,7 +200,7 @@
       {
         "if": { "compare_string": [ "your_followers", { "context_val": "new_owner" } ] },
         "then": {
-          "queue_eocs": {
+          "run_eocs": {
             "id": "EOC_camp_rumor_spread",
             "effect": { "u_message": "Rumors of your takeover of <context_val:camp_name> have begun to spread…", "type": "mixed" }
           },
@@ -205,7 +232,7 @@
         { "not": { "u_has_trait": "COMPOUND_EYES" } },
         { "not": { "u_has_trait": "SEESLEEP" } },
         { "not": { "u_has_bionics": "armor_bio_eyes" } },
-        { "math": [ "u_coverage('eyes')", "<", "rand(100)" ] },
+        { "math": [ "u_coverage('eyes') < rand(100)" ] },
         { "x_in_y_chance": { "x": 2, "y": 3 } }
       ]
     },
@@ -216,7 +243,7 @@
       },
       {
         "u_add_effect": "conjunctivitis",
-        "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(259200) + 172800" ] },
+        "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(345600) + 86400" ] },
         "target_part": "eyes"
       }
     ]
@@ -229,9 +256,9 @@
     "condition": { "and": [ { "compare_string": [ "boomered", { "context_val": "effect" } ] } ] },
     "effect": [
       {
-        "math": [ "BILE_STINK_DURATION", "=", "u_effect_duration('bile_stink') > 0 ? u_effect_duration('bile_stink') + 300 : 600" ]
+        "math": [ "BILE_STINK_DURATION = u_effect_duration('bile_stink') > 0 ? u_effect_duration('bile_stink') + 300 : 600" ]
       },
-      { "math": [ "MORALE_MULTIPLIER", "=", "u_has_trait('SQUEAMISH') ? -2 : -1" ] },
+      { "math": [ "MORALE_MULTIPLIER = u_has_trait('SQUEAMISH') ? -2 : -1" ] },
       { "u_add_effect": "bile_stink", "duration": { "global_val": "BILE_STINK_DURATION" } },
       {
         "if": { "not": { "or": [ { "u_has_flag": "IRRITANT_IMMUNE" }, { "u_has_worn_with_flag": "IRRITANT_IMMUNE" } ] } },

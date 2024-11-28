@@ -18,11 +18,12 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet, and you always smell of smoke and ashes.",
     "types": [ "SKIN" ],
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
+    "scent_intensity": 800,
     "enchantments": [
       { "values": [ { "value": "WEAKNESS_TO_WATER", "multiply": 0.016 }, { "value": "SWEAT_MULTIPLIER", "multiply": -1 } ] }
     ],
@@ -210,11 +211,9 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water into very strong alcohol.",
+    "description": "Upon gaining this ability the Salamander learns how to convert water into very strong alcohol.",
     "prereqs": [ "SALAMANDER_EYES" ],
-    "category": [ "SALAMANDER" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_BOOZE" ]
+    "category": [ "SALAMANDER" ]
   },
   {
     "type": "mutation",
@@ -223,11 +222,9 @@
     "points": 6,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water directly into fuel.  This is an intensely draining activity.",
+    "description": "Upon gaining this ability the Salamander learn how to convert water directly into fuel.  This is an intensely draining activity.",
     "prereqs": [ "SALAMANDER_WATER_TO_BOOZE" ],
-    "category": [ "SALAMANDER" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_FUEL" ]
+    "category": [ "SALAMANDER" ]
   },
   {
     "type": "mutation",
@@ -251,7 +248,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "changes_to": [ "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -262,7 +259,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "category": [ "SALAMANDER" ],
     "social_modifiers": { "persuade": 10, "lie": 10 },
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -372,7 +369,7 @@
     "id": "SALAMANDER_HEALTH_FOR_MANA",
     "name": { "str": "Burning New Wood" },
     "points": 6,
-    "description": "In times of extreme need, the Salamander can can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
+    "description": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH", "SALAMANDER_BIGGER_STOMACH2" ],
     "prereqs2": [ "SALAMANDER_SKIN_1", "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
@@ -588,11 +585,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
-          { "value": "ARMOR_HEAT", "add": -1000 },
-          { "value": "ARMOR_COLD", "multiply": 0.5 }
-        ],
+        "values": [ { "value": "ARMOR_HEAT", "multiply": -1 }, { "value": "ARMOR_COLD", "multiply": 0.5 } ],
         "ench_effects": [ { "effect": "effect_hidden_flame_immunity", "intensity": 1 } ]
       }
     ],

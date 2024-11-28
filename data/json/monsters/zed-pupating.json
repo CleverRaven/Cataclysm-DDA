@@ -137,7 +137,7 @@
   {
     "id": "mon_zombie_pupa_shady",
     "type": "MONSTER",
-    "copy-from": "mon_zombie_pupa_decoy",
+    "copy-from": "mon_zombie_pupa_decoy_shady",
     "extend": {
       "special_attacks": [
         {

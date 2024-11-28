@@ -226,7 +226,7 @@
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
     "price": "3 USD 85 cent",
     "price_postapoc": "1 USD 50 cent",
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 0 ] ],
     "fun": 5,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
@@ -540,6 +540,6 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
   }
 ]

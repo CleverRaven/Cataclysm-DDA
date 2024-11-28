@@ -1,11 +1,24 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "iso_first_elevator", "iso_elevator", "iso_elevator_safe", "iso_next_level_elevator" ],
+    "id": [
+      "iso_first_elevator",
+      "iso_elevator",
+      "iso_elevator_safe",
+      "iso_next_level_elevator",
+      "iso_elevator_microlab_embed",
+      "iso_elevator_microlab_embed_next"
+    ],
     "name": "lab elevator",
     "color": "light_red",
     "sym": "L",
     "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mlb_generic_subhallway",
+    "copy-from": "microlab_generic",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",

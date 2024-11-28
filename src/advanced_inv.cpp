@@ -24,6 +24,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
@@ -33,6 +34,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -58,6 +60,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -67,8 +70,6 @@
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
-
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
@@ -124,14 +125,9 @@ void create_advanced_inv()
     advinv->display();
     // keep the UI and its ui_adaptor running if we're returning
     if( uistate.transfer_save.exit_code != aim_exit::re_entry || get_avatar().activity.is_null() ) {
-        kill_advanced_inv();
+        advinv.reset();
+        cancel_aim_processing();
     }
-}
-
-void kill_advanced_inv()
-{
-    advinv.reset();
-    cancel_aim_processing();
 }
 
 void temp_hide_advanced_inv()
@@ -150,21 +146,21 @@ advanced_inventory::advanced_inventory()
     , squares( {
     {
         //               pos in window
-        { AIM_INVENTORY, point( 25, 2 ), tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
-        { AIM_SOUTHWEST, point( 30, 3 ), tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
-        { AIM_SOUTH,     point( 33, 3 ), tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
-        { AIM_SOUTHEAST, point( 36, 3 ), tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
-        { AIM_WEST,      point( 30, 2 ), tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
-        { AIM_CENTER,    point( 33, 2 ), tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
-        { AIM_EAST,      point( 36, 2 ), tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
-        { AIM_NORTHWEST, point( 30, 1 ), tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
-        { AIM_NORTH,     point( 33, 1 ), tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
-        { AIM_NORTHEAST, point( 36, 1 ), tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
-        { AIM_DRAGGED,   point( 22, 3 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
-        { AIM_ALL,       point( 25, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
-        { AIM_CONTAINER, point( 25, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
-        { AIM_PARENT,    point( 22, 1 ), tripoint_zero,       "",                        "",         "X", "ITEMS_PARENT",    AIM_PARENT},
-        { AIM_WORN,      point( 22, 2 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
+        { AIM_INVENTORY, point( 25, 2 ), tripoint::zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
+        { AIM_SOUTHWEST, point( 30, 3 ), tripoint::south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
+        { AIM_SOUTH,     point( 33, 3 ), tripoint::south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
+        { AIM_SOUTHEAST, point( 36, 3 ), tripoint::south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
+        { AIM_WEST,      point( 30, 2 ), tripoint::west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
+        { AIM_CENTER,    point( 33, 2 ), tripoint::zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
+        { AIM_EAST,      point( 36, 2 ), tripoint::east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
+        { AIM_NORTHWEST, point( 30, 1 ), tripoint::north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
+        { AIM_NORTH,     point( 33, 1 ), tripoint::north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
+        { AIM_NORTHEAST, point( 36, 1 ), tripoint::north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
+        { AIM_DRAGGED,   point( 22, 3 ), tripoint::zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
+        { AIM_ALL,       point( 25, 3 ), tripoint::zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
+        { AIM_CONTAINER, point( 25, 1 ), tripoint::zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
+        { AIM_PARENT,    point( 22, 1 ), tripoint::zero,       "",                        "",         "X", "ITEMS_PARENT",    AIM_PARENT},
+        { AIM_WORN,      point( 22, 2 ), tripoint::zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
 {
@@ -1193,6 +1189,8 @@ bool advanced_inventory::move_all_items()
     } else if( dpane.get_area() == AIM_INVENTORY ) {
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1211,6 +1209,8 @@ bool advanced_inventory::move_all_items()
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1333,8 +1333,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
     // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
     if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) &&
         changeSquare != AIM_CONTAINER && changeSquare != AIM_PARENT ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
-            spane.get_area() != changeSquare ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( spane.get_area() == AIM_CONTAINER ) {
                 spane.container = item_location::nowhere;
@@ -1342,14 +1341,17 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                 // Update dpane to show items removed from the spane.
                 dpane.recalc = true;
             }
-            if( dpane.get_area() == changeSquare ) {
-                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
-                spane.recalc = true;
-            } else if( spane.get_area() == dpane.get_area() ) {
+            if( spane.get_area() == dpane.get_area() ) {
                 // swap the `in_vehicle` element of each pane if "one in, one out"
                 spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
                 dpane.set_area( squares[dpane.get_area()], !dpane.in_vehicle() );
                 recalc = true;
+            } else if( dpane.get_area() == changeSquare ) {
+                spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
+                spane.recalc = true;
+            } else {
+                spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+                spane.recalc = true;
             }
         } else {
             swap_panes();
@@ -1757,24 +1759,20 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ||
         ( spane.container && spane.container.carrier() == player_character.as_character() ) ) {
         const item_location &loc = sitem->items.front();
-        // Setup a "return to AIM" activity. If examining the item creates a new activity
-        // (e.g. reading, reloading, activating), the new activity will be put on top of
-        // "return to AIM". Once the new activity is finished, "return to AIM" comes back
-        // (automatically, see player activity handling) and it re-opens the AIM.
-        // If examining the item did not create a new activity, we have to remove
-        // "return to AIM".
-        do_return_entry();
-        cata_assert( player_character.has_activity( ACT_ADV_INVENTORY ) );
+        // Setup for a "return to AIM" in case examining the item creates a new activity
+        // (e.g. reading, reloading, activating).
+        activity_id last_activity = player_character.activity.id();
         // `inventory_item_menu` may call functions that move items, so we should
         // always recalculate during this period to ensure all item references are valid
         always_recalc = true;
         ret = g->inventory_item_menu( loc, info_startx, info_width,
                                       src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
         always_recalc = false;
-        if( !player_character.has_activity( ACT_ADV_INVENTORY ) || !ui ) {
+        // If examining the item did create a new activity, we have to add "return to AIM".
+        if( last_activity != player_character.activity.id() || !ui ) {
             exit = true;
+            do_return_entry();
         } else {
-            player_character.cancel_activity();
             uistate.transfer_save.exit_code = aim_exit::none;
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
@@ -1790,10 +1788,10 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 
         item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
         data.handle_scrolling = true;
+        data.arrow_scrolling = true;
 
-        ret = draw_item_info( [&]() -> catacurses::window {
-            return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
-        }, data ).get_first_input();
+        iteminfo_window info_window( data, point( info_startx(), 0 ), info_width(), TERMY );
+        info_window.execute();
     }
     if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
         spane.scroll_by( +1 );
@@ -2072,33 +2070,53 @@ class query_destination_callback : public uilist_callback
         void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
+        float desired_extra_space_left( ) override {
+            cataimgui::PushMonoFont();
+            float rv = ImGui::CalcTextSize( "[1][2][3]" ).x + ( 3.0 * ImGui::GetStyle().ItemSpacing.x );
+            ImGui::PopFont();
+            return rv;
+        }
 };
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
+    ImGui::TableSetColumnIndex( 0 );
+    ImGui::NewLine();
+    ImGui::NewLine();
+    ImGui::NewLine();
     cata_assert( menu->entries.size() >= 9 );
-    int ofs = -25 - 4;
     int sel = 0;
-    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
+    if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < menu->entries.size() ) {
         sel = _adv_inv.screen_relative_location(
-                  static_cast <aim_location>( menu->selected + 1 ) );
+                  static_cast <aim_location>( menu->previewing + 1 ) );
     }
-    for( int i = 1; i < 10; i++ ) {
-        aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
-        std::string key = _adv_inv.get_location_key( loc );
-        advanced_inv_area &square = _adv_inv.get_one_square( loc );
-        bool in_vehicle = square.can_store_in_vehicle();
-        const char *bracket = in_vehicle ? "<>" : "[]";
-        // always show storage option for vehicle storage, if applicable
-        bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
-        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-        const point p( square.hscreen + point( ofs, 5 ) );
-        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
-        wprintz( menu->window, kcolor, "%s", key );
-        wprintz( menu->window, bcolor, "%c", bracket[1] );
+    cataimgui::PushMonoFont();
+    for( int i = 7; i >= 1; i -= 3 ) { // 7,4,1
+        for( int ii = 0; ii <= 2; ii++ ) { // +0,1,2
+            aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i + ii ) );
+            std::string key = _adv_inv.get_location_key( loc );
+            advanced_inv_area &square = _adv_inv.get_one_square( loc );
+            bool in_vehicle = square.can_store_in_vehicle();
+            const char *bracket = in_vehicle ? "<>" : "[]";
+            // always show storage option for vehicle storage, if applicable
+            bool canputitems = menu->entries[i + ii - 1].enabled && square.canputitems();
+            nc_color bcolor = canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_red;
+            nc_color kcolor = canputitems ? ( sel == loc ? h_white : c_dark_gray ) : c_red;
+            // TODO(db48x): maybe make these clickable buttons or something
+            ImGui::PushID( i + ii );
+            ImGui::BeginGroup();
+            ImGui::TextColored( bcolor, "%c", bracket[0] );
+            ImGui::SameLine( 0.0, 0.0 );
+            ImGui::TextColored( kcolor, "%s", key.c_str() );
+            ImGui::SameLine( 0.0, 0.0 );
+            ImGui::TextColored( bcolor, "%c", bracket[1] );
+            ImGui::EndGroup();
+            ImGui::PopID();
+            ImGui::SameLine();
+        }
+        ImGui::NewLine();
     }
-    wnoutrefresh( menu->window );
+    ImGui::PopFont();
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -2113,8 +2131,6 @@ bool advanced_inventory::query_destination( aim_location &def )
 
     uilist menu;
     menu.text = _( "Select destination" );
-    /* free space for the squares */
-    menu.pad_left_setup = 9;
     query_destination_callback cb( *this );
     menu.callback = &cb;
 
@@ -2132,10 +2148,18 @@ bool advanced_inventory::query_destination( aim_location &def )
             if( size >= MAX_ITEM_IN_SQUARE ) {
                 prefix += _( " (FULL)" );
             }
-            menu.addentry( ordered_loc,
-                           s.canputitems() && s.id != panes[src].get_area(),
-                           get_location_key( ordered_loc )[0],
-                           prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
+            if( s.veh != nullptr ) {
+                menu.addentry_col( ordered_loc,
+                                   s.canputitems() && s.id != panes[src].get_area(),
+                                   get_location_key( ordered_loc )[0],
+                                   prefix + " " + s.name,
+                                   s.veh->name );
+            } else {
+                menu.addentry( ordered_loc,
+                               s.canputitems() && s.id != panes[src].get_area(),
+                               get_location_key( ordered_loc )[0],
+                               prefix + " " + s.name );
+            }
         }
     }
     // Selected keyed to uilist.entries, which starts at 0.
@@ -2300,7 +2324,7 @@ void advanced_inventory::draw_minimap()
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     Character &player_character = get_player_character();
     // draw the 3x3 tiles centered around player
-    get_map().draw( minimap, player_character.pos() );
+    get_map().draw( minimap, player_character.pos_bub() );
     for( const side s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {
@@ -2373,11 +2397,9 @@ void advanced_inventory::swap_panes()
 
 void advanced_inventory::do_return_entry()
 {
-    Character &player_character = get_player_character();
     // only save pane settings
     save_settings( true );
-    player_character.assign_activity( ACT_ADV_INVENTORY );
-    player_character.activity.auto_resume = true;
+    uistate.open_menu = create_advanced_inv;
     save_state->exit_code = aim_exit::re_entry;
 }
 

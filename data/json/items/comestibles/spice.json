@@ -60,6 +60,25 @@
     "color": "dark_gray"
   },
   {
+    "id": "spicebush_berries",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spicebush berries" },
+    "description": "Small, red berries with a pungent aroma.  It is said they are comparable to allspice, but also boasting their own flavor profile.",
+    "smoking_result": "spicebush_berries_smoked",
+    "spoils_in": "4 days",
+    "extend": { "flags": [ "SMOKABLE" ] },
+    "color": "red"
+  },
+  {
+    "id": "spicebush_berries_smoked",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "dry spicebush berries" },
+    "description": "These formerly red berries now have a stronger aroma after being dehydrated.",
+    "color": "brown"
+  },
+  {
     "id": "salt",
     "copy-from": "spice",
     "type": "COMESTIBLE",
@@ -164,7 +183,6 @@
     "calories": 9,
     "fun": -4,
     "weight": "40 g",
-    "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],

@@ -38,7 +38,6 @@
     "default": "mon_zombie_crawler",
     "//": "crawling zombie upgrades",
     "monsters": [
-      { "monster": "mon_zombie_crawler" },
       { "monster": "mon_zombie_crawler_pupa", "weight": 500 },
       { "monster": "mon_zombie_crawler_pupa_decoy", "weight": 500 }
     ]
@@ -47,11 +46,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRAINLESS_UPGRADE",
     "//": "No bionics or fungal",
-    "monsters": [
-      { "monster": "mon_zombie_brainless", "weight": 715 },
-      { "monster": "mon_zombie_ears", "weight": 245 },
-      { "monster": "mon_afs_headless_horror", "weight": 40 }
-    ]
+    "monsters": [ { "monster": "mon_zombie_ears", "weight": 245 }, { "monster": "mon_afs_headless_horror", "weight": 40 } ]
   },
   {
     "type": "monstergroup",
@@ -92,6 +87,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FIREMAN_UPGRADE",
+    "//": "Masters pick from here when upgrading.",
+    "monsters": [
+      { "monster": "mon_zombie_fireproof", "weight": 250 },
+      { "monster": "mon_zombie_fireproof_brute", "weight": 250 },
+      { "monster": "mon_zombie_fireproof_grappler", "weight": 250 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_MEDICAL_UPGRADE",
     "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
@@ -121,7 +126,6 @@
     "default": "mon_zombie_brute",
     "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_brute" },
       { "monster": "mon_zombie_brute_grappler", "weight": 240 },
       { "monster": "mon_zombie_brute_ninja", "weight": 175 },
       { "monster": "mon_brute_pupa", "weight": 100 },
@@ -166,7 +170,6 @@
     "default": "mon_spawn_raptor",
     "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_spawn_raptor" },
       { "monster": "mon_spawn_raptor_shady", "weight": 333 },
       { "monster": "mon_spawn_raptor_electric", "weight": 333 },
       { "monster": "mon_spawn_raptor_unstable", "weight": 333 }
@@ -178,7 +181,6 @@
     "default": "mon_zombie_shady",
     "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_shady" },
       { "monster": "mon_zombie_brute_ninja", "weight": 500 },
       { "monster": "mon_zombie_pupa_decoy_shady", "weight": 250 },
       { "monster": "mon_zombie_pupa_shady", "weight": 250 },
@@ -189,9 +191,7 @@
     "name": "GROUP_FERROUS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_rust", "weight": 600 },
-      { "monster": "mon_zombie_shell", "weight": 175 },
-      { "monster": "mon_zombie_plated", "weight": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_shell", "weight": 250 },
       { "monster": "mon_zombie_urchin", "weight": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hammer_hands", "weight": 75, "cost_multiplier": 2 }
     ]
@@ -202,7 +202,6 @@
     "default": "mon_boomer",
     "//": "Boomer upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_boomer" },
       { "monster": "mon_boomer_glutton", "weight": 245 },
       { "monster": "mon_boomer_huge", "weight": 310 },
       { "monster": "mon_zombie_necro_boomer", "weight": 25 },
@@ -216,7 +215,6 @@
     "name": "GROUP_SKELETON_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_skeleton", "weight": 600 },
       { "monster": "mon_skeleton_slasher", "weight": 120, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_brute", "weight": 160, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_master", "weight": 60, "cost_multiplier": 2 },
@@ -227,7 +225,6 @@
     "name": "GROUP_ZOMBIE_MINER_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_miner" },
       { "monster": "mon_zombie_shady", "weight": 150 },
       { "monster": "mon_zombie_rust", "weight": 110 },
       { "monster": "mon_zombie_tough", "weight": 60 }

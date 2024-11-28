@@ -2,6 +2,26 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "name": "enact the PATIENT MOSAIC process",
+    "id": "recipe_mental_engineering",
+    "description": "With the help of a telepathic focusing tool and your (hopefully) extensive telepathic powers, you can sink into a deep trance where you can only sense yourself, allowing you to permanently adjust your mental state and view of the outside world.  Will the end result still be you?",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_RITUALS",
+    "skill_used": "metaphysics",
+    "difficulty": 9,
+    "time": "0 h",
+    "book_learn": [ [ "phavian_psionic_telepathic_mental_engineering_book", 8 ] ],
+    "tools": [ [ [ "telepathic_focusing_tool", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": true }
+    ],
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "result_eocs": [ "EOC_TELEPATHIC_MENTAL_ENGINEERING_SELECTOR" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "name": "study VERDANT HAND combat protocols",
     "id": "learn_psionic_combat",
     "description": "Study and attempt to internalize the practices in the VERDANT HAND Combat Protocol training manual.  There's a lot in there; it may take you more than one attempt to understand it.",
@@ -23,24 +43,24 @@
           "and": [
             {
               "or": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "5" ] }
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 8" ] },
+                { "math": [ "u_spell_level('biokin_reflex_enhance') >= 8" ] },
+                { "math": [ "u_spell_level('biokin_combat_dance') >= 5" ] }
               ]
             },
             {
               "or": [
-                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
-                { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "4" ] }
+                { "math": [ "u_spell_level('biokin_dash') >= 8" ] },
+                { "math": [ "u_spell_level('biokin_flexibility') >= 8" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline') >= 8" ] },
+                { "math": [ "u_spell_level('biokin_perfected_motion') >= 4" ] }
               ]
             },
-            { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] },
+            { "math": [ "u_spell_level('biokin_overcome_pain') >= 5" ] },
             {
               "or": [
-                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "7" ] },
-                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+                { "math": [ "u_spell_level('biokin_armor_skin') >= 7" ] },
+                { "math": [ "u_spell_level('biokin_enhance_mobility') >= 6" ] }
               ]
             }
           ]

@@ -163,7 +163,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CEMENT_INSTRUCTIONS",
-    "condition": { "and": [ { "u_has_trait": "ILLITERATE" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "not": { "u_has_trait": "ILLITERATE" } }, { "not": "u_driving" } ] },
     "effect": [ { "u_learn_recipe": "mortar_build" } ]
   },
   {
@@ -209,7 +209,6 @@
     "name": { "str": "plastic bag" },
     "looks_like": "bag_canvas",
     "description": "An open plastic bag.  Essentially trash.",
-    "ascii_picture": "bag_plastic",
     "weight": "5 g",
     "volume": "10 ml",
     "price": "0 cent",
@@ -567,7 +566,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -679,6 +677,64 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_tiny_glue",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_tiny",
+    "name": { "str": "tiny plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "longest_side": "120 mm",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "bottle_plastic_tiny_superglue",
+        "name": { "str": "large superglue bottle" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "small_squeeze_tube",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small squeeze tube" },
+    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "11 ml",
+    "longest_side": "3 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4 ml",
+        "max_item_volume": "4 ml",
+        "max_contains_weight": "50 g",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "NO_RELOAD", "NO_UNLOAD", "COLLAPSE_CONTENTS" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "small_squeeze_tube_superglue",
+        "name": { "str": "superglue tube" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "bottle_plastic_pill_prescription",
     "type": "GENERIC",
     "category": "container",
@@ -741,7 +797,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -803,7 +858,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -843,7 +897,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -1834,7 +1887,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "open_container": true,
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
@@ -1976,7 +2028,7 @@
     "category": "container",
     "name": { "str": "clay canister" },
     "looks_like": "bowl_clay",
-    "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
+    "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
     "weight": "268 g",
     "volume": "295 ml",
@@ -2001,12 +2053,38 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "type": "GENERIC",
+    "category": "container",
+    "id": "clay_cup",
+    "name": { "str": "clay cup" },
+    "symbol": "u",
+    "description": "A simple clay cup used for holding liquid.",
+    "weight": "318 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "material": [ "clay" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//3": "Based on https://woolandclay.co/products/copy-of-clay-rose-ceramic-cup?variant=44312937103577&currency=USD&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&srsltid=AfmBOooF-nJhokvYE4XmLVMLYkPNM71TgbC7qana3ZQRLCV2Q7qviZy_tHU&com_cvv=8fb3d522dc163aeadb66e08cd7450cbbdddc64c6cf2e8891f6d48747c6d56d2c"
+  },
+  {
     "id": "clay_hydria",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "clay hydria" },
     "looks_like": "bowl_clay",
-    "description": "A 15-liter clay pot with three handles for carrying and pouring.",
+    "description": "A 15-liter clay pot with three handles for carrying and pouring.  It also has a waterproofed hide lid.",
     "ascii_picture": "clay_hydria",
     "weight": "1955 g",
     "volume": "17700 ml",
@@ -2059,6 +2137,23 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "clay_watercont_no_lid",
+    "type": "GENERIC",
+    "name": { "str": "large clay pot (no lid)", "str_pl": "large clay pots (no lid)" },
+    "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+    "copy-from": "clay_watercont",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "37500 ml",
+        "max_contains_weight": "50 kg"
+      }
+    ]
   },
   {
     "id": "cup_plastic",
@@ -2475,7 +2570,7 @@
     "category": "container",
     "name": { "str": "clay jug" },
     "looks_like": "bowl_clay",
-    "description": "A clay container with a lid, used to hold and pour liquids.",
+    "description": "A clay container with a waterproofed hide lid, used to hold and pour liquids.",
     "ascii_picture": "jug_clay",
     "weight": "400 g",
     "volume": "1180 ml",
@@ -3022,7 +3117,7 @@
       {
         "id": "pinhead_case",
         "name": { "str": "Hellraiser smartphone case" },
-        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-grey, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
+        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-gray, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
         "weight": 5
       },
       {
@@ -3154,13 +3249,13 @@
       {
         "id": "pa_case",
         "name": { "str": "Paranormal Activity smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-grey color throughout, symbolizing the film's eeriness and supernatural horror.",
+        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-gray color throughout, symbolizing the film's eeriness and supernatural horror.",
         "weight": 5
       },
       {
         "id": "cloverfield_case",
         "name": { "str": "Cloverfield Monster smartphone case" },
-        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a grey-green background, with a scratchy film reel aesthetic found throughout the case.",
+        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a gray-green background, with a scratchy film reel aesthetic found throughout the case.",
         "weight": 5
       },
       {
@@ -3386,8 +3481,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "100 ml",
-        "max_contains_weight": "230 g",
+        "max_contains_volume": "111 ml",
+        "max_contains_weight": "233 g",
         "max_item_length": "15 cm",
         "moves": 100,
         "watertight": true,
@@ -3625,7 +3720,7 @@
         "volume_multiplier": 0.75
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "wrapper_pr",
@@ -3673,7 +3768,7 @@
     "name": { "str": "plastic tub" },
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "ascii_picture": "plastic_bucket",
-    "weight": "1360 g",
+    "weight": "260 g",
     "volume": "4500 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
@@ -3685,7 +3780,6 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "open_container": true,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
@@ -3935,8 +4029,8 @@
     "id": "stand_flyer",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "flyer stand" },
-    "description": "A small stand made to show off various flyers.",
+    "name": { "str": "flier stand" },
+    "description": "A small stand made to show off various fliers.",
     "ascii_picture": "stand_flyer",
     "weight": "326 g",
     "volume": "5962 ml",
@@ -4079,7 +4173,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
-    "description": "A small box with an image of children building things.  It's labelled 'Makerspace Learner Kit'.",
+    "description": "A small box with an image of children building things.  It's labeled 'Makerspace Learner Kit'.",
     "ascii_picture": "maker_kit_box",
     "weight": "400 g",
     "volume": "3200 ml",
@@ -4139,7 +4233,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4166,7 +4259,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "510 ml",
         "max_contains_weight": "3 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4193,7 +4285,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1625 ml",
         "max_contains_weight": "4 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4221,7 +4312,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "125 ml",
         "max_contains_weight": "750 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4248,7 +4338,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "31 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4275,7 +4364,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "32 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4303,7 +4391,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
         "transparent": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
@@ -4519,6 +4606,34 @@
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "pressurized_canister",
+    "type": "TOOL",
+    "category": "tool_magazine",
+    "name": { "str": "pressurized canister" },
+    "description": "A small tank for containing pressurized gases.",
+    "weight": "25 g",
+    "volume": "350 ml",
+    "longest_side": "12 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "small_propane_tank",
@@ -5051,6 +5166,39 @@
         "moves": 400
       }
     ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "tankard_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "steel tankard" },
+    "//1": "https://www.kultofathena.com/product/stainless-steel-tankard/",
+    "description": "While not as historic as one may think, it's considered a finer luxury in these trying times.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "melee_damage": { "bash": 1 },
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {

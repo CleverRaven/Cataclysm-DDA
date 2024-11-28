@@ -174,23 +174,6 @@
     "difficulty": 3
   },
   {
-    "id": "nested_atomic_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "atomic batteries",
-    "description": "Recipes related to constructing complex atomic battery cells.",
-    "skill_used": "electronics",
-    "nested_category_data": [
-      "light_minus_atomic_battery_cell",
-      "light_atomic_battery_cell",
-      "medium_atomic_battery_cell",
-      "heavy_atomic_battery_cell"
-    ],
-    "difficulty": 6
-  },
-  {
     "id": "nested_standard_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -199,7 +182,7 @@
     "name": "standard batteries",
     "description": "Recipes related to constructing standard rechargeable batteries.",
     "skill_used": "electronics",
-    "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
+    "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
     "difficulty": 3
   },
   {
@@ -215,30 +198,6 @@
     "difficulty": 3
   },
   {
-    "id": "nested_dry_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "dry batteries",
-    "description": "Recipes related to constructing basic dry-cell batteries.",
-    "skill_used": "electronics",
-    "nested_category_data": [ "light_dry_cell", "medium_dry_cell", "heavy_dry_cell" ],
-    "difficulty": 3
-  },
-  {
-    "id": "nested_disposable_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "standard disposable batteries",
-    "description": "Recipes related to constructing standard disposable batteries.",
-    "skill_used": "electronics",
-    "nested_category_data": [ "light_minus_disposable_cell", "light_disposable_cell", "medium_disposable_cell", "heavy_disposable_cell" ],
-    "difficulty": 4
-  },
-  {
     "id": "nested_all_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -249,7 +208,6 @@
     "skill_used": "electronics",
     "nested_category_data": [
       "nested_atomic_battery",
-      "nested_disposable_battery",
       "nested_dry_battery",
       "nested_standard_battery",
       "nested_storage_battery",
@@ -545,9 +503,15 @@
       "helmet_acidchitin",
       "helmet_acidchitin_xs",
       "xl_helmet_acidchitin",
+      "helmet_acidchitin_light",
+      "helmet_acidchitin_light_xs",
+      "xl_helmet_acidchitin_light",
       "helmet_chitin",
       "helmet_chitin_xs",
-      "xl_helmet_chitin"
+      "xl_helmet_chitin",
+      "helmet_chitin_light",
+      "helmet_chitin_light_xs",
+      "xl_helmet_chitin_light"
     ],
     "difficulty": 6
   },
@@ -2422,7 +2386,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "standard Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ],
     "difficulty": 6
   },
@@ -2434,7 +2398,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "light Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ],
     "difficulty": 5
   },
@@ -2446,7 +2410,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel-plated Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer REALLY safe from harm, although they are a bit heavy.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ],
     "difficulty": 7
   },
@@ -2458,7 +2422,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "Kevlar firesuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and intense fires.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "fsurvivor_jumpsuit", "xs_fsurvivor_jumpsuit", "xl_fsurvivor_jumpsuit" ],
     "difficulty": 8
   },
@@ -2470,7 +2434,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "winter Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [
       "wsurvivor_jumpsuit_nofur",
       "xs_wsurvivor_jumpsuit_nofur",
@@ -2489,7 +2453,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "Kevlar wetsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [
       "h20survivor_jumpsuit",
       "xs_h20survivor_jumpsuit",
@@ -2539,7 +2503,8 @@
       "quiver_large_birchbark",
       "nylon_quiver",
       "pipe_quiver",
-      "pipe_quiver_large"
+      "pipe_quiver_large",
+      "quiver_simple_cloth"
     ],
     "difficulty": 3
   },
@@ -4138,14 +4103,7 @@
     "name": "modified attachments",
     "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "bipod_mod",
-      "grip_mod",
-      "stabilizer_mod",
-      "muzzle_brake_mod",
-      "nested_modified_gunmods_weapons",
-      "nested_modified_gunmods_sights"
-    ]
+    "nested_category_data": [ "bipod_mod", "grip_mod", "muzzle_brake_mod", "nested_modified_gunmods_weapons", "nested_modified_gunmods_sights" ]
   },
   {
     "id": "nested_modified_gunmods_weapons",
@@ -4164,7 +4122,6 @@
       "m203_mod",
       "m320_mod_mod",
       "masterkey_mod",
-      "rm121aux_mod",
       "sword_bayonet_mod",
       "u_shotgun_mod"
     ]
@@ -4718,8 +4675,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "cavalry sabres",
-    "description": "Recipes for making cavalry sabres.",
+    "name": "cavalry sabers",
+    "description": "Recipes for making cavalry sabers.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ],
     "difficulty": 7
@@ -7109,7 +7066,7 @@
     "name": "chainmail sheets",
     "description": "Recipes related to making sheets of chainmail of different steel qualities.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "link_sheet_fabrication", "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ],
+    "nested_category_data": [ "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ],
     "difficulty": 3
   },
   {
@@ -7153,7 +7110,7 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_copper", "pike_wood" ],
+    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
     "difficulty": 3
   },
   {

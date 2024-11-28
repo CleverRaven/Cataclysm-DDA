@@ -783,7 +783,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
     for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        write_var_value( var_type::context, "npctalk_var_act_cost", &d,
+        write_var_value( var_type::context, "act_cost", &d,
                          units::to_millijoule( bio.info().power_activate ) );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
@@ -928,7 +928,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
         const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && here.is_flammable( *pnt ) ) {
+        if( pnt && here.is_flammable( *pnt ) && !here.get_field( tripoint_bub_ms( *pnt ), fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
             if( has_trait( trait_PYROMANIA ) ) {
@@ -997,7 +997,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         { material_iron, material_steel, material_lc_steel, material_mc_steel, material_hc_steel, material_ch_steel, material_qt_steel, material_budget_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
-        std::vector<std::pair<item, tripoint>> affected;
+        std::vector<std::pair<item, tripoint_bub_ms>> affected;
         const units::mass weight_cap = weight_capacity();
         for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 10 ) ) {
             if( p == pos_bub() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
@@ -1008,25 +1008,25 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
-                    affected.emplace_back( *it, p.raw() );
+                    affected.emplace_back( *it, p );
                     stack.erase( it );
                     break;
                 }
             }
         }
 
-        for( const std::pair<item, tripoint> &pr : affected ) {
+        for( const std::pair<item, tripoint_bub_ms> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
             proj.impact = damage_instance();
             // FIXME: Hardcoded damage type
             proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
-            proj.range = rl_dist( pr.second, pos() ) - 1;
+            proj.range = rl_dist( pr.second, pos_bub() ) - 1;
             proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};
 
             dealt_projectile_attack dealt = projectile_attack(
-                                                proj, pr.second, pos(), dispersion_sources{ 0 }, this );
+                                                proj, pr.second, pos_bub(), dispersion_sources{ 0 }, this );
             here.add_item_or_charges( dealt.end_point, pr.first );
         }
 
@@ -1039,7 +1039,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 player_character );
         if( target.has_value() ) {
             add_msg_activate();
-            assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );
+            assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( *target ) ) );
             if( close_bionics_ui ) {
                 *close_bionics_ui = true;
             }
@@ -1174,9 +1174,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     }
     bio_flag_cache.clear();
-    // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
-    reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
     if( bio.has_weapon() || !bio.info().passive_pseudo_items.empty() ||
@@ -1250,7 +1248,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( *get_wielded_item() );
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
-            if( get_player_view().sees( pos() ) ) {
+            if( get_player_view().sees( pos_bub() ) ) {
                 if( male ) {
                     add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
                 } else {
@@ -1272,9 +1270,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         }
     }
 
-    // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
-    reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
@@ -1494,7 +1490,7 @@ void Character::burn_fuel( bionic &bio )
 
     mod_power_level( energy_gain * efficiency );
     heat_emission( bio, energy_gain );
-    here.emit_field( pos(), bio.info().power_gen_emission );
+    here.emit_field( pos_bub(), bio.info().power_gen_emission );
 }
 
 void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
@@ -1510,7 +1506,7 @@ void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
     map &here = get_map();
     if( hotness.is_valid() ) {
         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
-        here.emit_field( pos(), hotness, heat_spread );
+        here.emit_field( pos_bub(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first.id(), false, heat_prod );
@@ -1693,10 +1689,13 @@ void Character::process_bionic( bionic &bio )
             mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_gills ) {
-        if( has_effect( effect_asthma ) ) {
+        const units::energy trigger_cost = bio.info().power_trigger / 8;
+        if( has_effect( effect_asthma ) && get_power_level() >= trigger_cost ) {
             add_msg_if_player( m_good,
-                               _( "You feel your throat open up and air filling your lungs!" ) );
+                               _( "Your %s activates and you feel your throat open up and air filling your lungs!" ),
+                               bio.info().name );
             remove_effect( effect_asthma );
+            mod_power_level( -trigger_cost );
         }
     } else if( bio.id == bio_evap ) {
         if( is_underwater() ) {
@@ -2206,7 +2205,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
-        here.add_item( pos(), cbm );
+        here.add_item( pos_bub(), cbm );
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2281,7 +2280,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
-        get_map().add_item( patient.pos(), cbm );
+        get_map().add_item( patient.pos_bub(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
     }
@@ -2414,9 +2413,10 @@ float Character::env_surgery_bonus( int radius ) const
 {
     float bonus = 1.0f;
     map &here = get_map();
-    for( const tripoint &cell : here.points_in_radius( pos(), radius ) ) {
-        if( here.furn( cell )->surgery_skill_multiplier ) {
-            bonus = std::max( bonus, *here.furn( cell )->surgery_skill_multiplier );
+    for( const tripoint_bub_ms &cell : here.points_in_radius( pos_bub(), radius ) ) {
+        const furn_id &f = here.furn( cell );
+        if( f->surgery_skill_multiplier ) {
+            bonus = std::max( bonus, *f->surgery_skill_multiplier );
         }
     }
     return bonus;

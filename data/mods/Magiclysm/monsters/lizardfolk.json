@@ -25,7 +25,7 @@
     "dodge": 5,
     "harvest": "lizardfolk",
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "families": [ "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "death_drops": [
       { "item": "lizardfolk_club", "prob": 30 },
       { "item": "loincloth", "prob": 40 },
@@ -92,7 +92,15 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 10 }, [ "scratch", 5 ] ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_shaman_base" },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "cooldown": 10
+      },
+      [ "scratch", 5 ]
+    ],
     "death_drops": {
       "subtype": "distribution",
       "items": [

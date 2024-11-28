@@ -16,8 +16,8 @@
     "id": "ench_salamander_heat_healing",
     "condition": {
       "or": [
-        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] },
+        { "math": [ "u_salamander_near_fire == 1" ] },
         { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
@@ -28,8 +28,8 @@
     "id": "ench_salamander_heat_crafting",
     "condition": {
       "or": [
-        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] },
+        { "math": [ "u_salamander_near_fire == 1" ] },
         { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
@@ -38,8 +38,11 @@
   {
     "id": "salamander_aoe_explosion",
     "type": "SPELL",
-    "name": "Salamander AoE Explosion",
-    "description": "This is the AoE used by some other Salamander spells.  It's a bug if you have it directly.",
+    "name": { "str": "Salamander AoE Explosion", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the AoE used by some other Salamander spells.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "skill": "deduction",
@@ -125,8 +128,8 @@
   {
     "id": "salamander_flame_punch_spell_push",
     "type": "SPELL",
-    "name": "Blazing Blow Push",
-    "description": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Blazing Blow Push", "//~": "NO_I18N" },
+    "description": { "str": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "skill": "deduction",
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
@@ -199,8 +202,11 @@
   {
     "id": "salamander_smoke_immunity_spell",
     "type": "SPELL",
-    "name": "In a Cloud of Smoke Immunity",
-    "description": "Makes the Salamander immune to smoke so they won't inhale tons of smoke when teleporting.  It's a bug if you have it directly.",
+    "name": { "str": "In a Cloud of Smoke Immunity", "//~": "NO_I18N" },
+    "description": {
+      "str": "Makes the Salamander immune to smoke so they won't inhale tons of smoke when teleporting.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "effect": "attack",
@@ -212,8 +218,8 @@
   {
     "id": "salamander_smoke_teleport_spell_emit",
     "type": "SPELL",
-    "name": "In a Cloud of Smoke Emit",
-    "description": "Releases the smoke from casting In a Puff of Smoke.  It's a bug if you have it directly.",
+    "name": { "str": "In a Cloud of Smoke Emit", "//~": "NO_I18N" },
+    "description": { "str": "Releases the smoke from casting In a Puff of Smoke.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "skill": "deduction",
     "valid_targets": [ "none" ],
     "effect": "emit",
@@ -483,8 +489,8 @@
   {
     "id": "salamander_explosion_trap_spell_activated",
     "type": "SPELL",
-    "name": "Salamander Trap Explosion",
-    "description": "This is the AoE used by Sigil of Detonation.  It's a bug if you have it directly.",
+    "name": { "str": "Salamander Trap Explosion", "//~": "NO_I18N" },
+    "description": { "str": "This is the AoE used by Sigil of Detonation.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "skill": "deduction",
@@ -549,8 +555,8 @@
   {
     "id": "salamander_fire_fly_real",
     "type": "SPELL",
-    "name": "Burning Ascension Real",
-    "description": "The actual spell that causes the burning ascension.  It's a bug if you have it.",
+    "name": { "str": "Burning Ascension Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that causes the burning ascension.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "skill": "deduction",
     "flags": [ "SOMATIC", "SILENT", "NO_LEGS", "VERBAL", "TARGET_TELEPORT", "EXTRA_EFFECTS_FIRST" ],
@@ -636,8 +642,8 @@
   {
     "id": "salamander_explosion_and_heal_spell_self_heal",
     "type": "SPELL",
-    "name": "The Phoenix's Last Cry Healing Effect",
-    "description": "The healing effect of The Phoenix's Last Cry.  It's a bug if you have it directly.",
+    "name": { "str": "The Phoenix's Last Cry Healing Effect", "//~": "NO_I18N" },
+    "description": { "str": "The healing effect of The Phoenix's Last Cry.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "SALAMANDER",

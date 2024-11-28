@@ -30,10 +30,7 @@
     "weight": "970 g",
     "price_postapoc": "1 kUSD 240 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
-    },
+    "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING", "RELIC_PINK" ],
     "armor": [
       {
         "material": [
@@ -53,7 +50,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2, "heat": 7 }
   },
   {
     "type": "GENERIC",
@@ -61,10 +58,7 @@
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
-    "proportional": { "price": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 11 } ] } ]
-    },
+    "proportional": { "price": 3.0, "weight": 0.9, "melee_damage": { "all": 1.5 } },
     "relative": { "to_hit": 1 }
   },
   {
@@ -73,10 +67,7 @@
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
-    "proportional": { "price": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 15 } ] } ]
-    },
+    "proportional": { "price": 6.0, "weight": 0.8, "melee_damage": { "all": 2 } },
     "relative": { "to_hit": 2 }
   },
   {

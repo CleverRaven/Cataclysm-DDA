@@ -19,7 +19,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -231,8 +230,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( here.furn( p ).to_i() > 0 ) {
-                    const furn_t &furniture_type = here.furn( p ).obj();
+                const furn_id &f = here.furn( p );
+                if( f.to_i() > 0 ) {
+                    const furn_t &furniture_type = f.obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -267,7 +267,7 @@ tripoint editmap::pos2screen( const tripoint_bub_ms &p )
  */
 bool editmap::eget_direction( tripoint_rel_ms &p, const std::string &action ) const
 {
-    p = tripoint_rel_ms( tripoint_zero );
+    p = tripoint_rel_ms::zero;
     if( action == "CENTER" ) {
         p = get_player_character().pos_bub() - target;
     } else if( action == "LEFT_WIDE" ) {
@@ -347,7 +347,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( player_character.view_offset );
     target = player_character.pos_bub() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -360,6 +360,7 @@ std::optional<tripoint_bub_ms> editmap::edit()
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "EDIT_TRAPS" );
     ctxt.register_action( "EDIT_FIELDS" );
+    ctxt.register_action( "EDIT_RADS" );
     ctxt.register_action( "EDIT_TERRAIN" );
     ctxt.register_action( "EDIT_FURNITURE" );
     ctxt.register_action( "EDIT_OVERMAP" );
@@ -394,9 +395,10 @@ std::optional<tripoint_bub_ms> editmap::edit()
 
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
+                                       "%s, %s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDIT_TRAPS" ),
                                        ctxt.describe_key_and_name( "EDIT_FIELDS" ),
+                                       ctxt.describe_key_and_name( "EDIT_RADS" ),
                                        ctxt.get_desc( "LEFT_WIDE", 1 ), ctxt.get_desc( "RIGHT_WIDE", 1 ),
                                        ctxt.get_desc( "UP_WIDE", 1 ), ctxt.get_desc( "DOWN_WIDE", 1 ),
                                        ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
@@ -418,6 +420,8 @@ std::optional<tripoint_bub_ms> editmap::edit()
             edit_feature<furn_t>();
         } else if( action == "EDIT_FIELDS" ) {
             edit_fld();
+        } else if( action == "EDIT_RADS" ) {
+            edit_rads();
         } else if( action == "EDIT_ITEMS" ) {
             edit_itm();
         } else if( action == "EDIT_TRAPS" ) {
@@ -507,7 +511,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 void editmap::do_ui_invalidation()
 {
     avatar &player_character = get_avatar();
-    player_character.view_offset = ( target - player_character.pos_bub() ).raw();
+    player_character.view_offset = target - player_character.pos_bub();
     g->invalidate_main_ui_adaptor();
     create_or_get_ui_adaptor()->invalidate_ui();
 }
@@ -535,8 +539,8 @@ void editmap::draw_main_ui_overlay()
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
-                p[0] += point_north_west;
-                p[1] += point_south_east;
+                p[0] += point::north_west;
+                p[1] += point::south_east;
             }
             for( const point_bub_ms &pi : p ) {
                 for( const point_bub_ms &pj : p ) {
@@ -610,11 +614,13 @@ void editmap::draw_main_ui_overlay()
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        const point mp = tmax / 2 + point_south_east;
-        mvwputch( g->w_terrain, point( 1, mp.y ), c_yellow, '<' );
-        mvwputch( g->w_terrain, point( tmax.x - 1, mp.y ), c_yellow, '>' );
-        mvwputch( g->w_terrain, point( mp.x, 1 ), c_yellow, '^' );
-        mvwputch( g->w_terrain, point( mp.x, tmax.y - 1 ), c_yellow, 'v' );
+        const point mp = tmax / 2 + point::south_east;
+        wattron( g->w_terrain, c_yellow );
+        mvwaddch( g->w_terrain, point( 1, mp.y ), '<' );
+        mvwaddch( g->w_terrain, point( tmax.x - 1, mp.y ), '>' );
+        mvwaddch( g->w_terrain, point( mp.x, 1 ), '^' );
+        mvwaddch( g->w_terrain, point( mp.x, tmax.y - 1 ), 'v' );
+        wattroff( g->w_terrain, c_yellow );
     }
 
     if( tmpmap_ptr ) {
@@ -648,7 +654,7 @@ void editmap::draw_main_ui_overlay()
                                                false );
                     }
                     if( const optional_vpart_position ovp = tmpmap.veh_at( tmp_p ) ) {
-                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount() );
+                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount_pos() );
                         char part_mod = 0;
                         if( vd.is_open ) {
                             part_mod = 1;
@@ -656,9 +662,10 @@ void editmap::draw_main_ui_overlay()
                             part_mod = 2;
                         }
                         const units::angle veh_dir = ovp->vehicle().face.dir();
-                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo, ovp->mount() );
+                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
+                                                ovp->mount_pos().raw() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point::zero );
                     }
                     g->draw_below_override( tripoint_bub_ms( map_p ),
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
@@ -668,7 +675,7 @@ void editmap::draw_main_ui_overlay()
             std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
-                    submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z()} );
+                    submap *sm = tmpmap.get_submap_at_grid( tripoint_rel_sm{ x, y, target.z()} );
                     if( sm ) {
                         const tripoint_bub_ms sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z() );
                         for( const spawn_point &sp : sm->spawns ) {
@@ -693,8 +700,8 @@ void editmap::draw_main_ui_overlay()
 #endif
             hilights["mapgentgt"].draw( *this, true );
             drawsq_params params = drawsq_params().center( tripoint_bub_ms( SEEX - 1, SEEY - 1, target.z() ) );
-            for( const tripoint &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, p, params );
+            for( const tripoint_omt_ms &p : tmpmap.points_on_zlevel() ) {
+                tmpmap.drawsq( g->w_terrain, rebase_bub( p ), params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
@@ -719,7 +726,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         veh_msg = pgettext( "vehicle", "out" );
     }
 
-    const ter_t &terrain_type = here.ter( target ).obj();
+    const ter_id &t = here.ter( target );
+    const ter_t &terrain_type = t.obj();
     const furn_t &furniture_type = here.furn( target ).obj();
 
     int off = 1;
@@ -729,15 +737,16 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                target.z() );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), t.to_i(),
                static_cast<std::string>( terrain_type.id ),
                terrain_type.movecost
              );
     off++; // 2
-    if( here.furn( target ).to_i() > 0 ) {
+    const furn_id &f = here.furn( target );
+    if( f.to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
-                   here.furn( target ).to_i(),
+                   f.to_i(),
                    static_cast<std::string>( furniture_type.id ),
                    furniture_type.movecost,
                    furniture_type.move_str_req
@@ -1016,7 +1025,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint_bub
     ter_id teralt = undefined_ter_id;
     int alta = -1;
     int altb = -1;
-    const ter_id sel_ter = t.id.id();
+    const ter_id &sel_ter = t.id.id();
     if( editshape == editmap_rect ) {
         if( t.symbol() == LINE_XOXO || t.symbol() == '|' ) {
             isvert = true;
@@ -1053,7 +1062,7 @@ template<>
 void apply<furn_t>( const furn_t &t, const shapetype, const tripoint_bub_ms &,
                     const tripoint_bub_ms &, const std::vector<tripoint_bub_ms> &target_list )
 {
-    const furn_id sel_frn = t.id.id();
+    const furn_id &sel_frn = t.id.id();
     map &here = get_map();
     for( const tripoint_bub_ms &elem : target_list ) {
         here.furn_set( elem, sel_frn );
@@ -1082,12 +1091,6 @@ void editmap::edit_feature()
     using T_id = decltype( T_t().id.id() );
 
     uilist emenu;
-    emenu.w_width_setup = width;
-    emenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight;
-    };
-    emenu.w_y_setup = 0;
-    emenu.w_x_setup = offsetX;
     emenu.desc_enabled = true;
     emenu.input_category = "EDITMAP_FEATURE";
     emenu.additional_actions = {
@@ -1218,15 +1221,18 @@ void editmap::setup_fmenu( uilist &fmenu )
     }
 }
 
+void editmap::edit_rads() const
+{
+    map &here = get_map();
+    int value = 0;
+    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+        here.set_radiation( target, value );
+    }
+}
+
 void editmap::edit_fld()
 {
     uilist fmenu;
-    fmenu.w_width_setup = width;
-    fmenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight;
-    };
-    fmenu.w_y_setup = 0;
-    fmenu.w_x_setup = offsetX;
     setup_fmenu( fmenu );
     fmenu.input_category = "EDIT_FIELDS";
     fmenu.additional_actions = {
@@ -1285,15 +1291,9 @@ void editmap::edit_fld()
             const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
-                shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
+                shared_ptr_fast<uilist_impl> fmenu_ui = fmenu.create_or_get_ui();
 
                 uilist femenu;
-                femenu.w_width_setup = width;
-                femenu.w_height_setup = infoHeight;
-                femenu.w_y_setup = [this]( int ) -> int {
-                    return TERMY - infoHeight;
-                };
-                femenu.w_x_setup = offsetX;
 
                 femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
@@ -1397,12 +1397,6 @@ enum editmap_imenu_ent {
 void editmap::edit_itm()
 {
     uilist ilmenu;
-    ilmenu.w_x_setup = offsetX;
-    ilmenu.w_y_setup = 0;
-    ilmenu.w_width_setup = width;
-    ilmenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight - 1;
-    };
     map_stack items = get_map().i_at( target );
     int i = 0;
     for( item &an_item : items ) {
@@ -1424,7 +1418,7 @@ void editmap::edit_itm()
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
 
-    shared_ptr_fast<ui_adaptor> ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
+    shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
 
     do {
         info_txt_curr.clear();
@@ -1435,14 +1429,6 @@ void editmap::edit_itm()
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
-            imenu.w_x_setup = offsetX;
-            imenu.w_y_setup = [this]( int ) -> int {
-                return TERMY - infoHeight - 1;
-            };
-            imenu.w_height_setup = [this]() -> int {
-                return infoHeight + 1;
-            };
-            imenu.w_width_setup = width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1466,7 +1452,7 @@ void editmap::edit_itm()
             };
             imenu.allow_additional = true;
 
-            shared_ptr_fast<ui_adaptor> imenu_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> imenu_ui = imenu.create_or_get_ui();
 
             do {
                 imenu.query();
@@ -1743,10 +1729,8 @@ int editmap::select_shape( shapetype shape, int mode )
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( action == "RESIZE" ) {
             if( !moveall ) {
-                const int offset = 16;
                 uilist smenu;
                 smenu.text = _( "Selection type" );
-                smenu.w_x_setup = ( offsetX + offset ) / 2;
                 smenu.addentry( editmap_rect, true, 'r', pgettext( "shape", "Rectangle" ) );
                 smenu.addentry( editmap_rect_filled, true, 'f', pgettext( "shape", "Filled Rectangle" ) );
                 smenu.addentry( editmap_line, true, 'l', pgettext( "shape", "Line" ) );
@@ -1850,15 +1834,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+    //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
 
     uilist gpmenu;
-    gpmenu.w_width_setup = width;
-    gpmenu.w_height_setup = infoHeight - 4;
-    gpmenu.w_y_setup = [this]( int ) -> int {
-        return TERMY - infoHeight;
-    };
-    gpmenu.w_x_setup = offsetX;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
@@ -1980,10 +1958,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             } else if( gpmenu.ret_act == "RIGHT" ) {
                 gmenu.scrollby( 1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
@@ -1995,7 +1973,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+    //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
     hilights["mapgentgt"].points.clear();
     cleartmpmap( tmpmap );
 }
@@ -2008,7 +1986,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z()} );
+            submap *destsm = target_bay.get_submap_at_grid( tripoint_rel_sm{ x, y, target.z()} );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to get vehicles at (%d,%d,%d) but the submap is not loaded", x, y, target.z() );
                 continue;
@@ -2045,7 +2023,7 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
     target_bay.load( omt_tgt, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z()} );
+            submap *destsm = target_bay.get_submap_at_grid( tripoint_rel_sm{ x, y, target.z()} );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to destroy vehicle at (%d,%d,%d) but the submap is not loaded", x, y, target.z() );
                 continue;
@@ -2099,7 +2077,7 @@ void editmap::mapgen_retarget()
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point vec_ms = omt_to_ms_copy( vec->xy() );
+            point_rel_ms vec_ms = coords::project_to<coords::ms>( point_rel_omt( vec->xy() ) );
             tripoint_bub_ms ptarget = target + vec_ms;
             if( get_map().inbounds( ptarget ) &&
                 get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
@@ -2130,12 +2108,6 @@ void editmap::mapgen_retarget()
 void editmap::edit_mapgen()
 {
     uilist gmenu;
-    gmenu.w_width_setup = width;
-    gmenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight;
-    };
-    gmenu.w_y_setup = 0;
-    gmenu.w_x_setup = offsetX;
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
         { "EDITMAP_MOVE", translation() },
@@ -2163,13 +2135,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getabs( target.xy() ) );
+        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getabs( target.xy() ) );
+            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {
@@ -2195,7 +2167,7 @@ void editmap::edit_mapgen()
 
         if( gmenu.ret >= 0 ) {
             blink = false;
-            shared_ptr_fast<ui_adaptor> gmenu_ui = gmenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> gmenu_ui = gmenu.create_or_get_ui();
             mapgen_preview( tc, gmenu );
             blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {

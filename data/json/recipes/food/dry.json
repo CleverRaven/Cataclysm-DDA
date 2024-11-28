@@ -755,7 +755,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 55, "LIST" ] ] ],
     "//": "by weight of unfertilized bird egg 550g of stuff",
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_invert", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "eggs_reptile", 12, "LIST" ], [ "eggs_invert", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -772,7 +772,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 55, "LIST" ] ], [ [ "surface_heat", 36, "LIST" ] ] ],
     "//": "by weight of unfertilized bird egg 550g of stuff plus 36u heat for the eggs (standard is 3 per egg)",
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_invert", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "eggs_reptile", 12, "LIST" ], [ "eggs_invert", 1, "LIST" ] ] ]
   },
   {
     "result": "protein_powder",

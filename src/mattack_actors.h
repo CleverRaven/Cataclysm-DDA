@@ -263,7 +263,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         bool try_target( monster &z, Creature &target ) const;
-        bool shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+        bool shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
         int get_max_range() const;
 

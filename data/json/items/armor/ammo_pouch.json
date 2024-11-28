@@ -8,7 +8,6 @@
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "6 USD",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -54,7 +53,6 @@
           "308": 60,
           "12mm": 60,
           "8x40mm": 60,
-          "20x66mm": 60,
           "stimpack_ammo": 60,
           "ampoule": 60,
           "300": 60,
@@ -71,8 +69,7 @@
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "ammo_satchel",
@@ -540,6 +537,25 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "quiver_simple_cloth",
+    "type": "ARMOR",
+    "name": { "str": "simple cloth quiver" },
+    "description": "A simple quiver made out of cloth that can be adjusted to hold various types of arrows, bolts, and spears of different lengths.  Takes slightly longer to pull ammunition from than a regular quiver.  Use insert to store arrows, bolts, fishing spears, or atlatl spears.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "white",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [ { "ammo_restriction": { "arrow": 30, "bolt": 30, "atlatl": 5, "fishspear": 5 }, "moves": 30 } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
     "id": "quiver_takedown_bow",
     "type": "ARMOR",
     "//": "Based on: https://www.amazon.com/XTACER-Multi-Function-4-Tubes-Training-Takedown/dp/B072K4537K",
@@ -591,7 +607,7 @@
     "id": "tacvest",
     "type": "ARMOR",
     "name": { "str": "tac vest" },
-    "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.",
+    "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular among law enforcement, but less so than combination tactical vests incorporating Kevlar.",
     "weight": "1750 g",
     "volume": "1250 ml",
     "looks_like": "vest",
@@ -654,7 +670,7 @@
         "volume_encumber_modifier": 0.25
       },
       {
-        "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 },
+        "ammo_restriction": { "410shot": 6, "shot": 6, "signal_flare": 6 },
         "moves": 25,
         "volume_encumber_modifier": 0.2
       }
@@ -1255,7 +1271,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "dark_gray",
-    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
+    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
@@ -1269,7 +1285,7 @@
     "weight": "4210 g",
     "volume": "8 L",
     "price_postapoc": "25 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1302,7 +1318,7 @@
         "specifically_covers": [ "torso_lower" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "ammo_satchel_leather",
@@ -1371,7 +1387,6 @@
     "volume": "25 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1390,8 +1405,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "belt_loop_medium",
@@ -1402,7 +1416,6 @@
     "volume": "50 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1421,8 +1434,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "belt_loop_large",
@@ -1433,7 +1445,6 @@
     "volume": "100 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1452,7 +1463,6 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   }
 ]
