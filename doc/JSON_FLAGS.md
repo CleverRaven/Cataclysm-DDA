@@ -371,6 +371,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ENHANCED_VISION``` Increases the scouting range, similarly to `ZOOM` item flag.
 - ```EYE_MEMBRANE``` Lets you see underwater.
 - ```FEATHER_FALL``` You are immune to fall damage.
+- ```FREEZE_EFFECTS``` Effects do not progress in duration and new effects cannot be applied.  An effect with this flag is ignored and will progress normally.
 - ```GILLS``` You can breathe underwater.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```GLIDE``` You can glide from ledges without the use of wings, as if by magic.
