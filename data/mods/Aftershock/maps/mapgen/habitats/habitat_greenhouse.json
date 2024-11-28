@@ -45,7 +45,7 @@
         "...../c /         =>}..-",
         ".....//!-%-]]-///-------",
         ".....}##---00-..........",
-        ".....}##/-e00-..........",
+        ".....}##/-300-..........",
         ".....}##/------.........",
         ".....////-....-.........",
         "........................",
@@ -62,7 +62,7 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
       "terrain": {
         ".": "t_open_air",
-        "e": "t_elevator_control",
+        "3": "t_elevator_control",
         "=": "t_wall_glass",
         "#": "t_bridge",
         "0": "t_elevator",
