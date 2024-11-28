@@ -42,7 +42,7 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save( bool bCharacter )
 {
-    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
         return true;
     }
     cata_path sGlobalFile = PATH_INFO::autonote();

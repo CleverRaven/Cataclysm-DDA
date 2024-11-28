@@ -3428,7 +3428,7 @@ bool game::save_maps()
 
 bool game::save_player_data()
 {
-    const std::string playerfile = PATH_INFO::player_base_save_path();
+    const cata_path playerfile = PATH_INFO::player_base_save_path_path();
 
     const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
@@ -13450,22 +13450,6 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
         }
     }
     return nullptr;
-}
-
-namespace
-{
-std::string world_base_save_path()
-{
-    if( world_generator->active_world == nullptr ) {
-        return PATH_INFO::savedir();
-    }
-    return world_generator->active_world->folder_path();
-}
-}
-
-std::string PATH_INFO::player_base_save_path()
-{
-    return world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
 }
 
 cata_path PATH_INFO::player_base_save_path_path()

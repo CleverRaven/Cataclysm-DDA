@@ -34,7 +34,6 @@ std::string user_font();
 std::string keymap();
 std::string memorialdir();
 std::string achievementdir();
-std::string player_base_save_path();
 std::string savedir();
 std::string sokoban();
 std::string templatedir();

@@ -935,7 +935,7 @@ bool player_settings::save( const bool bCharacter )
     if( bCharacter ) {
         savefile = PATH_INFO::player_base_save_path_path() + ".apu.json";
 
-        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
+        const cata_path player_save = PATH_INFO::player_base_save_path_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
