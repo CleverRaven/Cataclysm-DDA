@@ -716,7 +716,7 @@ std::set<point_abs_ms> vehicle::immediate_path( const units::angle &rotate )
     point_bub_ms top_left_actual = pos_bub().xy() + coord_translate( front_left );
     point_bub_ms top_right_actual = pos_bub().xy() + coord_translate( front_right );
     std::vector<point_abs_ms> front_row = line_to( here.getglobal( tripoint_bub_ms{ top_left_actual.x(), top_left_actual.y(), here.get_abs_sub().z()} ).xy(),
-                                          here.getglobal( tripoint_bub_ms{ top_right_actual.x(), top_right_actual.y(), here.get_abs_sub().z()} ).xy() );
+                                          here.getglobal( tripoint_bub_ms{top_right_actual.x(), top_right_actual.y(), here.get_abs_sub().z()} ).xy() );
     for( const point_abs_ms &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
@@ -1023,7 +1023,7 @@ std::optional<std::string> vehicle::has_engine_conflict( const vpart_info &possi
     return std::nullopt;
 }
 
-bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id & ft ) const
+bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id &ft ) const
 {
     return vp.ammo_current().is_null() ? vp.fuel_current() == ft : vp.ammo_current() == ft;
 }
@@ -1527,7 +1527,7 @@ int vehicle::install_part( const point &dp, vehicle_part &&vp )
         }
     } else {
         // TODO: read toggle groups from JSON
-        static const std::vector<std::string> enable_like = {{
+        static const std::vector<std::string> enable_like = { {
                 "CONE_LIGHT",
                 "CIRCLE_LIGHT",
                 "AISLE_LIGHT",
@@ -1593,7 +1593,7 @@ int vehicle::install_part( const point_rel_ms &dp, vehicle_part &&vp )
         }
     } else {
         // TODO: read toggle groups from JSON
-        static const std::vector<std::string> enable_like = { {
+        static const std::vector<std::string> enable_like = {{
                 "CONE_LIGHT",
                 "CIRCLE_LIGHT",
                 "AISLE_LIGHT",
@@ -2551,7 +2551,7 @@ bool vehicle::split_vehicles( map &here,
             }
             // If we've split a power grid down to one part, rename it from "power grid" to its part name.
             new_vehicle->name = from_powergrid && split_parts.size() == 1 ?
-                                parts[split_part0].info().name() : name;
+                                parts[ split_part0 ].info().name() : name;
             new_vehicle->owner = owner;
             new_vehicle->old_owner = old_owner;
             new_vehicle->move = move;
@@ -3337,7 +3337,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
         };
         std::sort( x_parts.begin(), x_parts.end(), x_sorter );
         int first_part = 0;
-        int prev_y = parts[ x_parts [ 0 ] ].mount.y();
+        int prev_y = parts[ x_parts[ 0 ] ].mount.y();
         int i;
         bool found_part = x_parts[ 0 ] == part;
         for( i = 1; static_cast<size_t>( i ) < x_parts.size(); i++ ) {
@@ -3368,7 +3368,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
         int i;
         bool found_part = y_parts[ 0 ] == part;
         for( i = 1; static_cast<size_t>( i ) < y_parts.size(); i++ ) {
-            if( std::abs( parts[ y_parts[ i ] ].mount.x() - prev_x ) >  1 ) {
+            if( std::abs( parts[ y_parts[ i ] ].mount.x() - prev_x )  > 1 ) {
                 if( found_part ) {
                     break;
                 }
@@ -4462,9 +4462,9 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].aisle, pa, pa.info().has_flag( "AISLE" ) );
             d_check_max( drag[ col ].shield, pa, pa.info().has_flag( "WINDSHIELD" ) &&
                          pa.is_available() );
-            d_check_max( drag[ col].seat, pa, pa.info().has_flag( "SEAT" ) ||
+            d_check_max( drag[ col ].seat, pa, pa.info().has_flag( "SEAT" ) ||
                          pa.info().has_flag( "BED" ) );
-            d_check_max( drag[ col].turret, pa, pa.info().location == part_location_onroof &&
+            d_check_max( drag[ col ].turret, pa, pa.info().location == part_location_onroof &&
                          !pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
