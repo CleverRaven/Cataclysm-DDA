@@ -111,7 +111,7 @@
     "type": "GUN",
     "name": "foreign cannon rifle",
     "ammo": [ "ammo_rifle_cannon" ],
-    "description": "A powerful Exodii rifle, reserved for the later stage of cataclysm.  Should be considered an anti-tank rifle in modern world, but the round is bigger than any anti-tank round on Earth",
+    "description": "A powerful Exodii rifle, reserved for the later stage of cataclysm.  It should be considered an anti-tank rifle in modern world, but the round is bigger than any anti-tank round on Earth.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

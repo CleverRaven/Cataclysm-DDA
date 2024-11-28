@@ -62,13 +62,13 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "3.3 naval 4-round magazine" },
-    "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if a gun itself can be named portable.",
+    "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if the gun itself can be named portable.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_4_mag",
         "name": { "str": "3.3 naval 4-round magazine" },
-        "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if a gun itself can be named portable."
+        "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if the gun itself can be named portable."
       }
     ],
     "weight": "340 g",
