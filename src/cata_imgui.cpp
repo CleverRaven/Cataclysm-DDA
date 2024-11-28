@@ -565,7 +565,7 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
