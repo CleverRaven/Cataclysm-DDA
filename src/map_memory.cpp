@@ -25,7 +25,7 @@ static tripoint mmr_to_sm_copy( const tripoint &p )
 
 static cata_path find_mm_dir()
 {
-    return PATH_INFO::player_base_save_path_path() + ".mm1";
+    return PATH_INFO::player_base_save_path() + ".mm1";
 }
 
 static cata_path find_region_path( const cata_path &dirname, const tripoint &p )

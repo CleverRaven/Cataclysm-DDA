@@ -14,7 +14,7 @@ namespace
 {
 flexbuffer_cache &base_cache()
 {
-    static flexbuffer_cache cache{ ( PATH_INFO::base_path_path() / "cache" ).get_unrelative_path(), PATH_INFO::base_path_path().get_unrelative_path() };
+    static flexbuffer_cache cache{ ( PATH_INFO::base_path() / "cache" ).get_unrelative_path(), PATH_INFO::base_path().get_unrelative_path() };
     return cache;
 }
 

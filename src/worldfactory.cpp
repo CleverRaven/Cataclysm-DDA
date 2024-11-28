@@ -95,7 +95,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     active_mod_order = world_to_copy->active_mod_order;
 }
 
-cata_path WORLD::folder_path_path() const
+cata_path WORLD::folder_path() const
 {
     return PATH_INFO::savedir_path() / world_name;
 }
@@ -295,7 +295,7 @@ void worldfactory::set_active_world( WORLD *world )
 
 bool WORLD::save( const bool is_conversion ) const
 {
-    if( !assure_dir_exist( folder_path_path() ) ) {
+    if( !assure_dir_exist( folder_path() ) ) {
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
                                     "] directory for saving";
@@ -307,7 +307,7 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path_path() / PATH_INFO::worldoptions();
+        const auto savefile = folder_path() / PATH_INFO::worldoptions();
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -421,12 +421,12 @@ void worldfactory::init()
 
         // save world as conversion world
         if( newworld->save( true ) ) {
-            const cata_path origin_path = old_world.folder_path_path();
+            const cata_path origin_path = old_world.folder_path();
             // move files from origin_path into new world path
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.get_relative_path().filename().generic_u8string();
 
-                if( rename_file( origin_file, ( newworld->folder_path_path() / filename ) ) ) {
+                if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
@@ -1996,7 +1996,7 @@ bool WORLD::save_timestamp() const
         return true;
     }
 
-    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    const cata_path path = folder_path() / PATH_INFO::world_timestamp();
     return write_to_file( path, [this]( std::ostream & file ) {
         JsonOut jsout( file );
         jsout.write( timestamp );
@@ -2005,7 +2005,7 @@ bool WORLD::save_timestamp() const
 
 bool WORLD::load_timestamp()
 {
-    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    const cata_path path = folder_path() / PATH_INFO::world_timestamp();
     return read_from_file_optional_json( path, [this]( const JsonValue & jv ) {
         const std::string ts = jv.get_string();
         // Sanitize the string since it is used in paths
@@ -2042,7 +2042,7 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    const cata_path path = folder_path_path() / PATH_INFO::worldoptions();
+    const cata_path path = folder_path() / PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
@@ -2141,7 +2141,7 @@ static bool isForbidden( const cata_path &candidate )
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    cata_path worldpath = get_world( worldname )->folder_path_path();
+    cata_path worldpath = get_world( worldname )->folder_path();
     std::set<fs::path> directory_paths;
 
     if( delete_folder ) {

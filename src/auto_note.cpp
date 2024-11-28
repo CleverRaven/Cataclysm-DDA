@@ -31,7 +31,7 @@ namespace auto_notes
 {
 cata_path auto_note_settings::build_save_path() const
 {
-    return PATH_INFO::player_base_save_path_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -42,7 +42,7 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save( bool bCharacter )
 {
-    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
+    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
     cata_path sGlobalFile = PATH_INFO::autonote();

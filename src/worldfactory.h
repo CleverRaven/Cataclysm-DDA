@@ -56,7 +56,7 @@ struct WORLD {
          * all the world specific files. It depends on @ref world_name,
          * changing that will also change the result of this function.
          */
-        cata_path folder_path_path() const;
+        cata_path folder_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
