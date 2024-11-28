@@ -138,12 +138,12 @@ struct smart_controller_config {
 
 struct veh_collision {
     //int veh?
-    int part = 0;
+    int part  = 0;
     veh_coll_type type = veh_coll_nothing;
     // impulse
     int  imp = 0;
     //vehicle
-    void *target = nullptr;
+    void *target  = nullptr;
     //vehicle partnum
     int target_part = 0;
     std::string target_name;
@@ -1302,7 +1302,6 @@ class vehicle
          *  @param flag if set only flags with this part will be considered
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
-
         std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint_bub_ms &pos,
