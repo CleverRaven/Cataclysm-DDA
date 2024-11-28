@@ -251,6 +251,8 @@
           [ "t_tree_willow", 64 ],
           [ "t_tree_hickory_harvested", 32 ],
           [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_nannyberry_harvested", 16 ],
+          [ "t_tree_tupelo_harvested", 16 ], 
           [ "t_tree_butternut", 4 ],
           [ "t_tree_chestnut_harvested", 8 ],
           [ "t_tree_hazelnut_harvested", 2 ],
