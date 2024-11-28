@@ -716,7 +716,7 @@ std::set<point_abs_ms> vehicle::immediate_path( const units::angle &rotate )
     point_bub_ms top_left_actual = pos_bub().xy() + coord_translate( front_left );
     point_bub_ms top_right_actual = pos_bub().xy() + coord_translate( front_right );
     std::vector<point_abs_ms> front_row = line_to( here.getglobal( tripoint_bub_ms{top_left_actual.x(), top_left_actual.y(), here.get_abs_sub().z()} ).xy(),
-                                          here.getglobal( tripoint_bub_ms{top_right_actual.x(), top_right_actual.y(), here.get_abs_sub().z()} ).xy() );
+                                          here.getglobal( tripoint_bub_ms{ top_right_actual.x(), top_right_actual.y(), here.get_abs_sub().z()} ).xy() );
     for( const point_abs_ms &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
