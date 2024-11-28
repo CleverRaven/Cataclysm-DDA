@@ -314,6 +314,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "nannyberries",
+    "name": { "str": "handful of nannyberries", "str_pl": "handfuls of nannyberries" },
+    "description": "Some dark blue nannyberries, tasting like prunes mixed with banana.",
+    "copy-from": "elderberries",
+    "//": "Nannyberries are described as rather dry, perfectly fine to eat as is but it will not hydrate you.",
+    "use_action": [  ],
+    "quench": 0,
+    "fun": 2,
+    "color": "black"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tupelo_fruit",
+    "name": { "str": "handful of tupelo fruits", "str_pl": "handfuls of tupelo fruits" },
+    "description": "Some dark blue tupelo fruits.  They are tart and feature a hard seed but are still enjoyable.",
+    "fun": 1,
+    "copy-from": "nannyberries"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "chokeberries",
     "name": { "str": "handful of chokeberries", "str_pl": "handfuls of chokeberries" },
     "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
