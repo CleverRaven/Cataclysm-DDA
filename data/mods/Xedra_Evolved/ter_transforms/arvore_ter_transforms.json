@@ -277,6 +277,8 @@
           [ "t_grass_tall", 20 ],
           [ "t_shrub", 30 ],
           [ "t_underbrush", 65 ],
+          [ "t_shrub_hobblebush_harvested", 10 ],
+          [ "t_shrub_autumn_olive_harvested", 10 ],
           [ "t_shrub_spicebush_harvested", 10 ],
           [ "t_shrub_chokeberry_harvested", 10 ],
           [ "t_shrub_rose", 5 ],
