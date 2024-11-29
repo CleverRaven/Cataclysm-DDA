@@ -1519,7 +1519,7 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
-// Seperate the water volume from the food, as that gets absorbed and used as water.
+// Separate the water volume from the food, as that gets absorbed and used as water.
 // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
 // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
 std::pair<units::volume, units::volume> Character::masticated_volume( const item &food ) const
