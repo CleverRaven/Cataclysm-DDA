@@ -884,6 +884,11 @@ bool input_context::action_reset( const std::string &action_id )
         if( iter_action == iter_def->second.end() ) {
             continue;
         }
+        if( iter_action->second.input_events.empty() ) {
+            // special case: reset to an empty local keybinding "Unbound locally!"
+            inp_mngr.get_or_create_event_list( action_id, context );
+            continue;
+        }
         for( const input_event &event : iter_action->second.input_events ) {
             inp_mngr.add_input_for_action( action_id, context, event );
         }
