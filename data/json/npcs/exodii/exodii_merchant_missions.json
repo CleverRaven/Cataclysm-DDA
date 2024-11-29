@@ -57,7 +57,7 @@
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "exo_warehouse_1",
-    "start": { "effect": [ { "u_spawn_item": "warehouse_rebooter" }, { "math": [ "exodii_mission_wh_chance", "=", "6" ] } ] },
+    "start": { "effect": [ { "u_spawn_item": "warehouse_rebooter" }, { "math": [ "exodii_mission_wh_chance = 6" ] } ] },
     "end": { "effect": [ { "u_add_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
     "difficulty": 5,
     "value": 2,
@@ -241,7 +241,7 @@
     "responses": [
       {
         "text": "*Tell him.",
-        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
+        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "exodii_knows_hub01 = 1" ] } ],
         "topic": "TALK_DONE"
       },
       { "text": "Maybe later, can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -368,7 +368,7 @@
       {
         "text": "Beloved jaryi?  What did you just call me?",
         "topic": "TALK_EXODII_MERCHANT_jaryi",
-        "effect": [ { "math": [ "know_jaryi", "=", "1" ] } ]
+        "effect": [ { "math": [ "know_jaryi = 1" ] } ]
       },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }

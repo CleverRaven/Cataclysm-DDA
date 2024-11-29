@@ -17,7 +17,7 @@
                 { "u_is_in_field": "fd_fire" }
               ]
             },
-            "effect": [ { "math": [ "u_salamander_near_fire", "=", "1" ] } ],
+            "effect": [ { "math": [ "u_salamander_near_fire = 1" ] } ],
             "false_effect": [
               {
                 "run_eocs": [
@@ -27,8 +27,8 @@
                       { "u_location_variable": { "context_val": "salamander_near_fire" }, "field": "fd_fire", "target_max_radius": 5 },
                       {
                         "if": { "map_field_id": "fd_fire", "loc": { "context_val": "salamander_near_fire" } },
-                        "then": { "math": [ "u_salamander_near_fire", "=", "1" ] },
-                        "else": { "math": [ "u_salamander_near_fire", "=", "0" ] }
+                        "then": { "math": [ "u_salamander_near_fire = 1" ] },
+                        "else": { "math": [ "u_salamander_near_fire = 0" ] }
                       }
                     ]
                   }
@@ -192,7 +192,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
-    "effect": [ { "math": [ "u_val('sleepiness')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -272,8 +272,8 @@
     "id": "EOC_SALAMANDER_BERSERK_STANCE_ON",
     "condition": { "not": { "u_has_effect": "effect_salamander_berserk_stance" } },
     "effect": [
-      { "math": [ "u_salamander_pain_value", "=", "u_pain()" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_salamander_pain_value = u_pain()" ] },
+      { "math": [ "u_pain() = 0" ] },
       { "u_add_effect": "effect_salamander_berserk_stance", "duration": "24 hours" }
     ],
     "false_effect": [ { "u_message": "You are already under the effects of Wildfire Soul!", "type": "mixed" } ]

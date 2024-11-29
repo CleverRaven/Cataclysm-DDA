@@ -215,7 +215,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
             tripoint_bub_ms fake_front_right_headlight = veh->mount_to_tripoint( fake_r_hl );
             // we're travelling south east, so placing it SE of the fake headlight mirror
             // will impact it on next move
-            tripoint_bub_ms obstacle_point = fake_front_right_headlight + tripoint_south_east;
+            tripoint_bub_ms obstacle_point = fake_front_right_headlight + tripoint::south_east;
             here.furn_set( obstacle_point.xy(), furn_id( "f_boulder_large" ) );
 
             int part_count = veh->parts_at_relative( point_rel_ms( 2, 2 ), true, false ).size();

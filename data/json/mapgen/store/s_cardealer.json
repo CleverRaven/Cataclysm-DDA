@@ -31,7 +31,7 @@
         "b#mddddmdghh#          b",
         "b############    aaaaaab"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "a": "t_pavement_y",
         "b": "t_region_groundcover_urban",
@@ -39,9 +39,9 @@
         "e": "t_sidewalk",
         "f": "t_window",
         "g": "t_door_c",
-        "h": "t_linoleum_gray",
-        "i": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "j": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "k": "t_floor",
         "l": "t_floor",
         "m": "t_floor",

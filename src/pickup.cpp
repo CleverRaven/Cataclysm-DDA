@@ -426,7 +426,7 @@ void Pickup::autopickup( const tripoint &p )
         local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    drop_locations selected_items = auto_pickup::select_items( here, p );
+    drop_locations selected_items = auto_pickup::select_items( here, tripoint_bub_ms( p ) );
     if( selected_items.empty() ) {
         return;
     }

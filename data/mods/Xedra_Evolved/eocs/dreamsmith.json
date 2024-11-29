@@ -112,7 +112,7 @@
           ]
         }
       },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "25" ] }
     ],
     "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
@@ -154,7 +154,7 @@
           ]
         }
       },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
     ]
   }

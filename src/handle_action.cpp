@@ -2147,14 +2147,14 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
         case ACTION_SHIFT_W:
         case ACTION_SHIFT_NW: {
             static const std::map<action_id, std::pair<point, point>> shift_delta = {
-                { ACTION_SHIFT_N, { point_north, point_north_east } },
-                { ACTION_SHIFT_NE, { point_north_east, point_east } },
-                { ACTION_SHIFT_E, { point_east, point_south_east } },
-                { ACTION_SHIFT_SE, { point_south_east, point_south } },
-                { ACTION_SHIFT_S, { point_south, point_south_west } },
-                { ACTION_SHIFT_SW, { point_south_west, point_west } },
-                { ACTION_SHIFT_W, { point_west, point_north_west } },
-                { ACTION_SHIFT_NW, { point_north_west, point_north } },
+                { ACTION_SHIFT_N, { point::north, point::north_east } },
+                { ACTION_SHIFT_NE, { point::north_east, point::east } },
+                { ACTION_SHIFT_E, { point::east, point::south_east } },
+                { ACTION_SHIFT_SE, { point::south_east, point::south } },
+                { ACTION_SHIFT_S, { point::south, point::south_west } },
+                { ACTION_SHIFT_SW, { point::south_west, point::west } },
+                { ACTION_SHIFT_W, { point::west, point::north_west } },
+                { ACTION_SHIFT_NW, { point::north_west, point::north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
             player_character.view_offset += g->is_tileset_isometric()
@@ -2328,7 +2328,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 // so no rotation needed
                 pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
             } else {
-                point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
+                point_rel_ms dest_delta = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
@@ -2345,13 +2345,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         }
                     }
                     act = player_character.get_next_auto_move_direction();
-                    const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
-                    if( dest_next == point_zero ) {
+                    const point_rel_ms dest_next = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
+                    if( dest_next == point_rel_ms::zero ) {
                         player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, dest_delta ) ) {
+                if( !avatar_action::move( player_character, m, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.abort_automove();
                 }
@@ -2392,7 +2392,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint_below );
+                    pldrive( tripoint::below );
                     break;
                 }
             }
@@ -2442,7 +2442,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint_above );
+                    pldrive( tripoint::above );
                 }
             }
             break;

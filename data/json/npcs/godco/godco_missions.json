@@ -318,7 +318,7 @@
     "end": {
       "effect": [
         { "npc_location_variable": { "context_val": "search_locale" } },
-        { "math": [ "darryl_building_coop", "=", "1" ] },
+        { "math": [ "darryl_building_coop = 1" ] },
         {
           "run_eocs": "godco_place_coop_new",
           "time_in_future": "168 hours",
@@ -842,7 +842,7 @@
     "difficulty": 1,
     "value": 0,
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript", "=", "time('now')" ] } ],
+      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript = time('now')" ] } ],
       "opinion": { "trust": 1, "value": 1 }
     },
     "fail": { "opinion": { "anger": 1 } },
@@ -1342,7 +1342,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "math": [ "godco_has_canningpots", "=", "1" ] },
+        { "math": [ "godco_has_canningpots = 1" ] },
         { "u_spawn_item": "icon", "count": 80 },
         { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
       ],
@@ -1375,7 +1375,7 @@
     "start": "reveal_refugee_center",
     "end": {
       "effect": [
-        { "math": [ "godco_met_merchants", "=", "0" ] },
+        { "math": [ "godco_met_merchants = 0" ] },
         { "u_spawn_item": "icon", "count": 5 },
         { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" }
       ],

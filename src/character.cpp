@@ -611,7 +611,7 @@ Character::Character() :
     oxygen = 0;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = tripoint_rel_ms_zero;
+    grab_point = tripoint_rel_ms::zero;
     hauling = false;
     set_focus( 100 );
     last_item = itype_null;
@@ -1112,14 +1112,14 @@ static bool is_obstacle( tripoint pos )
 double Character::aim_factor_from_length( const item &gun ) const
 {
     tripoint cur_pos = pos();
-    bool nw_to_se = is_obstacle( cur_pos + tripoint_south_east ) &&
-                    is_obstacle( cur_pos + tripoint_north_west );
-    bool w_to_e = is_obstacle( cur_pos + tripoint_west ) &&
-                  is_obstacle( cur_pos + tripoint_east );
-    bool sw_to_ne = is_obstacle( cur_pos + tripoint_south_west ) &&
-                    is_obstacle( cur_pos + tripoint_north_east );
-    bool n_to_s = is_obstacle( cur_pos + tripoint_north ) &&
-                  is_obstacle( cur_pos + tripoint_south );
+    bool nw_to_se = is_obstacle( cur_pos + tripoint::south_east ) &&
+                    is_obstacle( cur_pos + tripoint::north_west );
+    bool w_to_e = is_obstacle( cur_pos + tripoint::west ) &&
+                  is_obstacle( cur_pos + tripoint::east );
+    bool sw_to_ne = is_obstacle( cur_pos + tripoint::south_west ) &&
+                    is_obstacle( cur_pos + tripoint::north_east );
+    bool n_to_s = is_obstacle( cur_pos + tripoint::north ) &&
+                  is_obstacle( cur_pos + tripoint::south );
     double wielded_length = gun.length() / 1_mm;
     double factor = 1.0;
 
@@ -2877,8 +2877,7 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
-    tripoint_bub_ms const check_p = tripoint_bub_ms( p ) == tripoint_bub_ms(
-                                        tripoint_min ) ? pos_bub() : tripoint_bub_ms( p );
+    tripoint_bub_ms const check_p = p.is_invalid() ? pos_bub() : tripoint_bub_ms( p );
     tripoint const avatar_p = get_avatar().pos();
     if( is_avatar() || check_p.z() == avatar_p.z ) {
         ambient_light = std::max( 1.0f,
@@ -6005,44 +6004,12 @@ float Character::active_light() const
 
 bool Character::sees_with_specials( const Creature &critter ) const
 {
-    if( enchantment_cache->get_vision_distance( *this, critter ) ) {
-        return true;
-    }
+    const const_dialogue d( get_const_talker_for( *this ), get_const_talker_for( critter ) );
+    const enchant_cache::special_vision foo = enchantment_cache->get_vision( d );
 
-    const double sight_range_electric = calculate_by_enchantment( 0.0,
-                                        enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
-    const double motion_vision_range = calculate_by_enchantment( 0.0,
-                                       enchant_vals::mod::MOTION_VISION_RANGE );
-    const double sight_range_fae = calculate_by_enchantment( 0.0,
-                                   enchant_vals::mod::SIGHT_RANGE_FAE );
-    const double sight_range_nether = calculate_by_enchantment( 0.0,
-                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
-    const double sight_range_minds = calculate_by_enchantment( 0.0,
-                                     enchant_vals::mod::SIGHT_RANGE_MINDS );
-    if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+    if( enchantment_cache->get_vision_can_see( foo ) ) {
         return true;
     }
-    if( critter.is_fae() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_fae ) {
-        return true;
-    }
-    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
-        return true;
-    }
-    if( critter.has_mind() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_minds ) {
-        return true;
-    }
-    if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
-        return true;
-    }
-
-    if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
-        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
-        // walls don't block sonar which is transmitted in the ground, not the air.
-        // TODO: this might need checks whether the player is in the air, or otherwise not connected
-        // to the ground. It also might need a range check.
-        return true;
-    }
-
     return false;
 }
 
@@ -7115,12 +7082,7 @@ int Character::get_cardio_acc_base() const
 
 bool Character::invoke_item( item *used )
 {
-    return invoke_item( used, pos() );
-}
-
-bool Character::invoke_item( item *, const tripoint &, int )
-{
-    return false;
+    return invoke_item( used, pos_bub() );
 }
 
 bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
@@ -7130,10 +7092,10 @@ bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
 
 bool Character::invoke_item( item *used, const std::string &method )
 {
-    return invoke_item( used, method, pos() );
+    return invoke_item( used, method, pos_bub() );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
+bool Character::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
                              int pre_obtain_moves )
 {
     if( method.empty() ) {
@@ -7180,7 +7142,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
-                                      pt, method );
+                                      pt.raw(), method );
     if( !charges_used.has_value() ) {
         set_moves( pre_obtain_moves );
         return false;
@@ -7194,7 +7156,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
+        const int consumed = used->activation_consume( charges_used.value(), pt.raw(), this );
         if( consumed == 0 ) {
             // Nothing was consumed from within the item. "Eat" the item itself away.
             i_rem( actually_used );
@@ -7202,7 +7164,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return ret;
     }
 
-    actually_used->activation_consume( charges_used.value(), pt, this );
+    actually_used->activation_consume( charges_used.value(), pt.raw(), this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
         actually_used->is_deployable() ) {
@@ -8219,7 +8181,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         if( is_avatar() && source ) {
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
-                     direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                     direction_from( point::zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                      get_hp_bar( dam, get_hp_max( bp ) ).first, m_bad, body_part_name( bp ), m_neutral );
         }
     }
@@ -9642,10 +9604,10 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
             if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint_zero, nullptr,
+                qty -= it.energy_consume( qty, tripoint::zero, nullptr,
                                           it.type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint_zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint::zero, nullptr );
             }
         } );
     }
@@ -9728,7 +9690,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, tripoint_zero ).success() ) {
+                if( actor->can_use( *this->as_character(), it, tripoint::zero ).success() ) {
                     ret = it;
                     return true;
                 }
@@ -11100,9 +11062,9 @@ void Character::stagger()
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_below );
+                valid_stumbles.emplace_back( dest + tripoint::below );
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_above );
+                valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
@@ -12691,7 +12653,7 @@ bool Character::can_fly()
 // FIXME: Relies on hardcoded bash damage type
 void Character::knock_back_to( const tripoint &to )
 {
-    if( to == pos() ) {
+    if( to == pos_bub().raw() ) {
         return;
     }
 
@@ -12733,7 +12695,7 @@ void Character::knock_back_to( const tripoint &to )
     if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( here, get_avatar(), to );
+            avatar_action::swim( here, get_avatar(), tripoint_bub_ms( to ) );
         }
         // TODO: NPCs can't swim!
     } else if( here.impassable( to ) ) { // Wait, it's a wall
@@ -13038,10 +13000,10 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             set_moves( pre_obtain_moves );
             return;
         }
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -13070,7 +13032,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             u->read( loc );
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -13080,7 +13042,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, method, loc.position(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );

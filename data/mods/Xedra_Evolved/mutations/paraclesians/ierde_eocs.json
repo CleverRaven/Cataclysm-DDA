@@ -404,7 +404,7 @@
         }
       },
       {
-        "math": [ "u_earthen_shield_protection_level", "=", "(u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
+        "math": [ "u_earthen_shield_protection_level = (u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
       }
     ],
     "false_effect": [ { "u_message": "You must be on living earth or stone to create the earthen shield.", "type": "bad" } ]

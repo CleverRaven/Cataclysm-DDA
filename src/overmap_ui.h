@@ -73,7 +73,7 @@ void display_editor();
  * Interactive point choosing; used as the map screen.
  * The map is initially center at the players position.
  * @returns The absolute coordinates of the chosen point or
- * invalid_point if canceled with Escape (or similar key).
+ * point::invalid if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false );
 
@@ -82,7 +82,7 @@ tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_
  * The map is initially center at the players x and y
  * location and the given z level.
  * @returns The absolute coordinates of the chosen point or
- * invalid_point if canceled with Escape (or similar key).
+ * point::invalid if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false );
 
@@ -90,7 +90,7 @@ tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debu
  * Interactive point choosing; used as the map screen.
  * The map is initially centered on the @ref origin.
  * @returns The absolute coordinates of the chosen point or
- * invalid_point if canceled with Escape (or similar key).
+ * point::invalid if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const std::string &message, const tripoint_abs_omt &origin,
                                bool show_debug_info = false );

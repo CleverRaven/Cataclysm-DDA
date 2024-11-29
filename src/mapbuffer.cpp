@@ -198,10 +198,10 @@ void mapbuffer::save_quad(
     std::vector<tripoint_abs_sm> submap_addrs;
     offsets.reserve( 4 );
     submap_addrs.reserve( 4 );
-    offsets.push_back( point_zero );
-    offsets.push_back( point_south );
-    offsets.push_back( point_east );
-    offsets.push_back( point_south_east );
+    offsets.push_back( point::zero );
+    offsets.push_back( point::south );
+    offsets.push_back( point::east );
+    offsets.push_back( point::south_east );
 
     bool all_uniform = true;
     bool reverted_to_uniform = false;

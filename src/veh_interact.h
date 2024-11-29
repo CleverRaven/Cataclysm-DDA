@@ -13,7 +13,6 @@
 
 #include "color.h"
 #include "coordinates.h"
-#include "coordinate_constants.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "item_location.h"
@@ -61,10 +60,10 @@ class veh_interact
         static void complete_vehicle( Character &you );
 
     private:
-        explicit veh_interact( vehicle &veh, const point_rel_ms &p = point_rel_ms_zero );
+        explicit veh_interact( vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();
 
-        point_rel_ms dd = point_rel_ms_zero;
+        point_rel_ms dd = point_rel_ms::zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;

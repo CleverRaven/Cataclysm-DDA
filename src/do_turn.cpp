@@ -203,7 +203,7 @@ bool cleanup_at_end()
     }
 
     //Reset any offset due to driving
-    g->set_driving_view_offset( point_zero );
+    g->set_driving_view_offset( point::zero );
 
     //clear all sound channels
     sfx::fade_audio_channel( sfx::channel::any, 300 );
@@ -420,7 +420,7 @@ void overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
-                                 overmap_path_params::for_npc() );
+                                 overmap_path_params::for_npc() ).points;
                 if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }

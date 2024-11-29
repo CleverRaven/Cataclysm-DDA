@@ -1859,9 +1859,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                     monster *m = t.as_monster();
                     if( m->is_grabbing( eff.get_bp().id() ) ) {
                         m->remove_grab( eff.get_bp().id() );
+                        const std::string released_body_part_name = eff.get_bp()->name.translated();
                         remove_effect( eff.get_id(), eff.get_bp() );
                         add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
-                                       eff.get_bp()->name );
+                                       released_body_part_name );
                     }
                 }
             }
@@ -2621,13 +2622,13 @@ void player_hit_message( Character *attacker, const std::string &message,
     if( dam > 0 && attacker->is_avatar() ) {
         //player hits monster melee
         SCT.add( point( t.posx(), t.posy() ),
-                 direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
+                 direction_from( point::zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                  get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
                  sSCTmod, gmtSCTcolor );
 
         if( t.get_hp() > 0 ) {
             SCT.add( point( t.posx(), t.posy() ),
-                     direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
+                     direction_from( point::zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text
                      _( "HP" ), m_neutral,

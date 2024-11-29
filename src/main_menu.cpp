@@ -420,7 +420,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
     }
     if( static_cast<size_t>( height ) != sub_opts.size() ) {
-        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point_south, c_white,
+        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point::south, c_white,
                         false );
     }
     wnoutrefresh( w_sub );
@@ -460,7 +460,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
             case holiday::easter:
                 break;
             case holiday::halloween:
-                fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+                fold_and_print_from( w_open, point::zero, 30, 0, c_white, halloween_spider() );
                 fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
                                      25, 0, c_white, halloween_graves() );
                 break;
@@ -690,9 +690,9 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
-    fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
+    fold_and_print_from( w_text, point::zero, width, selected, c_light_gray, text );
 
-    draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
+    draw_scrollbar( w_border, selected, height, iLines, point::south, BORDER_COLOR, true );
     wnoutrefresh( w_border );
     wnoutrefresh( w_text );
 }

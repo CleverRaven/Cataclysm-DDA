@@ -23,7 +23,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_phase') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_phase" },
       {
         "u_message": "Use of your powers has led to an insight.  You could control your teleporting, traveling short distances without crossing the intervening space, if you can figure out the proper technique.",
@@ -59,7 +59,7 @@
       "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_ephemeral_walk') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_ephemeral_walk" },
       {
         "u_message": "Use of your powers has led to an insight.  You can maintain a slight offset from normal space, allowing yourself to effortlessly phase through obstacles while still being able to interact with reality, if you can figure out the proper technique.",
@@ -93,7 +93,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_stride') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_stride" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than expanding space, you could collapse it, making each of your steps cover a larger area of ground despite not moving any more quickly, if you can figure out the proper technique.",
@@ -130,7 +130,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_transpose') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_transpose" },
       {
         "u_message": "Use of your powers has led to an insight.  You could combine moving yourself and moving a target to swap places, moving them to your previous location while you take their place, if you can figure out the technique.",
@@ -164,7 +164,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_displacement') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_displacement" },
       {
         "u_message": "Use of your powers has led to an insight.  You could teleport only your target, sending them somewhere nearby away from you, if you can figure out the technique.",
@@ -203,7 +203,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_collapse') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_collapse" },
       {
         "u_message": "Use of your powers has led to an insight.  You could warp space to such a degree that you could redirect your targets' movement, forcing them to travel toward a central point regardless of their intent, if you can figure out the technique.",
@@ -242,7 +242,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_farstep') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_farstep" },
       {
         "u_message": "Use of your powers has led to an insight.  You could travel much further distances, crossing dozens of meters in moments, if you can figure out the technique.",
@@ -285,7 +285,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_banish') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_banish" },
       {
         "u_message": "Use of your powers has led to an insight.  You could send your target somewhere *else*, some other place far from you in the endless parade of realities, if you can figure out the technique.",
@@ -319,7 +319,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_gateway') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_gateway" },
       {
         "u_message": "Use of your powers has led to an insight.  Once you properly study a location so you're familiar enough with it, you could return there in moments even if you're fifty miles away, if you can figure out the technique.",
@@ -361,7 +361,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_summon') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_breach" },
       {
         "u_message": "Use of your powers has led to an insight.  Just as you can send a target away from you, you could open up a portal to the Nether and allow some of its denizens to come through to Earth, if you can figure out the technique.",
@@ -395,7 +395,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_reality_tear') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_teleport_reality_tear" },
       {
         "u_message": "Use of your powers has led to an insight.  You are able to open a permanent tear in reality to the Nether, allowing all manners of creatures to pass through to Earth.",

@@ -140,7 +140,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
-        "#": "f_table",
+        "A": "f_table",
         "&": "f_trashcan",
         "C": "f_chair",
         "P": "f_sign",
@@ -174,10 +174,10 @@
         "     cccc               ",
         "  ---S++S--###ww##D#w#  ",
         "  -ccccccccwC_______b#  ",
-        "  -ccPccPcc#a&||____b###",
+        "  -ccPccPcc#a&AA____b###",
         "  -c{{cc{{c#||||____b|T#",
-        "  -c{{cc{{c#&R|R_____=_#",
-        "  -c{{cc{{c#|_____s__|Á#",
+        "  -c{{cc{{c#&RAR_____=_#",
+        "  -c{{cc{{c#A_____s__|Á#",
         "  -c{{cc{{c#___s__dd_###",
         "  -c{{cc{{c#_ddd__dd_#4 ",
         "  -c{{cc{{c#_ddd__dd_#  ",

@@ -650,13 +650,13 @@ void vehicle::autopilot_patrol()
      */
     map &here = get_map();
     // if we are close to a waypoint, then return to come back to this function next turn.
-    if( autodrive_local_target != tripoint_abs_ms_zero ) {
+    if( autodrive_local_target != tripoint_abs_ms::zero ) {
         if( rl_dist( global_square_location(), autodrive_local_target ) <= 3 ) {
-            autodrive_local_target = tripoint_abs_ms_zero;
+            autodrive_local_target = tripoint_abs_ms::zero;
             return;
         }
         if( !here.inbounds( here.bub_from_abs( autodrive_local_target ) ) ) {
-            autodrive_local_target = tripoint_abs_ms_zero;
+            autodrive_local_target = tripoint_abs_ms::zero;
             is_patrolling = false;
             return;
         }
@@ -1274,10 +1274,10 @@ ret_val<void> vehicle::can_mount( const point_rel_ms &dp, const vpart_info &vpi 
     if( !parts.empty() ) {
         if( !is_structural_part_removed() &&
             !has_structural_part( dp ) &&
-            !has_structural_part( dp + point_east ) &&
-            !has_structural_part( dp + point_south ) &&
-            !has_structural_part( dp + point_west ) &&
-            !has_structural_part( dp + point_north ) ) {
+            !has_structural_part( dp + point::east ) &&
+            !has_structural_part( dp + point::south ) &&
+            !has_structural_part( dp + point::west ) &&
+            !has_structural_part( dp + point::north ) ) {
             return ret_val<void>::make_failure( _( "Part needs to be adjacent to or on existing structure." ) );
         }
     }
@@ -1910,7 +1910,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
-        here.set_seen_cache_dirty( tripoint_bub_ms_zero );
+        here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
@@ -2055,7 +2055,7 @@ void vehicle::separate_from_grid( const point_rel_ms mount )
     // Ensure the position, pivot, and precalc points are up-to-date.
     shift_if_needed( get_map() );
     pos -= pivot_anchor[0];
-    precalc_mounts( 0, turn_dir, point_rel_ms_zero );
+    precalc_mounts( 0, turn_dir, point_rel_ms::zero );
 
     add_msg( _( "You separate the %s from the power grid" ), part_name );
 
@@ -2279,7 +2279,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
     for( int carried_part : carried_parts ) {
         const auto &carried_stack = parts[carried_part].carried_stack;
         // pivot is the stack that has zeroed mount point, only it has valid axis set
-        if( !carried_stack.empty() && carried_stack.top().mount == tripoint_rel_ms_zero ) {
+        if( !carried_stack.empty() && carried_stack.top().mount == tripoint_rel_ms::zero ) {
             carried_pivot = carried_stack.top();
             pivot_pos = bub_part_pos( carried_part );
             break;
@@ -2468,7 +2468,7 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
                     veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
                 }
             }
-            shift_parts( here, point_rel_ms_zero ); // update the active cache
+            shift_parts( here, point_rel_ms::zero ); // update the active cache
             return true;
         }
     }
@@ -2642,7 +2642,7 @@ bool vehicle::split_vehicles( map &here,
 
         here.dirty_vehicle_list.insert( new_vehicle );
         here.set_transparency_cache_dirty( sm_pos.z );
-        here.set_seen_cache_dirty( tripoint_bub_ms_zero );
+        here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
         }
@@ -2655,7 +2655,7 @@ bool vehicle::split_vehicles( map &here,
         }
 
         // update the precalc points
-        new_vehicle->precalc_mounts( 0, new_vehicle->turn_dir, point_rel_ms_zero );
+        new_vehicle->precalc_mounts( 0, new_vehicle->turn_dir, point_rel_ms::zero );
         new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
                                      new_vehicle->turn_dir : new_vehicle->face.dir(),
                                      new_vehicle->pivot_point() );
@@ -3499,12 +3499,12 @@ void vehicle::coord_translate( tileray tdir, const point_rel_ms &pivot, const po
 
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
 {
-    return mount_to_tripoint( point_rel_ms( mount ), point_rel_ms_zero ).raw();
+    return mount_to_tripoint( point_rel_ms( mount ), point_rel_ms::zero ).raw();
 }
 
 tripoint_bub_ms vehicle::mount_to_tripoint( const point_rel_ms &mount ) const
 {
-    return mount_to_tripoint( mount, point_rel_ms_zero );
+    return mount_to_tripoint( mount, point_rel_ms::zero );
 }
 
 tripoint_bub_ms vehicle::mount_to_tripoint( const point_rel_ms &mount,
@@ -4944,8 +4944,8 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
 
 bool vehicle::balanced_wheel_config() const
 {
-    point_rel_ms min( point_max );
-    point_rel_ms max( point_min );
+    point_rel_ms min = point_rel_ms::max;
+    point_rel_ms max = point_rel_ms::min;
     // find the bounding box of the wheels
     for( const int &w : wheelcache ) {
         const point_rel_ms &pt = parts[ w ].mount;
@@ -5905,7 +5905,7 @@ void vehicle::idle( bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant( player_character.pos() ) ) {
+    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
         for( int i : planters ) {
             vehicle_part &vp = parts[ i ];
             if( vp.enabled ) {
@@ -6638,9 +6638,9 @@ void vehicle::refresh( const bool remove_fakes )
     front_right = mount_max;
 
     if( !refresh_done ) {
-        mount_min = mount_max = point_rel_ms_zero;
-        rail_wheel_bounding_box.p1 = point_rel_ms_zero;
-        rail_wheel_bounding_box.p2 = point_rel_ms_zero;
+        mount_min = mount_max = point_rel_ms::zero;
+        rail_wheel_bounding_box.p1 = point_rel_ms::zero;
+        rail_wheel_bounding_box.p2 = point_rel_ms::zero;
     }
 
     const auto need_fake_part = [&]( const point_rel_ms & real_mount, const std::string & flag ) {
@@ -6672,7 +6672,7 @@ void vehicle::refresh( const bool remove_fakes )
             part_real.has_fake = true;
             part_fake.is_fake = true;
             part_fake.fake_part_to = real_index;
-            part_fake.mount += edge_info.is_left_edge() ? point_north : point_south;
+            part_fake.mount += edge_info.is_left_edge() ? point::north : point::south;
             if( part_real.info().has_flag( "PROTRUSION" ) ) {
                 for( const int vp : relative_parts.at( part_real.mount ) ) {
                     if( parts.at( vp ).is_fake ) {
@@ -6737,10 +6737,10 @@ void vehicle::refresh( const bool remove_fakes )
 
 vpart_edge_info vehicle::get_edge_info( const point_rel_ms &mount ) const
 {
-    point_rel_ms forward = mount + point_east;
-    point_rel_ms aft = mount + point_west;
-    point_rel_ms left = mount + point_north;
-    point_rel_ms right = mount + point_south;
+    point_rel_ms forward = mount + point::east;
+    point_rel_ms aft = mount + point::west;
+    point_rel_ms left = mount + point::north;
+    point_rel_ms right = mount + point::south;
     int f_index = -1;
     int a_index = -1;
     int l_index = -1;
@@ -7170,7 +7170,7 @@ bool vehicle::tow_cable_too_far() const
     }
     tripoint_abs_ms towed_point = here.getglobal( tow_data.get_towed_by()->bub_part_pos(
                                       other_index ) );
-    if( towing_point == tripoint_abs_ms_zero || towed_point == tripoint_abs_ms_zero ) {
+    if( towing_point == tripoint_abs_ms::zero || towed_point == tripoint_abs_ms::zero ) {
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
@@ -7202,7 +7202,7 @@ bool vehicle::no_towing_slack() const
         return false;
     }
     tripoint_abs_ms towed_point = here.getglobal( tow_data.get_towed()->bub_part_pos( other_index ) );
-    if( towing_point == tripoint_abs_ms_zero || towed_point == tripoint_abs_ms_zero ) {
+    if( towing_point == tripoint_abs_ms::zero || towed_point == tripoint_abs_ms::zero ) {
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
@@ -7547,7 +7547,7 @@ void vehicle::shift_parts( map &here, const point_rel_ms &delta )
  */
 bool vehicle::shift_if_needed( map &here )
 {
-    std::vector<int> vehicle_origin = parts_at_relative( point_rel_ms_zero, true );
+    std::vector<int> vehicle_origin = parts_at_relative( point_rel_ms::zero, true );
     if( !vehicle_origin.empty() && !parts[ vehicle_origin[ 0 ] ].removed ) {
         // Shifting is not needed.
         return false;
@@ -8362,7 +8362,7 @@ bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
 
     face.init( turn_dir );
 
-    precalc_mounts( 0, turn_dir, point_rel_ms_zero );
+    precalc_mounts( 0, turn_dir, point_rel_ms::zero );
 
     for( const tripoint_bub_ms &p : get_points( true, no_fake ) ) {
         point_rel_ms pt;

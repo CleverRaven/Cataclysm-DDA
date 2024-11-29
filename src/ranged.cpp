@@ -1243,19 +1243,41 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
+static double calculate_aim_cap_without_target( const Character &you,
+        const tripoint_bub_ms &target )
+{
+    const int range = rl_dist( you.pos_bub(), target );
+    // Get angle of triangle that spans the target square.
+    const double angle = 2 * atan2( 0.5, range );
+    // Convert from radians to arcmin.
+    return 60 * 180 * angle / M_PI;
+}
+
+
 // Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
 double calculate_aim_cap( const Character &you, const tripoint_bub_ms &target )
 {
-    double min_recoil = 0.0;
     const Creature *victim = get_creature_tracker().creature_at( target, true );
-    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_specials( *victim ) ) ) {
-        const int range = rl_dist( you.pos_bub(), target );
-        // Get angle of triangle that spans the target square.
-        const double angle = 2 * atan2( 0.5, range );
-        // Convert from radians to arcmin.
-        min_recoil = 60 * 180 * angle / M_PI;
+    // nothing here, nothing to aim
+    if( victim == nullptr ) {
+        return calculate_aim_cap_without_target( you, target );
     }
-    return min_recoil;
+
+    const_dialogue d( get_const_talker_for( you ), get_const_talker_for( *victim ) );
+    enchant_cache::special_vision sees_with_special = you.enchantment_cache->get_vision( d );
+
+    // you do not see it, but your sense it in other ways
+    if( !you.sees( *victim ) && !sees_with_special.is_empty() ) {
+        if( sees_with_special.precise ) {
+            // your senses are precise enough to aim it with no issues
+            return 0.0;
+        } else {
+            // not as good as seeing it clearly, but still enough to pre-aim
+            return calculate_aim_cap_without_target( you, target ) / 3;
+        }
+    }
+    // it is utterly difficult to test this code while 78091 exists; if resolved, check this code once again
+    return 0.0;
 }
 
 double calc_steadiness( const Character &you, const item &weapon, const tripoint_bub_ms &pos,
@@ -2953,7 +2975,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
         // Shift pos and/or view via edge scrolling
         tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
-        if( edge_scroll == tripoint_zero ) {
+        if( edge_scroll == tripoint::zero ) {
             skip_redraw = true;
         } else {
             if( action == "MOUSE_MOVE" ) {
@@ -2987,7 +3009,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
         cycle_targets( -1 );
     } else if( action == "CENTER" ) {
         if( shifting_view ) {
-            set_view_offset( tripoint_rel_ms_zero );
+            set_view_offset( tripoint_rel_ms::zero );
         } else {
             set_cursor_pos( src );
         }
@@ -3740,7 +3762,7 @@ void target_ui::draw_ui_window()
     // Clear target window and make it non-transparent.
     int width = getmaxx( w_target );
     int height = getmaxy( w_target );
-    mvwrectf( w_target, point_zero, c_white, ' ', width, height );
+    mvwrectf( w_target, point::zero, c_white, ' ', width, height );
 
     draw_border( w_target );
     draw_window_title();
@@ -4123,11 +4145,14 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
             std::vector<std::string> buf;
             static std::string raw_description;
             static std::string critter_name;
-            if( you->sees_with_specials( *dst_critter ) ) {
+            const_dialogue d( get_const_talker_for( *you ), get_const_talker_for( *dst_critter ) );
+            const enchant_cache::special_vision sees_with_special = you->enchantment_cache->get_vision( d );
+            if( !sees_with_special.is_empty() ) {
                 // handling against re-evaluation and snippet replacement on redraw
                 if( critter_name != dst_critter->get_name() ) {
-                    raw_description = you->enchantment_cache->get_vision_description( *you->as_character(),
-                                      *dst_critter );
+                    const enchant_cache::special_vision_descriptions special_vis_desc =
+                        you->enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                    raw_description = special_vis_desc.description.translated();
                     parse_tags( raw_description, *you->as_character(), *dst_critter );
                     critter_name = dst_critter->get_name();
                 }

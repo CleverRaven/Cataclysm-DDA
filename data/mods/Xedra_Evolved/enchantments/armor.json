@@ -113,7 +113,7 @@
     "type": "effect_on_condition",
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
-    "effect": [ { "math": [ "BERSERKER", "=", "max( 0, BERSERKER - 1)" ] } ]
+    "effect": [ { "math": [ "BERSERKER = max( 0, BERSERKER - 1)" ] } ]
   },
   {
     "id": "ench_verdant_helmet",
@@ -170,5 +170,13 @@
       { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
       { "value": "SLEEPY", "add": 9999 }
     ]
+  },
+  {
+    "id": "ench_ierde_stone_fists",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "10 * (1 + (u_has_trait('IERDE_SKIN_3') * 0.5) )" ] } } ],
+    "values": [ { "value": "ATTACK_SPEED", "multiply": 0.15 } ]
   }
 ]
