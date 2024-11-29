@@ -446,7 +446,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_electrokin_personal_battery_item_count", "--" ] },
+      { "math": [ "u_electrokin_personal_battery_item_count--" ] },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" }
     ]
   },

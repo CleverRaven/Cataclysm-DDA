@@ -520,7 +520,7 @@
     "id": "EOC_math_test_greater_increment",
     "condition": { "math": [ "math_test > 0" ] },
     "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
-    "false_effect": [ { "math": [ "math_test", "--" ] } ]
+    "false_effect": [ { "math": [ "math_test--" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -103,7 +103,7 @@
           }
         ]
       },
-      { "math": [ "xe_eater_leveling", "--" ] },
+      { "math": [ "xe_eater_leveling--" ] },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },
@@ -145,7 +145,7 @@
           }
         ]
       },
-      { "math": [ "xe_dreamer_leveling", "--" ] },
+      { "math": [ "xe_dreamer_leveling--" ] },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },

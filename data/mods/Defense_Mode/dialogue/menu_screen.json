@@ -484,7 +484,7 @@
       },
       {
         "text": "Decrease by 1",
-        "effect": { "math": [ "diffulty_modifier", "--" ] },
+        "effect": { "math": [ "diffulty_modifier--" ] },
         "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU"
       },
       {
