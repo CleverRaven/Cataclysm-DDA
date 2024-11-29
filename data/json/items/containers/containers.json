@@ -5132,10 +5132,11 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "duct_tape", "medical_tape", "toilet_paper" ],
-        "volume_multiplier": 0.75
+        "volume_multiplier": 0.75,
+        "moves": 1000
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "tankard_wooden",
