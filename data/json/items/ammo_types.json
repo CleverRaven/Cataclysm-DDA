@@ -824,6 +824,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "33naval",
+    "name": "3.3 naval cartridge",
+    "default": "33naval_ball"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
