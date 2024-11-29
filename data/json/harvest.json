@@ -211,6 +211,11 @@
     "entries": [ { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "shrub_hobblebush_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "hobbleberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "shrub_peanut_harv",
     "type": "harvest",
     "entries": [ { "drop": "peanut", "base_num": [ 5, 10 ], "scale_num": [ 0, 0.5 ] } ]

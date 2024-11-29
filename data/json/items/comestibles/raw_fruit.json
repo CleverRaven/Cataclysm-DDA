@@ -126,6 +126,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "hobbleberries",
+    "name": { "str": "handful of hobbleberries", "str_pl": "handfuls of hobbleberries" },
+    "copy-from": "blueberries",
+    "color": "black",
+    "description": "Some black hobbleberries.  They are quite sweet.  Before they ripened, they were red and utterly bitter.",
+    "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "strawberries",
     "name": { "str": "handful of strawberries", "str_pl": "handfuls of strawberries" },
     "weight": "144 g",

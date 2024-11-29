@@ -40,6 +40,7 @@
           "t_underbrush": 30,
           "t_shrub": 10,
           "t_fern": 5,
+          "t_shrub_hobblebush": 2,
           "t_shrub_blueberry": 2,
           "t_shrub_raspberry": 2,
           "t_shrub_huckleberry": 2,
@@ -58,6 +59,7 @@
         },
         "t_region_shrub_swamp": {
           "t_fern": 2,
+          "t_shrub_hobblebush": 2,
           "t_shrub_raspberry": 2,
           "t_shrub_chokeberry": 2,
           "t_shrub_blueberry": 2,
@@ -70,6 +72,7 @@
           "t_shrub_strawberry": 6,
           "t_shrub_raspberry": 4,
           "t_shrub_grape": 4,
+          "t_shrub_hobblebush": 2,
           "t_shrub_blackberry": 2,
           "t_shrub_huckleberry": 2,
           "t_shrub_peanut": 1
@@ -82,6 +85,7 @@
           "t_shrub_lilac": 20,
           "t_shrub_chokeberry": 15,
           "t_tree_nannyberry": 15,
+          "t_shrub_hobblebush": 5,
           "t_bamboo_long": 5
         },
         "t_region_shrub": { "t_region_shrub_decorative": 60, "t_underbrush": 10, "t_region_shrub_fruit": 30 },
