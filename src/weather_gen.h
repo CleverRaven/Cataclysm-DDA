@@ -8,6 +8,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "regional_settings.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -28,29 +29,7 @@ struct w_point {
 class weather_generator
 {
     public:
-        // Average temperature
-        double base_temperature = 0;
-        // Average humidity
-        double base_humidity = 0;
-        // Average atmospheric pressure
-        double base_pressure = 0;
-        //Average yearly windspeed
-        double base_wind = 0;
-        //How much the wind peaks above average
-        int base_wind_distrib_peaks = 0;
-        int summer_temp_manual_mod = 0;
-        int spring_temp_manual_mod = 0;
-        int autumn_temp_manual_mod = 0;
-        int winter_temp_manual_mod = 0;
-        int spring_humidity_manual_mod = 0;
-        int summer_humidity_manual_mod = 0;
-        int autumn_humidity_manual_mod = 0;
-        int winter_humidity_manual_mod = 0;
-        //How much the wind follows seasonal variation ( lower means more change )
-        int base_wind_season_variation = 0;
         static int current_winddir;
-        std::vector<std::string> weather_black_list;
-        std::vector<std::string> weather_white_list;
         /** All the current weather types based on white or black list and sorted by load order */
         std::vector<weather_type_id> sorted_weather;
         weather_generator();
@@ -72,6 +51,8 @@ class weather_generator
         units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 
         static weather_generator load( const JsonObject &jo );
+    private:
+        const overmap_weather_settings *s;
 };
 
 #endif // CATA_SRC_WEATHER_GEN_H

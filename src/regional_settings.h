@@ -245,6 +245,30 @@ struct overmap_connection_settings {
     overmap_connection_settings() = default;
 };
 
+struct overmap_weather_settings {
+    double base_temperature = 6.5;
+    double base_humidity = 70.0;
+    double base_pressure = 1015.0;
+    double base_wind = 3.4;
+    int base_wind_distrib_peaks = 80;
+    int base_wind_season_variation = 50;
+    // TODO: Store as arrays?
+    int spring_temp_manual_mod = 0;
+    int summer_temp_manual_mod = 0;
+    int autumn_temp_manual_mod = 0;
+    int winter_temp_manual_mod = 0;
+    int spring_humidity_manual_mod = 0;
+    int summer_humidity_manual_mod = 0;
+    int autumn_humidity_manual_mod = 0;
+    int winter_humidity_manual_mod = 0;
+    // TODO: Use std::vector<weather_type_id> instead?
+    std::vector<std::string> weather_black_list;
+    std::vector<std::string> weather_white_list;
+
+    //void finalize(); Finalize weather_type_id s
+    overmap_weather_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<map_extra_id> values;
@@ -281,13 +305,13 @@ struct regional_settings {
     city_settings     city_spec;      // put what where in a city of what kind
     forest_mapgen_settings forest_composition;
     forest_trail_settings forest_trail;
-    weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
     overmap_ocean_settings overmap_ocean;
     overmap_ravine_settings overmap_ravine;
     overmap_connection_settings overmap_connection;
+    overmap_weather_settings weather;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;

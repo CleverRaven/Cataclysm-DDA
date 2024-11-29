@@ -360,6 +360,57 @@ static void load_overmap_connection_settings(
     }
 }
 
+static void load_overmap_weather_settings(
+    const JsonObject &jo, overmap_weather_settings &overmap_weather_settings, const bool strict,
+    const bool overlay )
+{
+    if( !jo.has_object( "weather" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"weather\": { … } required for default" );
+        }
+    } else {
+        JsonObject overmap_weather_settings_jo = jo.get_object( "weather" );
+        read_and_set_or_throw<double>( overmap_weather_settings_jo, "base_temperature",
+                                       overmap_weather_settings.base_temperature, !overlay );
+        read_and_set_or_throw<double>( overmap_weather_settings_jo, "base_humidity",
+                                       overmap_weather_settings.base_humidity, !overlay );
+        read_and_set_or_throw<double>( overmap_weather_settings_jo, "base_pressure",
+                                       overmap_weather_settings.base_pressure, !overlay );
+        read_and_set_or_throw<double>( overmap_weather_settings_jo, "base_wind",
+                                       overmap_weather_settings.base_wind, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "base_wind_distrib_peaks",
+                                    overmap_weather_settings.base_wind_distrib_peaks, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "base_wind_season_variation",
+                                    overmap_weather_settings.base_wind_season_variation, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "spring_temp_manual_mod",
+                                    overmap_weather_settings.spring_temp_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "summer_temp_manual_mod",
+                                    overmap_weather_settings.summer_temp_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "autumn_temp_manual_mod",
+                                    overmap_weather_settings.autumn_temp_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "winter_temp_manual_mod",
+                                    overmap_weather_settings.winter_temp_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "spring_humidity_manual_mod",
+                                    overmap_weather_settings.spring_humidity_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "summer_humidity_manual_mod",
+                                    overmap_weather_settings.summer_humidity_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "autumn_humidity_manual_mod",
+                                    overmap_weather_settings.autumn_humidity_manual_mod, !overlay );
+        read_and_set_or_throw<int>( overmap_weather_settings_jo, "winter_humidity_manual_mod",
+                                    overmap_weather_settings.winter_humidity_manual_mod, !overlay );
+
+        if( jo.has_member( "weather_black_list" ) && jo.has_member( "weather_white_list" ) ) {
+            jo.throw_error( "weather_black_list and weather_white_list are mutually exclusive" );
+        } else if( jo.has_member( "weather_black_list" ) ) {
+            overmap_weather_settings.weather_black_list = jo.get_string_array( "weather_black_list" );
+            overmap_weather_settings.weather_white_list.clear();
+        } else if( jo.has_member( "weather_white_list" ) ) {
+            overmap_weather_settings.weather_white_list = jo.get_string_array( "weather_white_list" );
+            overmap_weather_settings.weather_black_list.clear();
+        }
+    }
+}
+
 static void load_overmap_lake_settings( const JsonObject &jo,
                                         overmap_lake_settings &overmap_lake_settings,
                                         const bool strict, const bool overlay )
@@ -587,15 +638,6 @@ void load_region_settings( const JsonObject &jo )
         load_building_types( "parks", new_region.city_spec.parks );
     }
 
-    if( !jo.has_object( "weather" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"weather\": { … } required for default" );
-        }
-    } else {
-        JsonObject wjo = jo.get_object( "weather" );
-        new_region.weather = weather_generator::load( wjo );
-    }
-
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
@@ -607,6 +649,8 @@ void load_region_settings( const JsonObject &jo )
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
     load_overmap_connection_settings( jo, new_region.overmap_connection, strict, false );
+
+    load_overmap_weather_settings( jo, new_region.weather, strict, false );
 
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
@@ -758,6 +802,8 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
 
     load_overmap_connection_settings( jo, region.overmap_connection, false, true );
+
+    load_overmap_weather_settings( jo, new_region.weather, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }

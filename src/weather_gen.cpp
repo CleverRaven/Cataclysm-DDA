@@ -16,6 +16,7 @@
 #include "json.h"
 #include "math_defines.h"
 #include "point.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "translations.h"
@@ -36,6 +37,18 @@ constexpr double noise_magnitude_K = 8;
 } //namespace
 
 weather_generator::weather_generator() = default;
+
+weather_generator::weather_generator()
+{
+    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
+    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
+
+    if( rsit == region_settings_map.end() ) {
+        debugmsg( "weather_generator: can't find region '%s'", rsettings_id.c_str() );
+    }
+    s = &rsit->second.overmap_weather_settings;
+}
+
 int weather_generator::current_winddir = 1000;
 
 struct weather_gen_common {
@@ -91,11 +104,11 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
 
     // manually specified seasonal temp variation from region_settings.json
     const std::array<int, 4> seasonal_temp_mod = {
-        wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod,
-        wg.winter_temp_manual_mod
+        wg.s->spring_temp_manual_mod, wg.s->summer_temp_manual_mod, wg.s->autumn_temp_manual_mod,
+        wg.s->winter_temp_manual_mod
     };
     const double baseline(
-        wg.base_temperature +
+        wg.s->base_temperature +
         seasonal_temp_mod[season] +
         dayv * daily_magnitude_K +
         seasonality * seasonality_magnitude_K );
@@ -134,13 +147,13 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
     // Humidity variation
     double mod_h( 0 );
     if( season == WINTER ) {
-        mod_h += winter_humidity_manual_mod;
+        mod_h += s->winter_humidity_manual_mod;
     } else if( season == SPRING ) {
-        mod_h += spring_humidity_manual_mod;
+        mod_h += s->spring_humidity_manual_mod;
     } else if( season == SUMMER ) {
-        mod_h += summer_humidity_manual_mod;
+        mod_h += s->summer_humidity_manual_mod;
     } else if( season == AUTUMN ) {
-        mod_h += autumn_humidity_manual_mod;
+        mod_h += s->autumn_humidity_manual_mod;
     }
     // Relative humidity, a percentage.
     double H = std::min( 100., std::max( 0.,
@@ -156,9 +169,10 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
-                                       base_wind_distrib_peaks ) ) +
-                                       -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
+    W = std::max( 0, static_cast<int>( s->base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78,
+                                       rng( 9,
+                                            s->base_wind_distrib_peaks ) ) +
+                                       -cyf / s->base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season );
@@ -223,6 +237,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
     cata_default_random_engine &wind_dir_gen = rng_get_engine();
     // Assign chance to angle direction
     if( season == SPRING ) {
+        //TODO: Unhardcode?
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
         return distribution( wind_dir_gen );
     } else if( season == SUMMER ) {
@@ -332,29 +347,4 @@ void weather_generator::sort_weather()
     const weather_type_id & b ) {
         return a->priority < b->priority;
     } );
-}
-
-weather_generator weather_generator::load( const JsonObject &jo )
-{
-    weather_generator ret;
-    ret.base_temperature = jo.get_float( "base_temperature", 0.0 );
-    ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
-    ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
-    ret.base_wind = jo.get_float( "base_wind", 0.0 );
-    ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 0 );
-    ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 0 );
-    ret.summer_temp_manual_mod = jo.get_int( "summer_temp_manual_mod", 0 );
-    ret.spring_temp_manual_mod = jo.get_int( "spring_temp_manual_mod", 0 );
-    ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
-    ret.winter_temp_manual_mod = jo.get_int( "winter_temp_manual_mod", 0 );
-    ret.spring_humidity_manual_mod = jo.get_int( "spring_humidity_manual_mod", 0 );
-    ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
-    ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
-    ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
-    ret.weather_black_list = jo.get_string_array( "weather_black_list" );
-    ret.weather_white_list = jo.get_string_array( "weather_white_list" );
-    if( !ret.weather_black_list.empty() && !ret.weather_white_list.empty() ) {
-        jo.throw_error( "weather_black_list and weather_white_list are mutually exclusive" );
-    }
-    return ret;
 }
