@@ -7137,6 +7137,15 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "cardboard_roll",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cardboard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "box_snack",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
